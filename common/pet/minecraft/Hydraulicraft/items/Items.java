@@ -20,6 +20,7 @@ public class Items {
 		gasket = new ItemGasket();
 		ingotCopper = new IngotCopper();
 		ingotLead = new IngotLead();
+		ingotEnrichedCopper = new IngotEnrichedCopper();
 		
 		registerItems();
 		addNames();
