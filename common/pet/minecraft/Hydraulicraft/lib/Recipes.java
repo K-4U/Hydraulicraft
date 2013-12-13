@@ -39,7 +39,7 @@ public class Recipes {
 					"---",
 					"HLH",
 					"---",
-					'H', Blocks.hydraulicPressureHoze,
+					'H', Blocks.hydraulicHoze,
 					'L', Items.ingotLead,
 				});
 		
