@@ -2,6 +2,7 @@ package pet.minecraft.Hydraulicraft.blocks;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineTransporter;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
@@ -14,6 +15,21 @@ public class BlockHydraulicHose extends MachineTransporter {
 	
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return null;
+		return new TileHydraulicHose();
+	}
+	
+	@Override
+	public int getRenderType(){
+		return -1;
+	}
+	
+	@Override
+	public boolean isOpaqueCube(){
+		return false;
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock(){
+		return false;
 	}
 }
