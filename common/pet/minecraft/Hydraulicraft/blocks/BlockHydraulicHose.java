@@ -4,9 +4,9 @@ import pet.minecraft.Hydraulicraft.baseClasses.MachineTransporter;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
-public class BlockHydraulicHoze extends MachineTransporter {
+public class BlockHydraulicHose extends MachineTransporter {
 
-	protected BlockHydraulicHoze() {
-		super(Ids.blockHydraulicHoze, Names.blockHydraulicHoze);
+	protected BlockHydraulicHose() {
+		super(Ids.blockHydraulicHose, Names.blockHydraulicHose);
 	}	
 }

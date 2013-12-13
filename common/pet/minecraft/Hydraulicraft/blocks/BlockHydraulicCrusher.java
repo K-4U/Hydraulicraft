@@ -8,8 +8,7 @@ public class BlockHydraulicCrusher extends MachineConsumer {
 
 	protected BlockHydraulicCrusher() {
 		super(Ids.blockHydraulicCrusher, Names.blockHydraulicCrusher);
-		this.hasTopIcon = true;
-		this.hasBottomIcon = true;
+		this.hasFrontIcon = true;
 	}
 	
 	public int getMaxBar() {

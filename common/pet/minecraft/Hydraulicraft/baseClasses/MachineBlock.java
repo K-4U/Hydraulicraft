@@ -144,8 +144,14 @@ public class MachineBlock extends BlockContainer {
 			return bottomIcon;
 		}
 		
-		if(side == metadata){
-			return frontIcon; 
+		if(metadata > 0){
+			if(side == metadata){
+				return frontIcon; 
+			}
+		}else{
+			if(side == 3){
+				return frontIcon;
+			}
 		}
 		return blockIcon;
 	}

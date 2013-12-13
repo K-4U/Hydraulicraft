@@ -4,10 +4,10 @@ import pet.minecraft.Hydraulicraft.baseClasses.MachineConsumer;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
-public class BlockHydraulicFrictionPlate extends MachineConsumer {
+public class BlockHydraulicFrictionIncinerator extends MachineConsumer {
 
-	protected BlockHydraulicFrictionPlate() {
-		super(Ids.blockHydraulicFrictionPlate, Names.blockHydraulicFrictionPlate);
+	protected BlockHydraulicFrictionIncinerator() {
+		super(Ids.blockHydraulicFrictionIncinerator, Names.blockHydraulicFrictionIncinerator);
 		this.hasTopIcon = true;
 		this.hasBottomIcon = true;
 	}
