@@ -40,7 +40,7 @@ public class Recipes {
 					"HLH",
 					"---",
 					'H', Blocks.hydraulicPressureHoze,
-					'L', Items.lead,
+					'L', Items.ingotLead,
 				});
 		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicCrusher, 1),
