@@ -22,7 +22,7 @@ public class Recipes {
 				'S', Block.cobblestone,
 				'I', Item.ingotIron
 			});
-		
+		/*
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicFrictionPlate, 1),
 				new Object [] {
 					"GKG",
@@ -72,6 +72,7 @@ public class Recipes {
 					'G', Block.glass,
 					'S', Block.cobblestone
 				});
+				*/
 
 	}
 }

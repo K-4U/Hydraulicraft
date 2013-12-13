@@ -12,5 +12,6 @@ public class BlockHydraulicPump extends MachineBlock {
 		super(Ids.blockHydraulicPump, Names.blockHydraulicPump);
 		this.hasTopIcon = true;
 		this.hasBottomIcon = true;
+		this.hasFrontIcon = true;
 	}
 }
