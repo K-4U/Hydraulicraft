@@ -20,6 +20,7 @@ public class MachineBlock extends BlockContainer {
 		
 		setUnlocalizedName(mName.unlocalized);
 		setStepSound(Block.soundStoneFootstep);
+		setHardness(3.5F);
 		
 	}
 
