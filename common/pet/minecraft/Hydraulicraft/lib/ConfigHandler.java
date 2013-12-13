@@ -38,7 +38,6 @@ public class ConfigHandler {
 	 */
 	private static void loadIds(){
 		Ids.blockHydraulicPump.loadBlock(config, Names.blockHydraulicPump);
-		Ids.blockHydraulicPump.loadBlock(config, Names.blockHydraulicPump);
 		Ids.blockHydraulicFrictionIncinerator.loadBlock(config, Names.blockHydraulicFrictionIncinerator);
 		Ids.blockHydraulicCrusher.loadBlock(config, Names.blockHydraulicCrusher);
 		Ids.blockHydraulicPressureGauge.loadBlock(config, Names.blockHydraulicPressureGauge);
@@ -47,6 +46,7 @@ public class ConfigHandler {
 		Ids.blockHydraulicHose.loadBlock(config, Names.blockHydraulicHose);
 		Ids.blockHydraulicPiston.loadBlock(config, Names.blockHydraulicPiston);
 		Ids.blockHydraulicWasher.loadBlock(config, Names.blockHydraulicWasher);
+		Ids.itemFrictionPlate.loadBlock(config, Names.itemFrictionPlate);
 		
 		Ids.itemGasket.loadItem(config, Names.itemGasket);
 		Ids.itemFrictionPlate.loadItem(config, Names.itemFrictionPlate);

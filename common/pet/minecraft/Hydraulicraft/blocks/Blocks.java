@@ -8,7 +8,7 @@ import net.minecraft.block.Block;
 public class Blocks {
 	public static Block hydraulicPump;
 	public static Block hydraulicMixer;
-	public static Block hydraulicFrictionPlate;
+	public static Block hydraulicFrictionIncinerator;
 	public static Block hydraulicCrusher;
 	public static Block hydraulicPressureGauge;
 	public static Block hydraulicPressureValve;
@@ -26,7 +26,7 @@ public class Blocks {
 		hydraulicPump = new BlockHydraulicPump();
 		hydraulicPressurevat = new BlockHydraulicPressureVat();
 		hydraulicMixer = new BlockHydraulicMixer();
-		hydraulicFrictionPlate = new BlockHydraulicFrictionIncinerator();
+		hydraulicFrictionIncinerator = new BlockHydraulicFrictionIncinerator();
 		hydraulicCrusher = new BlockHydraulicCrusher();
 		hydraulicPressureGauge = new BlockHydraulicPressureGauge();
 		hydraulicPressureValve = new BlockHydraulicPressureValve();
@@ -47,7 +47,7 @@ public class Blocks {
 		GameRegistry.registerBlock(hydraulicPump, Names.blockHydraulicPump.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressurevat, Names.blockHydraulicPressurevat.unlocalized);
 		GameRegistry.registerBlock(hydraulicMixer, Names.blockHydraulicMixer.unlocalized);
-		GameRegistry.registerBlock(hydraulicFrictionPlate, Names.blockHydraulicFrictionIncinerator.unlocalized);
+		GameRegistry.registerBlock(hydraulicFrictionIncinerator, Names.blockHydraulicFrictionIncinerator.unlocalized);
 		GameRegistry.registerBlock(hydraulicCrusher, Names.blockHydraulicCrusher.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureValve, Names.blockHydraulicPressureValve.unlocalized);
@@ -66,7 +66,7 @@ public class Blocks {
 		LanguageRegistry.addName(hydraulicPump, Names.blockHydraulicPump.localized);
 		LanguageRegistry.addName(hydraulicPressurevat, Names.blockHydraulicPressurevat.localized);
 		LanguageRegistry.addName(hydraulicMixer, Names.blockHydraulicMixer.localized);
-		LanguageRegistry.addName(hydraulicFrictionPlate, Names.blockHydraulicFrictionIncinerator.localized);
+		LanguageRegistry.addName(hydraulicFrictionIncinerator, Names.blockHydraulicFrictionIncinerator.localized);
 		LanguageRegistry.addName(hydraulicCrusher, Names.blockHydraulicCrusher.localized);
 		LanguageRegistry.addName(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.localized);
 		LanguageRegistry.addName(hydraulicPressureValve, Names.blockHydraulicPressureValve.localized);

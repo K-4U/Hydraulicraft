@@ -24,14 +24,15 @@ public class Recipes {
 			});
 		
 		/*
-		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicFrictionPlate, 1),
+		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicFrictionIncinerator, 1),
 				new Object [] {
 					"GKG",
 					"F-F",
 					"SSS",
 					"S", Block.cobblestone,
 					"G", Block.glass,
-					"S", Block.cobblestone
+					"F", Items.itemFrictionPlate,
+					"K", Items.gasket
 					
 				});
 		*/

@@ -10,6 +10,7 @@ public class Items {
 	public static Item ingotCopper;
 	public static Item ingotEnrichedCopper;
 	public static Item ingotLead;
+	public static Item itemFrictionPlate;
 	
 	/*!
 	 * @author Koen Beckers
@@ -21,6 +22,7 @@ public class Items {
 		ingotCopper = new IngotCopper();
 		ingotLead = new IngotLead();
 		ingotEnrichedCopper = new IngotEnrichedCopper();
+		itemFrictionPlate = new ItemFrictionPlate();
 		
 		registerItems();
 		addNames();
@@ -36,6 +38,7 @@ public class Items {
 		GameRegistry.registerItem(ingotCopper, Names.ingotCopper.unlocalized);
 		GameRegistry.registerItem(ingotEnrichedCopper, Names.ingotEnrichedCopper.unlocalized);
 		GameRegistry.registerItem(ingotLead, Names.ingotLead.unlocalized);
+		GameRegistry.registerItem(itemFrictionPlate, Names.itemFrictionPlate.unlocalized);
 		
 	}
 	
@@ -50,5 +53,6 @@ public class Items {
 		LanguageRegistry.addName(ingotCopper, Names.ingotCopper.localized);
 		LanguageRegistry.addName(ingotEnrichedCopper, Names.ingotEnrichedCopper.localized);
 		LanguageRegistry.addName(ingotLead, Names.ingotLead.localized);
+		LanguageRegistry.addName(itemFrictionPlate, Names.itemFrictionPlate.localized);
 	}
 }
