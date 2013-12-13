@@ -10,7 +10,7 @@ public class BlockHydraulicPump extends MachineBlock {
 
 	protected BlockHydraulicPump() {
 		super(Ids.blockHydraulicPump, Names.blockHydraulicPump);
-		
+		this.hasTopIcon = true;
+		this.hasBottomIcon = true;
 	}
-
 }
