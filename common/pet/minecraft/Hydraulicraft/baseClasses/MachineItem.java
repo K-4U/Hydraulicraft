@@ -55,9 +55,6 @@ public class MachineItem extends Item {
 	
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4){
-		if(par4){
-			list.add("Uh?");
-		}
 		list.add(defaultInfo);
 	}
 
