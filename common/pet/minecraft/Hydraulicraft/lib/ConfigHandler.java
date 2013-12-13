@@ -48,6 +48,9 @@ public class ConfigHandler {
 		Ids.blockHydraulicPiston.loadBlock(config, Names.blockHydraulicPiston);
 		Ids.blockHydraulicWasher.loadBlock(config, Names.blockHydraulicWasher);
 		
+		Ids.oreCopper.loadBlock(config, Names.oreCopper);
+		Ids.oreLead.loadBlock(config, Names.oreLead);
+		
 		Ids.itemGasket.loadItem(config, Names.itemGasket);
 		Ids.itemFrictionPlate.loadItem(config, Names.itemFrictionPlate);
 		Ids.ingotCopper.loadItem(config, Names.ingotCopper);

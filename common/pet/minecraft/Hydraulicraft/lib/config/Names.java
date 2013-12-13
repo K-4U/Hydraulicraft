@@ -14,6 +14,9 @@ public class Names {
 	public static final Name blockHydraulicPiston = new Name("Hydraulic piston (TODO)", "hydraulicPiston");
 	public static final Name blockHydraulicWasher = new Name("Hydraulic washer", "hydraulicWasher");
 	
+	public static final Name oreCopper = new Name("Copper ore", "oreCopper");
+	public static final Name oreLead = new Name("Lead ore", "oreLead");
+	
 	public static final Name itemGasket = new Name("Gasket", "gasket");
 	public static final Name itemFrictionPlate = new Name("Friction Plate", "frictionPlate");
 	public static final Name ingotCopper = new Name("Copper Ingot", "ingotCopper");

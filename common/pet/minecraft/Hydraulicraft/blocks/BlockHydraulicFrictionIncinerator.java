@@ -8,8 +8,7 @@ public class BlockHydraulicFrictionIncinerator extends MachineConsumer {
 
 	protected BlockHydraulicFrictionIncinerator() {
 		super(Ids.blockHydraulicFrictionIncinerator, Names.blockHydraulicFrictionIncinerator);
-		this.hasTopIcon = true;
-		this.hasBottomIcon = true;
+		this.hasFrontIcon = true;
 	}
 	
 	public int getMaxBar() {

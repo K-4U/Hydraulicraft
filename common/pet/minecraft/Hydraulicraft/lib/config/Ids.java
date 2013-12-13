@@ -4,15 +4,19 @@ import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 
 public class Ids {
 	public static final Id blockHydraulicPump = new Id(4095);
-	public static final Id blockHydraulicPressurevat = new Id(4090);
-	public static final Id blockHydraulicMixer = new Id(4085);
-	public static final Id blockHydraulicFrictionIncinerator = new Id(4080);
-	public static final Id blockHydraulicCrusher = new Id(4075);
-	public static final Id blockHydraulicPressureGauge = new Id(4070);
-	public static final Id blockHydraulicPressureValve = new Id(4065);
-	public static final Id blockHydraulicHose = new Id(4060);
-	public static final Id blockHydraulicPiston = new Id(4055);
-	public static final Id blockHydraulicWasher = new Id(4050);
+	public static final Id blockHydraulicPressurevat = new Id(4094);
+	public static final Id blockHydraulicMixer = new Id(4093);
+	public static final Id blockHydraulicFrictionIncinerator = new Id(4092);
+	public static final Id blockHydraulicCrusher = new Id(4091);
+	public static final Id blockHydraulicPressureGauge = new Id(4090);
+	public static final Id blockHydraulicPressureValve = new Id(4089);
+	public static final Id blockHydraulicHose = new Id(4088);
+	public static final Id blockHydraulicPiston = new Id(4087);
+	public static final Id blockHydraulicWasher = new Id(4086);
+	
+	public static final Id oreCopper = new Id(4050);
+	public static final Id oreLead = new Id(4049);
+	
 	
 	public static final Id itemGasket = new Id(3095);
 	public static final Id itemFrictionPlate = new Id(3075);
