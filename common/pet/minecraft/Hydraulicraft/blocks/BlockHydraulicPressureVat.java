@@ -7,7 +7,7 @@ import pet.minecraft.Hydraulicraft.lib.config.Names;
 public class BlockHydraulicPressureVat extends MachineStorage {
 
 	protected BlockHydraulicPressureVat() {
-		super(Ids.blockHydraulicPressurevat, Names.blockHydraulicPressurevat);
+		super(Ids.blockHydraulicPressureVat, Names.blockHydraulicPressurevat);
 		this.hasTopIcon = true;
 		this.hasBottomIcon = true;
 	}

@@ -42,7 +42,7 @@ public class ConfigHandler {
 		Ids.blockHydraulicCrusher.loadBlock(config, Names.blockHydraulicCrusher);
 		Ids.blockHydraulicPressureGauge.loadBlock(config, Names.blockHydraulicPressureGauge);
 		Ids.blockHydraulicPressureValve.loadBlock(config, Names.blockHydraulicPressureValve);
-		Ids.blockHydraulicPressurevat.loadBlock(config, Names.blockHydraulicPressurevat);
+		Ids.blockHydraulicPressureVat.loadBlock(config, Names.blockHydraulicPressurevat);
 		Ids.blockHydraulicHose.loadBlock(config, Names.blockHydraulicHose);
 		Ids.blockHydraulicPiston.loadBlock(config, Names.blockHydraulicPiston);
 		Ids.blockHydraulicWasher.loadBlock(config, Names.blockHydraulicWasher);

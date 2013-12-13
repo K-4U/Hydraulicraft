@@ -4,7 +4,7 @@ import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 
 public class Ids {
 	public static final Id blockHydraulicPump = new Id(4095);
-	public static final Id blockHydraulicPressurevat = new Id(4094);
+	public static final Id blockHydraulicPressureVat = new Id(4094);
 	public static final Id blockHydraulicMixer = new Id(4093);
 	public static final Id blockHydraulicFrictionIncinerator = new Id(4092);
 	public static final Id blockHydraulicCrusher = new Id(4091);
