@@ -38,5 +38,7 @@ public class ConfigHandler {
 	 */
 	private static void loadIds(){
 		Ids.blockHydraulicPump.loadBlock(config, Names.blockHydraulicPump);
+		
+		Ids.itemGasket.loadItem(config, Names.itemGasket);
 	}
 }
