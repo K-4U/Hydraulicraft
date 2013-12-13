@@ -22,6 +22,7 @@ public class Recipes {
 				'S', Block.cobblestone,
 				'I', Item.ingotIron
 			});
+		
 		/*
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicFrictionPlate, 1),
 				new Object [] {
@@ -33,14 +34,14 @@ public class Recipes {
 					"S", Block.cobblestone
 					
 				});
-		
+		*/
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicPressureValve, 1),
 				new Object [] {
 					"---",
 					"HLH",
 					"---",
 					'H', Blocks.hydraulicHoze,
-					'L', Items.ingotLead,
+					'L', Block.lever,
 				});
 		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicCrusher, 1),
@@ -49,7 +50,7 @@ public class Recipes {
 					"P-P",
 					"SSS",
 					'K', Items.gasket,
-					'P', Blocks.hydraulicPiston,
+					'P', Block.pistonBase,
 					'S', Block.cobblestone
 				});
 		
@@ -72,7 +73,7 @@ public class Recipes {
 					'G', Block.glass,
 					'S', Block.cobblestone
 				});
-				*/
+				
 
 	}
 }

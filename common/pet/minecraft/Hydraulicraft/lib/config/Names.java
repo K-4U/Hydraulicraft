@@ -11,10 +11,11 @@ public class Names {
 	public static final Name blockHydraulicPressureGauge = new Name("Hydraulic pressure gauge", "hydraulicPressureGauge");
 	public static final Name blockHydraulicPressureValve = new Name("Hydraulic pressure valve", "hydraulicPressureValve");
 	public static final Name blockHydraulicHoze = new Name("Hydraulic hoze", "hydraulicHoze");
-	public static final Name blockHydraulicPiston = new Name("Hydraulic piston", "hydraulicPiston");
+	public static final Name blockHydraulicPiston = new Name("Hydraulic piston (TODO)", "hydraulicPiston");
 	public static final Name blockHydraulicWasher = new Name("Hydraulic washer", "hydraulicWasher");
 	
 	public static final Name itemGasket = new Name("Gasket", "gasket");
+	public static final Name itemFrictionPlate = new Name("Friction Plate", "frictionPlate");
 	public static final Name ingotCopper = new Name("Copper Ingot", "ingotCopper");
 	public static final Name ingotLead = new Name("Lead Ingot", "ingotLead");
 	public static final Name ingotEnrichedCopper = new Name("Enriched copper Ingot", "ingotEnrichedCopper");

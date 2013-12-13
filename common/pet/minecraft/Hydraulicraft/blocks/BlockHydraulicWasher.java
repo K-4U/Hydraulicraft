@@ -8,8 +8,7 @@ public class BlockHydraulicWasher extends MachineConsumer {
 
 	protected BlockHydraulicWasher() {
 		super(Ids.blockHydraulicWasher, Names.blockHydraulicWasher);
-		this.hasTopIcon = true;
-		this.hasBottomIcon = true;
+		this.hasFrontIcon = true;
 	}
 	
 	public int getMaxBar() {
