@@ -2,6 +2,8 @@ package pet.minecraft.Hydraulicraft.lib;
 
 import java.io.File;
 
+import pet.minecraft.Hydraulicraft.lib.config.Ids;
+import pet.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraftforge.common.Configuration;
 
 /*!
@@ -35,6 +37,6 @@ public class ConfigHandler {
 	 * Loads the Id's from the config file to the ID class.
 	 */
 	private static void loadIds(){
-		
+		Ids.blockHydraulicPump.loadBlock(config, Names.blockHydraulicPump);
 	}
 }

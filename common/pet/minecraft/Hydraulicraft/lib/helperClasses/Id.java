@@ -13,6 +13,9 @@ public class Id {
 	
 	public Id(int _def){
 		def = _def;
+		//Hack so that when you forget to add the config line,
+		// Minecraft doesn't piss all over itself
+		act = _def; 
 	}
 	
 	/*!
