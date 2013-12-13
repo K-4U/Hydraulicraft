@@ -9,6 +9,7 @@ import pet.minecraft.Hydraulicraft.lib.CustomTabs;
 import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.Recipes;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
+import pet.minecraft.Hydraulicraft.ores.Ores;
 import pet.minecraft.Hydraulicraft.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -66,6 +67,7 @@ public class Hydraulicraft {
 	@EventHandler
 	public void load(FMLInitializationEvent event){
 		Blocks.init();
+		Ores.init();
 		TileEntities.init();
 		Items.init();
 		Fluids.init();

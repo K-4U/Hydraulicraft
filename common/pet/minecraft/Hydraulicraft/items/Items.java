@@ -4,6 +4,8 @@ import pet.minecraft.Hydraulicraft.lib.config.Names;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class Items {
 	public static Item gasket;
@@ -40,6 +42,10 @@ public class Items {
 		GameRegistry.registerItem(ingotLead, Names.ingotLead.unlocalized);
 		GameRegistry.registerItem(itemFrictionPlate, Names.itemFrictionPlate.unlocalized);
 		
+		
+		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));
+		OreDictionary.registerOre(Names.ingotLead.unlocalized, new ItemStack(ingotLead));
+		OreDictionary.registerOre(Names.ingotEnrichedCopper.unlocalized, new ItemStack(ingotEnrichedCopper));
 	}
 	
 	/*!
