@@ -1,5 +1,7 @@
 package pet.minecraft.Hydraulicraft.TileEntities;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+
 public class TileEntities {
 	/*!
 	 * @author Koen Beckers
@@ -7,6 +9,6 @@ public class TileEntities {
 	 * Initializes all the tile entities.
 	 */
 	public static void init(){
-		
+		GameRegistry.registerTileEntity(TileHydraulicPump.class, "tileHydraulicPump");
 	}
 }
