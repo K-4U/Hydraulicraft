@@ -8,8 +8,7 @@ public class BlockHydraulicMixer extends MachineConsumer {
 
 	protected BlockHydraulicMixer() {
 		super(Ids.blockHydraulicMixer, Names.blockHydraulicMixer);
-		this.hasTopIcon = true;
-		this.hasBottomIcon = true;
+		this.hasFrontIcon = true;
 	}
 	
 	public int getMaxBar() {
