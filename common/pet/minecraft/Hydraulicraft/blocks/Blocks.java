@@ -7,6 +7,16 @@ import net.minecraft.block.Block;
 
 public class Blocks {
 	public static Block hydraulicPump;
+	public static Block hydraulicMixer;
+	public static Block hydraulicFrictionPlate;
+	public static Block hydraulicCrusher;
+	public static Block hydraulicPressureGauge;
+	public static Block hydraulicPressureValve;
+	public static Block hydraulicPressureHoze;
+	public static Block hydraulicPressureVat;
+	public static Block hydraulicHoze;
+	public static Block hydraulicPiston;
+	public static Block hydraulicWasher;
 	
 	/*!
 	 * @author Koen Beckers

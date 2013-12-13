@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 
 public class Items {
 	public static Item gasket;
+	public static Item lead;
 	
 	/*!
 	 * @author Koen Beckers
