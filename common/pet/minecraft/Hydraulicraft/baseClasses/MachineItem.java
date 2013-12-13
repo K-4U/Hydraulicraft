@@ -14,7 +14,7 @@ public class MachineItem extends Item {
 	private Id tItemId;
 	private Name mName;
 	private boolean _hasEffect = false;
-	private String defaultInfo;
+	private String defaultInfo = "";
 	
 	
 	public MachineItem(Id itemId, Name itemName) {
