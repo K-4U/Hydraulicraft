@@ -11,6 +11,7 @@ import pet.minecraft.Hydraulicraft.lib.Recipes;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.ores.Ores;
 import pet.minecraft.Hydraulicraft.proxy.CommonProxy;
+import pet.minecraft.Hydraulicraft.world.OreGenerator;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -19,6 +20,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(
 	modid = ModInfo.ID,
@@ -72,6 +74,8 @@ public class Hydraulicraft {
 		Items.init();
 		Fluids.init();
 		Recipes.init();
+		
+		GameRegistry.registerWorldGenerator(new OreGenerator());
 	}
 	
 	/*!
