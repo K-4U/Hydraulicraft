@@ -2,8 +2,10 @@ package pet.minecraft.Hydraulicraft;
 
 import pet.minecraft.Hydraulicraft.TileEntities.TileEntities;
 import pet.minecraft.Hydraulicraft.blocks.Blocks;
+import pet.minecraft.Hydraulicraft.fluids.Fluids;
 import pet.minecraft.Hydraulicraft.items.Items;
 import pet.minecraft.Hydraulicraft.lib.ConfigHandler;
+import pet.minecraft.Hydraulicraft.lib.Recipes;
 import pet.minecraft.Hydraulicraft.lib.config.Log;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.proxy.CommonProxy;
