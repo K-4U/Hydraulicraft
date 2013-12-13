@@ -5,6 +5,7 @@ import pet.minecraft.Hydraulicraft.blocks.Blocks;
 import pet.minecraft.Hydraulicraft.fluids.Fluids;
 import pet.minecraft.Hydraulicraft.items.Items;
 import pet.minecraft.Hydraulicraft.lib.ConfigHandler;
+import pet.minecraft.Hydraulicraft.lib.CustomTabs;
 import pet.minecraft.Hydraulicraft.lib.Recipes;
 import pet.minecraft.Hydraulicraft.lib.config.Log;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -54,6 +55,7 @@ public class Hydraulicraft {
 		
 		proxy.initRenderers();
 		proxy.initSounds();
+		CustomTabs.init();
 	}
 	
 	/*!

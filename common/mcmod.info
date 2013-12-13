@@ -1,0 +1,23 @@
+[
+    {
+        "modid":        "HydCraft",
+        "name":         "Hydraulicraft",
+        "description":  "Team PET's entry for Modjam #3",
+        "version":      "0.1 Alpha 1",
+        "url":          "https://github.com/K-4U/Hydraulicraft",
+        "updateUrl":    "https://github.com/K-4U/Hydraulicraft",
+        "authorList":   [
+            "K4Unl",
+            "_Joep"
+        ],
+        "credits":      "Nobody!",
+        "logoFile":     "",
+        "screenShots":  [
+            "https://dl.dropboxusercontent.com/u/343724/MC/Modjam/Screenshot%202013-12-13%2008.40.41.png"
+        ],
+        "parent":       "",
+        "dependencies": [
+        ]
+    }
+]       
+        
