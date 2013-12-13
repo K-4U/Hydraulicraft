@@ -1,5 +1,7 @@
 package pet.minecraft.Hydraulicraft;
 
+import pet.minecraft.Hydraulicraft.TileEntities.TileEntities;
+import pet.minecraft.Hydraulicraft.blocks.Blocks;
 import pet.minecraft.Hydraulicraft.lib.ConfigHandler;
 import pet.minecraft.Hydraulicraft.lib.config.Log;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -9,6 +11,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
@@ -57,7 +60,21 @@ public class Hydraulicraft {
 	 */
 	@EventHandler
 	public void load(FMLInitializationEvent event){
-		
+		Blocks.init();
+		TileEntities.init();
+		Items.init();
+		Fluids.init();
+		Recipes.init();
+	}
+	
+	/*!
+	 * @author Koen Beckers
+	 * @date 13-12-2013
+	 * After the mod has been loaded.
+	 */
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event){
+		Log.info("Hydraulicraft ready for use!");
 	}
 	
 	
