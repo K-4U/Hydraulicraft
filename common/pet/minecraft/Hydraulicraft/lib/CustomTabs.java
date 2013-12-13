@@ -10,6 +10,7 @@ public class CustomTabs {
 	public static void init(){
 		tabHydraulicraft = new CreativeTabs("tabHydraulicraft") {
             public ItemStack getIconItemStack() {
+            		//TODO: Add Hydraulicraft icon
                     return new ItemStack(Item.eyeOfEnder, 1, 0);
             }
 		};

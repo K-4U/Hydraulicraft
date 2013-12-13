@@ -1,8 +1,9 @@
-package pet.minecraft.Hydraulicraft.lib.config;
+package pet.minecraft.Hydraulicraft.lib;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import cpw.mods.fml.common.FMLLog;
 
 /*!
