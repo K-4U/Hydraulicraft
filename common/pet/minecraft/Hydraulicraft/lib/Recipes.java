@@ -36,6 +36,15 @@ public class Recipes {
 				
 			});
 		
+		GameRegistry.addRecipe(new ItemStack(Items.itemFrictionPlate, 1),
+				new Object [] {
+					"-SS",
+					"S-S",
+					"SS-",
+					'S', Block.cobblestone
+					
+				});
+		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicPressureValve, 1),
 				new Object [] {
 					"---",
