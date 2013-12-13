@@ -38,6 +38,15 @@ public class Log {
 	 * @brief Logs an error message to the console
 	 */
 	public static void error(String message){
-		
+		logger.log(Level.SEVERE, message);
+	}
+	
+	/*!
+	 * @author Koen Beckers
+	 * @date 13-12-2013
+	 * @brief Logs a warning message to the console
+	 */
+	public static void warning(String message){
+		logger.log(Level.WARNING, message);
 	}
 }
