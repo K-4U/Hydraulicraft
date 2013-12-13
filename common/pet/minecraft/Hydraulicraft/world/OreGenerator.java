@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -39,12 +40,12 @@ public class OreGenerator implements IWorldGenerator {
 	}
 	
 	private void generateOre(Id ore, World world, Random random, int chunkX, int chunkZ){
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < 3; i++){
 			int firstBlockXCoord = chunkX + random.nextInt(16);
 			int firstBlockYCoord = 18 + random.nextInt(64); // From +18 to 82
 			int firstBlockZCoord = chunkZ + random.nextInt(16);
 			
-			(new WorldGenMinable(ore.act, 0, 15)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
+			(new WorldGenMinable(ore.act, 12)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
 		}
 	}
 	
