@@ -23,19 +23,19 @@ public class Recipes {
 				'I', Item.ingotIron
 			});
 		
-		/*
+		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicFrictionIncinerator, 1),
-				new Object [] {
-					"GKG",
-					"F-F",
-					"SSS",
-					"S", Block.cobblestone,
-					"G", Block.glass,
-					"F", Items.itemFrictionPlate,
-					"K", Items.gasket
-					
-				});
-		*/
+			new Object [] {
+				"GKG",
+				"F-F",
+				"SSS",
+				'S', Block.cobblestone,
+				'G', Block.glass,
+				'F', Items.itemFrictionPlate,
+				'K', Items.gasket
+				
+			});
+		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicPressureValve, 1),
 				new Object [] {
 					"---",
