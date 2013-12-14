@@ -22,5 +22,9 @@ public class Ids {
 	public static final Id itemFrictionPlate = new Id(3075);
 	public static final Id ingotCopper = new Id(3090);
 	public static final Id ingotLead = new Id(3085);
-	public static final Id ingotEnrichedCopper = new Id(3080);	
+	public static final Id ingotEnrichedCopper = new Id(3080);
+	
+	
+	//DO NOT SAVE THESE IN THE CONFIG!!!
+	public static final Id GUIPump = new Id(1);
 }

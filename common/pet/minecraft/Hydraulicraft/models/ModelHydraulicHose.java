@@ -26,7 +26,7 @@ public class ModelHydraulicHose extends ModelBase{
         textureWidth = 64;
         textureHeight = 32;
 
-        hoseCorner = new ModelRenderer(this, 0, 9);
+        hoseCorner = new ModelRenderer(this, 0, 10);
         hoseCorner.addBox(-3F, -3F, -3F, 6, 6, 6);
         hoseCorner.setRotationPoint(0F, 16F, 0F);
         hoseCorner.setTextureSize(64, 32);

@@ -3,9 +3,7 @@ package pet.minecraft.Hydraulicraft.baseClasses;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public class MachineEntity extends TileEntity {
-	
-	//public abstract void onActivated();
+public abstract class MachineEntity extends TileEntity {
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){

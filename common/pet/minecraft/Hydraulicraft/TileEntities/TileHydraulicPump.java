@@ -89,8 +89,11 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		ItemStack stack = getStackInSlot(i);
+		if(stack != null){
+			setInventorySlotContents(i, null);
+		}
+		return stack;
 	}
 
 	@Override
@@ -118,8 +121,9 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		return true;
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		return ((worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this) && 
+				player.getDistanceSq(xCoord, yCoord, zCoord) < 64);
 	}
 
 	@Override
@@ -144,5 +148,6 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			return false;
 		}
 	}
+	
 	
 }

@@ -3,8 +3,10 @@ package pet.minecraft.Hydraulicraft.blocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import pet.minecraft.Hydraulicraft.Hydraulicraft;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineBlock;
+import pet.minecraft.Hydraulicraft.baseClasses.entities.TileGenerator;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -26,7 +28,14 @@ public class BlockHydraulicPump extends MachineBlock {
 		if(player.isSneaking())
 			return false;
 		
+		TileEntity entity = world.getBlockTileEntity(x, y, z);
+		if(entity == null || !(entity instanceof TileHydraulicPump)){
+			return false;
+			
+		}
+		TileHydraulicPump pump = (TileHydraulicPump) entity;
+		player.openGui(Hydraulicraft.instance, Ids.GUIPump.act, world, x, y, z);
 		
-		return false;
+		return true;
 	}
 }

@@ -2,6 +2,7 @@ package pet.minecraft.Hydraulicraft;
 
 import pet.minecraft.Hydraulicraft.TileEntities.TileEntities;
 import pet.minecraft.Hydraulicraft.blocks.Blocks;
+import pet.minecraft.Hydraulicraft.client.GUI.GuiHandler;
 import pet.minecraft.Hydraulicraft.fluids.Fluids;
 import pet.minecraft.Hydraulicraft.items.Items;
 import pet.minecraft.Hydraulicraft.lib.ConfigHandler;
@@ -20,6 +21,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(
@@ -76,6 +78,7 @@ public class Hydraulicraft {
 		Recipes.init();
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator());
+		NetworkRegistry.instance().registerGuiHandler(this.instance, new GuiHandler());
 	}
 	
 	/*!
