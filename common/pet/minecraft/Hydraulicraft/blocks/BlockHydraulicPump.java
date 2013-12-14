@@ -11,4 +11,22 @@ public class BlockHydraulicPump extends MachineBlock implements IMachineGenerato
         super(Ids.blockHydraulicPump, Names.blockHydraulicPump);
         this.hasFrontIcon = true;
     }
+
+	@Override
+	public void workFunction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getMaxGenerating() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getBar() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
