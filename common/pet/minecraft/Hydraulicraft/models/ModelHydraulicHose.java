@@ -94,12 +94,12 @@ public class ModelHydraulicHose extends ModelBase{
         if(isDir(ForgeDirection.UP)) hoseUp.render(f5);
         if(isDir(ForgeDirection.DOWN)) hoseDown.render(f5); 
         
-        /*
+        
         if(isDir(ForgeDirection.UP) || isDir(ForgeDirection.DOWN) &&
         		(isDir(ForgeDirection.EAST) || isDir(ForgeDirection.WEST) ||
         				isDir(ForgeDirection.NORTH) || isDir(ForgeDirection.SOUTH))){
         	this.hoseCorner.render(f5);
-        }*/
+        }
         
         hoseCenter.render(f5);
         

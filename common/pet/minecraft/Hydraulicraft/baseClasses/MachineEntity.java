@@ -5,6 +5,8 @@ import net.minecraft.tileentity.TileEntity;
 
 public class MachineEntity extends TileEntity {
 	
+	//public abstract void onActivated();
+	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		super.readFromNBT(tagCompound);

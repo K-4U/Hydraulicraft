@@ -46,7 +46,6 @@ public abstract class MachineBlock extends BlockContainer {
 		
 		setCreativeTab(CustomTabs.tabHydraulicraft);
 	}
-
 	
 	
 	@Override
