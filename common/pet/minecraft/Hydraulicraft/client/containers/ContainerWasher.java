@@ -1,23 +1,21 @@
 package pet.minecraft.Hydraulicraft.client.containers;
 
-import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
-import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicWasher;
 
-public class ContainerCrusher extends Container {
-	protected TileHydraulicCrusher tileCrusher;
+public class ContainerWasher extends Container {
+	protected TileHydraulicWasher tileWasher;
 	
 	
-	public ContainerCrusher(InventoryPlayer invPlayer, TileHydraulicCrusher crusher){
-		tileCrusher = crusher;
+	public ContainerWasher(InventoryPlayer invPlayer, TileHydraulicWasher _tileWasher){
+		tileWasher = _tileWasher;
 		
-		addSlotToContainer(new Slot(crusher, 0, 27, 33));
-		addSlotToContainer(new Slot(crusher, 1, 121, 33));
+		addSlotToContainer(new Slot(tileWasher, 0, 12, 16));
+		addSlotToContainer(new Slot(tileWasher, 1, 62, 51));
 		
 		bindPlayerInventory(invPlayer);
 		
@@ -26,7 +24,7 @@ public class ContainerCrusher extends Container {
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
-		return tileCrusher.isUseableByPlayer(entityplayer);
+		return tileWasher.isUseableByPlayer(entityplayer);
 	}
 
 	
@@ -54,7 +52,7 @@ public class ContainerCrusher extends Container {
 			stack = stackInSlot.copy();
 			
 			
-			if(tileCrusher.isItemValidForSlot(slot, stackInSlot)){
+			if(tileWasher.isItemValidForSlot(slot, stackInSlot)){
 				//Places from entity to player
 				if(slot == 1){
 					if(!mergeItemStack(stackInSlot,  0, 35, true)){
@@ -78,6 +76,8 @@ public class ContainerCrusher extends Container {
 			slotObject.onPickupFromSlot(player, stackInSlot);
 		}
 		return stack;
+		
+		
 	}
 
 }

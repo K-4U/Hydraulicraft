@@ -9,11 +9,12 @@ import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
-public class TileHydraulicCrusher extends TileConsumer implements ISidedInventory {
+public class TileHydraulicWasher extends TileConsumer implements
+		ISidedInventory {
 	private ItemStack inputInventory;
 	private ItemStack outputInventory;
 	
-	public TileHydraulicCrusher(){
+	public TileHydraulicWasher(){
 		
 	}
 	
@@ -116,7 +117,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	@Override
 	public String getInvName() {
 		// TODO Localization
-		return Names.blockHydraulicCrusher.localized;
+		return Names.blockHydraulicWasher.localized;
 	}
 
 	@Override
@@ -149,7 +150,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		if(i == 0){
-			if(Config.canBeCrushed(itemStack)){
+			if(Config.canBeWashed(itemStack)){
 				return true;
 			}else{
 				return false;
@@ -166,7 +167,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		if(i == 0 && Config.canBeCrushed(itemStack)){
+		if(i == 0 && Config.canBeWashed(itemStack)){
 			return true;
 		}else{
 			return false;
@@ -181,4 +182,5 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			return false;
 		}
 	}
+
 }

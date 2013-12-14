@@ -4,6 +4,8 @@ import pet.minecraft.Hydraulicraft.lib.config.Names;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class Ores {
 	public static Block oreCopper;
@@ -31,6 +33,9 @@ public class Ores {
 	public static void registerOres(){
 		GameRegistry.registerBlock(oreCopper, Names.oreCopper.unlocalized);
 		GameRegistry.registerBlock(oreLead, Names.oreLead.unlocalized);
+		
+		OreDictionary.registerOre(Names.oreCopper.unlocalized, new ItemStack(oreCopper));
+		OreDictionary.registerOre(Names.oreLead.unlocalized, new ItemStack(oreLead));
 	}
 	
 	/*!

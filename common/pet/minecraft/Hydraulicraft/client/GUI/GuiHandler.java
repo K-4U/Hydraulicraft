@@ -5,8 +5,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicWasher;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerCrusher;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerPump;
+import pet.minecraft.Hydraulicraft.client.containers.ContainerWasher;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import cpw.mods.fml.common.network.IGuiHandler;
 
@@ -25,6 +27,10 @@ public class GuiHandler implements IGuiHandler {
 			}else if(ID == Ids.GUICrusher.act){
 				if(ent instanceof TileHydraulicCrusher){
 					return new ContainerCrusher(player.inventory, (TileHydraulicCrusher)ent);
+				}
+			}else if(ID == Ids.GUIWasher.act){
+				if(ent instanceof TileHydraulicWasher){
+					return new ContainerWasher(player.inventory, (TileHydraulicWasher)ent);
 				}
 			}
 		}
@@ -46,6 +52,10 @@ public class GuiHandler implements IGuiHandler {
 			}else if(ID == Ids.GUICrusher.act){
 				if(ent instanceof TileHydraulicCrusher){
 					return new GuiCrusher(player.inventory, (TileHydraulicCrusher) ent);
+				}
+			}else if(ID == Ids.GUIWasher.act){
+				if(ent instanceof TileHydraulicWasher){
+					return new GuiWasher(player.inventory, (TileHydraulicWasher)ent);
 				}
 			}
 		}

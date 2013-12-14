@@ -22,17 +22,17 @@ public class Recipes {
 	
 	private static void initializeBlockRecipes(){
 		GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.hydraulicPump, true,
-				new Object [] {
-					"PKP",
-					"GIG",
-					"PSP",
-					'P', Block.pistonBase,
-					'K', Items.gasket,
-					'G', Block.glass,
-					'S', Block.cobblestone,
-					'I', "ingotIron"
-				})
-			);
+			new Object [] {
+				"PKP",
+				"GIG",
+				"PSP",
+				'P', Block.pistonBase,
+				'K', Items.gasket,
+				'G', Block.glass,
+				'S', Block.cobblestone,
+				'I', "ingotIron"
+			})
+		);
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicMixer, 1),
 				new Object [] {
 					"GKG",
