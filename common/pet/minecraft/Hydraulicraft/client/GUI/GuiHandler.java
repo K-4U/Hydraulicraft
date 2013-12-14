@@ -4,9 +4,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicMixer;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicWasher;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerCrusher;
+import pet.minecraft.Hydraulicraft.client.containers.ContainerMixer;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerPump;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerWasher;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
@@ -32,6 +34,10 @@ public class GuiHandler implements IGuiHandler {
 				if(ent instanceof TileHydraulicWasher){
 					return new ContainerWasher(player.inventory, (TileHydraulicWasher)ent);
 				}
+			}else if(ID == Ids.GUIMixer.act){
+				if(ent instanceof TileHydraulicMixer){
+					return new ContainerMixer(player.inventory, (TileHydraulicMixer)ent);
+				}
 			}
 		}
 		
@@ -56,6 +62,10 @@ public class GuiHandler implements IGuiHandler {
 			}else if(ID == Ids.GUIWasher.act){
 				if(ent instanceof TileHydraulicWasher){
 					return new GuiWasher(player.inventory, (TileHydraulicWasher)ent);
+				}
+			}else if(ID == Ids.GUIMixer.act){
+				if(ent instanceof TileHydraulicMixer){
+					return new GuiMixer(player.inventory, (TileHydraulicMixer)ent);
 				}
 			}
 		}

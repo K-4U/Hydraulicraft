@@ -1,22 +1,23 @@
 package pet.minecraft.Hydraulicraft.client.containers;
 
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicMixer;
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
-import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 
-public class ContainerPump extends Container {
+public class ContainerMixer extends Container {
 
-	protected TileHydraulicPump tilePump;
+	protected TileHydraulicMixer tileMixer;
 	
 	
-	public ContainerPump(InventoryPlayer invPlayer, TileHydraulicPump pump){
-		tilePump = pump;
+	public ContainerMixer(InventoryPlayer invPlayer, TileHydraulicMixer mixer){
+		tileMixer = mixer;
 		
-		addSlotToContainer(new Slot(pump, 0, 67, 49));
+		addSlotToContainer(new Slot(mixer, 0, 59, 15));
 		
 		bindPlayerInventory(invPlayer);
 		
@@ -25,7 +26,7 @@ public class ContainerPump extends Container {
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
-		return tilePump.isUseableByPlayer(entityplayer);
+		return tileMixer.isUseableByPlayer(entityplayer);
 	}
 
 	
@@ -80,4 +81,5 @@ public class ContainerPump extends Container {
 		
 		
 	}
+
 }

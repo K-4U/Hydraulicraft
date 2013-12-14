@@ -14,8 +14,8 @@ public class ContainerWasher extends Container {
 	public ContainerWasher(InventoryPlayer invPlayer, TileHydraulicWasher _tileWasher){
 		tileWasher = _tileWasher;
 		
-		addSlotToContainer(new Slot(tileWasher, 0, 12, 16));
-		addSlotToContainer(new Slot(tileWasher, 1, 62, 51));
+		addSlotToContainer(new Slot(tileWasher, 0, 48, 16));
+		addSlotToContainer(new Slot(tileWasher, 1, 98, 51));
 		
 		bindPlayerInventory(invPlayer);
 		

@@ -29,4 +29,5 @@ public class Ids {
 	public static final Id GUIPump = new Id(1);
 	public static final Id GUICrusher = new Id(2);
 	public static final Id GUIWasher = new Id(4);
+	public static final Id GUIMixer = new Id(5);
 }
