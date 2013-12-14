@@ -12,5 +12,6 @@ public class TileEntities {
 		GameRegistry.registerTileEntity(TileHydraulicPump.class, "tileHydraulicPump");
 		GameRegistry.registerTileEntity(TileHydraulicHose.class, "tileHydraulicHose");
 		GameRegistry.registerTileEntity(TileHydraulicFrictionIncinerator.class, "tileHydraulicFrictionIncinerator");
+		GameRegistry.registerTileEntity(TileHydraulicPressureVat.class, "tileHydraulicPressureVat");
 	}
 }
