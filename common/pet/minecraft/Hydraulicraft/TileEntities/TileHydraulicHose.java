@@ -5,7 +5,8 @@ import pet.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
-public class TileHydraulicHose extends TileTransporter {	
+public class TileHydraulicHose extends TileTransporter {
+
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		super.readFromNBT(tagCompound);
@@ -14,5 +15,11 @@ public class TileHydraulicHose extends TileTransporter {
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
 		super.writeToNBT(tagCompound);
+	}
+
+	@Override
+	public int getMaxBar() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

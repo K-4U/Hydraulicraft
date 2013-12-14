@@ -1,9 +1,11 @@
 package pet.minecraft.Hydraulicraft.blocks;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import pet.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureHoze;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import net.minecraft.block.Block;
 
 public class Blocks {
 	public static Block hydraulicPump;
@@ -13,7 +15,7 @@ public class Blocks {
 	public static Block hydraulicPressureGauge;
 	public static Block hydraulicPressureValve;
 	public static Block hydraulicPressurevat;
-	public static Block hydraulicHoze;
+	public static Block hydraulicHose;
 	public static Block hydraulicPiston;
 	public static Block hydraulicWasher;
 	
@@ -30,7 +32,7 @@ public class Blocks {
 		hydraulicCrusher = new BlockHydraulicCrusher();
 		hydraulicPressureGauge = new BlockHydraulicPressureGauge();
 		hydraulicPressureValve = new BlockHydraulicPressureValve();
-		hydraulicHoze = new BlockHydraulicHose();
+		hydraulicHose = new BlockHydraulicHose();
 		hydraulicPiston = new BlockHydraulicPiston();
 		hydraulicWasher = new BlockHydraulicWasher();
 		
@@ -51,9 +53,11 @@ public class Blocks {
 		GameRegistry.registerBlock(hydraulicCrusher, Names.blockHydraulicCrusher.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureValve, Names.blockHydraulicPressureValve.unlocalized);
-		GameRegistry.registerBlock(hydraulicHoze, Names.blockHydraulicHose.unlocalized);
 		GameRegistry.registerBlock(hydraulicPiston, Names.blockHydraulicPiston.unlocalized);
 		GameRegistry.registerBlock(hydraulicWasher, Names.blockHydraulicWasher.unlocalized);
+		
+		
+		GameRegistry.registerBlock(hydraulicHose, HandlerPressureHoze.class, Names.blockHydraulicHose[0].unlocalized);
 	}
 	
 	/*!
@@ -70,8 +74,13 @@ public class Blocks {
 		LanguageRegistry.addName(hydraulicCrusher, Names.blockHydraulicCrusher.localized);
 		LanguageRegistry.addName(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.localized);
 		LanguageRegistry.addName(hydraulicPressureValve, Names.blockHydraulicPressureValve.localized);
-		LanguageRegistry.addName(hydraulicHoze, Names.blockHydraulicHose.localized);
 		LanguageRegistry.addName(hydraulicPiston, Names.blockHydraulicPiston.localized);
 		LanguageRegistry.addName(hydraulicWasher, Names.blockHydraulicWasher.localized);
+		
+		for(int i = 0; i < 3; i++){
+			LanguageRegistry.addName(new ItemStack(hydraulicHose, 1, i), Names.blockHydraulicHose[i].localized);
+		}
+		
+		
 	}
 }

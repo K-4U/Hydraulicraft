@@ -27,4 +27,5 @@ public class Ids {
 	
 	//DO NOT SAVE THESE IN THE CONFIG!!!
 	public static final Id GUIPump = new Id(1);
+	public static final Id GUICrusher = new Id(2);
 }

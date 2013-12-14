@@ -3,6 +3,7 @@ package pet.minecraft.Hydraulicraft.lib;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import pet.minecraft.Hydraulicraft.blocks.Blocks;
 import pet.minecraft.Hydraulicraft.items.Items;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -11,7 +12,7 @@ public class Recipes {
 	public static void init(){
 		GameRegistry.registerCraftingHandler(new CraftingHandler());
 		
-		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicPump, 1),
+		GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.hydraulicPump, true,
 			new Object [] {
 				"PKP",
 				"GIG",
@@ -20,8 +21,10 @@ public class Recipes {
 				'K', Items.gasket,
 				'G', Block.glass,
 				'S', Block.cobblestone,
-				'I', Item.ingotIron
-			});
+				'I', "ingotIron"
+			})
+		);
+		
 		
 		GameRegistry.addRecipe(new ItemStack(Items.itemFrictionPlate, 1),
 				new Object [] {
@@ -32,14 +35,14 @@ public class Recipes {
 					
 				});
 	
-		GameRegistry.addRecipe(new ItemStack(Items.ingotEnrichedCopper, 1),
+		GameRegistry.addRecipe(new ShapedOreRecipe(Items.ingotEnrichedCopper, true,
 			new Object [] {
 				"-D-",
 				"CCC",
 				"-D-",
 				'D', Item.diamond,
-				'C', Items.ingotCopper
-		});
+				'C', "ingotCopper"
+		}));
 		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicFrictionIncinerator, 1),
 			new Object [] {
@@ -60,7 +63,7 @@ public class Recipes {
 					"---",
 					"HLH",
 					"---",
-					'H', Blocks.hydraulicHoze,
+					'H', Blocks.hydraulicHose,
 					'L', Block.lever,
 				});
 		

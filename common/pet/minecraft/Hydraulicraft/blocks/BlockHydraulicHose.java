@@ -4,10 +4,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineBlock;
+import pet.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
-public class BlockHydraulicHose extends MachineBlock {
+public class BlockHydraulicHose extends MachineTieredBlock {
 
 	protected BlockHydraulicHose() {
 		super(Ids.blockHydraulicHose, Names.blockHydraulicHose);

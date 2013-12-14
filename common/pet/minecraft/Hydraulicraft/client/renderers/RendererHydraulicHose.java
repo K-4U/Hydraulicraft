@@ -13,8 +13,12 @@ import pet.minecraft.Hydraulicraft.models.ModelHydraulicHose;
 
 public class RendererHydraulicHose extends TileEntitySpecialRenderer {
 
-	private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,
-			"textures/model/hydraulicHose_tmap.png");
+	private static final ResourceLocation resLoc[] = {
+		new ResourceLocation(ModInfo.LID,"textures/model/hydraulicHose_tmap_0.png"),
+		new ResourceLocation(ModInfo.LID,"textures/model/hydraulicHose_tmap_1.png"),
+		new ResourceLocation(ModInfo.LID,"textures/model/hydraulicHose_tmap_2.png")
+	};
+			
 
 
 	private ModelHydraulicHose renderModel;
@@ -37,8 +41,9 @@ public class RendererHydraulicHose extends TileEntitySpecialRenderer {
 		
 		//Bind texture
 		TileHydraulicHose hose = (TileHydraulicHose) tileEntity;
+		int tier = hose.getTier();
 		
-		this.bindTexture(resLoc);
+		this.bindTexture(resLoc[tier]);
 		
 		GL11.glPushMatrix();
 		

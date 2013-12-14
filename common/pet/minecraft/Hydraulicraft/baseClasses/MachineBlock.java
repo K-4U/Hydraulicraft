@@ -48,27 +48,36 @@ public abstract class MachineBlock extends BlockContainer {
 	}
 	
 	
+	private String getTextureName(String side){
+		if(side != null){
+			return ModInfo.LID + ":" + mName.unlocalized + "_" + side;
+		}else{
+			return ModInfo.LID + ":" + mName.unlocalized;
+		}
+	}
+	
+	
 	@Override
 	public void registerIcons(IconRegister iconRegistry){
 		if(hasTopIcon || hasBottomIcon || hasFrontIcon){
-			blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + mName.unlocalized + "_sides");
+			blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
 			if(hasTopIcon){
-				topIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + mName.unlocalized + "_top");
+				topIcon = iconRegistry.registerIcon(getTextureName("top"));
 			}else{
 				topIcon = blockIcon;
 			}
 			if(hasBottomIcon){
-				bottomIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + mName.unlocalized + "_bottom");
+				bottomIcon = iconRegistry.registerIcon(getTextureName("bottom"));
 			}else{
 				bottomIcon = blockIcon;
 			}
 			if(hasFrontIcon){
-				frontIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + mName.unlocalized + "_front");
+				frontIcon = iconRegistry.registerIcon(getTextureName("front"));
 			}else{
 				frontIcon = blockIcon;
 			}
 		}else{
-			blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + mName.unlocalized);
+			blockIcon = iconRegistry.registerIcon(getTextureName(null));
 			bottomIcon = blockIcon;
 			topIcon = blockIcon;
 			frontIcon = blockIcon;
@@ -79,28 +88,8 @@ public abstract class MachineBlock extends BlockContainer {
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
 		super.onBlockAdded(world, x, y, z);
-		setDefaultDirection(world, x, y, z);
-	}
-	
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityliving){
-	int l = MathHelper.floor_double((double)((entityliving.rotationYaw * 4F) / 360F) + 0.5D) & 3;
-
-	switch (l){
-		case 0:
-			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-			break;
-	
-		case 1:
-			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
-			break;
-	
-		case 2:
-			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-			break;
-	
-		case 3:
-			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-			break;
+		if(hasFrontIcon){
+			setDefaultDirection(world, x, y, z);
 		}
 	}
 	
@@ -143,14 +132,15 @@ public abstract class MachineBlock extends BlockContainer {
 		}else if(s.equals(ForgeDirection.DOWN)){
 			return bottomIcon;
 		}
-		
-		if(metadata > 0){
-			if(side == metadata){
-				return frontIcon; 
-			}
-		}else{
-			if(side == 3){
-				return frontIcon;
+		if(hasFrontIcon){
+			if(metadata > 0){
+				if(side == metadata){
+					return frontIcon; 
+				}
+			}else{
+				if(side == 3){
+					return frontIcon;
+				}
 			}
 		}
 		return blockIcon;
@@ -159,25 +149,27 @@ public abstract class MachineBlock extends BlockContainer {
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
-		int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
-		
-		int metaDataToSet = 0;
-		switch(sideToPlace){
-		case 0:
-			metaDataToSet = 2;
-			break;
-		case 1:
-			metaDataToSet = 5;
-			break;
-		case 2:
-			metaDataToSet = 3;
-			break;
-		case 3:
-			metaDataToSet = 4;
-			break;
+		if(hasFrontIcon){
+			int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
+			
+			int metaDataToSet = 0;
+			switch(sideToPlace){
+			case 0:
+				metaDataToSet = 2;
+				break;
+			case 1:
+				metaDataToSet = 5;
+				break;
+			case 2:
+				metaDataToSet = 3;
+				break;
+			case 3:
+				metaDataToSet = 4;
+				break;
+			}
+			
+			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
-		
-		world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 	}
 	
 	

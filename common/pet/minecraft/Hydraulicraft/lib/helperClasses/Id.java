@@ -29,6 +29,15 @@ public class Id {
 	
 	/*!
 	 * @author Koen Beckers
+	 * @date 14-12-2013
+	 * Loads a block ID from the config file for given name n
+	 */
+	public void loadBlock(Configuration config, Name[] n){
+		this.act = config.getBlock(n[0].unlocalized, def).getInt();
+	}
+	
+	/*!
+	 * @author Koen Beckers
 	 * @date 13-12-2013
 	 * Loads a item ID from the config file for given name n
 	 */
