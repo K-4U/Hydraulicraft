@@ -9,7 +9,7 @@ import pet.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
-public abstract class MachineTransporter extends MachineEntity {
+public abstract class TileTransporter extends MachineEntity {
 	
 	private boolean shouldConnectTo(TileEntity entity){
 		return (entity instanceof MachineEntity);

@@ -1,28 +1,23 @@
 package pet.minecraft.Hydraulicraft.blocks;
 
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineBlock;
-import pet.minecraft.Hydraulicraft.baseClasses.entities.MachineConsumer;
-import pet.minecraft.Hydraulicraft.baseClasses.interfaces.IMachineConsumer;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
-public class BlockHydraulicPiston extends MachineBlock implements IMachineConsumer {
+public class BlockHydraulicPiston extends MachineBlock {
 
 	protected BlockHydraulicPiston() {
 		super(Ids.blockHydraulicPiston, Names.blockHydraulicPiston);
 		this.hasTopIcon = true;
 		this.hasBottomIcon = true;
 	}
-	
-	public int getMaxBar() {
-		return 0;
+
+	@Override
+	public TileEntity createNewTileEntity(World world) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
-	public int getMinimumBar() {
-		return 0;
-	}
-	
-	public void workFunction(int bar) {
-		
-	}
 }

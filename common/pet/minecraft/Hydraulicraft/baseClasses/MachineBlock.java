@@ -17,7 +17,7 @@ import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
-public class MachineBlock extends BlockContainer {
+public abstract class MachineBlock extends BlockContainer {
 	private Icon blockIcon;
 	private Icon topIcon;
 	private Icon bottomIcon;
@@ -29,6 +29,9 @@ public class MachineBlock extends BlockContainer {
 	protected boolean hasBottomIcon = false;
 	protected boolean hasTopIcon = false;
 	protected boolean hasFrontIcon = false;
+	
+	@Override
+	public abstract TileEntity createNewTileEntity(World world);
 	
 	protected MachineBlock(Id blockId, Name machineName) {
 		super(blockId.act, Material.rock);
@@ -43,10 +46,7 @@ public class MachineBlock extends BlockContainer {
 		setCreativeTab(CustomTabs.tabHydraulicraft);
 	}
 
-	@Override
-	public TileEntity createNewTileEntity(World world) {
-		return null;
-	}
+	
 	
 	@Override
 	public void registerIcons(IconRegister iconRegistry){

@@ -1,11 +1,12 @@
 package pet.minecraft.Hydraulicraft.blocks;
 
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineBlock;
-import pet.minecraft.Hydraulicraft.baseClasses.interfaces.IMachineGenerator;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
-public class BlockHydraulicPump extends MachineBlock implements IMachineGenerator {
+public class BlockHydraulicPump extends MachineBlock {
 
     protected BlockHydraulicPump() {
         super(Ids.blockHydraulicPump, Names.blockHydraulicPump);
@@ -13,20 +14,8 @@ public class BlockHydraulicPump extends MachineBlock implements IMachineGenerato
     }
 
 	@Override
-	public void workFunction() {
+	public TileEntity createNewTileEntity(World world) {
 		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getMaxGenerating() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getBar() {
-		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 }
