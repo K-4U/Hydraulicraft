@@ -1,5 +1,7 @@
 package pet.minecraft.Hydraulicraft.lib;
 
+import org.omg.CORBA.INITIALIZE;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,38 +13,67 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class Recipes {
 	public static void init(){
 		GameRegistry.registerCraftingHandler(new CraftingHandler());
-		
-		GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.hydraulicPump, true,
-			new Object [] {
-				"PKP",
-				"GIG",
-				"PSP",
-				'P', Block.pistonBase,
-				'K', Items.gasket,
-				'G', Block.glass,
-				'S', Block.cobblestone,
-				'I', "ingotIron"
-			})
-		);
+
+		initializeBlockRecipes();
+		initializeItemRecipes();
 		
 		
-		GameRegistry.addRecipe(new ItemStack(Items.itemFrictionPlate, 1),
-				new Object [] {
-					"-SS",
-					"S-S",
-					"SS-",
-					'S', Block.cobblestone
-					
-				});
+	}
 	
-		GameRegistry.addRecipe(new ShapedOreRecipe(Items.ingotEnrichedCopper, true,
-			new Object [] {
-				"-D-",
-				"CCC",
-				"-D-",
-				'D', Item.diamond,
-				'C', "ingotCopper"
-		}));
+	private static void initializeBlockRecipes(){
+		GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.hydraulicPump, true,
+				new Object [] {
+					"PKP",
+					"GIG",
+					"PSP",
+					'P', Block.pistonBase,
+					'K', Items.gasket,
+					'G', Block.glass,
+					'S', Block.cobblestone,
+					'I', "ingotIron"
+				})
+			);
+		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicMixer, 1),
+				new Object [] {
+					"GKG",
+					"KCK",
+					"SSS",
+					'K', Items.gasket,
+					'G', Block.glass,
+					'S', Block.cobblestone,
+					'C', Block.chest
+				});
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHose, 1, 0), true,
+				new Object [] {
+					"LLL",
+					"K-K",
+					"LLL",
+					'K', Items.gasket,
+					'L', "ingotLead"
+			}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHose, 6, 1), true,
+				new Object [] {
+					"CCC",
+					"KHK",
+					"CCC",
+					'K', Items.gasket,
+					'C', "ingotCopper",
+					'H', new ItemStack(Blocks.hydraulicHose,1,0)
+			}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHose, 12, 2), true,
+				new Object [] {
+					"C-C",
+					"KHK",
+					"C-C",
+					'K', Items.gasket,
+					'C', "ingotEnrichedCopper",
+					'H', new ItemStack(Blocks.hydraulicHose,1,1)
+			}));
+		
+		
 		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicFrictionIncinerator, 1),
 			new Object [] {
@@ -88,18 +119,39 @@ public class Recipes {
 					'S', Block.cobblestone,
 					'C', Block.chest
 				});
-
-		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicMixer, 1),
-				new Object [] {
-					"GKG",
-					"KCK",
-					"SSS",
-					'K', Items.gasket,
-					'G', Block.glass,
-					'S', Block.cobblestone,
-					'C', Block.chest
-				});
-				
-
 	}
+	
+	private static void initializeItemRecipes(){
+		GameRegistry.addRecipe(new ItemStack(Items.itemFrictionPlate, 1),
+		new Object [] {
+			"-SS",
+			"S-S",
+			"SS-",
+			'S', Block.cobblestone
+			
+		});
+	
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.ingotEnrichedCopper, 4), true,
+			new Object [] {
+				"---",
+				"CDC",
+				"---",
+				'D', Item.diamond,
+				'C', "ingotCopper"
+		}));
+
+		
+		GameRegistry.addRecipe(new ItemStack(Items.gasket, 2),
+			new Object [] {
+				"P-P",
+				"-B-",
+				"P-P",
+				'P', Item.paper,
+				'B', Block.fenceIron
+			}
+		);
+		
+		
+	}
+	
 }
