@@ -14,4 +14,8 @@ public class MachineEntity extends TileEntity {
 	public void writeToNBT(NBTTagCompound tagCompound){
 		super.writeToNBT(tagCompound);
 	}
+	
+	protected TileEntity getBlockTileEntity(int x, int y, int z){
+		return worldObj.getBlockTileEntity(x, y, z);
+	}
 }

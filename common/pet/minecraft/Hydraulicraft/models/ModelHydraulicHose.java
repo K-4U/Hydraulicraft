@@ -6,6 +6,7 @@ import java.util.Map;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
 public class ModelHydraulicHose extends ModelBase{
@@ -19,7 +20,7 @@ public class ModelHydraulicHose extends ModelBase{
     ModelRenderer hoseFront;
     ModelRenderer hoseBack;
     
-    private Map<ForgeDirection, Integer> connectedSides = new HashMap<ForgeDirection, Integer>();
+    private Map<ForgeDirection, TileEntity> connectedSides = new HashMap<ForgeDirection, TileEntity>();
 
     public ModelHydraulicHose(){
         textureWidth = 64;
@@ -51,7 +52,7 @@ public class ModelHydraulicHose extends ModelBase{
         setRotation(hoseCenter, 0F, 0F, 0F);
         hoseLeft = new ModelRenderer(this, 0, 0);
         hoseLeft.addBox(-2F, 0F, -2F, 4, 6, 4);
-        hoseLeft.setRotationPoint(-3F, 16F, 0F);
+        hoseLeft.setRotationPoint(-2F, 16F, 0F);
         hoseLeft.setTextureSize(64, 32);
         hoseLeft.mirror = true;
         setRotation(hoseLeft, 0F, 0F, 1.570796F);
@@ -93,11 +94,12 @@ public class ModelHydraulicHose extends ModelBase{
         if(isDir(ForgeDirection.UP)) hoseUp.render(f5);
         if(isDir(ForgeDirection.DOWN)) hoseDown.render(f5); 
         
+        /*
         if(isDir(ForgeDirection.UP) || isDir(ForgeDirection.DOWN) &&
         		(isDir(ForgeDirection.EAST) || isDir(ForgeDirection.WEST) ||
         				isDir(ForgeDirection.NORTH) || isDir(ForgeDirection.SOUTH))){
         	this.hoseCorner.render(f5);
-        }
+        }*/
         
         hoseCenter.render(f5);
         
@@ -113,8 +115,8 @@ public class ModelHydraulicHose extends ModelBase{
         super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
     }
 
-    public void setConnectedSides(Map<ForgeDirection, Integer> connectedSides) {
-    	this.connectedSides = connectedSides;
+    public void setConnectedSides(Map<ForgeDirection, TileEntity> map) {
+    	this.connectedSides = map;
     }
 
 }

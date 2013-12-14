@@ -3,11 +3,11 @@ package pet.minecraft.Hydraulicraft.blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
-import pet.minecraft.Hydraulicraft.baseClasses.MachineTransporter;
+import pet.minecraft.Hydraulicraft.baseClasses.MachineBlock;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
-public class BlockHydraulicHose extends MachineTransporter {
+public class BlockHydraulicHose extends MachineBlock {
 
 	protected BlockHydraulicHose() {
 		super(Ids.blockHydraulicHose, Names.blockHydraulicHose);
