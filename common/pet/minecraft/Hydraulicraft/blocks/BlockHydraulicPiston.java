@@ -1,10 +1,12 @@
 package pet.minecraft.Hydraulicraft.blocks;
 
-import pet.minecraft.Hydraulicraft.baseClasses.MachineConsumer;
+import pet.minecraft.Hydraulicraft.baseClasses.MachineBlock;
+import pet.minecraft.Hydraulicraft.baseClasses.entities.MachineConsumer;
+import pet.minecraft.Hydraulicraft.baseClasses.interfaces.IMachineConsumer;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
-public class BlockHydraulicPiston extends MachineConsumer {
+public class BlockHydraulicPiston extends MachineBlock implements IMachineConsumer {
 
 	protected BlockHydraulicPiston() {
 		super(Ids.blockHydraulicPiston, Names.blockHydraulicPiston);

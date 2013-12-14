@@ -1,10 +1,11 @@
-package pet.minecraft.Hydraulicraft.baseClasses;
+package pet.minecraft.Hydraulicraft.baseClasses.entities;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import pet.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Name;
 

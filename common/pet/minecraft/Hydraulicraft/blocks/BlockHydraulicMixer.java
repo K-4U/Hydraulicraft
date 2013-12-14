@@ -1,10 +1,11 @@
 package pet.minecraft.Hydraulicraft.blocks;
 
-import pet.minecraft.Hydraulicraft.baseClasses.MachineConsumer;
+import pet.minecraft.Hydraulicraft.baseClasses.MachineBlock;
+import pet.minecraft.Hydraulicraft.baseClasses.interfaces.IMachineConsumer;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
-public class BlockHydraulicMixer extends MachineConsumer {
+public class BlockHydraulicMixer extends MachineBlock implements IMachineConsumer {
 
 	protected BlockHydraulicMixer() {
 		super(Ids.blockHydraulicMixer, Names.blockHydraulicMixer);
