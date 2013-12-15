@@ -5,16 +5,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.fluids.IFluidTank;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileStorage;
-import pet.minecraft.Hydraulicraft.lib.config.Config;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class TileHydraulicPressureVat extends TileStorage implements IInventory {
@@ -22,12 +20,18 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	private ItemStack outputInventory;
 	
 	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
-	private FluidTankInfo tankInfo = new FluidTankInfo(tank);
 	
 	
 	public TileHydraulicPressureVat(){
 		
 	}
+	
+	@Override
+	public Packet getDescriptionPacket(){
+		NBTTagCompound tagCompound = new NBTTagCompound();
+		
+	}
+	
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
@@ -173,32 +177,7 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		if(tankInfo.fluid == null){
-			tankInfo.fluid = new FluidStack(resource.getFluid(), tankInfo.capacity - resource.amount);
-			
-		}else{
-			if(tankInfo.fluid.isFluidEqual(resource)){
-				if(tankInfo.fluid.amount == tankInfo.capacity){
-					return 0;
-				}else{
-					if((tankInfo.fluid.amount + resource.amount) >= tankInfo.capacity){
-						int newAmmount = tankInfo.capacity - tankInfo.fluid.amount;
-						
-						tankInfo.fluid.amount = tankInfo.capacity; //Max it out
-						resource.amount = resource.amount - newAmmount;
-						
-						return newAmmount;
-					}else{
-						tankInfo.fluid.amount = tankInfo.fluid.amount + resource.amount;
-						
-						return resource.amount;
-					}
-				}
-			}else{
-				return 0;
-			}
-		}
-		//return tank.fill(resource, doFill);
+		return tank.fill(resource, doFill);
 	}
 
 	@Override
@@ -232,10 +211,8 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		FluidTankInfo[] ret = {
-				tankInfo
-		};
-		return ret;
+		FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
+		return tankInfo;
 		
 	}
 }
