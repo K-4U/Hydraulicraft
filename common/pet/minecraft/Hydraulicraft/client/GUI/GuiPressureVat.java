@@ -25,12 +25,14 @@ public class GuiPressureVat extends GuiContainer {
 	private ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/pressureVat.png");
 
 	private TileHydraulicPressureVat pvat;
+
 	
 	
 	public GuiPressureVat(InventoryPlayer invPlayer, TileHydraulicPressureVat vat) {
 		super(new ContainerPressureVat(invPlayer, vat));
 		pvat = vat;
 	}
+	
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p1, int p2){
@@ -38,6 +40,20 @@ public class GuiPressureVat extends GuiContainer {
 		fontRenderer.drawString(Names.blockHydraulicPressurevat.localized, 30, 6, 0xFFFFFF);
 		
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
+		
+		
+	}
+	
+	
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		mc.renderEngine.bindTexture(resLoc);
+		
+		int x = (width - xSize) / 2;
+		int y = (height - ySize) / 2;
+		
+		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 		
 		//Get texture of fluid:
 		FluidTankInfo[] tankInfo = pvat.getTankInfo(ForgeDirection.UP);
@@ -57,22 +73,11 @@ public class GuiPressureVat extends GuiContainer {
 				int yOffset = 10;
 				int h = 60;
 				int height = (int)(h * perc);
-				
-				this.drawRect(xOffset, yOffset + (h - height), xOffset + 16, yOffset + h, color);
+				drawTexturedModalRect(xOffset, yOffset, 191, 2, 18, 62);
 			}
 		}
-	}
-	
-	
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(resLoc);
 		
-		int x = (width - xSize) / 2;
-		int y = (height - ySize) / 2;
 		
-		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 	}
 
 }
