@@ -2,8 +2,13 @@ package pet.minecraft.Hydraulicraft.client.GUI;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 import org.lwjgl.opengl.GL11;
 
@@ -14,10 +19,13 @@ import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class GuiPressureVat extends GuiContainer {
 	private ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/pressureVat.png");
+
+	private TileHydraulicPressureVat pvat;
 	
 	
 	public GuiPressureVat(InventoryPlayer invPlayer, TileHydraulicPressureVat vat) {
 		super(new ContainerPressureVat(invPlayer, vat));
+		pvat = vat;
 	}
 
 	@Override
@@ -28,6 +36,13 @@ public class GuiPressureVat extends GuiContainer {
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
 		
 		//Get texture of fluid:
+		Icon iconFromFluid; 
+		FluidTankInfo[] tankInfo = pvat.getTankInfo(ForgeDirection.UP);
+		if(tankInfo[0].fluid.amount > 0){
+			Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
+			iconFromFluid = inTank.getIcon();
+		}
+		
 		
 		
 	}
