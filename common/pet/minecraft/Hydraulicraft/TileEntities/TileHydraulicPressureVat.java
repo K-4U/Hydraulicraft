@@ -144,7 +144,7 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	@Override
 	public String getInvName() {
 		// TODO Localization
-		return Names.blockHydraulicPressurevat.localized;
+		return Names.blockHydraulicPressurevat[blockMetadata].localized;
 	}
 
 	@Override
