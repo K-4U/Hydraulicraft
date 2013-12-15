@@ -19,6 +19,12 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	private ItemStack inputInventory;
 	private ItemStack outputInventory;
 	
+	private FluidTankInfo fluidTank;
+	
+	public TileHydraulicPressureVat(){
+		fluidTank = new FluidTankInfo(tank);
+	}
+	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		super.readFromNBT(tagCompound);
@@ -28,6 +34,7 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 		
 		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
 		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
 	}
 	
 	@Override
