@@ -46,8 +46,8 @@ public class Functions {
 					int toSet = fluidInSystem / mainList.size();
 					//Log.info("Before iteration. Toset = " + toSet);
 					for (MachineEntity machineEntity : mainList) {
-						if(machineEntity.getStorage() < toSet){
-							newFluidInSystem = newFluidInSystem + (toSet - machineEntity.getStorage());
+						if(machineEntity.getStorage() < (toSet + machineEntity.getStored())){
+							newFluidInSystem = newFluidInSystem + ((toSet + machineEntity.getStored()) - machineEntity.getStorage());
 							machineEntity.setStored(machineEntity.getStorage(), isOil);
 						}else{
 							remainingBlocks.add(machineEntity);
