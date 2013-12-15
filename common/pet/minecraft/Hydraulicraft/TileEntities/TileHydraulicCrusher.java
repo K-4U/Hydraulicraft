@@ -14,6 +14,8 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	private ItemStack inputInventory;
 	private ItemStack outputInventory;
 	
+	private int storedLiquid;
+	
 	public TileHydraulicCrusher(){
 		
 	}
@@ -27,6 +29,8 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 		
 		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
 		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		storedLiquid = tagCompound.getInteger("storedLiquid");
 	}
 	
 	@Override
@@ -43,6 +47,8 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			outputInventory.writeToNBT(inventoryCompound);
 			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
 		}
+		
+		tagCompound.setInteger("storedLiquid",storedLiquid);
 	}
 	
 	
@@ -188,9 +194,4 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 		return FluidContainerRegistry.BUCKET_VOLUME * 2;
 	}
 
-	@Override
-	public int getStored() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

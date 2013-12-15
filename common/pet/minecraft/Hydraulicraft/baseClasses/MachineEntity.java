@@ -9,6 +9,8 @@ import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.lib.Functions;
 
 public abstract class MachineEntity extends TileEntity {
+	private boolean _isOilStored = false;
+	private int fluidLevelStored = 0;
 	
 	/*!
 	 * @author Koen Beckers
@@ -24,7 +26,19 @@ public abstract class MachineEntity extends TileEntity {
 	 * Will return how much liquid this block stores
 	 * Will be used to calculate the pressure all over the network.
 	 */
-	public abstract int getStored();
+	public int getStored(){
+		return fluidLevelStored;
+	}
+
+	public void setStored(int i, boolean isOil){
+		_isOilStored = isOil;
+		fluidLevelStored = i;
+	}
+	
+	public boolean isOilStored() {
+		return _isOilStored;
+	}
+
 	
 	private List<MachineEntity> getMachine(List<MachineEntity> list, World w, int x, int y, int z){
 		int blockId = w.getBlockId(x, y, z);
@@ -88,4 +102,7 @@ public abstract class MachineEntity extends TileEntity {
 	protected TileEntity getBlockTileEntity(int x, int y, int z){
 		return worldObj.getBlockTileEntity(x, y, z);
 	}
+
+	
+	
 }

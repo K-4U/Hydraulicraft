@@ -102,10 +102,5 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements II
 		return FluidContainerRegistry.BUCKET_VOLUME * 5;
 	}
 
-	@Override
-	public int getStored() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

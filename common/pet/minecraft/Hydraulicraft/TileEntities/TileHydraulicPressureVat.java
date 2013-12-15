@@ -1,6 +1,5 @@
 package pet.minecraft.Hydraulicraft.TileEntities;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -8,14 +7,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileStorage;
+import pet.minecraft.Hydraulicraft.lib.Functions;
 import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -39,14 +39,12 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
 		NBTTagCompound tagCompound = packet.data;
 		this.readFromNBT(tagCompound);
-		Log.info("onDataPacket()");
 	}
 	
 	@Override
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
-		Log.info("getDescriptionPacket()");
 		return new Packet132TileEntityData(xCoord,yCoord,zCoord,4,tagCompound);
 	}
 	
@@ -195,8 +193,9 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 		int filled = tank.fill(resource, doFill); 
-		if(doFill && filled > 0){
+		if(doFill && filled > 10){
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 		}
 		return filled;
 	}
@@ -213,14 +212,14 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 		FluidStack drained = tank.drain(maxDrain, doDrain); 
 		if(doDrain && drained.amount > 0){
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 		}
 		return drained;
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		if(fluid.getBlockID() == Block.waterMoving.blockID ||
-				fluid.getBlockID() == Block.waterStill.blockID){
+		if(fluid.equals(FluidRegistry.WATER)){
 			return true;
 		}else{
 			return false;
@@ -241,13 +240,24 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 
 	@Override
 	public int getStorage() {
-		// TODO Auto-generated method stub
 		return tank.getCapacity();
 	}
 
 	@Override
 	public int getStored() {
-		// TODO Auto-generated method stub
-		return 0;
+		return tank.getFluidAmount();
+	}
+
+	@Override
+	public void setStored(int i, boolean isOil) {
+		if(isOil){
+			//tank.setFluid(new FluidStack(fluid, amount));
+		}else{
+			tank.setFluid(new FluidStack(FluidRegistry.WATER, i));
+			Log.info("Fluid in tank: " + tank.getFluidAmount() + "x" + FluidRegistry.getFluidName(tank.getFluid().fluidID));
+			if(!worldObj.isRemote){
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			}
+		}
 	}
 }

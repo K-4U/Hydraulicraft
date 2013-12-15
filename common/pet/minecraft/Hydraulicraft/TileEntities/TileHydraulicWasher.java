@@ -190,10 +190,4 @@ public class TileHydraulicWasher extends TileConsumer implements
 		return FluidContainerRegistry.BUCKET_VOLUME * 10;
 	}
 
-	@Override
-	public int getStored() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

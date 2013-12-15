@@ -16,6 +16,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import pet.minecraft.Hydraulicraft.lib.CustomTabs;
+import pet.minecraft.Hydraulicraft.lib.Functions;
 import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
@@ -36,6 +37,9 @@ public abstract class MachineBlock extends BlockContainer {
 	
 	@Override
 	public abstract TileEntity createNewTileEntity(World world);
+	
+	@Override
+	public abstract boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9);
 	
 	protected MachineBlock(Id blockId, Name machineName) {
 		super(blockId.act, Material.rock);
@@ -175,21 +179,10 @@ public abstract class MachineBlock extends BlockContainer {
 			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
 		
-		checkSideBlocks(world, x, y, z);
+		Functions.checkAndFillSideBlocks(world, x, y, z);
 	}
 	
 	
-	private void checkSideBlocks(World w, int x, int y, int z){
-		if(!w.isRemote){
-			TileEntity t = w.getBlockTileEntity(x, y, z);
-			if(t instanceof MachineEntity){
-				List <MachineEntity> mainList = new ArrayList<MachineEntity>();
-				mainList.add((MachineEntity) t);
-				mainList = ((MachineEntity) t).getConnectedBlocks(mainList);
-				Log.info("Done iterating. Found " + mainList.size() + " blocks!");
-			}
-		}
-	}
 	
 	private void tellOtherBlockILeft(World w, int x, int y, int z){
 		if(!w.isRemote){
@@ -204,13 +197,11 @@ public abstract class MachineBlock extends BlockContainer {
 	}
 	
 	
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
-		return false;
-	}
+	
 	
 	@Override
 	public void breakBlock(World w, int x, int y, int z, int oldId, int oldMetaData){
+		super.breakBlock(w, x, y, z, oldId, oldMetaData);
 		tellOtherBlockILeft(w, x, y, z);
 	}
 	

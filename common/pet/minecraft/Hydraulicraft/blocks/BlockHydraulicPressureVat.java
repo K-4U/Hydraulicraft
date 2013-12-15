@@ -12,7 +12,8 @@ import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class BlockHydraulicPressureVat extends MachineTieredBlock {
-
+	
+	
 	protected BlockHydraulicPressureVat() {
 		super(Ids.blockHydraulicPressureVat, Names.blockHydraulicPressurevat);
 		hasTopIcon = true;
