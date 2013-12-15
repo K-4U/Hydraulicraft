@@ -1,11 +1,12 @@
 package pet.minecraft.Hydraulicraft.baseClasses.entities;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.IFluidHandler;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
-public abstract class TileStorage extends MachineEntity {
+public abstract class TileStorage extends MachineEntity implements IFluidHandler {
 	/*!
 	 * @author Koen Beckers
 	 * @date 14-12-2013

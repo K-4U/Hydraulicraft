@@ -181,4 +181,10 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			return false;
 		}
 	}
+
+	@Override
+	public int getStorage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

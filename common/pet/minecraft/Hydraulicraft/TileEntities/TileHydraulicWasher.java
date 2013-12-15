@@ -183,4 +183,10 @@ public class TileHydraulicWasher extends TileConsumer implements
 		}
 	}
 
+	@Override
+	public int getStorage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

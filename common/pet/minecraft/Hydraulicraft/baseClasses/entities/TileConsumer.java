@@ -23,6 +23,15 @@ public abstract class TileConsumer extends MachineEntity {
 	 */
 	public abstract int getMaxBar();
 	
+	
+	/*!
+	 * @author Koen Beckers
+	 * @date 15-12-2013
+	 * Will return how much liquid this block can store.
+	 * Will be used to calculate the pressure all over the network.
+	 */
+	public abstract int getStorage();
+	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		super.readFromNBT(tagCompound);

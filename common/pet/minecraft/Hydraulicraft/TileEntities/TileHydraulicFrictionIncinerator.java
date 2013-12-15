@@ -96,4 +96,10 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements II
 		return false;
 	}
 
+	@Override
+	public int getStorage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
