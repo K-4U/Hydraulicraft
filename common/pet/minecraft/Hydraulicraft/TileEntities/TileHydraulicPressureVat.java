@@ -5,7 +5,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -13,6 +15,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileStorage;
+import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class TileHydraulicPressureVat extends TileStorage implements IInventory {
@@ -27,9 +30,18 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	}
 	
 	@Override
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
+		NBTTagCompound tagCompound = packet.data;
+		this.readFromNBT(tagCompound);
+		Log.info("onDataPacket()");
+	}
+	
+	@Override
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
-		
+		this.writeToNBT(tagCompound);
+		Log.info("getDescriptionPacket()");
+		return new Packet132TileEntityData(xCoord,yCoord,zCoord,4,tagCompound);
 	}
 	
 	
@@ -177,20 +189,25 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+		if(doFill){
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
 		return tank.fill(resource, doFill);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource,
 			boolean doDrain) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		// TODO Auto-generated method stub
-		return null;
+		if(doDrain){
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
+		return tank.drain(maxDrain, doDrain);
 	}
 
 	@Override
@@ -205,8 +222,7 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
