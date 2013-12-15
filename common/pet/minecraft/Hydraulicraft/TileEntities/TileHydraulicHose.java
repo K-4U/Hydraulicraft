@@ -1,6 +1,7 @@
 package pet.minecraft.Hydraulicraft.TileEntities;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Name;
@@ -21,5 +22,10 @@ public class TileHydraulicHose extends TileTransporter {
 	public int getMaxBar() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public int getStorage() {
+		return FluidContainerRegistry.BUCKET_VOLUME * 2;
 	}
 }

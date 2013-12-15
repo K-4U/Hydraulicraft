@@ -11,7 +11,8 @@ import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
 public abstract class TileTransporter extends MachineEntity {
-	private int tier = 0;
+	private int storedLiquid = 0;
+	
 	
 	public TileTransporter() {
 	}
@@ -22,6 +23,8 @@ public abstract class TileTransporter extends MachineEntity {
 	 * This will return the max ammount of bar this consumer can handle.
 	 */
 	public abstract int getMaxBar();
+	
+	public abstract int getStorage();
 	
 	public int getTier(){
 		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);

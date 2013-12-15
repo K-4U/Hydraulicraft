@@ -233,4 +233,10 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 		return tankInfo;
 		
 	}
+
+	@Override
+	public int getStorage() {
+		// TODO Auto-generated method stub
+		return tank.getCapacity();
+	}
 }

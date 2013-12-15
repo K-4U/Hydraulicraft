@@ -3,6 +3,7 @@ package pet.minecraft.Hydraulicraft.TileEntities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
 import pet.minecraft.Hydraulicraft.lib.config.Constants;
 
@@ -98,8 +99,7 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements II
 
 	@Override
 	public int getStorage() {
-		// TODO Auto-generated method stub
-		return 0;
+		return FluidContainerRegistry.BUCKET_VOLUME * 5;
 	}
 
 }

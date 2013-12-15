@@ -5,6 +5,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileGenerator;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -148,6 +149,10 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			return false;
 		}
 	}
-	
+
+	@Override
+	public int getStorage() {
+		return FluidContainerRegistry.BUCKET_VOLUME * 2;
+	}
 	
 }

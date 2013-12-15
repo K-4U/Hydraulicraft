@@ -5,6 +5,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
@@ -173,7 +174,7 @@ public class TileHydraulicMixer extends TileConsumer implements
 	@Override
 	public int getStorage() {
 		// TODO Auto-generated method stub
-		return 0;
+		return FluidContainerRegistry.BUCKET_VOLUME * 6;
 	}
 
 }

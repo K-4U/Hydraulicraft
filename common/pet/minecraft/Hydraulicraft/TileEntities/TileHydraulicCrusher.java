@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
@@ -184,7 +185,6 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 
 	@Override
 	public int getStorage() {
-		// TODO Auto-generated method stub
-		return 0;
+		return FluidContainerRegistry.BUCKET_VOLUME * 2;
 	}
 }
