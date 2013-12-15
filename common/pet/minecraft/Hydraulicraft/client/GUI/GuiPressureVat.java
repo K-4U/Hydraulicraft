@@ -1,6 +1,8 @@
 package pet.minecraft.Hydraulicraft.client.GUI;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
@@ -38,13 +40,15 @@ public class GuiPressureVat extends GuiContainer {
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
 		
 		//Get texture of fluid:
-		 
 		FluidTankInfo[] tankInfo = pvat.getTankInfo(ForgeDirection.UP);
 		if(tankInfo[0].fluid != null){
 			if(tankInfo[0].fluid.amount > 0){
-				Icon iconFromFluid;
 				Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
-				iconFromFluid = Blocks.hydraulicCrusher.getIcon(1, 0);
+				int color = 0xFFFFFFFF;
+				if(inTank.getBlockID() == Block.waterStill.blockID 
+						|| inTank.getBlockID() == Block.waterMoving.blockID){
+					color = 0xFF006DD9;
+				}
 				
 				int max = tankInfo[0].capacity;
 				float perc = (float)tankInfo[0].fluid.amount / (float)max;
@@ -53,11 +57,12 @@ public class GuiPressureVat extends GuiContainer {
 				int yOffset = 10;
 				int h = 60;
 				int height = (int)(h * perc);
-				//this.drawTexturedModelRectFromIcon(xOffset, yOffset, iconFromFluid, 16, 16);
-				this.drawRect(xOffset, yOffset + (h- height), xOffset + 16, yOffset + h, 0xFFFFFFFF);
+				
+				this.drawRect(xOffset, yOffset + (h - height), xOffset + 16, yOffset + h, color);
 			}
 		}
 	}
+	
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
