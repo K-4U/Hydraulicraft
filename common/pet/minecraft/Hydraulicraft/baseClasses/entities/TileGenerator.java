@@ -30,7 +30,6 @@ public abstract class TileGenerator extends MachineEntity {
      */
     public abstract int getBar();
     
-    public abstract int getStorage();
     
     @Override
 	public void readFromNBT(NBTTagCompound tagCompound){

@@ -24,8 +24,6 @@ public abstract class TileTransporter extends MachineEntity {
 	 */
 	public abstract int getMaxBar();
 	
-	public abstract int getStorage();
-	
 	public int getTier(){
 		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 	}

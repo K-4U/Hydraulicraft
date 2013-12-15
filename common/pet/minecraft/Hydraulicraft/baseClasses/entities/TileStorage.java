@@ -14,8 +14,6 @@ public abstract class TileStorage extends MachineEntity implements IFluidHandler
 	 */
 	public abstract int getMaxBar();
 	
-	public abstract int getStorage();
-	
 	public int getTier(){
 		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 	}
