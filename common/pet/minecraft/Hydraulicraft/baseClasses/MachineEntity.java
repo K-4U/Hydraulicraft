@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.lib.Functions;
@@ -37,6 +40,19 @@ public abstract class MachineEntity extends TileEntity {
 	
 	public boolean isOilStored() {
 		return _isOilStored;
+	}
+	
+	@Override
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
+		NBTTagCompound tagCompound = packet.data;
+		this.readFromNBT(tagCompound);
+	}
+	
+	@Override
+	public Packet getDescriptionPacket(){
+		NBTTagCompound tagCompound = new NBTTagCompound();
+		this.writeToNBT(tagCompound);
+		return new Packet132TileEntityData(xCoord,yCoord,zCoord,4,tagCompound);
 	}
 
 	
@@ -92,11 +108,15 @@ public abstract class MachineEntity extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		super.readFromNBT(tagCompound);
+		
+		fluidLevelStored = tagCompound.getInteger("fluidLevelStored");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
 		super.writeToNBT(tagCompound);
+		
+		tagCompound.setInteger("fluidLevelStored",fluidLevelStored);
 	}
 	
 	protected TileEntity getBlockTileEntity(int x, int y, int z){

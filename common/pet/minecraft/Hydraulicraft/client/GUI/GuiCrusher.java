@@ -14,10 +14,12 @@ import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class GuiCrusher extends GuiContainer {
 	private ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/crusher.png");
+	TileHydraulicCrusher crusher;
 	
 	
-	public GuiCrusher(InventoryPlayer invPlayer, TileHydraulicCrusher crusher) {
-		super(new ContainerCrusher(invPlayer, crusher));
+	public GuiCrusher(InventoryPlayer invPlayer, TileHydraulicCrusher _crusher) {
+		super(new ContainerCrusher(invPlayer, _crusher));
+		crusher = _crusher;
 	}
 
 	@Override
@@ -26,6 +28,23 @@ public class GuiCrusher extends GuiContainer {
 		fontRenderer.drawString(Names.blockHydraulicCrusher.localized, 8, 6, 0xFFFFFF);
 		
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
+		
+		if(crusher.getStored() > 0){
+			int color = 0xFFFFFFFF;
+			if(!crusher.isOilStored()){
+				color = 0xFF006DD9;
+			}
+			
+			int max = crusher.getStorage();
+			float perc = (float)crusher.getStored() / (float)max;
+			
+			int xOffset = 8;
+			int yOffset = 10;
+			int h = 60;
+			int height = (int)(h * perc);
+			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
+		}
 	}
 	
 	@Override

@@ -17,8 +17,10 @@ public class GuiMixer extends GuiContainer {
 	TileHydraulicMixer mixer;
 	
 	
-	public GuiMixer(InventoryPlayer invPlayer, TileHydraulicMixer mixer) {
-		super(new ContainerMixer(invPlayer, mixer));
+	public GuiMixer(InventoryPlayer invPlayer, TileHydraulicMixer _mixer) {
+		super(new ContainerMixer(invPlayer, _mixer));
+		
+		mixer = _mixer;
 	}
 
 	@Override
@@ -28,14 +30,14 @@ public class GuiMixer extends GuiContainer {
 		
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
 		
-		if(washer.getStored() > 0){
+		if(mixer.getStored() > 0){
 			int color = 0xFFFFFFFF;
-			if(!washer.isOilStored()){
+			if(!mixer.isOilStored()){
 				color = 0xFF006DD9;
 			}
 			
-			int max = washer.getStorage();
-			float perc = (float)washer.getStored() / (float)max;
+			int max = mixer.getStorage();
+			float perc = (float)mixer.getStored() / (float)max;
 			
 			int xOffset = 8;
 			int yOffset = 10;

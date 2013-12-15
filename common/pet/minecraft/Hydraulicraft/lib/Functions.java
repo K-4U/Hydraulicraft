@@ -53,8 +53,9 @@ public class Functions {
 							remainingBlocks.add(machineEntity);
 							machineEntity.setStored(toSet + machineEntity.getStored(), isOil);
 						}
-						//Log.info("Is this the original? " + machineEntity.equals(t));
 						
+						//Log.info("Is this the original? " + machineEntity.equals(t));
+						w.markBlockForUpdate(machineEntity.xCoord, machineEntity.yCoord, machineEntity.zCoord);
 					}
 
 					//Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
