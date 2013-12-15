@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -28,6 +29,11 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	public TileHydraulicPressureVat(){
 		
 	}
+	
+	public void setTier(){
+		tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * getTier()));
+	}
+	
 	
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
@@ -75,7 +81,6 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 		NBTTagCompound tankCompound = new NBTTagCompound();
 		tank.writeToNBT(tankCompound);
 		tagCompound.setCompoundTag("tank", tankCompound);
-		
 	}
 	
 	
