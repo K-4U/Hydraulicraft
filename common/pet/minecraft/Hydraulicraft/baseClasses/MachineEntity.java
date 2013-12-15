@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import pet.minecraft.Hydraulicraft.lib.Functions;
 
 public abstract class MachineEntity extends TileEntity {
 	
@@ -65,7 +66,10 @@ public abstract class MachineEntity extends TileEntity {
 			retList.add(machineEntity);
 			List<MachineEntity> tempList = new ArrayList<MachineEntity>();
 			tempList = machineEntity.getConnectedBlocks(ownEntity);
+			retList = Functions.mergeList(tempList, retList);
 		}
+		
+		return retList;
 	}
 	
 	@Override
