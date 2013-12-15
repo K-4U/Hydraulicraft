@@ -28,4 +28,10 @@ public class TileHydraulicHose extends TileTransporter {
 	public int getStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * 2;
 	}
+
+	@Override
+	public int getStored() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

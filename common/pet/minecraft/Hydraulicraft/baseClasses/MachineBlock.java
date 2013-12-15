@@ -177,29 +177,9 @@ public abstract class MachineBlock extends BlockContainer {
 		checkSideBlocks(world, x, y, z);
 	}
 	
-	private List<MachineEntity> getMachine(List<MachineEntity> list, World w, int x, int y, int z){
-		TileEntity t = w.getBlockTileEntity(x, y, z);
-		if(t instanceof MachineEntity){
-			list.add((MachineEntity)t);
-		}
-		return list;
-	}
 	
 	private void checkSideBlocks(World w, int x, int y, int z){
-		//It should check the connecting blocks
-		//And check how much liquid they have
-		//Get liquid from them
-		List<MachineEntity> machines = new ArrayList<MachineEntity>();
-		machines = getMachine(machines, w, x-1, y, z);
-		machines = getMachine(machines, w, x+1, y, z); 
-		machines = getMachine(machines, w, x, y-1, z);
-		machines = getMachine(machines, w, x, y+1, z);
-		machines = getMachine(machines, w, x, y, z-1);
-		machines = getMachine(machines, w, x, y, z+1);
 		
-		for (MachineEntity machineEntity : machines) {
-			
-		}
 	}
 	
 	@Override

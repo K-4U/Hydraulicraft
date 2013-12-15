@@ -177,4 +177,10 @@ public class TileHydraulicMixer extends TileConsumer implements
 		return FluidContainerRegistry.BUCKET_VOLUME * 6;
 	}
 
+	@Override
+	public int getStored() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

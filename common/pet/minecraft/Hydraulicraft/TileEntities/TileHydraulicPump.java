@@ -154,5 +154,11 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 	public int getStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * 2;
 	}
+
+	@Override
+	public int getStored() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

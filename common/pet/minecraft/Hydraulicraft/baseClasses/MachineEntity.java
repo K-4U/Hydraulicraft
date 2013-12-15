@@ -1,7 +1,11 @@
 package pet.minecraft.Hydraulicraft.baseClasses;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public abstract class MachineEntity extends TileEntity {
 	
@@ -21,7 +25,48 @@ public abstract class MachineEntity extends TileEntity {
 	 */
 	public abstract int getStored();
 	
-	public abstract int getConnectedBlocks();
+	private List<MachineEntity> getMachine(List<MachineEntity> list, World w, int x, int y, int z){
+		TileEntity t = w.getBlockTileEntity(x, y, z);
+		if(t instanceof MachineEntity){
+			list.add((MachineEntity)t);
+		}
+		return list;
+	}
+	
+	
+	
+	public List<MachineEntity> getConnectedBlocks(MachineEntity caller){
+		//It should check the connecting blocks
+		//And check how much liquid they have
+		//Get liquid from them
+		
+		int x = xCoord;
+		int y = yCoord;
+		int z = zCoord;
+		List<MachineEntity> machines = new ArrayList<MachineEntity>();
+		machines = getMachine(machines, worldObj, x-1, y, z);
+		machines = getMachine(machines, worldObj, x+1, y, z); 
+		machines = getMachine(machines, worldObj, x, y-1, z);
+		machines = getMachine(machines, worldObj, x, y+1, z);
+		machines = getMachine(machines, worldObj, x, y, z-1);
+		machines = getMachine(machines, worldObj, x, y, z+1);
+		
+		//Remove the caller from the equation
+		if(caller != null){
+			machines.remove(caller);
+		}
+		
+		//Get own entity
+		MachineEntity ownEntity = (MachineEntity)worldObj.getBlockTileEntity(x, y, z);
+		
+		
+		List<MachineEntity> retList = new ArrayList<MachineEntity>();
+		for (MachineEntity machineEntity : machines) {
+			retList.add(machineEntity);
+			List<MachineEntity> tempList = new ArrayList<MachineEntity>();
+			tempList = machineEntity.getConnectedBlocks(ownEntity);
+		}
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
