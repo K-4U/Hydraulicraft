@@ -36,7 +36,6 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 	
 	@Override
 	public void workFunction() {
-		// TODO Auto-generated method stub
 		
 	}
 

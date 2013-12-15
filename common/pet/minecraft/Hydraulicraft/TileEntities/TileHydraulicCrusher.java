@@ -97,6 +97,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 				inventory = null;
 			}
 		}
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		
 		return ret;
 	}
@@ -114,6 +115,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	public void setInventorySlotContents(int i, ItemStack itemStack) {
 		if(i == 0){
 			inputInventory = itemStack;
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}else{
 			//Err...
 			
