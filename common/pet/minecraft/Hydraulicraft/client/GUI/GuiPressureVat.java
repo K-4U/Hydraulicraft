@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import org.lwjgl.opengl.GL11;
 
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
+import pet.minecraft.Hydraulicraft.blocks.Blocks;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerPressureVat;
 import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -32,7 +33,7 @@ public class GuiPressureVat extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p1, int p2){
 		//TODO: Change that color
-		fontRenderer.drawString(Names.blockHydraulicPressurevat.localized, 8, 6, 0xFFFFFF);
+		fontRenderer.drawString(Names.blockHydraulicPressurevat.localized, 30, 6, 0xFFFFFF);
 		
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
 		
@@ -43,16 +44,17 @@ public class GuiPressureVat extends GuiContainer {
 			if(tankInfo[0].fluid.amount > 0){
 				Icon iconFromFluid;
 				Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
-				iconFromFluid = inTank.getIcon();
+				iconFromFluid = Blocks.hydraulicCrusher.getIcon(1, 0);
 				
 				int max = tankInfo[0].capacity;
-				float perc = tankInfo[0].fluid.amount / max;
+				float perc = (float)tankInfo[0].fluid.amount / (float)max;
 				
 				int xOffset = 8;
 				int yOffset = 10;
-				int h = 62;
+				int h = 60;
 				int height = (int)(h * perc);
-				this.drawTexturedModelRectFromIcon(xOffset + 16, yOffset + h - height, iconFromFluid, 16, height);
+				//this.drawTexturedModelRectFromIcon(xOffset, yOffset, iconFromFluid, 16, 16);
+				this.drawRect(xOffset, yOffset + (h- height), xOffset + 16, yOffset + h, 0xFFFFFFFF);
 			}
 		}
 	}
