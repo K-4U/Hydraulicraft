@@ -30,6 +30,8 @@ public class Names {
 	public static final Name oreLead = new Name("Lead ore", "oreLead");
 	
 	public static final Name itemGasket = new Name("Gasket", "gasket");
+	public static final Name itemDebugger = new Name("Debug", "itemDebug");
+	
 	public static final Name itemFrictionPlate = new Name("Friction Plate", "frictionPlate");
 	public static final Name ingotCopper = new Name("Copper Ingot", "ingotCopper");
 	public static final Name ingotLead = new Name("Lead Ingot", "ingotLead");
