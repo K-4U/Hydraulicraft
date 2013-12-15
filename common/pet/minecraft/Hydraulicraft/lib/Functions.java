@@ -34,7 +34,7 @@ public class Functions {
 					machineEntity.setStored(0, isOil);
 				}
 				 
-				Log.info("Fluid in system: " + fluidInSystem);
+				//Log.info("Fluid in system: " + fluidInSystem);
 				
 				List<MachineEntity> remainingBlocks = new ArrayList<MachineEntity>();
 				int newFluidInSystem = 0;

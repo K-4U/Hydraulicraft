@@ -4,6 +4,10 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 import org.lwjgl.opengl.GL11;
 
@@ -14,10 +18,12 @@ import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class GuiWasher extends GuiContainer {
 	private ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/washer.png");
+	TileHydraulicWasher washer;
 	
 	
-	public GuiWasher(InventoryPlayer invPlayer, TileHydraulicWasher washer) {
-		super(new ContainerWasher(invPlayer, washer));
+	public GuiWasher(InventoryPlayer invPlayer, TileHydraulicWasher _washer) {
+		super(new ContainerWasher(invPlayer, _washer));
+		washer = _washer;
 	}
 
 	@Override
@@ -26,6 +32,23 @@ public class GuiWasher extends GuiContainer {
 		fontRenderer.drawString(Names.blockHydraulicWasher.localized, 8, 6, 0xFFFFFF);
 		
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
+		
+		if(washer.getStored() > 0){
+			int color = 0xFFFFFFFF;
+			if(!washer.isOilStored()){
+				color = 0xFF006DD9;
+			}
+			
+			int max = washer.getStorage();
+			float perc = (float)washer.getStored() / (float)max;
+			
+			int xOffset = 8;
+			int yOffset = 10;
+			int h = 60;
+			int height = (int)(h * perc);
+			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
+		}
 	}
 	
 	@Override

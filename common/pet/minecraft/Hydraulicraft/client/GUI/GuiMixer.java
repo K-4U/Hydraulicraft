@@ -14,6 +14,7 @@ import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class GuiMixer extends GuiContainer {
 	private ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/mixer.png");
+	TileHydraulicMixer mixer;
 	
 	
 	public GuiMixer(InventoryPlayer invPlayer, TileHydraulicMixer mixer) {
@@ -26,6 +27,24 @@ public class GuiMixer extends GuiContainer {
 		fontRenderer.drawString(Names.blockHydraulicMixer.localized, 8, 6, 0xFFFFFF);
 		
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
+		
+		if(washer.getStored() > 0){
+			int color = 0xFFFFFFFF;
+			if(!washer.isOilStored()){
+				color = 0xFF006DD9;
+			}
+			
+			int max = washer.getStorage();
+			float perc = (float)washer.getStored() / (float)max;
+			
+			int xOffset = 8;
+			int yOffset = 10;
+			int h = 60;
+			int height = (int)(h * perc);
+			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
+		}
+		
 	}
 	
 	@Override

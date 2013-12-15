@@ -47,8 +47,7 @@ public class GuiPressureVat extends GuiContainer {
 			if(tankInfo[0].fluid.amount > 0){
 				Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
 				int color = 0xFFFFFFFF;
-				if(inTank.getBlockID() == Block.waterStill.blockID 
-						|| inTank.getBlockID() == Block.waterMoving.blockID){
+				if(inTank.equals(FluidRegistry.WATER)){
 					color = 0xFF006DD9;
 				}
 				
