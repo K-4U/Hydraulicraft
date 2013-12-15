@@ -173,7 +173,32 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		return tank.fill(resource, doFill);
+		if(tankInfo.fluid == null){
+			tankInfo.fluid = new FluidStack(resource.getFluid(), tankInfo.capacity - resource.amount);
+			
+		}else{
+			if(tankInfo.fluid.isFluidEqual(resource)){
+				if(tankInfo.fluid.amount == tankInfo.capacity){
+					return 0;
+				}else{
+					if((tankInfo.fluid.amount + resource.amount) >= tankInfo.capacity){
+						int newAmmount = tankInfo.capacity - tankInfo.fluid.amount;
+						
+						tankInfo.fluid.amount = tankInfo.capacity; //Max it out
+						resource.amount = resource.amount - newAmmount;
+						
+						return newAmmount;
+					}else{
+						tankInfo.fluid.amount = tankInfo.fluid.amount + resource.amount;
+						
+						return resource.amount;
+					}
+				}
+			}else{
+				return 0;
+			}
+		}
+		//return tank.fill(resource, doFill);
 	}
 
 	@Override
