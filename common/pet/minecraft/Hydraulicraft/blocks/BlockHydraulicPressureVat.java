@@ -1,6 +1,8 @@
 package pet.minecraft.Hydraulicraft.blocks;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.Hydraulicraft;
@@ -36,16 +38,5 @@ public class BlockHydraulicPressureVat extends MachineTieredBlock {
 		player.openGui(Hydraulicraft.instance, Ids.GUIPressureVat.act, world, x, y, z);
 		
 		return true;
-	}
-	
-	@Override
-	public void onBlockAdded(World w, int x, int y, int z){
-		TileEntity entity = w.getBlockTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileHydraulicPressureVat)){
-			return;
-		}
-		
-		((TileHydraulicPressureVat) entity).setTier();
-		
 	}
 }

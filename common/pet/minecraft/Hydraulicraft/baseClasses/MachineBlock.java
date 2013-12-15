@@ -1,10 +1,11 @@
 package pet.minecraft.Hydraulicraft.baseClasses;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -91,6 +92,7 @@ public abstract class MachineBlock extends BlockContainer {
 		if(hasFrontIcon){
 			setDefaultDirection(world, x, y, z);
 		}
+		checkSideBlocks(world, x, y, z);
 	}
 	
 	private void setDefaultDirection(World world, int x, int y, int z){
@@ -170,8 +172,33 @@ public abstract class MachineBlock extends BlockContainer {
 			
 			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
+		
+		checkSideBlocks(world, x, y, z);
 	}
 	
+	private MachineEntity getMachine(World w, int x, int y, int z){
+		TileEntity t = w.getBlockTileEntity(x, y, z);
+		if(t instanceof MachineEntity){
+			return (MachineEntity)t;
+		}else{
+			return null;
+		}
+	}
+	
+	private void checkSideBlocks(World w, int x, int y, int z){
+		//It should check the connecting blocks
+		//And check how much liquid they have
+		//Get liquid from them
+		List<MachineEntity> machines = new List<MachineEntity>();
+		MachineEntity xm1 = getMachine(w, x-1, y, z);
+		MachineEntity xp1 = getMachine(w, x+1, y, z); 
+		MachineEntity ym1 = getMachine(w, x, y-1, z);
+		MachineEntity yp1 = getMachine(w, x, y+1, z);
+		MachineEntity zm1 = getMachine(w, x, y, z-1);
+		MachineEntity zp1 = getMachine(w, x, y, z+1);
+		
+		
+	}
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
