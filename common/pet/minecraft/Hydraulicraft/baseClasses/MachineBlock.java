@@ -179,6 +179,11 @@ public abstract class MachineBlock extends BlockContainer {
 	
 	
 	private void checkSideBlocks(World w, int x, int y, int z){
+		TileEntity t = w.getBlockTileEntity(x, y, z);
+		if(t instanceof MachineEntity){
+			List <MachineEntity> mainList = new ArrayList<MachineEntity>();
+			mainList = ((MachineEntity) t).getConnectedBlocks(mainList);
+		}
 		
 	}
 	

@@ -36,11 +36,7 @@ public abstract class MachineEntity extends TileEntity {
 	
 	
 	
-	public List<MachineEntity> getConnectedBlocks(MachineEntity caller){
-		//It should check the connecting blocks
-		//And check how much liquid they have
-		//Get liquid from them
-		
+	public List<MachineEntity> getConnectedBlocks(List<MachineEntity> mainList){
 		int x = xCoord;
 		int y = yCoord;
 		int z = zCoord;
@@ -52,24 +48,23 @@ public abstract class MachineEntity extends TileEntity {
 		machines = getMachine(machines, worldObj, x, y, z-1);
 		machines = getMachine(machines, worldObj, x, y, z+1);
 		
-		//Remove the caller from the equation
-		if(caller != null){
-			machines.remove(caller);
-		}
+
+		List<MachineEntity> callList = new ArrayList<MachineEntity>();
 		
-		//Get own entity
-		MachineEntity ownEntity = (MachineEntity)worldObj.getBlockTileEntity(x, y, z);
-		
-		
-		List<MachineEntity> retList = new ArrayList<MachineEntity>();
 		for (MachineEntity machineEntity : machines) {
-			retList.add(machineEntity);
-			List<MachineEntity> tempList = new ArrayList<MachineEntity>();
-			tempList = machineEntity.getConnectedBlocks(ownEntity);
-			retList = Functions.mergeList(tempList, retList);
+			if(!mainList.contains(machineEntity)){
+				mainList.add(machineEntity);
+				callList.add(machineEntity);
+			}
 		}
 		
-		return retList;
+		for (MachineEntity machineEntity : callList) {
+			List<MachineEntity> tempList = new ArrayList<MachineEntity>();
+			tempList = machineEntity.getConnectedBlocks(mainList);
+			mainList = Functions.mergeList(tempList, mainList);
+		}
+		
+		return mainList;
 	}
 	
 	@Override
