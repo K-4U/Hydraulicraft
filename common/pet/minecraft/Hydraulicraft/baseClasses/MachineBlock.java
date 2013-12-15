@@ -16,6 +16,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import pet.minecraft.Hydraulicraft.lib.CustomTabs;
+import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Name;
@@ -93,7 +94,7 @@ public abstract class MachineBlock extends BlockContainer {
 		if(hasFrontIcon){
 			setDefaultDirection(world, x, y, z);
 		}
-		checkSideBlocks(world, x, y, z);
+		//checkSideBlocks(world, x, y, z);
 	}
 	
 	private void setDefaultDirection(World world, int x, int y, int z){
@@ -179,12 +180,15 @@ public abstract class MachineBlock extends BlockContainer {
 	
 	
 	private void checkSideBlocks(World w, int x, int y, int z){
-		TileEntity t = w.getBlockTileEntity(x, y, z);
-		if(t instanceof MachineEntity){
-			List <MachineEntity> mainList = new ArrayList<MachineEntity>();
-			mainList = ((MachineEntity) t).getConnectedBlocks(mainList);
+		if(!w.isRemote){
+			TileEntity t = w.getBlockTileEntity(x, y, z);
+			if(t instanceof MachineEntity){
+				List <MachineEntity> mainList = new ArrayList<MachineEntity>();
+				mainList.add((MachineEntity) t);
+				mainList = ((MachineEntity) t).getConnectedBlocks(mainList);
+				Log.info("Done iterating. Found " + mainList.size() + " blocks!");
+			}
 		}
-		
 	}
 	
 	@Override

@@ -18,7 +18,7 @@ import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
-public abstract class MachineTieredBlock extends BlockContainer {
+public abstract class MachineTieredBlock extends MachineBlock {
 		private Icon[] tieredIcon;
 		private Icon[] tieredTopIcon;
 		private Icon[] tieredBottomIcon;
@@ -35,7 +35,7 @@ public abstract class MachineTieredBlock extends BlockContainer {
 
 		
 		protected MachineTieredBlock(Id blockId, Name[] machineName) {
-			super(blockId.act, Material.rock);
+			super(blockId, machineName[0]);
 			
 			tBlockId = blockId;
 			mName = machineName;
