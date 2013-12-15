@@ -27,6 +27,11 @@ public abstract class MachineEntity extends TileEntity {
 	public abstract int getStored();
 	
 	private List<MachineEntity> getMachine(List<MachineEntity> list, World w, int x, int y, int z){
+		int blockId = w.getBlockId(x, y, z);
+		if(blockId == 0){
+			return list;
+		}
+		
 		TileEntity t = w.getBlockTileEntity(x, y, z);
 		if(t instanceof MachineEntity){
 			list.add((MachineEntity)t);
@@ -34,9 +39,11 @@ public abstract class MachineEntity extends TileEntity {
 		return list;
 	}
 	
-	
-	
 	public List<MachineEntity> getConnectedBlocks(List<MachineEntity> mainList){
+		return getConnectedBlocks(mainList, true);
+	}
+	
+	public List<MachineEntity> getConnectedBlocks(List<MachineEntity> mainList, boolean chain){
 		int x = xCoord;
 		int y = yCoord;
 		int z = zCoord;
@@ -57,11 +64,12 @@ public abstract class MachineEntity extends TileEntity {
 				callList.add(machineEntity);
 			}
 		}
-		
-		for (MachineEntity machineEntity : callList) {
-			List<MachineEntity> tempList = new ArrayList<MachineEntity>();
-			tempList = machineEntity.getConnectedBlocks(mainList);
-			mainList = Functions.mergeList(tempList, mainList);
+		if(chain){
+			for (MachineEntity machineEntity : callList) {
+				List<MachineEntity> tempList = new ArrayList<MachineEntity>();
+				tempList = machineEntity.getConnectedBlocks(mainList);
+				mainList = Functions.mergeList(tempList, mainList);
+			}
 		}
 		
 		return mainList;

@@ -191,9 +191,27 @@ public abstract class MachineBlock extends BlockContainer {
 		}
 	}
 	
+	private void tellOtherBlockILeft(World w, int x, int y, int z){
+		if(!w.isRemote){
+			TileEntity t = w.getBlockTileEntity(x, y, z);
+			if(t instanceof MachineEntity){
+				List <MachineEntity> mainList = new ArrayList<MachineEntity>();
+				mainList.add((MachineEntity) t);
+				mainList = ((MachineEntity) t).getConnectedBlocks(mainList, false);
+				Log.info("Done iterating. Found " + mainList.size() + " blocks!");
+			}
+		}
+	}
+	
+	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
 		return false;
+	}
+	
+	@Override
+	public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6){
+		
 	}
 	
 	
