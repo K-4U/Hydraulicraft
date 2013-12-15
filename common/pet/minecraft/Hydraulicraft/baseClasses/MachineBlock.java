@@ -210,8 +210,8 @@ public abstract class MachineBlock extends BlockContainer {
 	}
 	
 	@Override
-	public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6){
-		
+	public void breakBlock(World w, int x, int y, int z, int oldId, int oldMetaData){
+		tellOtherBlockILeft(w, x, y, z);
 	}
 	
 	
