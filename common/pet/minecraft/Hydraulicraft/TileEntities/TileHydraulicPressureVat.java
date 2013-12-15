@@ -7,7 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fluids.IFluidTank;
@@ -19,10 +21,12 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	private ItemStack inputInventory;
 	private ItemStack outputInventory;
 	
-	private FluidTankInfo fluidTank;
+	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
+	private FluidTankInfo tankInfo = new FluidTankInfo(tank);
+	
 	
 	public TileHydraulicPressureVat(){
-		fluidTank = new FluidTankInfo(tank);
+		
 	}
 	
 	@Override
@@ -35,6 +39,7 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
 		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
+		tank.readFromNBT(tagCompound.getCompoundTag("tank"));
 	}
 	
 	@Override
@@ -51,6 +56,10 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 			outputInventory.writeToNBT(inventoryCompound);
 			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
 		}
+		NBTTagCompound tankCompound = new NBTTagCompound();
+		tank.writeToNBT(tankCompound);
+		tagCompound.setCompoundTag("tank", tankCompound);
+		
 	}
 	
 	
@@ -164,8 +173,7 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		// TODO Auto-generated method stub
-		return 0;
+		return tank.fill(resource, doFill);
 	}
 
 	@Override
@@ -199,7 +207,10 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		// TODO Auto-generated method stub
-		return null;
+		FluidTankInfo[] ret = {
+				tankInfo
+		};
+		return ret;
+		
 	}
 }

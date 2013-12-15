@@ -26,6 +26,10 @@ public class GuiPressureVat extends GuiContainer {
 		fontRenderer.drawString(Names.blockHydraulicPressurevat.localized, 8, 6, 0xFFFFFF);
 		
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
+		
+		//Get texture of fluid:
+		
+		
 	}
 	
 	@Override
