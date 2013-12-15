@@ -37,24 +37,10 @@ public class GuiPressureVat extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p1, int p2){
 		//TODO: Change that color
-		fontRenderer.drawString(Names.blockHydraulicPressurevat.localized, 30, 6, 0xFFFFFF);
+		int tier = pvat.blockMetadata;
+		fontRenderer.drawString(Names.blockHydraulicPressurevat[tier].localized, 30, 6, 0xFFFFFF);
 		
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
-		
-		
-	}
-	
-	
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(resLoc);
-		
-		int x = (width - xSize) / 2;
-		int y = (height - ySize) / 2;
-		
-		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
-		
 		//Get texture of fluid:
 		FluidTankInfo[] tankInfo = pvat.getTankInfo(ForgeDirection.UP);
 		if(tankInfo[0].fluid != null){
@@ -73,9 +59,22 @@ public class GuiPressureVat extends GuiContainer {
 				int yOffset = 10;
 				int h = 60;
 				int height = (int)(h * perc);
-				drawTexturedModalRect(xOffset, yOffset, 191, 2, 18, 62);
+				//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+				drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
 			}
 		}
+	}
+	
+	
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		mc.renderEngine.bindTexture(resLoc);
+		
+		int x = (width - xSize) / 2;
+		int y = (height - ySize) / 2;
+		
+		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 		
 		
 	}

@@ -3,6 +3,7 @@ package pet.minecraft.Hydraulicraft.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import pet.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureHoze;
+import pet.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -47,7 +48,7 @@ public class Blocks {
 	 */
 	public static void registerBlocks(){
 		GameRegistry.registerBlock(hydraulicPump, Names.blockHydraulicPump.unlocalized);
-		GameRegistry.registerBlock(hydraulicPressurevat, Names.blockHydraulicPressurevat.unlocalized);
+		
 		GameRegistry.registerBlock(hydraulicMixer, Names.blockHydraulicMixer.unlocalized);
 		GameRegistry.registerBlock(hydraulicFrictionIncinerator, Names.blockHydraulicFrictionIncinerator.unlocalized);
 		GameRegistry.registerBlock(hydraulicCrusher, Names.blockHydraulicCrusher.unlocalized);
@@ -58,6 +59,7 @@ public class Blocks {
 		
 		
 		GameRegistry.registerBlock(hydraulicHose, HandlerPressureHoze.class, Names.blockHydraulicHose[0].unlocalized);
+		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);
 	}
 	
 	/*!
@@ -68,7 +70,7 @@ public class Blocks {
 	 */
 	public static void addNames(){
 		LanguageRegistry.addName(hydraulicPump, Names.blockHydraulicPump.localized);
-		LanguageRegistry.addName(hydraulicPressurevat, Names.blockHydraulicPressurevat.localized);
+		
 		LanguageRegistry.addName(hydraulicMixer, Names.blockHydraulicMixer.localized);
 		LanguageRegistry.addName(hydraulicFrictionIncinerator, Names.blockHydraulicFrictionIncinerator.localized);
 		LanguageRegistry.addName(hydraulicCrusher, Names.blockHydraulicCrusher.localized);
@@ -79,6 +81,7 @@ public class Blocks {
 		
 		for(int i = 0; i < 3; i++){
 			LanguageRegistry.addName(new ItemStack(hydraulicHose, 1, i), Names.blockHydraulicHose[i].localized);
+			LanguageRegistry.addName(new ItemStack(hydraulicPressurevat,1,i), Names.blockHydraulicPressurevat[i].localized);
 		}
 		
 		
