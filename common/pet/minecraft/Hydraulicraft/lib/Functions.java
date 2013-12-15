@@ -26,14 +26,14 @@ public class Functions {
 				mainList.add((MachineEntity) t);
 				mainList = ((MachineEntity) t).getConnectedBlocks(mainList);
 				
-				Log.info("Iteration done. " + mainList.size() + " machines found");
-				
+				//Log.info("Iteration done. " + mainList.size() + " machines found");
+				boolean isOil = ((MachineEntity)t).isOilStored();
 				int fluidInSystem = 0;
 				for (MachineEntity machineEntity : mainList) {
 					fluidInSystem = fluidInSystem + machineEntity.getStored();
+					machineEntity.setStored(0, isOil);
 				}
-				
-				boolean isOil = ((MachineEntity)t).isOilStored(); 
+				 
 				Log.info("Fluid in system: " + fluidInSystem);
 				
 				List<MachineEntity> remainingBlocks = new ArrayList<MachineEntity>();
@@ -44,20 +44,20 @@ public class Functions {
 						Log.error("Too much fluid in the system!");
 					}
 					int toSet = fluidInSystem / mainList.size();
-					Log.info("Before iteration. Toset = " + toSet);
+					//Log.info("Before iteration. Toset = " + toSet);
 					for (MachineEntity machineEntity : mainList) {
 						if(machineEntity.getStorage() < toSet){
 							newFluidInSystem = newFluidInSystem + (toSet - machineEntity.getStorage());
-							machineEntity.setStored((toSet - machineEntity.getStorage()), isOil);
+							machineEntity.setStored(machineEntity.getStorage(), isOil);
 						}else{
 							remainingBlocks.add(machineEntity);
-							machineEntity.setStored(toSet, isOil);
+							machineEntity.setStored(toSet + machineEntity.getStored(), isOil);
 						}
-						Log.info("Is this the original? " + machineEntity.equals(t));
+						//Log.info("Is this the original? " + machineEntity.equals(t));
 						
 					}
 
-					Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
+					//Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
 					fluidInSystem = newFluidInSystem;
 					newFluidInSystem = 0;
 					
@@ -70,7 +70,7 @@ public class Functions {
 				}
 				
 				
-				Log.info("Done iterating. Found " + mainList.size() + " blocks!");
+				//Log.info("Done iterating. Found " + mainList.size() + " blocks!");
 			}
 		}
 	}

@@ -254,7 +254,7 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 			//tank.setFluid(new FluidStack(fluid, amount));
 		}else{
 			tank.setFluid(new FluidStack(FluidRegistry.WATER, i));
-			Log.info("Fluid in tank: " + tank.getFluidAmount() + "x" + FluidRegistry.getFluidName(tank.getFluid().fluidID));
+			//Log.info("Fluid in tank: " + tank.getFluidAmount() + "x" + FluidRegistry.getFluidName(tank.getFluid().fluidID));
 			if(!worldObj.isRemote){
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
