@@ -16,7 +16,7 @@ public class ContainerCrusher extends Container {
 	public ContainerCrusher(InventoryPlayer invPlayer, TileHydraulicCrusher crusher){
 		tileCrusher = crusher;
 		
-		addSlotToContainer(new Slot(crusher, 0, 27, 33));
+		addSlotToContainer(new Slot(crusher, 0, 47, 33));
 		addSlotToContainer(new Slot(crusher, 1, 121, 33));
 		
 		bindPlayerInventory(invPlayer);
