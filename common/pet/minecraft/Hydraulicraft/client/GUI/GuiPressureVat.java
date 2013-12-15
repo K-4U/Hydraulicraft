@@ -36,15 +36,24 @@ public class GuiPressureVat extends GuiContainer {
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
 		
 		//Get texture of fluid:
-		Icon iconFromFluid; 
+		 
 		FluidTankInfo[] tankInfo = pvat.getTankInfo(ForgeDirection.UP);
-		if(tankInfo[0].fluid.amount > 0){
-			Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
-			iconFromFluid = inTank.getIcon();
+		if(tankInfo[0].fluid != null){
+			if(tankInfo[0].fluid.amount > 0){
+				Icon iconFromFluid;
+				Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
+				iconFromFluid = inTank.getIcon();
+				
+				int max = tankInfo[0].capacity;
+				float perc = tankInfo[0].fluid.amount / max;
+				
+				int xOffset = 8;
+				int yOffset = 10;
+				int h = 62;
+				int height = (int)(h * perc);
+				this.drawTexturedModelRectFromIcon(xOffset + 16, yOffset + h - height, iconFromFluid, 16, height);
+			}
 		}
-		
-		
-		
 	}
 	
 	@Override
