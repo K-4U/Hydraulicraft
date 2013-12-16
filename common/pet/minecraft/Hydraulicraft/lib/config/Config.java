@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class Config {
-	private static boolean isInString(String oreName, String[] list){
+	public static boolean isInString(String oreName, String[] list){
 		boolean ret = false;
 		for(int i = 0; i < list.length; i++){
 			ret = ret || (oreName.substring(0, list[i].length()).equals(list[i]));
@@ -40,5 +40,4 @@ public class Config {
 			return false;
 		}
 	}
-	
 }

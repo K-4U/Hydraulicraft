@@ -14,6 +14,15 @@ import pet.minecraft.Hydraulicraft.lib.Functions;
 public abstract class MachineEntity extends TileEntity {
 	private boolean _isOilStored = false;
 	private int fluidLevelStored = 0;
+	private int bar = 0;
+	
+	public void setPressure(int newPressure){
+		bar = newPressure;
+	}
+	
+	public int getPressure(){
+		return bar;
+	}
 	
 	/*!
 	 * @author Koen Beckers

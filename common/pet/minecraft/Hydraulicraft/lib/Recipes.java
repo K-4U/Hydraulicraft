@@ -20,8 +20,6 @@ public class Recipes {
 		initializeItemRecipes();
 		
 		initializeSmeltingRecipes();
-		
-		
 	}
 	
 	private static void initializeSmeltingRecipes(){

@@ -7,12 +7,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileGenerator;
+import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class TileHydraulicPump extends TileGenerator implements IInventory {
 	private ItemStack inventory;
 	
 	public TileHydraulicPump(){
+	}
+	
+	@Override
+	public void updateEntity(){
+		
 	}
 	
 	@Override

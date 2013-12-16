@@ -14,6 +14,7 @@ public class Items {
 	public static Item ingotLead;
 	public static Item itemFrictionPlate;
 	public static Item itemDebugger;
+	public static Item itemChunk;
 	
 	/*!
 	 * @author Koen Beckers
@@ -27,6 +28,8 @@ public class Items {
 		ingotEnrichedCopper = new IngotEnrichedCopper();
 		itemFrictionPlate = new ItemFrictionPlate();
 		itemDebugger = new ItemDebug();
+		
+		itemChunk = new ItemChunks(_id, _name)
 		
 		registerItems();
 		addNames();
