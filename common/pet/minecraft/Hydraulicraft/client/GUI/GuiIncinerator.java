@@ -66,7 +66,7 @@ public class GuiIncinerator extends GuiContainer {
 		
 		if(incinerator.isSmelting()){
 			ItemStack smeltingItem = incinerator.getSmeltingItem();
-			ItemStack targetItem = incinerator.getSmeltingItem();
+			ItemStack targetItem = incinerator.getTargetItem();
 
 			//Icon smeltingIcon = smeltingItem.getIconFromDamage(smeltingItem.getDamage(incinerator.getSmeltingItem()));
 			
@@ -79,10 +79,11 @@ public class GuiIncinerator extends GuiContainer {
 			int xPos = startX + (int) (travelPath * percentage);
 			//drawTexturedModelRectFromIcon(xPos, 19, smeltingIcon, w, h)
 			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glColor4f(1F, 1F, 1F, 0.25F);
-			itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), smeltingItem, xPos, 19);
-			GL11.glColor4f(1F, 1F, 1F, 0.25F);
-			itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), smeltingItem, xPos, 19);
+			if(percentage < 0.5f){
+				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), smeltingItem, xPos, 19);
+			}else{
+				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), targetItem, xPos, 19);
+			}
 			GL11.glDisable(GL11.GL_BLEND);
 		}
 	}

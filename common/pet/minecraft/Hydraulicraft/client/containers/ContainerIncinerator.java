@@ -1,12 +1,12 @@
 package pet.minecraft.Hydraulicraft.client.containers;
 
-import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
-import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
 
 public class ContainerIncinerator extends Container {
 	protected TileHydraulicFrictionIncinerator tileIncinerator;
@@ -16,7 +16,7 @@ public class ContainerIncinerator extends Container {
 		tileIncinerator = incinerator;
 		
 		addSlotToContainer(new Slot(incinerator, 0, 40, 19));
-		addSlotToContainer(new Slot(incinerator, 1, 118, 19));
+		addSlotToContainer(new SlotFurnace(invPlayer.player, incinerator, 1, 118, 19));
 		
 		bindPlayerInventory(invPlayer);
 		

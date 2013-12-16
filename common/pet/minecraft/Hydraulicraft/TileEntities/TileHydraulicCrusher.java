@@ -45,6 +45,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
 		}
 		
+
 	}
 	
 	
@@ -64,6 +65,12 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 		// TODO Auto-generated method stub
 		return 2;
 	}
+	
+	@Override
+	public void onInventoryChanged(){
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}
+	
 	@Override
 	public ItemStack getStackInSlot(int i) {
 		switch(i){

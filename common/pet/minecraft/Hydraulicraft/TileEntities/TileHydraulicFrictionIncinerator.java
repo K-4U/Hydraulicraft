@@ -215,12 +215,11 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		if(i == 0){
+		if(i == 0 && canSmelt(itemStack)){
 			inputInventory = itemStack;
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}else{
 			//Err...
-			
 		}
 	}
 
@@ -270,6 +269,11 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 		}
 	}
 
+	@Override
+	public void onInventoryChanged(){
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}
+	
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1) {
 		return new int[] {1, 0};
