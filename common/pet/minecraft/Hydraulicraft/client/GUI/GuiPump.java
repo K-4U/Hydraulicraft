@@ -52,6 +52,20 @@ public class GuiPump extends GuiContainer {
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
 		}
 		
+		if(pump.getPressure() > 0){
+			int color = 0xBFFFFFFF;
+			
+			int max = pump.getMaxPressure();
+			float perc = (float)pump.getPressure() / (float)max;
+			
+			int xOffset = 8;
+			int yOffset = 10;
+			int h = 60;
+			int height = (int)(h * perc);
+			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
+		}
+		
 		if(pump.getIsBurning()){
 			int color = 0xFFB25900;
 			

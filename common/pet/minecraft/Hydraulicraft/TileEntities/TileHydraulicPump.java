@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileGenerator;
 import pet.minecraft.Hydraulicraft.lib.Functions;
+import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -115,11 +116,16 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 
 	@Override
 	public float getGenerating() {
+		float multiplier = 0;
+		
 		if(isOilStored()){
-			return ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_OIL);
+			multiplier = ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_OIL);
 		}else{
-			return ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_WATER);
+			multiplier = ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_WATER);
 		}
+		int maxFluid = getStorage();
+		float perc = (float)getStored() / (float)maxFluid;
+		return (multiplier * perc); 
 	}
 
 	@Override
@@ -225,8 +231,4 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 		return FluidContainerRegistry.BUCKET_VOLUME * 2;
 	}
 
-	
-
-
-	
 }
