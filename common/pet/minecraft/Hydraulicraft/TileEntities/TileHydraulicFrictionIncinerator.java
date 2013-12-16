@@ -11,14 +11,53 @@ import pet.minecraft.Hydraulicraft.lib.config.Constants;
 public class TileHydraulicFrictionIncinerator extends TileConsumer implements IInventory {
 
 	private ItemStack inputItem;
+	private ItemStack smeltingItem;
 	private ItemStack outputItem;
 	private final float requiredPressure = 5F;
+	private int smeltingTicks = 0;
+	private int maxSmeltingTicks = 0;
 	
 	
 	@Override
 	public float workFunction(boolean simulate) {
+		if(canRun() || isSmelting()){
+			if(!simulate){
+				doSmelt();
+			}
+			//The higher the pressure
+			//The higher the speed!
+			//But also the more it uses..
+			return 5F + (getPressure() * 0.005F);
+		}else{
+			return 0F;
+		}
 		
-		return 5F;
+	}
+	
+	
+	private void doSmelt(){
+		if(isSmelting()){
+			if(smeltingTicks < maxSmeltingTicks){
+				
+			}else{
+				//Smelting done!
+				
+			}
+		}else{
+			if(canRun()){
+				
+			}
+			//Start smelting
+			smeltingTicks = 0;
+			maxSmeltingTicks = 200;
+			//Take item out of the input slot
+			//And store it in the smeltingSlot
+			
+		}
+	}
+	
+	private boolean isSmelting(){
+		return !(smeltingItem == null);
 	}
 	
 	/*!
@@ -33,6 +72,9 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements II
 			ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputItem);
 			if(target == null) return false;
 			if(!outputItem.isItemEqual(target)) return false;
+			int newItemStackSize = outputItem.stackSize + inputItem.stackSize;
+			
+			return (newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize());
 		}
 	}
 
