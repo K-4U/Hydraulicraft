@@ -30,6 +30,7 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 		boolean isBurning = (currentBurnTime > 0);
 		if(isBurning){
 			currentBurnTime --;
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 		if(!worldObj.isRemote){
 			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure() <= getMaxPressure()){
@@ -37,7 +38,7 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 				currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory);
 				if(inventory != null){
 					inventory.stackSize--;
-					
+					this.onInventoryChanged();
 				}
 			}
 		}
@@ -55,6 +56,7 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 		inventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
 		currentBurnTime = tagCompound.getInteger("currentBurnTime");
+		maxBurnTime = tagCompound.getInteger("maxBurnTime");
 	}
 	
 	@Override
@@ -67,6 +69,7 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			tagCompound.setCompoundTag("inventory", inventoryCompound);
 		}
 		tagCompound.setInteger("currentBurnTime",currentBurnTime);
+		tagCompound.setInteger("maxBurnTime",maxBurnTime);
 	}
 	
 	@Override
@@ -82,6 +85,18 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			return Constants.MAX_BAR_GEN_OIL;
 		}
 		
+	}
+
+	public float getBurningPercentage() {
+		if(maxBurnTime > 0){
+			return ((float)currentBurnTime / (float)maxBurnTime);
+		}else{
+			return 0;
+		}
+	}
+	
+	public boolean getIsBurning() {
+		return (currentBurnTime > 0);
 	}
 
 	@Override
@@ -192,6 +207,9 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 	public int getStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * 2;
 	}
+
+	
+
 
 	
 }
