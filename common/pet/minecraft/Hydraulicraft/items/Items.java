@@ -98,9 +98,8 @@ public class Items {
 					LanguageRegistry.addName(new ItemStack(itemChunk,1,subId), metalName + " " + Names.itemChunk.localized);
 					
 					String oreDictName = "ingot" + metalName;
-					ItemStack ingotTarget = new ItemStack(OreDictionary.getOreID("ingot" + metalName),1,0);
-					FurnaceRecipes.smelting().addSmelting(Ids.itemChunks.act, subId, ingotTarget, 0);
-					
+					ItemStack ingotTarget = new ItemStack(Functions.getIngotId("ingot" + metalName), 1, 0);
+					FurnaceRecipes.smelting().addSmelting(Items.itemChunk.itemID, subId, ingotTarget, 0);
 				}
 			}
 		}

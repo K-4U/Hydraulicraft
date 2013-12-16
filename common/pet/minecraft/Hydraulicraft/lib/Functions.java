@@ -3,9 +3,11 @@ package pet.minecraft.Hydraulicraft.lib;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineEntity;
+import pet.minecraft.Hydraulicraft.items.Items;
 
 public class Functions {
 
@@ -38,6 +40,20 @@ public class Functions {
 		}else{
 			return "ERROR";
 		}
+	}
+	
+	public static int getIngotId(String ingotName){
+		switch(ingotName){
+		case "ingotIron":
+			return Item.ingotIron.itemID;
+		case "ingotCopper":
+			return Items.ingotCopper.itemID;
+		case "ingotLead":
+			return Items.ingotLead.itemID;
+		case "ingotGold":
+			return Item.ingotGold.itemID;
+		}
+		return 1;
 	}
 	
 	public static void checkSidesSetPressure(World w, int x, int y, int z, float newPressure){
