@@ -98,6 +98,10 @@ public class GuiIncinerator extends GuiContainer {
 		
 		tm.bindTexture(TextureMap.locationBlocksTexture);
 		
+		GL11.glPushMatrix();
+		GL11.glTranslatef((float)(x-2), (float)(y+3), -3.0F + zLevel);
+		GL11.glScalef(10.0F, 10.0F, 10.0F);
+		
 		
 		
 	}

@@ -196,7 +196,11 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 		}else{
 			ret = inventory.splitStack(j);
 			if(inventory.stackSize <= 0){
-				inventory = null;
+				if(i == 0){
+					inputInventory = null;
+				}else{
+					outputInventory = null;
+				}
 			}
 		}
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -215,8 +219,11 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		if(i == 0 && canSmelt(itemStack)){
+		if(i == 0){
 			inputInventory = itemStack;
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}else if(i == 1){
+			outputInventory = itemStack;
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}else{
 			//Err...
