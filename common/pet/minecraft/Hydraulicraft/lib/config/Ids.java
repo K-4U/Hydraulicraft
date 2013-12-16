@@ -35,4 +35,7 @@ public class Ids {
 	public static final Id GUIWasher = new Id(4);
 	public static final Id GUIMixer = new Id(5);
 	public static final Id GUIPressureVat = new Id(6);
+	
+	
+	public static final Id blockFluidOil = new Id(4085);
 }
