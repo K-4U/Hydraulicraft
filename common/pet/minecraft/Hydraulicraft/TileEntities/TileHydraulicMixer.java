@@ -8,10 +8,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
+import pet.minecraft.Hydraulicraft.lib.Functions;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -19,6 +22,9 @@ public class TileHydraulicMixer extends TileConsumer implements
 		ISidedInventory, IFluidHandler {
 
 	private ItemStack inputInventory;
+	private ItemStack outputInventory;
+	
+	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	
 	public TileHydraulicMixer(){
 		
@@ -181,41 +187,53 @@ public class TileHydraulicMixer extends TileConsumer implements
 		return FluidContainerRegistry.BUCKET_VOLUME * 6;
 	}
 
+
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		// TODO Auto-generated method stub
-		return 0;
+		int filled = tank.fill(resource, doFill); 
+		if(doFill && filled > 10){
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+		}
+		return filled;
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource,
 			boolean doDrain) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		// TODO Auto-generated method stub
-		return null;
+		FluidStack drained = tank.drain(maxDrain, doDrain); 
+		if(doDrain && drained.amount > 0){
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+		}
+		return drained;
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		// TODO Auto-generated method stub
-		return false;
+		if(fluid.equals(FluidRegistry.WATER)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		// TODO Auto-generated method stub
-		return null;
+		FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
+		return tankInfo;
+		
 	}
 
 

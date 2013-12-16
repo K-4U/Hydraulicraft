@@ -60,6 +60,20 @@ public class GuiMixer extends GuiContainer {
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
 		}
 		
+		if(mixer.() > 0){
+			int color = 0xBFFFFFFF;
+			
+			float max = mixer.getMaxPressure();
+			float perc = mixer.getPressure() / max;
+			
+			int xOffset = 152;
+			int yOffset = 14;
+			int h = 58;
+			int height = (int)(h * perc);
+			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
+		}
+		
 	}
 	
 	@Override
