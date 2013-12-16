@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import pet.minecraft.Hydraulicraft.lib.CustomTabs;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
+import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemChunks extends Item {
 	class chunk{
@@ -60,9 +60,23 @@ public class ItemChunks extends Item {
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister icon){
 		for (chunk c : chunks) {
+			c.setIcon(icon.registerIcon(ModInfo.LID + ":" + "chunk" + c.getName()));
+		}
+	}
+	
+	@Override
+	public Icon getIconFromDamage(int damage){
+		if(chunks.get(damage) != null){
+			return chunks.get(damage).getIcon();
+		}
+		return null;
+	}
+	
+	@Override
+	public void getSubItems(int id, CreativeTabs tab, List list){
+		for(chunk c : chunks){
 			
 		}
 	}
