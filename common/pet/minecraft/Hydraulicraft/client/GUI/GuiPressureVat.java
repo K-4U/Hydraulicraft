@@ -75,7 +75,6 @@ public class GuiPressureVat extends GuiContainer {
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
 		}
-		
 	}
 	
 	

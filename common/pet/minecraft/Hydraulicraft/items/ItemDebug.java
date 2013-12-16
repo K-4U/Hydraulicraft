@@ -34,7 +34,7 @@ public class ItemDebug extends MachineItem {
 					float maxPressure = mEnt.getMaxPressure();
 					
 					player.addChatMessage("Stored liquid: " + stored + "/" + max + " milliBuckets");
-					player.addChatMessage("Pressure:     " + pressure + "/" + maxPressure + " bar");
+					player.addChatMessage("Pressure:     " + pressure + "/" + maxPressure + " mBar");
 					
 					if(ent instanceof TileHydraulicPressureVat){
 						int tier = ((TileHydraulicPressureVat)ent).getTier();

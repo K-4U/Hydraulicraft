@@ -95,9 +95,9 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 	@Override
 	public int getMaxGenerating() {
 		if(!isOilStored()){
-			return Constants.MAX_BAR_GEN_WATER;			
+			return Constants.MAX_MBAR_GEN_WATER;			
 		}else{
-			return Constants.MAX_BAR_GEN_OIL;
+			return Constants.MAX_MBAR_GEN_OIL;
 		}
 		
 	}
@@ -117,15 +117,18 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 	@Override
 	public float getGenerating() {
 		float multiplier = 0;
-		
-		if(isOilStored()){
-			multiplier = ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_OIL);
+		if(getIsBurning()){
+			if(isOilStored()){
+				multiplier = ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_OIL);
+			}else{
+				multiplier = ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_WATER);
+			}
+			int maxFluid = getStorage();
+			float perc = (float)getStored() / (float)maxFluid;
+			return (multiplier * perc);
 		}else{
-			multiplier = ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_WATER);
+			return 0;
 		}
-		int maxFluid = getStorage();
-		float perc = (float)getStored() / (float)maxFluid;
-		return (multiplier * perc); 
 	}
 
 	@Override

@@ -52,7 +52,11 @@ public class Functions {
 				boolean isOil = ((MachineEntity)t).isOilStored();
 				int fluidInSystem = 0;
 				float pressureInSystem = 0;
+				int oldMachineCount = 0;
 				for (MachineEntity machineEntity : mainList) {
+					if(oldMachineCount == 0){
+						oldMachineCount = machineEntity.getNetworkCount();
+					}
 					fluidInSystem = fluidInSystem + machineEntity.getStored();
 					machineEntity.setStored(0, isOil);
 					if(machineEntity.getPressure() > pressureInSystem){

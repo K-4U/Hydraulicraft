@@ -17,6 +17,16 @@ public abstract class MachineEntity extends TileEntity {
 	private int fluidLevelStored = 0;
 	private float bar = 0;
 	private int fluidInSystem = 0;
+	private int networkCount;
+	
+	public void setNetworkCount(int newCount){
+		networkCount = newCount;
+	}
+	
+	public int getNetworkCount() {
+		return networkCount;
+	}
+
 	
 	public void setPressure(float newPressure){
 		bar = newPressure;
@@ -29,9 +39,9 @@ public abstract class MachineEntity extends TileEntity {
 	public float getMaxPressure(){
 		//All of the blocks will have the max tier of pressure.. For now!
 		if(!isOilStored()){
-			return Constants.MAX_BAR_WATER_TIER_3;
+			return Constants.MAX_MBAR_WATER_TIER_3;
 		}else{
-			return Constants.MAX_BAR_OIL_TIER_3;
+			return Constants.MAX_MBAR_OIL_TIER_3;
 		}
 	}
 	
@@ -134,6 +144,7 @@ public abstract class MachineEntity extends TileEntity {
 		super.readFromNBT(tagCompound);
 		
 		fluidLevelStored = tagCompound.getInteger("fluidLevelStored");
+		networkCount = tagCompound.getInteger("networkCount");
 	}
 	
 	@Override
@@ -141,11 +152,13 @@ public abstract class MachineEntity extends TileEntity {
 		super.writeToNBT(tagCompound);
 		
 		tagCompound.setInteger("fluidLevelStored",fluidLevelStored);
+		tagCompound.setInteger("networkCount", networkCount);
 	}
 	
 	protected TileEntity getBlockTileEntity(int x, int y, int z){
 		return worldObj.getBlockTileEntity(x, y, z);
 	}
+
 
 	
 	

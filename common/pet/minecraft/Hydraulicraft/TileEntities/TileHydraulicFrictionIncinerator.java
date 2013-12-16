@@ -19,7 +19,7 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements II
 
 	@Override
 	public int getMaxBar() {
-		return Constants.MAX_BAR_OIL_TIER_3;
+		return Constants.MAX_MBAR_OIL_TIER_3;
 	}
 
 	@Override
