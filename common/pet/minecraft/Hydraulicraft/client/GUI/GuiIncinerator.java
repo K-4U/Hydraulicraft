@@ -3,6 +3,7 @@ package pet.minecraft.Hydraulicraft.client.GUI;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -64,9 +65,10 @@ public class GuiIncinerator extends GuiContainer {
 		
 		
 		if(incinerator.isSmelting()){
-			Item smeltingItem = incinerator.getSmeltingItem().getItem();
+			ItemStack smeltingItem = incinerator.getSmeltingItem();
+			ItemStack targetItem = incinerator.getSmeltingItem();
 
-			Icon smeltingIcon = smeltingItem.getIconFromDamage(smeltingItem.getDamage(incinerator.getSmeltingItem()));
+			//Icon smeltingIcon = smeltingItem.getIconFromDamage(smeltingItem.getDamage(incinerator.getSmeltingItem()));
 			
 			int done = incinerator.getSmeltingTicks();
 			int startX = 40;
@@ -75,9 +77,13 @@ public class GuiIncinerator extends GuiContainer {
 			int travelPath = targetX - startX;
 			float percentage = (float)done / (float)maxTicks;
 			int xPos = startX + (int) (travelPath * percentage);
-			int w = smeltingIcon.getIconWidth();
-			int h = smeltingIcon.getIconHeight();
-			drawTexturedModelRectFromIcon(xPos, 19, smeltingIcon, w, h);
+			//drawTexturedModelRectFromIcon(xPos, 19, smeltingIcon, w, h)
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glColor4f(1F, 1F, 1F, 0.25F);
+			itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), smeltingItem, xPos, 19);
+			GL11.glColor4f(1F, 1F, 1F, 0.25F);
+			itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), smeltingItem, xPos, 19);
+			GL11.glDisable(GL11.GL_BLEND);
 		}
 	}
 	
