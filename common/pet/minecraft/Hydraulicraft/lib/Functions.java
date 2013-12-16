@@ -18,6 +18,28 @@ public class Functions {
 		return l2;
 	}
 	
+	public static boolean isInString(String oreName, String[] list){
+		boolean ret = false;
+		for(int i = 0; i < list.length; i++){
+			ret = ret || (oreName.substring(0, list[i].length()).equals(list[i]));
+		}
+		return ret;
+	}
+	
+	public static String getMetalName(String oreDictName){
+		String[] prefix = {"ingot"};
+		if(isInString(oreDictName, prefix)){
+			return oreDictName.substring(prefix[0].length());
+		}
+		
+		prefix[0] = "ore";
+		if(isInString(oreDictName, prefix)){
+			return oreDictName.substring(prefix[0].length());
+		}else{
+			return "ERROR";
+		}
+	}
+	
 	public static void checkAndFillSideBlocks(World w, int x, int y, int z){
 		if(!w.isRemote){
 			TileEntity t = w.getBlockTileEntity(x, y, z);

@@ -1,11 +1,16 @@
 package pet.minecraft.Hydraulicraft.items;
 
-import pet.minecraft.Hydraulicraft.lib.config.Names;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import pet.minecraft.Hydraulicraft.lib.Functions;
+import pet.minecraft.Hydraulicraft.lib.config.Config;
+import pet.minecraft.Hydraulicraft.lib.config.Names;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class Items {
 	public static Item gasket;
@@ -14,7 +19,7 @@ public class Items {
 	public static Item ingotLead;
 	public static Item itemFrictionPlate;
 	public static Item itemDebugger;
-	public static Item itemChunk;
+	public static ItemChunks itemChunk;
 	
 	/*!
 	 * @author Koen Beckers
@@ -31,8 +36,11 @@ public class Items {
 		
 		itemChunk = new ItemChunks();
 		
+		
 		registerItems();
 		addNames();
+		
+		registerChunks();
 	}
 	
 	/*!
@@ -67,5 +75,26 @@ public class Items {
 		LanguageRegistry.addName(ingotLead, Names.ingotLead.localized);
 		LanguageRegistry.addName(itemFrictionPlate, Names.itemFrictionPlate.localized);
 		LanguageRegistry.addName(itemDebugger, Names.itemDebugger.localized);
+	}
+	
+	public static void registerChunks(){
+		//Get items from ore dictionary:
+		String[] oreList = OreDictionary.getOreNames();
+		
+		List<String> allowedList = new ArrayList<String>();
+		allowedList.add("Gold");
+		allowedList.add("Iron");
+		allowedList.add("Copper");
+		allowedList.add("Lead");
+		
+		for (String ore : oreList) {
+			if(Config.canBeCrushed(ore)){
+				String metalName = Functions.getMetalName(ore);
+				if(allowedList.contains(metalName)){
+					int subId = itemChunk.addChunk(metalName);
+					OreDictionary.registerOre("chunk" + metalName, new ItemStack(itemChunk, 1, subId));
+				}
+			}
+		}
 	}
 }

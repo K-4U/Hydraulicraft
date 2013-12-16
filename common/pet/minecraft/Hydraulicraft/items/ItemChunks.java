@@ -50,8 +50,9 @@ public class ItemChunks extends Item {
 		setHasSubtypes(true);
 	}
 	
-	public void addChunk(String oreDictName){
+	public int addChunk(String oreDictName){
 		chunks.add(new chunk(oreDictName));
+		return chunks.size() - 1;
 	}
 	
 	@Override
@@ -76,8 +77,8 @@ public class ItemChunks extends Item {
 	
 	@Override
 	public void getSubItems(int id, CreativeTabs tab, List list){
-		for(chunk c : chunks){
-			
+		for(int i = 0; i < chunks.size(); i++){
+			list.add(new ItemStack(this,1,i));
 		}
 	}
 	
