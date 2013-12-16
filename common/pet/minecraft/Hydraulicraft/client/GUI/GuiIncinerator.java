@@ -1,6 +1,8 @@
 package pet.minecraft.Hydraulicraft.client.GUI;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,7 +31,7 @@ public class GuiIncinerator extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p1, int p2){
 		//TODO: Change that color
-		fontRenderer.drawString(Names.blockHydraulicCrusher.localized, 8, 6, 0xFFFFFF);
+		fontRenderer.drawString(incinerator.getInvName(), 8, 6, 0xFFFFFF);
 		
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
 		
@@ -87,6 +89,19 @@ public class GuiIncinerator extends GuiContainer {
 			GL11.glDisable(GL11.GL_BLEND);
 		}
 	}
+	
+	private void renderVanillaItem(ItemStack itemStack, int x, int y){
+		int itemId = itemStack.itemID;
+		int meta = itemStack.getItemDamage();
+		Object iconIndex = itemStack.getIconIndex();
+		TextureManager tm = mc.getTextureManager();
+		
+		tm.bindTexture(TextureMap.locationBlocksTexture);
+		
+		
+		
+	}
+	
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
