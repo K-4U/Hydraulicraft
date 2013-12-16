@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import pet.minecraft.Hydraulicraft.blocks.Blocks;
 import pet.minecraft.Hydraulicraft.items.Items;
+import pet.minecraft.Hydraulicraft.lib.config.Ids;
+import pet.minecraft.Hydraulicraft.ores.Ores;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Recipes {
@@ -17,7 +19,14 @@ public class Recipes {
 		initializeBlockRecipes();
 		initializeItemRecipes();
 		
+		initializeSmeltingRecipes();
 		
+		
+	}
+	
+	private static void initializeSmeltingRecipes(){
+		GameRegistry.addSmelting(Ids.oreCopper.act, new ItemStack(Items.ingotCopper), 0);
+		GameRegistry.addSmelting(Ids.oreLead.act, new ItemStack(Items.ingotLead), 0);
 	}
 	
 	private static void initializeBlockRecipes(){
