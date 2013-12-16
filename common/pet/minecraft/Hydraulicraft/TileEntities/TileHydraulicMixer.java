@@ -42,9 +42,8 @@ public class TileHydraulicMixer extends TileConsumer implements
 	
 	
 	@Override
-	public void workFunction(int bar) {
-		// TODO Auto-generated method stub
-
+	public float workFunction(boolean simulate) {
+		return 0F;
 	}
 
 	@Override

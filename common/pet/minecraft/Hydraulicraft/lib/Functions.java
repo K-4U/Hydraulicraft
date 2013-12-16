@@ -40,6 +40,26 @@ public class Functions {
 		}
 	}
 	
+	public static void checkSidesSetPressure(World w, int x, int y, int z, float newPressure){
+		if(!w.isRemote){
+			TileEntity t = w.getBlockTileEntity(x, y, z);
+			if(t instanceof MachineEntity){
+				List <MachineEntity> mainList = new ArrayList<MachineEntity>();
+				mainList.add((MachineEntity) t);
+				mainList = ((MachineEntity) t).getConnectedBlocks(mainList);
+				
+				//Log.info("Iteration done. " + mainList.size() + " machines found");
+				float pressureInSystem = 0;
+				if(newPressure < 0){
+					newPressure = 0;
+				}
+				for (MachineEntity machineEntity : mainList) {
+					machineEntity.setPressure(newPressure);
+				}
+			}
+		}
+	}
+	
 	public static void checkAndFillSideBlocks(World w, int x, int y, int z){
 		if(!w.isRemote){
 			TileEntity t = w.getBlockTileEntity(x, y, z);

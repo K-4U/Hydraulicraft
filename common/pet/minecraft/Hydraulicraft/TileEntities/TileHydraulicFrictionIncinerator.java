@@ -13,8 +13,8 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements II
 	private ItemStack outputItem;;
 	
 	@Override
-	public void workFunction(int bar) {
-		// TODO Auto-generated method stub
+	public float workFunction(boolean simulate) {
+		return 5F;
 	}
 
 	@Override

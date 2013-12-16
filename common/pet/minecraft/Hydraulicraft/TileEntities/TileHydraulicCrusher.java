@@ -53,9 +53,8 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	
 	
 	@Override
-	public void workFunction(int bar) {
-		// TODO Auto-generated method stub
-
+	public float workFunction(boolean simulate) {
+		return 0F;
 	}
 
 	@Override
