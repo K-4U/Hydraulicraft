@@ -18,6 +18,7 @@ import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
 import pet.minecraft.Hydraulicraft.blocks.Blocks;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerPressureVat;
 import pet.minecraft.Hydraulicraft.lib.Log;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -48,7 +49,7 @@ public class GuiPressureVat extends GuiContainer {
 				Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
 				int color = 0xFFFFFFFF;
 				if(inTank.equals(FluidRegistry.WATER)){
-					color = 0xFF006DD9;
+					color = Constants.COLOR_WATER;
 				}
 				
 				int max = tankInfo[0].capacity;
@@ -63,7 +64,7 @@ public class GuiPressureVat extends GuiContainer {
 			}
 		}
 		if(pvat.getPressure() > 0){
-			int color = 0xBFFFFFFF;
+			int color = Constants.COLOR_PRESSURE;
 			
 			float max = pvat.getMaxPressure();
 			float perc = pvat.getPressure() / max;

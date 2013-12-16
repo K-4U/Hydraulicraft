@@ -5,6 +5,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -22,7 +25,7 @@ public class TileHydraulicMixer extends TileConsumer implements
 		ISidedInventory, IFluidHandler {
 
 	private ItemStack inputInventory;
-	private ItemStack outputInventory;
+	//private ItemStack outputInventory;
 	
 	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	
@@ -38,6 +41,9 @@ public class TileHydraulicMixer extends TileConsumer implements
 		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
 		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
+//		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		tank.readFromNBT(tagCompound.getCompoundTag("tank"));
 	}
 	
 	@Override
@@ -49,6 +55,14 @@ public class TileHydraulicMixer extends TileConsumer implements
 			inputInventory.writeToNBT(inventoryCompound);
 			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
 		}
+		/*if(outputInventory != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			outputInventory.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
+		}*/
+		NBTTagCompound tankCompound = new NBTTagCompound();
+		tank.writeToNBT(tankCompound);
+		tagCompound.setCompoundTag("tank", tankCompound);
 	}
 	
 	

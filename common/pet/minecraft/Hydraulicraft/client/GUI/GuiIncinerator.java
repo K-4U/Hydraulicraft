@@ -1,15 +1,8 @@
 package pet.minecraft.Hydraulicraft.client.GUI;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
@@ -17,8 +10,8 @@ import org.lwjgl.opengl.GL11;
 
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerIncinerator;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
-import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class GuiIncinerator extends GuiContainer {
 
@@ -41,7 +34,7 @@ public class GuiIncinerator extends GuiContainer {
 		if(incinerator.getStored() > 0){
 			int color = 0xFFFFFFFF;
 			if(!incinerator.isOilStored()){
-				color = 0xFF006DD9;
+				color = Constants.COLOR_WATER;
 			}
 			
 			int max = incinerator.getStorage();
@@ -55,7 +48,7 @@ public class GuiIncinerator extends GuiContainer {
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
 		}
 		if(incinerator.getPressure() > 0){
-			int color = 0xBFFFFFFF;
+			int color = Constants.COLOR_PRESSURE;
 			
 			float max = incinerator.getMaxPressure();
 			float perc = incinerator.getPressure() / max;

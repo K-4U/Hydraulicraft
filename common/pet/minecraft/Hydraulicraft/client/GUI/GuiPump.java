@@ -15,6 +15,7 @@ import org.lwjgl.util.Color;
 
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerPump;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -38,7 +39,7 @@ public class GuiPump extends GuiContainer {
 		if(pump.getStored() > 0){
 			int color = 0xFFFFFFFF;
 			if(!pump.isOilStored()){
-				color = 0xFF006DD9;
+				color = Constants.COLOR_WATER;
 			}
 			
 			int max = pump.getStorage();
@@ -53,7 +54,7 @@ public class GuiPump extends GuiContainer {
 		}
 		
 		if(pump.getPressure() > 0){
-			int color = 0xBFFFFFFF;
+			int color = Constants.COLOR_PRESSURE;
 			
 			float max = pump.getMaxPressure();
 			float perc = pump.getPressure() / max;

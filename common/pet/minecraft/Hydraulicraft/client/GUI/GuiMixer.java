@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicMixer;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerMixer;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -37,7 +38,7 @@ public class GuiMixer extends GuiContainer {
 		if(mixer.getStored() > 0){
 			int color = 0xFFFFFFFF;
 			if(!mixer.isOilStored()){
-				color = 0xFF006DD9;
+				color = Constants.COLOR_WATER;
 			}
 			
 			int max = mixer.getStorage();
@@ -45,20 +46,20 @@ public class GuiMixer extends GuiContainer {
 			
 			int xOffset = 8;
 			int yOffset = 14;
-			int h = 58;
+			int h = 56;
 			int height = (int)(h * perc);
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
 		}
 		if(mixer.getPressure() > 0){
-			int color = 0xBFFFFFFF;
+			int color = Constants.COLOR_PRESSURE;
 			
 			float max = mixer.getMaxPressure();
 			float perc = mixer.getPressure() / max;
 			
 			int xOffset = 152;
 			int yOffset = 14;
-			int h = 58;
+			int h = 56;
 			int height = (int)(h * perc);
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
@@ -70,18 +71,18 @@ public class GuiMixer extends GuiContainer {
 				Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
 				int color = 0xFFFFFFFF;
 				if(inTank.equals(FluidRegistry.WATER)){
-					color = 0x3F006DD9;
+					color = 0x7FFFFFFF;
 				}
 				
 				int max = tankInfo[0].capacity;
 				float perc = (float)tankInfo[0].fluid.amount / (float)max;
 				
-				int xOffset = 35;
+				int xOffset = 34;
 				int yOffset = 14;
-				int h = 50;
+				int h = 52;
 				int height = (int)(h * perc);
 				//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
-				drawRect(xOffset, yOffset + (h-height), xOffset + 24, yOffset + h, color);
+				drawRect(xOffset, yOffset + (h-height), xOffset + 26, yOffset + h, color);
 			}
 		}
 		

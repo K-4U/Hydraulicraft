@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerCrusher;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -32,7 +33,7 @@ public class GuiCrusher extends GuiContainer {
 		if(crusher.getStored() > 0){
 			int color = 0xFFFFFFFF;
 			if(!crusher.isOilStored()){
-				color = 0xFF006DD9;
+				color = Constants.COLOR_WATER;
 			}
 			
 			int max = crusher.getStorage();
@@ -46,7 +47,7 @@ public class GuiCrusher extends GuiContainer {
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
 		}
 		if(crusher.getPressure() > 0){
-			int color = 0xBFFFFFFF;
+			int color = Constants.COLOR_PRESSURE;
 			
 			float max = crusher.getMaxPressure();
 			float perc = crusher.getPressure() / max;

@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicWasher;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerWasher;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -36,7 +37,7 @@ public class GuiWasher extends GuiContainer {
 		if(washer.getStored() > 0){
 			int color = 0xFFFFFFFF;
 			if(!washer.isOilStored()){
-				color = 0xFF006DD9;
+				color = Constants.COLOR_WATER;
 			}
 			
 			int max = washer.getStorage();
@@ -51,7 +52,7 @@ public class GuiWasher extends GuiContainer {
 		}
 		
 		if(washer.getPressure() > 0){
-			int color = 0xBFFFFFFF;
+			int color = Constants.COLOR_PRESSURE;
 			
 			float max = washer.getMaxPressure();
 			float perc = washer.getPressure() / max;
