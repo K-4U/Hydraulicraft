@@ -1,6 +1,9 @@
 package pet.minecraft.Hydraulicraft.client.GUI;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -90,7 +93,7 @@ public class GuiIncinerator extends GuiContainer {
 		}
 	}
 	
-	private void renderVanillaItem(ItemStack itemStack, int x, int y){
+	private void renderVanillaItem(ItemStack itemStack, int x, int y, float transparency){
 		int itemId = itemStack.itemID;
 		int meta = itemStack.getItemDamage();
 		Object iconIndex = itemStack.getIconIndex();
@@ -98,11 +101,32 @@ public class GuiIncinerator extends GuiContainer {
 		
 		tm.bindTexture(TextureMap.locationBlocksTexture);
 		
+		Block block = (itemId < Block.blocksList.length ? Block.blocksList[k] : null);
+		
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)(x-2), (float)(y+3), -3.0F + zLevel);
 		GL11.glScalef(10.0F, 10.0F, 10.0F);
+		GL11.glTranslatef(1.0F, 0.5F, 1.0F);
+		GL11.glScalef(1.0F, 1.0F, -1.0F);
+		GL11.glRotatef(210.0F, 1.0F, 0.0F, 0.0F);
+		GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
 		
+		int itemColor = Item.itemsList[itemId].getColorFromItemStack(itemStack, 0);
+		float r = (float)( itemColor >> 16 & 255) / 255.0F;
+		float g = (float)( itemColor >> 8 & 255) / 255.0F;
+		float b = (float)( itemColor & 255) / 255.0F;
+		if(transparency < 1.0F){
+			GL11.glEnable(GL11.GL_BLEND);
+		}
+		GL11.glColor4f(r, g, b, transparency);
+		if(transparency < 1.0F){
+			GL11.glDisable(GL11.GL_BLEND);
+		}
 		
+		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+		RenderBlocks itemRenderBlocks = new RenderBlocks();
+		itemRenderBlocks.useInventoryTint = true;
+		itemRenderBlocks.renderBlockAsItem(par1Block, par2, par3);
 		
 	}
 	
