@@ -29,7 +29,7 @@ public class Items {
 		itemFrictionPlate = new ItemFrictionPlate();
 		itemDebugger = new ItemDebug();
 		
-		itemChunk = new ItemChunks(_id, _name)
+		itemChunk = new ItemChunks();
 		
 		registerItems();
 		addNames();

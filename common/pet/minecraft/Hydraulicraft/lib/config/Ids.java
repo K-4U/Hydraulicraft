@@ -20,10 +20,11 @@ public class Ids {
 	
 	public static final Id itemGasket = new Id(3095);
 	public static final Id itemDebug = new Id(3094);
-	public static final Id itemFrictionPlate = new Id(3075);
-	public static final Id ingotCopper = new Id(3090);
-	public static final Id ingotLead = new Id(3085);
-	public static final Id ingotEnrichedCopper = new Id(3080);
+	public static final Id itemFrictionPlate = new Id(3093);
+	public static final Id ingotCopper = new Id(3092);
+	public static final Id ingotLead = new Id(3091);
+	public static final Id ingotEnrichedCopper = new Id(3090);
+	public static final Id itemChunks = new Id(3089);
 	
 	
 	
