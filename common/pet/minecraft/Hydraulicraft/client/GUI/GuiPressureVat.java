@@ -87,8 +87,6 @@ public class GuiPressureVat extends GuiContainer {
 		int y = (height - ySize) / 2;
 		
 		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
-		
-		
 	}
 
 }

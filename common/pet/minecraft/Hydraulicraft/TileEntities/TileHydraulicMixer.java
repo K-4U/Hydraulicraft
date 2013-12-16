@@ -193,7 +193,6 @@ public class TileHydraulicMixer extends TileConsumer implements
 		int filled = tank.fill(resource, doFill); 
 		if(doFill && filled > 10){
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 		}
 		return filled;
 	}
