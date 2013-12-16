@@ -3,6 +3,7 @@ package pet.minecraft.Hydraulicraft.blocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import pet.minecraft.Hydraulicraft.Hydraulicraft;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineBlock;
@@ -23,10 +24,17 @@ public class BlockHydraulicFrictionIncinerator extends MachineBlock {
 	
 	@Override
 	public boolean onBlockActivated(World w, int x, int y, int z, EntityPlayer player, int a, float sideX, float sideY, float sideZ) {
-		if(w.isRemote) {
-			return true;
-		} else {
-			return true;
+		if(player.isSneaking())
+			return false;
+		
+		TileEntity entity = w.getBlockTileEntity(x, y, z);
+		if(entity == null || !(entity instanceof TileHydraulicFrictionIncinerator)){
+			return false;
+			
 		}
+		TileHydraulicFrictionIncinerator pump = (TileHydraulicFrictionIncinerator) entity;
+		player.openGui(Hydraulicraft.instance, Ids.GUIIncinerator.act, w, x, y, z);
+		
+		return true;
 	}
 }

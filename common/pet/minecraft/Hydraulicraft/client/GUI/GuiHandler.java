@@ -4,11 +4,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicMixer;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicWasher;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerCrusher;
+import pet.minecraft.Hydraulicraft.client.containers.ContainerIncinerator;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerMixer;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerPressureVat;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerPump;
@@ -44,6 +46,10 @@ public class GuiHandler implements IGuiHandler {
 				if(ent instanceof TileHydraulicPressureVat){
 					return new ContainerPressureVat(player.inventory, (TileHydraulicPressureVat)ent);
 				}
+			}else if(ID == Ids.GUIIncinerator.act){
+				if(ent instanceof TileHydraulicFrictionIncinerator){
+					return new ContainerIncinerator(player.inventory, (TileHydraulicFrictionIncinerator)ent);
+				}
 			}
 		}
 		
@@ -76,6 +82,10 @@ public class GuiHandler implements IGuiHandler {
 			}else if(ID == Ids.GUIPressureVat.act){
 				if(ent instanceof TileHydraulicPressureVat){
 					return new GuiPressureVat(player.inventory, (TileHydraulicPressureVat)ent);
+				}
+			}else if(ID == Ids.GUIIncinerator.act){
+				if(ent instanceof TileHydraulicFrictionIncinerator){
+					return new GuiIncinerator(player.inventory, (TileHydraulicFrictionIncinerator)ent);
 				}
 			}
 		}

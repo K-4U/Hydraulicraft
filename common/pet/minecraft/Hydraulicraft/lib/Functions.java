@@ -96,7 +96,7 @@ public class Functions {
 				
 				pressureInSystem = pressureInSystem / mainList.size();
 				if(fluidInSystem < 100){
-					pressureInSystem = pressureInSystem * (fluidInSystem / 100);
+					pressureInSystem = pressureInSystem * ((float)fluidInSystem / 100F);
 				}
 				//Log.info("Fluid in system: " + fluidInSystem);
 				//Log.info("Pressure in system: " + pressureInSystem);
