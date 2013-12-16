@@ -27,7 +27,9 @@ public class TileHydraulicMixer extends TileConsumer implements
 	private ItemStack inputInventory;
 	//private ItemStack outputInventory;
 	
-	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
+	private FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
+	private FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 8);
+	
 	
 	public TileHydraulicMixer(){
 		
@@ -43,7 +45,8 @@ public class TileHydraulicMixer extends TileConsumer implements
 		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
 //		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
-		tank.readFromNBT(tagCompound.getCompoundTag("tank"));
+		inputTank.readFromNBT(tagCompound.getCompoundTag("inputTank"));
+		outputTank.readFromNBT(tagCompound.getCompoundTag("outputTank"));
 	}
 	
 	@Override
@@ -60,9 +63,14 @@ public class TileHydraulicMixer extends TileConsumer implements
 			outputInventory.writeToNBT(inventoryCompound);
 			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
 		}*/
+		
 		NBTTagCompound tankCompound = new NBTTagCompound();
-		tank.writeToNBT(tankCompound);
-		tagCompound.setCompoundTag("tank", tankCompound);
+		inputTank.writeToNBT(tankCompound);
+		tagCompound.setCompoundTag("inputTank", tankCompound);
+		
+		tankCompound = new NBTTagCompound();
+		outputTank.writeToNBT(tankCompound);
+		tagCompound.setCompoundTag("outputTank", tankCompound);
 	}
 	
 	
@@ -204,7 +212,7 @@ public class TileHydraulicMixer extends TileConsumer implements
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		int filled = tank.fill(resource, doFill); 
+		int filled = inputTank.fill(resource, doFill); 
 		if(doFill && filled > 10){
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
@@ -220,7 +228,7 @@ public class TileHydraulicMixer extends TileConsumer implements
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		FluidStack drained = tank.drain(maxDrain, doDrain); 
+		FluidStack drained = inputTank.drain(maxDrain, doDrain); 
 		if(doDrain && drained.amount > 0){
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
@@ -244,7 +252,7 @@ public class TileHydraulicMixer extends TileConsumer implements
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
+		FluidTankInfo[] tankInfo = {new FluidTankInfo(inputTank)};
 		return tankInfo;
 		
 	}
