@@ -18,8 +18,8 @@ public class ItemChunks extends Item {
 		private String _name;
 		private Icon _icon;
 		
-		public chunk(String n){
-			_name = n;
+		public chunk(String targetName){
+			_name = targetName;
 		}
 		
 		public void setName(String n){
@@ -56,8 +56,8 @@ public class ItemChunks extends Item {
 	}
 	
 	@Override
-	public String getUnlocalizedName(ItemStack itemstack){
-		return chunks.get(itemstack.getItemDamage()).getName();
+	public String getUnlocalizedName(ItemStack itemStack){
+		return chunks.get(itemStack.getItemDamage()).getName();
 	}
 	
 	@Override
@@ -65,6 +65,15 @@ public class ItemChunks extends Item {
 		for (chunk c : chunks) {
 			c.setIcon(icon.registerIcon(ModInfo.LID + ":" + "chunk" + c.getName()));
 		}
+	}
+	
+	public ItemStack getCrushingRecipe(ItemStack itemStack){
+		ItemStack ret = null;
+		if(getUnlocalizedName(itemStack) != ""){
+			ret = new ItemStack(this, )
+		}
+		
+		return ret;
 	}
 	
 	@Override

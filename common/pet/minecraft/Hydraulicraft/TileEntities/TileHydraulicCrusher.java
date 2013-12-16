@@ -3,19 +3,27 @@ package pet.minecraft.Hydraulicraft.TileEntities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
+import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class TileHydraulicCrusher extends TileConsumer implements ISidedInventory {
 	private ItemStack inputInventory;
+	private ItemStack crushingItem;
+	private ItemStack targetItem;
 	private ItemStack outputInventory;
+	private final float requiredPressure = 5F;
+	private int crushingTicks = 0;
+	private int maxCrushingTicks = 0;
 	
-	public TileHydraulicCrusher(){
-		
+	public int getCrushingTicks(){
+		return crushingTicks;
 	}
 	
 	@Override
@@ -27,6 +35,12 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 		
 		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
 		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		inventoryCompound = tagCompound.getCompoundTag("crushingItem");
+		crushingItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		inventoryCompound = tagCompound.getCompoundTag("targetItem");
+		targetItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
 	}
 	
@@ -44,20 +58,105 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			outputInventory.writeToNBT(inventoryCompound);
 			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
 		}
+		if(crushingItem != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			crushingItem.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("crushingItem", inventoryCompound);
+		}
+		if(targetItem != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			targetItem.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("targetItem", inventoryCompound);
+		}
 		
-
 	}
-	
 	
 	@Override
 	public float workFunction(boolean simulate) {
-		return 0F;
+		if(canRun() || isCrushing()){
+			if(!simulate){
+				doCrush();
+			}
+			//The higher the pressure
+			//The higher the speed!
+			//But also the more it uses..
+			return 7F + (getPressure() * 0.00005F);
+		}else{
+			return 0F;
+		}
+	}
+	
+	
+	private void doCrush(){
+		if(isCrushing()){
+			crushingTicks = crushingTicks + 1 + (int)((getPressure()/100) * 0.00005F);
+			Log.info(crushingTicks+ "");
+			if(crushingTicks >= maxCrushingTicks){
+				//Smelting done!
+				if(outputInventory == null){
+					outputInventory = targetItem.copy(); 
+				}else{
+					outputInventory.stackSize++;
+				}
+				crushingItem = null;
+				targetItem = null;
+			}
+		}else{
+			if(canRun()){
+				//targetItem = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
+				
+				crushingItem = inputInventory.copy();
+				inputInventory.stackSize--;
+				if(inputInventory.stackSize <= 0){
+					inputInventory = null;
+				}
+				crushingTicks = 0;
+			}
+			maxCrushingTicks = 200;
+		}
+	}
+	
+	public ItemStack getCrushingItem(){
+		return crushingItem;
+	}
+	
+	public ItemStack getTargetItem(){
+		return targetItem;
+	}
+	
+	public boolean isCrushing(){
+		return (crushingItem != null && targetItem != null);
+	}
+	
+	/*!
+	 * Checks if the outputslot is free, if there's enough pressure in the system
+	 * and if the item is smeltable
+	 */
+	private boolean canRun(){
+		if(inputInventory == null || (getPressure() < requiredPressure)){
+			return false;
+		}else{
+			//Get crushing result:
+			ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
+			if(target == null) return false;
+			if(outputInventory != null){
+				if(!outputInventory.isItemEqual(target)) return false;
+				int newItemStackSize = outputInventory.stackSize + inputInventory.stackSize;
+				
+				return (newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize());
+			}else{
+				return true;
+			}
+		}
+	}
+	
+	private boolean canCrush(ItemStack inv){
+		return Config.canBeCrushed(inv);
 	}
 
 	@Override
 	public int getMaxBar() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Constants.MAX_MBAR_OIL_TIER_3;
 	}
 
 	@Override
@@ -65,14 +164,9 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 		// TODO Auto-generated method stub
 		return 2;
 	}
-	
-	@Override
-	public void onInventoryChanged(){
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-	}
-	
 	@Override
 	public ItemStack getStackInSlot(int i) {
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		switch(i){
 		case 0:
 			return inputInventory;
@@ -80,7 +174,6 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			return outputInventory;
 		default:
 			return null;
-			
 		}
 	}
 
@@ -95,8 +188,12 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			
 		}else{
 			ret = inventory.splitStack(j);
-			if(inventory.stackSize == 0){
-				inventory = null;
+			if(inventory.stackSize <= 0){
+				if(i == 0){
+					inputInventory = null;
+				}else{
+					outputInventory = null;
+				}
 			}
 		}
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -118,9 +215,11 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 		if(i == 0){
 			inputInventory = itemStack;
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}else if(i == 1){
+			outputInventory = itemStack;
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}else{
 			//Err...
-			
 		}
 	}
 
@@ -160,7 +259,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		if(i == 0){
-			if(Config.canBeCrushed(itemStack)){
+			if(canCrush(itemStack)){
 				return true;
 			}else{
 				return false;
@@ -171,13 +270,18 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	}
 
 	@Override
+	public void onInventoryChanged(){
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}
+	
+	@Override
 	public int[] getAccessibleSlotsFromSide(int var1) {
 		return new int[] {1, 0};
 	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		if(i == 0 && Config.canBeCrushed(itemStack)){
+		if(i == 0 && canCrush(itemStack)){
 			return true;
 		}else{
 			return false;
@@ -195,7 +299,6 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 
 	@Override
 	public int getStorage() {
-		return FluidContainerRegistry.BUCKET_VOLUME * 2;
+		return FluidContainerRegistry.BUCKET_VOLUME * 5;
 	}
-
 }
