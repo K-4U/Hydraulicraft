@@ -2,17 +2,23 @@ package pet.minecraft.Hydraulicraft.TileEntities;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
+import pet.minecraft.Hydraulicraft.lib.Log;
+import pet.minecraft.Hydraulicraft.lib.config.Config;
 import pet.minecraft.Hydraulicraft.lib.config.Constants;
+import pet.minecraft.Hydraulicraft.lib.config.Names;
 
-public class TileHydraulicFrictionIncinerator extends TileConsumer implements IInventory {
+public class TileHydraulicFrictionIncinerator extends TileConsumer implements ISidedInventory {
 
-	private ItemStack inputItem;
+	private ItemStack inputInventory;
 	private ItemStack smeltingItem;
-	private ItemStack outputItem;
+	private ItemStack targetItem;
+	private ItemStack outputInventory;
 	private final float requiredPressure = 5F;
 	private int smeltingTicks = 0;
 	private int maxSmeltingTicks = 0;
@@ -31,28 +37,37 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements II
 		}else{
 			return 0F;
 		}
-		
 	}
 	
 	
 	private void doSmelt(){
 		if(isSmelting()){
-			if(smeltingTicks < maxSmeltingTicks){
-				
-			}else{
+			smeltingTicks++;
+			Log.info(smeltingTicks+ "");
+			if(smeltingTicks >= maxSmeltingTicks){
 				//Smelting done!
-				
+				if(outputInventory == null){
+					outputInventory = targetItem.copy(); 
+				}else{
+					outputInventory.stackSize++;
+				}
+				smeltingItem = null;
+				targetItem = null;
 			}
 		}else{
 			if(canRun()){
-				
+				targetItem = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
+				smeltingItem = inputInventory.copy();
+				inputInventory.stackSize--;
+				if(inputInventory.stackSize <= 0){
+					inputInventory = null;
+				}
+				smeltingTicks = 0;
 			}
 			//Start smelting
-			smeltingTicks = 0;
 			maxSmeltingTicks = 200;
 			//Take item out of the input slot
 			//And store it in the smeltingSlot
-			
 		}
 	}
 	
@@ -65,17 +80,28 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements II
 	 * and if the item is smeltable
 	 */
 	private boolean canRun(){
-		if(inputItem == null || (getPressure() < requiredPressure)){
+		if(inputInventory == null || (getPressure() < requiredPressure)){
 			return false;
 		}else{
 			//Get smelting result:
-			ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputItem);
+			ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
 			if(target == null) return false;
-			if(!outputItem.isItemEqual(target)) return false;
-			int newItemStackSize = outputItem.stackSize + inputItem.stackSize;
-			
-			return (newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize());
+			if(outputInventory != null){
+				if(!outputInventory.isItemEqual(target)) return false;
+				int newItemStackSize = outputInventory.stackSize + inputInventory.stackSize;
+				
+				return (newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize());
+			}else{
+				return true;
+			}
 		}
+	}
+	
+	private boolean canSmelt(ItemStack inv){
+		//Get smelting result:
+		ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inv);
+		if(target == null) return false;
+		return true;
 	}
 
 	@Override
@@ -85,49 +111,72 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements II
 
 	@Override
 	public int getSizeInventory() {
+		// TODO Auto-generated method stub
 		return 2;
 	}
-
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		// TODO Auto-generated method stub
-		if(i == 0) {
-			return inputItem;
-		} else if(i == 1) {
-			return outputItem;
-		} else {
+		switch(i){
+		case 0:
+			return inputInventory;
+		case 1:
+			return outputInventory;
+		default:
 			return null;
+			
 		}
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		// TODO Auto-generated method stub
-		return null;
+		ItemStack inventory = getStackInSlot(i);
+		
+		ItemStack ret = null;
+		if(inventory.stackSize < j){
+			ret = inventory;
+			inventory = null;
+			
+		}else{
+			ret = inventory.splitStack(j);
+			if(inventory.stackSize == 0){
+				inventory = null;
+			}
+		}
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		
+		return ret;
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		ItemStack stack = getStackInSlot(i);
+		if(stack != null){
+			setInventorySlotContents(i, null);
+		}
+		return stack;
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		// TODO Auto-generated method stub
-		
+	public void setInventorySlotContents(int i, ItemStack itemStack) {
+		if(i == 0){
+			inputInventory = itemStack;
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}else{
+			//Err...
+			
+		}
 	}
 
 	@Override
 	public String getInvName() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Localization
+		return Names.blockHydraulicFrictionIncinerator.localized;
 	}
 
 	@Override
 	public boolean isInvNameLocalized() {
-		// TODO Auto-generated method stub
-		return false;
+		// TODO Localization
+		return true;
 	}
 
 	@Override
@@ -136,26 +185,55 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements II
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		return true;
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		return ((worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this) && 
+				player.getDistanceSq(xCoord, yCoord, zCoord) < 64);
 	}
 
 	@Override
 	public void openChest() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void closeChest() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		if(i == 0){
+			if(canSmelt(itemStack)){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int var1) {
+		return new int[] {1, 0};
+	}
+
+	@Override
+	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
+		if(i == 0 && canSmelt(itemStack)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+		if(i == 1){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	@Override
