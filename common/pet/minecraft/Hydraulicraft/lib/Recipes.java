@@ -29,7 +29,7 @@ public class Recipes {
 				'P', Block.pistonBase,
 				'K', Items.gasket,
 				'G', Block.glass,
-				'S', Block.cobblestone,
+				'S', Block.stone,
 				'I', "ingotIron"
 			})
 		);
@@ -40,11 +40,11 @@ public class Recipes {
 					"SSS",
 					'K', Items.gasket,
 					'G', Block.glass,
-					'S', Block.cobblestone,
+					'S', Block.stone,
 					'C', Block.chest
 				});
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHose, 1, 0), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHose, 4, 0), true,
 				new Object [] {
 					"LLL",
 					"K-K",
@@ -75,22 +75,43 @@ public class Recipes {
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 0), true,
 				new Object [] {
-					"C-C",
-					"KHK",
-					"C-C",
+					"LSL",
+					"KGK",
+					"LSL",
+					'S', Block.stone,
 					'K', Items.gasket,
-					'C', "ingotEnrichedCopper",
-					'H', new ItemStack(Blocks.hydraulicHose,1,1)
+					'L', "ingotLead",
+					'G', Block.glass
 			}));
 		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 1), true,
+				new Object [] {
+					"CSC",
+					"KVK",
+					"CSC",
+					'S', Block.stone,
+					'K', Items.gasket,
+					'C', "ingotCopper",
+					'V', new ItemStack(Blocks.hydraulicPressurevat, 1,0)
+			}));
 		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 2), true,
+				new Object [] {
+					"SCS",
+					"KVK",
+					"SCS",
+					'S', Block.stone,
+					'K', Items.gasket,
+					'C', "ingotEnrichedCopper",
+					'V', new ItemStack(Blocks.hydraulicPressurevat, 1, 1)
+			}));
 		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicFrictionIncinerator, 1),
 			new Object [] {
 				"GKG",
 				"FCF",
 				"SSS",
-				'S', Block.cobblestone,
+				'S', Block.stone,
 				'G', Block.glass,
 				'F', Items.itemFrictionPlate,
 				'K', Items.gasket,
@@ -99,14 +120,14 @@ public class Recipes {
 			});
 		
 		
-		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicPressureValve, 1),
+		/*GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicPressureValve, 1),
 				new Object [] {
 					"---",
 					"HLH",
 					"---",
 					'H', Blocks.hydraulicHose,
 					'L', Block.lever,
-				});
+				});*/
 		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicCrusher, 1),
 				new Object [] {
@@ -115,7 +136,7 @@ public class Recipes {
 					"SSS",
 					'K', Items.gasket,
 					'P', Block.pistonBase,
-					'S', Block.cobblestone,
+					'S', Block.stone,
 					'C', Block.chest
 				});
 		
@@ -126,7 +147,7 @@ public class Recipes {
 					"SSS",
 					'K', Items.gasket,
 					'G', Block.glass,
-					'S', Block.cobblestone,
+					'S', Block.stone,
 					'C', Block.chest
 				});
 	}
@@ -137,7 +158,7 @@ public class Recipes {
 			"-SS",
 			"S-S",
 			"SS-",
-			'S', Block.cobblestone
+			'S', Block.stone
 			
 		});
 	
