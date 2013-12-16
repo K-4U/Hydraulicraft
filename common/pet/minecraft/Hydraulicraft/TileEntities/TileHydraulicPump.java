@@ -60,7 +60,7 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 		if((getPressure() + getGenerating()) < getMaxPressure()){
 			setPressure(getPressure() + getGenerating());
 		
-			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+			Functions.checkSidesSetPressure(worldObj, xCoord, yCoord, zCoord, getPressure());
 		}
 	}
 	

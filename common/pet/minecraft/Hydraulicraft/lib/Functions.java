@@ -86,11 +86,13 @@ public class Functions {
 					machineEntity.setStored(0, isOil);
 					
 					
-					if(machineEntity.getPressure() > pressureInSystem){
-						pressureInSystem = machineEntity.getPressure();
-					}
+					//if(machineEntity.getPressure() > pressureInSystem){
+						pressureInSystem += machineEntity.getPressure();
+					//}
 					machineEntity.setPressure(0);
 				}
+				
+				pressureInSystem = pressureInSystem / mainList.size();
 				
 				//Log.info("Fluid in system: " + fluidInSystem);
 				//Log.info("Pressure in system: " + pressureInSystem);

@@ -20,4 +20,6 @@ public class Constants {
 	
 	public final static int BURNING_TIME_DIVIDER_WATER = 160;
 	public final static int BURNING_TIME_DIVIDER_OIL = 32;
+	
+	public final static float USING_WATER_PENALTY = 0.5F;
 }
