@@ -3,6 +3,7 @@ package pet.minecraft.Hydraulicraft.TileEntities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
 import pet.minecraft.Hydraulicraft.lib.config.Constants;
@@ -10,11 +11,29 @@ import pet.minecraft.Hydraulicraft.lib.config.Constants;
 public class TileHydraulicFrictionIncinerator extends TileConsumer implements IInventory {
 
 	private ItemStack inputItem;
-	private ItemStack outputItem;;
+	private ItemStack outputItem;
+	private final float requiredPressure = 5F;
+	
 	
 	@Override
 	public float workFunction(boolean simulate) {
+		
 		return 5F;
+	}
+	
+	/*!
+	 * Checks if the outputslot is free, if there's enough pressure in the system
+	 * and if the item is smeltable
+	 */
+	private boolean canRun(){
+		if(inputItem == null || (getPressure() < requiredPressure)){
+			return false;
+		}else{
+			//Get smelting result:
+			ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputItem);
+			if(target == null) return false;
+			if(!outputItem.isItemEqual(target)) return false;
+		}
 	}
 
 	@Override

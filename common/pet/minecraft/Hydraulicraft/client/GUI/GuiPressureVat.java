@@ -55,8 +55,8 @@ public class GuiPressureVat extends GuiContainer {
 				float perc = (float)tankInfo[0].fluid.amount / (float)max;
 				
 				int xOffset = 8;
-				int yOffset = 10;
-				int h = 60;
+				int yOffset = 14;
+				int h = 58;
 				int height = (int)(h * perc);
 				//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 				drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
@@ -69,8 +69,8 @@ public class GuiPressureVat extends GuiContainer {
 			float perc = pvat.getPressure() / max;
 			
 			int xOffset = 152;
-			int yOffset = 10;
-			int h = 60;
+			int yOffset = 14;
+			int h = 58;
 			int height = (int)(h * perc);
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);

@@ -41,8 +41,21 @@ public class GuiIncinerator extends GuiContainer {
 			float perc = (float)incinerator.getStored() / (float)max;
 			
 			int xOffset = 8;
-			int yOffset = 10;
-			int h = 60;
+			int yOffset = 14;
+			int h = 58;
+			int height = (int)(h * perc);
+			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
+		}
+		if(incinerator.getPressure() > 0){
+			int color = 0xBFFFFFFF;
+			
+			float max = incinerator.getMaxPressure();
+			float perc = incinerator.getPressure() / max;
+			
+			int xOffset = 152;
+			int yOffset = 14;
+			int h = 58;
 			int height = (int)(h * perc);
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);

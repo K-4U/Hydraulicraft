@@ -43,8 +43,8 @@ public class GuiWasher extends GuiContainer {
 			float perc = (float)washer.getStored() / (float)max;
 			
 			int xOffset = 8;
-			int yOffset = 10;
-			int h = 60;
+			int yOffset = 14;
+			int h = 58;
 			int height = (int)(h * perc);
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
@@ -57,8 +57,8 @@ public class GuiWasher extends GuiContainer {
 			float perc = washer.getPressure() / max;
 			
 			int xOffset = 152;
-			int yOffset = 10;
-			int h = 60;
+			int yOffset = 14;
+			int h = 58;
 			int height = (int)(h * perc);
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
