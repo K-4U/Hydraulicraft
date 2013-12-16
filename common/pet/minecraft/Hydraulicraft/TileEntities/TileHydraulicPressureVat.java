@@ -31,7 +31,7 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	}
 	
 	public void setTier(){
-		tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * getTier()));
+		tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (getTier()+1)));
 	}
 	
 	

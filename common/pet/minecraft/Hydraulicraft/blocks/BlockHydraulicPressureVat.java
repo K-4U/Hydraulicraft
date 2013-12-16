@@ -40,4 +40,13 @@ public class BlockHydraulicPressureVat extends MachineTieredBlock {
 		
 		return true;
 	}
+	
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
+		super.onBlockPlacedBy(world, x, y, z, player, iStack);
+		TileEntity ent = world.getBlockTileEntity(x, y, z);
+		if(ent instanceof TileHydraulicPressureVat){
+			((TileHydraulicPressureVat) ent).setTier();
+		}
+	}
 }

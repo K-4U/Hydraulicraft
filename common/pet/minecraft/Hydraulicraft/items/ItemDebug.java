@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineItem;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
@@ -32,6 +34,16 @@ public class ItemDebug extends MachineItem {
 					
 					player.addChatMessage("Stored liquid: " + stored + "/" + max + " milliBuckets");
 					player.addChatMessage("Pressure:     " + pressure + "/" + maxPressure + " bar");
+					
+					if(ent instanceof TileHydraulicPressureVat){
+						int tier = ((TileHydraulicPressureVat)ent).getTier();
+						player.addChatMessage("Tier:          " + tier);						
+					}
+					
+					if(ent instanceof TileHydraulicHose){
+						int tier = ((TileHydraulicHose)ent).getTier();
+						player.addChatMessage("Tier:          " + tier);						
+					}
 					
 					return true;
 				}

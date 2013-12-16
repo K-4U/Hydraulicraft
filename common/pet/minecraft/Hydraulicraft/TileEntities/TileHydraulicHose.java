@@ -3,8 +3,7 @@ package pet.minecraft.Hydraulicraft.TileEntities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
-import pet.minecraft.Hydraulicraft.lib.helperClasses.Id;
-import pet.minecraft.Hydraulicraft.lib.helperClasses.Name;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 
 public class TileHydraulicHose extends TileTransporter {
 
@@ -20,12 +19,30 @@ public class TileHydraulicHose extends TileTransporter {
 
 	@Override
 	public int getMaxBar() {
-		// TODO Auto-generated method stub
+		if(isOilStored()){
+			switch(getTier()){
+			case 0:
+				return Constants.MAX_BAR_OIL_TIER_1;
+			case 1:
+				return Constants.MAX_BAR_OIL_TIER_2;
+			case 2:
+				return Constants.MAX_BAR_OIL_TIER_3;
+			}			
+		}else{
+			switch(getTier()){
+			case 0:
+				return Constants.MAX_BAR_WATER_TIER_1;
+			case 1:
+				return Constants.MAX_BAR_WATER_TIER_2;
+			case 2:
+				return Constants.MAX_BAR_WATER_TIER_3;
+			}	
+		}
 		return 0;
 	}
 
 	@Override
 	public int getStorage() {
-		return FluidContainerRegistry.BUCKET_VOLUME * 2;
+		return FluidContainerRegistry.BUCKET_VOLUME * (2 * (getTier()+1));
 	}
 }
