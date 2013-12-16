@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
+import pet.minecraft.Hydraulicraft.items.Items;
 import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
 import pet.minecraft.Hydraulicraft.lib.config.Constants;
@@ -103,7 +104,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			}
 		}else{
 			if(canRun()){
-				//targetItem = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
+				targetItem = Items.itemChunk.getCrushingRecipe(inputInventory);
 				
 				crushingItem = inputInventory.copy();
 				inputInventory.stackSize--;
@@ -137,7 +138,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			return false;
 		}else{
 			//Get crushing result:
-			ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
+			ItemStack target = Items.itemChunk.getCrushingRecipe(inputInventory);
 			if(target == null) return false;
 			if(outputInventory != null){
 				if(!outputInventory.isItemEqual(target)) return false;

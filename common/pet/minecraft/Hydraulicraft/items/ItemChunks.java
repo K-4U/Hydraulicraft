@@ -8,7 +8,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.lib.CustomTabs;
+import pet.minecraft.Hydraulicraft.lib.Functions;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
@@ -76,7 +78,9 @@ public class ItemChunks extends Item {
 		allowedList.add("Copper");
 		allowedList.add("Lead");
 		
-		
+		//Get oreDictionaryName
+		String oreName = OreDictionary.getOreName(itemStack.itemID);
+		String metalName = Functions.getMetalName(oreName);
 		
 		return ret;
 	}
