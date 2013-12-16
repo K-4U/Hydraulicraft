@@ -13,7 +13,7 @@ public class BlockHydraulicPump extends MachineTieredBlock {
 
     protected BlockHydraulicPump() {
         super(Ids.blockHydraulicPump, Names.blockHydraulicPump);
-        this.hasFrontIcon = true;
+        this.hasTopIcon = true;
     }
 
 	@Override

@@ -48,7 +48,7 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			}
 		}
 		
-		if(isBurning){
+		if(isBurning){			
 			generate();
 		}
 		if(needsUpdate){
@@ -58,9 +58,11 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 	
 	private void generate(){
 		//Set own pressure
-		setPressure(getPressure() + getGenerating());
+		if((getPressure() + getGenerating()) < getMaxPressure()){
+			setPressure(getPressure() + getGenerating());
 		
-		Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+		}
 	}
 	
 	@Override
