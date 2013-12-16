@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.lib.Functions;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
+import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -94,6 +95,9 @@ public class Items {
 					int subId = itemChunk.addChunk(metalName);
 					OreDictionary.registerOre("chunk" + metalName, new ItemStack(itemChunk, 1, subId));
 					LanguageRegistry.addName(new ItemStack(itemChunk,1,subId), metalName + " " + Names.itemChunk.localized);
+					
+					FurnaceRecipes.smelting().addSmelting(stackI.itemID, stackI.getItemDamage(), stackR, 0);
+					
 				}
 			}
 		}

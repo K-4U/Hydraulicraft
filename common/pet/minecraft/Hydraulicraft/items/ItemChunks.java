@@ -82,8 +82,13 @@ public class ItemChunks extends Item {
 		String oreName = itemStack.getUnlocalizedName();
 		oreName = oreName.substring("tile.".length());
 		String metalName = Functions.getMetalName(oreName);
-		if(Functions.isInString(oreName, allowedList)){
-			
+		if(allowedList.contains(metalName)){
+			for(int i = 0; i < chunks.size(); i++){
+				String cName =chunks.get(i).getName(); 
+				if(cName.equals(metalName)){
+					return new ItemStack(this.itemID, 1, i);
+				}
+			}
 		}
 		
 		return ret;
