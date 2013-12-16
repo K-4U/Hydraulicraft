@@ -91,7 +91,7 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 	
 	private void doSmelt(){
 		if(isSmelting()){
-			smeltingTicks+=((getPressure()/100) * 0.00005F);
+			smeltingTicks = smeltingTicks + 1 + (int)((getPressure()/100) * 0.00005F);
 			Log.info(smeltingTicks+ "");
 			if(smeltingTicks >= maxSmeltingTicks){
 				//Smelting done!
@@ -195,7 +195,7 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 			
 		}else{
 			ret = inventory.splitStack(j);
-			if(inventory.stackSize == 0){
+			if(inventory.stackSize <= 0){
 				inventory = null;
 			}
 		}

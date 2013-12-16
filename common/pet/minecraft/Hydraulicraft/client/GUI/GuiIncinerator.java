@@ -2,6 +2,7 @@ package pet.minecraft.Hydraulicraft.client.GUI;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -63,15 +64,20 @@ public class GuiIncinerator extends GuiContainer {
 		
 		
 		if(incinerator.isSmelting()){
-			Icon smeltingIcon = incinerator.getSmeltingItem().getIconIndex();
+			Item smeltingItem = incinerator.getSmeltingItem().getItem();
+
+			Icon smeltingIcon = smeltingItem.getIconFromDamage(smeltingItem.getDamage(incinerator.getSmeltingItem()));
+			
 			int done = incinerator.getSmeltingTicks();
-			int startX = 8;
+			int startX = 40;
 			int maxTicks = 200;
 			int targetX = 118;
 			int travelPath = targetX - startX;
 			float percentage = (float)done / (float)maxTicks;
 			int xPos = startX + (int) (travelPath * percentage);
-			drawTexturedModelRectFromIcon(xPos, 14, smeltingIcon, 0, 0);
+			int w = smeltingIcon.getIconWidth();
+			int h = smeltingIcon.getIconHeight();
+			drawTexturedModelRectFromIcon(xPos, 19, smeltingIcon, w, h);
 		}
 	}
 	
