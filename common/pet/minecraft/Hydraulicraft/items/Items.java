@@ -93,6 +93,7 @@ public class Items {
 				if(allowedList.contains(metalName)){
 					int subId = itemChunk.addChunk(metalName);
 					OreDictionary.registerOre("chunk" + metalName, new ItemStack(itemChunk, 1, subId));
+					LanguageRegistry.addName(new ItemStack(itemChunk,1,subId), metalName + " " + Names.itemChunk.localized);
 				}
 			}
 		}

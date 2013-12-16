@@ -3,6 +3,7 @@ package pet.minecraft.Hydraulicraft.TileEntities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -12,13 +13,27 @@ import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class TileHydraulicPump extends TileGenerator implements IInventory {
 	private ItemStack inventory;
+	private int currentBurnTime;
+	
 	
 	public TileHydraulicPump(){
 	}
 	
 	@Override
 	public void updateEntity(){
-		
+		//This function gets called every tick.
+		//It should check how much coal is left
+		//How long that stuff burns
+		//And how long it has left to burn.
+		boolean isBurning = (currentBurnTime > 0);
+		if(isBurning){
+			currentBurnTime --;
+		}
+		if(!worldObj.isRemote){
+			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory)){
+				
+			}
+		}
 	}
 	
 	@Override
