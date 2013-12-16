@@ -69,9 +69,14 @@ public class ItemChunks extends Item {
 	
 	public ItemStack getCrushingRecipe(ItemStack itemStack){
 		ItemStack ret = null;
-		if(getUnlocalizedName(itemStack) != ""){
-			ret = new ItemStack(this, )
-		}
+		
+		List<String> allowedList = new ArrayList<String>();
+		allowedList.add("Gold");
+		allowedList.add("Iron");
+		allowedList.add("Copper");
+		allowedList.add("Lead");
+		
+		
 		
 		return ret;
 	}
