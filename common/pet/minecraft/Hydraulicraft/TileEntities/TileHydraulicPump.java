@@ -3,12 +3,11 @@ package pet.minecraft.Hydraulicraft.TileEntities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileGenerator;
-import pet.minecraft.Hydraulicraft.lib.Log;
+import pet.minecraft.Hydraulicraft.lib.Functions;
 import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -27,10 +26,11 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 		//It should check how much coal is left
 		//How long that stuff burns
 		//And how long it has left to burn.
+		boolean needsUpdate = false;
 		boolean isBurning = (currentBurnTime > 0);
 		if(isBurning){
 			currentBurnTime --;
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			needsUpdate = true;
 		}
 		if(!worldObj.isRemote){
 			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure() <= getMaxPressure()){
@@ -38,14 +38,28 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 				currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory);
 				if(inventory != null){
 					inventory.stackSize--;
+					if(inventory.stackSize <= 0){
+						inventory = null;
+					}
 					this.onInventoryChanged();
+					needsUpdate = true;
 				}
 			}
+		}
+		
+		if(isBurning){
+			generate();
+		}
+		if(needsUpdate){
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
 	
 	private void generate(){
+		//Set own pressure
+		setPressure(getPressure() + getGenerating());
 		
+		Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 	}
 	
 	@Override
@@ -100,9 +114,12 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 	}
 
 	@Override
-	public int getGenerating() {
-		//TODO
-		return 0;
+	public float getGenerating() {
+		if(isOilStored()){
+			return ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_OIL);
+		}else{
+			return ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_WATER);
+		}
 	}
 
 	@Override

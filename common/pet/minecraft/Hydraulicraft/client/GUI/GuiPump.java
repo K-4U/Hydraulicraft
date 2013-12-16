@@ -62,9 +62,12 @@ public class GuiPump extends GuiContainer {
 			int height = (int)(h * perc);
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(66, yOffset + (h-height), xOffset + 3, yOffset + h, color);
-			drawRect(71, yOffset + (h-height), xOffset + 3, yOffset + h, color);
-			drawRect(76, yOffset + (h-height), xOffset + 3, yOffset + h, color);
-			drawRect(81, yOffset + (h-height), xOffset + 3, yOffset + h, color);
+			xOffset = 71;
+			drawRect(xOffset, yOffset + (h-height), xOffset + 3, yOffset + h, color);
+			xOffset = 76;
+			drawRect(xOffset, yOffset + (h-height), xOffset + 3, yOffset + h, color);
+			xOffset = 81;
+			drawRect(xOffset, yOffset + (h-height), xOffset + 3, yOffset + h, color);
 		}
 	}
 	

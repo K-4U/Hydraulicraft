@@ -30,8 +30,8 @@ public class ItemDebug extends MachineItem {
 					int stored = mEnt.getStored();
 					int max = mEnt.getStorage();
 					
-					int pressure = mEnt.getPressure();
-					int maxPressure = mEnt.getMaxPressure();
+					float pressure = mEnt.getPressure();
+					float maxPressure = mEnt.getMaxPressure();
 					
 					player.addChatMessage("Stored liquid: " + stored + "/" + max + " milliBuckets");
 					player.addChatMessage("Pressure:     " + pressure + "/" + maxPressure + " bar");
@@ -47,7 +47,7 @@ public class ItemDebug extends MachineItem {
 					}
 					
 					if(ent instanceof TileHydraulicPump){
-						int gen = ((TileHydraulicPump) ent).getGenerating();
+						float gen = ((TileHydraulicPump) ent).getGenerating();
 						int maxGen = ((TileHydraulicPump) ent).getMaxGenerating();
 						player.addChatMessage("Generating:    " + gen + "/" + maxGen);
 					}

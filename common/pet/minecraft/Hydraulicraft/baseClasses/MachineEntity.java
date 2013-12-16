@@ -15,18 +15,18 @@ import pet.minecraft.Hydraulicraft.lib.config.Constants;
 public abstract class MachineEntity extends TileEntity {
 	private boolean _isOilStored = false;
 	private int fluidLevelStored = 0;
-	private int bar = 0;
+	private float bar = 0;
 	private int fluidInSystem = 0;
 	
-	public void setPressure(int newPressure){
+	public void setPressure(float newPressure){
 		bar = newPressure;
 	}
 	
-	public int getPressure(){
+	public float getPressure(){
 		return bar;
 	}
 	
-	public int getMaxPressure(){
+	public float getMaxPressure(){
 		//All of the blocks will have the max tier of pressure.. For now!
 		if(!isOilStored()){
 			return Constants.MAX_BAR_WATER_TIER_3;

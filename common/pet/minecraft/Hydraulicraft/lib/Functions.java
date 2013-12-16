@@ -51,12 +51,19 @@ public class Functions {
 				//Log.info("Iteration done. " + mainList.size() + " machines found");
 				boolean isOil = ((MachineEntity)t).isOilStored();
 				int fluidInSystem = 0;
+				float pressureInSystem = 0;
 				for (MachineEntity machineEntity : mainList) {
 					fluidInSystem = fluidInSystem + machineEntity.getStored();
 					machineEntity.setStored(0, isOil);
+					pressureInSystem = pressureInSystem + machineEntity.getPressure();
+					
 				}
 				 
 				//Log.info("Fluid in system: " + fluidInSystem);
+				Log.info("Pressure in system: " + pressureInSystem);
+				
+				List<MachineEntity> topList = new ArrayList<MachineEntity>();
+				topList = Functions.mergeList(topList, mainList);
 				
 				List<MachineEntity> remainingBlocks = new ArrayList<MachineEntity>();
 				int newFluidInSystem = 0;
@@ -98,6 +105,11 @@ public class Functions {
 					firstIteration = false;
 				}
 				
+				float pressureToSet = pressureInSystem / topList.size();
+				for (MachineEntity machineEntity : topList) {
+					machineEntity.setPressure(pressureToSet);
+					//This will allow the machines themselves to explode when something goes wrong!
+				}
 				
 				//Log.info("Done iterating. Found " + mainList.size() + " blocks!");
 			}
