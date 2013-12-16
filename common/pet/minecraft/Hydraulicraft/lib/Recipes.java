@@ -73,6 +73,16 @@ public class Recipes {
 					'H', new ItemStack(Blocks.hydraulicHose,1,1)
 			}));
 		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 0), true,
+				new Object [] {
+					"C-C",
+					"KHK",
+					"C-C",
+					'K', Items.gasket,
+					'C', "ingotEnrichedCopper",
+					'H', new ItemStack(Blocks.hydraulicHose,1,1)
+			}));
+		
 		
 		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicFrictionIncinerator, 1),
@@ -141,7 +151,7 @@ public class Recipes {
 		}));
 
 		
-		GameRegistry.addRecipe(new ItemStack(Items.gasket, 2),
+		GameRegistry.addRecipe(new ItemStack(Items.gasket, 4),
 			new Object [] {
 				"P-P",
 				"-B-",

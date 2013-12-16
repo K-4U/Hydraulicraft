@@ -31,10 +31,10 @@ public class Blocks {
 		hydraulicMixer = new BlockHydraulicMixer();
 		hydraulicFrictionIncinerator = new BlockHydraulicFrictionIncinerator();
 		hydraulicCrusher = new BlockHydraulicCrusher();
-		hydraulicPressureGauge = new BlockHydraulicPressureGauge();
-		hydraulicPressureValve = new BlockHydraulicPressureValve();
+		//hydraulicPressureGauge = new BlockHydraulicPressureGauge();
+		//hydraulicPressureValve = new BlockHydraulicPressureValve();
 		hydraulicHose = new BlockHydraulicHose();
-		hydraulicPiston = new BlockHydraulicPiston();
+		//hydraulicPiston = new BlockHydraulicPiston();
 		hydraulicWasher = new BlockHydraulicWasher();
 		
 		registerBlocks();
@@ -52,9 +52,9 @@ public class Blocks {
 		GameRegistry.registerBlock(hydraulicMixer, Names.blockHydraulicMixer.unlocalized);
 		GameRegistry.registerBlock(hydraulicFrictionIncinerator, Names.blockHydraulicFrictionIncinerator.unlocalized);
 		GameRegistry.registerBlock(hydraulicCrusher, Names.blockHydraulicCrusher.unlocalized);
-		GameRegistry.registerBlock(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.unlocalized);
-		GameRegistry.registerBlock(hydraulicPressureValve, Names.blockHydraulicPressureValve.unlocalized);
-		GameRegistry.registerBlock(hydraulicPiston, Names.blockHydraulicPiston.unlocalized);
+		//GameRegistry.registerBlock(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.unlocalized);
+		//GameRegistry.registerBlock(hydraulicPressureValve, Names.blockHydraulicPressureValve.unlocalized);
+		//GameRegistry.registerBlock(hydraulicPiston, Names.blockHydraulicPiston.unlocalized);
 		GameRegistry.registerBlock(hydraulicWasher, Names.blockHydraulicWasher.unlocalized);
 		
 		
@@ -74,9 +74,9 @@ public class Blocks {
 		LanguageRegistry.addName(hydraulicMixer, Names.blockHydraulicMixer.localized);
 		LanguageRegistry.addName(hydraulicFrictionIncinerator, Names.blockHydraulicFrictionIncinerator.localized);
 		LanguageRegistry.addName(hydraulicCrusher, Names.blockHydraulicCrusher.localized);
-		LanguageRegistry.addName(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.localized);
-		LanguageRegistry.addName(hydraulicPressureValve, Names.blockHydraulicPressureValve.localized);
-		LanguageRegistry.addName(hydraulicPiston, Names.blockHydraulicPiston.localized);
+		//LanguageRegistry.addName(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.localized);
+		//LanguageRegistry.addName(hydraulicPressureValve, Names.blockHydraulicPressureValve.localized);
+		//LanguageRegistry.addName(hydraulicPiston, Names.blockHydraulicPiston.localized);
 		LanguageRegistry.addName(hydraulicWasher, Names.blockHydraulicWasher.localized);
 		
 		for(int i = 0; i < 3; i++){
