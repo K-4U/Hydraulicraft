@@ -73,7 +73,7 @@ public class Functions {
 				}
 				
 				//Log.info("Fluid in system: " + fluidInSystem);
-				Log.info("Pressure in system: " + pressureInSystem);
+				//Log.info("Pressure in system: " + pressureInSystem);
 				
 				if(oldMachineCount < mainList.size()){
 					pressureInSystem = pressureInSystem - (pressureInSystem / mainList.size());
