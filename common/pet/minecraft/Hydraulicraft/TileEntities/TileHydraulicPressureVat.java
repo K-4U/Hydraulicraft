@@ -80,19 +80,13 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 		tank.writeToNBT(tankCompound);
 		tagCompound.setCompoundTag("tank", tankCompound);
 	}
-	
-	
-	@Override
-	public int getMaxBar() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 	@Override
 	public int getSizeInventory() {
-		// TODO Auto-generated method stub
 		return 2;
 	}
+	
 	@Override
 	public ItemStack getStackInSlot(int i) {
 		switch(i){

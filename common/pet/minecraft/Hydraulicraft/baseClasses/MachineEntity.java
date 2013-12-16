@@ -30,8 +30,8 @@ public abstract class MachineEntity extends TileEntity {
 
 	
 	public void setPressure(float newPressure){
-		if((int)getMaxPressure() > (int)newPressure){
-			worldObj.createExplosion((Entity)null, xCoord, yCoord, zCoord, 10, true);
+		if((int)getMaxPressure() < (int)newPressure){
+			worldObj.createExplosion((Entity)null, xCoord, yCoord, zCoord, 1F + ((getMaxPressure() / newPressure) * 3), true);
 		}
 		bar = newPressure;
 	}
