@@ -3,7 +3,6 @@ package pet.minecraft.Hydraulicraft.lib.config;
 import pet.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
 public class Names {
-	public static final Name blockHydraulicPump = new Name("Hydraulic pump", "hydraulicPump");
 	
 	public static final Name blockHydraulicMixer = new Name("Hydraulic mixer", "hydraulicMixer");
 	public static final Name blockHydraulicFrictionIncinerator = new Name("Hydraulic friction incinerator", "hydraulicFrictionIncinerator");	
@@ -14,14 +13,20 @@ public class Names {
 	public static final Name blockHydraulicWasher = new Name("Hydraulic washer", "hydraulicWasher");
 	
 	public static final Name[] blockHydraulicHose = {
-		new Name("Hydraulic hose", "hydraulicHose"),
-		new Name("Hydraulic pipe", "hydraulicPipe"),
-		new Name("Hydraulic enriched pipe", "hydraulicEnrichedPipe")
+		new Name("LP Hydraulic Pressure Pipe", "LPHydraulicPipe"),
+		new Name("MP Hydraulic Pressure Pipe", "MPHydraulicPipe"),
+		new Name("HP Hydraulic Pressure Pipe", "HPHydraulicPipe")
 	};
 	public static final Name[] blockHydraulicPressurevat = {
-		new Name("Hydraulic vat", "hydraulicVat"),
-		new Name("Hydraulic pressure vat", "hydraulicPressureVat"),
-		new Name("Hydraulic enriched pressure vat", "hydraulicEnrichedPressureVat")
+		new Name("LP Hydraulic Pressure Vat", "LPHydraulicPressureVat"),
+		new Name("MP Hydraulic Pressure Vat", "MPHydraulicPressureVat"),
+		new Name("HP Hydraulic Pressure Vat", "HPHydraulicPressureVat")
+	};
+	
+	public static final Name[] blockHydraulicPump = {
+		new Name("LP Hydraulic Pump", "LPHydraulicPump"),
+		new Name("MP Hydraulic Pump", "MPHydraulicPump"),
+		new Name("HP Hydraulic Pump", "HPHydraulicPump")
 	};
 	
 	
