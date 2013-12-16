@@ -2,12 +2,12 @@ package pet.minecraft.Hydraulicraft.client.GUI;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
 import pet.minecraft.Hydraulicraft.client.containers.ContainerIncinerator;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -59,6 +59,19 @@ public class GuiIncinerator extends GuiContainer {
 			int height = (int)(h * perc);
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
+		}
+		
+		
+		if(incinerator.isSmelting()){
+			Icon smeltingIcon = incinerator.getSmeltingItem().getIconIndex();
+			int done = incinerator.getSmeltingTicks();
+			int startX = 8;
+			int maxTicks = 200;
+			int targetX = 118;
+			int travelPath = targetX - startX;
+			float percentage = (float)done / (float)maxTicks;
+			int xPos = startX + (int) (travelPath * percentage);
+			drawTexturedModelRectFromIcon(xPos, 14, smeltingIcon, 0, 0);
 		}
 	}
 	

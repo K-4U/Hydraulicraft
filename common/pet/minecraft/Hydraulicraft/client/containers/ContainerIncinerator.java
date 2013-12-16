@@ -15,8 +15,8 @@ public class ContainerIncinerator extends Container {
 	public ContainerIncinerator(InventoryPlayer invPlayer, TileHydraulicFrictionIncinerator incinerator){
 		tileIncinerator = incinerator;
 		
-		addSlotToContainer(new Slot(incinerator, 0, 40, 22));
-		addSlotToContainer(new Slot(incinerator, 1, 118, 22));
+		addSlotToContainer(new Slot(incinerator, 0, 40, 19));
+		addSlotToContainer(new Slot(incinerator, 1, 118, 19));
 		
 		bindPlayerInventory(invPlayer);
 		
