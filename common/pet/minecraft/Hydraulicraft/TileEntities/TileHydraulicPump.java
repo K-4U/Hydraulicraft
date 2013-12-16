@@ -15,6 +15,7 @@ import pet.minecraft.Hydraulicraft.lib.config.Names;
 public class TileHydraulicPump extends TileGenerator implements IInventory {
 	private ItemStack inventory;
 	private int currentBurnTime;
+	private int maxBurnTime;
 	
 	
 	public TileHydraulicPump(){
@@ -31,10 +32,19 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			currentBurnTime --;
 		}
 		if(!worldObj.isRemote){
-			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory)){
-				
+			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure() <= getMaxPressure()){
+				//Put new item in
+				currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory);
+				if(inventory != null){
+					inventory.stackSize--;
+					
+				}
 			}
 		}
+	}
+	
+	private void generate(){
+		
 	}
 	
 	@Override
@@ -75,8 +85,8 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 	}
 
 	@Override
-	public int getBar() {
-		// TODO Auto-generated method stub
+	public int getGenerating() {
+		//TODO
 		return 0;
 	}
 

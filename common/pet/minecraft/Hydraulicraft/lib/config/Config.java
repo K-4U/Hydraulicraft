@@ -5,7 +5,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.lib.Functions;
 
 public class Config {
-
 	
 	public static boolean canBeCrushed(String oreName){
 		String[] allowed = { "ore", "ingot"};

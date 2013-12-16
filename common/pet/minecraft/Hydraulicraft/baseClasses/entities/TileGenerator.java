@@ -28,7 +28,7 @@ public abstract class TileGenerator extends MachineEntity {
      * @date 14-12-2013
      * Returns how much the generator is now generating
      */
-    public abstract int getBar();
+    public abstract int getGenerating();
     
     
     @Override

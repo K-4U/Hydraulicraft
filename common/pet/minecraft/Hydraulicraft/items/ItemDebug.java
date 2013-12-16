@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import pet.minecraft.Hydraulicraft.baseClasses.MachineItem;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
@@ -43,6 +44,12 @@ public class ItemDebug extends MachineItem {
 					if(ent instanceof TileHydraulicHose){
 						int tier = ((TileHydraulicHose)ent).getTier();
 						player.addChatMessage("Tier:          " + tier);						
+					}
+					
+					if(ent instanceof TileHydraulicPump){
+						int gen = ((TileHydraulicPump) ent).getGenerating();
+						int maxGen = ((TileHydraulicPump) ent).getMaxGenerating();
+						player.addChatMessage("Generating:    " + gen + "/" + maxGen);
 					}
 					
 					return true;

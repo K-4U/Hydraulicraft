@@ -14,4 +14,6 @@ public class Constants {
 	
 	public final static int MAX_BAR_GEN_OIL = 50;
 	
+	public final static int BURNING_TIME_DIVIDER_WATER = 1600;
+	public final static int BURNING_TIME_DIVIDER_OIL = 320;
 }
