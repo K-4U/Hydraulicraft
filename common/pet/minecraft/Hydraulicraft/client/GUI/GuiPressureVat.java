@@ -62,6 +62,20 @@ public class GuiPressureVat extends GuiContainer {
 				drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
 			}
 		}
+		if(pvat.getPressure() > 0){
+			int color = 0xBFFFFFFF;
+			
+			float max = pvat.getMaxPressure();
+			float perc = pvat.getPressure() / max;
+			
+			int xOffset = 152;
+			int yOffset = 10;
+			int h = 60;
+			int height = (int)(h * perc);
+			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
+		}
+		
 	}
 	
 	

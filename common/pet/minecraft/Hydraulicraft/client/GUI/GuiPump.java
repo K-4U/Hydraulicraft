@@ -55,10 +55,10 @@ public class GuiPump extends GuiContainer {
 		if(pump.getPressure() > 0){
 			int color = 0xBFFFFFFF;
 			
-			int max = pump.getMaxPressure();
-			float perc = (float)pump.getPressure() / (float)max;
+			float max = pump.getMaxPressure();
+			float perc = pump.getPressure() / max;
 			
-			int xOffset = 8;
+			int xOffset = 152;
 			int yOffset = 10;
 			int h = 60;
 			int height = (int)(h * perc);
