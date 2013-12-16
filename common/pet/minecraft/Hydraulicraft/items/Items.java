@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.lib.Functions;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
@@ -96,7 +97,9 @@ public class Items {
 					OreDictionary.registerOre("chunk" + metalName, new ItemStack(itemChunk, 1, subId));
 					LanguageRegistry.addName(new ItemStack(itemChunk,1,subId), metalName + " " + Names.itemChunk.localized);
 					
-					FurnaceRecipes.smelting().addSmelting(stackI.itemID, stackI.getItemDamage(), stackR, 0);
+					String oreDictName = "ingot" + metalName;
+					ItemStack ingotTarget = new ItemStack(OreDictionary.getOreID("ingot" + metalName),1,0);
+					FurnaceRecipes.smelting().addSmelting(Ids.itemChunks.act, subId, ingotTarget, 0);
 					
 				}
 			}
