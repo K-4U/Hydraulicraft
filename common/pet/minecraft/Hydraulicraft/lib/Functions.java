@@ -77,6 +77,9 @@ public class Functions {
 				
 				if(oldMachineCount < mainList.size()){
 					pressureInSystem = pressureInSystem - (pressureInSystem / mainList.size());
+				}else if(oldMachineCount > mainList.size()){
+					//There were more machines a second ago!
+					//Well.. do nothing really..
 				}
 				for (MachineEntity machineEntity : mainList) {
 					machineEntity.setPressure(pressureInSystem);

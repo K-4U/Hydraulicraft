@@ -8,7 +8,6 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileGenerator;
 import pet.minecraft.Hydraulicraft.lib.Functions;
-import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
@@ -97,9 +96,23 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 	@Override
 	public int getMaxGenerating() {
 		if(!isOilStored()){
-			return Constants.MAX_MBAR_GEN_WATER;			
+			switch(getTier()){
+			case 0:
+				return Constants.MAX_MBAR_GEN_WATER_TIER_1;
+			case 1:
+				return Constants.MAX_MBAR_GEN_WATER_TIER_2;
+			case 2:
+				return Constants.MAX_MBAR_GEN_WATER_TIER_3;
+			}			
 		}else{
-			return Constants.MAX_MBAR_GEN_OIL;
+			switch(getTier()){
+			case 0:
+				return Constants.MAX_MBAR_GEN_OIL_TIER_1;
+			case 1:
+				return Constants.MAX_MBAR_GEN_WATER_TIER_2;
+			case 2:
+				return Constants.MAX_MBAR_GEN_WATER_TIER_3;
+			}
 		}
 		
 	}

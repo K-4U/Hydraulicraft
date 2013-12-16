@@ -2,6 +2,7 @@ package pet.minecraft.Hydraulicraft.items;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
@@ -25,6 +26,10 @@ public class ItemDebug extends MachineItem {
 			TileEntity ent = world.getBlockTileEntity(x, y, z);
 			if(ent != null){
 				if(ent instanceof MachineEntity){
+					NBTTagCompound tagC = itemStack.getTagCompound();
+					if(tagC == null){
+						tagC = new NBTTagCompound();
+					}
 					MachineEntity mEnt = (MachineEntity) ent;
 					
 					int stored = mEnt.getStored();
@@ -33,8 +38,14 @@ public class ItemDebug extends MachineItem {
 					float pressure = mEnt.getPressure();
 					float maxPressure = mEnt.getMaxPressure();
 					
-					player.addChatMessage("Stored liquid: " + stored + "/" + max + " milliBuckets");
-					player.addChatMessage("Pressure:     " + pressure + "/" + maxPressure + " mBar");
+					float prevPressure = tagC.getFloat("prevPressure");
+					int prevFluid = tagC.getInteger("prevFluid");
+					
+					player.addChatMessage("Stored liquid: " + stored + "/" + max + " milliBuckets (+"  + (stored - prevFluid) + ")");
+					player.addChatMessage("Pressure:     " + pressure + "/" + maxPressure + " mBar (+"  + (pressure - prevPressure) + ")");
+					
+					tagC.setFloat("prevPressure", pressure);
+					tagC.setInteger("prevFluid", stored);
 					
 					if(ent instanceof TileHydraulicPressureVat){
 						int tier = ((TileHydraulicPressureVat)ent).getTier();
@@ -53,6 +64,8 @@ public class ItemDebug extends MachineItem {
 						player.addChatMessage("Generating:    " + gen + "/" + maxGen);
 						player.addChatMessage("Tier:          " + tier);
 					}
+					
+					itemStack.setTagCompound(tagC);
 					
 					return true;
 				}
