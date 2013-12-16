@@ -109,11 +109,12 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			case 0:
 				return Constants.MAX_MBAR_GEN_OIL_TIER_1;
 			case 1:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_2;
+				return Constants.MAX_MBAR_GEN_OIL_TIER_2;
 			case 2:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_3;
+				return Constants.MAX_MBAR_GEN_OIL_TIER_3;
 			}
 		}
+		return 0;
 		
 	}
 
