@@ -16,9 +16,12 @@ import pet.minecraft.Hydraulicraft.lib.config.Constants;
 public abstract class MachineEntity extends TileEntity {
 	private boolean _isOilStored = false;
 	private int fluidLevelStored = 0;
-	private float bar = 0;
 	private int fluidInSystem = 0;
+	private int fluidTotalCapacity = 0;
+	
+	private float bar = 0;
 	private int networkCount;
+	
 	
 	public void setNetworkCount(int newCount){
 		networkCount = newCount;
@@ -39,6 +42,7 @@ public abstract class MachineEntity extends TileEntity {
 	public float getPressure(){
 		return bar;
 	}
+	
 	
 	public float getMaxPressure(){
 		//All of the blocks will have the max tier of pressure.. For now!
@@ -67,6 +71,11 @@ public abstract class MachineEntity extends TileEntity {
 		return fluidLevelStored;
 	}
 
+
+	public void setTotalFluidCapacity(int totalFluidCapacity) {
+		fluidTotalCapacity = totalFluidCapacity;
+	}
+	
 	public void setFluidInSystem(int i){
 		fluidInSystem = i;
 	}
@@ -149,6 +158,12 @@ public abstract class MachineEntity extends TileEntity {
 		
 		fluidLevelStored = tagCompound.getInteger("fluidLevelStored");
 		networkCount = tagCompound.getInteger("networkCount");
+		
+		_isOilStored = tagCompound.getBoolean("isOilStored");
+		fluidInSystem = tagCompound.getInteger("fluidInSystem");
+		fluidTotalCapacity = tagCompound.getInteger("fluidTotalCapacity");
+		
+		bar = tagCompound.getFloat("bar");
 	}
 	
 	@Override
@@ -157,11 +172,18 @@ public abstract class MachineEntity extends TileEntity {
 		
 		tagCompound.setInteger("fluidLevelStored",fluidLevelStored);
 		tagCompound.setInteger("networkCount", networkCount);
+		
+		tagCompound.setBoolean("isOilStored", _isOilStored);
+		tagCompound.setInteger("fluidInSystem", fluidInSystem );
+		tagCompound.setInteger("fluidTotalCapacity",fluidTotalCapacity);
+		
+		tagCompound.setFloat("bar", bar);
 	}
 	
 	protected TileEntity getBlockTileEntity(int x, int y, int z){
 		return worldObj.getBlockTileEntity(x, y, z);
 	}
+
 
 
 	

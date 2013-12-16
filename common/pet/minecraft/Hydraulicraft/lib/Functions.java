@@ -81,6 +81,7 @@ public class Functions {
 				for (MachineEntity machineEntity : mainList) {
 					machineEntity.setPressure(pressureInSystem);
 					machineEntity.setNetworkCount(mainList.size());
+					machineEntity.setTotalFluidCapacity(totalFluidCapacity);
 					//This will allow the machines themselves to explode when something goes wrong!
 					w.markBlockForUpdate(machineEntity.xCoord, machineEntity.yCoord, machineEntity.zCoord);
 				}
@@ -92,6 +93,7 @@ public class Functions {
 					if(mainList.size() == 0){
 						//Error!
 						Log.error("Too much fluid in the system!");
+						break;
 					}
 					int toSet = fluidInSystem / mainList.size();
 					//Log.info("Before iteration. Toset = " + toSet);
