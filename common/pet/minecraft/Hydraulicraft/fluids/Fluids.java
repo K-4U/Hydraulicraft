@@ -1,9 +1,22 @@
 package pet.minecraft.Hydraulicraft.fluids;
 
-public class Fluids {
+import pet.minecraft.Hydraulicraft.lib.config.Names;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.minecraft.block.Block;
+import net.minecraftforge.fluids.Fluid;
 
+public class Fluids {
+	public static Fluid fluidOil;
+	public static Block fluidOilBlock;
+	
+	
 	public static void init(){
+		fluidOil = new FluidOil();
+		fluidOilBlock = new BlockFluidOil();
 		
+		registerFluids();
+		addNames();
 	}
 	
 	/*!
@@ -12,6 +25,7 @@ public class Fluids {
 	 * Registers the Fluids to the GameRegistry
 	 */
 	public static void registerFluids(){
+		GameRegistry.registerBlock(fluidOilBlock,fluidOilBlock.getUnlocalizedName());
 		
 	}
 	
@@ -22,6 +36,6 @@ public class Fluids {
 	 * Note: No localization yet. Maybe after Modjam!
 	 */
 	public static void addNames(){
-		
+		LanguageRegistry.addName(fluidOilBlock, Names.fluidOil.localized);
 	}
 }

@@ -12,6 +12,7 @@ public class Names {
 	public static final Name blockHydraulicPiston = new Name("Hydraulic piston (TODO)", "hydraulicPiston");
 	public static final Name blockHydraulicWasher = new Name("Hydraulic washer", "hydraulicWasher");
 	
+	
 	public static final Name[] blockHydraulicHose = {
 		new Name("LP Hydraulic Pressure Pipe", "LPHydraulicPipe"),
 		new Name("MP Hydraulic Pressure Pipe", "MPHydraulicPipe"),
@@ -35,11 +36,11 @@ public class Names {
 	
 	public static final Name itemGasket = new Name("Gasket", "gasket");
 	public static final Name itemDebugger = new Name("Debug", "itemDebug");
-	
 	public static final Name itemFrictionPlate = new Name("Friction Plate", "frictionPlate");
 	public static final Name ingotCopper = new Name("Copper Ingot", "ingotCopper");
 	public static final Name ingotLead = new Name("Lead Ingot", "ingotLead");
 	public static final Name ingotEnrichedCopper = new Name("Enriched copper Ingot", "ingotEnrichedCopper");
-	
 	public static final Name itemChunk = new Name("chunks","chunk");
+	
+	public static final Name fluidOil = new Name("Hydraulic oil", "hydraulicOil");
 }
