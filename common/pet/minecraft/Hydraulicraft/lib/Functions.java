@@ -48,6 +48,8 @@ public class Functions {
 				mainList.add((MachineEntity) t);
 				mainList = ((MachineEntity) t).getConnectedBlocks(mainList);
 				
+				MachineEntity ent = (MachineEntity) t;
+				
 				//Log.info("Iteration done. " + mainList.size() + " machines found");
 				float pressureInSystem = 0;
 				if(newPressure < 0){
@@ -93,7 +95,9 @@ public class Functions {
 				}
 				
 				pressureInSystem = pressureInSystem / mainList.size();
-				
+				if(fluidInSystem < 100){
+					pressureInSystem = pressureInSystem * (fluidInSystem / 100);
+				}
 				//Log.info("Fluid in system: " + fluidInSystem);
 				//Log.info("Pressure in system: " + pressureInSystem);
 				
