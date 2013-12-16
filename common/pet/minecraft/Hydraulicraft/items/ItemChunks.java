@@ -79,8 +79,12 @@ public class ItemChunks extends Item {
 		allowedList.add("Lead");
 		
 		//Get oreDictionaryName
-		String oreName = OreDictionary.getOreName(itemStack.itemID);
+		String oreName = itemStack.getUnlocalizedName();
+		oreName = oreName.substring("tile.".length());
 		String metalName = Functions.getMetalName(oreName);
+		if(Functions.isInString(oreName, allowedList)){
+			
+		}
 		
 		return ret;
 	}
