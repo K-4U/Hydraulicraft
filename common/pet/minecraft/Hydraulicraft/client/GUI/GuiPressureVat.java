@@ -38,7 +38,7 @@ public class GuiPressureVat extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int p1, int p2){
 		//TODO: Change that color
 		int tier = pvat.getTier();
-		fontRenderer.drawString(Names.blockHydraulicPressurevat[tier].localized, 30, 6, 0xFFFFFF);
+		fontRenderer.drawString(pvat.getInvName(), 30, 6, 0xFFFFFF);
 		
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
 		//Get texture of fluid:

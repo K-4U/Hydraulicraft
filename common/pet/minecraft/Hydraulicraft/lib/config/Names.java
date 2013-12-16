@@ -30,7 +30,6 @@ public class Names {
 	};
 	
 	
-	
 	public static final Name oreCopper = new Name("Copper ore", "oreCopper");
 	public static final Name oreLead = new Name("Lead ore", "oreLead");
 	

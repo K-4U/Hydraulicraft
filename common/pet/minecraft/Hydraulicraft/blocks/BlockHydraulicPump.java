@@ -5,12 +5,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.Hydraulicraft;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
-import pet.minecraft.Hydraulicraft.baseClasses.MachineBlock;
-import pet.minecraft.Hydraulicraft.baseClasses.entities.TileGenerator;
+import pet.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
-public class BlockHydraulicPump extends MachineBlock {
+public class BlockHydraulicPump extends MachineTieredBlock {
 
     protected BlockHydraulicPump() {
         super(Ids.blockHydraulicPump, Names.blockHydraulicPump);

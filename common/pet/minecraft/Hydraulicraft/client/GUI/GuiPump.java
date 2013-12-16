@@ -31,7 +31,7 @@ public class GuiPump extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p1, int p2){
 		//TODO: Change that color
-		fontRenderer.drawString(Names.blockHydraulicPump.localized, 8, 6, 0xFFFFFF);
+		fontRenderer.drawString(pump.getInvName(), 8, 6, 0xFFFFFF);
 		
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
 		

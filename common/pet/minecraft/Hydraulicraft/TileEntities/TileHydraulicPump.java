@@ -125,7 +125,10 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			}
 			int maxFluid = getStorage();
 			float perc = (float)getStored() / (float)maxFluid;
-			return (multiplier * perc);
+			float result =(multiplier * perc);
+			if(result > getMaxGenerating())
+				result = getMaxGenerating();
+			return result;
 		}else{
 			return 0;
 		}
@@ -186,7 +189,7 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 	@Override
 	public String getInvName() {
 		// TODO Localization
-		return Names.blockHydraulicPump.localized;
+		return Names.blockHydraulicPump[getTier()].localized;
 	}
 
 	@Override
@@ -231,7 +234,7 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 
 	@Override
 	public int getStorage() {
-		return FluidContainerRegistry.BUCKET_VOLUME * 2;
+		return FluidContainerRegistry.BUCKET_VOLUME * (2 * (getTier() + 1));
 	}
 
 }
