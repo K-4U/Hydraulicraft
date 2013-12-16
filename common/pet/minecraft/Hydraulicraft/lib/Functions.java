@@ -60,6 +60,7 @@ public class Functions {
 				
 				List<MachineEntity> remainingBlocks = new ArrayList<MachineEntity>();
 				int newFluidInSystem = 0;
+				boolean firstIteration = true;
 				while(fluidInSystem > 0){
 					if(mainList.size() == 0){
 						//Error!
@@ -76,6 +77,10 @@ public class Functions {
 							machineEntity.setStored(toSet + machineEntity.getStored(), isOil);
 						}
 						
+						if(firstIteration){
+							machineEntity.setFluidInSystem(fluidInSystem);
+						}
+						
 						//Log.info("Is this the original? " + machineEntity.equals(t));
 						w.markBlockForUpdate(machineEntity.xCoord, machineEntity.yCoord, machineEntity.zCoord);
 					}
@@ -90,6 +95,7 @@ public class Functions {
 					}
 					
 					remainingBlocks.clear();
+					firstIteration = false;
 				}
 				
 				

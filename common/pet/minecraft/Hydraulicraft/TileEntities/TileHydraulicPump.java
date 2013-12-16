@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileGenerator;
 import pet.minecraft.Hydraulicraft.lib.Log;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class TileHydraulicPump extends TileGenerator implements IInventory {
@@ -42,6 +43,8 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 		
 		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inventory");
 		inventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		currentBurnTime = tagCompound.getInteger("currentBurnTime");
 	}
 	
 	@Override
@@ -53,6 +56,7 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			inventory.writeToNBT(inventoryCompound);
 			tagCompound.setCompoundTag("inventory", inventoryCompound);
 		}
+		tagCompound.setInteger("currentBurnTime",currentBurnTime);
 	}
 	
 	@Override
@@ -62,8 +66,12 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 
 	@Override
 	public int getMaxGenerating() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(!isOilStored()){
+			return Constants.MAX_BAR_GEN_WATER;			
+		}else{
+			return Constants.MAX_BAR_GEN_OIL;
+		}
+		
 	}
 
 	@Override

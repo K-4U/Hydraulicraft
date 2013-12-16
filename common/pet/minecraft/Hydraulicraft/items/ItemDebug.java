@@ -27,7 +27,11 @@ public class ItemDebug extends MachineItem {
 					int stored = mEnt.getStored();
 					int max = mEnt.getStorage();
 					
-					player.addChatMessage("Stored liquid: " + stored + "/" + max);
+					int pressure = mEnt.getPressure();
+					int maxPressure = mEnt.getMaxPressure();
+					
+					player.addChatMessage("Stored liquid: " + stored + "/" + max + " milliBuckets");
+					player.addChatMessage("Pressure:     " + pressure + "/" + maxPressure + " bar");
 					
 					return true;
 				}

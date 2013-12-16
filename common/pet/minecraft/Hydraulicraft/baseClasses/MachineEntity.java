@@ -10,11 +10,13 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import pet.minecraft.Hydraulicraft.lib.Functions;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 
 public abstract class MachineEntity extends TileEntity {
 	private boolean _isOilStored = false;
 	private int fluidLevelStored = 0;
 	private int bar = 0;
+	private int fluidInSystem = 0;
 	
 	public void setPressure(int newPressure){
 		bar = newPressure;
@@ -22,6 +24,15 @@ public abstract class MachineEntity extends TileEntity {
 	
 	public int getPressure(){
 		return bar;
+	}
+	
+	public int getMaxPressure(){
+		//All of the blocks will have the max tier of pressure.. For now!
+		if(!isOilStored()){
+			return Constants.MAX_BAR_WATER_TIER_3;
+		}else{
+			return Constants.MAX_BAR_OIL_TIER_3;
+		}
 	}
 	
 	/*!
@@ -42,6 +53,10 @@ public abstract class MachineEntity extends TileEntity {
 		return fluidLevelStored;
 	}
 
+	public void setFluidInSystem(int i){
+		fluidInSystem = i;
+	}
+	
 	public void setStored(int i, boolean isOil){
 		_isOilStored = isOil;
 		fluidLevelStored = i;
