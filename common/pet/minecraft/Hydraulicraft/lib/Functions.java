@@ -49,16 +49,23 @@ public class Functions {
 				mainList = ((MachineEntity) t).getConnectedBlocks(mainList);
 				
 				//Log.info("Iteration done. " + mainList.size() + " machines found");
-				boolean isOil = ((MachineEntity)t).isOilStored();
+				boolean isOil = false;
 				int fluidInSystem = 0;
+				int totalFluidCapacity = 0;
 				float pressureInSystem = 0;
 				int oldMachineCount = 0;
 				for (MachineEntity machineEntity : mainList) {
 					if(oldMachineCount == 0){
 						oldMachineCount = machineEntity.getNetworkCount();
 					}
+					if(isOil == false && machineEntity.isOilStored()){
+						isOil = true;
+					}
 					fluidInSystem = fluidInSystem + machineEntity.getStored();
+					totalFluidCapacity = totalFluidCapacity + machineEntity.getStorage();
 					machineEntity.setStored(0, isOil);
+					
+					
 					if(machineEntity.getPressure() > pressureInSystem){
 						pressureInSystem = machineEntity.getPressure();
 					}
@@ -68,9 +75,12 @@ public class Functions {
 				//Log.info("Fluid in system: " + fluidInSystem);
 				Log.info("Pressure in system: " + pressureInSystem);
 				
-				
+				if(oldMachineCount < mainList.size()){
+					pressureInSystem = pressureInSystem - (pressureInSystem / mainList.size());
+				}
 				for (MachineEntity machineEntity : mainList) {
 					machineEntity.setPressure(pressureInSystem);
+					machineEntity.setNetworkCount(mainList.size());
 					//This will allow the machines themselves to explode when something goes wrong!
 					w.markBlockForUpdate(machineEntity.xCoord, machineEntity.yCoord, machineEntity.zCoord);
 				}

@@ -3,6 +3,7 @@ package pet.minecraft.Hydraulicraft.baseClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -29,6 +30,9 @@ public abstract class MachineEntity extends TileEntity {
 
 	
 	public void setPressure(float newPressure){
+		if((int)getMaxPressure() > (int)newPressure){
+			worldObj.createExplosion((Entity)null, xCoord, yCoord, zCoord, 10, true);
+		}
 		bar = newPressure;
 	}
 	
