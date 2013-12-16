@@ -189,7 +189,6 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 		int filled = tank.fill(resource, doFill); 
 		if(doFill && filled > 10){
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 		}
 		return filled;
 	}
@@ -206,7 +205,6 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 		FluidStack drained = tank.drain(maxDrain, doDrain); 
 		if(doDrain && drained.amount > 0){
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 		}
 		return drained;
 	}

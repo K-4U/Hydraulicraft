@@ -4,6 +4,10 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 import org.lwjgl.opengl.GL11;
 
@@ -60,18 +64,25 @@ public class GuiMixer extends GuiContainer {
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
 		}
 		
-		if(mixer.() > 0){
-			int color = 0xBFFFFFFF;
-			
-			float max = mixer.getMaxPressure();
-			float perc = mixer.getPressure() / max;
-			
-			int xOffset = 152;
-			int yOffset = 14;
-			int h = 58;
-			int height = (int)(h * perc);
-			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
-			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
+		FluidTankInfo[] tankInfo = mixer.getTankInfo(ForgeDirection.UP);
+		if(tankInfo[0].fluid != null){
+			if(tankInfo[0].fluid.amount > 0){
+				Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
+				int color = 0xFFFFFFFF;
+				if(inTank.equals(FluidRegistry.WATER)){
+					color = 0x3F006DD9;
+				}
+				
+				int max = tankInfo[0].capacity;
+				float perc = (float)tankInfo[0].fluid.amount / (float)max;
+				
+				int xOffset = 35;
+				int yOffset = 14;
+				int h = 50;
+				int height = (int)(h * perc);
+				//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+				drawRect(xOffset, yOffset + (h-height), xOffset + 24, yOffset + h, color);
+			}
 		}
 		
 	}
