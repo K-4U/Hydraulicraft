@@ -77,6 +77,7 @@ public class ItemChunks extends Item {
 		allowedList.add("Iron");
 		allowedList.add("Copper");
 		allowedList.add("Lead");
+		allowedList.add("Quartz");
 		
 		//Get oreDictionaryName
 		String oreName = itemStack.getUnlocalizedName();

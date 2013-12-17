@@ -88,6 +88,7 @@ public class Items {
 		allowedList.add("Iron");
 		allowedList.add("Copper");
 		allowedList.add("Lead");
+		allowedList.add("Quartz");
 		
 		for (String ore : oreList) {
 			if(Config.canBeCrushed(ore)){
