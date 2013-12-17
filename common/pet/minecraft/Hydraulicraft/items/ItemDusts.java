@@ -71,30 +71,6 @@ public class ItemDusts extends Item {
 	
 	public ItemStack getWashingRecipe(ItemStack itemStack){
 		return new ItemStack(this.itemID, 1, itemStack.getItemDamage());
-		
-		/*
-		ItemStack ret = null;
-		
-		List<String> allowedList = new ArrayList<String>();
-		allowedList.add("Gold");
-		allowedList.add("Iron");
-		allowedList.add("Copper");
-		allowedList.add("Lead");
-		
-		//Get oreDictionaryName
-		String oreName = itemStack.getUnlocalizedName();
-		oreName = oreName.substring("tile.".length());
-		String metalName = Functions.getMetalName(oreName);
-		if(allowedList.contains(metalName)){
-			for(int i = 0; i < dusts.size(); i++){
-				String cName = dusts.get(i).getName(); 
-				if(cName.equals(metalName)){
-					return new ItemStack(this.itemID, 1, i);
-				}
-			}
-		}
-		
-		return ret;*/
 	}
 	
 	@Override

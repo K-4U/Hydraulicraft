@@ -28,18 +28,45 @@ public class Recipes {
 	}
 	
 	private static void initializeBlockRecipes(){
-		GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.hydraulicPump, true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPump,1,0), true,
 			new Object [] {
 				"PKP",
-				"GIG",
+				"GLG",
 				"PSP",
 				'P', Block.pistonBase,
 				'K', Items.gasket,
 				'G', Block.glass,
 				'S', Block.stone,
-				'I', "ingotIron"
+				'L', "ingotLead"
 			})
 		);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPump,1,1), true,
+				new Object [] {
+					"PKP",
+					"GCG",
+					"PSP",
+					'P', Block.pistonBase,
+					'K', Items.gasket,
+					'G', Block.glass,
+					'S', Block.stone,
+					'C', "ingotCopper"
+				})
+			);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPump,1,2), true,
+				new Object [] {
+					"PKP",
+					"GCG",
+					"PSP",
+					'P', Block.pistonBase,
+					'K', Items.gasket,
+					'G', Block.glass,
+					'S', Block.stone,
+					'C', "ingotEnrichedCopper"
+				})
+			);
+
+		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicMixer, 1),
 				new Object [] {
 					"GKG",

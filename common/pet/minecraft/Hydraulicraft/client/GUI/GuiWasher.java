@@ -93,7 +93,7 @@ public class GuiWasher extends GuiContainer {
 			
 			int done = washer.getWashingTicks();
 			int startY = 15;
-			int startX = 40;
+			int startX = 47;
 			int maxTicks = 200;
 			int targetX = 97;
 			int targetY = 0;
@@ -104,18 +104,19 @@ public class GuiWasher extends GuiContainer {
 			
 			if(percentage < 0.25F){
 				targetX = 73;
-				travelPath = targetX - startX;
+				travelPath = (targetX - startX) * 4;
 				xPos = startX + (int) (travelPath * percentage);
-			}else if(percentage < 0.5F){
+			}else if(percentage < 0.75F){
 				xPos = 73;
 				targetY = 50;
 				travelPath = targetY - startY;
-				yPos = startY + (int) (travelPath * percentage);
+				yPos = startY + (int) (travelPath * ((percentage-0.25F)*2));
 			}else{
 				yPos = 50;
 				targetX = 97;
+				startX = 73;
 				travelPath = targetX - startX;
-				xPos = startX + (int) (travelPath * percentage);
+				xPos = startX + (int) (travelPath * (percentage-0.75F)*4);
 			}
 			
 			

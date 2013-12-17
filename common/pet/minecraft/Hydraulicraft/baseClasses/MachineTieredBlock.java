@@ -118,6 +118,11 @@ public abstract class MachineTieredBlock extends MachineBlock {
 			super.onBlockPlacedBy(world, x, y, z, player, iStack);
 		}
 		
+		@Override
+		public int damageDropped(int damageValue){
+			return damageValue;
+		}
+		
 		
 		
 }
