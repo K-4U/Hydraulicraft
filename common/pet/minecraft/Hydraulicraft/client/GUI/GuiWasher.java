@@ -2,6 +2,7 @@ package pet.minecraft.Hydraulicraft.client.GUI;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
@@ -70,7 +71,7 @@ public class GuiWasher extends GuiContainer {
 			if(tankInfo[0].fluid.amount > 0){
 				Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
 				int color = 0xFFFFFFFF;
-				color = Constants.COLOR_WATER;
+				color = Constants.COLOR_WATER | 0x7F000000;
 				
 				int max = tankInfo[0].capacity;
 				float perc = (float)tankInfo[0].fluid.amount / (float)max;
@@ -82,6 +83,29 @@ public class GuiWasher extends GuiContainer {
 				//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 				drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
 			}
+		}
+		
+		if(washer.isWashing()){
+			ItemStack washingItem = washer.getWashingItem();
+			ItemStack targetItem = washer.getTargetItem();
+	
+			//Icon smeltingIcon = smeltingItem.getIconFromDamage(smeltingItem.getDamage(incinerator.getSmeltingItem()));
+			
+			int done = washer.getWashingTicks();
+			int startX = 40;
+			int maxTicks = 200;
+			int targetX = 118;
+			int travelPath = targetX - startX;
+			float percentage = (float)done / (float)maxTicks;
+			int xPos = startX + (int) (travelPath * percentage);
+			//drawTexturedModelRectFromIcon(xPos, 19, smeltingIcon, w, h)
+			GL11.glEnable(GL11.GL_BLEND);
+			if(percentage < 0.5f){
+				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), washingItem, xPos, 19);
+			}else{
+				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), targetItem, xPos, 19);
+			}
+			GL11.glDisable(GL11.GL_BLEND);
 		}
 	}
 	

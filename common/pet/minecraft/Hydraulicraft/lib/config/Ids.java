@@ -25,6 +25,7 @@ public class Ids {
 	public static final Id ingotLead = new Id(3091);
 	public static final Id ingotEnrichedCopper = new Id(3090);
 	public static final Id itemChunks = new Id(3089);
+	public static final Id itemDusts = new Id(3088);
 	
 	
 	

@@ -3,6 +3,7 @@ package pet.minecraft.Hydraulicraft.TileEntities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -17,22 +18,35 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
+import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class TileHydraulicWasher extends TileConsumer implements
 		ISidedInventory, IFluidHandler {
 	private ItemStack inputInventory;
+	private ItemStack washingItem;
+	private ItemStack targetItem;
 	private ItemStack outputInventory;
+	private int washingTicks = 0;
+	private int maxWashingTicks = 0;
+	private float requiredPressure = 5F;
 	
 	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 2);
 	
 	
+	public int getWashingTicks(){
+		return washingTicks;
+	}
+	
 	public TileHydraulicWasher(){
 		
 	}
-	
 
+	
+	public boolean isWashing() {
+		return (washingItem != null && targetItem != null);
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
@@ -70,7 +84,83 @@ public class TileHydraulicWasher extends TileConsumer implements
 	
 	@Override
 	public float workFunction(boolean simulate) {
-		return 0F;
+		if(canRun() || isWashing()){
+			if(!simulate){
+				doWash();
+			}
+			//The higher the pressure
+			//The higher the speed!
+			//But also the more it uses..
+			return 5F + (getPressure() * 0.00005F);
+		}else{
+			return 0F;
+		}
+	}
+	
+	
+	private void doWash(){
+		if(isWashing()){
+			washingTicks = washingTicks + 1 + (int)((getPressure()/10) * 0.0005F);
+			if(washingTicks >= washingTicks){
+				//washing done!
+				if(outputInventory == null){
+					outputInventory = targetItem.copy(); 
+				}else{
+					outputInventory.stackSize++;
+				}
+				washingItem = null;
+				targetItem = null;
+			}
+		}else{
+			if(canRun()){
+				//targetItem = 
+				washingItem = inputInventory.copy();
+				inputInventory.stackSize--;
+				if(inputInventory.stackSize <= 0){
+					inputInventory = null;
+				}
+				washingTicks = 0;
+			}
+			//Start washing
+			maxWashingTicks = 200;
+		}
+	}
+	
+	public ItemStack getWashingItem(){
+		return washingItem;
+	}
+	
+	public ItemStack getTargetItem(){
+		return targetItem;
+	}
+	
+	/*!
+	 * Checks if the outputslot is free, if there's enough pressure in the system
+	 * and if the item is smeltable
+	 */
+	private boolean canRun(){
+		if(inputInventory == null || (getPressure() < requiredPressure)){
+			return false;
+		}else{
+			//Get smelting result:
+			ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
+			if(target == null) return false;
+			if(outputInventory != null){
+				if(!outputInventory.isItemEqual(target)) return false;
+				int newItemStackSize = outputInventory.stackSize + inputInventory.stackSize;
+				
+				return (newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize());
+			}else{
+				return true;
+			}
+		}
+	}
+	
+	private boolean canSmelt(ItemStack inv){
+		//Get smelting result:
+		ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inv);
+		if(target == null) return false;
+		return true;
 	}
 
 	@Override
@@ -254,5 +344,8 @@ public class TileHydraulicWasher extends TileConsumer implements
 		return tankInfo;
 		
 	}
+
+
+
 
 }
