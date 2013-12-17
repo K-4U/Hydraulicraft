@@ -59,7 +59,7 @@ public class ItemChunks extends Item {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack){
-		return chunks.get(itemStack.getItemDamage()).getName();
+		return "chunk" + chunks.get(itemStack.getItemDamage()).getName();
 	}
 	
 	@Override

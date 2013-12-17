@@ -92,18 +92,43 @@ public class GuiWasher extends GuiContainer {
 			//Icon smeltingIcon = smeltingItem.getIconFromDamage(smeltingItem.getDamage(incinerator.getSmeltingItem()));
 			
 			int done = washer.getWashingTicks();
+			int startY = 15;
 			int startX = 40;
 			int maxTicks = 200;
-			int targetX = 118;
-			int travelPath = targetX - startX;
+			int targetX = 97;
+			int targetY = 0;
 			float percentage = (float)done / (float)maxTicks;
-			int xPos = startX + (int) (travelPath * percentage);
+			int travelPath = 0;
+			int xPos = startX;
+			int yPos = startY;
+			
+			if(percentage < 0.25F){
+				targetX = 73;
+				travelPath = targetX - startX;
+				xPos = startX + (int) (travelPath * percentage);
+			}else if(percentage < 0.5F){
+				xPos = 73;
+				targetY = 50;
+				travelPath = targetY - startY;
+				yPos = startY + (int) (travelPath * percentage);
+			}else{
+				yPos = 50;
+				targetX = 97;
+				travelPath = targetX - startX;
+				xPos = startX + (int) (travelPath * percentage);
+			}
+			
+			
+			
+			
 			//drawTexturedModelRectFromIcon(xPos, 19, smeltingIcon, w, h)
 			GL11.glEnable(GL11.GL_BLEND);
+			
+			
 			if(percentage < 0.5f){
-				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), washingItem, xPos, 19);
+				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), washingItem, xPos, yPos);
 			}else{
-				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), targetItem, xPos, 19);
+				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), targetItem, xPos, yPos);
 			}
 			GL11.glDisable(GL11.GL_BLEND);
 		}

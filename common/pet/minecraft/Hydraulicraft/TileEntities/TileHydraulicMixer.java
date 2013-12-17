@@ -187,8 +187,10 @@ public class TileHydraulicMixer extends TileConsumer implements
 			
 		}else{
 			ret = inventory.splitStack(j);
-			if(inventory.stackSize == 0){
-				inventory = null;
+			if(inventory.stackSize <= 0){
+				if(i == 0){
+					inputInventory = null;
+				}
 			}
 		}
 		

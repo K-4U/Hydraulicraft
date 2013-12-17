@@ -70,6 +70,9 @@ public class ItemDusts extends Item {
 	}
 	
 	public ItemStack getWashingRecipe(ItemStack itemStack){
+		return new ItemStack(this.itemID, 1, itemStack.getItemDamage());
+		
+		/*
 		ItemStack ret = null;
 		
 		List<String> allowedList = new ArrayList<String>();
@@ -91,7 +94,7 @@ public class ItemDusts extends Item {
 			}
 		}
 		
-		return ret;
+		return ret;*/
 	}
 	
 	@Override

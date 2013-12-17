@@ -101,8 +101,9 @@ public class TileHydraulicWasher extends TileConsumer implements
 	
 	private void doWash(){
 		if(isWashing()){
-			washingTicks = washingTicks + 1 + (int)((getPressure()/10) * 0.0005F);
-			if(washingTicks >= washingTicks){
+			washingTicks = washingTicks + 1 + (int)((getPressure()/100) * 0.0005F);
+			Log.info(washingTicks + "");
+			if(washingTicks >= maxWashingTicks){
 				//washing done!
 				if(outputInventory == null){
 					outputInventory = targetItem.copy(); 
@@ -193,8 +194,12 @@ public class TileHydraulicWasher extends TileConsumer implements
 			
 		}else{
 			ret = inventory.splitStack(j);
-			if(inventory.stackSize == 0){
-				inventory = null;
+			if(inventory.stackSize <= 0){
+				if(i == 0){
+					inputInventory = null;
+				}else{
+					outputInventory = null;
+				}
 			}
 		}
 		
