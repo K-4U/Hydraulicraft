@@ -18,6 +18,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
+import pet.minecraft.Hydraulicraft.items.Items;
 import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
@@ -113,7 +114,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 			}
 		}else{
 			if(canRun()){
-				//targetItem = 
+				targetItem = Items.itemDust.getWashingRecipe(inputInventory); 
 				washingItem = inputInventory.copy();
 				inputInventory.stackSize--;
 				if(inputInventory.stackSize <= 0){
@@ -143,7 +144,8 @@ public class TileHydraulicWasher extends TileConsumer implements
 			return false;
 		}else{
 			//Get smelting result:
-			ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
+			//ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
+			ItemStack target = Items.itemDust.getWashingRecipe(inputInventory);
 			if(target == null) return false;
 			if(outputInventory != null){
 				if(!outputInventory.isItemEqual(target)) return false;
@@ -154,13 +156,6 @@ public class TileHydraulicWasher extends TileConsumer implements
 				return true;
 			}
 		}
-	}
-	
-	private boolean canSmelt(ItemStack inv){
-		//Get smelting result:
-		ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inv);
-		if(target == null) return false;
-		return true;
 	}
 
 	@Override

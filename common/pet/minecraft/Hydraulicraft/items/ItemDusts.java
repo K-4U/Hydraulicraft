@@ -42,7 +42,7 @@ public class ItemDusts extends Item {
 	private List<dust> dusts = new ArrayList<dust>();
 	
 	public ItemDusts() {
-		super(Ids.itemChunks.act);
+		super(Ids.itemDusts.act);
 		
 		setMaxStackSize(64);
 		setUnlocalizedName(Names.itemDust.unlocalized);
@@ -69,7 +69,7 @@ public class ItemDusts extends Item {
 		}
 	}
 	
-	public ItemStack getCrushingRecipe(ItemStack itemStack){
+	public ItemStack getWashingRecipe(ItemStack itemStack){
 		ItemStack ret = null;
 		
 		List<String> allowedList = new ArrayList<String>();
