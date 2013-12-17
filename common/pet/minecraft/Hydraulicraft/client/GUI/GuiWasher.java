@@ -64,6 +64,25 @@ public class GuiWasher extends GuiContainer {
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
 		}
+		
+		FluidTankInfo[] tankInfo = washer.getTankInfo(ForgeDirection.UP);
+		if(tankInfo[0].fluid != null){
+			if(tankInfo[0].fluid.amount > 0){
+				Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
+				int color = 0xFFFFFFFF;
+				color = Constants.COLOR_WATER;
+				
+				int max = tankInfo[0].capacity;
+				float perc = (float)tankInfo[0].fluid.amount / (float)max;
+				
+				int xOffset = 68;
+				int yOffset = 15;
+				int h = 52;
+				int height = (int)(h * perc);
+				//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+				drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
+			}
+		}
 	}
 	
 	@Override

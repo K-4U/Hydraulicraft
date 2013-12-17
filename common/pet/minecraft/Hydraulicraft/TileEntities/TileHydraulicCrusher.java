@@ -93,7 +93,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			crushingTicks = crushingTicks + 1 + (int)((getPressure()/100) * 0.005F);
 			Log.info(crushingTicks+ "");
 			if(crushingTicks >= maxCrushingTicks){
-				//Smelting done!
+				//Crushing done!
 				if(outputInventory == null){
 					outputInventory = targetItem.copy();
 				}else{
@@ -147,9 +147,9 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			if(target == null) return false;
 			if(outputInventory != null){
 				if(!outputInventory.isItemEqual(target)) return false;
-				int newItemStackSize = outputInventory.stackSize + inputInventory.stackSize;
-				
-				return (newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize());
+				int newItemStackSize = outputInventory.stackSize + target.stackSize;
+				boolean ret = (newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize());
+				return ret;
 			}else{
 				return true;
 			}
