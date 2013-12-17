@@ -8,15 +8,20 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class TileHydraulicWasher extends TileConsumer implements
-		ISidedInventory {
+		ISidedInventory, IFluidHandler {
 	private ItemStack inputInventory;
 	private ItemStack outputInventory;
+	
+	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 2);
+	
 	
 	public TileHydraulicWasher(){
 		

@@ -95,8 +95,10 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			if(crushingTicks >= maxCrushingTicks){
 				//Smelting done!
 				if(outputInventory == null){
-					outputInventory = targetItem.copy(); 
+					outputInventory = targetItem.copy();
+					outputInventory.stackSize++;
 				}else{
+					outputInventory.stackSize++;
 					outputInventory.stackSize++;
 				}
 				crushingItem = null;
