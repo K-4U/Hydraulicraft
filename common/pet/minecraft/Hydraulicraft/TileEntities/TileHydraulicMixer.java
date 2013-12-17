@@ -4,10 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -17,8 +15,9 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
-import pet.minecraft.Hydraulicraft.lib.Functions;
-import pet.minecraft.Hydraulicraft.lib.config.Config;
+import pet.minecraft.Hydraulicraft.fluids.Fluids;
+import pet.minecraft.Hydraulicraft.lib.Log;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class TileHydraulicMixer extends TileConsumer implements
@@ -26,6 +25,11 @@ public class TileHydraulicMixer extends TileConsumer implements
 
 	private ItemStack inputInventory;
 	//private ItemStack outputInventory;
+	
+	private boolean isWorking = false;
+	private int maxTicks = 500;
+	private int ticksDone = 0;
+	private float requiredPressure = 5.0F;
 	
 	private FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	private FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 8);
@@ -72,11 +76,64 @@ public class TileHydraulicMixer extends TileConsumer implements
 		outputTank.writeToNBT(tankCompound);
 		tagCompound.setCompoundTag("outputTank", tankCompound);
 	}
-	
+
+	/*!
+	 * Checks if the outputslot is free, if there's enough pressure in the system
+	 * and if the item is smeltable
+	 */
+	private boolean canRun(){
+		if(inputInventory == null || (getPressure() < requiredPressure)){
+			return false;
+		}else{
+			if(outputTank.getFluidAmount() + Constants.OIL_FOR_ONE_SEED < outputTank.getCapacity()){
+				if(inputInventory.itemID == Item.seeds.itemID){
+					if(inputTank.getFluid().equals(FluidRegistry.WATER) && inputTank.getFluidAmount() > Constants.WATER_FOR_ONE_SEED){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 	
 	@Override
 	public float workFunction(boolean simulate) {
-		return 0F;
+		if(canRun() || isWorking){
+			if(!simulate){
+				doConvert();
+			}
+			//The higher the pressure
+			//The higher the speed!
+			//But also the more it uses..
+			return 5F + (getPressure() * 0.00005F);
+		}else{
+			return 0F;
+		}
+	}
+	
+	public void doConvert(){
+		if(isWorking){
+			ticksDone = ticksDone + 1 + (int)((getPressure()/100) * 0.00005F);
+			Log.info(ticksDone+ "");
+			if(ticksDone >= maxTicks){
+				
+				isWorking = false;
+			}
+		}else{
+			if(canRun()){
+				targetItem = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
+				smeltingItem = inputInventory.copy();
+				inputInventory.stackSize--;
+				if(inputInventory.stackSize <= 0){
+					inputInventory = null;
+				}
+				smeltingTicks = 0;
+			}
+			//Start smelting
+			maxSmeltingTicks = 200;
+			//Take item out of the input slot
+			//And store it in the smeltingSlot
+		}
 	}
 
 	@Override
@@ -228,10 +285,9 @@ public class TileHydraulicMixer extends TileConsumer implements
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		FluidStack drained = inputTank.drain(maxDrain, doDrain); 
+		FluidStack drained = outputTank.drain(maxDrain, doDrain); 
 		if(doDrain && drained.amount > 0){
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 		}
 		return drained;
 	}
@@ -247,14 +303,18 @@ public class TileHydraulicMixer extends TileConsumer implements
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		return true;
+		if(fluid.equals(Fluids.fluidOil)){
+			return true;			
+		}else{
+			return false;
+		}
+		
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		FluidTankInfo[] tankInfo = {new FluidTankInfo(inputTank)};
+		FluidTankInfo[] tankInfo = {new FluidTankInfo(inputTank), new FluidTankInfo(outputTank)};
 		return tankInfo;
-		
 	}
 
 

@@ -25,4 +25,7 @@ public class Constants {
 	
 	public final static int COLOR_WATER = 0x4F006DD9;
 	public final static int COLOR_PRESSURE = 0x3FFFFFFF;
+	
+	public final static int OIL_FOR_ONE_SEED	=	100;
+	public final static int WATER_FOR_ONE_SEED  = 	50;
 }
