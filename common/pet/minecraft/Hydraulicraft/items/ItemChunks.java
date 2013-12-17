@@ -2,13 +2,13 @@ package pet.minecraft.Hydraulicraft.items;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
-import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.lib.CustomTabs;
 import pet.minecraft.Hydraulicraft.lib.Functions;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
@@ -72,6 +72,8 @@ public class ItemChunks extends Item {
 	public ItemStack getCrushingRecipe(ItemStack itemStack){
 		ItemStack ret = null;
 		
+		
+		
 		List<String> allowedList = new ArrayList<String>();
 		allowedList.add("Gold");
 		allowedList.add("Iron");
@@ -85,9 +87,13 @@ public class ItemChunks extends Item {
 		String metalName = Functions.getMetalName(oreName);
 		if(allowedList.contains(metalName)){
 			for(int i = 0; i < chunks.size(); i++){
-				String cName =chunks.get(i).getName(); 
+				String cName = chunks.get(i).getName(); 
 				if(cName.equals(metalName)){
-					return new ItemStack(this.itemID, 1, i);
+					if(metalName.equals("Quartz")){
+						return new ItemStack(Item.netherQuartz,3 + ((new Random()).nextFloat() > 0.75F ? 1 : 0));
+					}else{
+						return new ItemStack(this.itemID, 1, i);
+					}
 				}
 			}
 		}

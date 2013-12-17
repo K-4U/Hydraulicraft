@@ -7,7 +7,7 @@ import pet.minecraft.Hydraulicraft.lib.Functions;
 public class Config {
 	
 	public static boolean canBeCrushed(String oreName){
-		String[] allowed = { "ore", "ingot"};
+		String[] allowed = {"ore"};
 		return Functions.isInString(oreName, allowed) || oreName.equals("stone");
 	}
 	

@@ -37,6 +37,10 @@ public class Functions {
 		prefix[0] = "ore";
 		if(isInString(oreDictName, prefix)){
 			return oreDictName.substring(prefix[0].length());
+		}
+		
+		if(oreDictName.equals("netherquartz")){
+			return "Quartz";
 		}else{
 			return "ERROR";
 		}
