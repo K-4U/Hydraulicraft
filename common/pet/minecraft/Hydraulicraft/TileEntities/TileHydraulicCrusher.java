@@ -90,7 +90,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	
 	private void doCrush(){
 		if(isCrushing()){
-			crushingTicks = crushingTicks + 1 + (int)((getPressure()/100) * 0.00005F);
+			crushingTicks = crushingTicks + 1 + (int)((getPressure()/100) * 0.005F);
 			Log.info(crushingTicks+ "");
 			if(crushingTicks >= maxCrushingTicks){
 				//Smelting done!
