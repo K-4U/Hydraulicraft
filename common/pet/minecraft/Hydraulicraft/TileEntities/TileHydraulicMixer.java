@@ -87,7 +87,7 @@ public class TileHydraulicMixer extends TileConsumer implements
 		}else{
 			if(outputTank.getFluidAmount() + Constants.OIL_FOR_ONE_SEED < outputTank.getCapacity()){
 				if(inputInventory.itemID == Item.seeds.itemID){
-					if(inputTank.getFluid().equals(FluidRegistry.WATER) && inputTank.getFluidAmount() > Constants.WATER_FOR_ONE_SEED){
+					if(inputTank.getFluid().isFluidEqual(new FluidStack(FluidRegistry.WATER.getID(),0)) && inputTank.getFluidAmount() > Constants.WATER_FOR_ONE_SEED){
 						return true;
 					}
 				}
@@ -116,23 +116,25 @@ public class TileHydraulicMixer extends TileConsumer implements
 			ticksDone = ticksDone + 1 + (int)((getPressure()/100) * 0.00005F);
 			Log.info(ticksDone+ "");
 			if(ticksDone >= maxTicks){
-				
+				if(outputTank.getFluidAmount() <= 0){
+					outputTank.setFluid(new FluidStack(Fluids.fluidOil, Constants.OIL_FOR_ONE_SEED));
+				}else{
+					outputTank.getFluid().amount+=Constants.OIL_FOR_ONE_SEED;
+				}
 				isWorking = false;
 			}
 		}else{
 			if(canRun()){
-				targetItem = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
-				smeltingItem = inputInventory.copy();
 				inputInventory.stackSize--;
 				if(inputInventory.stackSize <= 0){
 					inputInventory = null;
 				}
-				smeltingTicks = 0;
+				
+				inputTank.drain(Constants.WATER_FOR_ONE_SEED, true);
+				
+				ticksDone = 0;
+				isWorking = true;
 			}
-			//Start smelting
-			maxSmeltingTicks = 200;
-			//Take item out of the input slot
-			//And store it in the smeltingSlot
 		}
 	}
 

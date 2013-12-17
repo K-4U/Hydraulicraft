@@ -85,6 +85,26 @@ public class GuiMixer extends GuiContainer {
 				drawRect(xOffset, yOffset + (h-height), xOffset + 26, yOffset + h, color);
 			}
 		}
+		if(tankInfo[1].fluid != null){
+			if(tankInfo[1].fluid.amount > 0){
+				Fluid inTank = FluidRegistry.getFluid(tankInfo[1].fluid.fluidID);
+				int color = 0xFFFFFFFF;
+				if(inTank.equals(FluidRegistry.WATER)){
+					color = 0x7FFFFFFF;
+				}
+				
+				int max = tankInfo[1].capacity;
+				float perc = (float)tankInfo[1].fluid.amount / (float)max;
+				
+				int xOffset = 107;
+				int yOffset = 14;
+				int h = 52;
+				int height = (int)(h * perc);
+				//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+				drawRect(xOffset, yOffset + (h-height), xOffset + 26, yOffset + h, color);
+			}
+		}
+		
 		
 	}
 	
