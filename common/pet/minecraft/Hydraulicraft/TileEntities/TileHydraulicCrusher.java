@@ -1,12 +1,12 @@
 package pet.minecraft.Hydraulicraft.TileEntities;
 
+import java.util.Random;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
 import pet.minecraft.Hydraulicraft.items.Items;
 import pet.minecraft.Hydraulicraft.lib.Log;
@@ -96,9 +96,12 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 				//Smelting done!
 				if(outputInventory == null){
 					outputInventory = targetItem.copy();
-					outputInventory.stackSize++;
 				}else{
 					outputInventory.stackSize++;
+				}
+				
+				outputInventory.stackSize++;
+				if( (new Random()).nextFloat() > 0.75){
 					outputInventory.stackSize++;
 				}
 				crushingItem = null;

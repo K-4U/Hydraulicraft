@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileStorage;
+import pet.minecraft.Hydraulicraft.fluids.Fluids;
 import pet.minecraft.Hydraulicraft.lib.Functions;
 import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
@@ -211,7 +212,8 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		if(fluid.equals(FluidRegistry.WATER)){
+		if(fluid.getID() == FluidRegistry.WATER.getID() ||
+				fluid.getID() == Fluids.fluidOil.getID()){
 			return true;
 		}else{
 			return false;

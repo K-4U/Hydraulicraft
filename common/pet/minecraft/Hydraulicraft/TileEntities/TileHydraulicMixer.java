@@ -6,6 +6,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -37,6 +40,20 @@ public class TileHydraulicMixer extends TileConsumer implements
 	
 	public TileHydraulicMixer(){
 		
+	}
+	
+	
+	@Override
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
+		NBTTagCompound tagCompound = packet.data;
+		this.readFromNBT(tagCompound);
+	}
+	
+	@Override
+	public Packet getDescriptionPacket(){
+		NBTTagCompound tagCompound = new NBTTagCompound();
+		this.writeToNBT(tagCompound);
+		return new Packet132TileEntityData(xCoord,yCoord,zCoord,4,tagCompound);
 	}
 	
 	@Override

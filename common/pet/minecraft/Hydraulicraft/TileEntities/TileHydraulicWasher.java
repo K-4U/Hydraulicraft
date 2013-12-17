@@ -7,8 +7,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
@@ -38,6 +43,8 @@ public class TileHydraulicWasher extends TileConsumer implements
 		
 		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
 		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		tank.readFromNBT(tagCompound.getCompoundTag("tank"));
 	}
 	
 	@Override
@@ -54,6 +61,10 @@ public class TileHydraulicWasher extends TileConsumer implements
 			outputInventory.writeToNBT(inventoryCompound);
 			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
 		}
+		
+		NBTTagCompound tankCompound = new NBTTagCompound();
+		tank.writeToNBT(tankCompound);
+		tagCompound.setCompoundTag("tank", tankCompound);
 	}
 	
 	
@@ -195,8 +206,53 @@ public class TileHydraulicWasher extends TileConsumer implements
 
 	@Override
 	public int getStorage() {
-		// TODO Auto-generated method stub
 		return FluidContainerRegistry.BUCKET_VOLUME * 10;
+	}
+	
+	@Override
+	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+		int filled = tank.fill(resource, doFill); 
+		if(doFill && filled > 10){
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
+		return filled;
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, FluidStack resource,
+			boolean doDrain) {
+		
+		return null;
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+		FluidStack drained = tank.drain(maxDrain, doDrain); 
+		if(doDrain && drained.amount > 0){
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
+		return drained;
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, Fluid fluid) {
+		if(fluid.equals(FluidRegistry.WATER)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+		return true;
+	}
+
+	@Override
+	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+		FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
+		return tankInfo;
+		
 	}
 
 }
