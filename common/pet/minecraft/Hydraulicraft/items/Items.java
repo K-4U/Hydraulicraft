@@ -22,6 +22,7 @@ public class Items {
 	public static Item itemFrictionPlate;
 	public static Item itemDebugger;
 	public static ItemChunks itemChunk;
+	public static ItemDusts itemDust;
 	
 	/*!
 	 * @author Koen Beckers
@@ -37,6 +38,7 @@ public class Items {
 		itemDebugger = new ItemDebug();
 		
 		itemChunk = new ItemChunks();
+		itemDust = new ItemDusts();
 		
 		
 		registerItems();
@@ -106,7 +108,20 @@ public class Items {
 						ItemStack ingotTarget = new ItemStack(Functions.getIngotId("ingot" + metalName), 1, 0);
 						FurnaceRecipes.smelting().addSmelting(Items.itemChunk.itemID, subId, ingotTarget, 0);						
 					}
-					
+				}
+			}
+			if(Config.canBeWashed(ore)){
+				String metalName = Functions.getMetalName(ore);
+				if(metalName != "Quartz"){
+					if(allowedList.contains(metalName)){
+						int subId = itemDust.addDust(metalName);
+						OreDictionary.registerOre("dust" + metalName, new ItemStack(itemDust, 1, subId));
+						LanguageRegistry.addName(new ItemStack(itemDust,1,subId), metalName + " " + Names.itemDust.localized);
+						
+						String oreDictName = "ingot" + metalName;
+						ItemStack ingotTarget = new ItemStack(Functions.getIngotId("ingot" + metalName), 1, 0);
+						FurnaceRecipes.smelting().addSmelting(Items.itemDust.itemID, subId, ingotTarget, 0);						
+					}
 				}
 			}
 		}

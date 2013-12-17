@@ -11,6 +11,11 @@ public class Config {
 		return Functions.isInString(oreName, allowed) || oreName.equals("stone");
 	}
 	
+	public static boolean canBeWashed(String oreName){
+		String[] allowed = {"chunk"};
+		return Functions.isInString(oreName, allowed);
+	}
+	
 	public static boolean canBeCrushed(ItemStack itemStack){
 		//Only allowed to be crushed are:
 		//ingots
@@ -31,8 +36,7 @@ public class Config {
 		int oreId;
 		if((oreId = OreDictionary.getOreID(itemStack)) > 0){
 			String oreName = OreDictionary.getOreName(oreId);
-			String[] allowed = {"chunk"};
-			return Functions.isInString(oreName, allowed);
+			return canBeWashed(oreName);
 		}else{
 			return false;
 		}

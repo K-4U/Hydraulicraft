@@ -41,6 +41,7 @@ public class Names {
 	public static final Name ingotLead = new Name("Lead Ingot", "ingotLead");
 	public static final Name ingotEnrichedCopper = new Name("Enriched copper Ingot", "ingotEnrichedCopper");
 	public static final Name itemChunk = new Name("chunks","chunk");
+	public static final Name itemDust = new Name("dusts","dust");
 	
 	public static final Name fluidOil = new Name("Hydraulic oil", "hydraulicOil");
 }
