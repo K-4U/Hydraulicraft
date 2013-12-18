@@ -90,9 +90,9 @@ public class ItemChunks extends Item {
 				String cName = chunks.get(i).getName(); 
 				if(cName.equals(metalName)){
 					if(metalName.equals("Quartz")){
-						return new ItemStack(Item.netherQuartz,3 + ((new Random()).nextFloat() > 0.75F ? 1 : 0));
+						return new ItemStack(Item.netherQuartz,3 + ((new Random()).nextFloat() > 0.85F ? 1 : 0));
 					}else{
-						return new ItemStack(this.itemID, 1, i);
+						return new ItemStack(this.itemID, 2, i);
 					}
 				}
 			}

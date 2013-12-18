@@ -52,9 +52,9 @@ public class ItemDusts extends Item {
 		setHasSubtypes(true);
 	}
 	
-	public int addDust(String oreDictName){
-		dusts.add(new dust(oreDictName));
-		return dusts.size() - 1;
+	public int addDust(String oreDictName, int meta){
+		dusts.add(meta, new dust(oreDictName));
+		return meta;
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public class ItemDusts extends Item {
 	}
 	
 	public ItemStack getWashingRecipe(ItemStack itemStack){
-		return new ItemStack(this.itemID, 1, itemStack.getItemDamage());
+		return new ItemStack(this.itemID, 2, itemStack.getItemDamage());
 	}
 	
 	@Override

@@ -21,6 +21,7 @@ import pet.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
 import pet.minecraft.Hydraulicraft.items.Items;
 import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Config;
+import pet.minecraft.Hydraulicraft.lib.config.Constants;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
 
 public class TileHydraulicWasher extends TileConsumer implements
@@ -92,7 +93,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return 5F + (getPressure() * 0.00005F);
+			return 5F + (getPressure() * 0.0005F);
 		}else{
 			return 0F;
 		}
@@ -102,7 +103,6 @@ public class TileHydraulicWasher extends TileConsumer implements
 	private void doWash(){
 		if(isWashing()){
 			washingTicks = washingTicks + 1 + (int)((getPressure()/100) * 0.0005F);
-			Log.info(washingTicks + "");
 			if(washingTicks >= maxWashingTicks){
 				//washing done!
 				if(outputInventory == null){
@@ -110,8 +110,11 @@ public class TileHydraulicWasher extends TileConsumer implements
 				}else{
 					outputInventory.stackSize++;
 				}
+				tank.drain(Constants.MIN_REQUIRED_WATER_FOR_WASHER, true);
+				
 				washingItem = null;
 				targetItem = null;
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 		}else{
 			if(canRun()){
@@ -122,6 +125,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 					inputInventory = null;
 				}
 				washingTicks = 0;
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 			//Start washing
 			maxWashingTicks = 200;
@@ -141,7 +145,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 	 * and if the item is smeltable
 	 */
 	private boolean canRun(){
-		if(inputInventory == null || (getPressure() < requiredPressure)){
+		if(inputInventory == null || (getPressure() < requiredPressure) || tank.getFluidAmount() < Constants.MIN_REQUIRED_WATER_FOR_WASHER){
 			return false;
 		}else{
 			//Get smelting result:
@@ -157,12 +161,6 @@ public class TileHydraulicWasher extends TileConsumer implements
 				return true;
 			}
 		}
-	}
-
-	@Override
-	public int getMaxBar() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
@@ -185,25 +183,37 @@ public class TileHydraulicWasher extends TileConsumer implements
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		ItemStack inventory = getStackInSlot(i);
-		
-		ItemStack ret = null;
-		if(inventory.stackSize < j){
-			ret = inventory;
-			inventory = null;
-			
-		}else{
-			ret = inventory.splitStack(j);
-			if(inventory.stackSize <= 0){
-				if(i == 0){
+		if(i == 0){
+			ItemStack ret = null;
+			if(inputInventory.stackSize < j){
+				ret = inputInventory;
+				inputInventory = null;
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				return ret;
+			}else{
+				ret = inputInventory.splitStack(j);
+				if(inputInventory.stackSize <= 0){
 					inputInventory = null;
-				}else{
+				}
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				return ret;
+			}
+		}else{
+			ItemStack ret = null;
+			if(outputInventory.stackSize < j){
+				ret = outputInventory;
+				outputInventory = null;
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				return ret;
+			}else{
+				ret = outputInventory.splitStack(j);
+				if(outputInventory.stackSize <= 0){
 					outputInventory = null;
 				}
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				return ret;
 			}
 		}
-		
-		return ret;
 	}
 
 	@Override
@@ -219,9 +229,10 @@ public class TileHydraulicWasher extends TileConsumer implements
 	public void setInventorySlotContents(int i, ItemStack itemStack) {
 		if(i == 0){
 			inputInventory = itemStack;
-		}else{
-			//Err...
-			
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}else if(i == 1){
+			outputInventory = itemStack;
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
 
@@ -260,12 +271,8 @@ public class TileHydraulicWasher extends TileConsumer implements
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(i == 0){
-			if(Config.canBeWashed(itemStack)){
-				return true;
-			}else{
-				return false;
-			}
+		if(Config.canBeWashed(itemStack) && i == 0){
+			return true;
 		}else{
 			return false;
 		}
@@ -343,6 +350,12 @@ public class TileHydraulicWasher extends TileConsumer implements
 		FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
 		return tankInfo;
 		
+	}
+
+	@Override
+	public int getMaxBar() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

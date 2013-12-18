@@ -97,11 +97,10 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 				if(outputInventory == null){
 					outputInventory = targetItem.copy();
 				}else{
-					outputInventory.stackSize++;
+					outputInventory.stackSize+=targetItem.stackSize;
 				}
 				
-				outputInventory.stackSize++;
-				if( (new Random()).nextFloat() > 0.75){
+				if( (new Random()).nextFloat() > 0.95){
 					outputInventory.stackSize++;
 				}
 				crushingItem = null;
@@ -147,7 +146,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			if(target == null) return false;
 			if(outputInventory != null){
 				if(!outputInventory.isItemEqual(target)) return false;
-				int newItemStackSize = outputInventory.stackSize + target.stackSize;
+				int newItemStackSize = outputInventory.stackSize + target.stackSize + 1; //The random chance..
 				boolean ret = (newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize());
 				return ret;
 			}else{

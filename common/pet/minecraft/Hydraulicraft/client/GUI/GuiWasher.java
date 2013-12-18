@@ -81,7 +81,7 @@ public class GuiWasher extends GuiContainer {
 				int h = 52;
 				int height = (int)(h * perc);
 				//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
-				drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
+				drawRect(xOffset, yOffset + (h-height), xOffset + 26, yOffset + h, color);
 			}
 		}
 		

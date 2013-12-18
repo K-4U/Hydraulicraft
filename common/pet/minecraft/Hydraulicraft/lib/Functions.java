@@ -121,7 +121,7 @@ public class Functions {
 				//Log.info("Fluid in system: " + fluidInSystem);
 				//Log.info("Pressure in system: " + pressureInSystem);
 				
-				if(oldMachineCount < mainList.size()){
+				if(oldMachineCount <= mainList.size()){
 					pressureInSystem = pressureInSystem - (pressureInSystem / mainList.size());
 				}else if(oldMachineCount > mainList.size()){
 					//There were more machines a second ago!
@@ -163,7 +163,7 @@ public class Functions {
 						
 					}
 
-					//Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
+					Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
 					fluidInSystem = newFluidInSystem;
 					newFluidInSystem = 0;
 					
