@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import pet.minecraft.Hydraulicraft.lib.CustomTabs;
 import pet.minecraft.Hydraulicraft.lib.Functions;
+import pet.minecraft.Hydraulicraft.lib.Log;
 import pet.minecraft.Hydraulicraft.lib.config.Ids;
 import pet.minecraft.Hydraulicraft.lib.config.ModInfo;
 import pet.minecraft.Hydraulicraft.lib.config.Names;
@@ -53,6 +54,7 @@ public class ItemDusts extends Item {
 	}
 	
 	public int addDust(String oreDictName, int meta){
+		Log.info("Adding dust " + oreDictName + " on " + meta);
 		dusts.add(meta, new dust(oreDictName));
 		return meta;
 	}

@@ -2,6 +2,7 @@ package pet.minecraft.Hydraulicraft.client.containers;
 
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicMixer;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
+import pet.minecraft.Hydraulicraft.slots.SlotMachineInput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -17,7 +18,7 @@ public class ContainerMixer extends Container {
 	public ContainerMixer(InventoryPlayer invPlayer, TileHydraulicMixer mixer){
 		tileMixer = mixer;
 		
-		addSlotToContainer(new Slot(mixer, 0, 64, 15));
+		addSlotToContainer(new SlotMachineInput(mixer, mixer, 0, 64, 15));
 		
 		bindPlayerInventory(invPlayer);
 		

@@ -7,6 +7,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
+import pet.minecraft.Hydraulicraft.slots.SlotMachineInput;
 
 public class ContainerIncinerator extends Container {
 	protected TileHydraulicFrictionIncinerator tileIncinerator;
@@ -15,7 +16,7 @@ public class ContainerIncinerator extends Container {
 	public ContainerIncinerator(InventoryPlayer invPlayer, TileHydraulicFrictionIncinerator incinerator){
 		tileIncinerator = incinerator;
 		
-		addSlotToContainer(new Slot(incinerator, 0, 40, 19));
+		addSlotToContainer(new SlotMachineInput(incinerator, incinerator, 0, 40, 19));
 		addSlotToContainer(new SlotFurnace(invPlayer.player, incinerator, 1, 118, 19));
 		
 		bindPlayerInventory(invPlayer);

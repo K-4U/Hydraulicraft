@@ -52,17 +52,11 @@ public class ConfigHandler {
 		Ids.oreCopper.loadBlock(config, Names.oreCopper);
 		Ids.oreLead.loadBlock(config, Names.oreLead);
 		
-		Ids.itemFrictionPlate.loadBlock(config, Names.itemFrictionPlate);
-		
-		Ids.itemGasket.loadItem(config, Names.itemGasket);
-		Ids.itemFrictionPlate.loadItem(config, Names.itemFrictionPlate);
-		Ids.ingotCopper.loadItem(config, Names.ingotCopper);
-		Ids.ingotEnrichedCopper.loadItem(config, Names.ingotEnrichedCopper);
-		Ids.ingotLead.loadItem(config, Names.ingotLead);
-		
 		Ids.itemChunks.loadItem(config, Names.itemChunk);
 		Ids.itemDebug.loadItem(config, Names.itemDebugger);
 		Ids.itemDusts.loadItem(config, Names.itemDust);
+		Ids.itemFrictionPlate.loadItem(config, Names.itemFrictionPlate);
+		Ids.itemGasket.loadItem(config, Names.itemGasket);
 		
 	}
 }

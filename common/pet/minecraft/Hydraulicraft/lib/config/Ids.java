@@ -14,18 +14,18 @@ public class Ids {
 	public static final Id blockHydraulicPiston = new Id(4087);
 	public static final Id blockHydraulicWasher = new Id(4086);
 	
-	public static final Id oreCopper = new Id(4050);
-	public static final Id oreLead = new Id(4049);
+	public static final Id oreCopper = new Id(4084);
+	public static final Id oreLead = new Id(4083);
 	
 	
-	public static final Id itemGasket = new Id(3095);
-	public static final Id itemDebug = new Id(3094);
-	public static final Id itemFrictionPlate = new Id(3093);
-	public static final Id ingotCopper = new Id(3092);
-	public static final Id ingotLead = new Id(3091);
-	public static final Id ingotEnrichedCopper = new Id(3090);
-	public static final Id itemChunks = new Id(3089);
-	public static final Id itemDusts = new Id(3088);
+	public static final Id itemGasket = new Id(4080);
+	public static final Id itemDebug = new Id(4079);
+	public static final Id itemFrictionPlate = new Id(4078);
+	public static final Id ingotCopper = new Id(4077);
+	public static final Id ingotLead = new Id(4076);
+	public static final Id ingotEnrichedCopper = new Id(4075);
+	public static final Id itemChunks = new Id(4074);
+	public static final Id itemDusts = new Id(4073);
 	
 	
 	

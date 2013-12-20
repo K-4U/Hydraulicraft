@@ -188,7 +188,7 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 		int filled = tank.fill(resource, doFill); 
-		if(doFill && filled > 10){
+		if(doFill && filled > 0){
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 		return filled;

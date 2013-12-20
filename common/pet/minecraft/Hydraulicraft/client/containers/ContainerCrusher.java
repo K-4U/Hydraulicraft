@@ -1,13 +1,13 @@
 package pet.minecraft.Hydraulicraft.client.containers;
 
-import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
-import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
+import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
+import pet.minecraft.Hydraulicraft.slots.SlotMachineInput;
 
 public class ContainerCrusher extends Container {
 	protected TileHydraulicCrusher tileCrusher;
@@ -16,8 +16,8 @@ public class ContainerCrusher extends Container {
 	public ContainerCrusher(InventoryPlayer invPlayer, TileHydraulicCrusher crusher){
 		tileCrusher = crusher;
 		
-		addSlotToContainer(new Slot(crusher, 0, 47, 33));
-		addSlotToContainer(new Slot(crusher, 1, 121, 33));
+		addSlotToContainer(new SlotMachineInput(crusher, crusher, 0, 47, 33));
+		addSlotToContainer(new SlotFurnace(invPlayer.player, crusher, 1, 121, 33));
 		
 		bindPlayerInventory(invPlayer);
 		

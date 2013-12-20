@@ -7,6 +7,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
+import pet.minecraft.Hydraulicraft.slots.SlotMachineInput;
 
 public class ContainerPump extends Container {
 
@@ -16,7 +17,7 @@ public class ContainerPump extends Container {
 	public ContainerPump(InventoryPlayer invPlayer, TileHydraulicPump pump){
 		tilePump = pump;
 		
-		addSlotToContainer(new Slot(pump, 0, 67, 49));
+		addSlotToContainer(new SlotMachineInput(pump, pump, 0, 67, 49));
 		
 		bindPlayerInventory(invPlayer);
 		

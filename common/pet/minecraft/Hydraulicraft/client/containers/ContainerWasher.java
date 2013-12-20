@@ -4,8 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import pet.minecraft.Hydraulicraft.TileEntities.TileHydraulicWasher;
+import pet.minecraft.Hydraulicraft.slots.SlotMachineInput;
 
 public class ContainerWasher extends Container {
 	protected TileHydraulicWasher tileWasher;
@@ -14,8 +16,8 @@ public class ContainerWasher extends Container {
 	public ContainerWasher(InventoryPlayer invPlayer, TileHydraulicWasher _tileWasher){
 		tileWasher = _tileWasher;
 		
-		addSlotToContainer(new Slot(tileWasher, 0, 48, 16));
-		addSlotToContainer(new Slot(tileWasher, 1, 98, 51));
+		addSlotToContainer(new SlotMachineInput(tileWasher, tileWasher, 0, 48, 16));
+		addSlotToContainer(new SlotFurnace(invPlayer.player, tileWasher, 1, 98, 51));
 		
 		bindPlayerInventory(invPlayer);
 		
