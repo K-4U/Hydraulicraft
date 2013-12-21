@@ -187,13 +187,7 @@ public abstract class MachineBlock extends BlockContainer {
 	
 	private void tellOtherBlockILeft(World w, int x, int y, int z){
 		if(!w.isRemote){
-			TileEntity t = w.getBlockTileEntity(x, y, z);
-			if(t instanceof MachineEntity){
-				List <MachineEntity> mainList = new ArrayList<MachineEntity>();
-				mainList.add((MachineEntity) t);
-				mainList = ((MachineEntity) t).getConnectedBlocks(mainList, false);
-				Log.info("Done iterating. Found " + mainList.size() + " blocks!");
-			}
+			Functions.checkAndFillSideBlocks(w, x, y, z);
 		}
 	}
 	

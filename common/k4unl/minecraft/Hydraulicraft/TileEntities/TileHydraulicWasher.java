@@ -34,7 +34,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 	private int maxWashingTicks = 0;
 	private float requiredPressure = 5F;
 	
-	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 2);
+	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	
 	
 	public int getWashingTicks(){
@@ -93,7 +93,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return 5F + (getPressure() * 0.0005F);
+			return 5F + ((getPressure() / 100) * 0.005F);
 		}else{
 			return 0F;
 		}
@@ -102,7 +102,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 	
 	private void doWash(){
 		if(isWashing()){
-			washingTicks = washingTicks + 1 + (int)((getPressure()/100) * 0.0005F);
+			washingTicks = washingTicks + 1 + (int)((getPressure()/100) * 0.005F);
 			if(washingTicks >= maxWashingTicks){
 				//washing done!
 				if(outputInventory == null){

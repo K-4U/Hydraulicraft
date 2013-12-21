@@ -47,11 +47,15 @@ public class Functions {
 	}
 	
 	public static int getIngotId(String ingotName){
-		switch(ingotName){
-		case "ingotIron":
-			return Item.ingotIron.itemID;
+        if(ingotName.equals("ingotIron")){
+            return Item.ingotIron.itemID;
+        }else if(ingotName.equals("ingotCopper")){
+            return Items.ingotCopper.itemID;
+        }
+
+
 		case "ingotCopper":
-			return Items.ingotCopper.itemID;
+
 		case "ingotLead":
 			return Items.ingotLead.itemID;
 		case "ingotGold":
@@ -85,14 +89,18 @@ public class Functions {
 		List<MachineEntity> remainingBlocks = new ArrayList<MachineEntity>();
 		int newFluidInSystem = 0;
 		boolean firstIteration = true;
-		Log.info("Before iteration: FIS = " + fluidInSystem + " M = " + mainList.size());
+		//Log.info("Before iteration: FIS = " + fluidInSystem + " M = " + mainList.size());
 		while(fluidInSystem > 0){
 			if(mainList.size() == 0){
 				//Error!
-				Log.error("Too much fluid in the system!");
+				//Log.error("Too much fluid in the system!");
 				break;
 			}
 			int toSet = fluidInSystem / mainList.size();
+			while(fluidInSystem > toSet * mainList.size()){
+				fluidInSystem +=1;
+				toSet = fluidInSystem / mainList.size();
+			}
 			
 			for (MachineEntity machineEntity : mainList) {
 				if(machineEntity.getStorage() < (toSet + machineEntity.getStored())){
@@ -111,7 +119,7 @@ public class Functions {
 				
 			}
 
-			Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
+			//Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
 			fluidInSystem = newFluidInSystem;
 			newFluidInSystem = 0;
 			
@@ -176,15 +184,16 @@ public class Functions {
 					machineEntity.setPressure(0);
 				}
 				
-				pressureInSystem = pressureInSystem / mainList.size();
+				
 				if(fluidInSystem < 100){
 					pressureInSystem = pressureInSystem * ((float)fluidInSystem / 100F);
 				}
+				pressureInSystem = pressureInSystem / mainList.size();
 				//Log.info("Fluid in system: " + fluidInSystem);
 				//Log.info("Pressure in system: " + pressureInSystem);
 				
 				if(oldMachineCount <= mainList.size()){
-					pressureInSystem = pressureInSystem - (pressureInSystem / mainList.size());
+					//pressureInSystem = pressureInSystem - (pressureInSystem / mainList.size());
 				}else if(oldMachineCount > mainList.size()){
 					//There were more machines a second ago!
 					//Well.. do nothing really..

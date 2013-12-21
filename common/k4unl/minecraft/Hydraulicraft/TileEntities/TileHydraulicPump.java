@@ -33,7 +33,7 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			needsUpdate = true;
 		}
 		if(!worldObj.isRemote){
-			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure() <= getMaxPressure()){
+			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure() < getMaxPressure()){
 				//Put new item in
 				currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory);
 				if(inventory != null){
@@ -154,7 +154,11 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			if(result + getPressure() < (perc * getMaxPressure())){
 				return result;
 			}else{
-				return 0;
+				result = (perc * getMaxPressure()) - getPressure();
+				if(result < 0){
+					result = 0;
+				}
+				return result;
 			}
 		}else{
 			return 0;

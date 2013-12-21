@@ -82,7 +82,7 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return (float) (5F + ((getPressure()/100) * 0.00005F));
+			return (float) (5F + ((getPressure()/100) * 0.005F));
 		}else{
 			return 0F;
 		}
@@ -91,7 +91,7 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 	
 	private void doSmelt(){
 		if(isSmelting()){
-			smeltingTicks = smeltingTicks + 1 + (int)((getPressure()/100) * 0.00005F);
+			smeltingTicks = smeltingTicks + 1 + (int)((getPressure()/100) * 0.005F);
 			if(smeltingTicks >= maxSmeltingTicks){
 				//Smelting done!
 				if(outputInventory == null){

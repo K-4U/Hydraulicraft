@@ -81,7 +81,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return 7F + (getPressure() * 0.00005F);
+			return 7F + ((getPressure() / 1000) * 0.005F);
 		}else{
 			return 0F;
 		}
@@ -90,8 +90,8 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	
 	private void doCrush(){
 		if(isCrushing()){
-			crushingTicks = crushingTicks + 1 + (int)((getPressure()/100) * 0.005F);
-			Log.info(crushingTicks+ "");
+			crushingTicks = crushingTicks + 1 + (int)((getPressure()/1000) * 0.005F);
+			//Log.info(crushingTicks+ "");
 			if(crushingTicks >= maxCrushingTicks){
 				//Crushing done!
 				if(outputInventory == null){
