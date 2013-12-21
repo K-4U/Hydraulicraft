@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.entity.Entity;
@@ -36,7 +37,12 @@ public abstract class MachineEntity extends TileEntity {
 		if((int)getMaxPressure() < (int)newPressure){
 			worldObj.createExplosion((Entity)null, xCoord, yCoord, zCoord, 1F + ((getMaxPressure() / newPressure) * 3), true);
 		}
-		bar = newPressure;
+		if((int)getMaxPressure() < (int)newPressure){
+			bar = getMaxPressure();
+		}else{
+			bar = newPressure;
+		}
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public float getPressure(){
@@ -74,15 +80,26 @@ public abstract class MachineEntity extends TileEntity {
 
 	public void setTotalFluidCapacity(int totalFluidCapacity) {
 		fluidTotalCapacity = totalFluidCapacity;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public void setFluidInSystem(int i){
 		fluidInSystem = i;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}
+	
+	public int getTotalFluidCapacity() {
+		return fluidTotalCapacity;
+	}
+	
+	public int getFluidInSystem(){
+		return fluidInSystem;
 	}
 	
 	public void setStored(int i, boolean isOil){
 		_isOilStored = isOil;
 		fluidLevelStored = i;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public boolean isOilStored() {
@@ -137,15 +154,20 @@ public abstract class MachineEntity extends TileEntity {
 		
 		for (MachineEntity machineEntity : machines) {
 			if(!mainList.contains(machineEntity)){
-				mainList.add(machineEntity);
-				callList.add(machineEntity);
+				if(this instanceof TileTransporter || machineEntity instanceof TileTransporter){
+					mainList.add(machineEntity);
+					callList.add(machineEntity);
+				}
 			}
 		}
+		//Only go trough transporter items.
 		if(chain){
 			for (MachineEntity machineEntity : callList) {
-				List<MachineEntity> tempList = new ArrayList<MachineEntity>();
-				tempList = machineEntity.getConnectedBlocks(mainList);
-				mainList = Functions.mergeList(tempList, mainList);
+				//if(machineEntity instanceof TileTransporter){
+					List<MachineEntity> tempList = new ArrayList<MachineEntity>();
+					tempList = machineEntity.getConnectedBlocks(mainList);
+					mainList = Functions.mergeList(tempList, mainList);
+				//}
 			}
 		}
 		

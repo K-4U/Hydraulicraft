@@ -70,7 +70,6 @@ public class Functions {
 				
 				MachineEntity ent = (MachineEntity) t;
 				
-				//Log.info("Iteration done. " + mainList.size() + " machines found");
 				float pressureInSystem = 0;
 				if(newPressure < 0){
 					newPressure = 0;
@@ -78,6 +77,69 @@ public class Functions {
 				for (MachineEntity machineEntity : mainList) {
 					machineEntity.setPressure(newPressure);
 				}
+			}
+		}
+	}
+	
+	public static void setFluidInSystem(List<MachineEntity> mainList, int fluidInSystem, boolean isOil){
+		List<MachineEntity> remainingBlocks = new ArrayList<MachineEntity>();
+		int newFluidInSystem = 0;
+		boolean firstIteration = true;
+		Log.info("Before iteration: FIS = " + fluidInSystem + " M = " + mainList.size());
+		while(fluidInSystem > 0){
+			if(mainList.size() == 0){
+				//Error!
+				Log.error("Too much fluid in the system!");
+				break;
+			}
+			int toSet = fluidInSystem / mainList.size();
+			
+			for (MachineEntity machineEntity : mainList) {
+				if(machineEntity.getStorage() < (toSet + machineEntity.getStored())){
+					newFluidInSystem = newFluidInSystem + ((toSet + machineEntity.getStored()) - machineEntity.getStorage());
+					machineEntity.setStored(machineEntity.getStorage(), isOil);
+				}else{
+					remainingBlocks.add(machineEntity);
+					machineEntity.setStored(toSet + machineEntity.getStored(), isOil);
+				}
+				
+				if(firstIteration){
+					machineEntity.setFluidInSystem(fluidInSystem);
+				}
+				
+				//Log.info("Is this the original? " + machineEntity.equals(t));
+				
+			}
+
+			Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
+			fluidInSystem = newFluidInSystem;
+			newFluidInSystem = 0;
+			
+			mainList.clear();
+			for (MachineEntity machineEntity : remainingBlocks) {
+				mainList.add(machineEntity);
+			}
+			
+			remainingBlocks.clear();
+			firstIteration = false;
+		}
+	}
+	
+	public static void checkAndSetSideBlocks(World w, int x, int y, int z, int newFluidInSystem, boolean isOil){
+		if(!w.isRemote){
+			TileEntity t = w.getBlockTileEntity(x, y, z);
+			if(t instanceof MachineEntity){
+				List <MachineEntity> mainList = new ArrayList<MachineEntity>();
+				mainList.add((MachineEntity) t);
+				mainList = ((MachineEntity) t).getConnectedBlocks(mainList);
+				
+				for (MachineEntity machineEntity : mainList) {
+					machineEntity.setStored(0, isOil);
+				}
+				
+				setFluidInSystem(mainList, newFluidInSystem, isOil);
+				
+				//Log.info("Done iterating. Found " + mainList.size() + " blocks!");
 			}
 		}
 	}
@@ -132,49 +194,9 @@ public class Functions {
 					machineEntity.setNetworkCount(mainList.size());
 					machineEntity.setTotalFluidCapacity(totalFluidCapacity);
 					//This will allow the machines themselves to explode when something goes wrong!
-					w.markBlockForUpdate(machineEntity.xCoord, machineEntity.yCoord, machineEntity.zCoord);
 				}
 				
-				List<MachineEntity> remainingBlocks = new ArrayList<MachineEntity>();
-				int newFluidInSystem = 0;
-				boolean firstIteration = true;
-				while(fluidInSystem > 0){
-					if(mainList.size() == 0){
-						//Error!
-						Log.error("Too much fluid in the system!");
-						break;
-					}
-					int toSet = fluidInSystem / mainList.size();
-					//Log.info("Before iteration. Toset = " + toSet);
-					for (MachineEntity machineEntity : mainList) {
-						if(machineEntity.getStorage() < (toSet + machineEntity.getStored())){
-							newFluidInSystem = newFluidInSystem + ((toSet + machineEntity.getStored()) - machineEntity.getStorage());
-							machineEntity.setStored(machineEntity.getStorage(), isOil);
-						}else{
-							remainingBlocks.add(machineEntity);
-							machineEntity.setStored(toSet + machineEntity.getStored(), isOil);
-						}
-						
-						if(firstIteration){
-							machineEntity.setFluidInSystem(fluidInSystem);
-						}
-						
-						//Log.info("Is this the original? " + machineEntity.equals(t));
-						
-					}
-
-					Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
-					fluidInSystem = newFluidInSystem;
-					newFluidInSystem = 0;
-					
-					mainList.clear();
-					for (MachineEntity machineEntity : remainingBlocks) {
-						mainList.add(machineEntity);
-					}
-					
-					remainingBlocks.clear();
-					firstIteration = false;
-				}
+				setFluidInSystem(mainList, fluidInSystem, isOil);
 				
 				//Log.info("Done iterating. Found " + mainList.size() + " blocks!");
 			}

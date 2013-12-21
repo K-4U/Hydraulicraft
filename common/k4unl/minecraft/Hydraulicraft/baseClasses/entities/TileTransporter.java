@@ -13,9 +13,10 @@ import net.minecraftforge.common.ForgeDirection;
 
 public abstract class TileTransporter extends MachineEntity {
 	private int storedLiquid = 0;
-	
+	private Map<ForgeDirection, TileEntity> connectedSides;
 	
 	public TileTransporter() {
+		
 	}
 	
 	/*!
@@ -56,7 +57,10 @@ public abstract class TileTransporter extends MachineEntity {
 		return (entity instanceof MachineEntity);
 	}
 	
-	public Map<ForgeDirection, TileEntity> getConnectedSides(){
+	public void checkConnectedSides(){
+		if(connectedSides == null){
+			 connectedSides = new HashMap<ForgeDirection, TileEntity>();
+		}
 		Map<ForgeDirection, TileEntity> retList = new HashMap<ForgeDirection, TileEntity>();
 		
 		retList.put(ForgeDirection.WEST, getBlockTileEntity(xCoord+1, yCoord, zCoord));
@@ -73,16 +77,22 @@ public abstract class TileTransporter extends MachineEntity {
 		
 		for(Map.Entry<ForgeDirection, TileEntity> entry : retList.entrySet()){
 			if(shouldConnectTo(entry.getValue())){
-				retMap.put(entry.getKey(), entry.getValue());
+				connectedSides.put(entry.getKey(), entry.getValue());
 			}
 		}
-		
-		return retMap;
+	}
+	
+	public Map<ForgeDirection, TileEntity> getConnectedSides(){
+		if(connectedSides == null){
+			checkConnectedSides();
+		}
+		return connectedSides;
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		super.readFromNBT(tagCompound);
+		
 	}
 	
 	@Override

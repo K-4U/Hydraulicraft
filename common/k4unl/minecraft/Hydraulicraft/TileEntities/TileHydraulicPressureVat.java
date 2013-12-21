@@ -187,9 +187,22 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		int filled = tank.fill(resource, doFill); 
-		if(doFill && filled > 0){
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		int filled = tank.fill(resource, doFill);
+		if(doFill && filled > 10){
+			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+			//worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}else if((getFluidInSystem() + resource.amount) < getTotalFluidCapacity()){
+			if(doFill){
+				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getFluidInSystem() + resource.amount, isOilStored());
+			}
+			filled = resource.amount;
+		}else if(getFluidInSystem() < getTotalFluidCapacity()) {
+			if(doFill){
+				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getTotalFluidCapacity(), isOilStored());
+			}
+			filled = getTotalFluidCapacity() - getFluidInSystem();
+		}else{
+			filled = 0;
 		}
 		return filled;
 	}
@@ -205,7 +218,8 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 		FluidStack drained = tank.drain(maxDrain, doDrain); 
 		if(doDrain && drained.amount > 0){
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+			//worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 		return drained;
 	}
@@ -249,9 +263,9 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 		}else{
 			tank.setFluid(new FluidStack(FluidRegistry.WATER, i));
 			//Log.info("Fluid in tank: " + tank.getFluidAmount() + "x" + FluidRegistry.getFluidName(tank.getFluid().fluidID));
-			if(!worldObj.isRemote){
+			//if(!worldObj.isRemote){
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			}
+			//}
 		}
 	}
 }

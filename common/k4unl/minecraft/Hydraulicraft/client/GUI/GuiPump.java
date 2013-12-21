@@ -45,8 +45,8 @@ public class GuiPump extends GuiContainer {
 			float perc = (float)pump.getStored() / (float)max;
 			
 			int xOffset = 8;
-			int yOffset = 10;
-			int h = 60;
+			int yOffset = 14;
+			int h = 56;
 			int height = (int)(h * perc);
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
@@ -59,8 +59,8 @@ public class GuiPump extends GuiContainer {
 			float perc = pump.getPressure() / max;
 			
 			int xOffset = 152;
-			int yOffset = 10;
-			int h = 60;
+			int yOffset = 14;
+			int h = 56;
 			int height = (int)(h * perc);
 			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);

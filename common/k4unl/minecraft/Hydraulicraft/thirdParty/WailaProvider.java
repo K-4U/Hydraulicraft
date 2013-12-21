@@ -44,7 +44,7 @@ public class WailaProvider implements IWailaDataProvider {
 			float maxPressure = mEnt.getMaxPressure();
 	
 			currenttip.add("Fl: " + stored + "/" + max + " mBuckets (" + (int)(((float)stored / (float)max) * 100) + "%)");
-			currenttip.add("Pr: " + pressure + "/" + maxPressure + " mBar (" + (int)((float)pressure / (float)maxPressure) * 100 + "%)");
+			currenttip.add("Pr: " + pressure + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");
 			
 			if(mEnt instanceof TileHydraulicPump){
 				float gen = ((TileHydraulicPump) mEnt).getGenerating();

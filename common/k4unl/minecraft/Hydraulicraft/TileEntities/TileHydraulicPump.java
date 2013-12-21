@@ -59,9 +59,10 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 		//Set own pressure
 		if((getPressure() + getGenerating()) < getMaxPressure()){
 			setPressure(getPressure() + getGenerating());
-		
-			Functions.checkSidesSetPressure(worldObj, xCoord, yCoord, zCoord, getPressure());
+		}else{
+			setPressure(getMaxPressure());
 		}
+		Functions.checkSidesSetPressure(worldObj, xCoord, yCoord, zCoord, getPressure());
 	}
 	
 	@Override
@@ -139,12 +140,22 @@ public class TileHydraulicPump extends TileGenerator implements IInventory {
 			}else{
 				multiplier = ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_WATER);
 			}
-			int maxFluid = getStorage();
-			float perc = (float)getStored() / (float)maxFluid;
+			int maxFluid = getTotalFluidCapacity();
+			//We can only generate at the percentage the system is filled at.
+			float perc = (float)getFluidInSystem() / (float)maxFluid;
+			//Also.. we can only go to a max of which the system is filled at.
+			//So, if the system is 50% full, we only generate at 50% and we can only
+			//go to 50% of the max pressure.
+			
 			float result =(multiplier * perc);
 			if(result > getMaxGenerating())
 				result = getMaxGenerating();
-			return result;
+			
+			if(result + getPressure() < (perc * getMaxPressure())){
+				return result;
+			}else{
+				return 0;
+			}
 		}else{
 			return 0;
 		}
