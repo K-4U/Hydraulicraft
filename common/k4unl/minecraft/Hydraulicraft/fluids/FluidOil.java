@@ -10,6 +10,8 @@ public class FluidOil extends Fluid {
 		super(Names.fluidOil.unlocalized);
 		setDensity(10); //How thick the fluid is, affects movement inside the fluid.
 		setViscosity(3000); // How fast the fluid flows.
+		
+		setUnlocalizedName(Names.fluidOil.unlocalized);
 		FluidRegistry.registerFluid(this);
 	}
 

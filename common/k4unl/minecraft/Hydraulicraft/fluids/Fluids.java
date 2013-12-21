@@ -5,6 +5,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class Fluids {
 	public static Fluid fluidOil;
@@ -26,7 +27,6 @@ public class Fluids {
 	 */
 	public static void registerFluids(){
 		GameRegistry.registerBlock(fluidOilBlock,fluidOilBlock.getUnlocalizedName());
-		
 	}
 	
 	/*!

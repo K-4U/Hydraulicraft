@@ -9,4 +9,12 @@ public class Name {
 		localized = _localized;
 		unlocalized = _unlocalized;
 	}
+	
+	public String getLowerLocalized(){
+		return localized.toLowerCase();
+	}
+	
+	public String getLowerUnlocalized(){
+		return unlocalized.toLowerCase();
+	}
 }

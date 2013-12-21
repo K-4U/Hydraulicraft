@@ -12,6 +12,7 @@ import k4unl.minecraft.Hydraulicraft.lib.Recipes;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
+import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdParty;
 import k4unl.minecraft.Hydraulicraft.world.OreGenerator;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -73,12 +74,15 @@ public class Hydraulicraft {
 		Blocks.init();
 		Ores.init();
 		TileEntities.init();
-		Items.init();
 		Fluids.init();
+		
+		Items.init();
 		Recipes.init();
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator());
 		NetworkRegistry.instance().registerGuiHandler(this.instance, new GuiHandler());
+		
+		ThirdParty.init();
 	}
 	
 	/*!
