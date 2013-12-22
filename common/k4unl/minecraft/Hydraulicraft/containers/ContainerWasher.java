@@ -54,14 +54,21 @@ public class ContainerWasher extends Container {
 			stack = stackInSlot.copy();
 			
 			
-			if(tileWasher.isItemValidForSlot(slot, stackInSlot)){
-				//Places from entity to player
-				if(slot == 1){
-					if(!mergeItemStack(stackInSlot,  0, 35, true)){
-						return null;
-					}
-				}else if(!mergeItemStack(stackInSlot, 0, 2, false)){
+			if(slot == 1){
+				if(!mergeItemStack(stackInSlot,  2, 37, true)){
 					return null;
+				}
+			}else{
+				if(tileWasher.isItemValidForSlot(0, stackInSlot)){
+					if(slot == 0){
+						if(!mergeItemStack(stackInSlot, 2, 37, false)){
+							return null;
+						}
+					}else{
+						if(!mergeItemStack(stackInSlot, 0, 1, false)){
+							return null;
+						}
+					}
 				}
 			}
 				

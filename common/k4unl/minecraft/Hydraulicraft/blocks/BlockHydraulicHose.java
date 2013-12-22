@@ -4,21 +4,20 @@ import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import codechicken.lib.vec.Vector3;
+
+import org.lwjgl.util.vector.Vector3f;
 
 public class BlockHydraulicHose extends MachineTieredBlock {
-	public Vector3 minVector = new Vector3(0.35, 0.35, 0.35);
-    public Vector3 maxVector = new Vector3(0.65, 0.65, 0.65);
+	public Vector3f minVector = new Vector3f(0.35f, 0.35f, 0.35f);
+    public Vector3f maxVector = new Vector3f(0.65f, 0.65f, 0.65f);
 	
     protected BlockHydraulicHose() {
         super(Ids.blockHydraulicHose, Names.blockHydraulicHose);

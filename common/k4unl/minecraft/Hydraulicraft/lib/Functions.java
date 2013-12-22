@@ -51,14 +51,9 @@ public class Functions {
             return Item.ingotIron.itemID;
         }else if(ingotName.equals("ingotCopper")){
             return Items.ingotCopper.itemID;
-        }
-
-
-		case "ingotCopper":
-
-		case "ingotLead":
-			return Items.ingotLead.itemID;
-		case "ingotGold":
+        }else if(ingotName.equals("ingotLead")){
+        	return Items.ingotLead.itemID;
+        }else if(ingotName.equals("ingotGold")){
 			return Item.ingotGold.itemID;
 		}
 		return 1;

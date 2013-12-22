@@ -271,7 +271,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(Config.canBeWashed(itemStack) && i == 0){
+		if(Config.canBeWashed(itemStack)){
 			return true;
 		}else{
 			return false;

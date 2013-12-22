@@ -53,17 +53,26 @@ public class ContainerCrusher extends Container {
 			ItemStack stackInSlot = slotObject.getStack();
 			stack = stackInSlot.copy();
 			
+			//From output slot to player inventory
 			
-			if(tileCrusher.isItemValidForSlot(slot, stackInSlot)){
-				//Places from entity to player
-				if(slot == 1){
-					if(!mergeItemStack(stackInSlot,  0, 35, true)){
-						return null;
-					}
-				}else if(!mergeItemStack(stackInSlot, 0, 2, false)){
+			if(slot == 1){
+				if(!mergeItemStack(stackInSlot,  2, 37, true)){
 					return null;
 				}
+			}else{
+				if(tileCrusher.isItemValidForSlot(0, stackInSlot)){
+					if(slot == 0){
+						if(!mergeItemStack(stackInSlot, 2, 37, false)){
+							return null;
+						}
+					}else{
+						if(!mergeItemStack(stackInSlot, 0, 1, false)){
+							return null;
+						}
+					}
+				}
 			}
+			
 				
 			if(stackInSlot.stackSize == 0){
 				slotObject.putStack(null);

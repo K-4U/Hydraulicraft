@@ -55,14 +55,15 @@ public class ContainerMixer extends Container {
 			stack = stackInSlot.copy();
 			
 			
-			if(TileEntityFurnace.isItemFuel(stackInSlot)){
-				//Places from entity to player
-				if(slot < 1){
-					if(!mergeItemStack(stackInSlot,  0, 35, true)){
+			if(tileMixer.isItemValidForSlot(0, stackInSlot)){
+				if(slot == 0){
+					if(!mergeItemStack(stackInSlot, 1, 36, false)){
 						return null;
 					}
-				}else if(!mergeItemStack(stackInSlot, 0, 1, false)){
-					return null;
+				}else{
+					if(!mergeItemStack(stackInSlot, 0, 1, false)){
+						return null;
+					}
 				}
 			}
 				
