@@ -32,7 +32,10 @@ public abstract class MachineEntity extends TileEntity {
 		return networkCount;
 	}
 
-	
+	public void updateBlock(){
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
 	public void setPressure(float newPressure){
 		if((int)getMaxPressure() < (int)newPressure){
 			worldObj.createExplosion((Entity)null, xCoord, yCoord, zCoord, 1F + ((getMaxPressure() / newPressure) * 3), true);
@@ -42,7 +45,7 @@ public abstract class MachineEntity extends TileEntity {
 		}else{
 			bar = newPressure;
 		}
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        updateBlock();
 	}
 	
 	public float getPressure(){
@@ -80,12 +83,12 @@ public abstract class MachineEntity extends TileEntity {
 
 	public void setTotalFluidCapacity(int totalFluidCapacity) {
 		fluidTotalCapacity = totalFluidCapacity;
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        updateBlock();
 	}
 	
 	public void setFluidInSystem(int i){
 		fluidInSystem = i;
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        updateBlock();
 	}
 	
 	public int getTotalFluidCapacity() {
@@ -99,7 +102,7 @@ public abstract class MachineEntity extends TileEntity {
 	public void setStored(int i, boolean isOil){
 		_isOilStored = isOil;
 		fluidLevelStored = i;
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        updateBlock();
 	}
 	
 	public boolean isOilStored() {
