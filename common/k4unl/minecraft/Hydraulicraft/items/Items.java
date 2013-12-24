@@ -51,8 +51,6 @@ public class Items {
 		
 		registerItems();
 		addNames();
-		
-		registerChunks();
 	}
 	
 	/*!
@@ -93,49 +91,5 @@ public class Items {
 		LanguageRegistry.addName(itemFrictionPlate, Names.itemFrictionPlate.localized);
 		LanguageRegistry.addName(itemDebugger, Names.itemDebugger.localized);
 		LanguageRegistry.addName(itemBucketOil, Names.itemBucketOil.localized);
-	}
-	
-	public static void registerChunks(){
-		//Get items from ore dictionary:
-		String[] oreList = OreDictionary.getOreNames();
-		
-		List<String> allowedList = new ArrayList<String>();
-		allowedList.add("Gold");
-		allowedList.add("Iron");
-		allowedList.add("Copper");
-		allowedList.add("Lead");
-		//allowedList.add("Quartz");
-		
-		for (String ore : oreList) {
-			if(Config.canBeCrushed(ore)){
-				String metalName = Functions.getMetalName(ore);
-				if(allowedList.contains(metalName)){
-					int subId = itemChunk.addChunk(metalName);
-					OreDictionary.registerOre("chunk" + metalName, new ItemStack(itemChunk, 1, subId));
-					LanguageRegistry.addName(new ItemStack(itemChunk,1,subId), metalName + " " + Names.itemChunk.localized);
-					
-					if(metalName.equals("Quartz")){
-						
-						//FurnaceRecipes.smelting().addSmelting(Items.itemChunk.itemID, subId, ingotTarget, 0);
-					}else{
-						String oreDictName = "ingot" + metalName;
-						ItemStack ingotTarget = new ItemStack(Functions.getIngotId("ingot" + metalName), 1, 0);
-						FurnaceRecipes.smelting().addSmelting(Items.itemChunk.itemID, subId, ingotTarget, 0);						
-					}
-
-					if(!metalName.equals("Quartz")){
-						if(allowedList.contains(metalName)){
-							itemDust.addDust(metalName, subId);
-							OreDictionary.registerOre("dust" + metalName, new ItemStack(itemDust, 1, subId));
-							LanguageRegistry.addName(new ItemStack(itemDust,1,subId), metalName + " " + Names.itemDust.localized);
-							
-							String oreDictName = "ingot" + metalName;
-							ItemStack ingotTarget = new ItemStack(Functions.getIngotId("ingot" + metalName), 1, 0);
-							FurnaceRecipes.smelting().addSmelting(Items.itemDust.itemID, subId, ingotTarget, 0);						
-						}
-					}
-				} 
-			}
-		}
 	}
 }

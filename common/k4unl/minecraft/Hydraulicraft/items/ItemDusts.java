@@ -14,7 +14,9 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.Icon;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemDusts extends Item {
 	class dust{
@@ -32,7 +34,7 @@ public class ItemDusts extends Item {
 			_icon = i;
 		}
 		public String getName(){
-			return _name;
+			return "dust" + _name;
 		}
 		public Icon getIcon(){
 			return _icon;
@@ -54,9 +56,20 @@ public class ItemDusts extends Item {
 	}
 	
 	public int addDust(String oreDictName, int meta){
-		Log.info("Adding dust " + oreDictName + " on " + meta);
+		//Log.info("Adding dust " + oreDictName + " on " + meta);
 		dusts.add(meta, new dust(oreDictName));
-		return meta;
+
+        OreDictionary.registerOre("dust" + oreDictName,
+                new ItemStack(Items.itemDust, 1, meta));
+
+        String ingotName = "ingot" + oreDictName;
+        ItemStack ingotTarget = new ItemStack(Functions
+                .getIngotId(ingotName), 1, 0);
+        FurnaceRecipes.smelting().addSmelting(this.itemID, meta,
+                ingotTarget, 0);
+
+
+        return meta;
 	}
 	
 	@Override
@@ -67,13 +80,13 @@ public class ItemDusts extends Item {
 	@Override
 	public void registerIcons(IconRegister icon){
 		for (dust c : dusts) {
-			c.setIcon(icon.registerIcon(ModInfo.LID + ":" + "dust" + c.getName()));
+			c.setIcon(icon.registerIcon(ModInfo.LID + ":" + c.getName()));
 		}
 	}
-	
+	/*
 	public ItemStack getWashingRecipe(ItemStack itemStack){
 		return new ItemStack(this.itemID, 2, itemStack.getItemDamage());
-	}
+	}*/
 	
 	@Override
 	public Icon getIconFromDamage(int damage){

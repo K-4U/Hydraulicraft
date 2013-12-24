@@ -4,6 +4,7 @@ import java.util.Random;
 
 import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
 import k4unl.minecraft.Hydraulicraft.items.Items;
+import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -108,7 +109,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			}
 		}else{
 			if(canRun()){
-				targetItem = Items.itemChunk.getCrushingRecipe(inputInventory);
+				targetItem = CrushingRecipes.getCrushingRecipe(inputInventory);
 				
 				crushingItem = inputInventory.copy();
 				inputInventory.stackSize--;
@@ -142,7 +143,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			return false;
 		}else{
 			//Get crushing result:
-			ItemStack target = Items.itemChunk.getCrushingRecipe(inputInventory);
+			ItemStack target = CrushingRecipes.getCrushingRecipe(inputInventory);
 			if(target == null) return false;
 			if(outputInventory != null){
 				if(!outputInventory.isItemEqual(target)) return false;

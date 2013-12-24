@@ -27,7 +27,26 @@ public class Functions {
 		}
 		return ret;
 	}
-	
+
+    public static String getPrefixName(String oreDictName){
+        //TODO: Fix this function up. It looks ugly
+        String[] prefix = {"ingot"};
+        if(isInString(oreDictName, prefix)){
+            return "ingot";
+        }
+
+        prefix[0] = "ore";
+        if(isInString(oreDictName, prefix)){
+            return "ore";
+        }
+
+        if(oreDictName.equals("netherquartz")){
+            return "Quartz";
+        }else{
+            return "ERROR";
+        }
+    }
+
 	public static String getMetalName(String oreDictName){
 		String[] prefix = {"ingot"};
 		if(isInString(oreDictName, prefix)){

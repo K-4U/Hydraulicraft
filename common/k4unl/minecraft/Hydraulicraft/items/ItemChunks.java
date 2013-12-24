@@ -13,7 +13,9 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.Icon;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemChunks extends Item {
 	class chunk{
@@ -51,10 +53,27 @@ public class ItemChunks extends Item {
 		
 		setHasSubtypes(true);
 	}
-	
-	public int addChunk(String oreDictName){
-		chunks.add(new chunk(oreDictName));
-		return chunks.size() - 1;
+
+
+    /*!
+     * @author Koen Beckers
+     * @date 24-12-2013
+     * Adds a chunk, immediately registers to ore dictionary and the smelting
+     * recipes
+     */
+	public int addChunk(String metalName){
+		chunks.add(new chunk(metalName));
+        int subId = chunks.size() - 1;
+        OreDictionary.registerOre("chunk" + metalName,
+                new ItemStack(Items.itemChunk, 1, subId));
+
+        String ingotName = "ingot" + metalName;
+        ItemStack ingotTarget = new ItemStack(Functions
+                .getIngotId(ingotName), 1, 0);
+        FurnaceRecipes.smelting().addSmelting(this.itemID, subId,
+                ingotTarget, 0);
+
+		return subId;
 	}
 	
 	@Override
@@ -67,38 +86,6 @@ public class ItemChunks extends Item {
 		for (chunk c : chunks) {
 			c.setIcon(icon.registerIcon(ModInfo.LID + ":" + "chunk" + c.getName()));
 		}
-	}
-	
-	public ItemStack getCrushingRecipe(ItemStack itemStack){
-		ItemStack ret = null;
-		
-		
-		
-		List<String> allowedList = new ArrayList<String>();
-		allowedList.add("Gold");
-		allowedList.add("Iron");
-		allowedList.add("Copper");
-		allowedList.add("Lead");
-		allowedList.add("Quartz");
-		
-		//Get oreDictionaryName
-		String oreName = itemStack.getUnlocalizedName();
-		oreName = oreName.substring("tile.".length());
-		String metalName = Functions.getMetalName(oreName);
-		if(allowedList.contains(metalName)){
-			for(int i = 0; i < chunks.size(); i++){
-				String cName = chunks.get(i).getName(); 
-				if(cName.equals(metalName)){
-					if(metalName.equals("Quartz")){
-						return new ItemStack(Item.netherQuartz,3 + ((new Random()).nextFloat() > 0.85F ? 1 : 0));
-					}else{
-						return new ItemStack(this.itemID, 2, i);
-					}
-				}
-			}
-		}
-		
-		return ret;
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.TileEntities;
 import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
 import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -118,7 +119,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 			}
 		}else{
 			if(canRun()){
-				targetItem = Items.itemDust.getWashingRecipe(inputInventory); 
+				targetItem = WashingRecipes.getWashingRecipe(inputInventory);
 				washingItem = inputInventory.copy();
 				inputInventory.stackSize--;
 				if(inputInventory.stackSize <= 0){
@@ -150,7 +151,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 		}else{
 			//Get smelting result:
 			//ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
-			ItemStack target = Items.itemDust.getWashingRecipe(inputInventory);
+			ItemStack target = WashingRecipes.getWashingRecipe(inputInventory);
 			if(target == null) return false;
 			if(outputInventory != null){
 				if(!outputInventory.isItemEqual(target)) return false;
