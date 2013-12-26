@@ -27,10 +27,11 @@ public class GuiCrusher extends MachineGUI {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
+		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		fontRenderer.drawString(Names.blockHydraulicCrusher.localized, 8, 6, 0xFFFFFF);
 		
 		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 		
-		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 	}
 }

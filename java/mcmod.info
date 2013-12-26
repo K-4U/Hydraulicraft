@@ -2,14 +2,14 @@
     {
         "modid":        "HydCraft",
         "name":         "Hydraulicraft",
-        "description":  "Team PET's entry for Modjam #3",
-        "version":      "0.1 Alpha 1",
+        "description":  "K-4Unl's entry for Modjam #3",
+        "version":      "1.0.0",
         "url":          "https://github.com/K-4U/Hydraulicraft",
         "updateUrl":    "https://github.com/K-4U/Hydraulicraft",
         "authorList":   [
             "K4Unl"
         ],
-        "credits":      "_Joep",
+        "credits":      "_Joep, MineMaarten",
         "logoFile":     "",
         "screenShots":  [
             ""

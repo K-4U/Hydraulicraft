@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -184,7 +185,6 @@ public abstract class MachineBlock extends BlockContainer {
 	}
 	
 	
-	
 	private void tellOtherBlockILeft(World w, int x, int y, int z){
 		if(!w.isRemote){
 			Functions.checkAndFillSideBlocks(w, x, y, z);
@@ -200,12 +200,41 @@ public abstract class MachineBlock extends BlockContainer {
 		if(tile instanceof MachineEntity){
 			((MachineEntity)tile).checkRedstonePower();			
 		}
+		
+		callConnectedSideCheck(world, x+1, y, z);
+		callConnectedSideCheck(world, x-1, y, z);
+		
+		callConnectedSideCheck(world, x, y+1, z);
+		callConnectedSideCheck(world, x, y-1, z);
+		
+		callConnectedSideCheck(world, x, y, z+1);
+		callConnectedSideCheck(world, x, y, z-1);
+	}
+	
+	private void callConnectedSideCheck(World w, int x, int y, int z){
+		TileEntity tile = w.getBlockTileEntity(x, y, z);
+		if(tile instanceof TileTransporter){
+			((TileTransporter) tile).checkConnectedSides();
+			((TileTransporter) tile).updateBlock();
+		}
 	}
 	
 	@Override
 	public void breakBlock(World w, int x, int y, int z, int oldId, int oldMetaData){
 		super.breakBlock(w, x, y, z, oldId, oldMetaData);
 		tellOtherBlockILeft(w, x, y, z);
+		//It actually needs to do this after a short while..
+		
+		/*if(!w.isRemote){
+			callConnectedSideCheck(w, x+1, y, z);
+			callConnectedSideCheck(w, x-1, y, z);
+			
+			callConnectedSideCheck(w, x, y+1, z);
+			callConnectedSideCheck(w, x, y-1, z);
+			
+			callConnectedSideCheck(w, x, y, z+1);
+			callConnectedSideCheck(w, x, y, z-1);
+		}*/
 	}
 	
 	

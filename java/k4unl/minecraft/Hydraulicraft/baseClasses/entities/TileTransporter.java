@@ -82,6 +82,12 @@ public abstract class TileTransporter extends MachineEntity {
         updateBlock();
 	}
 	
+	@Override
+	public void validate(){
+		//super.validate();
+		//checkConnectedSides();
+	}
+	
 	public Map<ForgeDirection, TileEntity> getConnectedSides(){
 		if(connectedSides == null){
 			checkConnectedSides();
@@ -91,7 +97,7 @@ public abstract class TileTransporter extends MachineEntity {
 
 
     private void readConnectedSidesFromNBT(NBTTagCompound tagCompound){
-        //connectedSides = new HashMap<ForgeDirection, TileEntity>();
+        connectedSides = new HashMap<ForgeDirection, TileEntity>();
         NBTTagCompound ourCompound = tagCompound.getCompoundTag
                 ("connectedSides");
 
@@ -119,13 +125,12 @@ public abstract class TileTransporter extends MachineEntity {
                     z-=1;
                 }
 
-                //connectedSides.put(dir, getBlockTileEntity(x, y, z));
+                connectedSides.put(dir, getBlockTileEntity(x, y, z));
             }
         }
     }
 
-    private void writeConnectedSidesToNBT(NBTTagCompound
-                                                            tagCompound){
+    private void writeConnectedSidesToNBT(NBTTagCompound tagCompound){
         if(connectedSides == null){
             connectedSides = new HashMap<ForgeDirection, TileEntity>();
         }

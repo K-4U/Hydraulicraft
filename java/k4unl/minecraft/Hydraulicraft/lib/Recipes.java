@@ -33,26 +33,26 @@ public class Recipes {
 	}
 
     private static void initializeCrushingRecipes() {
+    	//Yeah, just put them in, right there, yeahhhhhh
+    	OreDictionary.registerOre("oreIron", Block.oreIron);
+    	OreDictionary.registerOre("ingotIron", Item.ingotIron);
+    	OreDictionary.registerOre("oreGold", Block.oreGold);
+    	OreDictionary.registerOre("ingotGold", Item.ingotGold);
         //Get items from ore dictionary:
         List<String> crushableItems = new ArrayList<String>();
         crushableItems.add("Gold");
         crushableItems.add("Iron");
+        //MODDED:
         crushableItems.add("Copper");
         crushableItems.add("Lead");
-        if(Loader.isModLoaded("factorization")){
-        	crushableItems.add("FzDarkIron");
-        }
+        crushableItems.add("FzDarkIron");
         crushableItems.add("Tin");
         crushableItems.add("Cobalt");
         crushableItems.add("Silver");
         crushableItems.add("Nickel");
         
-        
-        //allowedList.add("Quartz");
 
         for(String item : crushableItems){
-            
-
             String oreName = "ore" + item;
             ArrayList<ItemStack> oreStack = OreDictionary.getOres(oreName);
 
@@ -88,6 +88,7 @@ public class Recipes {
         if(Loader.isModLoaded("IC2")){
         	registerNonStandardCrushRecipe("oreUranium", "crushedUranium", 2);
         }
+        registerNonStandardCrushRecipe(new ItemStack(Block.oreNetherQuartz,1), new ItemStack(Item.netherQuartz, 1), 3);
     }
     
     private static void registerNonStandardCrushRecipe(String sourceName, String targetName, int number){
@@ -98,8 +99,11 @@ public class Recipes {
         
         ItemStack oreStack = oreStackL.get(0);
         ItemStack targetStack = targetStackL.get(0);
-        targetStack.stackSize = number;
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(oreStack, 10F, targetStack));
+        registerNonStandardCrushRecipe(oreStack, targetStack, number);
+    }
+    private static void registerNonStandardCrushRecipe(ItemStack oreStack, ItemStack targetStack, int number){
+	    targetStack.stackSize = number;
+	    CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(oreStack, 10F, targetStack));
     }
 
     private static void initializeSmeltingRecipes(){
