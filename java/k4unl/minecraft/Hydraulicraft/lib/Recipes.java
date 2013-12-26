@@ -51,7 +51,7 @@ public class Recipes {
         //allowedList.add("Quartz");
 
         for(String item : crushableItems){
-            int metaId = Items.itemChunk.addChunk(item);
+            
 
             String oreName = "ore" + item;
             ArrayList<ItemStack> oreStack = OreDictionary.getOres(oreName);
@@ -59,14 +59,17 @@ public class Recipes {
             String ingotName = "ingot" + item;
             ArrayList<ItemStack> ingotStack = OreDictionary.getOres(ingotName);
             
-            if(oreStack.size() > 0){
+            if(oreStack.size() > 0 && ingotStack.size() > 0){
+            	int metaId = Items.itemChunk.addChunk(item);
+                Items.itemDust.addDust(item, metaId);
+            	
 		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes
 		                .CrushingRecipe
 		                (oreStack.get(0), 10F, new ItemStack(Items.itemChunk
 		                .itemID, 2, metaId)));
 		
 		        
-		        Items.itemDust.addDust(item, metaId);
+		        
 		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe
 		                (ingotStack.get(0), 10F,
 		                        new ItemStack(Items.itemDust.itemID, 1, metaId)));
