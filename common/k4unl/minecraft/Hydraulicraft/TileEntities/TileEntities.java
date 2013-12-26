@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities;
 
+import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TileEntities {
@@ -15,6 +16,6 @@ public class TileEntities {
 		GameRegistry.registerTileEntity(TileHydraulicPressureVat.class, "tileHydraulicPressureVat");
 		GameRegistry.registerTileEntity(TileHydraulicCrusher.class, "tileHydraulicCrusher");
 		GameRegistry.registerTileEntity(TileHydraulicWasher.class, "tileHydraulicWasher");
-		GameRegistry.registerTileEntity(TileHydraulicMixer.class, "TileHydraulicMixer");
+		GameRegistry.registerTileEntity(TileHydraulicMixer.class, "tileHydraulicMixer");
 	}
 }

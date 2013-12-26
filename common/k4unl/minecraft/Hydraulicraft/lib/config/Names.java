@@ -4,13 +4,14 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
 public class Names {
 	
-	public static final Name blockHydraulicMixer = new Name("Hydraulic mixer", "hydraulicMixer");
-	public static final Name blockHydraulicFrictionIncinerator = new Name("Hydraulic friction incinerator", "hydraulicFrictionIncinerator");	
-	public static final Name blockHydraulicCrusher = new Name("Hydraulic crusher", "hydraulicCrusher");
-	public static final Name blockHydraulicPressureGauge = new Name("Hydraulic pressure gauge", "hydraulicPressureGauge");
-	public static final Name blockHydraulicPressureValve = new Name("Hydraulic pressure valve", "hydraulicPressureValve");	
-	public static final Name blockHydraulicPiston = new Name("Hydraulic piston (TODO)", "hydraulicPiston");
-	public static final Name blockHydraulicWasher = new Name("Hydraulic washer", "hydraulicWasher");
+	public static final Name blockHydraulicMixer = new Name("Mixer", "hydraulicMixer");
+	public static final Name blockHydraulicFrictionIncinerator = new Name("Friction incinerator", "hydraulicFrictionIncinerator");	
+	public static final Name blockHydraulicCrusher = new Name("Crusher", "hydraulicCrusher");
+	public static final Name blockHydraulicPressureGauge = new Name("Pressure gauge", "hydraulicPressureGauge");
+	public static final Name blockHydraulicPressureValve = new Name("Pressure valve", "hydraulicPressureValve");	
+	public static final Name blockHydraulicPiston = new Name("Hydraulic Piston (TODO)", "hydraulicPiston");
+	public static final Name blockHydraulicWasher = new Name("Washer", "hydraulicWasher");
+	public static final Name blockHydraulicPneumaticCompressor = new Name("Pneumatic compressor", "hydraulicPneumaticCompressor");
 	
 	
 	public static final Name[] blockHydraulicHose = {

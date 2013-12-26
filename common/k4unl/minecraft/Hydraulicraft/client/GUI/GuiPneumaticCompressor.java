@@ -6,11 +6,13 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
+import k4unl.minecraft.Hydraulicraft.containers.ContainerPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerPressureVat;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
@@ -27,25 +29,34 @@ import org.lwjgl.opengl.GL11;
 
 import pneumaticCraft.api.client.GuiElementRenderer;
 
-public class GuiPressureVat extends MachineGUI {
+public class GuiPneumaticCompressor extends MachineGUI {
 	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/pressureVat.png");
 
-	private TileHydraulicPressureVat pvat;
+	private TileHydraulicPneumaticCompressor compressor;
 
 	
 	
-	public GuiPressureVat(InventoryPlayer invPlayer, TileHydraulicPressureVat vat) {
-		super(vat, new ContainerPressureVat(invPlayer, vat), resLoc);
-		pvat = vat;
+	public GuiPneumaticCompressor(InventoryPlayer invPlayer, TileHydraulicPneumaticCompressor _compressor) {
+		super(_compressor, new ContainerPneumaticCompressor(invPlayer, _compressor), resLoc);
+		compressor = _compressor;
 	}
 	
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		int tier = pvat.getTier();
-		fontRenderer.drawString(pvat.getInvName(), 30, 6, 0xFFFFFF);
+		fontRenderer.drawString(Names.blockHydraulicPneumaticCompressor.localized, 30, 6, 0xFFFFFF);
 		
+		
+		GL11.glPushMatrix();
+	    float gaugeY = 25;
+	    float gaugeX = 50;
+		GL11.glTranslatef(gaugeX, gaugeY, 0); //de xpos en ypos die je eerst in je drawPressureGauge method mikte.
+	    GL11.glScaled(0.85D, 0.85D, 0); //50% kleiner
+	    
+		GuiElementRenderer.drawPressureGauge(fontRenderer, 0, compressor.getPneumaticMaxPressure(), compressor.getPneumaticDangerPressure(),
+				0, compressor.getPneumaticPressure(), (int)gaugeX, (int)gaugeY, 0);
+		GL11.glPopMatrix();
 		drawFluidAndPressure();
 		checkTooltips(mouseX, mouseY);
 	}

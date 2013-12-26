@@ -29,4 +29,8 @@ public class Constants {
 	public final static int OIL_FOR_ONE_SEED	=	100;
 	public final static int WATER_FOR_ONE_SEED  = 	50;
 	public static final int MIN_REQUIRED_WATER_FOR_WASHER = 10000;
+	
+	public static final int MIN_PRESSURE_COMPRESSOR = 100;
+	
+	public static final float CONVERSION_RATIO_AIR_HYDRAULIC = 0.95F;
 }

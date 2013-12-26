@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.lib;
 
 import java.io.File;
 
+import cpw.mods.fml.common.Loader;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraftforge.common.Configuration;
@@ -58,5 +59,12 @@ public class ConfigHandler {
 		Ids.itemFrictionPlate.loadItem(config, Names.itemFrictionPlate);
 		Ids.itemGasket.loadItem(config, Names.itemGasket);
 		
+		loadThirdPartyIds();
+	}
+	
+	private static void loadThirdPartyIds(){
+		if(Loader.isModLoaded("MineMaarten_PneumaticCraft")){
+			Ids.blockHydraulicPneumaticCompressor.loadBlock(config, Names.blockHydraulicPneumaticCompressor);
+		}
 	}
 }

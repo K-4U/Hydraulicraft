@@ -13,6 +13,7 @@ public class Ids {
 	public static final Id blockHydraulicHose = new Id(4088);
 	public static final Id blockHydraulicPiston = new Id(4087);
 	public static final Id blockHydraulicWasher = new Id(4086);
+	public static final Id blockHydraulicPneumaticCompressor = new Id(4082);
 	
 	public static final Id oreCopper = new Id(4084);
 	public static final Id oreLead = new Id(4083);
@@ -37,6 +38,7 @@ public class Ids {
 	public static final Id GUIWasher = new Id(4);
 	public static final Id GUIMixer = new Id(5);
 	public static final Id GUIPressureVat = new Id(6);
+	public static final Id GUIPneumaticCompressor = new Id(7);
 	
 	
 	public static final Id blockFluidOil = new Id(4085);

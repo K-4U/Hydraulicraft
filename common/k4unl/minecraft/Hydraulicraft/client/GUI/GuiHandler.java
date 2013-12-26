@@ -9,10 +9,12 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerCrusher;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerIncinerator;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerMixer;
+import k4unl.minecraft.Hydraulicraft.containers.ContainerPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerPressureVat;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerPump;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerWasher;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -50,6 +52,10 @@ public class GuiHandler implements IGuiHandler {
 				if(ent instanceof TileHydraulicFrictionIncinerator){
 					return new ContainerIncinerator(player.inventory, (TileHydraulicFrictionIncinerator)ent);
 				}
+			}else if(ID == Ids.GUIPneumaticCompressor.act){
+				if(ent instanceof TileHydraulicPneumaticCompressor){
+					return new ContainerPneumaticCompressor(player.inventory, (TileHydraulicPneumaticCompressor)ent);
+				}
 			}
 		}
 		
@@ -86,6 +92,10 @@ public class GuiHandler implements IGuiHandler {
 			}else if(ID == Ids.GUIIncinerator.act){
 				if(ent instanceof TileHydraulicFrictionIncinerator){
 					return new GuiIncinerator(player.inventory, (TileHydraulicFrictionIncinerator)ent);
+				}
+			}else if(ID == Ids.GUIPneumaticCompressor.act){
+				if(ent instanceof TileHydraulicPneumaticCompressor){
+					return new GuiPneumaticCompressor(player.inventory, (TileHydraulicPneumaticCompressor)ent);
 				}
 			}
 		}

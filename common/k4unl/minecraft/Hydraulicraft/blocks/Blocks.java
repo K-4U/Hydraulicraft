@@ -4,8 +4,10 @@ import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureHoze;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.blocks.BlockHydraulicPneumaticCompressor;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -20,6 +22,7 @@ public class Blocks {
 	public static Block hydraulicHose;
 	public static Block hydraulicPiston;
 	public static Block hydraulicWasher;
+	
 	
 	/*!
 	 * @author Koen Beckers
@@ -57,6 +60,7 @@ public class Blocks {
 		GameRegistry.registerBlock(hydraulicWasher, Names.blockHydraulicWasher.unlocalized);
 		
 		
+		
 		GameRegistry.registerBlock(hydraulicHose, HandlerPressureHoze.class, Names.blockHydraulicHose[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicPump, HandlerPump.class, Names.blockHydraulicPump[0].unlocalized);
@@ -78,6 +82,7 @@ public class Blocks {
 		//LanguageRegistry.addName(hydraulicPressureValve, Names.blockHydraulicPressureValve.localized);
 		//LanguageRegistry.addName(hydraulicPiston, Names.blockHydraulicPiston.localized);
 		LanguageRegistry.addName(hydraulicWasher, Names.blockHydraulicWasher.localized);
+		
 		
 		for(int i = 0; i < 3; i++){
 			LanguageRegistry.addName(new ItemStack(hydraulicHose, 1, i), Names.blockHydraulicHose[i].localized);

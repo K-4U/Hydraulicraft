@@ -91,7 +91,7 @@ public abstract class TileTransporter extends MachineEntity {
 
 
     private void readConnectedSidesFromNBT(NBTTagCompound tagCompound){
-        connectedSides = new HashMap<ForgeDirection, TileEntity>();
+        //connectedSides = new HashMap<ForgeDirection, TileEntity>();
         NBTTagCompound ourCompound = tagCompound.getCompoundTag
                 ("connectedSides");
 
@@ -119,7 +119,7 @@ public abstract class TileTransporter extends MachineEntity {
                     z-=1;
                 }
 
-                connectedSides.put(dir, getBlockTileEntity(x, y, z));
+                //connectedSides.put(dir, getBlockTileEntity(x, y, z));
             }
         }
     }
