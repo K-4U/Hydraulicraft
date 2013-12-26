@@ -1,66 +1,31 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
+import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerIncinerator;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiIncinerator extends GuiContainer {
+public class GuiIncinerator extends MachineGUI {
 
-	private ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/incinerator.png");
+	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/incinerator.png");
 	TileHydraulicFrictionIncinerator incinerator;
 	
 	
 	public GuiIncinerator(InventoryPlayer invPlayer, TileHydraulicFrictionIncinerator _incinerator) {
-		super(new ContainerIncinerator(invPlayer, _incinerator));
+		super(_incinerator, new ContainerIncinerator(invPlayer, _incinerator), resLoc);
 		incinerator = _incinerator;
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int p1, int p2){
-		//TODO: Change that color
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
+		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		fontRenderer.drawString(incinerator.getInvName(), 8, 6, 0xFFFFFF);
-		
-		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
-		
-		if(incinerator.getStored() > 0){
-			int color = 0xFFFFFFFF;
-			if(!incinerator.isOilStored()){
-				color = Constants.COLOR_WATER;
-			}
-			
-			int max = incinerator.getStorage();
-			float perc = (float)incinerator.getStored() / (float)max;
-			
-			int xOffset = 8;
-			int yOffset = 14;
-			int h = 58;
-			int height = (int)(h * perc);
-			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
-			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
-		}
-		if(incinerator.getPressure() > 0){
-			int color = Constants.COLOR_PRESSURE;
-			
-			float max = incinerator.getMaxPressure();
-			float perc = incinerator.getPressure() / max;
-			
-			int xOffset = 152;
-			int yOffset = 14;
-			int h = 58;
-			int height = (int)(h * perc);
-			//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
-			drawRect(xOffset, yOffset + (h-height), xOffset + 16, yOffset + h, color);
-		}
-		
-		
+
 		if(incinerator.isSmelting()){
 			ItemStack smeltingItem = incinerator.getSmeltingItem();
 			ItemStack targetItem = incinerator.getTargetItem();
@@ -83,18 +48,9 @@ public class GuiIncinerator extends GuiContainer {
 			}
 			GL11.glDisable(GL11.GL_BLEND);
 		}
-	}
-	
-	
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(resLoc);
 		
-		int x = (width - xSize) / 2;
-		int y = (height - ySize) / 2;
+		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 		
-		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 	}
-
 }

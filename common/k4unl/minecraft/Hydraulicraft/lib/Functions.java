@@ -103,7 +103,7 @@ public class Functions {
 		List<MachineEntity> remainingBlocks = new ArrayList<MachineEntity>();
 		int newFluidInSystem = 0;
 		boolean firstIteration = true;
-		Log.info("Before iteration: FIS = " + fluidInSystem + " M = " + mainList.size());
+		//Log.info("Before iteration: FIS = " + fluidInSystem + " M = " + mainList.size());
 		while(fluidInSystem > 0){
 			if(mainList.size() == 0){
 				//Error!
