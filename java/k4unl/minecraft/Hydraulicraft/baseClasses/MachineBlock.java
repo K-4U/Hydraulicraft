@@ -201,14 +201,14 @@ public abstract class MachineBlock extends BlockContainer {
 			((MachineEntity)tile).checkRedstonePower();			
 		}
 		
-		callConnectedSideCheck(world, x+1, y, z);
-		callConnectedSideCheck(world, x-1, y, z);
+		callConnectedSideCheck(world, x, y, z);
+		/*callConnectedSideCheck(world, x-1, y, z);
 		
 		callConnectedSideCheck(world, x, y+1, z);
 		callConnectedSideCheck(world, x, y-1, z);
 		
 		callConnectedSideCheck(world, x, y, z+1);
-		callConnectedSideCheck(world, x, y, z-1);
+		callConnectedSideCheck(world, x, y, z-1);*/
 	}
 	
 	private void callConnectedSideCheck(World w, int x, int y, int z){

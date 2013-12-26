@@ -107,21 +107,21 @@ public abstract class TileTransporter extends MachineEntity {
             int z = zCoord;
 
             if(ourCompound.getBoolean(dir.toString())){
-                if(dir.equals(ForgeDirection.WEST)){
+                if(dir == ForgeDirection.WEST){
                     x+=1;
-                }else if(dir.equals(ForgeDirection.EAST)){
+                }else if(dir == ForgeDirection.EAST){
                     x-=1;
                 }
 
-                if(dir.equals(ForgeDirection.UP)){
+                if(dir == ForgeDirection.UP){
                     y+=1;
-                }else if(dir.equals(ForgeDirection.DOWN)){
+                }else if(dir == ForgeDirection.DOWN){
                     y-=1;
                 }
 
-                if(dir.equals(ForgeDirection.NORTH)){
+                if(dir == ForgeDirection.NORTH){
                     z+=1;
-                }else if(dir.equals(ForgeDirection.SOUTH)){
+                }else if(dir == ForgeDirection.SOUTH){
                     z-=1;
                 }
 
