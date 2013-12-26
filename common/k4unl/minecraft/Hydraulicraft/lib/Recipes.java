@@ -1,15 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.oredict.OreDictionary;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -40,6 +39,15 @@ public class Recipes {
         crushableItems.add("Iron");
         crushableItems.add("Copper");
         crushableItems.add("Lead");
+        if(Loader.isModLoaded("factorization")){
+        	crushableItems.add("FzDarkIron");
+        }
+        crushableItems.add("Tin");
+        crushableItems.add("Cobalt");
+        crushableItems.add("Silver");
+        crushableItems.add("Nickel");
+        
+        
         //allowedList.add("Quartz");
 
         for(String item : crushableItems){
@@ -50,22 +58,45 @@ public class Recipes {
 
             String ingotName = "ingot" + item;
             ArrayList<ItemStack> ingotStack = OreDictionary.getOres(ingotName);
-
-            CrushingRecipes.addCrushingRecipe(new CrushingRecipes
-                    .CrushingRecipe
-                    (oreStack.get(0), 10F, new ItemStack(Items.itemChunk
-                    .itemID, 2, metaId)));
-
-            /*
-            CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe
-                    (ingotStack.get(0), 10F,
-                            new ItemStack(Items.itemChunk.itemID, 1, metaId)));*/
-
-            Items.itemDust.addDust(item, metaId);
-            WashingRecipes.addWashingRecipe(new WashingRecipes.WashingRecipe(
-                   new ItemStack(Items.itemChunk.itemID, 1, metaId), 10F,
-                    new ItemStack(Items.itemDust.itemID, 2, metaId)));
+            
+            if(oreStack.size() > 0){
+		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes
+		                .CrushingRecipe
+		                (oreStack.get(0), 10F, new ItemStack(Items.itemChunk
+		                .itemID, 2, metaId)));
+		
+		        
+		        Items.itemDust.addDust(item, metaId);
+		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe
+		                (ingotStack.get(0), 10F,
+		                        new ItemStack(Items.itemDust.itemID, 1, metaId)));
+		
+		        
+		        WashingRecipes.addWashingRecipe(new WashingRecipes.WashingRecipe(
+		               new ItemStack(Items.itemChunk.itemID, 1, metaId), 10F,
+		                new ItemStack(Items.itemDust.itemID, 2, metaId)));
+            }
         }
+        
+        //Other mods. Stuff that doesn't follow the ingot stuff.
+        if(Loader.isModLoaded("AppliedEnergistics")){
+        	registerNonStandardCrushRecipe("oreCertusQuartz", "crystalCertusQuartz", 2);
+        }
+        if(Loader.isModLoaded("IC2")){
+        	registerNonStandardCrushRecipe("oreUranium", "crushedUranium", 2);
+        }
+    }
+    
+    private static void registerNonStandardCrushRecipe(String sourceName, String targetName, int number){
+    	ArrayList<ItemStack> oreStackL = OreDictionary.getOres(sourceName);
+        ArrayList<ItemStack> targetStackL = OreDictionary.getOres(targetName);
+        if(oreStackL.size() == 0 || targetStackL.size() == 0)
+        	return;
+        
+        ItemStack oreStack = oreStackL.get(0);
+        ItemStack targetStack = targetStackL.get(0);
+        targetStack.stackSize = number;
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(oreStack, 10F, targetStack));
     }
 
     private static void initializeSmeltingRecipes(){
