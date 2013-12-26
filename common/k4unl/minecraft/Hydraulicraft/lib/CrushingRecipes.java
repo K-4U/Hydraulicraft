@@ -1,13 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
 
 public class CrushingRecipes {
 
