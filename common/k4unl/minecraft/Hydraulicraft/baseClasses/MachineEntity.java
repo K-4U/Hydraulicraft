@@ -19,10 +19,18 @@ public abstract class MachineEntity extends TileEntity {
 	private int fluidLevelStored = 0;
 	private int fluidInSystem = 0;
 	private int fluidTotalCapacity = 0;
+	private boolean isRedstonePowered = false;
 	
 	private float bar = 0;
 	private int networkCount;
 	
+	public void redstoneChanged(boolean rsPowered){
+		
+	}
+	
+	public boolean getRedstonePowered(){
+		return isRedstonePowered;
+	}
 	
 	public void setNetworkCount(int newCount){
 		networkCount = newCount;
@@ -189,6 +197,8 @@ public abstract class MachineEntity extends TileEntity {
 		fluidTotalCapacity = tagCompound.getInteger("fluidTotalCapacity");
 		
 		bar = tagCompound.getFloat("bar");
+		
+		isRedstonePowered = tagCompound.getBoolean("isRedstonePowered");
 	}
 	
 	@Override
@@ -203,13 +213,26 @@ public abstract class MachineEntity extends TileEntity {
 		tagCompound.setInteger("fluidTotalCapacity",fluidTotalCapacity);
 		
 		tagCompound.setFloat("bar", bar);
+		
+		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
 	}
 	
 	protected TileEntity getBlockTileEntity(int x, int y, int z){
 		return worldObj.getBlockTileEntity(x, y, z);
 	}
 
+	public void checkRedstonePower() {
+		boolean isIndirectlyPowered = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+		if(isIndirectlyPowered && !isRedstonePowered){
+			isRedstonePowered = true;
+			this.redstoneChanged(isRedstonePowered);
+		}else if(isRedstonePowered && !isIndirectlyPowered){
+			isRedstonePowered = false;
+			this.redstoneChanged(isRedstonePowered);
+		}
+	}
 
+	
 
 	
 	

@@ -191,8 +191,16 @@ public abstract class MachineBlock extends BlockContainer {
 		}
 	}
 	
-	
-	
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y,
+				int z, int blockId) {
+		super.onNeighborBlockChange(world, x, y, z, blockId);
+		
+		TileEntity tile = world.getBlockTileEntity(x, y, z);
+		if(tile instanceof MachineEntity){
+			((MachineEntity)tile).checkRedstonePower();			
+		}
+	}
 	
 	@Override
 	public void breakBlock(World w, int x, int y, int z, int oldId, int oldMetaData){

@@ -56,9 +56,10 @@ public class Recipes {
                     (oreStack.get(0), 10F, new ItemStack(Items.itemChunk
                     .itemID, 2, metaId)));
 
+            /*
             CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe
                     (ingotStack.get(0), 10F,
-                            new ItemStack(Items.itemChunk.itemID, 1, metaId)));
+                            new ItemStack(Items.itemChunk.itemID, 1, metaId)));*/
 
             Items.itemDust.addDust(item, metaId);
             WashingRecipes.addWashingRecipe(new WashingRecipes.WashingRecipe(

@@ -89,6 +89,9 @@ public class TileHydraulicPneumaticCompressor extends TileConsumer implements
 	}
 
 	private boolean canRun() {
+		if(!getRedstonePowered()){
+			return false;
+		}
 		//Get minimal pressure
 		return (this.getPressure() > Constants.MIN_PRESSURE_COMPRESSOR && getAirHandler().getPressure(ForgeDirection.UNKNOWN) < dangerPressure);
 	}

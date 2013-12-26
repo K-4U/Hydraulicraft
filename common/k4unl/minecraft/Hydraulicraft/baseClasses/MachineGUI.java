@@ -70,7 +70,7 @@ public class MachineGUI extends GuiContainer {
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
 		drawHoveringText(toDraw.getText(), mouseX-x, mouseY-y, fontRenderer);
-		GL11.glDisable(GL11.GL_LIGHTING);
+		//GL11.glDisable(GL11.GL_LIGHTING);
 	}
 	
 	private boolean shouldRenderToolTip(int mouseX, int mouseY, ToolTip theTip){

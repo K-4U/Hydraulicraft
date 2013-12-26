@@ -4,6 +4,8 @@ import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class TileConsumer extends MachineEntity {
 	/*!
@@ -27,17 +29,20 @@ public abstract class TileConsumer extends MachineEntity {
 	
 	@Override
 	public void updateEntity(){
-		float less = workFunction(true); 
-		if(getPressure() > less && less > 0){
-			less = workFunction(false);
-			float newPressure = getPressure() - less;
-			setPressure(newPressure);
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			Functions.checkSidesSetPressure(worldObj, xCoord, yCoord, zCoord, newPressure);
-			//So.. the water in this block should be going done a bit.
-			if(!isOilStored()){
-				setStored((int)(getStored() - (less * Constants.USING_WATER_PENALTY)), false);
-				Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+		if(!worldObj.isRemote){
+			float less = workFunction(true); 
+			if(getPressure() > less && less > 0){
+				less = workFunction(false);
+				float newPressure = getPressure() - less;
+				setPressure(newPressure);
+				Functions.checkSidesSetPressure(worldObj, xCoord, yCoord, zCoord, newPressure);
+				
+				//So.. the water in this block should be going done a bit.
+				if(!isOilStored()){
+					setStored((int)(getStored() - (less * Constants.USING_WATER_PENALTY)), false);
+					Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+				}
+				updateBlock();
 			}
 		}
 	}

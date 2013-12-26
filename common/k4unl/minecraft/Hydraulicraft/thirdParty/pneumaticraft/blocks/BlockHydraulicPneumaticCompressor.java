@@ -1,17 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.blocks;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 public class BlockHydraulicPneumaticCompressor extends MachineBlock {
 
@@ -25,6 +22,11 @@ public class BlockHydraulicPneumaticCompressor extends MachineBlock {
 		return new TileHydraulicPneumaticCompressor();
 	}
 
+	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
+		return true;
+    }
+	
+	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
