@@ -5,13 +5,13 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 public class Names {
 	
 	public static final Name blockHydraulicMixer = new Name("Mixer", "hydraulicMixer");
-	public static final Name blockHydraulicFrictionIncinerator = new Name("Friction incinerator", "hydraulicFrictionIncinerator");	
+	public static final Name blockHydraulicFrictionIncinerator = new Name("Friction Incinerator", "hydraulicFrictionIncinerator");	
 	public static final Name blockHydraulicCrusher = new Name("Crusher", "hydraulicCrusher");
-	public static final Name blockHydraulicPressureGauge = new Name("Pressure gauge", "hydraulicPressureGauge");
-	public static final Name blockHydraulicPressureValve = new Name("Pressure valve", "hydraulicPressureValve");	
+	public static final Name blockHydraulicPressureGauge = new Name("Pressure Gauge", "hydraulicPressureGauge");
+	public static final Name blockHydraulicPressureValve = new Name("Pressure Valve", "hydraulicPressureValve");	
 	public static final Name blockHydraulicPiston = new Name("Hydraulic Piston (TODO)", "hydraulicPiston");
 	public static final Name blockHydraulicWasher = new Name("Washer", "hydraulicWasher");
-	public static final Name blockHydraulicPneumaticCompressor = new Name("Pneumatic compressor", "hydraulicPneumaticCompressor");
+	public static final Name blockHydraulicPneumaticCompressor = new Name("Pneumatic Compressor", "hydraulicPneumaticCompressor");
 	
 	
 	public static final Name[] blockHydraulicHose = {
@@ -32,18 +32,18 @@ public class Names {
 	};
 	
 	
-	public static final Name oreCopper = new Name("Copper ore", "oreCopper");
-	public static final Name oreLead = new Name("Lead ore", "oreLead");
+	public static final Name oreCopper = new Name("Copper Ore", "oreCopper");
+	public static final Name oreLead = new Name("Lead Ore", "oreLead");
 	
 	public static final Name itemGasket = new Name("Gasket", "gasket");
 	public static final Name itemDebugger = new Name("Debug", "itemDebug");
 	public static final Name itemFrictionPlate = new Name("Friction Plate", "frictionPlate");
 	public static final Name ingotCopper = new Name("Copper Ingot", "ingotCopper");
 	public static final Name ingotLead = new Name("Lead Ingot", "ingotLead");
-	public static final Name ingotEnrichedCopper = new Name("Enriched copper Ingot", "ingotEnrichedCopper");
-	public static final Name itemChunk = new Name("chunks","chunk");
-	public static final Name itemDust = new Name("dusts","dust");
-	public static final Name itemBucketOil = new Name("Hydraulic oil bucket","bucketHydraulicOil");
+	public static final Name ingotEnrichedCopper = new Name("Enriched Copper Ingot", "ingotEnrichedCopper");
+	public static final Name itemChunk = new Name("Chunks","chunk");
+	public static final Name itemDust = new Name("Dusts","dust");
+	public static final Name itemBucketOil = new Name("Hydraulic Oil Bucket","bucketHydraulicOil");
 	
-	public static final Name fluidOil = new Name("Hydraulic oil", "hydraulicOil");
+	public static final Name fluidOil = new Name("Hydraulic Oil", "hydraulicOil");
 }
