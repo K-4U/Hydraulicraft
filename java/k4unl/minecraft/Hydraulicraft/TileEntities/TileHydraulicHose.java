@@ -21,4 +21,8 @@ public class TileHydraulicHose extends TileTransporter {
 	public int getStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * (2 * (getTier()+1));
 	}
+
+	@Override
+	public void onBlockBreaks() {
+	}
 }

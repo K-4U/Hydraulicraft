@@ -19,7 +19,7 @@ public class ModelHydraulicHose extends ModelBase{
     ModelRenderer hoseRight;
     ModelRenderer hoseFront;
     ModelRenderer hoseBack;
-    
+
     private Map<ForgeDirection, TileEntity> connectedSides = new HashMap<ForgeDirection, TileEntity>();
 
     public ModelHydraulicHose(){
@@ -77,32 +77,29 @@ public class ModelHydraulicHose extends ModelBase{
     }
 
     private boolean isDir(ForgeDirection dir){
-    	return this.connectedSides.containsKey(dir);
+        return connectedSides.containsKey(dir);
     }
-    
+
+    @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
         super.render(entity, f, f1, f2, f3, f4, f5);
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-        
-        
-        if(isDir(ForgeDirection.SOUTH)) hoseFront.render(f5);
-        if(isDir(ForgeDirection.NORTH)) hoseBack.render(f5);
-        
-        if(isDir(ForgeDirection.EAST)) hoseRight.render(f5);
-        if(isDir(ForgeDirection.WEST)) hoseLeft.render(f5);
-        
+
+        if(isDir(ForgeDirection.NORTH)) hoseFront.render(f5);
+        if(isDir(ForgeDirection.SOUTH)) hoseBack.render(f5);
+
+        if(isDir(ForgeDirection.WEST)) hoseRight.render(f5);
+        if(isDir(ForgeDirection.EAST)) hoseLeft.render(f5);
+
         if(isDir(ForgeDirection.UP)) hoseUp.render(f5);
-        if(isDir(ForgeDirection.DOWN)) hoseDown.render(f5); 
-        
-        
-        if((isDir(ForgeDirection.UP) || isDir(ForgeDirection.DOWN)) &&
-        		(isDir(ForgeDirection.EAST) || isDir(ForgeDirection.WEST) ||
-        				isDir(ForgeDirection.NORTH) || isDir(ForgeDirection.SOUTH))){
-        	this.hoseCorner.render(f5);
+        if(isDir(ForgeDirection.DOWN)) hoseDown.render(f5);
+
+        if((isDir(ForgeDirection.UP) || isDir(ForgeDirection.DOWN)) && (isDir(ForgeDirection.EAST) || isDir(ForgeDirection.WEST) || isDir(ForgeDirection.NORTH) || isDir(ForgeDirection.SOUTH))) {
+            hoseCorner.render(f5);
         }
-        
+
         hoseCenter.render(f5);
-        
+
     }
 
     private void setRotation(ModelRenderer model, float x, float y, float z){
@@ -111,12 +108,13 @@ public class ModelHydraulicHose extends ModelBase{
         model.rotateAngleZ = z;
     }
 
+    @Override
     public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity){
         super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
     }
 
-    public void setConnectedSides(Map<ForgeDirection, TileEntity> map) {
-    	this.connectedSides = map;
+    public void setConnectedSides(Map<ForgeDirection, TileEntity> map){
+        connectedSides = map;
     }
 
 }
