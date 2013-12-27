@@ -9,6 +9,7 @@ import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -308,5 +309,11 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	@Override
 	public int getStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * 5;
+	}
+
+	@Override
+	public void onBlockBreaks() {
+		dropItemStackInWorld(inputInventory);
+		dropItemStackInWorld(outputInventory);
 	}
 }

@@ -7,6 +7,8 @@ import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -24,8 +26,19 @@ public abstract class MachineEntity extends TileEntity {
 	private float bar = 0;
 	private int networkCount;
 	
+	public abstract void onBlockBreaks();
+	
 	public void redstoneChanged(boolean rsPowered){
 		
+	}
+	
+	public void dropItemStackInWorld(ItemStack itemStack){
+		if(itemStack != null){
+			EntityItem ei = new EntityItem(worldObj);
+			ei.setEntityItemStack(itemStack);
+			ei.setPosition(xCoord, yCoord, zCoord);
+			worldObj.spawnEntityInWorld(ei);
+		}
 	}
 	
 	public boolean getRedstonePowered(){

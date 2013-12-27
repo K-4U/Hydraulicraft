@@ -312,5 +312,11 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 		return FluidContainerRegistry.BUCKET_VOLUME * 5;
 	}
 
+	@Override
+	public void onBlockBreaks() {
+		dropItemStackInWorld(inputInventory);
+		dropItemStackInWorld(outputInventory);
+	}
+
 
 }

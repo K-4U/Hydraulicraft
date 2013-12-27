@@ -268,4 +268,10 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 			//}
 		}
 	}
+
+	@Override
+	public void onBlockBreaks() {
+		// TODO Auto-generated method stub
+		
+	}
 }

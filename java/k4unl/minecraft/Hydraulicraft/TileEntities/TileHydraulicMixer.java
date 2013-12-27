@@ -339,4 +339,9 @@ public class TileHydraulicMixer extends TileConsumer implements
 	}
 
 
+	@Override
+	public void onBlockBreaks() {
+		dropItemStackInWorld(inputInventory);
+	}
+
 }

@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -17,6 +16,11 @@ public abstract class TileTransporter extends MachineEntity {
 	private Map<ForgeDirection, TileEntity> connectedSides;
 	
 	public TileTransporter() {
+		
+	}
+	
+	@Override
+	public void onBlockBreaks(){
 		
 	}
 	

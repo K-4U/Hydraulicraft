@@ -378,7 +378,11 @@ public class TileHydraulicWasher extends TileConsumer implements
 		return 0;
 	}
 
-
+	@Override
+	public void onBlockBreaks() {
+		dropItemStackInWorld(inputInventory);
+		dropItemStackInWorld(outputInventory);
+	}
 
 
 }

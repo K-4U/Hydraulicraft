@@ -221,20 +221,29 @@ public abstract class MachineBlock extends BlockContainer {
 	
 	@Override
 	public void breakBlock(World w, int x, int y, int z, int oldId, int oldMetaData){
+		//Call TileEntity's onBlockBreaks function
+		TileEntity tile = w.getBlockTileEntity(x, y, z);
+		if(tile instanceof MachineEntity){
+			((MachineEntity)tile).onBlockBreaks();
+		}
+		
+		
 		super.breakBlock(w, x, y, z, oldId, oldMetaData);
 		tellOtherBlockILeft(w, x, y, z);
 		//It actually needs to do this after a short while..
 		
 		//if(!w.isRemote){
-			callConnectedSideCheck(w, x+1, y, z);
-			callConnectedSideCheck(w, x-1, y, z);
-			
-			callConnectedSideCheck(w, x, y+1, z);
-			callConnectedSideCheck(w, x, y-1, z);
-			
-			callConnectedSideCheck(w, x, y, z+1);
-			callConnectedSideCheck(w, x, y, z-1);
+		callConnectedSideCheck(w, x+1, y, z);
+		callConnectedSideCheck(w, x-1, y, z);
+		
+		callConnectedSideCheck(w, x, y+1, z);
+		callConnectedSideCheck(w, x, y-1, z);
+		
+		callConnectedSideCheck(w, x, y, z+1);
+		callConnectedSideCheck(w, x, y, z-1);
 		//}
+			
+		
 	}
 	
 	

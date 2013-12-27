@@ -106,5 +106,11 @@ public class TileHydraulicPneumaticCompressor extends TileConsumer implements
 		return FluidContainerRegistry.BUCKET_VOLUME * 20;
 	}
 
+	@Override
+	public void onBlockBreaks() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
