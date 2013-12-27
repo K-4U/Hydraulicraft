@@ -174,7 +174,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 			if(target == null) return false;
 			if(outputInventory != null){
 				if(!outputInventory.isItemEqual(target)) return false;
-				int newItemStackSize = outputInventory.stackSize + inputInventory.stackSize;
+				int newItemStackSize = outputInventory.stackSize + target.stackSize;
 				
 				return (newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize());
 			}else{
