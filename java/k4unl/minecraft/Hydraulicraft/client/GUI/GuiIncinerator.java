@@ -26,6 +26,8 @@ public class GuiIncinerator extends MachineGUI {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		fontRenderer.drawString(incinerator.getInvName(), 8, 6, 0xFFFFFF);
 
+		drawFluidAndPressure();
+		
 		if(incinerator.isSmelting()){
 			ItemStack smeltingItem = incinerator.getSmeltingItem();
 			ItemStack targetItem = incinerator.getTargetItem();
@@ -49,7 +51,7 @@ public class GuiIncinerator extends MachineGUI {
 			GL11.glDisable(GL11.GL_BLEND);
 		}
 		
-		drawFluidAndPressure();
+		
 		checkTooltips(mouseX, mouseY);
 		
 	}

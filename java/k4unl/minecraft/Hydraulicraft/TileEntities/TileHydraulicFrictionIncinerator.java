@@ -44,6 +44,8 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 		inventoryCompound = tagCompound.getCompoundTag("targetItem");
 		targetItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
+		smeltingTicks = tagCompound.getInteger("smeltingTicks");
+		
 	}
 	
 	@Override
@@ -71,6 +73,8 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 			tagCompound.setCompoundTag("targetItem", inventoryCompound);
 		}
 		
+		
+		tagCompound.setInteger("smeltingTicks",smeltingTicks);
 	}
 	
 	@Override

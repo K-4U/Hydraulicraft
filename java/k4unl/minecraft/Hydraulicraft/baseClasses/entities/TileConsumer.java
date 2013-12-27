@@ -35,6 +35,7 @@ public abstract class TileConsumer extends MachineEntity {
 				less = workFunction(false);
 				float newPressure = getPressure() - less;
 				setPressure(newPressure);
+				updateBlock();
 				Functions.checkSidesSetPressure(worldObj, xCoord, yCoord, zCoord, newPressure);
 				
 				//So.. the water in this block should be going done a bit.
@@ -42,7 +43,7 @@ public abstract class TileConsumer extends MachineEntity {
 					setStored((int)(getStored() - (less * Constants.USING_WATER_PENALTY)), false);
 					Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 				}
-				updateBlock();
+				
 			}
 		}
 	}

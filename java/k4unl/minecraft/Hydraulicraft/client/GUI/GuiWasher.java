@@ -31,6 +31,8 @@ public class GuiWasher extends MachineGUI {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		fontRenderer.drawString(Names.blockHydraulicWasher.localized, 8, 6, 0xFFFFFF);
 		
+		drawFluidAndPressure();
+		
 		FluidTankInfo[] tankInfo = washer.getTankInfo(ForgeDirection.UP);
 		if(tankInfo[0].fluid != null){
 			if(tankInfo[0].fluid.amount > 0){
@@ -82,8 +84,6 @@ public class GuiWasher extends MachineGUI {
 			
 			//drawTexturedModelRectFromIcon(xPos, 19, smeltingIcon, w, h)
 			GL11.glEnable(GL11.GL_BLEND);
-			
-			
 			if(percentage < 0.5f){
 				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), washingItem, xPos, yPos);
 			}else{
@@ -93,7 +93,7 @@ public class GuiWasher extends MachineGUI {
 		}
 		
 		
-		drawFluidAndPressure();
+		
 		checkTooltips(mouseX, mouseY);
 	}
 }

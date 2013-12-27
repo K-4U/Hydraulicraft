@@ -62,6 +62,11 @@ public class TileHydraulicWasher extends TileConsumer implements
 		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
 		tank.readFromNBT(tagCompound.getCompoundTag("tank"));
+		
+		washingTicks = tagCompound.getInteger("washingTicks");
+		
+		washingItem = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("washingItem"));
+		targetItem = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("targetItem"));
 	}
 	
 	@Override
@@ -79,9 +84,23 @@ public class TileHydraulicWasher extends TileConsumer implements
 			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
 		}
 		
+		if(washingItem != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			washingItem.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("washingItem", inventoryCompound);
+		}
+		
+		if(targetItem != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			targetItem.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("targetItem", inventoryCompound);
+		}
+		
 		NBTTagCompound tankCompound = new NBTTagCompound();
 		tank.writeToNBT(tankCompound);
 		tagCompound.setCompoundTag("tank", tankCompound);
+		
+		tagCompound.setInteger("washingTicks",washingTicks);
 	}
 	
 	
