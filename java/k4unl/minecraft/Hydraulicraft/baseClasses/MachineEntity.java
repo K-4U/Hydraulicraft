@@ -121,19 +121,12 @@ public abstract class MachineEntity extends TileEntity {
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
 		NBTTagCompound tagCompound = packet.data;
 		this.readFromNBT(tagCompound);
-		if(this instanceof TileTransporter){
-			((TileTransporter)this).readConnectedSidesFromNBT(tagCompound);
-		}
 	}
 	
 	@Override
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
-		if(this instanceof TileTransporter){
-			((TileTransporter)this).writeConnectedSidesToNBT(tagCompound);
-		}
-		
 		return new Packet132TileEntityData(xCoord,yCoord,zCoord,4,tagCompound);
 	}
 
