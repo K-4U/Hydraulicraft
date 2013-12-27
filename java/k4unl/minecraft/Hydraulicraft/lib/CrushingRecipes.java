@@ -1,22 +1,32 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
 
-import net.minecraft.item.ItemStack;
-
 import java.util.LinkedList;
+import java.util.List;
+
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class CrushingRecipes {
 
     public static class CrushingRecipe {
-        public final ItemStack input;
+        public final String inputString;
         public final ItemStack output;
         public final float pressure;
 
-        public CrushingRecipe(ItemStack inp, float press, ItemStack outp){
-            input = inp;
+        public CrushingRecipe(String inp, float press, ItemStack outp){
+        	inputString = inp;
             output = outp;
             pressure = press;
         }
+
+        
+        /*public CrushingRecipe(ItemStack inp, float press, ItemStack outp){
+        	inputString = "";
+            input = inp;
+            output = outp;
+            pressure = press;
+        }*/
     }
 
     public static LinkedList<CrushingRecipe> crushingRecipes = new
@@ -25,10 +35,14 @@ public class CrushingRecipes {
     public static void addCrushingRecipe(CrushingRecipe toAdd){
         crushingRecipes.add(toAdd);
     }
-
     public static ItemStack getCrushingRecipe(ItemStack itemStack){
+    	String oreDictName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
+        return getCrushingRecipe(oreDictName);
+    }
+    
+    public static ItemStack getCrushingRecipe(String oreDictName){
         for(CrushingRecipe rec : crushingRecipes){
-            if(rec.input.isItemEqual(itemStack)){
+            if(rec.inputString.equals(oreDictName)){
                 return rec.output;
             }
         }

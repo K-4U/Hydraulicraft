@@ -12,6 +12,7 @@ public class BlockFluidOil extends BlockFluidClassic {
 
 	public BlockFluidOil() {
 		super(Ids.blockFluidOil.act, Fluids.fluidOil, Material.water);
+		this.setUnlocalizedName(Names.fluidOil.unlocalized);
 	}
 	
 	

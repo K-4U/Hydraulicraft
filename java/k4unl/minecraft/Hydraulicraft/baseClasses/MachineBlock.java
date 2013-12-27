@@ -225,7 +225,7 @@ public abstract class MachineBlock extends BlockContainer {
 		tellOtherBlockILeft(w, x, y, z);
 		//It actually needs to do this after a short while..
 		
-		/*if(!w.isRemote){
+		//if(!w.isRemote){
 			callConnectedSideCheck(w, x+1, y, z);
 			callConnectedSideCheck(w, x-1, y, z);
 			
@@ -234,7 +234,7 @@ public abstract class MachineBlock extends BlockContainer {
 			
 			callConnectedSideCheck(w, x, y, z+1);
 			callConnectedSideCheck(w, x, y, z-1);
-		}*/
+		//}
 	}
 	
 	

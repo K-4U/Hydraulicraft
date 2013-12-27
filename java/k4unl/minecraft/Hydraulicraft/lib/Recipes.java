@@ -62,16 +62,15 @@ public class Recipes {
             if(oreStack.size() > 0 && ingotStack.size() > 0){
             	int metaId = Items.itemChunk.addChunk(item);
                 Items.itemDust.addDust(item, metaId);
-            	
+                
 		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes
 		                .CrushingRecipe
-		                (oreStack.get(0), 10F, new ItemStack(Items.itemChunk
+		                (oreName, 10F, new ItemStack(Items.itemChunk
 		                .itemID, 2, metaId)));
-		
 		        
 		        
 		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe
-		                (ingotStack.get(0), 10F,
+		                (ingotName, 10F,
 		                        new ItemStack(Items.itemDust.itemID, 1, metaId)));
 		
 		        
@@ -88,7 +87,8 @@ public class Recipes {
         if(Loader.isModLoaded("IC2")){
         	registerNonStandardCrushRecipe("oreUranium", "crushedUranium", 2);
         }
-        registerNonStandardCrushRecipe(new ItemStack(Block.oreNetherQuartz,1), new ItemStack(Item.netherQuartz, 1), 3);
+        
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe("oreNetherQuartz", 10F, new ItemStack(Item.netherQuartz, 3)));
     }
     
     private static void registerNonStandardCrushRecipe(String sourceName, String targetName, int number){
@@ -97,14 +97,15 @@ public class Recipes {
         if(oreStackL.size() == 0 || targetStackL.size() == 0)
         	return;
         
-        ItemStack oreStack = oreStackL.get(0);
         ItemStack targetStack = targetStackL.get(0);
-        registerNonStandardCrushRecipe(oreStack, targetStack, number);
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(sourceName, 10F, targetStack));
     }
+    
+    /*
     private static void registerNonStandardCrushRecipe(ItemStack oreStack, ItemStack targetStack, int number){
 	    targetStack.stackSize = number;
 	    CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(oreStack, 10F, targetStack));
-    }
+    }*/
 
     private static void initializeSmeltingRecipes(){
 		GameRegistry.addSmelting(Ids.oreCopper.act, new ItemStack(Items.ingotCopper), 0);

@@ -11,6 +11,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class NEICrusherRecipeManager extends ShapedRecipeHandler{
     private ShapedRecipeHandler.CachedShapedRecipe getShape(CrushingRecipes.CrushingRecipe recipe) {
@@ -18,8 +19,9 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
                 ShapedRecipeHandler.CachedShapedRecipe(0, 0, null, recipe.output);
 
 
-        PositionedStack stack = new PositionedStack(recipe.input, 42, 22);
-        stack.setMaxSize(2);
+        PositionedStack stack = new PositionedStack(OreDictionary.getOres(recipe.inputString), 42, 22);
+        
+        //stack.setMaxSize(2);
         shape.ingredients.add(stack);
         shape.result.relx = 116;
         shape.result.rely = 22;
@@ -58,10 +60,10 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
     }
 
     @Override
-    public void loadUsageRecipes(ItemStack ingredient) {
+    public void loadUsageRecipes(ItemStack ingredient) {    	
         for(CrushingRecipes.CrushingRecipe recipe: CrushingRecipes.crushingRecipes) {
-            if(NEIClientUtils.areStacksSameTypeCrafting(recipe.input,
-                    ingredient)) {
+        	String oreName = OreDictionary.getOreName(OreDictionary.getOreID(ingredient));
+        	if(recipe.inputString == oreName){
                 this.arecipes.add(getShape(recipe));
                 break;
             }
@@ -69,7 +71,7 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
     }
 
 
-/*
+
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if(outputId.equals("crafting") && getClass() ==
@@ -80,5 +82,5 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
         } else {
             super.loadCraftingRecipes(outputId, results);
         }
-    }*/
+    }
 }

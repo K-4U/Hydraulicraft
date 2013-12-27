@@ -14,6 +14,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class TileHydraulicCrusher extends TileConsumer implements ISidedInventory {
 	private ItemStack inputInventory;
@@ -157,7 +158,8 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	}
 	
 	private boolean canCrush(ItemStack inv){
-		return Config.canBeCrushed(inv);
+		String oreName = OreDictionary.getOreName(OreDictionary.getOreID(inv));
+		return Config.canBeCrushed(oreName);
 	}
 
 	@Override
