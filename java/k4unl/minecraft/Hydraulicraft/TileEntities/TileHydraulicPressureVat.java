@@ -1,9 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities;
 
-import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileStorage;
+import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
+import k4unl.minecraft.Hydraulicraft.api.IBaseStorage;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorage;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -12,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -19,10 +25,14 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileHydraulicPressureVat extends TileStorage implements IInventory {
+public class TileHydraulicPressureVat extends TileEntity implements IInventory, IFluidHandler, IHydraulicStorageWithTank {
 	private ItemStack inputInventory;
 	private ItemStack outputInventory;
+	private IBaseStorage baseHandler;
+
+	
 	
 	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	
@@ -36,50 +46,29 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	}
 	
 	
+	public int getTier() {
+		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+	}
+
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
-		NBTTagCompound tagCompound = packet.data;
-		this.readFromNBT(tagCompound);
+		getHandler().onDataPacket(net, packet);
 	}
 	
 	@Override
 	public Packet getDescriptionPacket(){
-		NBTTagCompound tagCompound = new NBTTagCompound();
-		this.writeToNBT(tagCompound);
-		return new Packet132TileEntityData(xCoord,yCoord,zCoord,4,tagCompound);
+		return getHandler().getDescriptionPacket();
 	}
 	
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
-		super.readFromNBT(tagCompound);
-		
-		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
-		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
-		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		tank.readFromNBT(tagCompound.getCompoundTag("tank"));
+		getHandler().readFromNBT(tagCompound);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
-		super.writeToNBT(tagCompound);
-		
-		if(inputInventory != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			inputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
-		}
-		if(outputInventory != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			outputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
-		}
-		NBTTagCompound tankCompound = new NBTTagCompound();
-		tank.writeToNBT(tankCompound);
-		tagCompound.setCompoundTag("tank", tankCompound);
+		getHandler().writeToNBT(tagCompound);
 	}
 
 
@@ -191,16 +180,16 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 		if(doFill && filled > 10){
 			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 			//worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		}else if((getFluidInSystem() + resource.amount) < getTotalFluidCapacity()){
+		}else if((getHandler().getFluidInSystem() + resource.amount) < getHandler().getTotalFluidCapacity()){
 			if(doFill){
-				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getFluidInSystem() + resource.amount, isOilStored());
+				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getFluidInSystem() + resource.amount, getHandler().isOilStored());
 			}
 			filled = resource.amount;
-		}else if(getFluidInSystem() < getTotalFluidCapacity()) {
+		}else if(getHandler().getFluidInSystem() < getHandler().getTotalFluidCapacity()) {
 			if(doFill){
-				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getTotalFluidCapacity(), isOilStored());
+				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getTotalFluidCapacity(), getHandler().isOilStored());
 			}
-			filled = getTotalFluidCapacity() - getFluidInSystem();
+			filled = getHandler().getTotalFluidCapacity() - getHandler().getFluidInSystem();
 		}else{
 			filled = 0;
 		}
@@ -247,7 +236,7 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 	}
 
 	@Override
-	public int getStorage() {
+	public int getMaxStorage() {
 		return tank.getCapacity();
 	}
 
@@ -264,13 +253,87 @@ public class TileHydraulicPressureVat extends TileStorage implements IInventory 
 			tank.setFluid(new FluidStack(FluidRegistry.WATER, i));
 			//Log.info("Fluid in tank: " + tank.getFluidAmount() + "x" + FluidRegistry.getFluidName(tank.getFluid().fluidID));
 			//if(!worldObj.isRemote){
-				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			//}
 		}
 	}
 
 	@Override
 	public void onBlockBreaks() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+    public float getMaxPressure(){
+        if(getHandler().isOilStored()) {
+            switch(getTier()){
+                case 0:
+                    return Constants.MAX_MBAR_OIL_TIER_1;
+                case 1:
+                    return Constants.MAX_MBAR_OIL_TIER_2;
+                case 2:
+                    return Constants.MAX_MBAR_OIL_TIER_3;
+            }
+        } else {
+            switch(getTier()){
+                case 0:
+                    return Constants.MAX_MBAR_WATER_TIER_1;
+                case 1:
+                    return Constants.MAX_MBAR_WATER_TIER_2;
+                case 2:
+                    return Constants.MAX_MBAR_WATER_TIER_3;
+            }
+        }
+        return 0;
+    }
+
+	@Override
+	public IBaseClass getHandler() {
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getStorageClass(this);
+        return baseHandler;
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound tagCompound) {
+		super.readFromNBT(tagCompound);
+		
+		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
+		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
+		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		tank.readFromNBT(tagCompound.getCompoundTag("tank"));
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound tagCompound) {
+		super.writeToNBT(tagCompound);
+		
+		if(inputInventory != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			inputInventory.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
+		}
+		if(outputInventory != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			outputInventory.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
+		}
+		NBTTagCompound tankCompound = new NBTTagCompound();
+		tank.writeToNBT(tankCompound);
+		tagCompound.setCompoundTag("tank", tankCompound);	
+	}
+
+	@Override
+	public void updateEntity() {
+		getHandler().updateEntity();
+		
+	}
+
+	@Override
+	public void onInventoryChanged() {
 		// TODO Auto-generated method stub
 		
 	}

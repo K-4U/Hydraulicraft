@@ -3,19 +3,19 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
+import org.lwjgl.opengl.GL11;
+
 public class MachineGUI extends GuiContainer {
 	private ResourceLocation resLoc;
-	MachineEntity mEnt;
+	IHydraulicMachine mEnt;
 	
 	class ToolTip{
 		int x;
@@ -49,7 +49,7 @@ public class MachineGUI extends GuiContainer {
 	}
 	List<ToolTip> tooltipList = new ArrayList<ToolTip>();
 	
-	public MachineGUI(MachineEntity Entity, Container mainContainer, ResourceLocation _resLoc) {
+	public MachineGUI(IHydraulicMachine Entity, Container mainContainer, ResourceLocation _resLoc) {
 		super(mainContainer);
 		mEnt = Entity;
 		resLoc = _resLoc;
@@ -97,18 +97,18 @@ public class MachineGUI extends GuiContainer {
 	}
 	
 	protected void drawFluidAndPressure(){
-		if(mEnt.getStored() > 0){
+		if(mEnt.getHandler().getStored() > 0){
 			int color = 0xFFFFFFFF;
-			if(!mEnt.isOilStored()){
+			if(!mEnt.getHandler().isOilStored()){
 				color = Constants.COLOR_WATER;
 			}
-			drawVerticalProgressBar(8, 14, 56, 16, mEnt.getStored(), mEnt.getStorage(), color, "Fluid:", "mB");
+			drawVerticalProgressBar(8, 14, 56, 16, mEnt.getHandler().getStored(), mEnt.getMaxStorage(), color, "Fluid:", "mB");
 			
 		}
 		
-		if(mEnt.getPressure() > 0){
+		if(mEnt.getHandler().getPressure() > 0){
 			int color = Constants.COLOR_PRESSURE;
-			drawVerticalProgressBar(152, 14, 56, 16, mEnt.getPressure(), mEnt.getMaxPressure(), color, "Pressure:", "mBar");
+			drawVerticalProgressBar(152, 14, 56, 16, mEnt.getHandler().getPressure(), mEnt.getMaxPressure(), color, "Pressure:", "mBar");
 		}
 	}
 	

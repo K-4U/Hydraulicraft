@@ -3,7 +3,8 @@ package k4unl.minecraft.Hydraulicraft.items;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineItem;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -25,17 +26,17 @@ public class ItemDebug extends MachineItem {
 		if(!world.isRemote){
 			TileEntity ent = world.getBlockTileEntity(x, y, z);
 			if(ent != null){
-				if(ent instanceof MachineEntity){
+				if(ent instanceof IHydraulicMachine){
 					NBTTagCompound tagC = itemStack.getTagCompound();
 					if(tagC == null){
 						tagC = new NBTTagCompound();
 					}
-					MachineEntity mEnt = (MachineEntity) ent;
+					IHydraulicMachine mEnt = (IHydraulicMachine) ent;
 					
-					int stored = mEnt.getStored();
-					int max = mEnt.getStorage();
+					int stored = mEnt.getHandler().getStored();
+					int max = mEnt.getMaxStorage();
 					
-					float pressure = mEnt.getPressure();
+					float pressure = mEnt.getHandler().getPressure();
 					float maxPressure = mEnt.getMaxPressure();
 					
 					float prevPressure = tagC.getFloat("prevPressure");
@@ -57,12 +58,14 @@ public class ItemDebug extends MachineItem {
 						player.addChatMessage("Tier:          " + tier);						
 					}
 					
-					if(ent instanceof TileHydraulicPump){
-						float gen = ((TileHydraulicPump) ent).getGenerating();
-						int maxGen = ((TileHydraulicPump) ent).getMaxGenerating();
-						int tier = ((TileHydraulicPump) ent).getTier();
+					if(ent instanceof IHydraulicGenerator){
+						float gen = ((IHydraulicGenerator) ent).getGenerating();
+						int maxGen = ((IHydraulicGenerator) ent).getMaxGenerating();
 						player.addChatMessage("Generating:    " + gen + "/" + maxGen);
-						player.addChatMessage("Tier:          " + tier);
+						if(ent instanceof TileHydraulicPump){
+							int tier = ((TileHydraulicPump) ent).getTier();
+							player.addChatMessage("Tier:          " + tier);
+						}
 					}
 					
 					itemStack.setTagCompound(tagC);

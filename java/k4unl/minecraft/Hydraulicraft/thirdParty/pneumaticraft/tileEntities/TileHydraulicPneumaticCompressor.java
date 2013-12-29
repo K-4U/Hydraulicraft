@@ -1,18 +1,24 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities;
 
-import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
+import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry.FluidRegisterEvent;
 import pneumaticCraft.api.tileentity.AirHandlerSupplier;
 import pneumaticCraft.api.tileentity.IAirHandler;
 import pneumaticCraft.api.tileentity.IPneumaticMachine;
 
-public class TileHydraulicPneumaticCompressor extends TileConsumer implements
-		IPneumaticMachine {
+public class TileHydraulicPneumaticCompressor extends TileEntity implements
+		IPneumaticMachine, IHydraulicConsumer {
     private IAirHandler airHandler;
+    private IBaseClass baseHandler;
     private static float dangerPressure = 5;  
 
     @Override
@@ -75,7 +81,7 @@ public class TileHydraulicPneumaticCompressor extends TileConsumer implements
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			float usage = (getPressure() / 10000); 
+			float usage = (getHandler().getPressure() / 10000); 
 			return usage;
 		}else{
 			return 0F;
@@ -84,25 +90,25 @@ public class TileHydraulicPneumaticCompressor extends TileConsumer implements
 
 	private void doCompress() {
 		//Simplest function EVER!
-		float usage = (getPressure() / 10000);
+		float usage = (getHandler().getPressure() / 10000);
 		getAirHandler().addAir(usage * Constants.CONVERSION_RATIO_AIR_HYDRAULIC, ForgeDirection.UNKNOWN);
 	}
 
 	private boolean canRun() {
-		if(!getRedstonePowered()){
+		if(!getHandler().getRedstonePowered()){
 			return false;
 		}
 		//Get minimal pressure
-		return (this.getPressure() > Constants.MIN_PRESSURE_COMPRESSOR && getAirHandler().getPressure(ForgeDirection.UNKNOWN) < dangerPressure);
+		return (getHandler().getPressure() > Constants.MIN_PRESSURE_COMPRESSOR && getAirHandler().getPressure(ForgeDirection.UNKNOWN) < dangerPressure);
 	}
 
 	@Override
-	public int getMaxBar() {
+	public float getMaxPressure() {
 		return Constants.MAX_MBAR_OIL_TIER_3;
 	}
 
 	@Override
-	public int getStorage() {
+	public int getMaxStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * 20;
 	}
 
@@ -112,5 +118,36 @@ public class TileHydraulicPneumaticCompressor extends TileConsumer implements
 		
 	}
 
+	@Override
+	public IBaseClass getHandler() {
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+        return baseHandler;
+	}
 
+	@Override
+	public void readNBT(NBTTagCompound tagCompound) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound tagCompound) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+		getHandler().onDataPacket(net, packet);
+		
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return getHandler().getDescriptionPacket();
+	}
+
+	public void checkRedstonePower() {
+		getHandler().checkRedstonePower();
+	}
 }

@@ -1,5 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities;
 
+import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
 import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -15,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -25,8 +29,8 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileHydraulicWasher extends TileConsumer implements
-		ISidedInventory, IFluidHandler {
+public class TileHydraulicWasher extends TileEntity implements
+		ISidedInventory, IFluidHandler, IHydraulicConsumer {
 	private ItemStack inputInventory;
 	private ItemStack washingItem;
 	private ItemStack targetItem;
@@ -34,6 +38,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 	private int washingTicks = 0;
 	private int maxWashingTicks = 0;
 	private float requiredPressure = 5F;
+	private IBaseClass baseHandler;
 	
 	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	
@@ -41,12 +46,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 	public int getWashingTicks(){
 		return washingTicks;
 	}
-	
-	public TileHydraulicWasher(){
-		
-	}
 
-	
 	public boolean isWashing() {
 		return (washingItem != null && targetItem != null);
 	}
@@ -54,53 +54,13 @@ public class TileHydraulicWasher extends TileConsumer implements
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		super.readFromNBT(tagCompound);
-		
-		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
-		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
-		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		tank.readFromNBT(tagCompound.getCompoundTag("tank"));
-		
-		washingTicks = tagCompound.getInteger("washingTicks");
-		
-		washingItem = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("washingItem"));
-		targetItem = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("targetItem"));
+		getHandler().readFromNBT(tagCompound);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
 		super.writeToNBT(tagCompound);
-		
-		if(inputInventory != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			inputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
-		}
-		if(outputInventory != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			outputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
-		}
-		
-		if(washingItem != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			washingItem.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("washingItem", inventoryCompound);
-		}
-		
-		if(targetItem != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			targetItem.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("targetItem", inventoryCompound);
-		}
-		
-		NBTTagCompound tankCompound = new NBTTagCompound();
-		tank.writeToNBT(tankCompound);
-		tagCompound.setCompoundTag("tank", tankCompound);
-		
-		tagCompound.setInteger("washingTicks",washingTicks);
+		getHandler().writeToNBT(tagCompound);
 	}
 	
 	
@@ -113,7 +73,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return 5F + ((getPressure() / 100) * 0.005F);
+			return 5F + ((getHandler().getPressure() / 100) * 0.005F);
 		}else{
 			return 0F;
 		}
@@ -122,7 +82,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 	
 	private void doWash(){
 		if(isWashing()){
-			washingTicks = washingTicks + 1 + (int)((getPressure()/100) * 0.005F);
+			washingTicks = washingTicks + 1 + (int)((getHandler().getPressure()/100) * 0.005F);
 			if(washingTicks >= maxWashingTicks){
 				//washing done!
 				if(outputInventory == null){
@@ -165,7 +125,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 	 * and if the item is smeltable
 	 */
 	private boolean canRun(){
-		if(inputInventory == null || (getPressure() < requiredPressure) || tank.getFluidAmount() < Constants.MIN_REQUIRED_WATER_FOR_WASHER){
+		if(inputInventory == null || (getHandler().getPressure() < requiredPressure) || tank.getFluidAmount() < Constants.MIN_REQUIRED_WATER_FOR_WASHER){
 			return false;
 		}else{
 			//Get smelting result:
@@ -322,7 +282,7 @@ public class TileHydraulicWasher extends TileConsumer implements
 	}
 
 	@Override
-	public int getStorage() {
+	public int getMaxStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * 10;
 	}
 	
@@ -373,15 +333,89 @@ public class TileHydraulicWasher extends TileConsumer implements
 	}
 
 	@Override
-	public int getMaxBar() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void onBlockBreaks() {
+		getHandler().dropItemStackInWorld(inputInventory);
+		getHandler().dropItemStackInWorld(outputInventory);
 	}
 
 	@Override
-	public void onBlockBreaks() {
-		dropItemStackInWorld(inputInventory);
-		dropItemStackInWorld(outputInventory);
+	public void onInventoryChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public float getMaxPressure() {
+		return Constants.MAX_MBAR_OIL_TIER_3;
+	}
+
+	@Override
+	public IBaseClass getHandler() {
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+        return baseHandler;
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound tagCompound) {
+		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
+		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
+		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		tank.readFromNBT(tagCompound.getCompoundTag("tank"));
+		
+		washingTicks = tagCompound.getInteger("washingTicks");
+		
+		washingItem = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("washingItem"));
+		targetItem = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("targetItem"));
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound tagCompound) {
+		if(inputInventory != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			inputInventory.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
+		}
+		if(outputInventory != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			outputInventory.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
+		}
+		
+		if(washingItem != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			washingItem.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("washingItem", inventoryCompound);
+		}
+		
+		if(targetItem != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			targetItem.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("targetItem", inventoryCompound);
+		}
+		
+		NBTTagCompound tankCompound = new NBTTagCompound();
+		tank.writeToNBT(tankCompound);
+		tagCompound.setCompoundTag("tank", tankCompound);
+		
+		tagCompound.setInteger("washingTicks",washingTicks);
+	}
+
+	@Override
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+		getHandler().onDataPacket(net, packet);
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return getHandler().getDescriptionPacket();
+	}
+
+	@Override
+	public void updateEntity() {
+		getHandler().updateEntity();
 	}
 
 

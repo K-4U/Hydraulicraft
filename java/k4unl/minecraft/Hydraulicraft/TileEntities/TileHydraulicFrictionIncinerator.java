@@ -1,20 +1,22 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities;
 
-import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
-public class TileHydraulicFrictionIncinerator extends TileConsumer implements ISidedInventory {
+public class TileHydraulicFrictionIncinerator extends TileEntity implements ISidedInventory, IHydraulicConsumer {
 
 	private ItemStack inputInventory;
 	private ItemStack smeltingItem;
@@ -23,6 +25,8 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 	private final float requiredPressure = 5F;
 	private int smeltingTicks = 0;
 	private int maxSmeltingTicks = 0;
+	private IBaseClass baseHandler;
+	
 	
 	public int getSmeltingTicks(){
 		return smeltingTicks;
@@ -31,50 +35,13 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		super.readFromNBT(tagCompound);
-		
-		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
-		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
-		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		inventoryCompound = tagCompound.getCompoundTag("smeltingItem");
-		smeltingItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		inventoryCompound = tagCompound.getCompoundTag("targetItem");
-		targetItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		smeltingTicks = tagCompound.getInteger("smeltingTicks");
-		
+		getHandler().readFromNBT(tagCompound);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
 		super.writeToNBT(tagCompound);
-		
-		if(inputInventory != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			inputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
-		}
-		if(outputInventory != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			outputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
-		}
-		if(smeltingItem != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			smeltingItem.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("smeltingItem", inventoryCompound);
-		}
-		if(targetItem != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			targetItem.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("targetItem", inventoryCompound);
-		}
-		
-		
-		tagCompound.setInteger("smeltingTicks",smeltingTicks);
+		getHandler().writeToNBT(tagCompound);
 	}
 	
 	@Override
@@ -86,7 +53,7 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return (float) (5F + ((getPressure()/100) * 0.005F));
+			return (float) (5F + ((getHandler().getPressure()/100) * 0.005F));
 		}else{
 			return 0F;
 		}
@@ -95,7 +62,7 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 	
 	private void doSmelt(){
 		if(isSmelting()){
-			smeltingTicks = smeltingTicks + 1 + (int)((getPressure()/100) * 0.005F);
+			smeltingTicks = smeltingTicks + 1 + (int)((getHandler().getPressure()/100) * 0.005F);
 			if(smeltingTicks >= maxSmeltingTicks){
 				//Smelting done!
 				if(outputInventory == null){
@@ -140,7 +107,7 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 	 * and if the item is smeltable
 	 */
 	private boolean canRun(){
-		if(inputInventory == null || (getPressure() < requiredPressure)){
+		if(inputInventory == null || (getHandler().getPressure() < requiredPressure)){
 			return false;
 		}else{
 			//Get smelting result:
@@ -165,7 +132,7 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 	}
 
 	@Override
-	public int getMaxBar() {
+	public float getMaxPressure() {
 		return Constants.MAX_MBAR_OIL_TIER_3;
 	}
 
@@ -308,14 +275,80 @@ public class TileHydraulicFrictionIncinerator extends TileConsumer implements IS
 	}
 
 	@Override
-	public int getStorage() {
+	public int getMaxStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * 5;
 	}
 
 	@Override
 	public void onBlockBreaks() {
-		dropItemStackInWorld(inputInventory);
-		dropItemStackInWorld(outputInventory);
+		getHandler().dropItemStackInWorld(inputInventory);
+		getHandler().dropItemStackInWorld(outputInventory);
+	}
+
+
+	@Override
+	public IBaseClass getHandler() {
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+        return baseHandler;
+	}
+
+	@Override
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+		getHandler().onDataPacket(net, packet);
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return getHandler().getDescriptionPacket();
+	}
+
+	@Override
+	public void updateEntity() {
+		getHandler().updateEntity();
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound tagCompound) {
+		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
+		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
+		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		inventoryCompound = tagCompound.getCompoundTag("smeltingItem");
+		smeltingItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		inventoryCompound = tagCompound.getCompoundTag("targetItem");
+		targetItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		smeltingTicks = tagCompound.getInteger("smeltingTicks");
+		
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound tagCompound) {
+		if(inputInventory != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			inputInventory.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
+		}
+		if(outputInventory != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			outputInventory.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
+		}
+		if(smeltingItem != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			smeltingItem.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("smeltingItem", inventoryCompound);
+		}
+		if(targetItem != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			targetItem.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("targetItem", inventoryCompound);
+		}
+		
+		tagCompound.setInteger("smeltingTicks",smeltingTicks);
 	}
 
 

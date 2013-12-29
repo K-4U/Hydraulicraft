@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -32,13 +33,13 @@ public class WailaProvider implements IWailaDataProvider {
 			List<String> currenttip, IWailaDataAccessor accessor,
 			IWailaConfigHandler config) {
 		
-		if(accessor.getTileEntity() instanceof MachineEntity){
-			MachineEntity mEnt = (MachineEntity) accessor.getTileEntity();
+		if(accessor.getTileEntity() instanceof IHydraulicMachine){
+			IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
 			
-			int stored = mEnt.getStored();
-			int max = mEnt.getStorage();
+			int stored = mEnt.getHandler().getStored();
+			int max = mEnt.getMaxStorage();
 			
-			float pressure = mEnt.getPressure();
+			float pressure = mEnt.getHandler().getPressure();
 			float maxPressure = mEnt.getMaxPressure();
 	
 			currenttip.add("Fl: " + stored + "/" + max + " mBuckets (" + (int)(((float)stored / (float)max) * 100) + "%)");

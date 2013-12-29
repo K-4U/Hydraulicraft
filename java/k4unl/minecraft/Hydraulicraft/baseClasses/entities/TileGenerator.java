@@ -1,38 +1,25 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses.entities;
 
+import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
-public abstract class TileGenerator extends MachineEntity {
-    /*!
-     * @author Koen Beckers
-     * @date 14-12-2013
-     * Function that gets called when there's work to be done
-     * Probably every tick or so.
-     */
-    public abstract void workFunction();
+public class TileGenerator extends MachineEntity implements IBaseGenerator{
+
+	private IHydraulicGenerator target;
     
     
-    /*!
-     * @author Koen Beckers
-     * @date 14-12-2013
-     * Returns how much the generator can max output
-     */
-    public abstract int getMaxGenerating();
-    
-    
-    /*!
-     * @author Koen Beckers
-     * @date 14-12-2013
-     * Returns how much the generator is now generating
-     */
-    public abstract float getGenerating();
-    
-    
-    @Override
+    public TileGenerator(TileEntity _target) {
+		super(_target);
+		target = (IHydraulicGenerator)_target;
+	}
+
+	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		super.readFromNBT(tagCompound);
 	}
@@ -72,7 +59,23 @@ public abstract class TileGenerator extends MachineEntity {
 	}
 	
 	public int getTier(){
-		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		return tTarget.worldObj.getBlockMetadata(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+	}
+	
+	public void updateEntity(){
+		super.updateEntity();
+		//Call work function:
+		target.workFunction();
+		//Set own pressure
+		float prevPressure = getPressure();
+		if((getPressure() + target.getGenerating()) < getMaxPressure()){
+			setPressure(getPressure() + target.getGenerating());
+		}else{
+			setPressure(getMaxPressure());
+		}
+		if(getPressure() != prevPressure){
+			Functions.checkSidesSetPressure(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, getPressure());
+		}
 	}
 	
 }

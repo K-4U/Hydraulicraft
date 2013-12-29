@@ -3,6 +3,11 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -16,7 +21,7 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public abstract class MachineEntity extends TileEntity {
+public class MachineEntity implements IBaseClass {
 	private boolean _isOilStored = false;
 	private int fluidLevelStored = 0;
 	private int fluidInSystem = 0;
@@ -26,7 +31,18 @@ public abstract class MachineEntity extends TileEntity {
 	private float bar = 0;
 	private int networkCount;
 	
-	public abstract void onBlockBreaks();
+	public TileEntity tTarget;
+	public IHydraulicMachine target;
+	
+	public boolean hasOwnFluidTank;
+		
+	public MachineEntity(TileEntity _target) {
+		tTarget = _target;
+		target = (IHydraulicMachine) _target;
+		if(target instanceof TileHydraulicPressureVat){
+			hasOwnFluidTank = true;
+		}
+	}
 	
 	public void redstoneChanged(boolean rsPowered){
 		
@@ -34,10 +50,10 @@ public abstract class MachineEntity extends TileEntity {
 	
 	public void dropItemStackInWorld(ItemStack itemStack){
 		if(itemStack != null){
-			EntityItem ei = new EntityItem(worldObj);
+			EntityItem ei = new EntityItem(tTarget.worldObj);
 			ei.setEntityItemStack(itemStack);
-			ei.setPosition(xCoord, yCoord, zCoord);
-			worldObj.spawnEntityInWorld(ei);
+			ei.setPosition(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+			tTarget.worldObj.spawnEntityInWorld(ei);
 		}
 	}
 	
@@ -54,12 +70,13 @@ public abstract class MachineEntity extends TileEntity {
 	}
 
 	public void updateBlock(){
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		tTarget.worldObj.markBlockForUpdate(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
     }
 
 	public void setPressure(float newPressure){
 		if((int)getMaxPressure() < (int)newPressure){
-			worldObj.createExplosion((Entity)null, xCoord, yCoord, zCoord, 1F + ((getMaxPressure() / newPressure) * 3), true);
+			tTarget.worldObj.createExplosion((Entity)null, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord,
+					1F + ((getMaxPressure() / newPressure) * 3), true);
 		}
 		if((int)getMaxPressure() < (int)newPressure){
 			bar = getMaxPressure();
@@ -86,19 +103,15 @@ public abstract class MachineEntity extends TileEntity {
 	/*!
 	 * @author Koen Beckers
 	 * @date 15-12-2013
-	 * Will return how much liquid this block can store.
-	 * Will be used to calculate the pressure all over the network.
-	 */
-	public abstract int getStorage();
-	
-	/*!
-	 * @author Koen Beckers
-	 * @date 15-12-2013
 	 * Will return how much liquid this block stores
 	 * Will be used to calculate the pressure all over the network.
 	 */
 	public int getStored(){
-		return fluidLevelStored;
+		if(hasOwnFluidTank){
+			return ((IHydraulicStorageWithTank)target).getStored();
+		}else{
+			return fluidLevelStored;
+		}
 	}
 
 
@@ -121,9 +134,13 @@ public abstract class MachineEntity extends TileEntity {
 	}
 	
 	public void setStored(int i, boolean isOil){
-		_isOilStored = isOil;
-		fluidLevelStored = i;
-        updateBlock();
+		if(hasOwnFluidTank){
+			((IHydraulicStorageWithTank)target).setStored(i, isOil);
+		}else{
+			_isOilStored = isOil;
+			fluidLevelStored = i;
+		}
+		updateBlock();
 	}
 	
 	public boolean isOilStored() {
@@ -140,45 +157,46 @@ public abstract class MachineEntity extends TileEntity {
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
-		return new Packet132TileEntityData(xCoord,yCoord,zCoord,4,tagCompound);
+		return new Packet132TileEntityData(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, 4, tagCompound);
 	}
 
 	
-	private List<MachineEntity> getMachine(List<MachineEntity> list, World w, int x, int y, int z){
+	private List<IHydraulicMachine> getMachine(List<IHydraulicMachine> list, World w, int x, int y, int z){
 		int blockId = w.getBlockId(x, y, z);
 		if(blockId == 0){
 			return list;
 		}
 		
 		TileEntity t = w.getBlockTileEntity(x, y, z);
-		if(t instanceof MachineEntity){
-			list.add((MachineEntity)t);
+		if(t instanceof IHydraulicMachine){
+			list.add((IHydraulicMachine)t);
 		}
 		return list;
 	}
 	
-	public List<MachineEntity> getConnectedBlocks(List<MachineEntity> mainList){
+	@Override
+	public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList){
 		return getConnectedBlocks(mainList, true);
 	}
 	
-	public List<MachineEntity> getConnectedBlocks(List<MachineEntity> mainList, boolean chain){
-		int x = xCoord;
-		int y = yCoord;
-		int z = zCoord;
-		List<MachineEntity> machines = new ArrayList<MachineEntity>();
-		machines = getMachine(machines, worldObj, x-1, y, z);
-		machines = getMachine(machines, worldObj, x+1, y, z); 
-		machines = getMachine(machines, worldObj, x, y-1, z);
-		machines = getMachine(machines, worldObj, x, y+1, z);
-		machines = getMachine(machines, worldObj, x, y, z-1);
-		machines = getMachine(machines, worldObj, x, y, z+1);
+	public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList, boolean chain){
+		int x = tTarget.xCoord;
+		int y = tTarget.yCoord;
+		int z = tTarget.zCoord;
+		List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
+		machines = getMachine(machines, tTarget.worldObj, x-1, y, z);
+		machines = getMachine(machines, tTarget.worldObj, x+1, y, z); 
+		machines = getMachine(machines, tTarget.worldObj, x, y-1, z);
+		machines = getMachine(machines, tTarget.worldObj, x, y+1, z);
+		machines = getMachine(machines, tTarget.worldObj, x, y, z-1);
+		machines = getMachine(machines, tTarget.worldObj, x, y, z+1);
 		
 
-		List<MachineEntity> callList = new ArrayList<MachineEntity>();
+		List<IHydraulicMachine> callList = new ArrayList<IHydraulicMachine>();
 		
-		for (MachineEntity machineEntity : machines) {
+		for (IHydraulicMachine machineEntity : machines) {
 			if(!mainList.contains(machineEntity)){
-				if(this instanceof TileTransporter || machineEntity instanceof TileTransporter){
+				if(target instanceof IHydraulicTransporter || machineEntity instanceof IHydraulicTransporter){
 					mainList.add(machineEntity);
 					callList.add(machineEntity);
 				}
@@ -186,10 +204,10 @@ public abstract class MachineEntity extends TileEntity {
 		}
 		//Only go trough transporter items.
 		if(chain){
-			for (MachineEntity machineEntity : callList) {
+			for (IHydraulicMachine machineEntity : callList) {
 				//if(machineEntity instanceof TileTransporter){
-					List<MachineEntity> tempList = new ArrayList<MachineEntity>();
-					tempList = machineEntity.getConnectedBlocks(mainList);
+					List<IHydraulicMachine> tempList = new ArrayList<IHydraulicMachine>();
+					tempList = machineEntity.getHandler().getConnectedBlocks(mainList);
 					mainList = Functions.mergeList(tempList, mainList);
 				//}
 			}
@@ -200,8 +218,6 @@ public abstract class MachineEntity extends TileEntity {
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
-		super.readFromNBT(tagCompound);
-		
 		fluidLevelStored = tagCompound.getInteger("fluidLevelStored");
 		networkCount = tagCompound.getInteger("networkCount");
 		
@@ -212,12 +228,12 @@ public abstract class MachineEntity extends TileEntity {
 		bar = tagCompound.getFloat("bar");
 		
 		isRedstonePowered = tagCompound.getBoolean("isRedstonePowered");
+		
+		target.readNBT(tagCompound);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
-		super.writeToNBT(tagCompound);
-		
 		tagCompound.setInteger("fluidLevelStored",fluidLevelStored);
 		tagCompound.setInteger("networkCount", networkCount);
 		
@@ -228,14 +244,16 @@ public abstract class MachineEntity extends TileEntity {
 		tagCompound.setFloat("bar", bar);
 		
 		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
+		
+		target.writeNBT(tagCompound);
 	}
 	
 	protected TileEntity getBlockTileEntity(int x, int y, int z){
-		return worldObj.getBlockTileEntity(x, y, z);
+		return tTarget.worldObj.getBlockTileEntity(x, y, z);
 	}
 
 	public void checkRedstonePower() {
-		boolean isIndirectlyPowered = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+		boolean isIndirectlyPowered = tTarget.worldObj.isBlockIndirectlyGettingPowered(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
 		if(isIndirectlyPowered && !isRedstonePowered){
 			isRedstonePowered = true;
 			this.redstoneChanged(isRedstonePowered);
@@ -245,8 +263,7 @@ public abstract class MachineEntity extends TileEntity {
 		}
 	}
 
-	
-
-	
-	
+	@Override
+	public void updateEntity() {
+	}
 }

@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlock;
+import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
@@ -42,6 +43,17 @@ public class BlockHydraulicPneumaticCompressor extends MachineBlock {
 		player.openGui(Hydraulicraft.instance, Ids.GUIPneumaticCompressor.act, world, x, y, z);
 		
 		return true;
+	}
+	
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y,
+				int z, int blockId) {
+		super.onNeighborBlockChange(world, x, y, z, blockId);
+		
+		TileEntity tile = world.getBlockTileEntity(x, y, z);
+		if(tile instanceof TileHydraulicPneumaticCompressor){
+			((TileHydraulicPneumaticCompressor)tile).checkRedstonePower();			
+		}
 	}
 
 }

@@ -123,6 +123,10 @@ public abstract class MachineTieredBlock extends MachineBlock {
 			return damageValue;
 		}
 		
-		
-		
+		@Override
+		public void onNeighborBlockChange(World world, int x, int y,
+					int z, int blockId) {
+			super.onNeighborBlockChange(world, x, y, z, blockId);
+			
+		}
 }

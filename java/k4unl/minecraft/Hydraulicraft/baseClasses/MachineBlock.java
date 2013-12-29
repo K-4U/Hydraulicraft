@@ -3,6 +3,9 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
@@ -196,26 +199,13 @@ public abstract class MachineBlock extends BlockContainer {
 				int z, int blockId) {
 		super.onNeighborBlockChange(world, x, y, z, blockId);
 		
-		TileEntity tile = world.getBlockTileEntity(x, y, z);
-		if(tile instanceof MachineEntity){
-			((MachineEntity)tile).checkRedstonePower();			
-		}
-		
 		callConnectedSideCheck(world, x, y, z);
-		/*callConnectedSideCheck(world, x-1, y, z);
-		
-		callConnectedSideCheck(world, x, y+1, z);
-		callConnectedSideCheck(world, x, y-1, z);
-		
-		callConnectedSideCheck(world, x, y, z+1);
-		callConnectedSideCheck(world, x, y, z-1);*/
 	}
 	
 	private void callConnectedSideCheck(World w, int x, int y, int z){
 		TileEntity tile = w.getBlockTileEntity(x, y, z);
-		if(tile instanceof TileTransporter){
-			((TileTransporter) tile).checkConnectedSides();
-			((TileTransporter) tile).updateBlock();
+		if(tile instanceof TileHydraulicHose){
+			((TileHydraulicHose) tile).checkConnectedSides();
 		}
 	}
 	
@@ -223,10 +213,9 @@ public abstract class MachineBlock extends BlockContainer {
 	public void breakBlock(World w, int x, int y, int z, int oldId, int oldMetaData){
 		//Call TileEntity's onBlockBreaks function
 		TileEntity tile = w.getBlockTileEntity(x, y, z);
-		if(tile instanceof MachineEntity){
-			((MachineEntity)tile).onBlockBreaks();
+		if(tile instanceof IHydraulicMachine){
+			((IHydraulicMachine)tile).onBlockBreaks();
 		}
-		
 		
 		super.breakBlock(w, x, y, z, oldId, oldMetaData);
 		tellOtherBlockILeft(w, x, y, z);

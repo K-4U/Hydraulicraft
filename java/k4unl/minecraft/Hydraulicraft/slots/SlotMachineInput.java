@@ -5,6 +5,7 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerat
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicMixer;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -13,9 +14,9 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
 
 public class SlotMachineInput extends Slot {
-	private MachineEntity ent;
+	private IHydraulicMachine ent;
 	
-	public SlotMachineInput(IInventory inv, MachineEntity machine, int par2, int par3,
+	public SlotMachineInput(IInventory inv, IHydraulicMachine machine, int par2, int par3,
 			int par4) {
 		super(inv, par2, par3, par4);
 		ent = machine;

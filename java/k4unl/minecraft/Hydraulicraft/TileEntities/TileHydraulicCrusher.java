@@ -2,22 +2,25 @@ package k4unl.minecraft.Hydraulicraft.TileEntities;
 
 import java.util.Random;
 
-import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
-import k4unl.minecraft.Hydraulicraft.items.Items;
+import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileHydraulicCrusher extends TileConsumer implements ISidedInventory {
+public class TileHydraulicCrusher extends TileEntity implements ISidedInventory, IHydraulicConsumer {
 	private ItemStack inputInventory;
 	private ItemStack crushingItem;
 	private ItemStack targetItem;
@@ -25,54 +28,37 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	private final float requiredPressure = 5F;
 	private int crushingTicks = 0;
 	private int maxCrushingTicks = 0;
+	private IBaseClass baseHandler;
+	
+	
+	public TileHydraulicCrusher(){
+		
+	}
 	
 	public int getCrushingTicks(){
 		return crushingTicks;
 	}
 	
 	@Override
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+		getHandler().onDataPacket(net, packet);
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return getHandler().getDescriptionPacket();
+	}
+	
+	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		super.readFromNBT(tagCompound);
-		
-		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
-		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
-		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		inventoryCompound = tagCompound.getCompoundTag("crushingItem");
-		crushingItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		inventoryCompound = tagCompound.getCompoundTag("targetItem");
-		targetItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
+		getHandler().readFromNBT(tagCompound);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
 		super.writeToNBT(tagCompound);
-		
-		if(inputInventory != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			inputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
-		}
-		if(outputInventory != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			outputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
-		}
-		if(crushingItem != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			crushingItem.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("crushingItem", inventoryCompound);
-		}
-		if(targetItem != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			targetItem.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("targetItem", inventoryCompound);
-		}
-		
+		getHandler().writeToNBT(tagCompound);
 	}
 	
 	@Override
@@ -84,7 +70,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return 7F + ((getPressure() / 1000) * 0.005F);
+			return 7F + ((getHandler().getPressure() / 1000) * 0.005F);
 		}else{
 			return 0F;
 		}
@@ -93,7 +79,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	
 	private void doCrush(){
 		if(isCrushing()){
-			crushingTicks = crushingTicks + 1 + (int)((getPressure()/1000) * 0.005F);
+			crushingTicks = crushingTicks + 1 + (int)((getHandler().getPressure()/1000) * 0.005F);
 			//Log.info(crushingTicks+ "");
 			if(crushingTicks >= maxCrushingTicks){
 				//Crushing done!
@@ -141,7 +127,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	 * and if the item is smeltable
 	 */
 	private boolean canRun(){
-		if(inputInventory == null || (getPressure() < requiredPressure)){
+		if(inputInventory == null || (getHandler().getPressure() < requiredPressure)){
 			return false;
 		}else{
 			//Get crushing result:
@@ -164,7 +150,7 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	}
 
 	@Override
-	public int getMaxBar() {
+	public float getMaxPressure() {
 		return Constants.MAX_MBAR_OIL_TIER_3;
 	}
 
@@ -307,13 +293,65 @@ public class TileHydraulicCrusher extends TileConsumer implements ISidedInventor
 	}
 
 	@Override
-	public int getStorage() {
+	public int getMaxStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * 5;
 	}
 
 	@Override
 	public void onBlockBreaks() {
-		dropItemStackInWorld(inputInventory);
-		dropItemStackInWorld(outputInventory);
+		getHandler().dropItemStackInWorld(inputInventory);
+		getHandler().dropItemStackInWorld(outputInventory);
 	}
+	
+	@Override
+	public IBaseClass getHandler() {
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+        return baseHandler;
+	}
+	
+	@Override
+	public void updateEntity(){
+		getHandler().updateEntity();
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound tagCompound) {
+		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
+		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
+		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		inventoryCompound = tagCompound.getCompoundTag("crushingItem");
+		crushingItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		inventoryCompound = tagCompound.getCompoundTag("targetItem");
+		targetItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound tagCompound) {
+		if(inputInventory != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			inputInventory.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
+		}
+		if(outputInventory != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			outputInventory.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
+		}
+		if(crushingItem != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			crushingItem.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("crushingItem", inventoryCompound);
+		}
+		if(targetItem != null){
+			NBTTagCompound inventoryCompound = new NBTTagCompound();
+			targetItem.writeToNBT(inventoryCompound);
+			tagCompound.setCompoundTag("targetItem", inventoryCompound);
+		}
+	}
+
+
 }
