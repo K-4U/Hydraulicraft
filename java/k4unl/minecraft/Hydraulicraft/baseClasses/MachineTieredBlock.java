@@ -19,7 +19,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public abstract class MachineTieredBlock extends MachineBlock {
+public abstract class MachineTieredBlock extends MachineBlockContainer {
 		private Icon[] tieredIcon;
 		private Icon[] tieredTopIcon;
 		private Icon[] tieredBottomIcon;

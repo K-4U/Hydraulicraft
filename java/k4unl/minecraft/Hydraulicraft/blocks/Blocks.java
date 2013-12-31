@@ -22,6 +22,8 @@ public class Blocks {
 	public static Block hydraulicHose;
 	public static Block hydraulicPiston;
 	public static Block hydraulicWasher;
+	public static Block hydraulicPressureWall;
+	public static Block hydraulicHarvesterSource;
 	
 	
 	/*!
@@ -40,6 +42,8 @@ public class Blocks {
 		hydraulicHose = new BlockHydraulicHose();
 		//hydraulicPiston = new BlockHydraulicPiston();
 		hydraulicWasher = new BlockHydraulicWasher();
+		hydraulicPressureWall = new BlockHydraulicPressureWall();
+		hydraulicHarvesterSource = new BlockHydraulicHarvesterSource();
 		
 		registerBlocks();
 		addNames();
@@ -58,9 +62,10 @@ public class Blocks {
 		//GameRegistry.registerBlock(hydraulicPressureValve, Names.blockHydraulicPressureValve.unlocalized);
 		//GameRegistry.registerBlock(hydraulicPiston, Names.blockHydraulicPiston.unlocalized);
 		GameRegistry.registerBlock(hydraulicWasher, Names.blockHydraulicWasher.unlocalized);
+		GameRegistry.registerBlock(hydraulicPressureWall, Names.blockHydraulicPressureWall.unlocalized);
+		GameRegistry.registerBlock(hydraulicHarvesterSource, Names.blockHydraulicHarvesterSource.unlocalized);
 		
-		
-		
+				
 		GameRegistry.registerBlock(hydraulicHose, HandlerPressureHoze.class, Names.blockHydraulicHose[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicPump, HandlerPump.class, Names.blockHydraulicPump[0].unlocalized);
@@ -82,6 +87,8 @@ public class Blocks {
 		//LanguageRegistry.addName(hydraulicPressureValve, Names.blockHydraulicPressureValve.localized);
 		//LanguageRegistry.addName(hydraulicPiston, Names.blockHydraulicPiston.localized);
 		LanguageRegistry.addName(hydraulicWasher, Names.blockHydraulicWasher.localized);
+		LanguageRegistry.addName(hydraulicPressureWall, Names.blockHydraulicPressureWall.localized);
+		LanguageRegistry.addName(hydraulicHarvesterSource, Names.blockHydraulicHarvesterSource.localized);
 		
 		
 		for(int i = 0; i < 3; i++){

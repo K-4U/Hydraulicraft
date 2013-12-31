@@ -1,13 +1,20 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,7 +26,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class MachineBlock extends Block {
+public abstract class MachineBlockContainer extends BlockContainer {
 	private Icon blockIcon;
 	private Icon topIcon;
 	private Icon bottomIcon;
@@ -32,8 +39,13 @@ public class MachineBlock extends Block {
 	protected boolean hasTopIcon = false;
 	protected boolean hasFrontIcon = false;
 	
+	@Override
+	public abstract TileEntity createNewTileEntity(World world);
 	
-	protected MachineBlock(Id blockId, Name machineName) {
+	@Override
+	public abstract boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9);
+	
+	protected MachineBlockContainer(Id blockId, Name machineName) {
 		super(blockId.act, Material.rock);
 		
 		tBlockId = blockId;
@@ -223,5 +235,5 @@ public class MachineBlock extends Block {
 		
 	}
 	
-
+	
 }

@@ -1,13 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlock;
+import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicPressureGauge extends MachineBlock {
+public class BlockHydraulicPressureGauge extends MachineBlockContainer {
 
 	protected BlockHydraulicPressureGauge() {
 		super(Ids.blockHydraulicPressureGauge, Names.blockHydraulicPressureGauge);

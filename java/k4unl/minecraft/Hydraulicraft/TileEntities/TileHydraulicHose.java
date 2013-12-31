@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IBaseTransporter;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
@@ -17,6 +16,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import codechicken.multipart.TMultiPart;
+import codechicken.multipart.TileMultipart;
+import codechicken.multipart.scalatraits.TSlottedTile;
 
 public class TileHydraulicHose extends TileEntity implements IHydraulicTransporter {
 	private IBaseTransporter baseHandler;
@@ -28,13 +30,11 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
-		super.readFromNBT(tagCompound);
 		getHandler().readFromNBT(tagCompound);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
-		super.writeToNBT(tagCompound);
 		getHandler().writeToNBT(tagCompound);
 	}
 
@@ -108,7 +108,10 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
 	
     @Override
     public void updateEntity(){
-    	getHandler().updateEntity();
+    	if(getHandler() != null){
+    		//This should never happen that this is null! :|
+    		getHandler().updateEntity();
+    	}
         if(needToCheckNeighbors) {
             needToCheckNeighbors = false;
             connectedSides = new HashMap<ForgeDirection, TileEntity>();
@@ -119,7 +122,6 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
                 }
             }
         }
-        super.updateEntity();
     }
 
     private boolean shouldConnectTo(TileEntity entity){
@@ -166,4 +168,5 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
         }
         tagCompound.setCompoundTag("connectedSides", ourCompound);
     }
+
 }

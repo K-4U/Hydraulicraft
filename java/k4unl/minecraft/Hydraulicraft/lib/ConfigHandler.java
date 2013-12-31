@@ -48,6 +48,10 @@ public class ConfigHandler {
 		Ids.blockHydraulicWasher.loadBlock(config, Names.blockHydraulicWasher);
 		Ids.blockHydraulicHose.loadBlock(config, Names.blockHydraulicHose);
 		Ids.blockHydraulicMixer.loadBlock(config, Names.blockHydraulicMixer);
+		Ids.blockHydraulicPressureWall.loadBlock(config, Names.blockHydraulicPressureWall);
+		Ids.blockHydraulicHarvesterSource.loadBlock(config, Names.blockHydraulicHarvesterSource);
+		
+		
 		Ids.blockFluidOil.loadBlock(config, Names.fluidOil);
 		
 		Ids.oreCopper.loadBlock(config, Names.oreCopper);

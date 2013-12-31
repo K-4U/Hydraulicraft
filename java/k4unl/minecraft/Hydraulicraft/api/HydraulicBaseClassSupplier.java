@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.api;
 
 import java.lang.reflect.Constructor;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
 import net.minecraft.tileentity.TileEntity;
 
 /**

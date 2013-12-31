@@ -1,16 +1,18 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
-public class BlockHydraulicPressureValve extends MachineBlockContainer {
+public class BlockHydraulicHarvesterSource extends MachineBlockContainer {
 
-	protected BlockHydraulicPressureValve() {
-		super(Ids.blockHydraulicPressureValve, Names.blockHydraulicPressureValve);
+	protected BlockHydraulicHarvesterSource() {
+		super(Ids.blockHydraulicHarvesterSource, Names.blockHydraulicHarvesterSource);
 	}
 
 	@Override
@@ -25,7 +27,5 @@ public class BlockHydraulicPressureValve extends MachineBlockContainer {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
-	
+
 }

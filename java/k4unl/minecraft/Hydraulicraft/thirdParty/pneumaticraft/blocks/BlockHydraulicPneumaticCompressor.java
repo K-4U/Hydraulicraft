@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlock;
+import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHydraulicPneumaticCompressor extends MachineBlock {
+public class BlockHydraulicPneumaticCompressor extends MachineBlockContainer {
 
 	public BlockHydraulicPneumaticCompressor() {
 		super(Ids.blockHydraulicPneumaticCompressor, Names.blockHydraulicPneumaticCompressor);

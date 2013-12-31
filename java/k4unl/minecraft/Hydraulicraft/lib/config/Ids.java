@@ -13,21 +13,22 @@ public class Ids {
 	public static final Id blockHydraulicHose = new Id(4088);
 	public static final Id blockHydraulicPiston = new Id(4087);
 	public static final Id blockHydraulicWasher = new Id(4086);
-	public static final Id blockHydraulicPneumaticCompressor = new Id(4082);
+	public static final Id blockHydraulicPressureWall = new Id(4081);
+	public static final Id blockHydraulicHarvesterSource = new Id(4080);
 	
 	public static final Id oreCopper = new Id(4084);
 	public static final Id oreLead = new Id(4083);
 	
 	
-	public static final Id itemGasket = new Id(4080);
-	public static final Id itemDebug = new Id(4079);
-	public static final Id itemFrictionPlate = new Id(4078);
-	public static final Id ingotCopper = new Id(4077);
-	public static final Id ingotLead = new Id(4076);
-	public static final Id ingotEnrichedCopper = new Id(4075);
-	public static final Id itemChunks = new Id(4074);
-	public static final Id itemDusts = new Id(4073);
-	public static final Id itemBucketOil = new Id(4085);
+	public static final Id itemGasket = new Id(3000);
+	public static final Id itemDebug = new Id(3001);
+	public static final Id itemFrictionPlate = new Id(3002);
+	public static final Id ingotCopper = new Id(3003);
+	public static final Id ingotLead = new Id(3004);
+	public static final Id ingotEnrichedCopper = new Id(3005);
+	public static final Id itemChunks = new Id(3006);
+	public static final Id itemDusts = new Id(3007);
+	public static final Id itemBucketOil = new Id(3008);
 	
 	
 	
@@ -42,4 +43,8 @@ public class Ids {
 	
 	
 	public static final Id blockFluidOil = new Id(4085);
+	
+	
+	//Third party!
+	public static final Id blockHydraulicPneumaticCompressor = new Id(4082);
 }

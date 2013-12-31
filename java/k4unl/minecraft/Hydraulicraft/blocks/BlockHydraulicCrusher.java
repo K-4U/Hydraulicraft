@@ -3,14 +3,14 @@ package k4unl.minecraft.Hydraulicraft.blocks;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlock;
+import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicCrusher extends MachineBlock {
+public class BlockHydraulicCrusher extends MachineBlockContainer {
 
 	protected BlockHydraulicCrusher() {
 		super(Ids.blockHydraulicCrusher, Names.blockHydraulicCrusher);
