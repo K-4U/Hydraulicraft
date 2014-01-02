@@ -86,7 +86,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		getHandler().updateEntity();
 		//Every half second.. Or it should be..
 		if(worldObj.getTotalWorldTime() % 10 == 0){
-			checkMultiblock();
+			//checkMultiblock();
 		}
 	}
 
@@ -109,6 +109,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		return worldObj.getBlockId(x, y, z);
 	}
 	
+	/*
 	private boolean checkMultiblock(){
 		//Go up, check for pistons etc
 		if(getBlockId(xCoord, yCoord + 1, zCoord) != idVerticalFrame) return false;
@@ -117,6 +118,6 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		int y = yCoord + 2;
 		int z = zCoord;
 		
-	}
+	}*/
 
 }

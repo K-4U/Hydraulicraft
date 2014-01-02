@@ -33,7 +33,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	private Icon frontIcon;
 	
 	private Id tBlockId;
-	private Name mName;
+	public Name mName;
 	
 	protected boolean hasBottomIcon = false;
 	protected boolean hasTopIcon = false;
@@ -164,6 +164,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
 		if(hasFrontIcon){
 			int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
+			
 			
 			int metaDataToSet = 0;
 			switch(sideToPlace){

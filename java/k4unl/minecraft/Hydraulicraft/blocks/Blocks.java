@@ -23,7 +23,8 @@ public class Blocks {
 	public static Block hydraulicPiston;
 	public static Block hydraulicWasher;
 	public static Block hydraulicPressureWall;
-	public static Block hydraulicHarvesterSource;
+	//public static Block hydraulicHarvesterSource;
+	public static Block dummyWasher;
 	
 	
 	/*!
@@ -43,7 +44,9 @@ public class Blocks {
 		//hydraulicPiston = new BlockHydraulicPiston();
 		hydraulicWasher = new BlockHydraulicWasher();
 		hydraulicPressureWall = new BlockHydraulicPressureWall();
-		hydraulicHarvesterSource = new BlockHydraulicHarvesterSource();
+		//hydraulicHarvesterSource = new BlockHydraulicHarvesterSource();
+		
+		dummyWasher = new BlockDummyWasher();
 		
 		registerBlocks();
 		addNames();
@@ -63,7 +66,8 @@ public class Blocks {
 		//GameRegistry.registerBlock(hydraulicPiston, Names.blockHydraulicPiston.unlocalized);
 		GameRegistry.registerBlock(hydraulicWasher, Names.blockHydraulicWasher.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureWall, Names.blockHydraulicPressureWall.unlocalized);
-		GameRegistry.registerBlock(hydraulicHarvesterSource, Names.blockHydraulicHarvesterSource.unlocalized);
+		//GameRegistry.registerBlock(hydraulicHarvesterSource, Names.blockHydraulicHarvesterSource.unlocalized);
+		GameRegistry.registerBlock(dummyWasher, Names.blockDummyWasher.unlocalized);
 		
 				
 		GameRegistry.registerBlock(hydraulicHose, HandlerPressureHoze.class, Names.blockHydraulicHose[0].unlocalized);
@@ -88,8 +92,9 @@ public class Blocks {
 		//LanguageRegistry.addName(hydraulicPiston, Names.blockHydraulicPiston.localized);
 		LanguageRegistry.addName(hydraulicWasher, Names.blockHydraulicWasher.localized);
 		LanguageRegistry.addName(hydraulicPressureWall, Names.blockHydraulicPressureWall.localized);
-		LanguageRegistry.addName(hydraulicHarvesterSource, Names.blockHydraulicHarvesterSource.localized);
+		//LanguageRegistry.addName(hydraulicHarvesterSource, Names.blockHydraulicHarvesterSource.localized);
 		
+		LanguageRegistry.addName(dummyWasher, Names.blockDummyWasher.localized);
 		
 		for(int i = 0; i < 3; i++){
 			LanguageRegistry.addName(new ItemStack(hydraulicHose, 1, i), Names.blockHydraulicHose[i].localized);

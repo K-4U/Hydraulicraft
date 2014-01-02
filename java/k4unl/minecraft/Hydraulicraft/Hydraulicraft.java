@@ -59,7 +59,6 @@ public class Hydraulicraft {
 		
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		
-		proxy.initRenderers();
 		proxy.initSounds();
 		CustomTabs.init();
 	}
@@ -83,6 +82,8 @@ public class Hydraulicraft {
 		NetworkRegistry.instance().registerGuiHandler(this.instance, new GuiHandler());
 		
 		ThirdParty.init();
+		
+		proxy.initRenderers();
 	}
 	
 	/*!

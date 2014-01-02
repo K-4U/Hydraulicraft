@@ -3,17 +3,15 @@ package k4unl.minecraft.Hydraulicraft.TileEntities;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer;
-import k4unl.minecraft.Hydraulicraft.items.Items;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -27,7 +25,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TileHydraulicWasher extends TileEntity implements
 		ISidedInventory, IFluidHandler, IHydraulicConsumer {
@@ -39,6 +36,12 @@ public class TileHydraulicWasher extends TileEntity implements
 	private int maxWashingTicks = 0;
 	private float requiredPressure = 5F;
 	private IBaseClass baseHandler;
+	
+	private boolean isValidMultiblock;
+	
+	public boolean getIsValidMultiblock(){
+		return isValidMultiblock;
+	}
 	
 	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	
@@ -125,6 +128,9 @@ public class TileHydraulicWasher extends TileEntity implements
 	 * and if the item is smeltable
 	 */
 	private boolean canRun(){
+		if(!getIsValidMultiblock()){
+			return false;
+		}
 		if(inputInventory == null || (getHandler().getPressure() < requiredPressure) || tank.getFluidAmount() < Constants.MIN_REQUIRED_WATER_FOR_WASHER){
 			return false;
 		}else{
@@ -369,6 +375,8 @@ public class TileHydraulicWasher extends TileEntity implements
 		
 		washingItem = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("washingItem"));
 		targetItem = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("targetItem"));
+		
+		isValidMultiblock = tagCompound.getBoolean("isValidMultiblock");
 	}
 
 	@Override
@@ -401,6 +409,8 @@ public class TileHydraulicWasher extends TileEntity implements
 		tagCompound.setCompoundTag("tank", tankCompound);
 		
 		tagCompound.setInteger("washingTicks",washingTicks);
+		
+		tagCompound.setBoolean("isValidMultiblock",isValidMultiblock);
 	}
 
 	@Override
@@ -416,7 +426,115 @@ public class TileHydraulicWasher extends TileEntity implements
 	@Override
 	public void updateEntity() {
 		getHandler().updateEntity();
+		if(worldObj.getTotalWorldTime() % 10 == 0 && !getIsValidMultiblock()){
+			if(checkMultiblock()){
+				isValidMultiblock = true;
+				convertMultiblock();
+			}
+		}
 	}
 
-
+	public void invalidateMultiblock() {
+		int dir = (getBlockMetadata());
+		
+		int depthMultiplier = ((dir == 2 || dir == 4) ? 1 : -1);
+		boolean forwardZ = ((dir == 2) || (dir == 3));
+		
+		for(int horiz = -1; horiz <= 1; horiz++) {
+			for(int vert = -1; vert <= 1; vert++) {
+				for(int depth = 0; depth <= 2; depth++)	{
+					int x = xCoord + (forwardZ ? horiz : (depth * depthMultiplier));
+					int y = yCoord + vert;
+					int z = zCoord + (forwardZ ? (depth * depthMultiplier) : horiz);
+					
+					int blockId = worldObj.getBlockId(x, y, z);
+					
+					if(horiz == 0 && vert == 0 && (depth == 0 || depth == 1))
+						continue;
+					
+					if(blockId != Ids.blockDummyWasher.act)
+						continue;
+					
+					worldObj.setBlock(x, y, z, Ids.blockHydraulicPressureWall.act);
+					worldObj.markBlockForUpdate(x, y, z);
+				}
+			}
+		}
+		isValidMultiblock = false;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}
+	
+	public boolean checkMultiblock(){
+		//So, it should be this:
+		// 1       2      3
+		//W W W  W W W  W W W
+		//W W W  W   W  W W W
+		//W W W  W C W  W W W
+		
+		int dir = getBlockMetadata();
+		
+		int depthMultiplier = ((dir == 2 || dir == 4) ? 1 : -1);
+		boolean forwardZ = ((dir == 2) || (dir == 3));
+		
+		for(int horiz = -1; horiz <= 1; horiz++) {
+			for(int vert = -1; vert <= 1; vert++){
+				for(int depth = 0; depth <= 2; depth++) {
+					int x = xCoord + (forwardZ ? horiz : (depth * depthMultiplier));
+					int y = yCoord + vert;
+					int z = zCoord + (forwardZ ? (depth * depthMultiplier) : horiz);
+					
+					int blockId = worldObj.getBlockId(x, y, z);
+					
+					if(horiz == 0 && vert == 0)
+					{
+						if(depth == 0)	// Looking at self, move on!
+							continue;
+						
+						if(depth == 1)	// Center must be air!
+						{
+							if(blockId != 0)
+								return false;
+							else
+								continue;
+						}
+					}
+					
+					if(blockId != Ids.blockHydraulicPressureWall.act)
+						return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public void convertMultiblock(){
+		int dir = getBlockMetadata();
+		
+		int depthMultiplier = ((dir == 2 || dir == 4) ? 1 : -1);
+		boolean forwardZ = ((dir == 2) || (dir == 3));
+		
+		
+		for(int horiz = -1; horiz <= 1; horiz++) {
+			for(int vert = -1; vert <= 1; vert++) {
+				for(int depth = 0; depth <= 2; depth++)	{
+					int x = xCoord + (forwardZ ? horiz : (depth * depthMultiplier));
+					int y = yCoord + vert;
+					int z = zCoord + (forwardZ ? (depth * depthMultiplier) : horiz);
+					
+					if(horiz == 0 && vert == 0 && (depth == 0 || depth == 1))
+						continue;
+					
+					worldObj.setBlock(x, y, z, Ids.blockDummyWasher.act);
+					worldObj.markBlockForUpdate(x, y, z);
+					TileDummyWasher dummyTE = (TileDummyWasher)worldObj.getBlockTileEntity(x, y, z);
+					dummyTE.setCore(xCoord, yCoord, zCoord);
+					
+					dummyTE.setLocationInMultiBlock(dir, horiz, vert, depth);
+					worldObj.markBlockForUpdate(x, y, z);
+					
+				}
+			}
+		}
+		isValidMultiblock = true;
+	}
 }
