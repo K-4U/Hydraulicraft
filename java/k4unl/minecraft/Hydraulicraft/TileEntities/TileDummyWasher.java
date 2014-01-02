@@ -167,12 +167,10 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 		coreX = tagCompound.getInteger("coreX");
 		coreY = tagCompound.getInteger("coreY");
 		coreZ = tagCompound.getInteger("coreZ");
+		
 		depth = tagCompound.getInteger("depth");
 		horiz = tagCompound.getInteger("horiz");
 		vert = tagCompound.getInteger("vert");
-		
-		worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
-		
 	}
 
 	@Override
@@ -232,7 +230,11 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		return getCore().fill(from, resource, doFill);
+		if(getCore() != null){
+			return getCore().fill(from, resource, doFill);
+		}else{
+			return 0;
+		}
 	}
 
 	@Override

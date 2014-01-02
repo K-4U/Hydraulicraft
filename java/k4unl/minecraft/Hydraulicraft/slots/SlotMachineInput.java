@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.slots;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
@@ -37,6 +38,8 @@ public class SlotMachineInput extends Slot {
 			return ((TileHydraulicMixer) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
 		}else if(ent instanceof TileHydraulicWasher){
 			return ((TileHydraulicWasher) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
+		}else if(ent instanceof TileHydraulicPressureVat){
+			return ((TileHydraulicPressureVat) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
 		}
 		return true;
     }

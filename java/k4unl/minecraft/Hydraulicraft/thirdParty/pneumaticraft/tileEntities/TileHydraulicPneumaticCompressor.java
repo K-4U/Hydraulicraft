@@ -36,6 +36,7 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
     public void updateEntity(){
     	super.updateEntity();
         getAirHandler().update();
+        getHandler().updateEntity();
     }
 
     @Override
@@ -104,7 +105,7 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 
 	@Override
 	public float getMaxPressure() {
-		return Constants.MAX_MBAR_OIL_TIER_3;
+		return Constants.MAX_MBAR_WATER_TIER_3;
 	}
 
 	@Override

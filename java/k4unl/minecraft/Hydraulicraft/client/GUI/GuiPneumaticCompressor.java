@@ -30,7 +30,7 @@ import org.lwjgl.opengl.GL11;
 import pneumaticCraft.api.client.GuiElementRenderer;
 
 public class GuiPneumaticCompressor extends MachineGUI {
-	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/pressureVat.png");
+	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/compressor.png");
 
 	private TileHydraulicPneumaticCompressor compressor;
 
@@ -51,8 +51,8 @@ public class GuiPneumaticCompressor extends MachineGUI {
 		GL11.glPushMatrix();
 	    float gaugeY = 25;
 	    float gaugeX = 50;
-		GL11.glTranslatef(gaugeX, gaugeY, 0); //de xpos en ypos die je eerst in je drawPressureGauge method mikte.
-	    GL11.glScaled(0.85D, 0.85D, 0); //50% kleiner
+		GL11.glTranslatef(gaugeX, gaugeY, 0); 
+	    GL11.glScaled(0.85D, 0.85D, 0); 
 	    
 		GuiElementRenderer.drawPressureGauge(fontRenderer, 0, compressor.getPneumaticMaxPressure(), compressor.getPneumaticDangerPressure(),
 				0, compressor.getPneumaticPressure(), (int)gaugeX, (int)gaugeY, 0);

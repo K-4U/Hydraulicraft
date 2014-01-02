@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.containers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -10,13 +11,14 @@ import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerPressureVat extends Container {
 
-	protected TileHydraulicPressureVat tileVar;
+	protected TileHydraulicPressureVat tileVat;
 	
 	
 	public ContainerPressureVat(InventoryPlayer invPlayer, TileHydraulicPressureVat vat){
-		tileVar = vat;
+		tileVat = vat;
 		
-		//addSlotToContainer(new Slot(vat, 0, 59, 15));
+		addSlotToContainer(new SlotMachineInput(vat, vat, 0, 31, 14));
+		addSlotToContainer(new SlotMachineInput(vat, vat, 1, 31, 54));
 		
 		bindPlayerInventory(invPlayer);
 		
@@ -25,7 +27,7 @@ public class ContainerPressureVat extends Container {
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
-		return tileVar.isUseableByPlayer(entityplayer);
+		return tileVat.isUseableByPlayer(entityplayer);
 	}
 
 	
@@ -53,14 +55,21 @@ public class ContainerPressureVat extends Container {
 			stack = stackInSlot.copy();
 			
 			
-			if(TileEntityFurnace.isItemFuel(stackInSlot)){
-				//Places from entity to player
-				if(slot < 1){
-					if(!mergeItemStack(stackInSlot,  0, 35, true)){
-						return null;
-					}
-				}else if(!mergeItemStack(stackInSlot, 0, 1, false)){
+			if(slot == 1){
+				if(!mergeItemStack(stackInSlot,  2, 37, true)){
 					return null;
+				}
+			}else{
+				if(tileVat.isItemValidForSlot(0, stackInSlot)){
+					if(slot == 0){
+						if(!mergeItemStack(stackInSlot, 2, 37, false)){
+							return null;
+						}
+					}else{
+						if(!mergeItemStack(stackInSlot, 0, 1, false)){
+							return null;
+						}
+					}
 				}
 			}
 				
@@ -77,7 +86,5 @@ public class ContainerPressureVat extends Container {
 			slotObject.onPickupFromSlot(player, stackInSlot);
 		}
 		return stack;
-		
-		
 	}
 }

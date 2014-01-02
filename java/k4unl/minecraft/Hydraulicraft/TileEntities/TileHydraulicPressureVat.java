@@ -8,10 +8,12 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -97,12 +99,19 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		ItemStack ret = null;
 		if(inventory.stackSize < j){
 			ret = inventory;
-			inventory = null;
-			
+			if(i == 0){
+				inputInventory = null;
+			}else if(i == 1){
+				outputInventory = null;
+			}
 		}else{
 			ret = inventory.splitStack(j);
 			if(inventory.stackSize == 0){
-				inventory = null;
+				if(i == 0){
+					inputInventory = null;
+				}else if(i == 1){
+					outputInventory = null;
+				}
 			}
 		}
 		
@@ -164,11 +173,14 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		if(i == 0){
-			//if(Config.canBeCrushed(itemStack)){
-			//	return true;
-			//}else{
-				return false;
-			//}
+			if(FluidContainerRegistry.isFilledContainer(itemStack)){
+				if(FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(FluidRegistry.WATER, 1))){
+					return true;
+				}else if(FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(Fluids.fluidOil, 1))){
+					return true;
+				}
+			}
+			return false;
 		}else{
 			return false;
 		}
@@ -334,7 +346,34 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public void onInventoryChanged() {
-		// TODO Auto-generated method stub
-		
+		if(inputInventory != null){
+			FluidStack input = FluidContainerRegistry.getFluidForFilledItem(inputInventory);
+			if(fill(ForgeDirection.UNKNOWN, input, false) == input.amount){
+				Item outputI = inputInventory.getItem().getContainerItem();
+				if(outputI != null && outputInventory != null){
+					ItemStack output = new ItemStack(outputI);
+					if(outputInventory.isItemEqual(output)){
+						if(outputInventory.stackSize < output.getMaxStackSize()){
+							outputInventory.stackSize += output.stackSize;
+						}else{
+							return;
+						}
+					}else{
+						return;
+					}
+				}else if(outputInventory == null && outputI != null){
+					outputInventory = new ItemStack(outputI);
+				}else if(outputI == null){
+					
+				}else{
+					return;
+				}
+				fill(ForgeDirection.UNKNOWN, input, true);
+				
+				decrStackSize(0, 1);
+				//Leave an empty container:
+				
+			}
+		}
 	}
 }
