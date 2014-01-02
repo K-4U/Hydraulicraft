@@ -16,8 +16,11 @@ public class ContainerWasher extends Container {
 	public ContainerWasher(InventoryPlayer invPlayer, TileHydraulicWasher _tileWasher){
 		tileWasher = _tileWasher;
 		
-		addSlotToContainer(new SlotMachineInput(tileWasher, tileWasher, 0, 48, 16));
-		addSlotToContainer(new SlotFurnace(invPlayer.player, tileWasher, 1, 98, 51));
+		addSlotToContainer(new SlotMachineInput(tileWasher, tileWasher, 0, 56, 14));
+		addSlotToContainer(new SlotFurnace(invPlayer.player, tileWasher, 1, 106, 54));
+		
+		addSlotToContainer(new SlotMachineInput(tileWasher, tileWasher, 2, 31, 14));
+		addSlotToContainer(new SlotFurnace(invPlayer.player, tileWasher, 3, 31, 54));
 		
 		bindPlayerInventory(invPlayer);
 		
@@ -55,17 +58,17 @@ public class ContainerWasher extends Container {
 			
 			
 			if(slot == 1){
-				if(!mergeItemStack(stackInSlot,  2, 37, true)){
+				if(!mergeItemStack(stackInSlot,  4, 39, true)){
 					return null;
 				}
 			}else{
 				if(tileWasher.isItemValidForSlot(0, stackInSlot)){
 					if(slot == 0){
-						if(!mergeItemStack(stackInSlot, 2, 37, false)){
+						if(!mergeItemStack(stackInSlot, 4, 39, false)){
 							return null;
 						}
 					}else{
-						if(!mergeItemStack(stackInSlot, 0, 1, false)){
+						if(!mergeItemStack(stackInSlot, 0, 3, false)){
 							return null;
 						}
 					}

@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -11,6 +12,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -32,6 +34,8 @@ public class TileHydraulicWasher extends TileEntity implements
 	private ItemStack washingItem;
 	private ItemStack targetItem;
 	private ItemStack outputInventory;
+	private ItemStack fluidInputInventory;
+	private ItemStack fluidOutputInventory;
 	private int washingTicks = 0;
 	private int maxWashingTicks = 0;
 	private float requiredPressure = 5F;
@@ -152,7 +156,7 @@ public class TileHydraulicWasher extends TileEntity implements
 	@Override
 	public int getSizeInventory() {
 		// TODO Auto-generated method stub
-		return 2;
+		return 4;
 	}
 	@Override
 	public ItemStack getStackInSlot(int i) {
@@ -161,6 +165,10 @@ public class TileHydraulicWasher extends TileEntity implements
 			return inputInventory;
 		case 1:
 			return outputInventory;
+		case 2:
+			return fluidInputInventory;
+		case 3:
+			return fluidOutputInventory;
 		default:
 			return null;
 			
@@ -184,7 +192,7 @@ public class TileHydraulicWasher extends TileEntity implements
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				return ret;
 			}
-		}else{
+		}else if(i == 1){
 			ItemStack ret = null;
 			if(outputInventory.stackSize < j){
 				ret = outputInventory;
@@ -195,6 +203,36 @@ public class TileHydraulicWasher extends TileEntity implements
 				ret = outputInventory.splitStack(j);
 				if(outputInventory.stackSize <= 0){
 					outputInventory = null;
+				}
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				return ret;
+			}
+		}else if(i == 2){
+			ItemStack ret = null;
+			if(fluidInputInventory.stackSize < j){
+				ret = fluidInputInventory;
+				fluidInputInventory = null;
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				return ret;
+			}else{
+				ret = fluidInputInventory.splitStack(j);
+				if(fluidInputInventory.stackSize <= 0){
+					fluidInputInventory = null;
+				}
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				return ret;
+			}
+		}else{
+			ItemStack ret = null;
+			if(fluidOutputInventory.stackSize < j){
+				ret = fluidOutputInventory;
+				fluidOutputInventory = null;
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				return ret;
+			}else{
+				ret = fluidOutputInventory.splitStack(j);
+				if(fluidOutputInventory.stackSize <= 0){
+					fluidOutputInventory = null;
 				}
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				return ret;
@@ -218,6 +256,12 @@ public class TileHydraulicWasher extends TileEntity implements
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}else if(i == 1){
 			outputInventory = itemStack;
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}else if(i == 2){
+			fluidInputInventory = itemStack;
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}else if(i == 3){
+			fluidOutputInventory = itemStack;
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
@@ -257,8 +301,17 @@ public class TileHydraulicWasher extends TileEntity implements
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(Config.canBeWashed(itemStack)){
+		if(i == 0 && Config.canBeWashed(itemStack)){
 			return true;
+		}else if(i == 2){
+			if(FluidContainerRegistry.isFilledContainer(itemStack)){
+				if(FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(FluidRegistry.WATER, 1))){
+					return true;
+				}else if(FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(Fluids.fluidOil, 1))){
+					return true;
+				}
+			}
+			return false;
 		}else{
 			return false;
 		}
@@ -346,8 +399,33 @@ public class TileHydraulicWasher extends TileEntity implements
 
 	@Override
 	public void onInventoryChanged() {
-		// TODO Auto-generated method stub
-		
+		if(fluidInputInventory != null){
+			FluidStack input = FluidContainerRegistry.getFluidForFilledItem(fluidInputInventory);
+			if(fill(ForgeDirection.UNKNOWN, input, false) == input.amount){
+				Item outputI = fluidInputInventory.getItem().getContainerItem();
+				if(outputI != null && fluidOutputInventory != null){
+					ItemStack output = new ItemStack(outputI);
+					if(fluidOutputInventory.isItemEqual(output)){
+						if(fluidOutputInventory.stackSize < output.getMaxStackSize()){
+							fluidOutputInventory.stackSize += output.stackSize;
+						}else{
+							return;
+						}
+					}else{
+						return;
+					}
+				}else if(fluidOutputInventory == null && outputI != null){
+					fluidOutputInventory = new ItemStack(outputI);
+				}else if(outputI == null){
+					
+				}else{
+					return;
+				}
+				fill(ForgeDirection.UNKNOWN, input, true);
+				
+				decrStackSize(2, 1);
+			}
+		}
 	}
 
 	@Override

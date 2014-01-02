@@ -41,7 +41,7 @@ public class GuiWasher extends MachineGUI {
 				color = Constants.COLOR_WATER | 0x7F000000;
 				
 				
-				drawVerticalProgressBar(68, 15, 52, 26, tankInfo[0].fluid.amount, tankInfo[0].capacity, color, "Water:", "mB");
+				drawVerticalProgressBar(76, 14, 56, 26, tankInfo[0].fluid.amount, tankInfo[0].capacity, color, "Water:", "mB");
 			}
 		}
 		
