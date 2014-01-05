@@ -1,37 +1,37 @@
 #Items
-item.hydcraft:gasket.name=Gasket
-item.hydcraft:frictionPlate.name=Friction Plate
-item.hydcraft:ingotCopper.name=Copper Ingot
-item.hydcraft:ingotLead.name=Lead Ingot
-item.hydcraft:ingotEnrichedCopper=Enriched Copper Ingot
-item.hydcraft:chunk.name=Chunk
-item.hydcraft:dust.name=dust
-item.hydcraft:bucketHydraulicOil=Hydraulic Oil Bucket
+item.gasket.name=Gasket
+item.frictionPlate.name=Friction Plate
+item.ingotCopper.name=Copper Ingot
+item.ingotLead.name=Lead Ingot
+item.ingotEnrichedCopper=Enriched Copper Ingot
+item.chunk.name=Chunk
+item.dust.name=dust
+item.bucketHydraulicOil=Hydraulic Oil Bucket
 
 
 #Blocks
-block.hydcraft:hydraulicMixer.name=Mixer
-block.hydcraft:hydraulicFrictionIncinerator.name=Friction Incinerator
-block.hydcraft:hydraulicCrusher.name=Crusher
-block.hydcraft:hydraulicWasher.name=Washer
-block.hydcraft:hydraulicPressureWall.name=Wall
-block.hydcraft:hydraulicHarvesterSource.name=Hydraulic harvester
+tile.hydraulicMixer.name=Mixer
+tile.hydraulicFrictionIncinerator.name=Friction Incinerator
+tile.hydraulicCrusher.name=Crusher
+tile.hydraulicWasher.name=Washer
+tile.hydraulicPressureWall.name=Wall
+tile.hydraulicHarvesterSource.name=Hydraulic harvester
 
-block.hydcraft:LPHydraulicPipe.name=LP Hydraulic Pressure Pipe
-block.hydcraft:MPHydraulicPipe.name=MP Hydraulic Pressure Pipe
-block.hydcraft:HPHydraulicPipe.name=HP Hydraulic Pressure Pipe
+LPHydraulicPipe.name=Low Pressure Pipe
+MPHydraulicPipe.name=Medium Pressure Pipe
+HPHydraulicPipe.name=High Pressure Pipe
 
-block.hydcraft:LPHydraulicPressureVat.name=LP Hydraulic Pressure Vat
-block.hydcraft:MPHydraulicPressureVat.name=MP Hydraulic Pressure Vat
-block.hydcraft:HPHydraulicPressureVat.name=HP Hydraulic Pressure Vat
+LPHydraulicPressureVat.name=Low Pressure Vat
+MPHydraulicPressureVat.name=Medium Pressure Vat
+HPHydraulicPressureVat.name=High Pressure Vat
 
-block.hydcraft:LPHydraulicPump.name=LP Hydraulic Pump
-block.hydcraft:MPHydraulicPump.name=MP Hydraulic Pump
-block.hydcraft:HPHydraulicPump.name=HP Hydraulic Pump
+LPHydraulicPump.name=Low Pressure Pump
+MPHydraulicPump.name=Medium Pressure Pump
+HPHydraulicPump.name=High Pressure Pump
 
 
 #Third party
-block.hydcraft:hydraulicPneumaticCompressor.name=Pneumatic Compressor
+tile.hydraulicPneumaticCompressor.name=Pneumatic Compressor
 
 
 itemGroup.tabHydraulicraft=HydrauliCraft

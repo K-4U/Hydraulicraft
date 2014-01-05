@@ -63,6 +63,10 @@ public class BlockDummyWasher extends MachineBlockContainer {
 		return blockIcon;
 	}
 
+	@Override
+	public int idPicked(World par1World, int par2, int par3, int par4){
+        return Ids.blockHydraulicWasher.act;
+    }
 	
 	
 }

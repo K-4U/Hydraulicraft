@@ -83,7 +83,7 @@ public class Blocks {
 	 */
 	public static void addNames(){
 		
-		
+		/*
 		LanguageRegistry.addName(hydraulicMixer, Names.blockHydraulicMixer.localized);
 		LanguageRegistry.addName(hydraulicFrictionIncinerator, Names.blockHydraulicFrictionIncinerator.localized);
 		LanguageRegistry.addName(hydraulicCrusher, Names.blockHydraulicCrusher.localized);
@@ -100,7 +100,7 @@ public class Blocks {
 			LanguageRegistry.addName(new ItemStack(hydraulicHose, 1, i), Names.blockHydraulicHose[i].localized);
 			LanguageRegistry.addName(new ItemStack(hydraulicPressurevat,1,i), Names.blockHydraulicPressurevat[i].localized);
 			LanguageRegistry.addName(new ItemStack(hydraulicPump,1,i), Names.blockHydraulicPump[i].localized);
-		}
+		}*/
 		
 		
 	}
