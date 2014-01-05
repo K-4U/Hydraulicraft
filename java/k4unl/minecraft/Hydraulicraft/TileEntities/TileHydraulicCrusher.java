@@ -364,7 +364,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
     }
 
     public int getScaledCrushTime(){
-        return maxCrushingTicks == 0 || !isCrushing() ? 0 : 30 * crushingTicks / maxCrushingTicks;
+        return maxCrushingTicks == 0 || !isCrushing() ? 0 : 34 * crushingTicks / maxCrushingTicks;
     }
 
 }

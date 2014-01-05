@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
+import org.lwjgl.opengl.GL11;
+
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.ShapedRecipeHandler;
@@ -83,4 +85,10 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
             super.loadCraftingRecipes(outputId, results);
         }
     }
+    
+    @Override
+	public void drawExtras(int recipe){
+		drawProgressBar(80, 21, 207, 0, 34, 19, 48, 2 | (1 << 3));
+    }
+    
 }

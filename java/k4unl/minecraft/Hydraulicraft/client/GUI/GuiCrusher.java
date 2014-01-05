@@ -27,7 +27,7 @@ public class GuiCrusher extends MachineGUI{
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         int scaledProgress = crusher.getScaledCrushTime();
-        drawTexturedModalRect(xStart + 85, yStart + 32, 207, 0, scaledProgress, 17);
+        drawTexturedModalRect(xStart + 85, yStart + 32, 207, 0, scaledProgress, 18);
         GL11.glDisable(GL11.GL_BLEND);
     }
 
