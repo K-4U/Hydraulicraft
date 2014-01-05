@@ -171,6 +171,7 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 		depth = tagCompound.getInteger("depth");
 		horiz = tagCompound.getInteger("horiz");
 		vert = tagCompound.getInteger("vert");
+		dir = tagCompound.getInteger("dir");
 	}
 
 	@Override
@@ -183,6 +184,7 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 		tagCompound.setInteger("depth", depth);
 		tagCompound.setInteger("horiz", horiz);
 		tagCompound.setInteger("vert", vert);
+		tagCompound.setInteger("dir", dir);
 	}
 
 	@Override

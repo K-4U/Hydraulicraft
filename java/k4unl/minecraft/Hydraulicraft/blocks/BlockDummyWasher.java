@@ -1,9 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import java.util.ArrayList;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
@@ -44,7 +47,7 @@ public class BlockDummyWasher extends MachineBlockContainer {
 
     @Override
     public boolean renderAsNormalBlock(){
-        return false;
+        return true;
     }
 	
 	@Override
@@ -67,6 +70,14 @@ public class BlockDummyWasher extends MachineBlockContainer {
 	public int idPicked(World par1World, int par2, int par3, int par4){
         return Ids.blockHydraulicWasher.act;
     }
+	
+	@Override
+	public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune){
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+		ret.add(new ItemStack(Blocks.hydraulicPressureWall,1,0));
+		return ret;
+		
+	}
 	
 	
 }

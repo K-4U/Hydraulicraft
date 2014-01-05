@@ -103,7 +103,6 @@ public abstract class MachineBlockContainer extends BlockContainer {
 		if(hasFrontIcon){
 			setDefaultDirection(world, x, y, z);
 		}
-		//checkSideBlocks(world, x, y, z);
 	}
 	
 	private void setDefaultDirection(World world, int x, int y, int z){

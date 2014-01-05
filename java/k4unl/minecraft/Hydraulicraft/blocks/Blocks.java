@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureHoze;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
@@ -23,7 +24,7 @@ public class Blocks {
 	public static Block hydraulicPiston;
 	public static Block hydraulicWasher;
 	public static Block hydraulicPressureWall;
-	//public static Block hydraulicHarvesterSource;
+	public static Block hydraulicHarvesterSource;
 	public static Block dummyWasher;
 	
 	
@@ -44,7 +45,7 @@ public class Blocks {
 		//hydraulicPiston = new BlockHydraulicPiston();
 		hydraulicWasher = new BlockHydraulicWasher();
 		hydraulicPressureWall = new BlockHydraulicPressureWall();
-		//hydraulicHarvesterSource = new BlockHydraulicHarvesterSource();
+		hydraulicHarvesterSource = new BlockHydraulicHarvester();
 		
 		dummyWasher = new BlockDummyWasher();
 		
@@ -66,13 +67,15 @@ public class Blocks {
 		//GameRegistry.registerBlock(hydraulicPiston, Names.blockHydraulicPiston.unlocalized);
 		GameRegistry.registerBlock(hydraulicWasher, Names.blockHydraulicWasher.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureWall, Names.blockHydraulicPressureWall.unlocalized);
-		//GameRegistry.registerBlock(hydraulicHarvesterSource, Names.blockHydraulicHarvesterSource.unlocalized);
+		
 		GameRegistry.registerBlock(dummyWasher, Names.blockDummyWasher.unlocalized);
 		
 				
 		GameRegistry.registerBlock(hydraulicHose, HandlerPressureHoze.class, Names.blockHydraulicHose[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicPump, HandlerPump.class, Names.blockHydraulicPump[0].unlocalized);
+		
+		GameRegistry.registerBlock(hydraulicHarvesterSource, HandlerHarvester.class, Names.blockHydraulicHarvester[0].unlocalized);
 	}
 	
 	/*!

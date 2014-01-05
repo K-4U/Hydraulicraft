@@ -3,13 +3,15 @@ package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileDummyWasher;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
+
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
@@ -17,63 +19,22 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID,
 			RenderBlocks renderer) {
-		Tessellator tessellator = Tessellator.instance;
-		Icon c = block.getIcon(0, 0);
-		float u = c.getMinU();
-		float v = c.getMinV();
-		float U = c.getMaxU();
-		float V = c.getMaxV();
-		float one = (U - u) / 128;
-		
-		float uR = u + one;
-		float UR = U - one;
-		float vR = v + one;
-		float VR = V - one;
-		tessellator.addVertexWithUV(0, 1, 1, uR, vR);
-		tessellator.addVertexWithUV(1, 1, 1, uR, VR);
-		tessellator.addVertexWithUV(1, 1, 0, UR, VR);
-		tessellator.addVertexWithUV(0, 1, 0, UR, vR);
-
-		tessellator.addVertexWithUV(1, 0, 1, uR, vR);
-		tessellator.addVertexWithUV(0, 0, 1, uR, VR);
-		tessellator.addVertexWithUV(0, 0, 0, UR, VR);
-		tessellator.addVertexWithUV(1, 0, 0, UR, vR);
-		
-		tessellator.addVertexWithUV(0, 0, 1, uR, vR);
-		tessellator.addVertexWithUV(0, 1, 1, uR, VR);
-		tessellator.addVertexWithUV(0, 1, 0, UR, VR);
-		tessellator.addVertexWithUV(0, 0, 0, UR, vR);
-	
-		tessellator.addVertexWithUV(1, 0, 0, uR, vR);
-		tessellator.addVertexWithUV(1, 1, 0, uR, VR);
-		tessellator.addVertexWithUV(1, 1, 1, UR, VR);
-		tessellator.addVertexWithUV(1, 0, 1, UR, vR);
-		
-		tessellator.addVertexWithUV(1, 0, 1, uR, vR);
-		tessellator.addVertexWithUV(1, 1, 1, uR, VR);
-		tessellator.addVertexWithUV(0, 1, 1, UR, VR);
-		tessellator.addVertexWithUV(0, 0, 1, UR, vR);
-	
-		
-		tessellator.addVertexWithUV(0, 0, 0, uR, vR);
-		tessellator.addVertexWithUV(0, 1, 0, uR, VR);
-		tessellator.addVertexWithUV(1, 1, 0, UR, VR);
-		tessellator.addVertexWithUV(1, 0, 0, UR, vR);
 	}
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
 			Block block, int modelId, RenderBlocks renderer) {
 		Tessellator tessellator = Tessellator.instance;
+		
 		tessellator.addTranslation(x, y, z);
-		//tessellator.disableColor();
+        
 		
 		int lightValue = block.getMixedBrightnessForBlock(world, x, y, z);
-		tessellator.setBrightness(lightValue);
-		tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
-
+        tessellator.setBrightness(lightValue);
+        tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
 		//Lets try this:
 		TileDummyWasher washer = (TileDummyWasher) world.getBlockTileEntity(x, y, z);
+		
 		//First, check where we are in the multiblock:
 		boolean renderFront = false;
 		boolean renderBack = false;
@@ -301,6 +262,7 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 		
 		//again and again, until you're done, then:
 		tessellator.addTranslation(-x, -y, -z);
+		//RenderHelper.enableStandardItemLighting();
 		return false;
 	}
 

@@ -133,7 +133,11 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 
 	@Override
 	public float getMaxPressure() {
-		return Constants.MAX_MBAR_OIL_TIER_3;
+		if(getHandler().isOilStored()){
+			return Constants.MAX_MBAR_OIL_TIER_3;
+		}else{
+			return Constants.MAX_MBAR_WATER_TIER_3;
+		}
 	}
 
 	@Override

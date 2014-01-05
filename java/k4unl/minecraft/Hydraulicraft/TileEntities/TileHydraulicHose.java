@@ -25,6 +25,7 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
     private Map<ForgeDirection, TileEntity> connectedSides;
     private final boolean[] connectedSideFlags = new boolean[6];
     private boolean needToCheckNeighbors;
+    private boolean hasCheckedSinceStartup;
 
 	
 	
@@ -111,6 +112,12 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
     	if(getHandler() != null){
     		//This should never happen that this is null! :|
     		getHandler().updateEntity();
+    	}
+    	if(worldObj.getTotalWorldTime() % 60 == 0 && hasCheckedSinceStartup == false){
+    		checkConnectedSides();
+    		hasCheckedSinceStartup = true;
+    		//Hack hack hack
+    		//Temporary bug fix that we will forget about
     	}
         if(needToCheckNeighbors) {
             needToCheckNeighbors = false;

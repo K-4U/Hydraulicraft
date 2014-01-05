@@ -49,7 +49,7 @@ public class ConfigHandler {
 		Ids.blockHydraulicHose.loadBlock(config, Names.blockHydraulicHose);
 		Ids.blockHydraulicMixer.loadBlock(config, Names.blockHydraulicMixer);
 		Ids.blockHydraulicPressureWall.loadBlock(config, Names.blockHydraulicPressureWall);
-		Ids.blockHydraulicHarvesterSource.loadBlock(config, Names.blockHydraulicHarvesterSource);
+		Ids.blockHydraulicHarvester.loadBlock(config, Names.blockHydraulicHarvester);
 		
 		
 		Ids.blockFluidOil.loadBlock(config, Names.fluidOil);
