@@ -19,11 +19,11 @@ public class NEIWasherRecipeManager extends ShapedRecipeHandler{
                 ShapedRecipeHandler.CachedShapedRecipe(0, 0, null, recipe.output);
 
 
-        PositionedStack stack = new PositionedStack(recipe.input, 43, 5);
+        PositionedStack stack = new PositionedStack(recipe.input, 51, 3);
         stack.setMaxSize(2);
         shape.ingredients.add(stack);
-        shape.result.relx = 93;
-        shape.result.rely = 40;
+        shape.result.relx = 101;
+        shape.result.rely = 43;
         return shape;
     }
 
