@@ -115,8 +115,6 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 
 	@Override
 	public void onBlockBreaks() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -127,13 +125,11 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 
 	@Override
 	public void readNBT(NBTTagCompound tagCompound) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void writeNBT(NBTTagCompound tagCompound) {
-		// TODO Auto-generated method stub
 		
 	}
 

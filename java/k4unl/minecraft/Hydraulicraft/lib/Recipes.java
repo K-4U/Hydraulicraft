@@ -100,12 +100,6 @@ public class Recipes {
         ItemStack targetStack = targetStackL.get(0);
         CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(sourceName, 10F, targetStack));
     }
-    
-    /*
-    private static void registerNonStandardCrushRecipe(ItemStack oreStack, ItemStack targetStack, int number){
-	    targetStack.stackSize = number;
-	    CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(oreStack, 10F, targetStack));
-    }*/
 
     private static void initializeSmeltingRecipes(){
 		GameRegistry.addSmelting(Ids.oreCopper.act, new ItemStack(Items.ingotCopper), 0);
@@ -113,15 +107,24 @@ public class Recipes {
 	}
 	
 	private static void initializeBlockRecipes(){
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressureWall, 6),true,
+				new Object [] {
+					"SSS",
+					"SLS",
+					"SSS",
+					'S', Block.stone,
+					'L', "ingotLead"
+				}));
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPump,1,0), true,
 			new Object [] {
 				"PKP",
 				"GLG",
-				"PSP",
+				"PWP",
 				'P', Block.pistonBase,
 				'K', Items.gasket,
 				'G', Block.glass,
-				'S', Block.stone,
+				'W', Blocks.hydraulicPressureWall,
 				'L', "ingotLead"
 			})
 		);
@@ -130,11 +133,11 @@ public class Recipes {
 				new Object [] {
 					"PKP",
 					"GCG",
-					"PSP",
+					"PWP",
 					'P', Block.pistonBase,
 					'K', Items.gasket,
 					'G', Block.glass,
-					'S', Block.stone,
+					'W', Blocks.hydraulicPressureWall,
 					'C', "ingotCopper"
 				})
 			);
@@ -142,11 +145,11 @@ public class Recipes {
                 new Object[]{
                         "PKP",
                         "GCG",
-                        "PSP",
+                        "PWP",
                         'P', Block.pistonBase,
                         'K', Items.gasket,
                         'G', Block.glass,
-                        'S', Block.stone,
+                        'W', Blocks.hydraulicPressureWall,
                         'C', "ingotEnrichedCopper"
                 })
         );
@@ -156,10 +159,10 @@ public class Recipes {
                 new Object[]{
                         "GKG",
                         "KCK",
-                        "SSS",
+                        "WWW",
                         'K', Items.gasket,
                         'G', Block.glass,
-                        'S', Block.stone,
+                        'W', Blocks.hydraulicPressureWall,
                         'C', Block.chest
                 });
 		
@@ -194,10 +197,10 @@ public class Recipes {
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 0), true,
 				new Object [] {
-					"LSL",
+					"LWL",
 					"KGK",
-					"LSL",
-					'S', Block.stone,
+					"LWL",
+					'W', Blocks.hydraulicPressureWall,
 					'K', Items.gasket,
 					'L', "ingotLead",
 					'G', Block.glass
@@ -205,10 +208,10 @@ public class Recipes {
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 1), true,
 				new Object [] {
-					"CSC",
+					"CWC",
 					"KVK",
-					"CSC",
-					'S', Block.stone,
+					"CWC",
+					'W', Blocks.hydraulicPressureWall,
 					'K', Items.gasket,
 					'C', "ingotCopper",
 					'V', new ItemStack(Blocks.hydraulicPressurevat, 1,0)
@@ -216,10 +219,10 @@ public class Recipes {
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 2), true,
 				new Object [] {
-					"SCS",
+					"WCW",
 					"KVK",
-					"SCS",
-					'S', Block.stone,
+					"WCW",
+					'W', Blocks.hydraulicPressureWall,
 					'K', Items.gasket,
 					'C', "ingotEnrichedCopper",
 					'V', new ItemStack(Blocks.hydraulicPressurevat, 1, 1)
@@ -229,8 +232,8 @@ public class Recipes {
 			new Object [] {
 				"GKG",
 				"FCF",
-				"SSS",
-				'S', Block.stone,
+				"WWW",
+				'W', Blocks.hydraulicPressureWall,
 				'G', Block.glass,
 				'F', Items.itemFrictionPlate,
 				'K', Items.gasket,
@@ -252,10 +255,10 @@ public class Recipes {
 				new Object [] {
 					"-K-",
 					"PCP",
-					"SSS",
+					"WWW",
 					'K', Items.gasket,
 					'P', Block.pistonBase,
-					'S', Block.stone,
+					'W', Blocks.hydraulicPressureWall,
 					'C', Block.chest
 				});
 		
@@ -263,10 +266,10 @@ public class Recipes {
 				new Object [] {
 					"GKG",
 					"KCG",
-					"SSS",
+					"WWW",
 					'K', Items.gasket,
 					'G', Block.glass,
-					'S', Block.stone,
+					'W', Blocks.hydraulicPressureWall,
 					'C', Block.chest
 				});
 	}
@@ -281,6 +284,7 @@ public class Recipes {
 			
 		});
 	
+		//TODO: Change me!
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.ingotEnrichedCopper, 4), true,
 			new Object [] {
 				"---",

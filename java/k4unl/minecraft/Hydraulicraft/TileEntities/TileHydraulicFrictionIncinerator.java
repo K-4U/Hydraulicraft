@@ -138,7 +138,6 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 
 	@Override
 	public int getSizeInventory() {
-		// TODO Auto-generated method stub
 		return 2;
 	}
 	@Override

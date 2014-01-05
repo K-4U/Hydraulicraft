@@ -92,7 +92,6 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 
 	@Override
 	public float workFunction(boolean simulate) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

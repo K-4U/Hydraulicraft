@@ -187,14 +187,10 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 
 	@Override
 	public void readNBT(NBTTagCompound tagCompound) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void writeNBT(NBTTagCompound tagCompound) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

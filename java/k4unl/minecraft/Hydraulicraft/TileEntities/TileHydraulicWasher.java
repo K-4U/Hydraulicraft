@@ -155,7 +155,6 @@ public class TileHydraulicWasher extends TileEntity implements
 
 	@Override
 	public int getSizeInventory() {
-		// TODO Auto-generated method stub
 		return 4;
 	}
 	@Override

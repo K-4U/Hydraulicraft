@@ -323,7 +323,6 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 
 	@Override
 	public void onInventoryChanged() {
-		// TODO Auto-generated method stub
 		
 	}
 

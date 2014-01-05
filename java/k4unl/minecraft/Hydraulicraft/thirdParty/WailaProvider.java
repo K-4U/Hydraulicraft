@@ -16,7 +16,6 @@ public class WailaProvider implements IWailaDataProvider {
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,
 			IWailaConfigHandler config) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -24,7 +23,6 @@ public class WailaProvider implements IWailaDataProvider {
 	public List<String> getWailaHead(ItemStack itemStack,
 			List<String> currenttip, IWailaDataAccessor accessor,
 			IWailaConfigHandler config) {
-		// TODO Auto-generated method stub
 		return currenttip;
 	}
 

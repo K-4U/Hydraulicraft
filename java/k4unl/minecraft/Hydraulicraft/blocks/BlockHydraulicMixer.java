@@ -19,7 +19,6 @@ public class BlockHydraulicMixer extends MachineBlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		// TODO Auto-generated method stub
 		return new TileHydraulicMixer();
 	}
 	

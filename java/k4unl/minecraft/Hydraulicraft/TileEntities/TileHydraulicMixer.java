@@ -247,7 +247,6 @@ public class TileHydraulicMixer extends TileEntity implements
 
 	@Override
 	public int getMaxStorage() {
-		// TODO Auto-generated method stub
 		return FluidContainerRegistry.BUCKET_VOLUME * 6;
 	}
 
@@ -311,8 +310,6 @@ public class TileHydraulicMixer extends TileEntity implements
 
 	@Override
 	public void onInventoryChanged() {
-		// TODO Auto-generated method stub
-		
 	}
 
 

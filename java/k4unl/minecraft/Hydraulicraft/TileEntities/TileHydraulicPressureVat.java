@@ -272,7 +272,6 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public void onBlockBreaks() {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -163,7 +163,6 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
     @Override
     public int getSizeInventory(){
-        // TODO Auto-generated method stub
         return 2;
     }
 
