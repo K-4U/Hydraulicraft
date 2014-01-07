@@ -42,7 +42,9 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
 		drawBase((TileHydraulicPiston)tileentity);
-		drawPistonHead((TileHydraulicPiston)tileentity);
+		if(!((TileHydraulicPiston)tileentity).getIsHarvesterPart()){
+			drawPistonHead((TileHydraulicPiston)tileentity);
+		}
 		drawPistonArm((TileHydraulicPiston)tileentity);
 		
 		

@@ -24,7 +24,7 @@ public class TileHydraulicPiston extends TileEntity implements
 	private float extendTarget = 0F;
 	private final static float movingSpeed = 0.05F;
 	private boolean harvesterPart = false;
-	private boolean retracting;
+	private boolean isRetracting;
 
 	
 	@Override
@@ -48,6 +48,8 @@ public class TileHydraulicPiston extends TileEntity implements
 		extendedLength = tagCompound.getFloat("extendedLength");
 		maxLength = tagCompound.getFloat("maxLength");
 		extendTarget = tagCompound.getFloat("extendTarget");
+		harvesterPart = tagCompound.getBoolean("harvesterPart");
+		isRetracting = tagCompound.getBoolean("isMoving");
 	}
 
 	@Override
@@ -55,6 +57,8 @@ public class TileHydraulicPiston extends TileEntity implements
 		tagCompound.setFloat("extendedLength", extendedLength);
 		tagCompound.setFloat("maxLength", maxLength);
 		tagCompound.setFloat("extendTarget", extendTarget);
+		tagCompound.setBoolean("harvesterPart", harvesterPart);
+		tagCompound.setBoolean("isMoving", isRetracting);
 	}
 
 	public float getExtendedLength(){
@@ -68,10 +72,12 @@ public class TileHydraulicPiston extends TileEntity implements
 	
 	public void setIsHarvesterPart(boolean isit){
 		harvesterPart = isit;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public void setMaxLength(float newMaxLength){
 		maxLength = newMaxLength;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public boolean getIsHarvesterPart(){
@@ -85,24 +91,27 @@ public class TileHydraulicPiston extends TileEntity implements
 		if(blocksToExtend < 0){
 			blocksToExtend = 0;
 		}
+		
 		extendTarget = blocksToExtend;
+		
+		int compResult = Float.compare(extendTarget, extendedLength); 
+		if(compResult > 0){
+			isRetracting = false;
+		}else if(compResult < 0){
+			isRetracting = true;
+		}
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	@Override
 	public float workFunction(boolean simulate) {
 		int compResult = Float.compare(extendTarget, extendedLength); 
-		if(compResult > 0 && !retracting){
+		if(compResult > 0 && !isRetracting){
 			extendedLength += movingSpeed;
-		}else if(compResult < 0 && retracting){
+		}else if(compResult < 0 && isRetracting){
 			extendedLength -= movingSpeed;
 		}else{
-			if(retracting){
-				retracting = false;
-				extendTo(maxLength);
-			}else{
-				retracting = true;
-				extendTo(0F);
-			}
+			extendTarget = extendedLength;
 		}
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		return 0;

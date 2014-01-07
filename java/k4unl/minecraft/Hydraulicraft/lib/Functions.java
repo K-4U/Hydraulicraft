@@ -6,6 +6,8 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import k4unl.minecraft.Hydraulicraft.items.Items;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -13,6 +15,11 @@ import net.minecraft.world.World;
 public class Functions {
 	private static boolean isUpdateAvailable;
 	
+	public static void showMessageInChat(String message){
+		EntityClientPlayerMP pl = Minecraft.getMinecraft().thePlayer;
+		pl.addChatMessage(message);
+		
+	}
 	
 	public static List mergeList(List l1, List l2){
 		for (Object object : l1) {

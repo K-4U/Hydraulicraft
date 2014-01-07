@@ -10,12 +10,15 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
@@ -132,45 +135,36 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 		
 	}
 	
-	
-	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		super.onBlockAdded(world, x, y, z);
+	public void checkRotation(TileHarvesterFrame frame, EntityLivingBase player){
+		int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
 		
-		TileEntity tile = world.getBlockTileEntity(x, y, z);
-		if(tile instanceof TileHarvesterFrame){
-			//Check if we should rotate.
-			if(world.getBlockId(x, y, z+1) == Ids.blockHydraulicHarvester.act 
-					|| world.getBlockId(x, y, z-1) == Ids.blockHydraulicHarvester.act
-					|| world.getBlockId(x, y, z+1) == Ids.blockHydraulicHarvester.act
-					|| world.getBlockId(x, y, z-1) == Ids.blockHydraulicHarvester.act){
-				//Frame block placed.
-				//Rotate.
-				((TileHarvesterFrame)tile).setRotated(true);
-			}else{
-				((TileHarvesterFrame)tile).setRotated(false);
-			}
+		boolean isRotated = false;
+		switch(sideToPlace){
+		case 0:
+			isRotated = true; //C
+			break;
+		case 1:
+			isRotated = false; //C
+			break;
+		case 2:
+			isRotated = true; // C
+			break;
+		case 3:
+			isRotated = false; //C
+			break;
 		}
+		
+		frame.setRotated(isRotated);
 	}
+
 	
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y,
-				int z, int blockId) {
-		super.onNeighborBlockChange(world, x, y, z, blockId);
-		
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
+		super.onBlockPlacedBy(world, x, y, z, player, iStack);
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
+		
 		if(tile instanceof TileHarvesterFrame){
-			//Check if we should rotate.
-			if(world.getBlockId(x, y, z+1) == Ids.blockHydraulicHarvester.act 
-					|| world.getBlockId(x, y, z-1) == Ids.blockHydraulicHarvester.act
-					|| world.getBlockId(x, y, z+1) == Ids.blockHydraulicHarvester.act
-					|| world.getBlockId(x, y, z-1) == Ids.blockHydraulicHarvester.act){
-				//Frame block placed.
-				//Rotate.
-				((TileHarvesterFrame)tile).setRotated(true);
-			}else{
-				((TileHarvesterFrame)tile).setRotated(false);
-			}
+			checkRotation((TileHarvesterFrame)tile, player);
 		}
 	}
 	
