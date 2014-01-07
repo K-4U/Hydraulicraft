@@ -11,7 +11,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class Functions {
-
+	private static boolean isUpdateAvailable;
+	
+	
 	public static List mergeList(List l1, List l2){
 		for (Object object : l1) {
 			if(!l2.contains(object)){

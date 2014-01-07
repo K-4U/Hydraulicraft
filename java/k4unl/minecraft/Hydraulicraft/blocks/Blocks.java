@@ -42,7 +42,7 @@ public class Blocks {
 		//hydraulicPressureGauge = new BlockHydraulicPressureGauge();
 		//hydraulicPressureValve = new BlockHydraulicPressureValve();
 		hydraulicHose = new BlockHydraulicHose();
-		//hydraulicPiston = new BlockHydraulicPiston();
+		hydraulicPiston = new BlockHydraulicPiston();
 		hydraulicWasher = new BlockHydraulicWasher();
 		hydraulicPressureWall = new BlockHydraulicPressureWall();
 		hydraulicHarvesterSource = new BlockHydraulicHarvester();
@@ -64,7 +64,7 @@ public class Blocks {
 		GameRegistry.registerBlock(hydraulicCrusher, Names.blockHydraulicCrusher.unlocalized);
 		//GameRegistry.registerBlock(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.unlocalized);
 		//GameRegistry.registerBlock(hydraulicPressureValve, Names.blockHydraulicPressureValve.unlocalized);
-		//GameRegistry.registerBlock(hydraulicPiston, Names.blockHydraulicPiston.unlocalized);
+		GameRegistry.registerBlock(hydraulicPiston, Names.blockHydraulicPiston.unlocalized);
 		GameRegistry.registerBlock(hydraulicWasher, Names.blockHydraulicWasher.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureWall, Names.blockHydraulicPressureWall.unlocalized);
 		

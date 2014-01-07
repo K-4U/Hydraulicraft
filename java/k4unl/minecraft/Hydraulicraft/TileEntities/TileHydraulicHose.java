@@ -16,9 +16,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TileMultipart;
-import codechicken.multipart.scalatraits.TSlottedTile;
 
 public class TileHydraulicHose extends TileEntity implements IHydraulicTransporter {
 	private IBaseTransporter baseHandler;
