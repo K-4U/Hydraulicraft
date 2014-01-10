@@ -215,7 +215,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	
 	
 	private boolean checkMultiblock(int dir){
-		Log.info("------------ Now checking "+dir + "-------------");
+		//Log.info("------------ Now checking "+dir + "-------------");
 		//Go up, check for pistons etc
 		if(getBlockId(xCoord, yCoord + 1, zCoord) != idVerticalFrame) return false;
 		if(getBlockId(xCoord, yCoord + 2, zCoord) != idVerticalFrame) return false;
@@ -347,7 +347,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		
 		harvesterLength = length;
 		harvesterWidth = width;
-		Log.info("Found at dir " + dir);
+		//Log.info("Found at dir " + dir);
 		return true;
 	}
 

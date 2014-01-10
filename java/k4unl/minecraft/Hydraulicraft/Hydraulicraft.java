@@ -61,6 +61,13 @@ public class Hydraulicraft {
 		
 		proxy.initSounds();
 		CustomTabs.init();
+		
+		Blocks.init();
+		Ores.init();
+		TileEntities.init();
+		Fluids.init();
+		
+		Items.init();
 	}
 	
 	/*!
@@ -70,13 +77,7 @@ public class Hydraulicraft {
 	 */
 	@EventHandler
 	public void load(FMLInitializationEvent event){
-		Blocks.init();
-		Ores.init();
-		TileEntities.init();
-		Fluids.init();
 		
-		Items.init();
-		Recipes.init();
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator());
 		NetworkRegistry.instance().registerGuiHandler(this.instance, new GuiHandler());
@@ -93,6 +94,7 @@ public class Hydraulicraft {
 	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event){
+		Recipes.init();
 		Log.info("Hydraulicraft ready for use!");
 	}
 	

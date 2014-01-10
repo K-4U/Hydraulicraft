@@ -35,6 +35,7 @@ public class CrushingRecipes {
     public static void addCrushingRecipe(CrushingRecipe toAdd){
         crushingRecipes.add(toAdd);
     }
+    
     public static ItemStack getCrushingRecipe(ItemStack itemStack){
     	String oreDictName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
         return getCrushingRecipe(oreDictName);

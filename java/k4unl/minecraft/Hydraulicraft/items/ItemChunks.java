@@ -68,8 +68,7 @@ public class ItemChunks extends Item {
                 new ItemStack(Items.itemChunk, 1, subId));
 
         String ingotName = "ingot" + metalName;
-        ItemStack ingotTarget = new ItemStack(Functions
-                .getIngotId(ingotName), 1, 0);
+        ItemStack ingotTarget = Functions.getIngot(ingotName);
         FurnaceRecipes.smelting().addSmelting(this.itemID, subId,
                 ingotTarget, 0);
 

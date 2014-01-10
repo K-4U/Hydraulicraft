@@ -63,11 +63,9 @@ public class ItemDusts extends Item {
                 new ItemStack(Items.itemDust, 1, meta));
 
         String ingotName = "ingot" + oreDictName;
-        ItemStack ingotTarget = new ItemStack(Functions
-                .getIngotId(ingotName), 1, 0);
+        ItemStack ingotTarget = Functions.getIngot(ingotName);
         FurnaceRecipes.smelting().addSmelting(this.itemID, meta,
                 ingotTarget, 0);
-
 
         return meta;
 	}

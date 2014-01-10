@@ -9,8 +9,10 @@ import k4unl.minecraft.Hydraulicraft.items.Items;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class Functions {
 	private static boolean isUpdateAvailable;
@@ -75,17 +77,12 @@ public class Functions {
 		}
 	}
 	
-	public static int getIngotId(String ingotName){
-        if(ingotName.equals("ingotIron")){
-            return Item.ingotIron.itemID;
-        }else if(ingotName.equals("ingotCopper")){
-            return Items.ingotCopper.itemID;
-        }else if(ingotName.equals("ingotLead")){
-        	return Items.ingotLead.itemID;
-        }else if(ingotName.equals("ingotGold")){
-			return Item.ingotGold.itemID;
+	public static ItemStack getIngot(String ingotName){
+		ArrayList<ItemStack> targetStackL = OreDictionary.getOres(ingotName);
+		if(targetStackL.size() > 0){
+			return targetStackL.get(0);
 		}
-		return 1;
+		return null;
 	}
 	
 	public static void checkSidesSetPressure(World w, int x, int y, int z, float newPressure){
