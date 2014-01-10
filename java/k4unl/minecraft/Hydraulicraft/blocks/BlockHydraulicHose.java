@@ -18,8 +18,14 @@ import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+
 public class BlockHydraulicHose extends MachineTieredBlock{
+	@SideOnly(Side.CLIENT)
     public Vector3f minVector = new Vector3f(0.35f, 0.35f, 0.35f);
+	@SideOnly(Side.CLIENT)
     public Vector3f maxVector = new Vector3f(0.65f, 0.65f, 0.65f);
 
     protected BlockHydraulicHose(){
@@ -61,6 +67,7 @@ public class BlockHydraulicHose extends MachineTieredBlock{
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z){
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
@@ -90,6 +97,7 @@ public class BlockHydraulicHose extends MachineTieredBlock{
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity){
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
