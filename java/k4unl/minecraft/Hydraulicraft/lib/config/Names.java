@@ -18,8 +18,11 @@ public class Names {
 	
 	public static final Name[] blockHydraulicHarvester = {
 		new Name("Harvester", "hydraulicHarvesterSource"),
-		new Name("Harvester frame", "hydraulicHarvesterFrame"),
-		new Name("Harvester Trolley", "hydraulicHarvesterTrolley")
+		new Name("Harvester frame", "hydraulicHarvesterFrame")
+	};
+	
+	public static final Name[] blockHarvesterTrolley = {
+		new Name("Wheat harvester", "wheatHarvester")
 	};
 	
 	public static final Name[] blockHydraulicHose = {

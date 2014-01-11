@@ -2,15 +2,6 @@ package k4unl.minecraft.Hydraulicraft.blocks;
 
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,10 +12,16 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
+import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
-public class BlockHydraulicHarvester extends MachineBlockContainer {
+public class BlockHarvesterTrolley extends MachineBlockContainer{
 	private Icon[] icons;
 	private Icon[] topIcons;
 	private Icon[] bottomIcons;
@@ -32,17 +29,17 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	private Name[] mName;
 	
 	protected boolean hasTopIcon[] = {
-			false, false
+			false
 	};
 	protected boolean hasBottomIcon[] = {
-			false, false
+			false
 	};
 	
 	
-	protected BlockHydraulicHarvester() {
-		super(Ids.blockHydraulicHarvester, Names.blockHydraulicHarvester[0]);
+	protected BlockHarvesterTrolley() {
+		super(Ids.blockHarvesterTrolley, Names.blockHarvesterTrolley[0]);
 		
-		mName = Names.blockHydraulicHarvester;
+		mName = Names.blockHarvesterTrolley;
 		
 		icons = new Icon[mName.length];
 		topIcons = new Icon[mName.length];
@@ -65,21 +62,8 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
     }
 	
 	@Override
-	public TileEntity createTileEntity(World world, int metadata){
-		switch(metadata){
-		case 0:
-			return new TileHydraulicHarvester();
-		case 1:
-			return new TileHarvesterFrame();
-		case 2:
-			return new TileHarvesterTrolley();
-		}
-        return null;
-    }
-	
-	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return null;
+		return new TileHarvesterTrolley();
 	}
 
 	@Override
@@ -125,9 +109,6 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	@Override
 	public Icon getIcon(int side, int metadata){
 		ForgeDirection s = ForgeDirection.getOrientation(side);
-		if(metadata >= topIcons.length){
-			metadata = 0;
-		}
 		if(s.equals(ForgeDirection.UP)){
 			return topIcons[metadata];
 		}else if(s.equals(ForgeDirection.DOWN)){

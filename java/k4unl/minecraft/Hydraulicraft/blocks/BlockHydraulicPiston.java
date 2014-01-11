@@ -81,7 +81,7 @@ public class BlockHydraulicPiston extends MachineBlockContainer {
             maxZ += extendedLength * (dir.offsetZ > 0 ? dir.offsetZ : 0);
             
             
-            //setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+            setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
         }
     }
 
@@ -110,8 +110,8 @@ public class BlockHydraulicPiston extends MachineBlockContainer {
             maxY += extendedLength * (dir.offsetY > 0 ? dir.offsetY : 0);
             maxZ += extendedLength * (dir.offsetZ > 0 ? dir.offsetZ : 0);
             
-            //setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
-            //super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
+            setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+            super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
         }
     }
     

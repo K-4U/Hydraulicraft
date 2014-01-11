@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvester;
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureHoze;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
@@ -26,6 +27,7 @@ public class Blocks {
 	public static Block hydraulicPressureWall;
 	public static Block hydraulicHarvesterSource;
 	public static Block dummyWasher;
+	public static Block harvesterTrolley;
 	
 	
 	/*!
@@ -46,6 +48,8 @@ public class Blocks {
 		hydraulicWasher = new BlockHydraulicWasher();
 		hydraulicPressureWall = new BlockHydraulicPressureWall();
 		hydraulicHarvesterSource = new BlockHydraulicHarvester();
+		
+		harvesterTrolley = new BlockHarvesterTrolley();
 		
 		dummyWasher = new BlockDummyWasher();
 		
@@ -76,6 +80,7 @@ public class Blocks {
 		GameRegistry.registerBlock(hydraulicPump, HandlerPump.class, Names.blockHydraulicPump[0].unlocalized);
 		
 		GameRegistry.registerBlock(hydraulicHarvesterSource, HandlerHarvester.class, Names.blockHydraulicHarvester[0].unlocalized);
+		GameRegistry.registerBlock(harvesterTrolley, HandlerHarvesterTrolley.class, Names.blockHarvesterTrolley[0].unlocalized);
 	}
 	
 	/*!
