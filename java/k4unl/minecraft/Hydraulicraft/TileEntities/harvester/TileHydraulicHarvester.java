@@ -573,12 +573,12 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			
 		}
 		TileHydraulicPiston p = getPistonFromList(w);
-		p.extendTo(h);
+		p.extendTo(h-1);
 		
 		if(h == 0){
-			getTrolleyFromList(w).extendTo(0, h);			
+			getTrolleyFromList(w).extendTo(0, h-1);			
 		}else{
-			getTrolleyFromList(w).extendTo(2, h);
+			getTrolleyFromList(w).extendTo(2, h-1);
 		}
 	}
 	

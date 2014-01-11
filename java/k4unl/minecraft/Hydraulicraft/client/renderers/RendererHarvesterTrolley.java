@@ -42,7 +42,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
 			GL11.glTranslatef(-1.0F, 0.0F, 0.0F);
 			break;
-		case 2:
+		case 3:
 			GL11.glRotatef(-90F, 0.0F, 1.0F, 0F);
 			GL11.glTranslatef(0.0F, 0.0F, -1.0F);
 			break;
