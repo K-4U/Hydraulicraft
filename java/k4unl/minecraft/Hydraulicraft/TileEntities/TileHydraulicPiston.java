@@ -1,10 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -12,6 +14,7 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.IShearable;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileHydraulicPiston extends TileEntity implements
@@ -24,8 +27,14 @@ public class TileHydraulicPiston extends TileEntity implements
 	private float extendTarget = 0F;
 	private final static float movingSpeed = 0.05F;
 	private boolean harvesterPart = false;
+	private Location harvesterLocation;
+	
 	private boolean isRetracting;
 
+	
+	public float getExtendTarget(){
+		return extendTarget;
+	}
 	
 	@Override
 	public int getMaxStorage() {
@@ -50,6 +59,8 @@ public class TileHydraulicPiston extends TileEntity implements
 		extendTarget = tagCompound.getFloat("extendTarget");
 		harvesterPart = tagCompound.getBoolean("harvesterPart");
 		isRetracting = tagCompound.getBoolean("isMoving");
+		
+		harvesterLocation = new Location(tagCompound.getIntArray("harvesterLocation"));
 	}
 
 	@Override
@@ -59,6 +70,9 @@ public class TileHydraulicPiston extends TileEntity implements
 		tagCompound.setFloat("extendTarget", extendTarget);
 		tagCompound.setBoolean("harvesterPart", harvesterPart);
 		tagCompound.setBoolean("isMoving", isRetracting);
+		if(harvesterLocation != null){
+			tagCompound.setIntArray("harvesterLocation", harvesterLocation.getLocation());
+		}
 	}
 
 	public float getExtendedLength(){
@@ -68,6 +82,12 @@ public class TileHydraulicPiston extends TileEntity implements
 
 	public float getMaxLength(){
 		return maxLength;
+	}
+	
+	public void setIsHarvesterPart(boolean isit, Location _harvesterLocation){
+		harvesterLocation = _harvesterLocation;
+		harvesterPart = isit;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public void setIsHarvesterPart(boolean isit){
@@ -105,7 +125,7 @@ public class TileHydraulicPiston extends TileEntity implements
 	
 	@Override
 	public float workFunction(boolean simulate) {
-		int compResult = Float.compare(extendTarget, extendedLength); 
+		int compResult = Float.compare(extendTarget, extendedLength);
 		if(compResult > 0 && !isRetracting){
 			extendedLength += movingSpeed;
 		}else if(compResult < 0 && isRetracting){
@@ -114,6 +134,10 @@ public class TileHydraulicPiston extends TileEntity implements
 			extendTarget = extendedLength;
 		}
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		
+		if(compResult != 0){
+			return Constants.PRESSURE_USAGE_PISTON;
+		}
 		return 0;
 	}
 
@@ -148,9 +172,23 @@ public class TileHydraulicPiston extends TileEntity implements
 		return getHandler().getDescriptionPacket();
 	}
 
+	public TileHydraulicHarvester getHarvester(){
+		if(harvesterPart){
+			if(harvesterLocation != null){
+				TileEntity t = worldObj.getBlockTileEntity(harvesterLocation.getX(), harvesterLocation.getY(), harvesterLocation.getZ());
+				if(t instanceof TileHydraulicHarvester){
+					return (TileHydraulicHarvester)t;
+				}
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public void updateEntity() {
-		getHandler().updateEntity();
+		if(!harvesterPart){
+			getHandler().updateEntity();
+		}
 	}
 	
 	@Override

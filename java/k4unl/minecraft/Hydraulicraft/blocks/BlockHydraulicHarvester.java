@@ -2,6 +2,8 @@ package k4unl.minecraft.Hydraulicraft.blocks;
 
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
@@ -92,7 +94,16 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		return false;
+		
+		TileEntity entity = world.getBlockTileEntity(x, y, z);
+		if(entity == null || !(entity instanceof TileHydraulicHarvester)){
+			return false;
+			
+		}
+		TileHydraulicHarvester pump = (TileHydraulicHarvester) entity;
+		player.openGui(Hydraulicraft.instance, Ids.GUIHarvester.act, world, x, y, z);
+		
+		return true;
 	}
 	
 	private String getTextureName(String side, int subId){
