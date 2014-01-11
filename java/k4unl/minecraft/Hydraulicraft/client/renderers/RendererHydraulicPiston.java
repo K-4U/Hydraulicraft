@@ -122,6 +122,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		}
 		float startCoord = half;
 		startCoord += tileentity.getExtendedLength();
+		
 		float headThickness = 0.1F;
 		float endCoord = startCoord + headThickness;
 		//Draw TOP side.
@@ -187,11 +188,15 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		float begin = half;
 		float totalLength = tileentity.getExtendedLength();
 		float maxLength = tileentity.getMaxLength();
+		if(tileentity.getIsHarvesterPart()){
+			totalLength+=0.5F;
+		}
 		float remainingPercentage = totalLength;
 		float thickness = 0.15F;
 		float maxThickness = 0.5F;
 		float armLength = 0.81F;
-		float thicknessChange = (maxThickness - thickness) / (maxLength / armLength); 
+		float thicknessChange = (maxThickness - thickness) / (maxLength / armLength);
+
 		while(remainingPercentage > 0F){
 			drawPistonArmPiece(thickness, begin, remainingPercentage + begin);
 			remainingPercentage-=armLength;
