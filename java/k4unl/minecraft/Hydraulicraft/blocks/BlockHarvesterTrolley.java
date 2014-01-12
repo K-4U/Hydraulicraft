@@ -10,8 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
@@ -151,6 +153,41 @@ public class BlockHarvesterTrolley extends MachineBlockContainer{
 			checkRotation((TileHarvesterFrame)tile, player);
 		}
 	}
+	
+	@Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z){
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+
+        if(tileEntity instanceof TileHarvesterTrolley) {
+            float extendedLength = ((TileHarvesterTrolley)tileEntity).getExtendedLength();
+            float sidewaysMovement = ((TileHarvesterTrolley)tileEntity).getSideLength();
+
+            //Get rotation:
+            int dir = ((TileHarvesterTrolley) tileEntity).getDir();
+            float minX = 0.0F;
+            float minY = 0.8F;
+            float minZ = 0.0F;
+            float maxX = 1.0F;
+            float maxY = 1.0F;
+            float maxZ = 1.0F;
+            
+            
+            int dirXMin = (dir == 1 ? -1  : 0);
+            int dirZMin = (dir == 0 ? -1  : 0);
+            int dirXMax = (dir == 3 ? 1  : 0);
+            int dirZMax = (dir == 2 ? 1  : 0);
+            minX += sidewaysMovement * dirXMin;
+            minY -= extendedLength;
+            minZ += sidewaysMovement * dirZMin;
+            
+            maxX += sidewaysMovement * dirXMax;
+            //maxY += extendedLength;
+            maxZ += sidewaysMovement * dirZMax;
+            
+            
+            setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        }
+    }
 	
 
 }

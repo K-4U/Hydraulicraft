@@ -9,7 +9,7 @@ public class Config {
 	public static int[][] harvestableItems = {
 			{59, 7},
 			{141, 7},
-			{142, 8}
+			{142, 7}
 	};
 	
 	public static boolean canBeCrushed(String oreName){

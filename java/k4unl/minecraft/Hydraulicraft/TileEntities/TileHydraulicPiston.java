@@ -135,7 +135,7 @@ public class TileHydraulicPiston extends TileEntity implements
 		}
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		
-		if(compResult != 0){
+		if(compResult >= 0){
 			return Constants.PRESSURE_USAGE_PISTON;
 		}
 		return 0;

@@ -70,4 +70,16 @@ public class Location {
 		ret[2] = this.z;
 		return ret;
 	}
+	
+	public String printLocation(){
+		return "X: " + this.x + " Y: " + this.y + " Z: " + this.z;
+	}
+	
+	public String printCoords(){
+		return this.x + ", " + this.y + ", " + this.z;
+	}
+	
+	public boolean compare(int x, int y, int z){
+		return (this.x == x && this.y == y && this.z == z);
+	}
 }

@@ -19,20 +19,22 @@ public class TileConsumer extends MachineEntity {
 	@Override
     public void updateEntity(){
 		if(!tTarget.worldObj.isRemote){
-	        float less = target.workFunction(true);
-	        if(getPressure() > less && less > 0){
-                less = target.workFunction(false);
-                float newPressure = getPressure() - less;
-                setPressure(newPressure);
-                updateBlock();
-                Functions.checkSidesSetPressure(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, newPressure);
-                
-                //So.. the water in this block should be going done a bit.
-                if(!isOilStored()){
-                    setStored((int)(getStored() - (less * Constants.USING_WATER_PENALTY)), false);
-                    Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
-                }
-            }
+			if(tTarget.worldObj.getWorldTime() % 1 == 0){
+		        float less = target.workFunction(true);
+		        if(getPressure() > less && less > 0){
+	                less = target.workFunction(false);
+	                float newPressure = getPressure() - less;
+	                setPressure(newPressure);
+	                updateBlock();
+	                Functions.checkSidesSetPressure(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, newPressure);
+	                
+	                //So.. the water in this block should be going done a bit.
+	                if(!isOilStored()){
+	                    setStored((int)(getStored() - (less * Constants.USING_WATER_PENALTY)), false);
+	                    Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+	                }
+	            }
+			}
         }
 	}
 	

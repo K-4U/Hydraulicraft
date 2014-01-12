@@ -193,11 +193,11 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		}
 		float remainingPercentage = totalLength;
 		float thickness = 0.15F;
-		float maxThickness = 0.5F;
+		float maxThickness = 0.48F;
 		float armLength = 0.81F;
 		float thicknessChange = (maxThickness - thickness) / (maxLength / armLength);
 
-		while(remainingPercentage > 0F){
+		while(remainingPercentage > 0F && remainingPercentage < 200F){
 			drawPistonArmPiece(thickness, begin, remainingPercentage + begin);
 			remainingPercentage-=armLength;
 			thickness+=thicknessChange;

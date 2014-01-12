@@ -37,5 +37,5 @@ public class Constants {
 	
 	public static final float MIN_REQUIRED_PRESSURE_HARVESTER = 10000.0F;
 	
-	public static final float PRESSURE_USAGE_PISTON = 10F;
+	public static final float PRESSURE_USAGE_PISTON = 50;
 }

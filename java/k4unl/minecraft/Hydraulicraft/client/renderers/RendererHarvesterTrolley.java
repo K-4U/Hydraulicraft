@@ -25,7 +25,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 	private float beginTopX = beginTop_ + xOffset;
 	private float beginTopZ = beginTop_ + zOffset;
 	
-	
+	private static final float DEG2RAD = (float) (3.14159/180);
 	
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
@@ -38,11 +38,11 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		//Get metadata for rotation:
 		int metadata = t.getDir();
 		switch(metadata){
-		case 1:
+		case 3:
 			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
 			GL11.glTranslatef(-1.0F, 0.0F, 0.0F);
 			break;
-		case 3:
+		case 1:
 			GL11.glRotatef(-90F, 0.0F, 1.0F, 0F);
 			GL11.glTranslatef(0.0F, 0.0F, -1.0F);
 			break;
@@ -63,6 +63,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		drawPistonArm(t);
 		
 		
+		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		//GL11.glEnable(GL11.GL_LIGHTING); //Disregard lighting
 		GL11.glPopMatrix();
@@ -71,16 +72,39 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 	}
 	
 	
+	void drawWheel(float centerX, float centerY, float centerZ){
+		float radius = 0.05F;
+		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+	 
+		for (int i=0; i < 360; i+=10){
+			float degInRad = i*DEG2RAD;
+			float x = (float) (centerX - 0.01);
+			float y = (float) (centerY + Math.sin(degInRad)*radius);
+			float z = (float) (centerZ + Math.cos(degInRad)*radius);
+	      
+			GL11.glVertex3d(x, y, z);
+		}
+		GL11.glEnd();
+	}
+	
 
 	private void drawBase(TileHarvesterTrolley tileentity){
-		float width = 0.4F;
-		float length = 0.5F;
+		float width = 0.45F;
+		float length = 0.45F;
 		
-		float beginCoord = 1.2F;
+		float beginCoord = 1.28F;
 		float endCoord = length + beginCoord;
 		float centerCoord = 0.5F;
 		float beginCenter = centerCoord - (width/2);
 		float endCenter = 1F - beginCenter;
+		GL11.glPushMatrix();
+		drawWheel(beginCenter, beginCoord+0.055F, beginCenter+0.045F);
+		drawWheel(beginCenter, beginCoord+0.055F, endCenter-0.045F);
+		GL11.glRotatef(180F, 0F, 1F, 0F);
+		GL11.glTranslatef(-1.0F, 0.0F, -1.0F);
+		drawWheel(beginCenter, beginCoord+0.055F, beginCenter+0.045F);
+		drawWheel(beginCenter, beginCoord+0.055F, endCenter-0.045F);
+		GL11.glPopMatrix();
 		
 		//Draw TOP side.
 		GL11.glBegin(GL11.GL_POLYGON);
@@ -90,6 +114,16 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		GL11.glVertex3f(endCenter, endCoord, beginCenter); //TL
 		GL11.glVertex3f(beginCenter, endCoord, beginCenter); //BL
 		GL11.glEnd();
+		
+		//Draw bottom side.
+		GL11.glBegin(GL11.GL_POLYGON);
+		GL11.glColor3f(1.0F, 1.0F, 0.0F);
+		GL11.glVertex3f(endCenter, beginCoord, endCenter); //TR
+		GL11.glVertex3f(beginCenter, beginCoord, endCenter);  //BR
+		GL11.glVertex3f(beginCenter, beginCoord, beginCenter); //TL
+		GL11.glVertex3f(endCenter, beginCoord, beginCenter); //BL
+		GL11.glEnd();
+		
 		
 		//Draw back side:
 		GL11.glBegin(GL11.GL_POLYGON);
@@ -192,7 +226,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 	}
 	
 	private void drawPistonArm(TileHarvesterTrolley tileentity) {
-		float half = 0.9F;
+		float half = 0.8F;
 		float begin = half;
 		float totalLength = tileentity.getExtendedLength();
 		totalLength+=0.3F;
@@ -205,7 +239,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 
 		GL11.glRotatef(-90F, 0.0F, 0.0F, 1F);
 		GL11.glTranslatef(-2.1F, 0.0F, 0.0F);
-		while(remainingPercentage > 0F){
+		while(remainingPercentage > 0F && remainingPercentage < 200F){
 			drawPistonArmPiece(thickness, begin, remainingPercentage + begin);
 			remainingPercentage-=armLength;
 			thickness+=thicknessChange;

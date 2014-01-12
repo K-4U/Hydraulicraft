@@ -12,7 +12,7 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class TileHarvesterTrolley extends TileEntity {
 	private float extendedLength;
-	private float maxLength = 2F;
+	private float maxLength = 4F;
 	private float maxSide = 8F;
 	private float extendTarget = 0F;
 	private float sideTarget = 0F;
@@ -20,6 +20,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	private float movingSpeedExtending = 0.05F;
 	private static final float movingSpeedSideways = 0.05F;
 	private int dir = 0;
+	private boolean harvesterPart = false;
 	
 	private boolean isRetracting;
 	private boolean isMoving;
@@ -59,6 +60,10 @@ public class TileHarvesterTrolley extends TileEntity {
 		float movingSpeedPercentage = movingSpeedSideways / blocksToMoveSideways;
 		movingSpeedExtending = movingSpeedPercentage * blocksToExtendDown;
 		
+		if(movingSpeedExtending > 500F){ //Which is just absurd..
+			movingSpeedExtending = movingSpeedSideways;
+		}
+		
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
@@ -97,6 +102,13 @@ public class TileHarvesterTrolley extends TileEntity {
 	}
 	
 	@Override
+	public void updateEntity() {
+		if(!harvesterPart){
+			doMove();
+		}
+	}
+	
+	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		extendedLength = tagCompound.getFloat("extendedLength");
 		extendTarget = tagCompound.getFloat("extendTarget");
@@ -105,6 +117,8 @@ public class TileHarvesterTrolley extends TileEntity {
 		sideLength = tagCompound.getFloat("sideLength");
 		sideTarget = tagCompound.getFloat("sideTarget");
 		dir = tagCompound.getInteger("dir");
+		
+		harvesterPart = tagCompound.getBoolean("harvesterPart");
 	}
 
 	@Override
@@ -116,6 +130,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		tagCompound.setFloat("sideLength", sideLength);
 		tagCompound.setFloat("sideTarget", sideTarget);
 		tagCompound.setInteger("dir", dir);
+		tagCompound.setBoolean("harvesterPart", harvesterPart);
 	}
 	
 	
@@ -139,12 +154,15 @@ public class TileHarvesterTrolley extends TileEntity {
 	public float getSideTarget(){
 		return sideTarget;
 	}
-	
+
 	
 	@Override
     public AxisAlignedBB getRenderBoundingBox(){
-		int metadata = getBlockMetadata();
 		float extendedLength = getExtendedLength();
+        float sidewaysMovement = getSideLength();
+
+        //Get rotation:
+        int dir = getDir();
         float minX = 0.0F + xCoord;
         float minY = 0.0F + yCoord;
         float minZ = 0.0F + zCoord;
@@ -152,14 +170,18 @@ public class TileHarvesterTrolley extends TileEntity {
         float maxY = 1.0F + yCoord;
         float maxZ = 1.0F + zCoord;
         
-        ForgeDirection dir = ForgeDirection.getOrientation(metadata);
-        minX += extendedLength * (dir.offsetX < 0 ? dir.offsetX : 0);
-        minY += extendedLength * (dir.offsetY < 0 ? dir.offsetY : 0);
-        minZ += extendedLength * (dir.offsetZ < 0 ? dir.offsetZ : 0);
         
-        maxX += extendedLength * (dir.offsetX > 0 ? dir.offsetX : 0);
-        maxY += extendedLength * (dir.offsetY > 0 ? dir.offsetY : 0);
-        maxZ += extendedLength * (dir.offsetZ > 0 ? dir.offsetZ : 0);
+        int dirXMin = (dir == 1 ? -1  : 0);
+        int dirZMin = (dir == 0 ? -1  : 0);
+        int dirXMax = (dir == 3 ? 1  : 0);
+        int dirZMax = (dir == 2 ? 1  : 0);
+        minX += sidewaysMovement * dirXMin;
+        minY -= extendedLength;
+        minZ += sidewaysMovement * dirZMin;
+        
+        maxX += sidewaysMovement * dirXMax;
+        //maxY += extendedLength;
+        maxZ += sidewaysMovement * dirZMax;
         
         return AxisAlignedBB.getAABBPool().getAABB(minX, minY, minZ, maxX, maxY, maxZ);
     }
@@ -170,6 +192,11 @@ public class TileHarvesterTrolley extends TileEntity {
 
 	public int getDir() {
 		return dir;
+	}
+
+	public void setIsHarvesterPart(boolean isit){
+		harvesterPart = isit;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	
