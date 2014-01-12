@@ -104,8 +104,12 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 	}
 
 	@Override
-	public float getMaxPressure() {
-		return Constants.MAX_MBAR_WATER_TIER_3;
+	public float getMaxPressure(boolean isOil) {
+		if(isOil){
+			return Constants.MAX_MBAR_OIL_TIER_3;
+		}else{
+			return Constants.MAX_MBAR_WATER_TIER_3;
+		}
 	}
 
 	@Override

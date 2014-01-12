@@ -19,6 +19,7 @@ public class BlockFluidOil extends BlockFluidClassic {
 	@Override
 	public void registerIcons(IconRegister icon){
 		blockIcon = icon.registerIcon(ModInfo.LID + ":" + Names.fluidOil.unlocalized);
+		this.getFluid().setIcons(blockIcon);
 	}
 
 	@Override

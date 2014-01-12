@@ -21,9 +21,10 @@ public interface IHydraulicMachine {
 	/**
 	 * @author Koen Beckers
 	 * @date 14-12-2013
+	 * @param isOil Whether or not oil is stored.
 	 * @return The max amount of pressure(bar) this machine can handle.
 	 */
-	public float getMaxPressure();
+	public float getMaxPressure(boolean isOil);
 
 	/**
 	 * Called when the block has been broken.

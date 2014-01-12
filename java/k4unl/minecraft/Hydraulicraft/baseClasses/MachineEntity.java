@@ -74,12 +74,12 @@ public class MachineEntity implements IBaseClass {
     }
 
 	public void setPressure(float newPressure){
-		if((int)getMaxPressure() < (int)newPressure){
+		if((int)getMaxPressure(isOilStored()) < (int)newPressure){
 			tTarget.worldObj.createExplosion((Entity)null, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord,
-					1F + ((getMaxPressure() / newPressure) * 3), true);
+					1F + ((getMaxPressure(isOilStored()) / newPressure) * 3), true);
 		}
-		if((int)getMaxPressure() < (int)newPressure){
-			bar = getMaxPressure();
+		if((int)getMaxPressure(isOilStored()) < (int)newPressure){
+			bar = getMaxPressure(isOilStored());
 		}else{
 			bar = newPressure;
 		}
@@ -91,13 +91,8 @@ public class MachineEntity implements IBaseClass {
 	}
 	
 	
-	public float getMaxPressure(){
-		//All of the blocks will have the max tier of pressure.. For now!
-		if(!isOilStored()){
-			return Constants.MAX_MBAR_WATER_TIER_3;
-		}else{
-			return Constants.MAX_MBAR_OIL_TIER_3;
-		}
+	public float getMaxPressure(boolean isOil){
+		return ((IHydraulicMachine)tTarget).getMaxPressure(isOil);
 	}
 	
 	/*!
@@ -265,5 +260,10 @@ public class MachineEntity implements IBaseClass {
 
 	@Override
 	public void updateEntity() {
+	}
+
+	@Override
+	public void setIsOilStored(boolean b) {
+		_isOilStored = b;
 	}
 }

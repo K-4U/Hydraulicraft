@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.lib;
 import java.util.ArrayList;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import k4unl.minecraft.Hydraulicraft.items.Items;
@@ -118,7 +119,7 @@ public class Functions {
 			}
 			int toSet = fluidInSystem / mainList.size();
 			while(fluidInSystem > toSet * mainList.size()){
-				fluidInSystem +=1;
+				fluidInSystem -= 1;
 				toSet = fluidInSystem / mainList.size();
 			}
 			
@@ -186,6 +187,7 @@ public class Functions {
 				int totalFluidCapacity = 0;
 				float pressureInSystem = 0;
 				int oldMachineCount = 0;
+				float generating = 0;
 				for (IHydraulicMachine machineEntity : mainList) {
 					if(oldMachineCount == 0){
 						oldMachineCount = machineEntity.getHandler().getNetworkCount();
@@ -199,26 +201,27 @@ public class Functions {
 					
 					
 					//if(machineEntity.getPressure() > pressureInSystem){
-						pressureInSystem += machineEntity.getHandler().getPressure();
+					pressureInSystem += machineEntity.getHandler().getPressure();
+					if(machineEntity instanceof IHydraulicGenerator){
+						pressureInSystem += ((IHydraulicGenerator) machineEntity).getGenerating();
+					}
 					//}
 					machineEntity.getHandler().setPressure(0);
 				}
 				
 				
-				if(fluidInSystem < 100){
+				
+				if(fluidInSystem < 10000){
 					pressureInSystem = pressureInSystem * ((float)fluidInSystem / 100F);
 				}
 				pressureInSystem = pressureInSystem / mainList.size();
 				//Log.info("Fluid in system: " + fluidInSystem);
-				//Log.info("Pressure in system: " + pressureInSystem);
 				
-				if(oldMachineCount <= mainList.size()){
-					//pressureInSystem = pressureInSystem - (pressureInSystem / mainList.size());
-				}else if(oldMachineCount > mainList.size()){
-					//There were more machines a second ago!
-					//Well.. do nothing really..
-				}
+				
+				
+				//Log.info("Pressure in system: " + pressureInSystem);
 				for (IHydraulicMachine machineEntity : mainList) {
+					machineEntity.getHandler().setIsOilStored(isOil);
 					machineEntity.getHandler().setPressure(pressureInSystem);
 					machineEntity.getHandler().setNetworkCount(mainList.size());
 					machineEntity.getHandler().setTotalFluidCapacity(totalFluidCapacity);

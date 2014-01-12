@@ -26,12 +26,12 @@ public class TileConsumer extends MachineEntity {
 	                float newPressure = getPressure() - less;
 	                setPressure(newPressure);
 	                updateBlock();
-	                Functions.checkSidesSetPressure(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, newPressure);
+	                //Functions.checkSidesSetPressure(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, newPressure);
 	                
 	                //So.. the water in this block should be going done a bit.
 	                if(!isOilStored()){
 	                    setStored((int)(getStored() - (less * Constants.USING_WATER_PENALTY)), false);
-	                    Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+	                    //Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
 	                }
 	            }
 			}

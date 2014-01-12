@@ -38,7 +38,7 @@ public class ItemDebug extends MachineItem {
 					int max = mEnt.getMaxStorage();
 					
 					float pressure = mEnt.getHandler().getPressure();
-					float maxPressure = mEnt.getMaxPressure();
+					float maxPressure = mEnt.getMaxPressure(mEnt.getHandler().isOilStored());
 					
 					float prevPressure = tagC.getFloat("prevPressure");
 					int prevFluid = tagC.getInteger("prevFluid");

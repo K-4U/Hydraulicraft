@@ -188,7 +188,25 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+		if(resource == null) //What!?
+			return 0;
+		if(resource.getFluid() == null)
+			return 0;
+		
+		if(tank != null && tank.getFluid() != null){
+			if(resource.getFluid().getID() != tank.getFluid().getFluid().getID()){
+				return 0;
+			}
+		}else{
+			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16); 
+		}
+		
 		int filled = tank.fill(resource, doFill);
+		if(resource.getFluid().getID() == Fluids.fluidOil.getID()){
+			getHandler().setIsOilStored(true);
+		}else{
+			getHandler().setIsOilStored(false);
+		}
 		if(doFill && filled > 10){
 			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 			//worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -206,6 +224,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 			filled = 0;
 		}
 		return filled;
+		
 	}
 
 	@Override
@@ -276,8 +295,8 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	}
 
 	@Override
-    public float getMaxPressure(){
-        if(getHandler().isOilStored()) {
+    public float getMaxPressure(boolean isOil){
+        if(isOil) {
             switch(getTier()){
                 case 0:
                     return Constants.MAX_MBAR_OIL_TIER_1;

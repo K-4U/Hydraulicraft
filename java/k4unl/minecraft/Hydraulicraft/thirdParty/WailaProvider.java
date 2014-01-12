@@ -38,7 +38,7 @@ public class WailaProvider implements IWailaDataProvider {
 			int max = mEnt.getMaxStorage();
 			
 			float pressure = mEnt.getHandler().getPressure();
-			float maxPressure = mEnt.getMaxPressure();
+			float maxPressure = mEnt.getMaxPressure(mEnt.getHandler().isOilStored());
 	
 			currenttip.add("Fl: " + stored + "/" + max + " mBuckets (" + (int)(((float)stored / (float)max) * 100) + "%)");
 			currenttip.add("Pr: " + pressure + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");

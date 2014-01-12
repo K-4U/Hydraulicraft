@@ -35,8 +35,8 @@ public class TileGenerator extends MachineEntity implements IBaseGenerator{
 	 * This will return the max ammount of bar this consumer can handle.
 	 */
 	@Override
-	public float getMaxPressure(){
-		if(isOilStored()){
+	public float getMaxPressure(boolean isOil){
+		if(isOil){
 			switch(getTier()){
 			case 0:
 				return Constants.MAX_MBAR_OIL_TIER_1;
@@ -62,19 +62,20 @@ public class TileGenerator extends MachineEntity implements IBaseGenerator{
 		return tTarget.worldObj.getBlockMetadata(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
 	}
 	
+	
 	public void updateEntity(){
 		super.updateEntity();
 		//Call work function:
 		target.workFunction();
 		//Set own pressure
 		float prevPressure = getPressure();
-		if((getPressure() + target.getGenerating()) < getMaxPressure()){
+		if((getPressure() + target.getGenerating()) < getMaxPressure(target.getHandler().isOilStored())){
 			setPressure(getPressure() + target.getGenerating());
 		}else{
-			setPressure(getMaxPressure());
+			setPressure(getMaxPressure(target.getHandler().isOilStored()));
 		}
 		if(getPressure() != prevPressure){
-			Functions.checkSidesSetPressure(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, getPressure());
+			//Functions.checkSidesSetPressure(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, getPressure());
 		}
 	}
 	

@@ -25,6 +25,7 @@ public class Constants {
 	
 	public final static int COLOR_WATER = 0x4F006DD9;
 	public final static int COLOR_PRESSURE = 0x3FFFFFFF;
+	public static final int COLOR_OIL = 0x4F8C6900;
 	
 	public final static int OIL_FOR_ONE_SEED	=	100;
 	public final static int WATER_FOR_ONE_SEED  = 	50;
@@ -38,4 +39,5 @@ public class Constants {
 	public static final float MIN_REQUIRED_PRESSURE_HARVESTER = 10000.0F;
 	
 	public static final float PRESSURE_USAGE_PISTON = 50;
+	
 }

@@ -72,4 +72,6 @@ public interface IBaseClass {
 	public void checkRedstonePower();
 	
 	public void updateBlock();
+
+	public void setIsOilStored(boolean b);
 }

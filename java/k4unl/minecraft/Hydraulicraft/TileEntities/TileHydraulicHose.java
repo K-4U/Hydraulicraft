@@ -50,8 +50,8 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
 	}
 
    @Override
-    public float getMaxPressure(){
-        if(getHandler().isOilStored()) {
+    public float getMaxPressure(boolean isOil){
+        if(isOil) {
             switch(getTier()){
                 case 0:
                     return Constants.MAX_MBAR_OIL_TIER_1;

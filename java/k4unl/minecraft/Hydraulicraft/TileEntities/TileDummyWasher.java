@@ -151,14 +151,13 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 	}
 
 	@Override
-	public float getMaxPressure() {
-		return getCore().getMaxPressure();
+	public float getMaxPressure(boolean isOil) {
+		return getCore().getMaxPressure(getHandler().isOilStored());
 	}
 
 	@Override
 	public IBaseClass getHandler() {
 		return getCore().getHandler();
-		//return null;
 	}
 
 	@Override

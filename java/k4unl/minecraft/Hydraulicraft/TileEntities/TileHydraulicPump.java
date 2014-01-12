@@ -55,7 +55,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			needsUpdate = true;
 		}
 		if(!worldObj.isRemote){
-			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getHandler().getPressure() < getMaxPressure()){
+			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getHandler().getPressure() < getMaxPressure(getHandler().isOilStored())){
 				//Put new item in
 				currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory);
 				if(inventory != null){
@@ -131,10 +131,10 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			if(result > getMaxGenerating())
 				result = getMaxGenerating();
 			
-			if(result + getHandler().getPressure() < (perc * getMaxPressure())){
+			if(result + getHandler().getPressure() < (perc * getMaxPressure(getHandler().isOilStored()))){
 				return result;
 			}else{
-				result = (perc * getMaxPressure()) - getHandler().getPressure();
+				result = (perc * getMaxPressure(getHandler().isOilStored())) - getHandler().getPressure();
 				if(result < 0){
 					result = 0;
 				}
@@ -258,8 +258,8 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	}
 
 	@Override
-	public float getMaxPressure() {
-		if(getHandler().isOilStored()){
+	public float getMaxPressure(boolean isOil) {
+		if(isOil){
 			switch(getTier()){
 			case 0:
 				return Constants.MAX_MBAR_OIL_TIER_1;

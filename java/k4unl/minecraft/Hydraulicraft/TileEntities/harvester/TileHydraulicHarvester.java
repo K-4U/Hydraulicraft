@@ -79,8 +79,8 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	}
 
 	@Override
-	public float getMaxPressure() {
-		if(getHandler().isOilStored()){
+	public float getMaxPressure(boolean isOil) {
+		if(isOil){
 			return Constants.MAX_MBAR_OIL_TIER_3;
 		}else{
 			return Constants.MAX_MBAR_WATER_TIER_3;
@@ -272,8 +272,12 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	}
 
 	private TileHarvesterTrolley getTrolleyFromList(int index){
-		Location v = trolleyList.get(index);
-		return (TileHarvesterTrolley) worldObj.getBlockTileEntity(v.getX(), v.getY(), v.getZ());
+		if(index < trolleyList.size()){
+			Location v = trolleyList.get(index);
+			return (TileHarvesterTrolley) worldObj.getBlockTileEntity(v.getX(), v.getY(), v.getZ());
+		}else{
+			return null;
+		}
 	}
 	
 	private TileHarvesterTrolley getTrolleyFromCoords(Location v){
@@ -284,27 +288,31 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	public float workFunction(boolean simulate) {
 		if(canRun()){
 			if(pistonMoving != -1){
-				TileHarvesterTrolley t = getTrolleyFromList(pistonMoving);
-				TileHydraulicPiston p = getPistonFromList(pistonMoving);
-				if(Float.compare(p.getExtendedLength(), p.getExtendTarget()) == 0 && Float.compare(t.getExtendedLength(), t.getExtendTarget()) == 0){
-					if(retracting == true){
-						isHarvesting = false;
-						isPlanting = false;
-						pistonMoving = -1;
-					}else{
-						if(isHarvesting){
-							doHarvest();
-							return 10F;
-						}else if(isPlanting){
-							doPlant();
-							return 10F;
+				if(pistonMoving <= trolleyList.size()){
+					TileHarvesterTrolley t = getTrolleyFromList(pistonMoving);
+					TileHydraulicPiston p = getPistonFromList(pistonMoving);
+					if(Float.compare(p.getExtendedLength(), p.getExtendTarget()) == 0 && Float.compare(t.getExtendedLength(), t.getExtendTarget()) == 0){
+						if(retracting == true){
+							isHarvesting = false;
+							isPlanting = false;
+							pistonMoving = -1;
 						}else{
-							return 0.1F;
+							if(isHarvesting){
+								doHarvest();
+								return 10F;
+							}else if(isPlanting){
+								doPlant();
+								return 10F;
+							}else{
+								return 0.1F;
+							}
 						}
 					}
+					updateTrolleys();
+					return p.workFunction(simulate) * 2;
+				}else{
+					Log.error("PistonMoving (" + pistonMoving + ") > " + (trolleyList.size()-1));
 				}
-				updateTrolleys();
-				return p.workFunction(simulate) * 2;
 			}else if(worldObj.getTotalWorldTime() % 30 == 0){
 				checkHarvest(false);
 				if(!isHarvesting){
@@ -597,14 +605,16 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			p.extendTo(h2);
 		}
 		
-		if(retracting){
-			float currentLocation = getTrolleyFromList(w).getSideLength();
-			getTrolleyFromList(w).extendTo(0, currentLocation);			
-		}else{
-			if(isPlanting){
-				getTrolleyFromList(w).extendTo(2.7F, h2);
+		if(w < trolleyList.size()){
+			if(retracting){
+				float currentLocation = getTrolleyFromList(w).getSideLength();
+				getTrolleyFromList(w).extendTo(0, currentLocation);			
 			}else{
-				getTrolleyFromList(w).extendTo(2, h2);
+				if(isPlanting){
+					getTrolleyFromList(w).extendTo(2.7F, h2);
+				}else{
+					getTrolleyFromList(w).extendTo(2, h2);
+				}
 			}
 		}
 	}
@@ -742,7 +752,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	
 	
 	private boolean checkMultiblock(int dir){
-		Log.info("------------ Now checking "+dir + "-------------");
+		//Log.info("------------ Now checking "+dir + "-------------");
 		//Go up, check for pistons etc
 		if(getBlockId(xCoord, yCoord + 1, zCoord) != idVerticalFrame) return false;
 		if(getBlockId(xCoord, yCoord + 2, zCoord) != idVerticalFrame) return false;

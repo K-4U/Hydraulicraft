@@ -101,6 +101,8 @@ public class MachineGUI extends GuiContainer {
 			int color = 0xFFFFFFFF;
 			if(!mEnt.getHandler().isOilStored()){
 				color = Constants.COLOR_WATER;
+			}else{
+				color = Constants.COLOR_OIL;
 			}
 			drawVerticalProgressBar(8, 14, 56, 16, mEnt.getHandler().getStored(), mEnt.getMaxStorage(), color, "Fluid:", "mB");
 			
@@ -108,7 +110,7 @@ public class MachineGUI extends GuiContainer {
 		
 		if(mEnt.getHandler().getPressure() > 0){
 			int color = Constants.COLOR_PRESSURE;
-			drawVerticalProgressBar(152, 14, 56, 16, mEnt.getHandler().getPressure(), mEnt.getMaxPressure(), color, "Pressure:", "mBar");
+			drawVerticalProgressBar(152, 14, 56, 16, mEnt.getHandler().getPressure(), mEnt.getMaxPressure(mEnt.getHandler().isOilStored()), color, "Pressure:", "mBar");
 		}
 	}
 	
