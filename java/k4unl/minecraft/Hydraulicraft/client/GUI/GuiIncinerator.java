@@ -8,8 +8,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-import org.lwjgl.opengl.GL11;
-
 public class GuiIncinerator extends MachineGUI {
 
 	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/incinerator.png");
@@ -32,8 +30,6 @@ public class GuiIncinerator extends MachineGUI {
 			ItemStack smeltingItem = incinerator.getSmeltingItem();
 			ItemStack targetItem = incinerator.getTargetItem();
 
-			//Icon smeltingIcon = smeltingItem.getIconFromDamage(smeltingItem.getDamage(incinerator.getSmeltingItem()));
-			
 			int done = incinerator.getSmeltingTicks();
 			int startX = 40;
 			int maxTicks = 200;
@@ -41,18 +37,18 @@ public class GuiIncinerator extends MachineGUI {
 			int travelPath = targetX - startX;
 			float percentage = (float)done / (float)maxTicks;
 			int xPos = startX + (int) (travelPath * percentage);
-			//drawTexturedModelRectFromIcon(xPos, 19, smeltingIcon, w, h)
-			GL11.glEnable(GL11.GL_BLEND);
-			if(percentage < 0.5f){
-				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), smeltingItem, xPos, 19);
-			}else{
-				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), targetItem, xPos, 19);
-			}
-			GL11.glDisable(GL11.GL_BLEND);
+
+            //TODO decide whether one should have a wobbling effect or not (the last parameter)
+            IconRenderer.drawMergedIcon(xPos, 19, zLevel, smeltingItem, targetItem, percentage, smeltingItem.stackSize % 2 == 0);
 		}
 		
 		
 		checkTooltips(mouseX, mouseY);
 		
 	}
+
+
+
+
+
 }
