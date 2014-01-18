@@ -27,7 +27,9 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 		Tessellator tessellator = Tessellator.instance;
 		
 		tessellator.addTranslation(x, y, z);
-        
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_LIGHTING);
+		
 		
 		int lightValue = block.getMixedBrightnessForBlock(world, x, y, z);
         tessellator.setBrightness(lightValue);
@@ -262,7 +264,9 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 		
 		//again and again, until you're done, then:
 		tessellator.addTranslation(-x, -y, -z);
-		//RenderHelper.enableStandardItemLighting();
+		
+		GL11.glPopMatrix();
+		GL11.glDisable(GL11.GL_LIGHTING);
 		return false;
 	}
 

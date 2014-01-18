@@ -15,12 +15,15 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 	private static final ResourceLocation resLoc =
 			new ResourceLocation(ModInfo.LID,"textures/model/hydraulicPiston_tmap.png");
 	
+	Tessellator tess;
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
 			double z, float f) {
 		GL11.glPushMatrix();
 		
+		tess = Tessellator.instance;
 		GL11.glTranslatef((float) x, (float) y, (float)z);
+		
 		
 		//Get metadata for rotation:
 		int metadata = tileentity.getBlockMetadata();
@@ -41,18 +44,19 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		
 		GL11.glPushMatrix();
 		bindTexture(resLoc);
-		GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
+		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
 		drawBase((TileHydraulicPiston)tileentity);
 		if(!((TileHydraulicPiston)tileentity).getIsHarvesterPart()){
 			drawPistonHead((TileHydraulicPiston)tileentity);
 		}
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		drawPistonArm((TileHydraulicPiston)tileentity);
 		
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		//GL11.glEnable(GL11.GL_LIGHTING); //Disregard lighting
+		GL11.glEnable(GL11.GL_LIGHTING); //Disregard lighting
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 		
@@ -65,47 +69,43 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		}
 		//Draw TOP side.
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glColor3f(1.0F, 0.0F, 0.0F);
-		GL11.glVertex3f(0.0F, 1.0F, 1.0F);
-		GL11.glVertex3f(half, 1.0F, 1.0F);
-		GL11.glVertex3f(half, 1.0F, 0.0F);
-		GL11.glVertex3f(0.0F, 1.0F, 0.0F);
+		RenderHelper.vertexWithTexture(0.0F, 1.0F, 1.0F, 0F, 0F);
+		RenderHelper.vertexWithTexture(half, 1.0F, 1.0F, 0.5F, 0F);		
+		RenderHelper.vertexWithTexture(half, 1.0F, 0.0F, 0.5F, 0.5F);
+		RenderHelper.vertexWithTexture(0.0F, 1.0F, 0.0F, 0.0F, 0.5F);
 		
 		//Draw bottom side.
-		GL11.glColor3f(1.0F, 1.0F, 0.0F);
-		GL11.glVertex3f(half, 0.0F, 1.0F);
-		GL11.glVertex3f(0.0F, 0.0F, 1.0F);
-		GL11.glVertex3f(0.0F, 0.0F, 0.0F);
-		GL11.glVertex3f(half, 0.0F, 0.0F);
+		RenderHelper.vertexWithTexture(half, 0.0F, 1.0F, 0.0F, 0F); // TR
+		RenderHelper.vertexWithTexture(0.0F, 0.0F, 1.0F, 0.5F, 0F);	 //BR
+		RenderHelper.vertexWithTexture(0.0F, 0.0F, 0.0F, 0.5F, 0.5F); //TL
+		RenderHelper.vertexWithTexture(half, 0.0F, 0.0F, 0.0F, 0.5F); //BL
 		
+
 		//Draw back side:
-		GL11.glColor3f(0.0F, 1.0F, 0.0F);
-		GL11.glVertex3f(0.0F, 0.0F, 1.0F);
-		GL11.glVertex3f(0.0F, 1.0F, 1.0F);
-		GL11.glVertex3f(0.0F, 1.0F, 0.0F);
-		GL11.glVertex3f(0.0F, 0.0F, 0.0F);
-		
+		RenderHelper.vertexWithTexture(0.0F, 0.0F, 1.0F, 0.0F, 0.0F); // BR
+		RenderHelper.vertexWithTexture(0.0F, 1.0F, 1.0F, 0.5F, 0.0F); //TR
+		RenderHelper.vertexWithTexture(0.0F, 1.0F, 0.0F, 0.5F, 0.5F); //TL
+		RenderHelper.vertexWithTexture(0.0F, 0.0F, 0.0F, 0.0F, 0.5F); //BL
+
 		//Draw front side:
-		GL11.glColor3f(0.0F, 1.0F, 1.0F);
-		GL11.glVertex3f(half, 0.0F, 0.0F);
-		GL11.glVertex3f(half, 1.0F, 0.0F);
-		GL11.glVertex3f(half, 1.0F, 1.0F);
-		GL11.glVertex3f(half, 0.0F, 1.0F);
+		
+		RenderHelper.vertexWithTexture(half, 0.0F, 0.0F, 0.5F, 0.0F); // BR
+		RenderHelper.vertexWithTexture(half, 1.0F, 0.0F, 1.0F, 0.0F); //TR
+		RenderHelper.vertexWithTexture(half, 1.0F, 1.0F, 1.0F, 0.5F); //TL
+		RenderHelper.vertexWithTexture(half, 0.0F, 1.0F, 0.5F, 0.5F); //BL
+
 		
 		//Draw right side:
-		GL11.glColor3f(0.0F, 0.0F, 1.0F);
-		GL11.glVertex3f(0.0F, 0.0F, 0.0F); 
-		GL11.glVertex3f(0.0F, 1.0F, 0.0F); 
-		GL11.glVertex3f(half, 1.0F, 0.0F); 
-		GL11.glVertex3f(half, 0.0F, 0.0F);
-		
+		RenderHelper.vertexWithTexture(0.0F, 0.0F, 0.0F, 0.0F, 0.0F); // BR
+		RenderHelper.vertexWithTexture(0.0F, 1.0F, 0.0F, 0.5F, 0.0F);	 //TR
+		RenderHelper.vertexWithTexture(half, 1.0F, 0.0F, 0.5F, 0.5F); //TL
+		RenderHelper.vertexWithTexture(half, 0.0F, 0.0F, 0.0F, 0.5F); //BL
+
 		//Draw left side:
-		GL11.glColor3f(0.0F, 0.0F, 0.0F);
-		GL11.glVertex3f(0.0F, 0.0F, 1.0F);
-		GL11.glVertex3f(half, 0.0F, 1.0F);
-		GL11.glVertex3f(half, 1.0F, 1.0F);
-		GL11.glVertex3f(0.0F, 1.0F, 1.0F);
-		
+		RenderHelper.vertexWithTexture(0.0F, 0.0F, 1.0F, 0.0F, 0.0F); // BR
+		RenderHelper.vertexWithTexture(half, 0.0F, 1.0F, 0.5F, 0.0F);	 //TR
+		RenderHelper.vertexWithTexture(half, 1.0F, 1.0F, 0.5F, 0.5F); //TL
+		RenderHelper.vertexWithTexture(0.0F, 1.0F, 1.0F, 0.0F, 0.5F); //BL
 		
 		GL11.glEnd();
 	}
@@ -122,48 +122,44 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		float endCoord = startCoord + headThickness;
 		//Draw TOP side.
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glColor3f(1.0F, 0.0F, 0.0F);
-		GL11.glVertex3f(startCoord, 1.0F, 1.0F);
-		GL11.glVertex3f(endCoord, 1.0F, 1.0F);
-		GL11.glVertex3f(endCoord, 1.0F, 0.0F);
-		GL11.glVertex3f(startCoord, 1.0F, 0.0F);
 		
+		RenderHelper.vertexWithTexture(startCoord, 1.0F, 1.0F, 0F, 0.5F);
+		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, 0.0976F, 0.5F);		
+		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, 0.0976F, 1.0F);
+		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, 0.0F, 1.0F);
+
 		//Draw bottom side.
-		GL11.glColor3f(1.0F, 1.0F, 0.0F);
-		GL11.glVertex3f(endCoord, 0.0F, 1.0F);
-		GL11.glVertex3f(startCoord, 0.0F, 1.0F);
-		GL11.glVertex3f(startCoord, 0.0F, 0.0F);
-		GL11.glVertex3f(endCoord, 0.0F, 0.0F);
+		RenderHelper.vertexWithTexture(endCoord, 0.0F, 1.0F, 0F, 0.5F);
+		RenderHelper.vertexWithTexture(startCoord, 0.0F, 1.0F, 0.0976F, 0.5F);		
+		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, 0.0976F, 1.0F);
+		RenderHelper.vertexWithTexture(endCoord, 0.0F, 0.0F, 0.0F, 1.0F);
 		
 		//Draw back side:
-		GL11.glColor3f(0.0F, 1.0F, 0.0F);
-		GL11.glVertex3f(startCoord, 0.0F, 1.0F);
-		GL11.glVertex3f(startCoord, 1.0F, 1.0F);
-		GL11.glVertex3f(startCoord, 1.0F, 0.0F);
-		GL11.glVertex3f(startCoord, 0.0F, 0.0F);
-		
+		RenderHelper.vertexWithTexture(startCoord, 0.0F, 1.0F, 0.0976F, 0.5F);
+		RenderHelper.vertexWithTexture(startCoord, 1.0F, 1.0F, 0.5976F, 0.5F);		
+		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, 0.5976F, 1.0F);
+		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, 0.0976F, 1.0F);
+
 		//Draw front side:
-		GL11.glColor3f(0.0F, 1.0F, 1.0F);
-		GL11.glVertex3f(endCoord, 0.0F, 0.0F);
-		GL11.glVertex3f(endCoord, 1.0F, 0.0F);
-		GL11.glVertex3f(endCoord, 1.0F, 1.0F);
-		GL11.glVertex3f(endCoord, 0.0F, 1.0F);
+		RenderHelper.vertexWithTexture(endCoord, 0.0F, 0.0F, 0.0976F, 0.5F); 
+		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, 0.5976F, 0.5F); 	
+		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, 0.5976F, 1.0F); 
+		RenderHelper.vertexWithTexture(endCoord, 0.0F, 1.0F, 0.0976F, 1.0F); 
+
 		
 		//Draw right side:
-		GL11.glColor3f(0.0F, 0.0F, 1.0F);
-		GL11.glVertex3f(startCoord, 0.0F, 0.0F); 
-		GL11.glVertex3f(startCoord, 1.0F, 0.0F); 
-		GL11.glVertex3f(endCoord, 1.0F, 0.0F); 
-		GL11.glVertex3f(endCoord, 0.0F, 0.0F);
+		
+		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, 0.0976F, 1.0F); //BR
+		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, 0.0976F, 0.5F); // TR
+		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, 0.0F, 0.5F); //TL
+		RenderHelper.vertexWithTexture(endCoord, 0.0F, 0.0F, 0.0F, 1.0F); //BL
 		
 		//Draw left side:
-		GL11.glColor3f(0.0F, 0.0F, 0.0F);
-		GL11.glVertex3f(startCoord, 0.0F, 1.0F);
-		GL11.glVertex3f(endCoord, 0.0F, 1.0F);
-		GL11.glVertex3f(endCoord, 1.0F, 1.0F);
-		GL11.glVertex3f(startCoord, 1.0F, 1.0F);
 		
-		
+		RenderHelper.vertexWithTexture(startCoord, 0.0F, 1.0F, 0.0F, 0.5F); 
+		RenderHelper.vertexWithTexture(endCoord, 0.0F, 1.0F, 0.0976F, 0.5F); 
+		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, 0.0976F, 1.0F); 
+		RenderHelper.vertexWithTexture(startCoord, 1.0F, 1.0F, 0.0F, 1.0F); 
 		GL11.glEnd();
 	}
 	

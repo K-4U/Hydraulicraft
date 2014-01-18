@@ -84,7 +84,7 @@ public class BlockHydraulicPiston extends MachineBlockContainer {
             setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
         }
     }
-
+/*
     @Override
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity){
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
@@ -111,8 +111,9 @@ public class BlockHydraulicPiston extends MachineBlockContainer {
             maxZ += extendedLength * (dir.offsetZ > 0 ? dir.offsetZ : 0);
             
             setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+            //arraylist.add(arg0)
             super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
         }
-    }
+    }*/
     
 }
