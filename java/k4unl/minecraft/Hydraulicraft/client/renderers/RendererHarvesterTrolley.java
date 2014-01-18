@@ -30,14 +30,23 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
 			double z, float f) {
-		GL11.glPushMatrix();
-		
-		GL11.glTranslatef((float) x, (float) y, (float)z);
 		
 		TileHarvesterTrolley t = (TileHarvesterTrolley)tileentity;
 		//Get metadata for rotation:
-		int metadata = t.getDir();
-		switch(metadata){
+		int rotation = t.getDir();
+		int metadata = t.getBlockMetadata();
+		
+		doRender(t, (float)x, (float)y, (float)z, f, rotation, metadata);
+	}
+	
+	
+	public void doRender(TileHarvesterTrolley t, float x, float y,
+			float z, float f, int rotation, int metadata){
+		GL11.glPushMatrix();
+		
+		GL11.glTranslatef(x, y, z);
+
+		switch(rotation){
 		case 3:
 			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
 			GL11.glTranslatef(-1.0F, 0.0F, 0.0F);
@@ -68,9 +77,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING); //Disregard lighting
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
-		
 	}
-	
 	
 	void drawWheel(float centerX, float centerY, float centerZ){
 		float radius = 0.05F;

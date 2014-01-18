@@ -25,7 +25,7 @@ public class TileHydraulicPiston extends TileEntity implements
 	private float extendedLength;
 	private float maxLength = 4F;
 	private float extendTarget = 0F;
-	private final static float movingSpeed = 0.05F;
+	private float movingSpeed = 0.05F;
 	private boolean harvesterPart = false;
 	private Location harvesterLocation;
 	
@@ -123,6 +123,8 @@ public class TileHydraulicPiston extends TileEntity implements
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
+	
+	
 	@Override
 	public float workFunction(boolean simulate) {
 		int compResult = Float.compare(extendTarget, extendedLength);
@@ -158,7 +160,11 @@ public class TileHydraulicPiston extends TileEntity implements
 	
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+		if(harvesterPart && getHarvester() != null){
+			if(baseHandler == null) baseHandler = getHarvester().getHandler();
+		}else{
+			if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+		}
         return baseHandler;
 	}
 

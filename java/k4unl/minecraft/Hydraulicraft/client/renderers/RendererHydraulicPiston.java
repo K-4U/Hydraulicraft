@@ -5,6 +5,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -15,18 +16,22 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 	private static final ResourceLocation resLoc =
 			new ResourceLocation(ModInfo.LID,"textures/model/hydraulicPiston_tmap.png");
 	
-	Tessellator tess;
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
 			double z, float f) {
+		
+		int metadata = tileentity.getBlockMetadata();
+		doRender((TileHydraulicPiston) tileentity, x, y, z, f, metadata);
+	}
+	
+	public void doRender(TileHydraulicPiston tileentity , double x, double y,
+			double z, float f, int metadata){
 		GL11.glPushMatrix();
 		
-		tess = Tessellator.instance;
 		GL11.glTranslatef((float) x, (float) y, (float)z);
 		
-		
 		//Get metadata for rotation:
-		int metadata = tileentity.getBlockMetadata();
+		
 		switch(metadata){
 		case 2:
 			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
@@ -42,8 +47,10 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 			break;
 		}
 		
+		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
+		
 		GL11.glPushMatrix();
-		bindTexture(resLoc);
+		
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
@@ -62,7 +69,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		
 	}
 	
-	private void drawBase(TileHydraulicPiston tileentity){
+	public static void drawBase(TileHydraulicPiston tileentity){
 		float half = 0.9F;
 		if(tileentity.getIsHarvesterPart()){
 			half = 1F;
@@ -110,7 +117,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		GL11.glEnd();
 	}
 	
-	private void drawPistonHead(TileHydraulicPiston tileentity){
+	public static void drawPistonHead(TileHydraulicPiston tileentity){
 		float half = 0.9F;
 		if(tileentity.getIsHarvesterPart()){
 			half = 1F;
@@ -163,7 +170,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		GL11.glEnd();
 	}
 	
-	private void drawPistonArm(TileHydraulicPiston tileentity){
+	public static void drawPistonArm(TileHydraulicPiston tileentity){
 		float half = 0.9F;
 		if(tileentity.getIsHarvesterPart()){
 			half = 1F;
@@ -187,7 +194,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		}
 	}
 	
-	private void drawPistonArmPiece(float thickness, float begin, float end){
+	public static void drawPistonArmPiece(float thickness, float begin, float end){
 		float armBeginCoord = 0.5F - (thickness / 2);
 		float armEndCoord = 0.5F + (thickness / 2);
 		float startCoord = begin;

@@ -10,6 +10,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.FMLClientHandler;
+
 public class RendererHarvesterFrame extends TileEntitySpecialRenderer {
 
 	private static final ResourceLocation resLoc =
@@ -40,7 +42,7 @@ public class RendererHarvesterFrame extends TileEntitySpecialRenderer {
 		
 		GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		bindTexture(resLoc);
+        FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
 		
 		GL11.glPushMatrix();
 		
