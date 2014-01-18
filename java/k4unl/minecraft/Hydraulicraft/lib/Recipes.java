@@ -67,7 +67,7 @@ public class Recipes {
                 
 		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes
 		                .CrushingRecipe
-		                (oreName, 10F, new ItemStack(Items.itemChunk
+		                (oreName, 100F, new ItemStack(Items.itemChunk
 		                .itemID, 2, metaId)));
 		        
 		        
@@ -77,8 +77,8 @@ public class Recipes {
 		
 		        
 		        WashingRecipes.addWashingRecipe(new WashingRecipes.WashingRecipe(
-		               new ItemStack(Items.itemChunk.itemID, 1, metaId), 10F,
-		                new ItemStack(Items.itemDust.itemID, 2, metaId)));
+		               new ItemStack(Items.itemChunk.itemID, 1, metaId), 100F,
+		                new ItemStack(Items.itemDust.itemID, 1, metaId)));
             }
         }
         

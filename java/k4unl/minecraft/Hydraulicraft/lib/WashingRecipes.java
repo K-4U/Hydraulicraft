@@ -29,7 +29,7 @@ public class WashingRecipes {
     public static ItemStack getWashingRecipe(ItemStack itemStack){
         for(WashingRecipe rec : washingRecipes){
             if(rec.input.isItemEqual(itemStack)){
-                return rec.output;
+                return rec.output.copy();
             }
         }
         return null;

@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 
 import org.lwjgl.opengl.GL11;
 
@@ -11,7 +12,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ISpecialArmor.ArmorProperties;
 
 public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
-	private ResourceLocation resLoc = new ResourceLocation("");
+	private static final ResourceLocation resLoc =
+			new ResourceLocation(ModInfo.LID,"textures/model/hydraulicPiston_tmap.png");
 	
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
@@ -38,6 +40,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		}
 		
 		GL11.glPushMatrix();
+		bindTexture(resLoc);
 		GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
@@ -61,57 +64,49 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 			half = 1F;
 		}
 		//Draw TOP side.
-		GL11.glBegin(GL11.GL_POLYGON);
+		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glColor3f(1.0F, 0.0F, 0.0F);
 		GL11.glVertex3f(0.0F, 1.0F, 1.0F);
 		GL11.glVertex3f(half, 1.0F, 1.0F);
 		GL11.glVertex3f(half, 1.0F, 0.0F);
 		GL11.glVertex3f(0.0F, 1.0F, 0.0F);
-		GL11.glEnd();
 		
 		//Draw bottom side.
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glColor3f(1.0F, 1.0F, 0.0F);
 		GL11.glVertex3f(half, 0.0F, 1.0F);
 		GL11.glVertex3f(0.0F, 0.0F, 1.0F);
 		GL11.glVertex3f(0.0F, 0.0F, 0.0F);
 		GL11.glVertex3f(half, 0.0F, 0.0F);
-		GL11.glEnd();
 		
 		//Draw back side:
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glColor3f(0.0F, 1.0F, 0.0F);
 		GL11.glVertex3f(0.0F, 0.0F, 1.0F);
 		GL11.glVertex3f(0.0F, 1.0F, 1.0F);
 		GL11.glVertex3f(0.0F, 1.0F, 0.0F);
 		GL11.glVertex3f(0.0F, 0.0F, 0.0F);
-		GL11.glEnd();
 		
 		//Draw front side:
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glColor3f(0.0F, 1.0F, 1.0F);
 		GL11.glVertex3f(half, 0.0F, 0.0F);
 		GL11.glVertex3f(half, 1.0F, 0.0F);
 		GL11.glVertex3f(half, 1.0F, 1.0F);
 		GL11.glVertex3f(half, 0.0F, 1.0F);
-		GL11.glEnd();
 		
 		//Draw right side:
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glColor3f(0.0F, 0.0F, 1.0F);
 		GL11.glVertex3f(0.0F, 0.0F, 0.0F); 
 		GL11.glVertex3f(0.0F, 1.0F, 0.0F); 
 		GL11.glVertex3f(half, 1.0F, 0.0F); 
 		GL11.glVertex3f(half, 0.0F, 0.0F);
-		GL11.glEnd();
 		
 		//Draw left side:
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glColor3f(0.0F, 0.0F, 0.0F);
 		GL11.glVertex3f(0.0F, 0.0F, 1.0F);
 		GL11.glVertex3f(half, 0.0F, 1.0F);
 		GL11.glVertex3f(half, 1.0F, 1.0F);
 		GL11.glVertex3f(0.0F, 1.0F, 1.0F);
+		
+		
 		GL11.glEnd();
 	}
 	
@@ -126,57 +121,49 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		float headThickness = 0.1F;
 		float endCoord = startCoord + headThickness;
 		//Draw TOP side.
-		GL11.glBegin(GL11.GL_POLYGON);
+		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glColor3f(1.0F, 0.0F, 0.0F);
 		GL11.glVertex3f(startCoord, 1.0F, 1.0F);
 		GL11.glVertex3f(endCoord, 1.0F, 1.0F);
 		GL11.glVertex3f(endCoord, 1.0F, 0.0F);
 		GL11.glVertex3f(startCoord, 1.0F, 0.0F);
-		GL11.glEnd();
 		
 		//Draw bottom side.
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glColor3f(1.0F, 1.0F, 0.0F);
 		GL11.glVertex3f(endCoord, 0.0F, 1.0F);
 		GL11.glVertex3f(startCoord, 0.0F, 1.0F);
 		GL11.glVertex3f(startCoord, 0.0F, 0.0F);
 		GL11.glVertex3f(endCoord, 0.0F, 0.0F);
-		GL11.glEnd();
 		
 		//Draw back side:
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glColor3f(0.0F, 1.0F, 0.0F);
 		GL11.glVertex3f(startCoord, 0.0F, 1.0F);
 		GL11.glVertex3f(startCoord, 1.0F, 1.0F);
 		GL11.glVertex3f(startCoord, 1.0F, 0.0F);
 		GL11.glVertex3f(startCoord, 0.0F, 0.0F);
-		GL11.glEnd();
 		
 		//Draw front side:
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glColor3f(0.0F, 1.0F, 1.0F);
 		GL11.glVertex3f(endCoord, 0.0F, 0.0F);
 		GL11.glVertex3f(endCoord, 1.0F, 0.0F);
 		GL11.glVertex3f(endCoord, 1.0F, 1.0F);
 		GL11.glVertex3f(endCoord, 0.0F, 1.0F);
-		GL11.glEnd();
 		
 		//Draw right side:
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glColor3f(0.0F, 0.0F, 1.0F);
 		GL11.glVertex3f(startCoord, 0.0F, 0.0F); 
 		GL11.glVertex3f(startCoord, 1.0F, 0.0F); 
 		GL11.glVertex3f(endCoord, 1.0F, 0.0F); 
 		GL11.glVertex3f(endCoord, 0.0F, 0.0F);
-		GL11.glEnd();
 		
 		//Draw left side:
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glColor3f(0.0F, 0.0F, 0.0F);
 		GL11.glVertex3f(startCoord, 0.0F, 1.0F);
 		GL11.glVertex3f(endCoord, 0.0F, 1.0F);
 		GL11.glVertex3f(endCoord, 1.0F, 1.0F);
 		GL11.glVertex3f(startCoord, 1.0F, 1.0F);
+		
+		
 		GL11.glEnd();
 	}
 	
@@ -212,39 +199,31 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		
 		//Draw TOP side.
-		GL11.glBegin(GL11.GL_POLYGON);
+		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex3f(startCoord, armEndCoord, armEndCoord);
 		GL11.glVertex3f(endCoord, armEndCoord, armEndCoord);
 		GL11.glVertex3f(endCoord, armEndCoord, armBeginCoord);
 		GL11.glVertex3f(startCoord, armEndCoord, armBeginCoord);
-		GL11.glEnd();
 		
 		//Draw bottom side.
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glVertex3f(endCoord, armBeginCoord, armEndCoord);
 		GL11.glVertex3f(startCoord, armBeginCoord, armEndCoord);
 		GL11.glVertex3f(startCoord, armBeginCoord, armBeginCoord);
 		GL11.glVertex3f(endCoord, armBeginCoord, armBeginCoord);
-		GL11.glEnd();
 		
 		//Draw right side:
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glVertex3f(startCoord, armBeginCoord, armBeginCoord); 
 		GL11.glVertex3f(startCoord, armEndCoord, armBeginCoord); 
 		GL11.glVertex3f(endCoord, armEndCoord, armBeginCoord); 
 		GL11.glVertex3f(endCoord, armBeginCoord, armBeginCoord);
-		GL11.glEnd();
 		
 		//Draw left side:
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glVertex3f(startCoord, armBeginCoord, armEndCoord);
 		GL11.glVertex3f(endCoord, armBeginCoord, armEndCoord);
 		GL11.glVertex3f(endCoord, armEndCoord, armEndCoord);
 		GL11.glVertex3f(startCoord, armEndCoord, armEndCoord);
-		GL11.glEnd();
 		
 		//Draw front side:
-		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glColor3f(0.5F, 0.5F, 0.5F);
 		GL11.glVertex3f(endCoord, armBeginCoord, armBeginCoord);
 		GL11.glVertex3f(endCoord, armEndCoord, armBeginCoord);

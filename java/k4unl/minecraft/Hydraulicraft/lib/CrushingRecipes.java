@@ -44,7 +44,7 @@ public class CrushingRecipes {
     public static ItemStack getCrushingRecipe(String oreDictName){
         for(CrushingRecipe rec : crushingRecipes){
             if(rec.inputString.equals(oreDictName)){
-                return rec.output;
+                return rec.output.copy();
             }
         }
         return null;

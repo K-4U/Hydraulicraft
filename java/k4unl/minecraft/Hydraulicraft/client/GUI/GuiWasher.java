@@ -53,9 +53,9 @@ public class GuiWasher extends MachineGUI {
 			
 			int done = washer.getWashingTicks();
 			int startY = 15;
-			int startX = 47;
+			int startX = 56;
 			int maxTicks = 200;
-			int targetX = 97;
+			int targetX = 106;
 			int targetY = 0;
 			float percentage = (float)done / (float)maxTicks;
 			int travelPath = 0;
@@ -63,32 +63,33 @@ public class GuiWasher extends MachineGUI {
 			int yPos = startY;
 			
 			if(percentage < 0.25F){
-				targetX = 73;
+				targetX = 80;
 				travelPath = (targetX - startX) * 4;
 				xPos = startX + (int) (travelPath * percentage);
 			}else if(percentage < 0.75F){
-				xPos = 73;
-				targetY = 50;
+				xPos = 80;
+				targetY = 54;
 				travelPath = targetY - startY;
 				yPos = startY + (int) (travelPath * ((percentage-0.25F)*2));
 			}else{
-				yPos = 50;
-				targetX = 97;
-				startX = 73;
+				yPos = 54;
+				targetX = 106;
+				startX = 80;
 				travelPath = targetX - startX;
 				xPos = startX + (int) (travelPath * (percentage-0.75F)*4);
 			}
 			
 			
 			
+			IconRenderer.drawMergedIcon(xPos, yPos, zLevel, washingItem, targetItem, percentage, true);
 			
 			//drawTexturedModelRectFromIcon(xPos, 19, smeltingIcon, w, h)
-			GL11.glEnable(GL11.GL_BLEND);
+			/*GL11.glEnable(GL11.GL_BLEND);
 			if(percentage < 0.5f){
 				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), washingItem, xPos, yPos);
 			}else{
 				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), targetItem, xPos, yPos);
-			}
+			}*/
 			GL11.glDisable(GL11.GL_BLEND);
 		}
 		

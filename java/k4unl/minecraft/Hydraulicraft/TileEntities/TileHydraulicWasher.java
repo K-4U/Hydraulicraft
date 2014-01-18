@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities;
 
+import java.util.Random;
+
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
@@ -80,7 +82,7 @@ public class TileHydraulicWasher extends TileEntity implements
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return 5F + ((getHandler().getPressure() / 100) * 0.005F);
+			return 5F + ((getHandler().getPressure() / 100) * 0.0005F);
 		}else{
 			return 0F;
 		}
@@ -89,13 +91,13 @@ public class TileHydraulicWasher extends TileEntity implements
 	
 	private void doWash(){
 		if(isWashing()){
-			washingTicks = washingTicks + 1 + (int)((getHandler().getPressure()/100) * 0.005F);
+			washingTicks = washingTicks + 1 + (int)((getHandler().getPressure()/100) * 0.0005F);
 			if(washingTicks >= maxWashingTicks){
 				//washing done!
 				if(outputInventory == null){
 					outputInventory = targetItem.copy(); 
 				}else{
-					outputInventory.stackSize++;
+					outputInventory.stackSize += targetItem.stackSize;
 				}
 				tank.drain(Constants.MIN_REQUIRED_WATER_FOR_WASHER, true);
 				
@@ -106,7 +108,11 @@ public class TileHydraulicWasher extends TileEntity implements
 		}else{
 			if(canRun()){
 				targetItem = WashingRecipes.getWashingRecipe(inputInventory);
+				if(new Random().nextFloat() > 0.90F) {
+                	targetItem.stackSize+=1;
+                }
 				washingItem = inputInventory.copy();
+				
 				inputInventory.stackSize--;
 				if(inputInventory.stackSize <= 0){
 					inputInventory = null;

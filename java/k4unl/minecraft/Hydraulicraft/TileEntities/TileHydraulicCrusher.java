@@ -96,16 +96,13 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
                     outputInventory.stackSize += targetItem.stackSize;
                 }
 
-                if(new Random().nextFloat() > 0.95) {
-                    outputInventory.stackSize++;
-                }
+                
                 crushingItem = null;
                 targetItem = null;
             }
         } else {
             if(canRun()) {
                 targetItem = CrushingRecipes.getCrushingRecipe(inputInventory);
-
                 crushingItem = inputInventory.copy();
                 inputInventory.stackSize--;
                 if(inputInventory.stackSize <= 0) {
