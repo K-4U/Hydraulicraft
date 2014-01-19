@@ -39,7 +39,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	
 	
-	public TileHydraulicPressureVat(int tier){
+	public TileHydraulicPressureVat(){
 		//tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
 	}
 	

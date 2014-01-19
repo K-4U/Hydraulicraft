@@ -109,6 +109,84 @@ public class Recipes {
 	}
 	
 	private static void initializeBlockRecipes(){
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPiston, 1, 0), true ,
+				new Object[] {
+					"WRW",
+					"WCW",
+					"WKW",
+					'W', Blocks.hydraulicPressureWall,
+					'C', new ItemStack(Blocks.blockCore, 1, 1),
+					'K', Items.gasket,
+					'R', Item.redstone
+			})
+		);
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHarvesterSource, 18, 1), true ,
+				new Object[] {
+					"SSS",
+					"-S-",
+					"SSS",
+					'S', Item.stick
+			})
+		);
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHarvesterSource, 1, 0), true ,
+				new Object[] {
+					"WWW",
+					"WCK",
+					"WWW",
+					'C', new ItemStack(Blocks.blockCore, 1, 1),
+					'W', Blocks.hydraulicPressureWall,
+					'K', Items.gasket
+			})
+		);
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.harvesterTrolley, 4, 0), true ,
+				new Object[] {
+					"-P-",
+					"WCW",
+					"-H-",
+					'C', new ItemStack(Blocks.blockCore, 1, 1),
+					'W', Blocks.hydraulicPressureWall,
+					'H', Item.hoeGold,
+					'P', Blocks.hydraulicPiston
+			})
+		);
+		
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockCore, 2, 0), true ,
+				new Object[] {
+					"LSL",
+					"SWS",
+					"LSL",
+					'S' , Block.stone,
+					'W', Blocks.hydraulicPressureWall,
+					'L', "ingotLead"
+			})
+		);
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockCore, 2, 1), true ,
+				new Object[] {
+					"CWC",
+					"WBW",
+					"CWC",
+					'W', Blocks.hydraulicPressureWall,
+					'C', "ingotCopper",
+					'B', new ItemStack(Blocks.blockCore, 1, 0)
+			})
+		);
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockCore, 2, 2), true ,
+				new Object[] {
+					"EWE",
+					"WBW",
+					"EWE",
+					'W', Blocks.hydraulicPressureWall,
+					'E', "ingotEnrichedCopper",
+					'B', new ItemStack(Blocks.blockCore, 1, 1)
+			})
+		);
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressureWall, 6),true,
 				new Object [] {
 					"SSS",
@@ -121,13 +199,13 @@ public class Recipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPump,1,0), true,
 			new Object [] {
 				"PKP",
-				"GLG",
+				"GCG",
 				"PWP",
 				'P', Block.pistonBase,
 				'K', Items.gasket,
 				'G', Block.glass,
 				'W', Blocks.hydraulicPressureWall,
-				'L', "ingotLead"
+				'C', new ItemStack(Blocks.blockCore, 1, 0)
 			})
 		);
 
@@ -140,7 +218,7 @@ public class Recipes {
 					'K', Items.gasket,
 					'G', Block.glass,
 					'W', Blocks.hydraulicPressureWall,
-					'C', "ingotCopper"
+					'C', new ItemStack(Blocks.blockCore, 1, 1)
 				})
 			);
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPump, 1, 2), true,
@@ -152,7 +230,7 @@ public class Recipes {
                         'K', Items.gasket,
                         'G', Block.glass,
                         'W', Blocks.hydraulicPressureWall,
-                        'C', "ingotEnrichedCopper"
+                        'C', new ItemStack(Blocks.blockCore, 1, 2)
                 })
         );
 
@@ -165,7 +243,7 @@ public class Recipes {
                         'K', Items.gasket,
                         'G', Block.glass,
                         'W', Blocks.hydraulicPressureWall,
-                        'C', Block.chest
+                        'C', new ItemStack(Blocks.blockCore, 1, 2)
                 });
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHose, 4, 0), true,
@@ -200,34 +278,36 @@ public class Recipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 0), true,
 				new Object [] {
 					"LWL",
-					"KGK",
+					"KCK",
 					"LWL",
 					'W', Blocks.hydraulicPressureWall,
 					'K', Items.gasket,
 					'L', "ingotLead",
-					'G', Block.glass
+					'C', new ItemStack(Blocks.blockCore, 1, 0)
 			}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 1), true,
 				new Object [] {
 					"CWC",
-					"KVK",
-					"CWC",
+					"KBK",
+					"CVC",
 					'W', Blocks.hydraulicPressureWall,
 					'K', Items.gasket,
 					'C', "ingotCopper",
-					'V', new ItemStack(Blocks.hydraulicPressurevat, 1,0)
+					'V', new ItemStack(Blocks.hydraulicPressurevat, 1,0),
+					'B', new ItemStack(Blocks.blockCore, 1, 1)
 			}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 2), true,
 				new Object [] {
-					"WCW",
-					"KVK",
-					"WCW",
+					"WWW",
+					"KBK",
+					"WVW",
 					'W', Blocks.hydraulicPressureWall,
 					'K', Items.gasket,
 					'C', "ingotEnrichedCopper",
-					'V', new ItemStack(Blocks.hydraulicPressurevat, 1, 1)
+					'V', new ItemStack(Blocks.hydraulicPressurevat, 1, 1),
+					'B', new ItemStack(Blocks.blockCore, 1, 2)
 			}));
 		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicFrictionIncinerator, 1),
@@ -239,7 +319,7 @@ public class Recipes {
 				'G', Block.glass,
 				'F', Items.itemFrictionPlate,
 				'K', Items.gasket,
-				'C', Block.chest
+				'C', new ItemStack(Blocks.blockCore, 1, 1)
 				
 			});
 		
@@ -261,7 +341,7 @@ public class Recipes {
 					'K', Items.gasket,
 					'P', Block.pistonBase,
 					'W', Blocks.hydraulicPressureWall,
-					'C', Block.chest
+					'C', new ItemStack(Blocks.blockCore, 1, 1)
 				});
 		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicWasher, 1),
@@ -272,7 +352,7 @@ public class Recipes {
 					'K', Items.gasket,
 					'G', Block.glass,
 					'W', Blocks.hydraulicPressureWall,
-					'C', Block.chest
+					'C', new ItemStack(Blocks.blockCore, 1, 1)
 				});
 	}
 	

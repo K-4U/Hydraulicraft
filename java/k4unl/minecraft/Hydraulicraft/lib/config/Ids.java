@@ -3,25 +3,25 @@ package k4unl.minecraft.Hydraulicraft.lib.config;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 
 public class Ids {
-	public static final Id blockHydraulicPump = new Id(4095);
-	public static final Id blockHydraulicPressureVat = new Id(4094);
-	public static final Id blockHydraulicMixer = new Id(4093);
-	public static final Id blockHydraulicFrictionIncinerator = new Id(4092);
-	public static final Id blockHydraulicCrusher = new Id(4091);
-	public static final Id blockHydraulicPressureGauge = new Id(4090);
-	public static final Id blockHydraulicPressureValve = new Id(4089);
-	public static final Id blockHydraulicHose = new Id(4088);
-	public static final Id blockHydraulicPiston = new Id(4087);
-	public static final Id blockHydraulicWasher = new Id(4086);
-	public static final Id blockHydraulicPressureWall = new Id(4081);
-	public static final Id blockHydraulicHarvester = new Id(4080);
-	public static final Id blockDummyWasher = new Id(4079); //This might become something else in the near future.
-	public static final Id blockHarvesterTrolley = new Id(4078);
-	public static final Id blockPressureDisposal = new Id(4077);
-	public static final Id blockCore = new Id(4076);
+	public static final Id blockHydraulicPump = new Id(3515);
+	public static final Id blockHydraulicPressureVat = new Id(3516);
+	public static final Id blockHydraulicMixer = new Id(3517);
+	public static final Id blockHydraulicFrictionIncinerator = new Id(3518);
+	public static final Id blockHydraulicCrusher = new Id(3519);
+	public static final Id blockHydraulicPressureGauge = new Id(3520);
+	public static final Id blockHydraulicPressureValve = new Id(3521);
+	public static final Id blockHydraulicHose = new Id(3522);
+	public static final Id blockHydraulicPiston = new Id(3523);
+	public static final Id blockHydraulicWasher = new Id(3524);
+	public static final Id blockHydraulicPressureWall = new Id(3525);
+	public static final Id blockHydraulicHarvester = new Id(3526);
+	public static final Id blockDummyWasher = new Id(3527); //This might become something else in the near future.
+	public static final Id blockHarvesterTrolley = new Id(3528);
+	public static final Id blockPressureDisposal = new Id(3529);
+	public static final Id blockCore = new Id(3530);
 	
-	public static final Id oreCopper = new Id(4084);
-	public static final Id oreLead = new Id(4083);
+	public static final Id oreCopper = new Id(3531);
+	public static final Id oreLead = new Id(3532);
 	
 	
 	public static final Id itemGasket = new Id(3000);
@@ -47,9 +47,9 @@ public class Ids {
 	public static final Id GUIHarvester = new Id(8);
 	
 	
-	public static final Id blockFluidOil = new Id(4085);
+	public static final Id blockFluidOil = new Id(3533);
 	
 	
 	//Third party!
-	public static final Id blockHydraulicPneumaticCompressor = new Id(4082);
+	public static final Id blockHydraulicPneumaticCompressor = new Id(3534);
 }

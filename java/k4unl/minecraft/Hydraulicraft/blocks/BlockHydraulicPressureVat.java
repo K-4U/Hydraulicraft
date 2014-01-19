@@ -25,13 +25,8 @@ public class BlockHydraulicPressureVat extends MachineTieredBlock {
 
 	
 	@Override
-	public TileEntity createTileEntity(World world, int metadata){
-        return new TileHydraulicPressureVat(metadata);
-    }
-	
-	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return null;
+		return new TileHydraulicPressureVat();
 	}
 	
 	@Override

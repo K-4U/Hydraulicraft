@@ -73,8 +73,6 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 			return new TileHydraulicHarvester();
 		case 1:
 			return new TileHarvesterFrame();
-		case 2:
-			return new TileHarvesterTrolley();
 		}
         return null;
     }

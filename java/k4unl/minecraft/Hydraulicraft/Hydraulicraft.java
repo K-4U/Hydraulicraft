@@ -9,6 +9,7 @@ import k4unl.minecraft.Hydraulicraft.lib.ConfigHandler;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Recipes;
+import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
@@ -95,6 +96,7 @@ public class Hydraulicraft {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event){
 		Recipes.init();
+		UpdateChecker.updateAvailable();
 		Log.info("Hydraulicraft ready for use!");
 	}
 	

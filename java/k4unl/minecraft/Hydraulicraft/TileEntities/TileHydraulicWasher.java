@@ -108,7 +108,7 @@ public class TileHydraulicWasher extends TileEntity implements
 		}else{
 			if(canRun()){
 				targetItem = WashingRecipes.getWashingRecipe(inputInventory);
-				if(new Random().nextFloat() > 0.90F) {
+				if(new Random().nextFloat() > 0.70F) {
                 	targetItem.stackSize+=1;
                 }
 				washingItem = inputInventory.copy();

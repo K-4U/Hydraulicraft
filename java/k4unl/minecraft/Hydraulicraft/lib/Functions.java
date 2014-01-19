@@ -3,7 +3,6 @@ package k4unl.minecraft.Hydraulicraft.lib;
 import java.util.ArrayList;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -11,8 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
-
-import org.lwjgl.util.Color;
 
 public class Functions {
 	private static boolean isUpdateAvailable;
@@ -39,6 +36,7 @@ public class Functions {
 		}
 		return ret;
 	}
+	
 
     public static String getPrefixName(String oreDictName){
         //TODO: Fix this function up. It looks ugly

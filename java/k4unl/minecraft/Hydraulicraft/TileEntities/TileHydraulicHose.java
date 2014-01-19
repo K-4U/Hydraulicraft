@@ -24,15 +24,15 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
     private boolean needToCheckNeighbors;
     private boolean hasCheckedSinceStartup;
 
-	
-	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
+		super.readFromNBT(tagCompound);
 		getHandler().readFromNBT(tagCompound);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
+		super.writeToNBT(tagCompound);
 		getHandler().writeToNBT(tagCompound);
 	}
 
@@ -153,6 +153,7 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
     }
 
     private void readConnectedSidesFromNBT(NBTTagCompound tagCompound){
+    	
         NBTTagCompound ourCompound = tagCompound.getCompoundTag("connectedSides");
 
         for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
@@ -162,6 +163,7 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
     }
 
     private void writeConnectedSidesToNBT(NBTTagCompound tagCompound){
+    	
         if(connectedSides == null) {
             connectedSides = new HashMap<ForgeDirection, TileEntity>();
         }
