@@ -9,6 +9,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.FMLClientHandler;
+
 public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 
 	private static final ResourceLocation resLoc =
@@ -61,8 +63,11 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 			break;
 		}
 		
+		
+		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
+		
 		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
+		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
 		
@@ -81,6 +86,10 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 	
 	void drawWheel(float centerX, float centerY, float centerZ){
 		float radius = 0.05F;
+		
+		float textureWidth = (74F / 256F) / 2;
+		float textureXCenter = (153F / 256F) + textureWidth;
+		float textureYCenter = 0.5F + textureWidth;
 		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
 	 
 		for (int i=0; i < 360; i+=10){
@@ -89,7 +98,9 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 			float y = (float) (centerY + Math.sin(degInRad)*radius);
 			float z = (float) (centerZ + Math.cos(degInRad)*radius);
 	      
-			GL11.glVertex3d(x, y, z);
+			float textureX = (float) (textureXCenter + Math.sin(degInRad)*textureWidth);
+			float textureY = (float) (textureYCenter + Math.cos(degInRad)*textureWidth);
+			RenderHelper.vertexWithTexture(x, y, z, textureX, textureY);
 		}
 		GL11.glEnd();
 	}
@@ -105,6 +116,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		float beginCenter = centerCoord - (width/2);
 		float endCenter = 1F - beginCenter;
 		GL11.glPushMatrix();
+		//GL11.glDisable(GL11.GL_TEXTURE_2D);
 		drawWheel(beginCenter, beginCoord+0.055F, beginCenter+0.045F);
 		drawWheel(beginCenter, beginCoord+0.055F, endCenter-0.045F);
 		GL11.glRotatef(180F, 0F, 1F, 0F);
@@ -112,121 +124,93 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		drawWheel(beginCenter, beginCoord+0.055F, beginCenter+0.045F);
 		drawWheel(beginCenter, beginCoord+0.055F, endCenter-0.045F);
 		GL11.glPopMatrix();
+		//GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		//Draw TOP side.
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(1.0F, 0.0F, 0.0F);
-		GL11.glVertex3f(beginCenter, endCoord, endCenter); //BR
-		GL11.glVertex3f(endCenter, endCoord, endCenter); //TR
-		GL11.glVertex3f(endCenter, endCoord, beginCenter); //TL
-		GL11.glVertex3f(beginCenter, endCoord, beginCenter); //BL
-		GL11.glEnd();
+		GL11.glBegin(GL11.GL_QUADS);
+		RenderHelper.vertexWithTexture(beginCenter, endCoord, endCenter, 0.5F, 0.5F); //BR
+		RenderHelper.vertexWithTexture(endCenter, endCoord, endCenter, 0.5F, 0.0F); //TR
+		RenderHelper.vertexWithTexture(endCenter, endCoord, beginCenter, 0.0F, 0.0F); //TL
+		RenderHelper.vertexWithTexture(beginCenter, endCoord, beginCenter, 0.0F, 0.5F); //BL
 		
-		//Draw bottom side.
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(1.0F, 1.0F, 0.0F);
-		GL11.glVertex3f(endCenter, beginCoord, endCenter); //TR
-		GL11.glVertex3f(beginCenter, beginCoord, endCenter);  //BR
-		GL11.glVertex3f(beginCenter, beginCoord, beginCenter); //TL
-		GL11.glVertex3f(endCenter, beginCoord, beginCenter); //BL
-		GL11.glEnd();
+		//Draw bottom side
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, endCenter, 1.0F, 0.5F); //TR
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, endCenter, 1.0F, 0.0F);  //BR
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, beginCenter, 0.5F, 0.0F); //TL
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, beginCenter, 0.5F, 0.5F); //BL
 		
 		
-		//Draw back side:
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(0.0F, 1.0F, 0.0F);
-		GL11.glVertex3f(beginCenter, beginCoord, endCenter); //Bottom right corner
-		GL11.glVertex3f(beginCenter, endCoord, endCenter);  //Top right corner
-		GL11.glVertex3f(beginCenter, endCoord, beginCenter);  //Top left corner
-		GL11.glVertex3f(beginCenter, beginCoord, beginCenter); //Bottom left corner.
-		GL11.glEnd();
+		//Draw back side.
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, endCenter, 0.5F, 0.5F); //Bottom right corner
+		RenderHelper.vertexWithTexture(beginCenter, endCoord, endCenter, 0.5F, 0.0F);  //Top right corner
+		RenderHelper.vertexWithTexture(beginCenter, endCoord, beginCenter, 0.0F, 0.0F);  //Top left corner
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, beginCenter, 0.0F, 0.5F); //Bottom left corner.
 		
 		//Draw front side:
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(0.0F, 1.0F, 1.0F);
-		GL11.glVertex3f(endCenter, beginCoord, beginCenter); //BR
-		GL11.glVertex3f(endCenter, endCoord, beginCenter); //TR
-		GL11.glVertex3f(endCenter, endCoord, endCenter); //TL
-		GL11.glVertex3f(endCenter, beginCoord, endCenter); //BL
-		GL11.glEnd();
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, beginCenter, 0.5F, 0.5F); //BR
+		RenderHelper.vertexWithTexture(endCenter, endCoord, beginCenter, 0.5F, 0.0F); //TR
+		RenderHelper.vertexWithTexture(endCenter, endCoord, endCenter, 0.0F, 0.0F); //TL
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, endCenter, 0.0F, 0.5F); //BL
 		
 		//Draw right side:
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(0.0F, 0.0F, 1.0F);
-		GL11.glVertex3f(beginCenter, beginCoord, beginCenter); //BR
-		GL11.glVertex3f(beginCenter, endCoord, beginCenter);  //TR
-		GL11.glVertex3f(endCenter, endCoord, beginCenter);  //TL
-		GL11.glVertex3f(endCenter, beginCoord, beginCenter); //BL
-		GL11.glEnd();
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, beginCenter, 0.5F, 0.5F); //BR
+		RenderHelper.vertexWithTexture(beginCenter, endCoord, beginCenter, 0.5F, 0.0F);  //TR
+		RenderHelper.vertexWithTexture(endCenter, endCoord, beginCenter, 0.0F, 0.0F);  //TL
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, beginCenter, 0.0F, 0.5F); //BL
 		
 		//Draw left side:
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(0.0F, 0.0F, 0.0F);
-		GL11.glVertex3f(beginCenter, beginCoord, endCenter); //BL
-		GL11.glVertex3f(endCenter, beginCoord, endCenter); //BR
-		GL11.glVertex3f(endCenter, endCoord, endCenter); //TR
-		GL11.glVertex3f(beginCenter, endCoord, endCenter); //TL
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, endCenter, 0.5F, 0.5F); //BL
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, endCenter, 0.5F, 0.0F); //BR
+		RenderHelper.vertexWithTexture(endCenter, endCoord, endCenter, 0.0F, 0.0F); //TR
+		RenderHelper.vertexWithTexture(beginCenter, endCoord, endCenter, 0.0F, 0.5F); //TL
 		GL11.glEnd();
 	}
 	
 	private void drawHead(TileHarvesterTrolley tileentity){
 		GL11.glPushMatrix();
 		float fromEdge = 0.1F;
+		float sideTexture = 25.0F / 256.0F;
 		float otherEdge = 1.0F - fromEdge;
 		GL11.glTranslatef(0.0F, -tileentity.getExtendedLength(), 0.0F);
 		//Facing east for TOP and BOTTOM
 		//Draw TOP side.
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(1.0F, 0.0F, 0.0F);
-		GL11.glVertex3f(fromEdge, endTop, otherEdge); //BR
-		GL11.glVertex3f(otherEdge, endTop, otherEdge); //TR
-		GL11.glVertex3f(otherEdge, endTop, fromEdge); //TL
-		GL11.glVertex3f(fromEdge, endTop, fromEdge); //BL
-		GL11.glEnd();
+		GL11.glBegin(GL11.GL_QUADS);
+		RenderHelper.vertexWithTexture(fromEdge, endTop, otherEdge, 0.5F, 0.5F); //BR
+		RenderHelper.vertexWithTexture(otherEdge, endTop, otherEdge, 0.5F, 0.0F); //TR
+		RenderHelper.vertexWithTexture(otherEdge, endTop, fromEdge, 0.0F, 0.0F); //TL
+		RenderHelper.vertexWithTexture(fromEdge, endTop, fromEdge, 0.0F, 0.5F); //BL
 		
 		//Draw bottom side.
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(1.0F, 1.0F, 0.0F);
-		GL11.glVertex3f(otherEdge, beginTopX, otherEdge); //TR
-		GL11.glVertex3f(fromEdge, beginTopX, otherEdge);  //BR
-		GL11.glVertex3f(fromEdge, beginTopX, fromEdge); //TL
-		GL11.glVertex3f(otherEdge, beginTopX, fromEdge); //BL
-		GL11.glEnd();
+		RenderHelper.vertexWithTexture(otherEdge, beginTopX, otherEdge, 0.5F+sideTexture, 1.0F); //TR
+		RenderHelper.vertexWithTexture(fromEdge, beginTopX, otherEdge, 0.5F+sideTexture, 0.5F);  //BR
+		RenderHelper.vertexWithTexture(fromEdge, beginTopX, fromEdge, 0.0F+sideTexture, 0.5F); //TL
+		RenderHelper.vertexWithTexture(otherEdge, beginTopX, fromEdge, 0.0F+sideTexture, 1.0F); //BL
 		
 		//Draw back side:
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(0.0F, 1.0F, 0.0F);
-		GL11.glVertex3f(fromEdge, beginTopX, otherEdge); //BR
-		GL11.glVertex3f(fromEdge, endTop, otherEdge); //TR
-		GL11.glVertex3f(fromEdge, endTop, fromEdge); //TL
-		GL11.glVertex3f(fromEdge, beginTopX, fromEdge); //BL
-		GL11.glEnd();
+		RenderHelper.vertexWithTexture(fromEdge, beginTopX, otherEdge, 0.0F, 1.0F); //BR
+		RenderHelper.vertexWithTexture(fromEdge, endTop, otherEdge, sideTexture, 1.0F); //TR
+		RenderHelper.vertexWithTexture(fromEdge, endTop, fromEdge, sideTexture, 0.5F); //TL
+		RenderHelper.vertexWithTexture(fromEdge, beginTopX, fromEdge, 0.0F, 0.5F); //BL
+	
 		
 		//Draw front side:
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(0.0F, 1.0F, 1.0F);
-		GL11.glVertex3f(otherEdge, beginTopX, fromEdge);
-		GL11.glVertex3f(otherEdge, endTop, fromEdge);
-		GL11.glVertex3f(otherEdge, endTop, otherEdge);
-		GL11.glVertex3f(otherEdge, beginTopX, otherEdge);
-		GL11.glEnd();
+		RenderHelper.vertexWithTexture(otherEdge, beginTopX, fromEdge, 0.0F, 1.0F);
+		RenderHelper.vertexWithTexture(otherEdge, endTop, fromEdge, sideTexture, 1.0F);
+		RenderHelper.vertexWithTexture(otherEdge, endTop, otherEdge, sideTexture, 0.5F);
+		RenderHelper.vertexWithTexture(otherEdge, beginTopX, otherEdge, 0.0F, 0.5F);
 		
 		//Draw right side:
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(0.0F, 0.0F, 1.0F);
-		GL11.glVertex3f(fromEdge, beginTopX, fromEdge); 
-		GL11.glVertex3f(fromEdge, endTop, fromEdge); 
-		GL11.glVertex3f(otherEdge, endTop, fromEdge); 
-		GL11.glVertex3f(otherEdge, beginTopX, fromEdge);
-		GL11.glEnd();
+		RenderHelper.vertexWithTexture(fromEdge, beginTopX, fromEdge, 0.0F, 1.0F); 
+		RenderHelper.vertexWithTexture(fromEdge, endTop, fromEdge, sideTexture, 1.0F); 
+		RenderHelper.vertexWithTexture(otherEdge, endTop, fromEdge, sideTexture, 0.5F); 
+		RenderHelper.vertexWithTexture(otherEdge, beginTopX, fromEdge, 0.0F, 0.5F);
+		
 		
 		//Draw left side:
-		GL11.glBegin(GL11.GL_POLYGON);
-		GL11.glColor3f(0.0F, 0.0F, 0.0F);
-		GL11.glVertex3f(fromEdge, beginTopX, otherEdge);
-		GL11.glVertex3f(otherEdge, beginTopX, otherEdge);
-		GL11.glVertex3f(otherEdge, endTop, otherEdge);
-		GL11.glVertex3f(fromEdge, endTop, otherEdge);
+		RenderHelper.vertexWithTexture(fromEdge, beginTopX, otherEdge, 0.0F, 0.5F); //BL
+		RenderHelper.vertexWithTexture(otherEdge, beginTopX, otherEdge, 0.0F, 1.0F); //BR
+		RenderHelper.vertexWithTexture(otherEdge, endTop, otherEdge, sideTexture, 1.0F); //TR
+		RenderHelper.vertexWithTexture(fromEdge, endTop, otherEdge, sideTexture, 0.5F); //TL
 		GL11.glEnd();
 		
 		GL11.glPopMatrix();
