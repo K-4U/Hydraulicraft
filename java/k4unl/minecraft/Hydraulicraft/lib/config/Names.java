@@ -13,8 +13,12 @@ public class Names {
 	public static final Name blockHydraulicWasher = new Name("Washer", "hydraulicWasher");
 	public static final Name blockHydraulicPneumaticCompressor = new Name("Pneumatic Compressor", "hydraulicPneumaticCompressor");
 	public static final Name blockHydraulicPressureWall = new Name("Wall", "hydraulicPressureWall");
+	public static final Name blockPressureDisposal = new Name("Pressure Disposal", "pressureDisposal");
+	
 	
 	public static final Name blockDummyWasher = new Name("Washer", "hydraulicDummyWasher");
+	
+	
 	
 	public static final Name[] blockHydraulicHarvester = {
 		new Name("Harvester", "hydraulicHarvesterSource"),
@@ -23,6 +27,12 @@ public class Names {
 	
 	public static final Name[] blockHarvesterTrolley = {
 		new Name("Wheat harvester", "wheatHarvester")
+	};
+	
+	public static final Name[] blockCore = {
+		new Name("LP Core", "LPBlockCore"),
+		new Name("MP Core", "MPBlockCore"),
+		new Name("HP Core", "HPBlockCore")
 	};
 	
 	public static final Name[] blockHydraulicHose = {

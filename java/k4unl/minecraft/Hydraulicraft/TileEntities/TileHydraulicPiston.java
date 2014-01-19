@@ -220,4 +220,10 @@ public class TileHydraulicPiston extends TileEntity implements
         return AxisAlignedBB.getAABBPool().getAABB(minX, minY, minZ, maxX, maxY, maxZ);
     }
 	
+	@Override
+	public void validate(){
+		super.validate();
+		getHandler().validate();
+	}
+	
 }

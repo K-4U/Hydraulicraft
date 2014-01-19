@@ -368,4 +368,11 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
         return maxCrushingTicks == 0 || !isCrushing() ? 0 : 34 * crushingTicks / maxCrushingTicks;
     }
 
+    
+	@Override
+	public void validate(){
+		super.validate();
+		getHandler().validate();
+	}
+	
 }

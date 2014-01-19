@@ -354,5 +354,9 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 		tagCompound.setInteger("smeltingTicks",smeltingTicks);
 	}
 
-
+	@Override
+	public void validate(){
+		super.validate();
+		getHandler().validate();
+	}
 }

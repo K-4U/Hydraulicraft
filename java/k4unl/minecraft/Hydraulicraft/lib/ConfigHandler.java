@@ -44,13 +44,15 @@ public class ConfigHandler{
         //Ids.blockHydraulicPressureGauge.loadBlock(config, Names.blockHydraulicPressureGauge);
         //Ids.blockHydraulicPressureValve.loadBlock(config, Names.blockHydraulicPressureValve);
         Ids.blockHydraulicPressureVat.loadBlock(config, Names.blockHydraulicPressurevat);
-        //Ids.blockHydraulicPiston.loadBlock(config, Names.blockHydraulicPiston);
+        Ids.blockHydraulicPiston.loadBlock(config, Names.blockHydraulicPiston);
         Ids.blockHydraulicWasher.loadBlock(config, Names.blockHydraulicWasher);
         Ids.blockHydraulicHose.loadBlock(config, Names.blockHydraulicHose);
         Ids.blockHydraulicMixer.loadBlock(config, Names.blockHydraulicMixer);
         Ids.blockHydraulicPressureWall.loadBlock(config, Names.blockHydraulicPressureWall);
         Ids.blockHydraulicHarvester.loadBlock(config, Names.blockHydraulicHarvester);
-
+        Ids.blockPressureDisposal.loadBlock(config, Names.blockPressureDisposal);
+        Ids.blockCore.loadBlock(config, Names.blockCore);
+        
         Ids.blockFluidOil.loadBlock(config, Names.fluidOil);
 
         Ids.oreCopper.loadBlock(config, Names.oreCopper);

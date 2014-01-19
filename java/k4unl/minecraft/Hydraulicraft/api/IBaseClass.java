@@ -74,4 +74,8 @@ public interface IBaseClass {
 	public void updateBlock();
 
 	public void setIsOilStored(boolean b);
+
+	public void disperse();
+	
+	public void validate();
 }

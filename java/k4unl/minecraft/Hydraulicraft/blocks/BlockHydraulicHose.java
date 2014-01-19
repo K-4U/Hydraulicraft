@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -15,18 +16,13 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-
-import org.lwjgl.util.vector.Vector3f;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 
 public class BlockHydraulicHose extends MachineTieredBlock{
-	@SideOnly(Side.CLIENT)
-    public Vector3f minVector = new Vector3f(0.35f, 0.35f, 0.35f);
-	@SideOnly(Side.CLIENT)
-    public Vector3f maxVector = new Vector3f(0.65f, 0.65f, 0.65f);
+    public static final Vector3f minVector = new Vector3f(0.35f, 0.35f, 0.35f);
+    public static final Vector3f maxVector = new Vector3f(0.65f, 0.65f, 0.65f);
 
     protected BlockHydraulicHose(){
         super(Ids.blockHydraulicHose, Names.blockHydraulicHose);
@@ -67,7 +63,6 @@ public class BlockHydraulicHose extends MachineTieredBlock{
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z){
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
@@ -75,12 +70,12 @@ public class BlockHydraulicHose extends MachineTieredBlock{
             Map<ForgeDirection, TileEntity> connectedSides = ((TileHydraulicHose)tileEntity).getConnectedSides();
 
             if(connectedSides != null) {
-                float minX = minVector.x;
-                float minY = minVector.y;
-                float minZ = minVector.z;
-                float maxX = maxVector.x;
-                float maxY = maxVector.y;
-                float maxZ = maxVector.z;
+                float minX = minVector.getX();
+                float minY = minVector.getY();
+                float minZ = minVector.getZ();
+                float maxX = maxVector.getX();
+                float maxY = maxVector.getY();
+                float maxZ = maxVector.getZ();
 
                 if(isDir(connectedSides, ForgeDirection.UP)) maxY = 1.0F;
                 if(isDir(connectedSides, ForgeDirection.DOWN)) minY = 0.0F;
@@ -97,7 +92,6 @@ public class BlockHydraulicHose extends MachineTieredBlock{
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity){
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
@@ -105,12 +99,12 @@ public class BlockHydraulicHose extends MachineTieredBlock{
             Map<ForgeDirection, TileEntity> connectedSides = ((TileHydraulicHose)tileEntity).getConnectedSides();
 
             if(connectedSides != null) {
-                float minX = minVector.x;
-                float minY = minVector.y;
-                float minZ = minVector.z;
-                float maxX = maxVector.x;
-                float maxY = maxVector.y;
-                float maxZ = maxVector.z;
+            	float minX = minVector.getX();
+                float minY = minVector.getY();
+                float minZ = minVector.getZ();
+                float maxX = maxVector.getX();
+                float maxY = maxVector.getY();
+                float maxZ = maxVector.getZ();
 
                 setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
                 super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);

@@ -74,19 +74,34 @@ public class MachineEntity implements IBaseClass {
     }
 
 	public void setPressure(float newPressure){
+		if(tTarget.worldObj.isRemote) return;
+		
+		int compare = Float.compare(bar, newPressure);
 		if((int)getMaxPressure(isOilStored()) < (int)newPressure){
 			tTarget.worldObj.createExplosion((Entity)null, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord,
 					1F + ((getMaxPressure(isOilStored()) / newPressure) * 3), true);
-		}
-		if((int)getMaxPressure(isOilStored()) < (int)newPressure){
-			bar = getMaxPressure(isOilStored());
+		
+		//if((int)getMaxPressure(isOilStored()) < (int)newPressure){
+			//bar = getMaxPressure(isOilStored());
 		}else{
 			bar = newPressure;
+			if(compare != 0){
+				disperse();
+			}
 		}
+		
+		
+		
+		//if(tTarget instanceof IHydraulicTransporter){
+			
+		//}
         updateBlock();
 	}
 	
 	public float getPressure(){
+		if(bar < 0 || bar != bar){
+			bar = 0;
+		}
 		return bar;
 	}
 	
@@ -260,10 +275,67 @@ public class MachineEntity implements IBaseClass {
 
 	@Override
 	public void updateEntity() {
+		//disperse();
 	}
 
 	@Override
 	public void setIsOilStored(boolean b) {
 		_isOilStored = b;
+	}
+	
+	@Override
+	public void disperse() {
+		//Should get connected blocks and set the pressure there.
+		List<IHydraulicMachine> connectedBlocks =  new ArrayList<IHydraulicMachine>();
+		connectedBlocks = getConnectedBlocks(connectedBlocks, false);
+		
+		for (IHydraulicMachine machine : connectedBlocks) {
+			machine.getHandler().setPressure(getPressure());
+		}
+	}
+	
+	private IHydraulicMachine getLowestPressureMachine(List<IHydraulicMachine> list){
+		float foundPressure = Float.NaN;
+		IHydraulicMachine foundMachine = null;
+		for (IHydraulicMachine machine : list) {
+			int compare = Float.compare(foundPressure, machine.getHandler().getPressure());
+			if(compare > 0 || foundPressure != foundPressure){
+				foundPressure = machine.getHandler().getPressure();
+				foundMachine = machine;
+			}
+		}
+		return foundMachine;
+	}
+	
+	private IHydraulicMachine getHighestPressureMachine(List<IHydraulicMachine> list){
+		float foundPressure = 0.0F;
+		IHydraulicMachine foundMachine = null;
+		for (IHydraulicMachine machine : list) {
+			int compare = Float.compare(machine.getHandler().getPressure(), foundPressure);
+			if(compare > 0){
+				foundPressure = machine.getHandler().getPressure();
+				foundMachine = machine;
+			}
+		}
+		return foundMachine;
+	}
+
+	public void takeHighestPressure() {
+		List<IHydraulicMachine> connectedBlocks =  new ArrayList<IHydraulicMachine>();
+		connectedBlocks = getConnectedBlocks(connectedBlocks, false);
+		
+		float foundPressure = 0.0F;
+		for (IHydraulicMachine machine : connectedBlocks) {
+			int compare = Float.compare(machine.getHandler().getPressure(), foundPressure);
+			if(compare > 0){
+				foundPressure = machine.getHandler().getPressure();
+			}
+		}
+		setPressure(foundPressure);
+	}
+	
+	@Override
+	public void validate(){
+		//takeHighestPressure();
 	}
 }

@@ -187,6 +187,7 @@ public class Functions {
 				float pressureInSystem = 0;
 				int oldMachineCount = 0;
 				float generating = 0;
+				int generators = 0;
 				for (IHydraulicMachine machineEntity : mainList) {
 					if(oldMachineCount == 0){
 						oldMachineCount = machineEntity.getHandler().getNetworkCount();
@@ -199,20 +200,19 @@ public class Functions {
 					machineEntity.getHandler().setStored(0, isOil);
 					
 					
-					//if(machineEntity.getPressure() > pressureInSystem){
-					pressureInSystem += machineEntity.getHandler().getPressure();
-					if(machineEntity instanceof IHydraulicGenerator){
-						pressureInSystem += ((IHydraulicGenerator) machineEntity).getGenerating();
+					//if(machineEntity.getHandler().getPressure() > pressureInSystem){
+					if(machineEntity.getHandler().getPressure() > 0.0F){
+						pressureInSystem+= machineEntity.getHandler().getPressure();
 					}
 					//}
-					machineEntity.getHandler().setPressure(0);
+					//machineEntity.getHandler().setPressure(0);
 				}
 				
 				
-				
-				if(fluidInSystem < 10000){
+				/*
+				if(fluidInSystem < 10000 && fluidInSystem > 1){
 					pressureInSystem = pressureInSystem * ((float)fluidInSystem / 100F);
-				}
+				}*/
 				pressureInSystem = pressureInSystem / mainList.size();
 				//Log.info("Fluid in system: " + fluidInSystem);
 				
@@ -221,7 +221,9 @@ public class Functions {
 				//Log.info("Pressure in system: " + pressureInSystem);
 				for (IHydraulicMachine machineEntity : mainList) {
 					machineEntity.getHandler().setIsOilStored(isOil);
-					machineEntity.getHandler().setPressure(pressureInSystem);
+					if(Float.compare(machineEntity.getHandler().getPressure(), 0.0F) == 0){
+						machineEntity.getHandler().setPressure(pressureInSystem);
+					}
 					machineEntity.getHandler().setNetworkCount(mainList.size());
 					machineEntity.getHandler().setTotalFluidCapacity(totalFluidCapacity);
 					//This will allow the machines themselves to explode when something goes wrong!

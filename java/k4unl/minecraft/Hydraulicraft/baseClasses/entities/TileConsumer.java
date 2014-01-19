@@ -21,11 +21,11 @@ public class TileConsumer extends MachineEntity {
 		if(!tTarget.worldObj.isRemote){
 			if(tTarget.worldObj.getWorldTime() % 1 == 0){
 		        float less = target.workFunction(true);
-		        if(getPressure() > less && less > 0){
+		        if(getPressure() >= less && less > 0){
 	                less = target.workFunction(false);
 	                float newPressure = getPressure() - less;
-	                setPressure(newPressure);
 	                updateBlock();
+	                setPressure(newPressure);
 	                //Functions.checkSidesSetPressure(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, newPressure);
 	                
 	                //So.. the water in this block should be going done a bit.

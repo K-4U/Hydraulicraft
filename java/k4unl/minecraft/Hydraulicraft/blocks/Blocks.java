@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerCoreBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureHoze;
@@ -28,6 +29,8 @@ public class Blocks {
 	public static Block hydraulicHarvesterSource;
 	public static Block dummyWasher;
 	public static Block harvesterTrolley;
+	public static Block pressureDisposal;
+	public static Block blockCore;
 	
 	
 	/*!
@@ -53,6 +56,9 @@ public class Blocks {
 		
 		dummyWasher = new BlockDummyWasher();
 		
+		pressureDisposal = new BlockPressureDisposal();
+		blockCore = new BlockHydraulicCore();
+		
 		registerBlocks();
 		addNames();
 	}
@@ -73,7 +79,7 @@ public class Blocks {
 		GameRegistry.registerBlock(hydraulicPressureWall, Names.blockHydraulicPressureWall.unlocalized);
 		
 		GameRegistry.registerBlock(dummyWasher, Names.blockDummyWasher.unlocalized);
-		
+		GameRegistry.registerBlock(pressureDisposal, Names.blockPressureDisposal.unlocalized);
 				
 		GameRegistry.registerBlock(hydraulicHose, HandlerPressureHoze.class, Names.blockHydraulicHose[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);
@@ -81,6 +87,9 @@ public class Blocks {
 		
 		GameRegistry.registerBlock(hydraulicHarvesterSource, HandlerHarvester.class, Names.blockHydraulicHarvester[0].unlocalized);
 		GameRegistry.registerBlock(harvesterTrolley, HandlerHarvesterTrolley.class, Names.blockHarvesterTrolley[0].unlocalized);
+		
+		GameRegistry.registerBlock(blockCore, HandlerCoreBlock.class, Names.blockCore[0].unlocalized);
+		
 	}
 	
 	/*!

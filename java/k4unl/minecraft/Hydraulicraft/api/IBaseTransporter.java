@@ -4,6 +4,4 @@ import net.minecraft.util.AxisAlignedBB;
 
 public interface IBaseTransporter extends IBaseClass {
 	public AxisAlignedBB getRenderBoundingBox();
-
-
 }

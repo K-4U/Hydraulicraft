@@ -368,4 +368,9 @@ public class TileHydraulicMixer extends TileEntity implements
 		tagCompound.setCompoundTag("outputTank", tankCompound);
 	}
 
+	@Override
+	public void validate(){
+		super.validate();
+		getHandler().validate();
+	}
 }

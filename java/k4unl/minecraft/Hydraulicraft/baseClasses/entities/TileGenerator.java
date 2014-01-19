@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses.entities;
 
+import codechicken.nei.WorldOverlayRenderer;
 import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
@@ -12,10 +13,12 @@ import net.minecraft.tileentity.TileEntity;
 public class TileGenerator extends MachineEntity implements IBaseGenerator{
 
 	private IHydraulicGenerator target;
+	private TileEntity tTarget;
     
     
     public TileGenerator(TileEntity _target) {
 		super(_target);
+		tTarget = _target;
 		target = (IHydraulicGenerator)_target;
 	}
 
@@ -65,18 +68,23 @@ public class TileGenerator extends MachineEntity implements IBaseGenerator{
 	
 	public void updateEntity(){
 		super.updateEntity();
+		if(tTarget.worldObj.isRemote) return;
 		//Call work function:
 		target.workFunction();
 		//Set own pressure
 		float prevPressure = getPressure();
-		if((getPressure() + target.getGenerating()) < getMaxPressure(target.getHandler().isOilStored())){
-			setPressure(getPressure() + target.getGenerating());
+		float gen = target.getGenerating();
+		int comp = Float.compare(getPressure() + gen, getMaxPressure(target.getHandler().isOilStored()));
+		if(comp < 0){
+			setPressure(getPressure() + gen);
 		}else{
 			setPressure(getMaxPressure(target.getHandler().isOilStored()));
 		}
+		/*
 		if(getPressure() != prevPressure){
 			//Functions.checkSidesSetPressure(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, getPressure());
-		}
+		}*/
+		
 	}
 	
 }

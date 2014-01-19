@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
+import com.google.common.collect.Sets;
+
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
@@ -19,6 +21,8 @@ public class ItemDebug extends MachineItem {
 
 	public ItemDebug() {
 		super(Ids.itemDebug, Names.itemDebugger);
+		
+		this.maxStackSize = 1;
 	}
 
 	

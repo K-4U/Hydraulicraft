@@ -173,4 +173,10 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
         tagCompound.setCompoundTag("connectedSides", ourCompound);
     }
 
+    
+    @Override
+	public void validate(){
+		super.validate();
+		getHandler().validate();
+	}
 }

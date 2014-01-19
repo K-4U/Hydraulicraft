@@ -131,14 +131,18 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			if(result > getMaxGenerating())
 				result = getMaxGenerating();
 			
-			if(result + getHandler().getPressure() < (perc * getMaxPressure(getHandler().isOilStored()))){
+			if(result + getHandler().getPressure() <= (perc * getMaxPressure(getHandler().isOilStored()))){
 				return result;
 			}else{
 				result = (perc * getMaxPressure(getHandler().isOilStored())) - getHandler().getPressure();
 				if(result < 0){
 					result = 0;
 				}
-				return result;
+				if(result + getHandler().getPressure() <= (perc * getMaxPressure(getHandler().isOilStored()))){
+					return result;
+				}else{
+					return 0;
+				}
 			}
 		}else{
 			return 0;
@@ -324,6 +328,12 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	@Override
 	public void onInventoryChanged() {
 		
+	}
+	
+	@Override
+	public void validate(){
+		super.validate();
+		getHandler().validate();
 	}
 
 }

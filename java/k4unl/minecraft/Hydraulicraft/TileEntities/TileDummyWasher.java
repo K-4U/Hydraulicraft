@@ -274,6 +274,12 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return getCore().canExtractItem(i, itemStack, j);
 	}
+	
+	@Override
+	public void validate(){
+		super.validate();
+		//getHandler().validate();
+	}
 
 	
 }

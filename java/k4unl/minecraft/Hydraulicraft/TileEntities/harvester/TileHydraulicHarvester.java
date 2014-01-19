@@ -314,7 +314,8 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 					Log.error("PistonMoving (" + pistonMoving + ") > " + (trolleyList.size()-1));
 				}
 			}else if(worldObj.getTotalWorldTime() % 30 == 0){
-				checkHarvest(false);
+				if(checkHarvest(true))
+					checkHarvest(false);
 				if(!isHarvesting){
 					checkPlantable();
 				}
@@ -517,9 +518,8 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	}
 	
 	
-	
 	private ArrayList<ItemStack> getDroppedItems(int h, int w){
-		Location cropLocation = getLocationInHarvester(harvestLocationH, harvestLocationW);
+		Location cropLocation = getLocationInHarvester(h, w);
 		int id = worldObj.getBlockId(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
 		int metaData = worldObj.getBlockMetadata(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
 		if(id > 0){
@@ -623,6 +623,12 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		if(!isMultiblock) return false;
 		if(Float.compare(getHandler().getPressure(), Constants.MIN_REQUIRED_PRESSURE_HARVESTER) < 0) return false;
 		if(pistonList.size() == 0) return false;
+		
+		
+		return true;
+	}
+	
+	private boolean isOutputInventoryFull(){
 		//Check all the output slots:
 		boolean allFull = true;
 		for(int i = 0; i< 9; i++){
@@ -634,11 +640,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 				}
 			}
 		}
-		if(allFull){
-			return false;
-		}
-		
-		return true;
+		return allFull;
 	}
 
 	@Override
@@ -1024,5 +1026,11 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public void validate(){
+		super.validate();
+		getHandler().validate();
 	}
 }

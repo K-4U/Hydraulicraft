@@ -39,8 +39,8 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	
 	
-	public TileHydraulicPressureVat(){
-		
+	public TileHydraulicPressureVat(int tier){
+		//tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
 	}
 	
 	public void setTier(){
@@ -393,5 +393,12 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 				
 			}
 		}
+	}
+	
+	@Override
+	public void validate(){
+		super.validate();
+		getHandler().validate();
+		//setTier();
 	}
 }

@@ -78,4 +78,9 @@ public interface IHydraulicMachine {
 	 * Forward this function to the base class.
 	 */
 	public void updateEntity();
+	
+	/**
+	 * Forward this function to the base class.
+	 */
+	public void validate();
 }

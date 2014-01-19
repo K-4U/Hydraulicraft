@@ -622,4 +622,10 @@ public class TileHydraulicWasher extends TileEntity implements
 		}
 		isValidMultiblock = true;
 	}
+	
+	@Override
+	public void validate(){
+		super.validate();
+		getHandler().validate();
+	}
 }

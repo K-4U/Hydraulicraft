@@ -198,6 +198,4 @@ public class TileHarvesterTrolley extends TileEntity {
 		harvesterPart = isit;
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
-	
-	
 }
