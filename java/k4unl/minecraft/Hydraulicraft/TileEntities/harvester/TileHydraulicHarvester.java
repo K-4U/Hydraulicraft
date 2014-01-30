@@ -336,6 +336,9 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	private void checkPlantable(){
 		for(int w = 0; w < harvesterWidth; w++){
 			TileHarvesterTrolley t = getTrolleyFromList(w);
+			if(t == null){
+				return;
+			}
 			ItemStack firstSeed = null;
 			int seedLocation = 0;
 			for(int i = 0; i < 9; i++){
@@ -359,11 +362,17 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 				int z = l.getZ();
 				
 				int blockId = getBlockId(l);
+				int soilId = getBlockId(x, y-1, z);
 				boolean canPlant;
 				if(t.getBlockMetadata() != Constants.HARVESTER_ID_ENDERLILY){
 					canPlant = canPlantSeed(x, y, z, firstSeed);
 				}else{
-					canPlant = true;
+					
+					if(soilId == Block.dirt.blockID || soilId == Block.grass.blockID || soilId == Block.whiteStone.blockID){
+						canPlant = true;
+					}else{
+						canPlant = false;
+					}
 				}
 				int metaData = getBlockMetaFromCoord(l);
 				
