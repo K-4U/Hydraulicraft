@@ -181,4 +181,16 @@ public class TileHydraulicHose extends TileEntity implements IHydraulicTransport
 		super.validate();
 		getHandler().validate();
 	}
+
+	@Override
+	public void onPressureChanged(float old) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFluidLevelChanged(int old) {
+		// TODO Auto-generated method stub
+		
+	}
 }

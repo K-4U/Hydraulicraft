@@ -77,7 +77,7 @@ public class MachineEntity implements IBaseClass {
 		if(tTarget.worldObj.isRemote) return;
 		
 		int compare = Float.compare(bar, newPressure);
-		if((int)getMaxPressure(isOilStored()) < (int)newPressure){
+		if((int)getMaxPressure(isOilStored()) < (int)newPressure && getStored() > 0){
 			tTarget.worldObj.createExplosion((Entity)null, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord,
 					1F + ((getMaxPressure(isOilStored()) / newPressure) * 3), true);
 		
@@ -144,6 +144,8 @@ public class MachineEntity implements IBaseClass {
 	}
 	
 	public void setStored(int i, boolean isOil){
+		if(i < 0)
+			i = 0;
 		if(hasOwnFluidTank){
 			((IHydraulicStorageWithTank)target).setStored(i, isOil);
 		}else{

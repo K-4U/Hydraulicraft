@@ -12,6 +12,10 @@ public class Config {
 			{142, 7}
 	};
 	
+	public static boolean canBeCrushed(ItemStack toCrush){
+		return (CrushingRecipes.getCrushingRecipe(toCrush) != null);
+	}
+	
 	public static boolean canBeCrushed(String oreName){
 		return (CrushingRecipes.getCrushingRecipe(oreName) != null);
 	}

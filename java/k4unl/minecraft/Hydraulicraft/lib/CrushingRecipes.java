@@ -11,6 +11,7 @@ public class CrushingRecipes {
 
     public static class CrushingRecipe {
         public final String inputString;
+        public final ItemStack input;
         public final ItemStack output;
         public final float pressure;
 
@@ -18,6 +19,14 @@ public class CrushingRecipes {
         	inputString = inp;
             output = outp;
             pressure = press;
+            input = null;
+        }
+        
+        public CrushingRecipe(ItemStack inp, float press, ItemStack outp){
+        	inputString = "";
+            output = outp;
+            pressure = press;
+            input = inp;
         }
 
         
@@ -38,6 +47,13 @@ public class CrushingRecipes {
     
     public static ItemStack getCrushingRecipe(ItemStack itemStack){
     	String oreDictName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
+    	if(oreDictName == ""){
+    		for(CrushingRecipe rec : crushingRecipes){
+                if(rec.input.isItemEqual(itemStack)){
+                    return rec.output.copy();
+                }
+            }
+    	}
         return getCrushingRecipe(oreDictName);
     }
     

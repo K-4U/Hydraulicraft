@@ -373,4 +373,16 @@ public class TileHydraulicMixer extends TileEntity implements
 		super.validate();
 		getHandler().validate();
 	}
+
+	@Override
+	public void onPressureChanged(float old) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFluidLevelChanged(int old) {
+		// TODO Auto-generated method stub
+		
+	}
 }

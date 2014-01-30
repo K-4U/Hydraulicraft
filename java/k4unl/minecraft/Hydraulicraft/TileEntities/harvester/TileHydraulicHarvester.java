@@ -68,13 +68,13 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	
 	@Override
 	public int getMaxStorage() {
-		int maxStorage =FluidContainerRegistry.BUCKET_VOLUME * 16;
-		for(Location l : pistonList){
+		int maxStorage = FluidContainerRegistry.BUCKET_VOLUME * 16;
+		/*for(Location l : pistonList){
 			TileHydraulicPiston p = getPistonFromCoords(l);
 			if(p!=null){
 				maxStorage += p.getMaxStorage();
 			}
-		}
+		}*/
 		return maxStorage;
 	}
 
@@ -237,8 +237,8 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 						if(checkMultiblock(dir)){
 							this.harvesterDir = dir;
 							isMultiblock = true;
-							Functions.showMessageInChat("Width of harvester("+dir+"): " + harvesterWidth);
-							Functions.showMessageInChat("Length of harvester("+dir+"): " + harvesterLength);
+							//Functions.showMessageInChat("Width of harvester("+dir+"): " + harvesterWidth);
+							//Functions.showMessageInChat("Length of harvester("+dir+"): " + harvesterLength);
 							convertMultiblock();
 							break;
 						}
@@ -648,6 +648,11 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		if(isMultiblock){
 			invalidateMultiblock();
 		}
+		//Drop seeds.. duh
+		for(int i = 0; i < seedsStorage.length; i++){
+			getHandler().dropItemStackInWorld(seedsStorage[i]);
+			getHandler().dropItemStackInWorld(outputStorage[i]);
+		}
 	}
 	
 	public void convertMultiblock(){
@@ -712,7 +717,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	
 	
 	public void invalidateMultiblock(){
-		Functions.showMessageInChat("Harvester invalidated!");
+		//Functions.showMessageInChat("Harvester invalidated!");
 		harvesterDir = 0;
 		isMultiblock = false;
 		for(Location l : pistonList){
@@ -794,7 +799,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			while(getBlockId(l) == idHorizontalFrame && getBlockMetaFromCoord(l) == 1){
 				if(horiz == 1){
 					//Check if there's a trolley right there!
-					Location trolleyLocation = getLocationInHarvester(horiz, 0, 2, dir);
+					Location trolleyLocation = getLocationInHarvester(horiz, f, 2, dir);
 					//Log.info("(" + dir + ": " + trolleyLocation.printCoords() + "; " + f + ") = " + getBlockId(trolleyLocation) + " W: " + width + " T");
 					if(getBlockId(trolleyLocation) != idTrolley){
 						return false;
@@ -1032,5 +1037,15 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	public void validate(){
 		super.validate();
 		getHandler().validate();
+	}
+
+	@Override
+	public void onPressureChanged(float old) {
+		
+	}
+
+	@Override
+	public void onFluidLevelChanged(int old) {
+		
 	}
 }

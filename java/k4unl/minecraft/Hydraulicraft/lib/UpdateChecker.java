@@ -26,14 +26,19 @@ public class UpdateChecker {
 			e.printStackTrace();
 		}
 		
-		Gson gson = new Gson();        
-		UpdateInfo info = gson.fromJson(json, UpdateInfo.class);
-		
-		if(info.latestVersion.get(0) != ModInfo.VERSION_MAIN || info.latestVersion.get(1) != ModInfo.VERSION_MAJOR || info.latestVersion.get(2) != ModInfo.VERSION_MINOR){
-			Log.info("New version available!");
-			Log.info("Latest version released at: " + info.dateOfRelease);
-			return true;
+		if(json != ""){
+			Gson gson = new Gson();        
+			UpdateInfo info = gson.fromJson(json, UpdateInfo.class);
+			
+			if(info.latestVersion.get(0) != ModInfo.VERSION_MAIN || info.latestVersion.get(1) != ModInfo.VERSION_MAJOR || info.latestVersion.get(2) != ModInfo.VERSION_MINOR){
+				Log.info("New version available!");
+				Log.info("Latest version released at: " + info.dateOfRelease);
+				return true;
+			}else{
+				return false;
+			}
 		}else{
+			Log.warning("Got empty message from update. Either not connected to internet or something fishy is going on!");
 			return false;
 		}
 			

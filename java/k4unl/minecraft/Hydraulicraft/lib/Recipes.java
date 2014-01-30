@@ -91,6 +91,8 @@ public class Recipes {
         }
         
         CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe("oreNetherQuartz", 10F, new ItemStack(Item.netherQuartz, 3)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Block.cobblestone, 1), 10F, new ItemStack(Block.sand, 2)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe("cobblestone", 10F, new ItemStack(Block.sand, 2)));
     }
     
     private static void registerNonStandardCrushRecipe(String sourceName, String targetName, int number){

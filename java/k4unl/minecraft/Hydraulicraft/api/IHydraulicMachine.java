@@ -83,4 +83,14 @@ public interface IHydraulicMachine {
 	 * Forward this function to the base class.
 	 */
 	public void validate();
+	
+	/**
+	 * Called whenever the pressure has changed
+	 */
+	public void onPressureChanged(float old);
+	
+	/**
+	 * Called whenever the fluid level has changed
+	 */
+	public void onFluidLevelChanged(int old);
 }

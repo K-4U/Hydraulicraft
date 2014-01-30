@@ -180,5 +180,10 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 		}
 	}
 	
+	@Override
+	public int damageDropped(int damageValue){
+		return damageValue;
+	}
+	
 
 }

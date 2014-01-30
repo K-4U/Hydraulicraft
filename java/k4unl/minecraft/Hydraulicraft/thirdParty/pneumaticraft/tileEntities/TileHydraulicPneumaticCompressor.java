@@ -151,4 +151,16 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 	public void checkRedstonePower() {
 		getHandler().checkRedstonePower();
 	}
+
+	@Override
+	public void onPressureChanged(float old) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFluidLevelChanged(int old) {
+		// TODO Auto-generated method stub
+		
+	}
 }

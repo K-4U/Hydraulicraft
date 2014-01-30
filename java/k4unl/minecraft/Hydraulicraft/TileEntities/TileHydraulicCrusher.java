@@ -149,8 +149,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
     }
 
     private boolean canCrush(ItemStack inv){
-        String oreName = OreDictionary.getOreName(OreDictionary.getOreID(inv));
-        return Config.canBeCrushed(oreName);
+        return Config.canBeCrushed(inv);
     }
 
     @Override
@@ -373,6 +372,18 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 	public void validate(){
 		super.validate();
 		getHandler().validate();
+	}
+
+	@Override
+	public void onPressureChanged(float old) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFluidLevelChanged(int old) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
