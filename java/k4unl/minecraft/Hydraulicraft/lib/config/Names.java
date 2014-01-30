@@ -26,7 +26,8 @@ public class Names {
 	};
 	
 	public static final Name[] blockHarvesterTrolley = {
-		new Name("Wheat harvester", "wheatHarvester")
+		new Name("Wheat Harvester", "wheatHarvester"),
+		new Name("Ender Lilly Harvester", "enderLillyHarvester")
 	};
 	
 	public static final Name[] blockCore = {

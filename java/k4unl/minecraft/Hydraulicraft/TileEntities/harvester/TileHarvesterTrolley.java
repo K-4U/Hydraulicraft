@@ -1,14 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.harvester;
 
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.ForgeDirection;
 
 public class TileHarvesterTrolley extends TileEntity {
 	private float extendedLength;
@@ -155,6 +155,17 @@ public class TileHarvesterTrolley extends TileEntity {
 		return sideTarget;
 	}
 
+	public boolean canPlantSeed(ItemStack seed){
+		int metadata = getBlockMetadata();
+		for(Seed s : Config.harvestableItems){
+			if(s.getSeedId() == seed.itemID){
+				if(s.getHarvesterMeta() == metadata){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
 	@Override
     public AxisAlignedBB getRenderBoundingBox(){

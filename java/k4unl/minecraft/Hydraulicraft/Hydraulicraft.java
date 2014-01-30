@@ -29,7 +29,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @Mod(
 	modid = ModInfo.ID,
 	name = ModInfo.NAME,
-	version = ModInfo.VERSION
+	version = ModInfo.VERSION,
+	dependencies="after:Waila,extrautilities"
 )
 
 @NetworkMod (
@@ -69,6 +70,8 @@ public class Hydraulicraft {
 		Fluids.init();
 		
 		Items.init();
+		
+		
 	}
 	
 	/*!
@@ -78,12 +81,10 @@ public class Hydraulicraft {
 	 */
 	@EventHandler
 	public void load(FMLInitializationEvent event){
-		
+		ThirdParty.init();
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator());
 		NetworkRegistry.instance().registerGuiHandler(this.instance, new GuiHandler());
-		
-		ThirdParty.init();
 		
 		proxy.initRenderers();
 	}
@@ -96,6 +97,9 @@ public class Hydraulicraft {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event){
 		Recipes.init();
+		
+		ThirdParty.postInit();
+		
 		UpdateChecker.updateAvailable();
 		Log.info("Hydraulicraft ready for use!");
 	}

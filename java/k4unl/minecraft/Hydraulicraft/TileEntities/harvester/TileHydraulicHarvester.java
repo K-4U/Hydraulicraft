@@ -7,13 +7,13 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -334,29 +334,37 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	}
 	
 	private void checkPlantable(){
-		//Pick an item, any item!
-		ItemStack firstSeed = null;
-		int seedLocation = 0;
-		for(int i = 0; i < 9; i++){
-			if(seedsStorage[i] != null){
-				seedLocation = i;
-				firstSeed = seedsStorage[i];
-				break;
-			}
-		}
-		if(firstSeed == null){
-			return;
-		}
-		
 		for(int w = 0; w < harvesterWidth; w++){
-			for(int horiz = 0; horiz <= harvesterLength; horiz++){
+			TileHarvesterTrolley t = getTrolleyFromList(w);
+			ItemStack firstSeed = null;
+			int seedLocation = 0;
+			for(int i = 0; i < 9; i++){
+				if(seedsStorage[i] != null){
+					if(t.canPlantSeed(seedsStorage[i])){
+						seedLocation = i;
+						firstSeed = seedsStorage[i];
+						break;
+					}
+				}
+			}
+			if(firstSeed == null){
+				return;
+			}
+			
+			for(int horiz = 1; horiz <= harvesterLength; horiz++){
 				Location l = getLocationInHarvester(horiz, w);
+				
 				int x = l.getX();
 				int y = l.getY();
 				int z = l.getZ();
 				
 				int blockId = getBlockId(l);
-				boolean canPlant = canPlantSeed(x, y, z, firstSeed);
+				boolean canPlant;
+				if(t.getBlockMetadata() != Constants.HARVESTER_ID_ENDERLILY){
+					canPlant = canPlantSeed(x, y, z, firstSeed);
+				}else{
+					canPlant = true;
+				}
 				int metaData = getBlockMetaFromCoord(l);
 				
 				if(blockId == 0 && canPlant){
@@ -373,10 +381,21 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	
 	private void doPlant(){
 		//The trolley has arrived at the location and should plant.
-		IPlantable seed = (IPlantable)plantingItem.getItem();
+		int plantId = 0;
+		int plantMeta = 0;
 		Location l = getLocationInHarvester(plantLocationH, plantLocationW);
-		int plantId = seed.getPlantID(worldObj, l.getX(), l.getY(), l.getZ());
-		int plantMeta = seed.getPlantMetadata(worldObj, l.getX(), l.getY(), l.getZ());
+		TileHarvesterTrolley t = getTrolleyFromList(plantLocationW);
+		if(plantingItem.getItem() instanceof IPlantable){
+			IPlantable seed = (IPlantable)plantingItem.getItem();
+			plantId = seed.getPlantID(worldObj, l.getX(), l.getY(), l.getZ());
+			plantMeta = seed.getPlantMetadata(worldObj, l.getX(), l.getY(), l.getZ());
+		}else{
+			//It probably is a ender lilly we want to plant..
+			if(t.getBlockMetadata() == Constants.HARVESTER_ID_ENDERLILY){
+				plantId = plantingItem.itemID;
+				plantMeta = 0;
+			}
+		}
 		
 		worldObj.setBlock(l.getX(), l.getY(), l.getZ(), plantId, plantMeta, 2);
 		
@@ -410,8 +429,8 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 				int blockId = worldObj.getBlockId(x, y, z);
 				int metaData = worldObj.getBlockMetadata(x, y, z);
 				
-				for(int[] harvestable : Config.harvestableItems){
-					if(harvestable[0] == blockId && harvestable[1] == metaData){
+				for(Seed harvestable : Config.harvestableItems){
+					if(harvestable.getItemId() == blockId && harvestable.getFullGrown() == metaData){
 						if(!simulate){
 							isHarvesting = true;
 							retracting = false;
@@ -994,6 +1013,11 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack){
         if(i < 9) {
+        	for(Seed s: Config.harvestableItems){
+        		if(s.getSeedId() == itemStack.itemID){
+        			return true;
+        		}
+        	}
             return itemStack.getItem() instanceof IPlantable;
         } else {
             return false;

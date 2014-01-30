@@ -40,4 +40,6 @@ public class Constants {
 	
 	public static final float PRESSURE_USAGE_PISTON = 50;
 	
+	public static final int HARVESTER_ID_ENDERLILY = 1;
+	
 }

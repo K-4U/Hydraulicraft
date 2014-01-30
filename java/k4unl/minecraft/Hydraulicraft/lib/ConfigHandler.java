@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.lib;
 
 import java.io.File;
 
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraftforge.common.Configuration;
@@ -26,7 +27,8 @@ public class ConfigHandler{
         config.load();
 
         loadIds();
-
+        Config.initHarvestableItems();
+        
         if(config.hasChanged()) {
             config.save();
         }

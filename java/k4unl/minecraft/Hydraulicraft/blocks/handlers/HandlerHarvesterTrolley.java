@@ -17,9 +17,4 @@ public class HandlerHarvesterTrolley extends MachineTieredBlockHandler {
 	public Icon getIconFromDamage(int metadata) {
 		return Blocks.harvesterTrolley.getIcon(0, metadata);
 	}
-	
-	@Override
-	public String getUnlocalizedName(ItemStack itemStack){
-		return Names.blockHarvesterTrolley[itemStack.getItemDamage()].unlocalized;
-	}
 }

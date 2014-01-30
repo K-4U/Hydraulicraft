@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
+import net.minecraft.block.Block;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
 
@@ -13,6 +15,17 @@ public class ThirdParty{
         if(Loader.isModLoaded("PneumaticCraft")) {
             Log.info("Pneumaticraft found! Initializing Pneumaticraft support!");
             Pneumaticraft.init();
+        }
+        if(Loader.isModLoaded("ExtraUtilities")){
+    		Log.info("ExtraUtilities found! Initializing ExtraUtilities support!");
+    		
+        }
+    }
+    
+    public static void postInit(){
+    	if(Loader.isModLoaded("ExtraUtilities")){
+    		Log.info("ExtraUtilities found! Initializing ExtraUtilities support!");
+    		ExtraUtilities.init();
         }
     }
 
