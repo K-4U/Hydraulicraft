@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.Buildcraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
 import net.minecraft.block.Block;
@@ -19,6 +20,11 @@ public class ThirdParty{
         if(Loader.isModLoaded("ExtraUtilities")){
     		Log.info("ExtraUtilities found! Initializing ExtraUtilities support!");
     		
+        }
+        
+        if(Loader.isModLoaded("BuildCraft|Core")){
+        	Log.info("Buildcraft found! Initializing Buildcraft support!");
+        	Buildcraft.init();
         }
     }
     

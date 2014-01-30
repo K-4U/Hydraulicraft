@@ -73,5 +73,9 @@ public class ConfigHandler{
         if(Loader.isModLoaded("PneumaticCraft")) {
             Ids.blockHydraulicPneumaticCompressor.loadBlock(config, Names.blockHydraulicPneumaticCompressor);
         }
+        
+        if(Loader.isModLoaded("BuildCraft|Core")) {
+        	Ids.blockHydraulicEngine.loadBlock(config, Names.blockHydraulicEngine);
+        }
     }
 }

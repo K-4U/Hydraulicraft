@@ -17,7 +17,7 @@ public class Names {
 	
 	
 	public static final Name blockDummyWasher = new Name("Washer", "hydraulicDummyWasher");
-	
+	public static final Name blockHydraulicEngine = new Name("Hydraulic Engine", "hydraulicEngine");
 	
 	
 	public static final Name[] blockHydraulicHarvester = {

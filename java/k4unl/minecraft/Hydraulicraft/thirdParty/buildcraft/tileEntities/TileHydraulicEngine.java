@@ -1,0 +1,217 @@
+package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
+
+import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import buildcraft.api.power.IPowerEmitter;
+import buildcraft.api.power.IPowerReceptor;
+import buildcraft.api.power.PowerHandler;
+import buildcraft.api.power.PowerHandler.PowerReceiver;
+import buildcraft.api.power.PowerHandler.Type;
+
+public class TileHydraulicEngine extends TileEntity implements IHydraulicConsumer, IPowerEmitter, IPowerReceptor {
+	private IBaseClass baseHandler;
+	private final PowerHandler powerHandler;
+	private ForgeDirection facing = ForgeDirection.NORTH;
+	public float energy;
+	
+	public TileHydraulicEngine(){
+		powerHandler = new PowerHandler(this, Type.ENGINE);
+        powerHandler.configure(1.5F, 300, 10, 1000);
+        powerHandler.configurePowerPerdition(1, 100);
+	}
+	
+	@Override
+	public float getMaxPressure(boolean isOil) {
+		if(isOil){
+			return Constants.MAX_MBAR_OIL_TIER_3;
+		}else{
+			return Constants.MAX_MBAR_WATER_TIER_3;
+		}
+	}
+
+	@Override
+	public int getMaxStorage() {
+		return FluidContainerRegistry.BUCKET_VOLUME * 20;
+	}
+
+	@Override
+	public void onBlockBreaks() {
+	}
+
+	@Override
+	public IBaseClass getHandler() {
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+        return baseHandler;
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound tagCompound) {
+		powerHandler.readFromNBT(tagCompound);
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound tagCompound) {
+		powerHandler.writeToNBT(tagCompound);
+	}
+
+	@Override
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+		getHandler().onDataPacket(net, packet);
+		
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return getHandler().getDescriptionPacket();
+	}
+
+	@Override
+	public void onPressureChanged(float old) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFluidLevelChanged(int old) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean canEmitPowerFrom(ForgeDirection side) {
+		return side.equals(facing);
+	}
+
+	@Override
+	public float workFunction(boolean simulate) {
+		if(!simulate){
+			sendPower();
+		}
+		return createPower(simulate);
+	}
+	
+	private float createPower(boolean simulate){
+		//TODO: REPLACE THIS
+		if(!simulate)
+			energy += 10;
+        int efficiency = 40;
+        float pressureUsage = 10 * 11.291F / (efficiency / 100F);
+        return pressureUsage;
+    }
+
+	public void checkRedstonePower() {
+		getHandler().checkRedstonePower();
+	}
+
+	@Override
+	public PowerReceiver getPowerReceiver(ForgeDirection side) {
+		if(side.equals(side)){
+			return powerHandler.getPowerReceiver();
+		}else{
+			return null;
+		}
+	}
+	
+    private void sendPower() {
+    	ForgeDirection o = facing;
+    	TileEntity tile = worldObj.getBlockTileEntity(xCoord + o.offsetX, yCoord + o.offsetY, zCoord + o.offsetZ);
+        if(isPoweredTile(tile, o)) {
+            PowerReceiver receptor = ((IPowerReceptor)tile).getPowerReceiver(o.getOpposite());
+
+            float extracted = getPowerToExtract();
+            if(extracted > 0) {
+                float needed = receptor.receiveEnergy(PowerHandler.Type.ENGINE, extracted, o.getOpposite());
+                extractEnergy(receptor.getMinEnergyReceived(), needed, true);
+            }
+        }
+}
+
+	private float getPowerToExtract() {
+		ForgeDirection o = facing;
+        TileEntity tile = worldObj.getBlockTileEntity(xCoord + o.offsetX, yCoord + o.offsetY, zCoord + o.offsetZ);
+        PowerReceiver receptor = ((IPowerReceptor)tile).getPowerReceiver(o.getOpposite());
+        return extractEnergy(receptor.getMinEnergyReceived(), receptor.getMaxEnergyReceived(), false);
+	}
+	
+	public float extractEnergy(float min, float max, boolean doExtract){
+        if(energy < min) return 0;
+
+        float actualMax;
+
+        if(max > maxEnergyExtracted()) actualMax = maxEnergyExtracted();
+        else actualMax = max;
+
+        if(actualMax < min) return 0;
+
+        float extracted;
+
+        if(energy >= actualMax) {
+            extracted = actualMax;
+            if(doExtract) energy -= actualMax;
+        } else {
+            extracted = energy;
+            if(doExtract) energy = 0;
+        }
+
+        return extracted;
+    }
+	
+    private float maxEnergyExtracted(){
+        return 10;
+    }
+	
+	@Override
+	public void doWork(PowerHandler workProvider) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
+	@Override
+	public World getWorld() {
+		return worldObj;
+	}
+
+
+	public boolean isPoweredTile(TileEntity tile, ForgeDirection side) {
+        if (tile instanceof IPowerReceptor)
+                return ((IPowerReceptor) tile).getPowerReceiver(side.getOpposite()) != null;
+
+        return false;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound tagCompound) {
+		super.readFromNBT(tagCompound);
+		getHandler().readFromNBT(tagCompound);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound tagCompound) {
+		super.writeToNBT(tagCompound);
+		getHandler().writeToNBT(tagCompound);
+	}
+
+	@Override
+	public void updateEntity() {
+		super.updateEntity();
+		getHandler().updateEntity();
+	}
+
+	@Override
+	public void validate() {
+		super.validate();
+		getHandler().validate();
+	}
+
+}

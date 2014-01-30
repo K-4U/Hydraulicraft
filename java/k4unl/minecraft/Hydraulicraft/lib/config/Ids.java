@@ -19,6 +19,7 @@ public class Ids {
 	public static final Id blockHarvesterTrolley = new Id(3528);
 	public static final Id blockPressureDisposal = new Id(3529);
 	public static final Id blockCore = new Id(3530);
+	public static final Id blockHydraulicEngine = new Id(3529);
 	
 	public static final Id oreCopper = new Id(3531);
 	public static final Id oreLead = new Id(3532);
