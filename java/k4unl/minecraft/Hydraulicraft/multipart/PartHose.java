@@ -28,11 +28,14 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 
 import org.lwjgl.opengl.GL11;
 
+import codechicken.lib.data.MCDataInput;
+import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Rotation;
 import codechicken.lib.vec.Vector3;
 import codechicken.microblock.IHollowConnect;
+import codechicken.microblock.MicroMaterialRegistry;
 import codechicken.multipart.JNormalOcclusion;
 import codechicken.multipart.NormalOcclusionTest;
 import codechicken.multipart.TMultiPart;
@@ -61,7 +64,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         for (int s = 0; s < 6; s++)
             boundingBoxes[s] = new Cuboid6(0.5 - w, 0, 0.5 - w, 0.5 + w, 0.5 - w, 0.5 + w).apply(Rotation.sideRotations[s].at(Vector3.center));
     }
-	
+    
 	@Override
 	public String getType() {
 		return Names.blockHydraulicHose[0].unlocalized;
@@ -70,7 +73,32 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	public void preparePlacement(int itemDamage) {
 		tier = itemDamage;
 	}
+	
+	@Override
+	public void load(NBTTagCompound tagCompound){
+		super.load(tagCompound);
+		getHandler().readFromNBT(tagCompound);
+		tier = tagCompound.getInteger("tier");
+	}
+	
+	@Override
+	public void save(NBTTagCompound tagCompound){
+		super.save(tagCompound);
+		getHandler().writeToNBT(tagCompound);
+		tagCompound.setInteger("tier", tier);
+	}
+	
+	@Override
+    public void writeDesc(MCDataOutput packet){
+		packet.writeInt(getTier());
+    }
 
+    @Override
+    public void readDesc(MCDataInput packet){
+        tier = packet.readInt();
+    }
+
+	
 	@Override
 	public int getHollowSize() {
 		return 6;
@@ -118,8 +146,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void renderDynamic(Vector3 pos, float frame, int pass)
-    {
+    public void renderDynamic(Vector3 pos, float frame, int pass){
         if (pass == 0){
             GL11.glDisable(GL11.GL_LIGHTING);
             RendererHydraulicHose r = new RendererHydraulicHose();
@@ -128,12 +155,15 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         }
     }
 
-    private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir){
+    private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir, Object caller){
     	int opposite = Functions.getIntDirFromDirection(dir.getOpposite());
     	if(entity instanceof TileMultipart){
     		if(((TileMultipart)entity).isSolid(opposite)) return false;
     		List<TMultiPart> t = ((TileMultipart)entity).jPartList();
     		for (TMultiPart p: t) {
+    			if(p instanceof PartHose && caller.equals(this)){
+    				((PartHose)p).checkConnectedSides(this);
+    			}
 				if(p instanceof IHydraulicMachine){
 					return true;
 				}
@@ -145,72 +175,43 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     }
 
     public void checkConnectedSides(){
+    	checkConnectedSides(this);
+    }
+    
+    public void checkConnectedSides(Object caller){
         connectedSides = new HashMap<ForgeDirection, TileEntity>();
 
-        //Should also check here if we have a cover or not.
-        List<TMultiPart> t = tile().jPartList();
-		for (TMultiPart p: t) {
-			Log.info(p.getType());
-		}
-        
 		for(int i = 0; i < 6; i++){
         	ForgeDirection dir = ForgeDirection.getOrientation(i);
-        	if(!tile().isSolid(i)){
         	
-	            TileEntity te = world().getBlockTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
-	            if(shouldConnectTo(te, dir)) {
-	                connectedSides.put(dir, te);
-	            }
-        	}
+            TileEntity te = world().getBlockTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
+            if(shouldConnectTo(te, dir, caller)) {
+            	if(!tile().isSolid(i)){
+            		connectedSides.put(dir, te);
+            	}
+            }
         }
 
-        //getHandler().updateBlock();
+        getHandler().updateBlock();
     }
 
+    
+    public void onNeighborChanged(){
+        checkConnectedSides();
+    }
+    
     public ItemStack getItem(){
         return new ItemStack(Multipart.itemPartHose, 1, tier);
     }
     
     @Override
     public void onPartChanged(TMultiPart part){
-        if (!world().isRemote){
-        	checkConnectedSides();
-        }
+        checkConnectedSides();
     }
     
     @Override
     public ItemStack pickItem(MovingObjectPosition hit){
         return getItem();
-    }
-    
-    public Map<ForgeDirection, TileEntity> getConnectedSides(){
-        if(connectedSides == null) {
-            checkConnectedSides();
-        }
-        return connectedSides;
-    }
-
-    private void readConnectedSidesFromNBT(NBTTagCompound tagCompound){
-    	
-        NBTTagCompound ourCompound = tagCompound.getCompoundTag("connectedSides");
-
-        for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            connectedSideFlags[dir.ordinal()] = ourCompound.getBoolean(dir.name());
-        }
-        needToCheckNeighbors = true;
-    }
-
-    private void writeConnectedSidesToNBT(NBTTagCompound tagCompound){
-    	
-        if(connectedSides == null) {
-            connectedSides = new HashMap<ForgeDirection, TileEntity>();
-        }
-
-        NBTTagCompound ourCompound = new NBTTagCompound();
-        for(Map.Entry<ForgeDirection, TileEntity> entry : connectedSides.entrySet()) {
-            ourCompound.setBoolean(entry.getKey().name(), true);
-        }
-        tagCompound.setCompoundTag("connectedSides", ourCompound);
     }
 
 	@Override
@@ -247,7 +248,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	}
 
 	public int getTier() {
-		return world().getBlockMetadata(x(), y(), z());
+		return tier;
 	}
 	@Override
 	public void onBlockBreaks() {
@@ -300,12 +301,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
 	@Override
 	public void readNBT(NBTTagCompound tagCompound) {
-		readConnectedSidesFromNBT(tagCompound);
+		//readConnectedSidesFromNBT(tagCompound);
 	}
 
 	@Override
 	public void writeNBT(NBTTagCompound tagCompound) {
-		writeConnectedSidesToNBT(tagCompound);		
+		//writeConnectedSidesToNBT(tagCompound);		
 	}
 	
     @Override
@@ -319,7 +320,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     		hasCheckedSinceStartup = true;
     		//Hack hack hack
     		//Temporary bug fix that we will forget about
-    		tier = world().getBlockMetadata(x(), y(), z());
     	}
         if(needToCheckNeighbors) {
             needToCheckNeighbors = false;

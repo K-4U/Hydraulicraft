@@ -40,6 +40,6 @@ public class Renderers {
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicHarvester.act, new RendererHarvesterItem());
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHarvesterTrolley.act, new RendererHarvesterTrolleyItem());
 		
-		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicHose.act,  new RendererHydraulicHoseItem());
+		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicHose.act+256,  new RendererHydraulicHoseItem());
 	}
 }

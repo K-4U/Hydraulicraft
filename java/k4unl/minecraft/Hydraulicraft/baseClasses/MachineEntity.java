@@ -10,6 +10,8 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -21,6 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import codechicken.multipart.TMultiPart;
+import codechicken.multipart.TileMultipart;
 import cpw.mods.fml.common.LoadController;
 
 public class MachineEntity implements IBaseClass {
@@ -218,6 +221,8 @@ public class MachineEntity implements IBaseClass {
 		TileEntity t = w.getBlockTileEntity(x, y, z);
 		if(t instanceof IHydraulicMachine){
 			list.add((IHydraulicMachine)t);
+		}else if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
+			list.add(Multipart.getTransporter((TileMultipart)t));
 		}
 		return list;
 	}
@@ -244,9 +249,13 @@ public class MachineEntity implements IBaseClass {
 		
 		for (IHydraulicMachine machineEntity : machines) {
 			if(!mainList.contains(machineEntity)){
-				if(target instanceof IHydraulicTransporter || machineEntity instanceof IHydraulicTransporter){
+				if(isMultipart){
 					mainList.add(machineEntity);
 					callList.add(machineEntity);
+				}
+				if(machineEntity instanceof PartHose){
+					mainList.add(machineEntity);
+					callList.add(machineEntity);	
 				}
 			}
 		}

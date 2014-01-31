@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.multipart;
 
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -25,6 +26,7 @@ public class ItemPartHose extends JItemMultiPart
     {
         super(id);
         setHasSubtypes(true);
+        setCreativeTab(CustomTabs.tabHydraulicraft);
         setUnlocalizedName(Names.blockHydraulicHose[0].unlocalized);
     }
 
@@ -67,8 +69,7 @@ public class ItemPartHose extends JItemMultiPart
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getSpriteNumber()
-    {
-        return 0;
+    public int getSpriteNumber(){
+        return 1;
     }
 }

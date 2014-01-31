@@ -1,16 +1,18 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
-import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import java.util.List;
+
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
-import codechicken.lib.vec.BlockCoord;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import codechicken.multipart.MultiPartRegistry;
-import codechicken.multipart.TileMultipart;
 import codechicken.multipart.MultiPartRegistry.IPartFactory;
 import codechicken.multipart.TMultiPart;
+import codechicken.multipart.TileMultipart;
 
 public class Multipart implements IPartFactory{
 	public static ItemPartHose itemPartHose; 
@@ -43,5 +45,31 @@ public class Multipart implements IPartFactory{
             return t.partMap(part);
 
         return null;
+    }
+    
+    public static boolean hasTransporter(TileMultipart mp){
+    	boolean ret = false;
+    	List<TMultiPart> t = mp.jPartList();
+		for (TMultiPart p: t) {
+			if(ret == false){
+				if(p instanceof IHydraulicTransporter){
+					ret = true;
+				}
+			}
+		}
+		return ret;
+    }
+    
+    public static IHydraulicTransporter getTransporter(TileMultipart mp){
+    	boolean ret = false;
+    	List<TMultiPart> t = mp.jPartList();
+		for (TMultiPart p: t) {
+			if(ret == false){
+				if(p instanceof IHydraulicTransporter){
+					return (IHydraulicTransporter)p;
+				}
+			}
+		}
+		return null;
     }
 }
