@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
+import k4unl.minecraft.Hydraulicraft.TileEntities.transport.TileHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.client.models.ModelHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

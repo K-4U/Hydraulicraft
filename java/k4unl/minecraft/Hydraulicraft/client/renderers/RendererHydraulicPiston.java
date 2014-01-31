@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 
 import org.lwjgl.opengl.GL11;

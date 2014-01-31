@@ -1,12 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 import net.minecraftforge.client.MinecraftForgeClient;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.TileEntities.transport.TileHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHarvesterItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHarvesterTrolleyItem;

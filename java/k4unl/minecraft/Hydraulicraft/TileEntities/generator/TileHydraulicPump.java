@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities;
+package k4unl.minecraft.Hydraulicraft.TileEntities.generator;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;

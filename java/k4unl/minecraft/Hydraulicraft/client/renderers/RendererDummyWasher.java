@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileDummyWasher;
+import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileDummyWasher;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;

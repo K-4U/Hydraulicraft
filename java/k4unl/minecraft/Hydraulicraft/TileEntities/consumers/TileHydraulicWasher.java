@@ -1,7 +1,8 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities;
+package k4unl.minecraft.Hydraulicraft.TileEntities.consumers;
 
 import java.util.Random;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileDummyWasher;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;

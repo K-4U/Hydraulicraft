@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty;
 
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import mcp.mobius.waila.api.IWailaConfigHandler;

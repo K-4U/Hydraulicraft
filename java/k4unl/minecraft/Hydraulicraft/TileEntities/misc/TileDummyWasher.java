@@ -1,5 +1,6 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities;
+package k4unl.minecraft.Hydraulicraft.TileEntities.misc;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;

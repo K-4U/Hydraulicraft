@@ -2,10 +2,10 @@ package k4unl.minecraft.Hydraulicraft.items;
 
 import com.google.common.collect.Sets;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.TileEntities.transport.TileHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineItem;

@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities;
+package k4unl.minecraft.Hydraulicraft.TileEntities.transport;
 
 import java.util.HashMap;
 import java.util.Map;
