@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.transport;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,8 +17,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import codechicken.lib.vec.Cuboid6;
+import codechicken.lib.vec.Rotation;
+import codechicken.lib.vec.Vector3;
+import codechicken.multipart.JNormalOcclusion;
+import codechicken.multipart.TMultiPart;
+import codechicken.multipart.TileMultipart;
 
-public class TileHydraulicHose extends TileEntity implements IHydraulicTransporter {
+public class TileHydraulicHose extends TileMultipart implements IHydraulicTransporter {
 	private IBaseTransporter baseHandler;
     private Map<ForgeDirection, TileEntity> connectedSides;
     private final boolean[] connectedSideFlags = new boolean[6];

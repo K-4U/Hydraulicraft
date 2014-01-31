@@ -11,6 +11,8 @@ import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Recipes;
 import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.multipart.ItemPartHose;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdParty;
@@ -49,6 +51,7 @@ public class Hydraulicraft {
 		serverSide = ModInfo.PROXY_LOCATION + ".CommonProxy"
 	)
 	public static CommonProxy proxy;
+	public static Multipart mp;
 	
 	/*!
 	 * @author Koen Beckers
@@ -61,7 +64,6 @@ public class Hydraulicraft {
 		
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		
-		proxy.initSounds();
 		CustomTabs.init();
 		
 		Blocks.init();
@@ -71,7 +73,7 @@ public class Hydraulicraft {
 		
 		Items.init();
 		
-		
+		mp = new Multipart();
 	}
 	
 	/*!
@@ -86,7 +88,7 @@ public class Hydraulicraft {
 		GameRegistry.registerWorldGenerator(new OreGenerator());
 		NetworkRegistry.instance().registerGuiHandler(this.instance, new GuiHandler());
 		
-		proxy.initRenderers();
+		proxy.init();
 	}
 	
 	/*!

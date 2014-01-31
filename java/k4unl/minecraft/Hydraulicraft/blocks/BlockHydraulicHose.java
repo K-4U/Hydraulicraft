@@ -13,11 +13,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import codechicken.lib.raytracer.ExtendedMOP;
 
 
 public class BlockHydraulicHose extends MachineTieredBlock{
@@ -149,5 +150,18 @@ public class BlockHydraulicHose extends MachineTieredBlock{
             ((TileHydraulicHose)tileEntity).checkConnectedSides();
         }
     }
+
+    
+	
+
+    @Override
+    public MovingObjectPosition collisionRayTrace(World par1World, int par2,
+            int par3, int par4, Vec3 par5Vec3, Vec3 par6Vec3) {
+       
+        MovingObjectPosition mop = super.collisionRayTrace(par1World, par2, par3, par4, par5Vec3, par6Vec3);
+       if(mop == null) return null;
+        return new ExtendedMOP(mop, mop.subHit, par5Vec3.distanceTo(par6Vec3));
+    }
+
 
 }

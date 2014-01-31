@@ -3,16 +3,11 @@ package k4unl.minecraft.Hydraulicraft.blocks;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerCoreBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureHoze;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.blocks.BlockHydraulicPneumaticCompressor;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class Blocks {
 	public static Block hydraulicPump;
@@ -22,7 +17,7 @@ public class Blocks {
 	public static Block hydraulicPressureGauge;
 	public static Block hydraulicPressureValve;
 	public static Block hydraulicPressurevat;
-	public static Block hydraulicHose;
+	//public static Block hydraulicHose;
 	public static Block hydraulicPiston;
 	public static Block hydraulicWasher;
 	public static Block hydraulicPressureWall;
@@ -46,7 +41,7 @@ public class Blocks {
 		hydraulicCrusher = new BlockHydraulicCrusher();
 		//hydraulicPressureGauge = new BlockHydraulicPressureGauge();
 		//hydraulicPressureValve = new BlockHydraulicPressureValve();
-		hydraulicHose = new BlockHydraulicHose();
+		//hydraulicHose = new BlockHydraulicHose();
 		hydraulicPiston = new BlockHydraulicPiston();
 		hydraulicWasher = new BlockHydraulicWasher();
 		hydraulicPressureWall = new BlockHydraulicPressureWall();
@@ -61,8 +56,12 @@ public class Blocks {
 		
 		registerBlocks();
 		addNames();
+		
+		registerMultiparts();
 	}
 	
+
+
 	/*!
 	 * @author Koen Beckers
 	 * @date 13-12-2013
@@ -80,8 +79,9 @@ public class Blocks {
 		
 		GameRegistry.registerBlock(dummyWasher, Names.blockDummyWasher.unlocalized);
 		GameRegistry.registerBlock(pressureDisposal, Names.blockPressureDisposal.unlocalized);
-				
-		GameRegistry.registerBlock(hydraulicHose, HandlerPressureHoze.class, Names.blockHydraulicHose[0].unlocalized);
+		
+		//GameRegistry.registerBlock(hydraulicHose, HandlerPressureHoze.class, Names.blockHydraulicHose[0].unlocalized);
+		
 		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicPump, HandlerPump.class, Names.blockHydraulicPump[0].unlocalized);
 		
@@ -118,7 +118,10 @@ public class Blocks {
 			LanguageRegistry.addName(new ItemStack(hydraulicPressurevat,1,i), Names.blockHydraulicPressurevat[i].localized);
 			LanguageRegistry.addName(new ItemStack(hydraulicPump,1,i), Names.blockHydraulicPump[i].localized);
 		}*/
-		
-		
+				
+	}
+	
+	private static void registerMultiparts() {
+		//new RegisterBlockPart(hydraulicHose, PartHose.class).init();
 	}
 }

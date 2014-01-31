@@ -8,9 +8,8 @@ import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -19,7 +18,10 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import codechicken.multipart.TMultiPart;
+import cpw.mods.fml.common.LoadController;
 
 public class MachineEntity implements IBaseClass {
 	private boolean _isOilStored = false;
@@ -31,6 +33,10 @@ public class MachineEntity implements IBaseClass {
 	private float bar = 0;
 	private int networkCount;
 	
+	public boolean isMultipart;
+	public World tWorld;
+	public Location blockLocation;
+	public TMultiPart tMp;
 	public TileEntity tTarget;
 	public IHydraulicMachine target;
 	
@@ -42,6 +48,21 @@ public class MachineEntity implements IBaseClass {
 		if(target instanceof TileHydraulicPressureVat){
 			hasOwnFluidTank = true;
 		}
+		tMp = null;
+		tWorld = _target.worldObj;
+		blockLocation = new Location(_target.xCoord, _target.yCoord, _target.zCoord);
+	}
+	
+	public MachineEntity(TMultiPart _target) {
+		tMp = _target;
+		tTarget = null;
+		target = (IHydraulicMachine) _target;
+		if(target instanceof TileHydraulicPressureVat){
+			hasOwnFluidTank = true;
+		}
+		isMultipart = true;
+		tWorld = _target.world();
+		blockLocation = new Location(_target.x(), _target.y(), _target.z());
 	}
 	
 	public void redstoneChanged(boolean rsPowered){
@@ -50,9 +71,9 @@ public class MachineEntity implements IBaseClass {
 	
 	public void dropItemStackInWorld(ItemStack itemStack){
 		if(itemStack != null){
-			EntityItem ei = new EntityItem(tTarget.worldObj);
+			EntityItem ei = new EntityItem(tWorld);
 			ei.setEntityItemStack(itemStack);
-			ei.setPosition(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+			ei.setPosition(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ());
 			tTarget.worldObj.spawnEntityInWorld(ei);
 		}
 	}
@@ -70,15 +91,18 @@ public class MachineEntity implements IBaseClass {
 	}
 
 	public void updateBlock(){
-		tTarget.worldObj.markBlockForUpdate(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+		if(tWorld!= null){
+			tWorld.markBlockForUpdate(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ());
+		}
     }
 
 	public void setPressure(float newPressure){
-		if(tTarget.worldObj.isRemote) return;
+		if(tWorld == null) return;
+		if(tWorld.isRemote) return;
 		
 		int compare = Float.compare(bar, newPressure);
 		if((int)getMaxPressure(isOilStored()) < (int)newPressure && getStored() > 0){
-			tTarget.worldObj.createExplosion((Entity)null, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord,
+			tWorld.createExplosion((Entity)null, blockLocation.getX(), blockLocation.getY(), blockLocation.getZ(),
 					1F + ((getMaxPressure(isOilStored()) / newPressure) * 3), true);
 		
 		//if((int)getMaxPressure(isOilStored()) < (int)newPressure){
@@ -107,7 +131,11 @@ public class MachineEntity implements IBaseClass {
 	
 	
 	public float getMaxPressure(boolean isOil){
-		return ((IHydraulicMachine)tTarget).getMaxPressure(isOil);
+		if(isMultipart){
+			return ((IHydraulicMachine)tMp).getMaxPressure(isOil);
+		}else{
+			return ((IHydraulicMachine)tTarget).getMaxPressure(isOil);
+		}
 	}
 	
 	/*!
@@ -118,7 +146,11 @@ public class MachineEntity implements IBaseClass {
 	 */
 	public int getStored(){
 		if(hasOwnFluidTank){
-			return ((IHydraulicStorageWithTank)target).getStored();
+			if(isMultipart){
+				return ((IHydraulicStorageWithTank)tMp).getStored();
+			}else{
+				return ((IHydraulicStorageWithTank)target).getStored();
+			}
 		}else{
 			return fluidLevelStored;
 		}
@@ -147,7 +179,11 @@ public class MachineEntity implements IBaseClass {
 		if(i < 0)
 			i = 0;
 		if(hasOwnFluidTank){
-			((IHydraulicStorageWithTank)target).setStored(i, isOil);
+			if(isMultipart){
+				((IHydraulicStorageWithTank)tMp).setStored(i, isOil);
+			}else{
+				((IHydraulicStorageWithTank)target).setStored(i, isOil);
+			}
 		}else{
 			_isOilStored = isOil;
 			fluidLevelStored = i;
@@ -169,7 +205,7 @@ public class MachineEntity implements IBaseClass {
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
-		return new Packet132TileEntityData(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, 4, tagCompound);
+		return new Packet132TileEntityData(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ(), 4, tagCompound);
 	}
 
 	
@@ -192,16 +228,16 @@ public class MachineEntity implements IBaseClass {
 	}
 	
 	public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList, boolean chain){
-		int x = tTarget.xCoord;
-		int y = tTarget.yCoord;
-		int z = tTarget.zCoord;
+		int x = blockLocation.getX();
+		int y = blockLocation.getY();
+		int z = blockLocation.getZ();
 		List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
-		machines = getMachine(machines, tTarget.worldObj, x-1, y, z);
-		machines = getMachine(machines, tTarget.worldObj, x+1, y, z); 
-		machines = getMachine(machines, tTarget.worldObj, x, y-1, z);
-		machines = getMachine(machines, tTarget.worldObj, x, y+1, z);
-		machines = getMachine(machines, tTarget.worldObj, x, y, z-1);
-		machines = getMachine(machines, tTarget.worldObj, x, y, z+1);
+		machines = getMachine(machines, tWorld, x-1, y, z);
+		machines = getMachine(machines, tWorld, x+1, y, z); 
+		machines = getMachine(machines, tWorld, x, y-1, z);
+		machines = getMachine(machines, tWorld, x, y+1, z);
+		machines = getMachine(machines, tWorld, x, y, z-1);
+		machines = getMachine(machines, tWorld, x, y, z+1);
 		
 
 		List<IHydraulicMachine> callList = new ArrayList<IHydraulicMachine>();
@@ -240,8 +276,11 @@ public class MachineEntity implements IBaseClass {
 		bar = tagCompound.getFloat("bar");
 		
 		isRedstonePowered = tagCompound.getBoolean("isRedstonePowered");
-		
-		target.readNBT(tagCompound);
+		if(isMultipart){
+			((IHydraulicMachine)tMp).readNBT(tagCompound);
+		}else{
+			target.readNBT(tagCompound);
+		}
 	}
 	
 	@Override
@@ -257,15 +296,19 @@ public class MachineEntity implements IBaseClass {
 		
 		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
 		
-		target.writeNBT(tagCompound);
+		if(isMultipart){
+			((IHydraulicMachine)tMp).writeNBT(tagCompound);
+		}else{
+			target.writeNBT(tagCompound);
+		}
 	}
 	
 	protected TileEntity getBlockTileEntity(int x, int y, int z){
-		return tTarget.worldObj.getBlockTileEntity(x, y, z);
+		return tWorld.getBlockTileEntity(x, y, z);
 	}
 
 	public void checkRedstonePower() {
-		boolean isIndirectlyPowered = tTarget.worldObj.isBlockIndirectlyGettingPowered(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+		boolean isIndirectlyPowered = tWorld.isBlockIndirectlyGettingPowered(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ());
 		if(isIndirectlyPowered && !isRedstonePowered){
 			isRedstonePowered = true;
 			this.redstoneChanged(isRedstonePowered);

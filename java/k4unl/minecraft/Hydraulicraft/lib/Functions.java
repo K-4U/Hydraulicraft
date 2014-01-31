@@ -9,6 +9,7 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class Functions {
@@ -27,6 +28,27 @@ public class Functions {
 			}
 		}
 		return l2;
+	}
+	
+	public static int getIntDirFromDirection(ForgeDirection dir){
+		switch(dir){
+		case DOWN:
+			return 0;
+		case EAST:
+			return 5;
+		case NORTH:
+			return 2;
+		case SOUTH:
+			return 3;
+		case UNKNOWN:
+			return 0;
+		case UP:
+			return 1;
+		case WEST:
+			return 4;
+		default:
+			return 0;
+		}
 	}
 	
 	public static boolean isInString(String oreName, String[] list){

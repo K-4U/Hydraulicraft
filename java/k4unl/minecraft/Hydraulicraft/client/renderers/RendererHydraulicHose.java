@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
+import java.util.Map;
+
 import k4unl.minecraft.Hydraulicraft.TileEntities.transport.TileHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.client.models.ModelHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -7,10 +9,13 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
-public class RendererHydraulicHose extends TileEntitySpecialRenderer {
+import cpw.mods.fml.client.FMLClientHandler;
+
+public class RendererHydraulicHose {
 
 	private static final ResourceLocation resLoc[] = {
 		new ResourceLocation(ModInfo.LID,"textures/model/hydraulicHose_tmap_0.png"),
@@ -26,9 +31,7 @@ public class RendererHydraulicHose extends TileEntitySpecialRenderer {
 		renderModel = new ModelHydraulicHose();
 	}
 	
-	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y,
-			double z, float f) {
+	public void render(double x, double y, double z, float f, int tier, Map<ForgeDirection, TileEntity> connectedSides){
 		//Open the GL Matrix
 		GL11.glPushMatrix();
 		
@@ -39,19 +42,15 @@ public class RendererHydraulicHose extends TileEntitySpecialRenderer {
 		
 		
 		//Bind texture
-		TileHydraulicHose hose = (TileHydraulicHose) tileEntity;
-		int tier = hose.getTier();
-		
-		this.bindTexture(resLoc[tier]);
+		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc[tier]);
 		
 		GL11.glPushMatrix();
 		
-		renderModel.setConnectedSides(hose.getConnectedSides());
+		renderModel.setConnectedSides(connectedSides);
 		
 		renderModel.render((Entity)null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}
-
 }

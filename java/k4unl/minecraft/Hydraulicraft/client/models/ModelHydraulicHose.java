@@ -77,6 +77,7 @@ public class ModelHydraulicHose extends ModelBase{
     }
 
     private boolean isDir(ForgeDirection dir){
+    	if(connectedSides == null) return true;
         return connectedSides.containsKey(dir);
     }
 

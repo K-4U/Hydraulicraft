@@ -247,7 +247,7 @@ public class Recipes {
                         'W', Blocks.hydraulicPressureWall,
                         'C', new ItemStack(Blocks.blockCore, 1, 2)
                 });
-		
+		/*
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHose, 4, 0), true,
                 new Object[]{
                         "LLL",
@@ -276,7 +276,7 @@ public class Recipes {
 					'C', "ingotEnrichedCopper",
 					'H', new ItemStack(Blocks.hydraulicHose,1,1)
 			}));
-		
+		*/
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 0), true,
 				new Object [] {
 					"LWL",

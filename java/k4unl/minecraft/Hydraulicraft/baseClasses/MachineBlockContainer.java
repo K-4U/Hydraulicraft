@@ -207,7 +207,6 @@ public abstract class MachineBlockContainer extends BlockContainer {
 		if(tile instanceof TileHydraulicHose){
 			((TileHydraulicHose) tile).checkConnectedSides();
 		}
-
 	}
 	
 	@Override
