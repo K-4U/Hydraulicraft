@@ -60,6 +60,32 @@ public class Multipart implements IPartFactory{
 		return ret;
     }
     
+    public static boolean hasPartHose(TileMultipart mp){
+    	boolean ret = false;
+    	List<TMultiPart> t = mp.jPartList();
+		for (TMultiPart p: t) {
+			if(ret == false){
+				if(p instanceof PartHose){
+					ret = true;
+				}
+			}
+		}
+		return ret;
+    }
+    
+    public static PartHose getHose(TileMultipart mp){
+    	boolean ret = false;
+    	List<TMultiPart> t = mp.jPartList();
+		for (TMultiPart p: t) {
+			if(ret == false){
+				if(p instanceof PartHose){
+					return (PartHose)p;
+				}
+			}
+		}
+		return null;
+    }
+    
     public static IHydraulicTransporter getTransporter(TileMultipart mp){
     	boolean ret = false;
     	List<TMultiPart> t = mp.jPartList();

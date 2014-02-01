@@ -1,5 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
@@ -12,7 +15,9 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.common.ForgeDirection;
 
 public class RendererHydraulicHoseItem implements IItemRenderer {
 
@@ -59,7 +64,11 @@ public class RendererHydraulicHoseItem implements IItemRenderer {
 	private void render(float x, float y, float z, float scale, int metadata){
 		RendererHydraulicHose f = new RendererHydraulicHose();
 		GL11.glScalef(scale, scale, scale);
-		f.render(x, y, z, 0, metadata, null);
+		Map<ForgeDirection, TileEntity> connectedSides = new HashMap<ForgeDirection, TileEntity>();
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			connectedSides.put(dir, null);
+		}
+		f.doRender(x, y, z, 0, metadata, connectedSides);
 	}
 
 }

@@ -47,7 +47,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter {
-    public static Cuboid6[] boundingBoxes = new Cuboid6[7];
+    public static Cuboid6[] boundingBoxes = new Cuboid6[14];
     private static int expandBounds = -1;
     
     private IBaseTransporter baseHandler;
@@ -59,12 +59,49 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     
     private int tier = 0;
 
-    static
-    {
-        double w = 0.15D;
-        boundingBoxes[6] = new Cuboid6(0.5 - w, 0.5 - w, 0.5 - w, 0.5 + w, 0.5 + w, 0.5 + w);
-        for (int s = 0; s < 6; s++)
-            boundingBoxes[s] = new Cuboid6(0.5 - w, 0, 0.5 - w, 0.5 + w, 0.5 - w, 0.5 + w).apply(Rotation.sideRotations[s].at(Vector3.center));
+    static {
+    	float center = 0.5F;
+    	float offset = 0.10F;
+    	//float offsetY = 0.2F;
+    	//float offsetZ = 0.2F;
+    	float centerFirst = center - offset;
+    	float centerSecond = center + offset;
+    	Vector3 rotateCenterFirst = new Vector3(centerFirst, centerFirst, centerFirst);
+    	Vector3 rotateCenterSecond = new Vector3(centerSecond, centerSecond, centerSecond);
+        double w = 0.2D / 2;
+        boundingBoxes[6] = new Cuboid6(centerFirst - w, centerFirst - w, centerFirst - w, centerFirst + w, centerFirst + w, centerFirst + w);
+        boundingBoxes[13] = new Cuboid6(centerSecond - w, centerSecond - w, centerSecond - w, centerSecond + w, centerSecond + w, centerSecond + w);
+        
+        int i = 0;
+    	for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+    		double xMin1 = (dir.offsetX < 0 ? 0.0 : (dir.offsetX == 0 ? centerFirst - w : centerFirst + w));
+    		double xMax1 = (dir.offsetX > 0 ? 1.0 : (dir.offsetX == 0 ? centerFirst + w : centerFirst - w));
+    		
+    		double yMin1 = (dir.offsetY < 0 ? 0.0 : (dir.offsetY == 0 ? centerFirst - w : centerFirst + w));
+    		double yMax1 = (dir.offsetY > 0 ? 1.0 : (dir.offsetY == 0 ? centerFirst + w : centerFirst - w));
+    		
+    		double zMin1 = (dir.offsetZ < 0 ? 0.0 : (dir.offsetZ == 0 ? centerFirst - w : centerFirst + w));
+    		double zMax1 = (dir.offsetZ > 0 ? 1.0 : (dir.offsetZ == 0 ? centerFirst + w : centerFirst - w));
+    		
+    		double xMin2 = (dir.offsetX < 0 ? 0.0 : (dir.offsetX == 0 ? centerSecond - w : centerSecond + w));
+    		double xMax2 = (dir.offsetX > 0 ? 1.0 : (dir.offsetX == 0 ? centerSecond + w : centerSecond - w));
+    		
+    		double yMin2 = (dir.offsetY < 0 ? 0.0 : (dir.offsetY == 0 ? centerSecond - w : centerSecond + w));
+    		double yMax2 = (dir.offsetY > 0 ? 1.0 : (dir.offsetY == 0 ? centerSecond + w : centerSecond - w));
+    		
+    		double zMin2 = (dir.offsetZ < 0 ? 0.0 : (dir.offsetZ == 0 ? centerSecond - w : centerSecond + w));
+    		double zMax2 = (dir.offsetZ > 0 ? 1.0 : (dir.offsetZ == 0 ? centerSecond + w : centerSecond - w));
+    		
+    		boundingBoxes[i] = new Cuboid6(xMin1, yMin1, zMin1, xMax1, yMax1, zMax1);
+    		boundingBoxes[i+7] = new Cuboid6(xMin2, yMin2, zMin2, xMax2, yMax2, zMax2);
+    		i++;
+    	}
+        
+        //for (int s = 0; s < 6; s++)
+        //	boundingBoxes[s] = new Cuboid6(centerFirst - w, offset, centerFirst - w, centerFirst + w, centerFirst - w, centerFirst + w).apply(Rotation.sideRotations[s].at(rotateCenterFirst));
+        
+        //for (int s = 7; s < 12; s++)
+        //    boundingBoxes[s] = new Cuboid6(centerSecond - w, 0, centerSecond - w, centerSecond + w, centerSecond - w, centerSecond + w).apply(Rotation.sideRotations[s-7].at(rotateCenterSecond));
     }
     
 	@Override
@@ -160,23 +197,23 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     }
 
     @Override
-    public Iterable<Cuboid6> getOcclusionBoxes()
-    {
+    public Iterable<Cuboid6> getOcclusionBoxes(){
         if (expandBounds >= 0)
             return Arrays.asList(boundingBoxes[expandBounds]);
 
-        return Arrays.asList(boundingBoxes[6]);
+        return Arrays.asList(boundingBoxes[6], boundingBoxes[13]);
     }
 
     @Override
-    public Iterable<Cuboid6> getCollisionBoxes()
-    {
+    public Iterable<Cuboid6> getCollisionBoxes(){
         LinkedList<Cuboid6> list = new LinkedList<Cuboid6>();
         list.add(boundingBoxes[6]);
+        list.add(boundingBoxes[13]);
         if(connectedSides == null) return list;
         for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
         	if(connectedSides.containsKey(dir)){
         		list.add(boundingBoxes[Functions.getIntDirFromDirection(dir)]);
+        		list.add(boundingBoxes[Functions.getIntDirFromDirection(dir)+7]);
         	}
         }
         return list;
@@ -188,7 +225,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         if (pass == 0){
             GL11.glDisable(GL11.GL_LIGHTING);
             RendererHydraulicHose r = new RendererHydraulicHose();
-            r.render(pos.x, pos.y, pos.z, 0, tier, connectedSides);
+            r.doRender(pos.x, pos.y, pos.z, 0, tier, connectedSides);
             GL11.glEnable(GL11.GL_LIGHTING);
         }
     }
@@ -234,7 +271,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
             	}
             }
         }
-
         getHandler().updateBlock();
     }
 
@@ -390,5 +426,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	public void updateEntity() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public Map<ForgeDirection, TileEntity> getConnectedSides() {
+		if(connectedSides == null){
+			checkConnectedSides();
+		}
+		return connectedSides;
 	}
 }

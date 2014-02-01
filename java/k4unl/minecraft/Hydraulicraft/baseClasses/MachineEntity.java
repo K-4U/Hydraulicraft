@@ -215,6 +215,8 @@ public class MachineEntity implements IBaseClass {
 
 	
 	private List<IHydraulicMachine> getMachine(List<IHydraulicMachine> list, ForgeDirection dir){
+		if(tWorld == null) return list;
+		
 		int x = blockLocation.getX() + dir.offsetX;
 		int y = blockLocation.getY() + dir.offsetY;
 		int z = blockLocation.getZ() + dir.offsetZ;

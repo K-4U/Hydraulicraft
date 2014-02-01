@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
-import com.google.common.collect.Sets;
-
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
@@ -11,11 +9,14 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineItem;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import codechicken.multipart.TileMultipart;
 
 public class ItemDebug extends MachineItem {
 
@@ -31,12 +32,21 @@ public class ItemDebug extends MachineItem {
 		if(!world.isRemote){
 			TileEntity ent = world.getBlockTileEntity(x, y, z);
 			if(ent != null){
-				if(ent instanceof IHydraulicMachine){
+				if(ent instanceof IHydraulicMachine || ent instanceof TileMultipart){
+					IHydraulicMachine mEnt = null;
+					if(ent instanceof TileMultipart){
+						if(Multipart.hasPartHose((TileMultipart)ent)){
+							mEnt = (IHydraulicMachine) Multipart.getHose((TileMultipart)ent);
+						}else{
+							return false;
+						}
+					}else{
+						mEnt = (IHydraulicMachine) ent;
+					}
 					NBTTagCompound tagC = itemStack.getTagCompound();
 					if(tagC == null){
 						tagC = new NBTTagCompound();
 					}
-					IHydraulicMachine mEnt = (IHydraulicMachine) ent;
 					
 					int stored = mEnt.getHandler().getStored();
 					int max = mEnt.getMaxStorage();
@@ -58,9 +68,12 @@ public class ItemDebug extends MachineItem {
 						player.addChatMessage("Tier:          " + tier);						
 					}
 					
-					if(ent instanceof TileHydraulicHose){
-						int tier = ((TileHydraulicHose)ent).getTier();
-						player.addChatMessage("Tier:          " + tier);						
+					if(ent instanceof TileMultipart){
+						if(Multipart.hasTransporter((TileMultipart)ent)){
+							PartHose hose = Multipart.getHose((TileMultipart)ent);
+							int tier = hose.getTier();
+							player.addChatMessage("Tier:          " + tier);							
+						}
 					}
 					
 					if(ent instanceof TileHydraulicPiston){
