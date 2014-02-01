@@ -200,4 +200,10 @@ public class TileHydraulicHose extends TileMultipart implements IHydraulicTransp
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public boolean isConnectedTo(ForgeDirection dir) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -34,10 +34,12 @@ import codechicken.lib.raytracer.IndexedCuboid6;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Rotation;
 import codechicken.lib.vec.Vector3;
+import codechicken.microblock.FaceMicroblock;
 import codechicken.microblock.IHollowConnect;
 import codechicken.microblock.MicroMaterialRegistry;
 import codechicken.multipart.JNormalOcclusion;
 import codechicken.multipart.NormalOcclusionTest;
+import codechicken.multipart.NormallyOccludedPart;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TSlottedPart;
 import codechicken.multipart.TileMultipart;
@@ -59,7 +61,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
     static
     {
-        double w = 2 / 8D;
+        double w = 0.15D;
         boundingBoxes[6] = new Cuboid6(0.5 - w, 0.5 - w, 0.5 - w, 0.5 + w, 0.5 + w, 0.5 + w);
         for (int s = 0; s < 6; s++)
             boundingBoxes[s] = new Cuboid6(0.5 - w, 0, 0.5 - w, 0.5 + w, 0.5 - w, 0.5 + w).apply(Rotation.sideRotations[s].at(Vector3.center));
@@ -77,8 +79,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	@Override
 	public void load(NBTTagCompound tagCompound){
 		super.load(tagCompound);
-		getHandler().readFromNBT(tagCompound);
+		if(getHandler() != null)
+			getHandler().readFromNBT(tagCompound);
 		tier = tagCompound.getInteger("tier");
+		
+		//checkConnectedSides();
+		readConnectedSidesFromNBT(tagCompound);
 	}
 	
 	@Override
@@ -86,16 +92,45 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		super.save(tagCompound);
 		getHandler().writeToNBT(tagCompound);
 		tagCompound.setInteger("tier", tier);
+		writeConnectedSidesToNBT(tagCompound);
 	}
 	
 	@Override
     public void writeDesc(MCDataOutput packet){
 		packet.writeInt(getTier());
+		NBTTagCompound connectedCompound = new NBTTagCompound();
+		writeConnectedSidesToNBT(connectedCompound);
+		packet.writeNBTTagCompound(connectedCompound);
     }
 
+    private void readConnectedSidesFromNBT(NBTTagCompound tagCompound){
+    	
+        NBTTagCompound ourCompound = tagCompound.getCompoundTag("connectedSides");
+
+        for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+            connectedSideFlags[dir.ordinal()] = ourCompound.getBoolean(dir.name());
+        }
+        needToCheckNeighbors = true;
+    }
+
+    private void writeConnectedSidesToNBT(NBTTagCompound tagCompound){
+    	
+        if(connectedSides == null) {
+            connectedSides = new HashMap<ForgeDirection, TileEntity>();
+        }
+
+        NBTTagCompound ourCompound = new NBTTagCompound();
+        for(Map.Entry<ForgeDirection, TileEntity> entry : connectedSides.entrySet()) {
+            ourCompound.setBoolean(entry.getKey().name(), true);
+        }
+        tagCompound.setCompoundTag("connectedSides", ourCompound);
+    }
+	
     @Override
     public void readDesc(MCDataInput packet){
         tier = packet.readInt();
+        NBTTagCompound connectedCompound = packet.readNBTTagCompound();
+        readConnectedSidesFromNBT(connectedCompound);
     }
 
 	
@@ -138,9 +173,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     {
         LinkedList<Cuboid6> list = new LinkedList<Cuboid6>();
         list.add(boundingBoxes[6]);
-        //for (int s = 0; s < 6; s++)
-        //    if (maskConnects(s))
-        //        list.add(boundingBoxes[s]);
+        if(connectedSides == null) return list;
+        for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+        	if(connectedSides.containsKey(dir)){
+        		list.add(boundingBoxes[Functions.getIntDirFromDirection(dir)]);
+        	}
+        }
         return list;
     }
 
@@ -158,8 +196,10 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir, Object caller){
     	int opposite = Functions.getIntDirFromDirection(dir.getOpposite());
     	if(entity instanceof TileMultipart){
-    		if(((TileMultipart)entity).isSolid(opposite)) return false;
     		List<TMultiPart> t = ((TileMultipart)entity).jPartList();
+    		
+    		if(!((TileMultipart)entity).canAddPart(new NormallyOccludedPart(boundingBoxes[opposite]))) return false;
+    		
     		for (TMultiPart p: t) {
     			if(p instanceof PartHose && caller.equals(this)){
     				((PartHose)p).checkConnectedSides(this);
@@ -174,19 +214,22 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     	}
     }
 
+    public boolean isConnectedTo(ForgeDirection side){
+    	return connectedSides.containsKey(side);
+    }
+    
     public void checkConnectedSides(){
     	checkConnectedSides(this);
     }
     
     public void checkConnectedSides(Object caller){
         connectedSides = new HashMap<ForgeDirection, TileEntity>();
-
-		for(int i = 0; i < 6; i++){
-        	ForgeDirection dir = ForgeDirection.getOrientation(i);
-        	
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			int d = Functions.getIntDirFromDirection(dir);
+			
             TileEntity te = world().getBlockTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
             if(shouldConnectTo(te, dir, caller)) {
-            	if(!tile().isSolid(i)){
+            	if(tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]))){
             		connectedSides.put(dir, te);
             	}
             }
@@ -198,6 +241,8 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     
     public void onNeighborChanged(){
         checkConnectedSides();
+        MCDataOutput writeStream = tile().getWriteStream(this);
+        writeDesc(writeStream);
     }
     
     public ItemStack getItem(){
@@ -207,6 +252,14 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     @Override
     public void onPartChanged(TMultiPart part){
         checkConnectedSides();
+    }
+    
+    @Override
+    public Iterable<ItemStack> getDrops() {
+    
+        LinkedList<ItemStack> items = new LinkedList<ItemStack>();
+        items.add(getItem());
+        return items;
     }
     
     @Override
@@ -315,7 +368,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     		//This should never happen that this is null! :|
     		getHandler().updateEntity();
     	}
-    	if(world().getTotalWorldTime() % 60 == 0 && hasCheckedSinceStartup == false){
+    	if(world().getTotalWorldTime() % 10 == 0 && hasCheckedSinceStartup == false){
     		checkConnectedSides();
     		hasCheckedSinceStartup = true;
     		//Hack hack hack

@@ -22,6 +22,8 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
+import codechicken.microblock.FaceMicroblock;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
 import cpw.mods.fml.common.LoadController;
@@ -212,17 +214,22 @@ public class MachineEntity implements IBaseClass {
 	}
 
 	
-	private List<IHydraulicMachine> getMachine(List<IHydraulicMachine> list, World w, int x, int y, int z){
-		int blockId = w.getBlockId(x, y, z);
+	private List<IHydraulicMachine> getMachine(List<IHydraulicMachine> list, ForgeDirection dir){
+		int x = blockLocation.getX() + dir.offsetX;
+		int y = blockLocation.getY() + dir.offsetY;
+		int z = blockLocation.getZ() + dir.offsetZ;
+		int blockId = tWorld.getBlockId(x, y, z);
 		if(blockId == 0){
 			return list;
 		}
 		
-		TileEntity t = w.getBlockTileEntity(x, y, z);
+		TileEntity t = tWorld.getBlockTileEntity(x, y, z);
 		if(t instanceof IHydraulicMachine){
 			list.add((IHydraulicMachine)t);
 		}else if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
-			list.add(Multipart.getTransporter((TileMultipart)t));
+			if(Multipart.getTransporter((TileMultipart)t).isConnectedTo(dir)){
+				list.add(Multipart.getTransporter((TileMultipart)t));
+			}
 		}
 		return list;
 	}
@@ -237,13 +244,16 @@ public class MachineEntity implements IBaseClass {
 		int y = blockLocation.getY();
 		int z = blockLocation.getZ();
 		List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
-		machines = getMachine(machines, tWorld, x-1, y, z);
-		machines = getMachine(machines, tWorld, x+1, y, z); 
-		machines = getMachine(machines, tWorld, x, y-1, z);
-		machines = getMachine(machines, tWorld, x, y+1, z);
-		machines = getMachine(machines, tWorld, x, y, z-1);
-		machines = getMachine(machines, tWorld, x, y, z+1);
-		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			if(isMultipart){
+				TMultiPart mp = tMp.tile().partMap(Functions.getIntDirFromDirection(dir));
+				if(!(mp instanceof FaceMicroblock)){
+					machines = getMachine(machines, dir);					
+				}
+			}else{
+				machines = getMachine(machines, dir);				
+			}
+		}
 
 		List<IHydraulicMachine> callList = new ArrayList<IHydraulicMachine>();
 		
