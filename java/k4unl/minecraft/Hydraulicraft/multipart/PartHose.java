@@ -271,14 +271,19 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
             	}
             }
         }
-        getHandler().updateBlock();
+		updateBlock();
     }
 
+    private void updateBlock(){
+    	if(!world().isRemote){
+	    	MCDataOutput writeStream = tile().getWriteStream(this);
+	        writeDesc(writeStream);
+    	}
+    }
     
     public void onNeighborChanged(){
         checkConnectedSides();
-        MCDataOutput writeStream = tile().getWriteStream(this);
-        writeDesc(writeStream);
+        getHandler().disperse();
     }
     
     public ItemStack getItem(){
@@ -288,6 +293,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     @Override
     public void onPartChanged(TMultiPart part){
         checkConnectedSides();
+        getHandler().disperse();
     }
     
     @Override
@@ -381,11 +387,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	@Override
 	public Packet getDescriptionPacket() {
 		return getHandler().getDescriptionPacket();
-	}
-
-	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return getHandler().getRenderBoundingBox();
 	}
 
 	@Override

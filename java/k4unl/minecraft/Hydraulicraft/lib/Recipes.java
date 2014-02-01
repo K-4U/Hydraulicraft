@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraft.block.Block;
@@ -247,8 +248,8 @@ public class Recipes {
                         'W', Blocks.hydraulicPressureWall,
                         'C', new ItemStack(Blocks.blockCore, 1, 2)
                 });
-		/*
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHose, 4, 0), true,
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 4, 0), true,
                 new Object[]{
                         "LLL",
                         "K-K",
@@ -257,26 +258,26 @@ public class Recipes {
                         'L', "ingotLead"
                 }));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHose, 6, 1), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 6, 1), true,
                 new Object[]{
                         "CCC",
                         "KHK",
                         "CCC",
                         'K', Items.gasket,
                         'C', "ingotCopper",
-                        'H', new ItemStack(Blocks.hydraulicHose, 1, 0)
+                        'H', new ItemStack(Multipart.itemPartHose, 1, 0)
                 }));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHose, 12, 2), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 12, 2), true,
 				new Object [] {
 					"C-C",
 					"KHK",
 					"C-C",
 					'K', Items.gasket,
 					'C', "ingotEnrichedCopper",
-					'H', new ItemStack(Blocks.hydraulicHose,1,1)
+					'H', new ItemStack(Multipart.itemPartHose,1,1)
 			}));
-		*/
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 0), true,
 				new Object [] {
 					"LWL",

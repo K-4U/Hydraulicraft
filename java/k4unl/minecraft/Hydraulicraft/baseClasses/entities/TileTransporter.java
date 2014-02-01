@@ -19,11 +19,6 @@ public class TileTransporter extends MachineEntity implements IBaseTransporter{
     private final int storedLiquid = 0;
     private IHydraulicTransporter target;
     
-    public TileTransporter(TileEntity _target){
-    	super(_target);
-    	target = (IHydraulicTransporter)_target;
-    }
-    
     public TileTransporter(TMultiPart _target) {
     	super(_target);
     	target = (IHydraulicTransporter)_target;
@@ -37,10 +32,5 @@ public class TileTransporter extends MachineEntity implements IBaseTransporter{
     @Override
     public void writeToNBT(NBTTagCompound tagCompound){
         super.writeToNBT(tagCompound);
-    }
-
-    @Override
-    public AxisAlignedBB getRenderBoundingBox(){
-        return AxisAlignedBB.getAABBPool().getAABB(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, tTarget.xCoord + 1, tTarget.yCoord + 1, tTarget.zCoord + 1);
     }
 }

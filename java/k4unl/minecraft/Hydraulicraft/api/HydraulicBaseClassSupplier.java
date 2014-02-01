@@ -1,10 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
-import codechicken.multipart.TMultiPart;
-import k4unl.minecraft.Hydraulicraft.TileEntities.transport.TileHydraulicHose;
 import net.minecraft.tileentity.TileEntity;
+import codechicken.multipart.TMultiPart;
 
 /**
  * 
@@ -29,26 +29,18 @@ public class HydraulicBaseClassSupplier {
         }
         return baseClassEntity;
     }
-    
-    public static IBaseTransporter getTransporterClass(TileEntity target){
-    	IBaseTransporter baseClassEntity = null;
-        try {
-            if(baseTransporterConstructor == null) baseTransporterConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter").getConstructor(TileEntity.class);
-            baseClassEntity = (IBaseTransporter)baseTransporterConstructor.newInstance(target);
-        } catch(Exception e) {
-            System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a transporter class. Here's a stacktrace:");
-            e.printStackTrace();
-        }
-        return baseClassEntity;
-    }
-    
+
     public static IBaseTransporter getTransporterClass(TMultiPart target){
     	IBaseTransporter baseClassEntity = null;
         try {
             if(baseTransporterConstructor == null) baseTransporterConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter").getConstructor(TMultiPart.class);
             baseClassEntity = (IBaseTransporter)baseTransporterConstructor.newInstance(target);
-        } catch(Exception e) {
+        } catch(InvocationTargetException e) {
             System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a transporter class. Here's a stacktrace:");
+            e.printStackTrace();
+            e.getCause().printStackTrace(); 
+        } catch(Exception e){
+        	System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a transporter class. Here's a stacktrace:");
             e.printStackTrace();
         }
         return baseClassEntity;

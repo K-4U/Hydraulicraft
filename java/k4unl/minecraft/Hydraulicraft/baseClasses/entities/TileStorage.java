@@ -23,7 +23,7 @@ public class TileStorage extends MachineEntity implements IBaseStorage {
 	public void updateEntity(){
 		//if(hasReadNBT){
 		if(tTarget.worldObj.getTotalWorldTime() % 40 == 0){
-			//Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+			Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
 		}
 		//}
 	}

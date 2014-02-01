@@ -1,15 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import k4unl.minecraft.Hydraulicraft.TileEntities.transport.TileHydraulicHose;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
@@ -198,15 +191,6 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	public void onNeighborBlockChange(World world, int x, int y,
 				int z, int blockId) {
 		super.onNeighborBlockChange(world, x, y, z, blockId);
-		
-		callConnectedSideCheck(world, x, y, z);
-	}
-	
-	private void callConnectedSideCheck(World w, int x, int y, int z){
-		TileEntity tile = w.getBlockTileEntity(x, y, z);
-		if(tile instanceof TileHydraulicHose){
-			((TileHydraulicHose) tile).checkConnectedSides();
-		}
 	}
 	
 	@Override
@@ -218,21 +202,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 		}
 		
 		super.breakBlock(w, x, y, z, oldId, oldMetaData);
-		tellOtherBlockILeft(w, x, y, z);
-		//It actually needs to do this after a short while..
-		
-		//if(!w.isRemote){
-		callConnectedSideCheck(w, x+1, y, z);
-		callConnectedSideCheck(w, x-1, y, z);
-		
-		callConnectedSideCheck(w, x, y+1, z);
-		callConnectedSideCheck(w, x, y-1, z);
-		
-		callConnectedSideCheck(w, x, y, z+1);
-		callConnectedSideCheck(w, x, y, z-1);
-		//}
-			
-		
+		tellOtherBlockILeft(w, x, y, z);		
 	}
 	
 	
