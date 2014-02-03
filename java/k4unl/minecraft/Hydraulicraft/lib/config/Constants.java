@@ -34,11 +34,15 @@ public class Constants {
 	public static final int MIN_PRESSURE_COMPRESSOR = 100;
 	
 	public static final float CONVERSION_RATIO_AIR_HYDRAULIC = 0.95F;
-	
+	public static final float CONVERSION_RATIO_MJ_HYDRAULIC = 0.8F;
 	
 	public static final float MIN_REQUIRED_PRESSURE_HARVESTER = 10000.0F;
+	public static final float MIN_REQUIRED_PRESSURE_ENGINE = 1000.0F;
+	
 	
 	public static final float PRESSURE_USAGE_PISTON = 50;
+	public static final float PRESSURE_USAGE_ENGINE = 50;
+	
 	
 	public static final int HARVESTER_ID_ENDERLILY = 1;
 	

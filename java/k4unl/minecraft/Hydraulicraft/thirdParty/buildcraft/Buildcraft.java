@@ -1,14 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft;
 
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
-import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockHydraulicEngine;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
-import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import pneumaticCraft.api.block.BlockSupplier;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -26,6 +23,7 @@ public class Buildcraft {
 		LanguageRegistry.addName(blockHydraulicEngine, Names.blockHydraulicEngine.localized);
 		
 		GameRegistry.registerTileEntity(TileHydraulicEngine.class, "tileHydraulicEngine");
+		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicEngine.class, new RendererHydraulicEngine());
 	}
 	
 	public static void initRecipes(){

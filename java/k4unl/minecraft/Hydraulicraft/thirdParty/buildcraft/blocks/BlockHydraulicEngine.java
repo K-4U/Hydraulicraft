@@ -1,17 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks;
 
+import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
-import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
+import net.minecraftforge.common.ForgeDirection;
 
 public class BlockHydraulicEngine extends MachineBlockContainer {
 
@@ -26,6 +23,21 @@ public class BlockHydraulicEngine extends MachineBlockContainer {
 
 	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
 		return true;
+    }
+	
+	@Override
+    public int getRenderType(){
+        return -1;
+    }
+
+    @Override
+    public boolean isOpaqueCube(){
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock(){
+        return false;
     }
 	
 	
@@ -56,4 +68,17 @@ public class BlockHydraulicEngine extends MachineBlockContainer {
 			((TileHydraulicEngine)tile).checkRedstonePower();			
 		}
 	}
+	@Override
+    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){
+		TileEntity te = world.getBlockTileEntity(x, y, z);
+		if(te instanceof TileHydraulicEngine){
+			TileHydraulicEngine e = (TileHydraulicEngine) te;
+			ForgeDirection facing = e.getFacing();
+			e.setFacing(facing.getRotation(side));
+			e.getHandler().updateBlock();
+		}
+		
+		return true;
+    }
+	
 }

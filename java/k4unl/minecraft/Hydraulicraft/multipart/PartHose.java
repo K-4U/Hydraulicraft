@@ -252,6 +252,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     }
 
     public boolean isConnectedTo(ForgeDirection side){
+    	if(connectedSides == null){
+    		checkConnectedSides();
+    	}
+    	if(connectedSideFlags == null){
+    		return false;
+    	}
     	return connectedSides.containsKey(side);
     }
     

@@ -120,7 +120,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			}else{
 				multiplier = ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_WATER);
 			}
-			int maxFluid = getHandler().getTotalFluidCapacity();
+			int maxFluid = getMaxStorage();
 			//We can only generate at the percentage the system is filled at.
 			float perc = (float)getHandler().getFluidInSystem() / (float)maxFluid;
 			//Also.. we can only go to a max of which the system is filled at.

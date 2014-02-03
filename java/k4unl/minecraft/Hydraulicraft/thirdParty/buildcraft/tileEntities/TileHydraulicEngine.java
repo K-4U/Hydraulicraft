@@ -21,8 +21,12 @@ import buildcraft.api.power.PowerHandler.Type;
 public class TileHydraulicEngine extends TileEntity implements IHydraulicConsumer, IPowerEmitter, IPowerReceptor {
 	private IBaseClass baseHandler;
 	private final PowerHandler powerHandler;
-	private ForgeDirection facing = ForgeDirection.NORTH;
+	private ForgeDirection facing = ForgeDirection.UP;
 	public float energy;
+	private boolean isRunning = true;
+	private float percentageRun = 0.0F;
+	private float direction = 0.005F;
+	
 	
 	public TileHydraulicEngine(){
 		powerHandler = new PowerHandler(this, Type.ENGINE);
@@ -39,6 +43,14 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		}
 	}
 
+	public ForgeDirection getFacing(){
+		return facing;		
+	}
+	
+	public void setFacing(ForgeDirection newDir){
+		facing = newDir;
+	}
+	
 	@Override
 	public int getMaxStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * 20;
@@ -57,11 +69,15 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	@Override
 	public void readNBT(NBTTagCompound tagCompound) {
 		powerHandler.readFromNBT(tagCompound);
+		isRunning = tagCompound.getBoolean("isRunning");
+		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 	}
 
 	@Override
 	public void writeNBT(NBTTagCompound tagCompound) {
 		powerHandler.writeToNBT(tagCompound);
+		tagCompound.setBoolean("isRunning", isRunning);
+		tagCompound.setInteger("facing", facing.ordinal());
 	}
 
 	@Override
@@ -80,11 +96,26 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public float getPercentageOfRender(){
+		if(isRunning){
+			percentageRun += direction;
+		}
+		if(Float.compare(percentageRun, 0.0F) <= 0 && Float.compare(direction, 0.0F) < 0){
+			direction = 0.005F;
+		}else if(Float.compare(percentageRun, 1.0F) >= 0 && Float.compare(direction, 0.0F) > 0){
+			direction = -0.005F;
+		}
+		return percentageRun;
+	}
+	
+	public boolean getIsRunning(){
+		return isRunning;
+	}
 
 	@Override
 	public void onFluidLevelChanged(int old) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -101,11 +132,23 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	}
 	
 	private float createPower(boolean simulate){
-		//TODO: REPLACE THIS
+		if(getHandler().getPressure() < Constants.MIN_REQUIRED_PRESSURE_ENGINE){
+			isRunning = false;
+			getHandler().updateBlock();
+			return 0F;
+		}
+		
+		float energyToAdd = (getHandler().getPressure() / getMaxPressure(getHandler().isOilStored())) * Constants.CONVERSION_RATIO_MJ_HYDRAULIC;
 		if(!simulate)
-			energy += 10;
+			energy += energyToAdd;
+		
         int efficiency = 40;
-        float pressureUsage = 10 * 11.291F / (efficiency / 100F);
+        float pressureUsage = energyToAdd * (1.0F - (efficiency / 100F)); 
+        if(pressureUsage > 0.0F){
+        	isRunning = true;
+        }else{
+        	isRunning = false;
+        }
         return pressureUsage;
     }
 
@@ -115,7 +158,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public PowerReceiver getPowerReceiver(ForgeDirection side) {
-		if(side.equals(side)){
+		if(side.equals(facing)){
 			return powerHandler.getPowerReceiver();
 		}else{
 			return null;
