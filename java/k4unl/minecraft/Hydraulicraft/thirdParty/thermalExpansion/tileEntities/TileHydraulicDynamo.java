@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities;
 
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
@@ -11,14 +9,10 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import buildcraft.api.power.IPowerEmitter;
-import buildcraft.api.power.IPowerReceptor;
-import buildcraft.api.power.PowerHandler;
-import buildcraft.api.power.PowerHandler.PowerReceiver;
-import buildcraft.api.power.PowerHandler.Type;
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyHandler;
 
 public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsumer, IEnergyHandler {
 	private IBaseClass baseHandler;
@@ -97,12 +91,10 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	}
 	
 	public float getPercentageOfRender(){
-		//if(isRunning){
+		if(isRunning){
 			percentageRun += direction;
-		//}
-		if(Float.compare(percentageRun, 0.0F) <= 0 && Float.compare(direction, 0.0F) < 0){
-			direction = 0.005F;
-		}else if(Float.compare(percentageRun, 1.0F) >= 0 && Float.compare(direction, 0.0F) > 0){
+		}
+		if(Float.compare(percentageRun, 1.0F) >= 0 && Float.compare(direction, 0.0F) > 0){
 			//direction = -0.005F;
 			percentageRun = 0.0F;
 		}

@@ -15,14 +15,14 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 
-public class TileHydraulicRFPump extends TileEntity implements IHydraulicGenerator, IEnergyHandler {
+public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEnergyHandler {
 	private int currentBurnTime;
 	private int maxBurnTime;
 	private boolean isBurning = false;
 	private IBaseGenerator baseHandler;
 	private EnergyStorage energyStorage;
 	
-	public TileHydraulicRFPump(){
+	public TileRFPump(){
 		energyStorage = new EnergyStorage(40000);
 	}
 	

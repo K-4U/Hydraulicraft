@@ -1,17 +1,22 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion;
 
+import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockHydraulicDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockRFPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.HandlerRFPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamoItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import net.minecraft.block.Block;
+import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ThermalExpansion {
 	public static Block blockHydraulicDynamo;
+	public static Block blockRFPump;
 	
 	public static void init(){
 		initBlocks();
@@ -20,11 +25,17 @@ public class ThermalExpansion {
 	
 	public static void initBlocks(){
 		blockHydraulicDynamo = new BlockHydraulicDynamo();
+		blockRFPump = new BlockRFPump();
+		
 		GameRegistry.registerBlock(blockHydraulicDynamo, Names.blockHydraulicDynamo.unlocalized);
-		LanguageRegistry.addName(blockHydraulicDynamo, Names.blockHydraulicDynamo.localized);
+		GameRegistry.registerBlock(blockRFPump, HandlerRFPump.class, Names.blockRFPump[0].unlocalized);
+		
 		
 		GameRegistry.registerTileEntity(TileHydraulicDynamo.class, "tileHydraulicDynamo");
+		GameRegistry.registerTileEntity(TileRFPump.class, "tileRFPump");
+		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicDynamo.class, new RendererHydraulicDynamo());
+		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicDynamo.act, new RendererHydraulicDynamoItem());
 	}
 	
 	public static void initRecipes(){

@@ -10,11 +10,11 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicRFPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 
 public class BlockRFPump extends MachineTieredBlock {
 
-	protected BlockRFPump() {
+	public BlockRFPump() {
 		super(Ids.blockRFPump, Names.blockRFPump);
 		
 		this.hasTopIcon = true;
@@ -23,7 +23,7 @@ public class BlockRFPump extends MachineTieredBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return new TileHydraulicRFPump();
+		return new TileRFPump();
 	}
 
 	

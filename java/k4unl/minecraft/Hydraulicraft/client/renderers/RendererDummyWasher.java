@@ -27,13 +27,19 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 		Tessellator tessellator = Tessellator.instance;
 		
 		tessellator.addTranslation(x, y, z);
-        GL11.glPushMatrix();
-        GL11.glEnable(GL11.GL_LIGHTING);
+        //GL11.glPushMatrix();
+        /*//GL11.glEnable(GL11.GL_LIGHTING);
+        float f = 1.0F;
+        int i1 = block.colorMultiplier(world, x, y, z);
+        float f1 = (float)(i1 >> 16 & 255) / 255.0F;
+        float f2 = (float)(i1 >> 8 & 255) / 255.0F;
+        float f3 = (float)(i1 & 255) / 255.0F;
 		
-		
-		int lightValue = block.getMixedBrightnessForBlock(world, x, y, z);
-        tessellator.setBrightness(lightValue);
-        tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+
+        
+		int lightValue = world.getLightBrightnessForSkyBlocks(x, y, z, 0);
+        tessellator.setBrightness(14680064);
+        tessellator.setColorOpaque_F(f * f1, f * f2, f * f3);*/
 		//Lets try this:
 		TileDummyWasher washer = (TileDummyWasher) world.getBlockTileEntity(x, y, z);
 		
@@ -265,8 +271,8 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 		//again and again, until you're done, then:
 		tessellator.addTranslation(-x, -y, -z);
 		
-		GL11.glPopMatrix();
-		GL11.glDisable(GL11.GL_LIGHTING);
+		//GL11.glPopMatrix();
+		//GL11.glDisable(GL11.GL_LIGHTING);
 		return false;
 	}
 

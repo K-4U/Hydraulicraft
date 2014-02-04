@@ -47,7 +47,7 @@ public class BlockDummyWasher extends MachineBlockContainer {
 
     @Override
     public boolean renderAsNormalBlock(){
-        return true;
+        return false;
     }
 	
 	@Override

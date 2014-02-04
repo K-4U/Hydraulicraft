@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
@@ -28,6 +29,7 @@ public class Renderers {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicHarvester.class, new RendererHarvesterSource());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicPiston.class, new RendererHydraulicPiston());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicPump.class, new RendererHydraulicPump());
 		
 		
 		
@@ -37,7 +39,6 @@ public class Renderers {
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicPiston.act, new RendererHydraulicPistonItem());
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicHarvester.act, new RendererHarvesterItem());
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHarvesterTrolley.act, new RendererHarvesterTrolleyItem());
-		
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicHose.act+256,  new RendererHydraulicHoseItem());
 	}
 }

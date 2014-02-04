@@ -1,8 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
+import k4unl.minecraft.Hydraulicraft.client.renderers.Renderers;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +23,22 @@ public class BlockHydraulicPump extends MachineTieredBlock {
 	public TileEntity createNewTileEntity(World world) {
 		return new TileHydraulicPump();
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderType(){
+        return -1;
+    }
+	
+	@Override
+    public boolean isOpaqueCube(){
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock(){
+        return false;
+    }
 	
 	
 	@Override

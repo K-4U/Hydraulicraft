@@ -47,6 +47,9 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 		drawAxle();
 		GL11.glEnd();
 		
+		drawMovingPart(f);
+		
+		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_LIGHTING); //Disregard lighting
 		GL11.glPopMatrix();
