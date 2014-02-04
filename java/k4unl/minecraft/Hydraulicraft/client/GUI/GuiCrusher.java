@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
+import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerCrusher;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -27,15 +28,15 @@ public class GuiCrusher extends MachineGUI{
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         int scaledProgress = crusher.getScaledCrushTime();
-        drawTexturedModalRect(xStart + 85, yStart + 32, 207, 0, scaledProgress, 18);
+        drawTexturedModalRect(xStart + 85, yStart + 34, 207, 0, scaledProgress, 18);
         GL11.glDisable(GL11.GL_BLEND);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        fontRenderer.drawString(Names.blockHydraulicCrusher.localized, 8, 6, 0xFFFFFF);
+        //fontRenderer.drawString(Names.blockHydraulicCrusher.localized, 8, 6, 0xFFFFFF);
+        drawHorizontalAlignedString(7, 3, xSize-14, Blocks.hydraulicCrusher.getLocalizedName(), true);
         drawFluidAndPressure();
-        checkTooltips(mouseX, mouseY);
     }
 }

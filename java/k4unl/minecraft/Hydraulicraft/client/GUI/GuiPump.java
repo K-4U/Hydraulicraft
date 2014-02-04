@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
+import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerPump;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -22,7 +23,8 @@ public class GuiPump extends MachineGUI {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		fontRenderer.drawString(pump.getInvName(), 8, 6, 0xFFFFFF);
+		//fontRenderer.drawString(pump.getInvName(), 8, 6, 0xFFFFFF);
+		drawHorizontalAlignedString(7, 3, xSize-14, pump.getInvName(), true);
 		
 		if(pump.getIsBurning()){
 			int color = 0xFFB25900;
@@ -43,7 +45,6 @@ public class GuiPump extends MachineGUI {
 		}
 		
 		drawFluidAndPressure();
-		checkTooltips(mouseX, mouseY);
 		
 	}
 }

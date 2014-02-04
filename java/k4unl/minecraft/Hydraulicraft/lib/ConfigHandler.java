@@ -70,12 +70,11 @@ public class ConfigHandler{
     }
 
     private static void loadThirdPartyIds(){
-        if(Loader.isModLoaded("PneumaticCraft")) {
-            Ids.blockHydraulicPneumaticCompressor.loadBlock(config, Names.blockHydraulicPneumaticCompressor);
-        }
+    	Ids.blockHydraulicPneumaticCompressor.loadBlock(config, Names.blockHydraulicPneumaticCompressor);
         
-        if(Loader.isModLoaded("BuildCraft|Core")) {
-        	Ids.blockHydraulicEngine.loadBlock(config, Names.blockHydraulicEngine);
-        }
+        Ids.blockHydraulicEngine.loadBlock(config, Names.blockHydraulicEngine);
+        Ids.blockHydraulicDynamo.loadBlock(config, Names.blockHydraulicDynamo);
+        
+        Ids.blockRFPump.loadBlock(config, Names.blockRFPump);
     }
 }

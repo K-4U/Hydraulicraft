@@ -1,33 +1,23 @@
 package k4unl.minecraft.Hydraulicraft.containers;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
-import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicCrusher;
+import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 
-public class ContainerPneumaticCompressor extends Container {
-
-	protected TileHydraulicPneumaticCompressor tileCompressor;
+public class ContainerEmpty extends Container {
 	
-	
-	public ContainerPneumaticCompressor(InventoryPlayer invPlayer, TileHydraulicPneumaticCompressor _compressor){
-		tileCompressor = _compressor;
-		
-		//addSlotToContainer(new Slot(vat, 0, 59, 15));
-		
+	public ContainerEmpty(InventoryPlayer invPlayer){		
 		bindPlayerInventory(invPlayer);
-		
-		
 	}
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
 		return true;
-		//return tileCompressor.isUseableByPlayer(entityplayer);
 	}
 
 	

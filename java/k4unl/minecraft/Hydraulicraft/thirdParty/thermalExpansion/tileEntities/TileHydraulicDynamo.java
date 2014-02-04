@@ -1,5 +1,7 @@
-package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
+package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyHandler;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
@@ -18,20 +20,17 @@ import buildcraft.api.power.PowerHandler;
 import buildcraft.api.power.PowerHandler.PowerReceiver;
 import buildcraft.api.power.PowerHandler.Type;
 
-public class TileHydraulicEngine extends TileEntity implements IHydraulicConsumer, IPowerEmitter, IPowerReceptor {
+public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsumer, IEnergyHandler {
 	private IBaseClass baseHandler;
-	private final PowerHandler powerHandler;
 	private ForgeDirection facing = ForgeDirection.UP;
-	public float energy;
+	
 	private boolean isRunning = true;
 	private float percentageRun = 0.0F;
 	private float direction = 0.005F;
+	protected EnergyStorage storage = new EnergyStorage(32000);
 	
-	
-	public TileHydraulicEngine(){
-		powerHandler = new PowerHandler(this, Type.ENGINE);
-        powerHandler.configure(1.5F, 300, 10, 1000);
-        powerHandler.configurePowerPerdition(1, 100);
+	public TileHydraulicDynamo(){
+
 	}
 	
 	@Override
@@ -68,16 +67,16 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public void readNBT(NBTTagCompound tagCompound) {
-		powerHandler.readFromNBT(tagCompound);
 		isRunning = tagCompound.getBoolean("isRunning");
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+		storage.readFromNBT(tagCompound);
 	}
 
 	@Override
 	public void writeNBT(NBTTagCompound tagCompound) {
-		powerHandler.writeToNBT(tagCompound);
 		tagCompound.setBoolean("isRunning", isRunning);
 		tagCompound.setInteger("facing", facing.ordinal());
+		storage.writeToNBT(tagCompound);
 	}
 
 	@Override
@@ -98,13 +97,14 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	}
 	
 	public float getPercentageOfRender(){
-		if(isRunning){
+		//if(isRunning){
 			percentageRun += direction;
-		}
+		//}
 		if(Float.compare(percentageRun, 0.0F) <= 0 && Float.compare(direction, 0.0F) < 0){
 			direction = 0.005F;
 		}else if(Float.compare(percentageRun, 1.0F) >= 0 && Float.compare(direction, 0.0F) > 0){
-			direction = -0.005F;
+			//direction = -0.005F;
+			percentageRun = 0.0F;
 		}
 		return percentageRun;
 	}
@@ -118,31 +118,26 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public boolean canEmitPowerFrom(ForgeDirection side) {
-		return side.equals(facing);
-	}
 
 	@Override
 	public float workFunction(boolean simulate) {
 		if(!simulate){
-			sendPower();
+			
 		}
 		return createPower(simulate);
 	}
 	
 	private float createPower(boolean simulate){
-		if(getHandler().getPressure() < Constants.MIN_REQUIRED_PRESSURE_ENGINE){
+		if(getHandler().getPressure() < Constants.MIN_REQUIRED_PRESSURE_DYNAMO){
 			isRunning = false;
 			getHandler().updateBlock();
 			return 0F;
 		}
 		
-		float energyToAdd = ((getHandler().getPressure() / getMaxPressure(getHandler().isOilStored())) * Constants.CONVERSION_RATIO_HYDRAULIC_MJ) * (getHandler().getPressure() / 1000);
-		if(!simulate)
-			energy += energyToAdd;
+		float energyToAdd = ((getHandler().getPressure() / getMaxPressure(getHandler().isOilStored())) * Constants.CONVERSION_RATIO_HYDRAULIC_RF) * (getHandler().getPressure() / 1000);
+		energyToAdd = storage.receiveEnergy((int)energyToAdd, simulate);
 		
-        int efficiency = 30;
+        int efficiency = 40;
         float pressureUsage = energyToAdd * (1.0F - (efficiency / 100F)); 
         if(pressureUsage > 0.0F){
         	isRunning = true;
@@ -156,82 +151,6 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		getHandler().checkRedstonePower();
 	}
 
-	@Override
-	public PowerReceiver getPowerReceiver(ForgeDirection side) {
-		if(side.equals(facing)){
-			return powerHandler.getPowerReceiver();
-		}else{
-			return null;
-		}
-	}
-	
-    private void sendPower() {
-    	ForgeDirection o = facing;
-    	TileEntity tile = worldObj.getBlockTileEntity(xCoord + o.offsetX, yCoord + o.offsetY, zCoord + o.offsetZ);
-        if(isPoweredTile(tile, o)) {
-            PowerReceiver receptor = ((IPowerReceptor)tile).getPowerReceiver(o.getOpposite());
-
-            float extracted = getPowerToExtract();
-            if(extracted > 0) {
-                float needed = receptor.receiveEnergy(PowerHandler.Type.ENGINE, extracted, o.getOpposite());
-                extractEnergy(receptor.getMinEnergyReceived(), needed, true);
-            }
-        }
-}
-
-	private float getPowerToExtract() {
-		ForgeDirection o = facing;
-        TileEntity tile = worldObj.getBlockTileEntity(xCoord + o.offsetX, yCoord + o.offsetY, zCoord + o.offsetZ);
-        PowerReceiver receptor = ((IPowerReceptor)tile).getPowerReceiver(o.getOpposite());
-        return extractEnergy(receptor.getMinEnergyReceived(), receptor.getMaxEnergyReceived(), false);
-	}
-	
-	public float extractEnergy(float min, float max, boolean doExtract){
-        if(energy < min) return 0;
-
-        float actualMax;
-
-        if(max > maxEnergyExtracted()) actualMax = maxEnergyExtracted();
-        else actualMax = max;
-
-        if(actualMax < min) return 0;
-
-        float extracted;
-
-        if(energy >= actualMax) {
-            extracted = actualMax;
-            if(doExtract) energy -= actualMax;
-        } else {
-            extracted = energy;
-            if(doExtract) energy = 0;
-        }
-
-        return extracted;
-    }
-	
-    private float maxEnergyExtracted(){
-        return 10;
-    }
-	
-	@Override
-	public void doWork(PowerHandler workProvider) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-
-	@Override
-	public World getWorld() {
-		return worldObj;
-	}
-
-
-	public boolean isPoweredTile(TileEntity tile, ForgeDirection side) {
-        if (tile instanceof IPowerReceptor)
-                return ((IPowerReceptor) tile).getPowerReceiver(side.getOpposite()) != null;
-
-        return false;
-	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
@@ -257,4 +176,48 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		getHandler().validate();
 	}
 
+	
+	
+	@Override
+	public int receiveEnergy(ForgeDirection from, int maxReceive,
+			boolean simulate) {
+		if(from.equals(facing)){
+			return storage.receiveEnergy(maxReceive, simulate);			
+		}else{
+			return 0;
+		}
+	}
+
+	@Override
+	public int extractEnergy(ForgeDirection from, int maxExtract,
+			boolean simulate) {
+		if(from.equals(facing)){
+			return storage.extractEnergy(maxExtract, simulate);
+		}else{
+			return 0;
+		}
+	}
+
+	@Override
+	public boolean canInterface(ForgeDirection from) {
+		return (from.equals(facing));
+	}
+
+	@Override
+	public int getEnergyStored(ForgeDirection from) {
+		if(from.equals(facing)){
+			return storage.getEnergyStored();
+		}else{
+			return 0;
+		}
+	}
+
+	@Override
+	public int getMaxEnergyStored(ForgeDirection from) {
+		//if(from.equals(facing)){
+			return storage.getMaxEnergyStored();
+		//}else{
+			//return 0;
+		//}
+	}
 }

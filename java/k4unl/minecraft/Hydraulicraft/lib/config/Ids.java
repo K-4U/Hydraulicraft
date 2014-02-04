@@ -19,7 +19,7 @@ public class Ids {
 	public static final Id blockHarvesterTrolley = new Id(3528);
 	public static final Id blockPressureDisposal = new Id(3529);
 	public static final Id blockCore = new Id(3530);
-	public static final Id blockHydraulicEngine = new Id(3529);
+	
 	
 	public static final Id oreCopper = new Id(3531);
 	public static final Id oreLead = new Id(3532);
@@ -36,7 +36,6 @@ public class Ids {
 	public static final Id itemBucketOil = new Id(3008);
 	
 	
-	
 	//DO NOT SAVE THESE IN THE CONFIG!!!
 	public static final Id GUIPump = new Id(1);
 	public static final Id GUICrusher = new Id(2);
@@ -46,6 +45,8 @@ public class Ids {
 	public static final Id GUIPressureVat = new Id(6);
 	public static final Id GUIPneumaticCompressor = new Id(7);
 	public static final Id GUIHarvester = new Id(8);
+	public static final Id GUIDynamo = new Id(9);
+	public static final Id GUIRFPump = new Id(10);
 	
 	
 	public static final Id blockFluidOil = new Id(3533);
@@ -53,4 +54,8 @@ public class Ids {
 	
 	//Third party!
 	public static final Id blockHydraulicPneumaticCompressor = new Id(3534);
+	public static final Id blockHydraulicEngine = new Id(3529);
+	public static final Id blockHydraulicDynamo = new Id(3527);
+	public static final Id blockRFPump = new Id(3526);
+	
 }

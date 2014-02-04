@@ -18,6 +18,13 @@ public class Names {
 	
 	public static final Name blockDummyWasher = new Name("Washer", "hydraulicDummyWasher");
 	public static final Name blockHydraulicEngine = new Name("Hydraulic Engine", "hydraulicEngine");
+	public static final Name blockHydraulicDynamo = new Name("Hydraulic Dynamo", "hydraulicDynamo");
+
+	public static final Name[] blockRFPump = {
+		new Name("LP RF Pump", "LPRFPump"),
+		new Name("MP RF Pump", "MPRFPump"),
+		new Name("HP RF Pump", "HPRFPump")
+	};
 	
 	
 	public static final Name[] blockHydraulicHarvester = {

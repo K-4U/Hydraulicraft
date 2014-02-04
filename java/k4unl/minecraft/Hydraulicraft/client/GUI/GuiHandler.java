@@ -8,15 +8,19 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerCrusher;
+import k4unl.minecraft.Hydraulicraft.containers.ContainerEmpty;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerHarvester;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerIncinerator;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerMixer;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerPressureVat;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerPump;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerWasher;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.client.GUI.GuiPneumaticCompressor;
+import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.containers.ContainerPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -62,6 +66,10 @@ public class GuiHandler implements IGuiHandler {
 				if(ent instanceof TileHydraulicHarvester){
 					return new ContainerHarvester(player.inventory, (TileHydraulicHarvester)ent);
 				}
+			}else if(ID == Ids.GUIDynamo.act){
+				if(ent instanceof TileHydraulicDynamo){
+					return new ContainerEmpty(player.inventory);
+				}
 			}
 		}
 		
@@ -106,6 +114,10 @@ public class GuiHandler implements IGuiHandler {
 			}else if(ID == Ids.GUIHarvester.act){
 				if(ent instanceof TileHydraulicHarvester){
 					return new GuiHarvester(player.inventory, (TileHydraulicHarvester)ent);
+				}
+			}else if(ID == Ids.GUIDynamo.act){
+				if(ent instanceof TileHydraulicDynamo){
+					return new GuiDynamo(player.inventory, (TileHydraulicDynamo)ent);
 				}
 			}
 		}

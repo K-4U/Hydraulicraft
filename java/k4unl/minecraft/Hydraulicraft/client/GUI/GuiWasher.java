@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
+import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerWasher;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -29,7 +30,8 @@ public class GuiWasher extends MachineGUI {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		fontRenderer.drawString(Names.blockHydraulicWasher.localized, 8, 6, 0xFFFFFF);
+		//fontRenderer.drawString(Names.blockHydraulicWasher.localized, 8, 6, 0xFFFFFF);
+		drawHorizontalAlignedString(7, 3, xSize-14, Blocks.hydraulicWasher.getLocalizedName(), true);
 		
 		drawFluidAndPressure();
 		
@@ -41,7 +43,7 @@ public class GuiWasher extends MachineGUI {
 				color = Constants.COLOR_WATER | 0x7F000000;
 				
 				
-				drawVerticalProgressBar(76, 14, 56, 26, tankInfo[0].fluid.amount, tankInfo[0].capacity, color, "Water:", "mB");
+				drawVerticalProgressBar(76, 16, 56, 26, tankInfo[0].fluid.amount, tankInfo[0].capacity, color, "Water:", "mB");
 			}
 		}
 		
@@ -52,7 +54,7 @@ public class GuiWasher extends MachineGUI {
 			//Icon smeltingIcon = smeltingItem.getIconFromDamage(smeltingItem.getDamage(incinerator.getSmeltingItem()));
 			
 			int done = washer.getWashingTicks();
-			int startY = 15;
+			int startY = 17;
 			int startX = 56;
 			int maxTicks = 200;
 			int targetX = 106;
@@ -68,18 +70,16 @@ public class GuiWasher extends MachineGUI {
 				xPos = startX + (int) (travelPath * percentage);
 			}else if(percentage < 0.75F){
 				xPos = 80;
-				targetY = 54;
+				targetY = 56;
 				travelPath = targetY - startY;
 				yPos = startY + (int) (travelPath * ((percentage-0.25F)*2));
 			}else{
-				yPos = 54;
+				yPos = 56;
 				targetX = 106;
 				startX = 80;
 				travelPath = targetX - startX;
 				xPos = startX + (int) (travelPath * (percentage-0.75F)*4);
 			}
-			
-			
 			
 			IconRenderer.drawMergedIcon(xPos, yPos, zLevel, washingItem, targetItem, percentage, true);
 			
@@ -92,9 +92,5 @@ public class GuiWasher extends MachineGUI {
 			}*/
 			GL11.glDisable(GL11.GL_BLEND);
 		}
-		
-		
-		
-		checkTooltips(mouseX, mouseY);
 	}
 }

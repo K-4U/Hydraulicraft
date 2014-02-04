@@ -44,10 +44,10 @@ public class GuiPressureVat extends MachineGUI {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		int tier = pvat.getTier();
-		fontRenderer.drawString(pvat.getInvName(), 30, 6, 0xFFFFFF);
+		//fontRenderer.drawString(pvat.getInvName(), 30, 6, 0xFFFFFF);
+		drawHorizontalAlignedString(7, 3, xSize-14, pvat.getInvName(), true);
 		
 		drawFluidAndPressure();
-		checkTooltips(mouseX, mouseY);
 	}
 
 }

@@ -16,11 +16,11 @@ public class ContainerWasher extends Container {
 	public ContainerWasher(InventoryPlayer invPlayer, TileHydraulicWasher _tileWasher){
 		tileWasher = _tileWasher;
 		
-		addSlotToContainer(new SlotMachineInput(tileWasher, tileWasher, 0, 56, 14));
-		addSlotToContainer(new SlotFurnace(invPlayer.player, tileWasher, 1, 106, 54));
+		addSlotToContainer(new SlotMachineInput(tileWasher, tileWasher, 0, 56, 16));
+		addSlotToContainer(new SlotFurnace(invPlayer.player, tileWasher, 1, 106, 56));
 		
-		addSlotToContainer(new SlotMachineInput(tileWasher, tileWasher, 2, 31, 14));
-		addSlotToContainer(new SlotFurnace(invPlayer.player, tileWasher, 3, 31, 54));
+		addSlotToContainer(new SlotMachineInput(tileWasher, tileWasher, 2, 31, 16));
+		addSlotToContainer(new SlotFurnace(invPlayer.player, tileWasher, 3, 31, 56));
 		
 		bindPlayerInventory(invPlayer);
 		

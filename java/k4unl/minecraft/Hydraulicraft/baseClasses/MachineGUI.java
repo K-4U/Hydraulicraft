@@ -3,13 +3,14 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 import java.util.ArrayList;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fluids.FluidRegistry;
 
 import org.lwjgl.opengl.GL11;
 
@@ -17,7 +18,7 @@ public class MachineGUI extends GuiContainer {
 	private ResourceLocation resLoc;
 	IHydraulicMachine mEnt;
 	
-	class ToolTip{
+	public class ToolTip{
 		int x;
 		int y;
 		int w;
@@ -47,7 +48,7 @@ public class MachineGUI extends GuiContainer {
 			return text;
 		}
 	}
-	List<ToolTip> tooltipList = new ArrayList<ToolTip>();
+	protected List<ToolTip> tooltipList = new ArrayList<ToolTip>();
 	
 	public MachineGUI(IHydraulicMachine Entity, Container mainContainer, ResourceLocation _resLoc) {
 		super(mainContainer);
@@ -65,24 +66,29 @@ public class MachineGUI extends GuiContainer {
 		
 		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 	}
+
 	
-	private void drawTooltip(int mouseX, int mouseY, ToolTip toDraw){
-		int x = (width - xSize) / 2;
-		int y = (height - ySize) / 2;
-		drawHoveringText(toDraw.getText(), mouseX-x, mouseY-y, fontRenderer);
-		GL11.glDisable(GL11.GL_LIGHTING);
-	}
+	@Override
+    public List<String> handleTooltip(int mouseX, int mouseY, List<String> currenttip){
+		for (ToolTip tip : tooltipList) {
+			if(shouldRenderToolTip(mouseX, mouseY, tip)){
+				currenttip.addAll(tip.getText());
+			}
+		}
+        return currenttip;
+    }
 	
 	private boolean shouldRenderToolTip(int mouseX, int mouseY, ToolTip theTip){
 		return isPointInRegion(theTip.x, theTip.y, theTip.w, theTip.h, mouseX, mouseY);
 	}
 	
-	public void checkTooltips(int mouseX, int mouseY){
-		for (ToolTip tip : tooltipList) {
-			if(shouldRenderToolTip(mouseX, mouseY, tip)){
-				drawTooltip(mouseX, mouseY, tip);
-			}
+	public void drawHorizontalAlignedString(int xOffset, int yOffset, int w, String text, boolean useShadow){
+		int stringWidth = fontRenderer.getStringWidth(text);
+		int newX = xOffset;
+		if(stringWidth < w){
+			newX = (w / 2) - (stringWidth / 2) + xOffset;
 		}
+		fontRenderer.drawStringWithShadow(text, newX, yOffset, Constants.COLOR_TEXT);
 	}
 	
 	protected void drawVerticalProgressBar(int xOffset, int yOffset, int h, int w, float value, float max, int color, String toolTipTitle, String toolTipUnit){
@@ -97,21 +103,19 @@ public class MachineGUI extends GuiContainer {
 	}
 	
 	protected void drawFluidAndPressure(){
-		if(mEnt.getHandler().getStored() > 0){
-			int color = 0xFFFFFFFF;
-			if(!mEnt.getHandler().isOilStored()){
-				color = Constants.COLOR_WATER;
-			}else{
-				color = Constants.COLOR_OIL;
-			}
-			drawVerticalProgressBar(8, 14, 56, 16, mEnt.getHandler().getStored(), mEnt.getMaxStorage(), color, "Fluid:", "mB");
-			
+		int color = 0xFFFFFFFF;
+		String fluidName = "";
+		if(!mEnt.getHandler().isOilStored()){
+			color = Constants.COLOR_WATER;
+			fluidName = FluidRegistry.WATER.getLocalizedName();
+		}else{
+			color = Constants.COLOR_OIL;
+			fluidName = Fluids.fluidOil.getLocalizedName();
 		}
-		
-		if(mEnt.getHandler().getPressure() > 0){
-			int color = Constants.COLOR_PRESSURE;
-			drawVerticalProgressBar(152, 14, 56, 16, mEnt.getHandler().getPressure(), mEnt.getMaxPressure(mEnt.getHandler().isOilStored()), color, "Pressure:", "mBar");
-		}
+		drawVerticalProgressBar(8, 16, 54, 16, mEnt.getHandler().getStored(), mEnt.getMaxStorage(), color, fluidName + ":", "mB");
+	
+		color = Constants.COLOR_PRESSURE;
+		drawVerticalProgressBar(152, 16, 54, 16, mEnt.getHandler().getPressure(), mEnt.getMaxPressure(mEnt.getHandler().isOilStored()), color, "Pressure:", "mBar");
 	}
 	
 	
@@ -119,7 +123,7 @@ public class MachineGUI extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		tooltipList.clear();
-		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-96 + 2, 0xFFFFFF);
+		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-94 + 2, Constants.COLOR_TEXT);
 	}
 
 }

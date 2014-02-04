@@ -92,7 +92,7 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 	private void doCompress() {
 		//Simplest function EVER!
 		float usage = (getHandler().getPressure() / 10000);
-		getAirHandler().addAir(usage * Constants.CONVERSION_RATIO_AIR_HYDRAULIC, ForgeDirection.UNKNOWN);
+		getAirHandler().addAir(usage * Constants.CONVERSION_RATIO_HYDRAULIC_AIR, ForgeDirection.UNKNOWN);
 	}
 
 	private boolean canRun() {
@@ -100,7 +100,7 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 			return false;
 		}
 		//Get minimal pressure
-		return (getHandler().getPressure() > Constants.MIN_PRESSURE_COMPRESSOR && getAirHandler().getPressure(ForgeDirection.UNKNOWN) < dangerPressure);
+		return (getHandler().getPressure() > Constants.MIN_REQUIRED_PRESSURE_COMPRESSOR && getAirHandler().getPressure(ForgeDirection.UNKNOWN) < dangerPressure);
 	}
 
 	@Override

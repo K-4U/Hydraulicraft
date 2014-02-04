@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.client.GUI;
+package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.client.GUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,12 +6,12 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerPressureVat;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.containers.ContainerPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -58,7 +58,6 @@ public class GuiPneumaticCompressor extends MachineGUI {
 				0, compressor.getPneumaticPressure(), (int)gaugeX, (int)gaugeY, 0);
 		GL11.glPopMatrix();
 		drawFluidAndPressure();
-		checkTooltips(mouseX, mouseY);
 	}
 
 }

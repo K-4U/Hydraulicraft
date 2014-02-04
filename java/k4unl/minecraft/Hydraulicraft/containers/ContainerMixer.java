@@ -18,7 +18,7 @@ public class ContainerMixer extends Container {
 	public ContainerMixer(InventoryPlayer invPlayer, TileHydraulicMixer mixer){
 		tileMixer = mixer;
 		
-		addSlotToContainer(new SlotMachineInput(mixer, mixer, 0, 64, 15));
+		addSlotToContainer(new SlotMachineInput(mixer, mixer, 0, 64, 17));
 		
 		bindPlayerInventory(invPlayer);
 		

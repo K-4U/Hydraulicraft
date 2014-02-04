@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicMixer;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
+import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerMixer;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -29,7 +30,8 @@ public class GuiMixer extends MachineGUI {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		fontRenderer.drawString(Names.blockHydraulicMixer.localized, 8, 6, 0xFFFFFF);
+		//fontRenderer.drawString(Names.blockHydraulicMixer.localized, 8, 6, 0xFFFFFF);
+		drawHorizontalAlignedString(7, 3, xSize-14, Blocks.hydraulicWasher.getLocalizedName(), true);
 		
 		
 		FluidTankInfo[] tankInfo = mixer.getTankInfo(ForgeDirection.UP);
@@ -41,7 +43,7 @@ public class GuiMixer extends MachineGUI {
 					color = 0x7FFFFFFF;
 				}
 				
-				drawVerticalProgressBar(34, 14, 52, 26, tankInfo[0].fluid.amount, tankInfo[0].capacity, color, "Water:", "mB");
+				drawVerticalProgressBar(34, 16, 52, 26, tankInfo[0].fluid.amount, tankInfo[0].capacity, color, "Water:", "mB");
 			}
 		}
 		if(tankInfo[1].fluid != null){
@@ -52,7 +54,7 @@ public class GuiMixer extends MachineGUI {
 					color = 0x7FFFFFFF;
 				}
 
-				drawVerticalProgressBar(34, 14, 52, 26, tankInfo[1].fluid.amount, tankInfo[1].capacity, color, "Oil:", "mB");
+				drawVerticalProgressBar(34, 16, 52, 26, tankInfo[1].fluid.amount, tankInfo[1].capacity, color, "Oil:", "mB");
 			}
 		}
 		
