@@ -294,5 +294,10 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 		
 	}
 
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
+	}
+
 	
 }

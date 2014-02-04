@@ -248,7 +248,8 @@ public class MachineEntity implements IBaseClass {
 		
 		TileEntity t = getWorld().getBlockTileEntity(x, y, z);
 		if(t instanceof IHydraulicMachine){
-			list.add((IHydraulicMachine)t);
+			if(((IHydraulicMachine)t).canConnectTo(dir.getOpposite()))
+				list.add((IHydraulicMachine)t);
 		}else if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
 			if(Multipart.getTransporter((TileMultipart)t).isConnectedTo(dir.getOpposite())){
 				list.add(Multipart.getTransporter((TileMultipart)t));

@@ -220,4 +220,9 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 			//return 0;
 		//}
 	}
+	
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return side.equals(facing.getOpposite());
+	}
 }

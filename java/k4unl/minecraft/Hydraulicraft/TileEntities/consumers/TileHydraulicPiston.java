@@ -238,4 +238,9 @@ public class TileHydraulicPiston extends TileEntity implements
 		
 	}
 	
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
+	}
+	
 }

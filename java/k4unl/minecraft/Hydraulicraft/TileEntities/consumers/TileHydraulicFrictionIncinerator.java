@@ -14,6 +14,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileHydraulicFrictionIncinerator extends TileEntity implements ISidedInventory, IHydraulicConsumer {
@@ -369,6 +370,10 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	@Override
 	public void onFluidLevelChanged(int old) {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
 	}
 }

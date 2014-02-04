@@ -17,6 +17,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -384,6 +385,11 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 	public void onFluidLevelChanged(int old) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
 	}
 	
 }

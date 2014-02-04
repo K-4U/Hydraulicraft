@@ -225,4 +225,9 @@ public class TileHydraulicRFPump extends TileEntity implements IHydraulicGenerat
 		return energyStorage.getMaxEnergyStored();
 	}
 
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
+	}
+	
 }

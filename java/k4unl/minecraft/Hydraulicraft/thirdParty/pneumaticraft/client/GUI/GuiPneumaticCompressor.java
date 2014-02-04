@@ -11,8 +11,10 @@ import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.containers.ContainerPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
@@ -45,8 +47,7 @@ public class GuiPneumaticCompressor extends MachineGUI {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		fontRenderer.drawString(Names.blockHydraulicPneumaticCompressor.localized, 30, 6, 0xFFFFFF);
-		
+		drawHorizontalAlignedString(7, 3, xSize - 14, Pneumaticraft.hydraulicPneumaticCompressor.getLocalizedName(), true);
 		
 		GL11.glPushMatrix();
 	    float gaugeY = 25;

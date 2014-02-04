@@ -15,6 +15,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileHydraulicPump extends TileEntity implements IInventory, IHydraulicGenerator {
@@ -348,4 +349,8 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		
 	}
 
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
+	}
 }

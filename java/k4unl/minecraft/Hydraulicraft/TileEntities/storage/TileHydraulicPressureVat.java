@@ -413,4 +413,9 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
+	}
 }

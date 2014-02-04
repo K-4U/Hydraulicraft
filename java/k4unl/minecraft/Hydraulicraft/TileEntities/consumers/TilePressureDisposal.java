@@ -10,6 +10,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityNote;
+import net.minecraftforge.common.ForgeDirection;
 
 public class TilePressureDisposal extends TileEntity implements
 		IHydraulicConsumer {
@@ -110,5 +111,10 @@ public class TilePressureDisposal extends TileEntity implements
 	public void onFluidLevelChanged(int old) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
 	}
 }

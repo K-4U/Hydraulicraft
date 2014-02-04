@@ -1082,4 +1082,9 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	public void onFluidLevelChanged(int old) {
 		
 	}
+	
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
+	}
 }

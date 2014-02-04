@@ -256,5 +256,10 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		super.validate();
 		getHandler().validate();
 	}
+	
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return side.equals(facing.getOpposite());
+	}
 
 }

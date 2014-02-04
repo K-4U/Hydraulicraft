@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraftforge.common.ForgeDirection;
 
 public interface IHydraulicMachine {
 	/**
@@ -59,8 +60,6 @@ public interface IHydraulicMachine {
 	 */
 	public void writeNBT(NBTTagCompound tagCompound);
 	
-	
-	
 	/**
 	 * Forward this function to the Base class
 	 * @param net
@@ -93,4 +92,11 @@ public interface IHydraulicMachine {
 	 * Called whenever the fluid level has changed
 	 */
 	public void onFluidLevelChanged(int old);
+	
+	/**
+	 * Function that gets called to check if a network can connect here.
+	 * @param side
+	 * @return
+	 */
+	public boolean canConnectTo(ForgeDirection side);
 }

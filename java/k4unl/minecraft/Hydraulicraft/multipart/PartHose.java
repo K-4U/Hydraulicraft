@@ -247,7 +247,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			}
     		return false;
     	}else{
-    		return entity instanceof IHydraulicMachine;
+    		if(entity instanceof IHydraulicMachine){
+    			return ((IHydraulicMachine)entity).canConnectTo(dir.getOpposite());
+    		}else{
+    			return false;
+    		}
     	}
     }
 
@@ -279,6 +283,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         }
 		updateBlock();
     }
+    
+    @Override
+	public boolean canConnectTo(ForgeDirection side) {
+    	int d = side.getOpposite().ordinal();
+    	return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]));
+	}
 
     private void updateBlock(){
     	if(!world().isRemote){
@@ -441,4 +451,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		}
 		return connectedSides;
 	}
+
+	
 }

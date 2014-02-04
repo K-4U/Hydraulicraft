@@ -163,4 +163,9 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
+	}
 }
