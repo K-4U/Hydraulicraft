@@ -87,6 +87,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		int extractedEnergy = energyStorage.extractEnergy(getMaxGenerating(), true);
 		if(extractedEnergy > 0){
 			float gen = extractedEnergy * Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
+			gen = gen * (getHandler().getStored() / getMaxStorage());
 			
 			if(Float.compare(gen + getHandler().getPressure(), getMaxPressure(getHandler().isOilStored())) > 0){
 				//This means the pressure we are generating is too much!

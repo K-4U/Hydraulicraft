@@ -13,8 +13,9 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
+import cofh.api.tileentity.IEnergyInfo;
 
-public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsumer, IEnergyHandler {
+public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsumer, IEnergyHandler, IEnergyInfo {
 	private IBaseClass baseHandler;
 	private ForgeDirection facing = ForgeDirection.UP;
 	
@@ -113,9 +114,6 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public float workFunction(boolean simulate) {
-		if(!simulate){
-			
-		}
 		return createPower(simulate);
 	}
 	
@@ -135,6 +133,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
         	isRunning = true;
         }else{
         	isRunning = false;
+        	getHandler().updateBlock();
         }
         return pressureUsage;
     }
@@ -216,5 +215,29 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
 		return side.equals(facing.getOpposite());
+	}
+
+	@Override
+	public int getEnergyPerTick() {
+		float energyToAdd = ((getHandler().getPressure() / getMaxPressure(getHandler().isOilStored())) * Constants.CONVERSION_RATIO_HYDRAULIC_RF) * (getHandler().getPressure() / 1000);
+		energyToAdd = storage.receiveEnergy((int)energyToAdd, true);
+		return (int)energyToAdd;
+	}
+
+	@Override
+	public int getMaxEnergyPerTick() {
+		float energyToAdd = getMaxPressure(getHandler().isOilStored()) * Constants.CONVERSION_RATIO_HYDRAULIC_RF;
+		energyToAdd = storage.receiveEnergy((int)energyToAdd, true);
+		return (int)energyToAdd;
+	}
+
+	@Override
+	public int getEnergy() {
+		return storage.getEnergyStored();
+	}
+
+	@Override
+	public int getMaxEnergy() {
+		return storage.getMaxEnergyStored();
 	}
 }

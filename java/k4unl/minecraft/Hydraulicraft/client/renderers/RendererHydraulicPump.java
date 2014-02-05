@@ -1,14 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -19,7 +19,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 			new ResourceLocation(ModInfo.LID,"textures/model/hydraulicPump.png");
 	
 
-
+	private RenderBlocks renderer;
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
 			double z, float f) {
@@ -28,27 +28,33 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		int rotation = 0;//t.getDir();
 		int metadata = t.getBlockMetadata();
 		
+		renderer = new RenderBlocks(tileentity.worldObj);
+		
 		doRender(t, (float)x, (float)y, (float)z, f, rotation, metadata);
 	}
 	
 	public void itemRender(float x, float y,
-			float z, float f){
+			float z, float f, int tier){
+		
+		renderer = new RenderBlocks();
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef(x, y, z);
-
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
 		
 		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
+		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
+		GL11.glColor3f(0.9F, 0.9F, 0.9F);
 		//Do rendering
-		GL11.glBegin(GL11.GL_QUADS);
-
-		GL11.glEnd();
+        
+		float thickness = 0.06F;
+		renderTieredBars(tier, thickness);
 		
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_LIGHTING); //Disregard lighting
+		renderInsidesWithoutLighting(thickness);
+		
+		//GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_LIGHTING); 
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}
@@ -64,13 +70,12 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		
 		GL11.glPushMatrix();
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
-		GL11.glEnable(GL11.GL_LIGHTING); //Disregard lighting
+		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
-        
+		GL11.glColor3f(0.9F, 0.9F, 0.9F);
 		float thickness = 0.06F;
 		renderTieredBars(t.getTier(), thickness);
-		
-		renderInsides(thickness);
+		renderInsides(thickness, t);
 		
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -79,11 +84,33 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 	}
 	
-	private void renderInsides(float thickness){
+	private void renderInsidesWithoutLighting(float thickness){
 		thickness -= 0.025F;
 		GL11.glBegin(GL11.GL_QUADS);
 		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);
 		RenderHelper.drawTexturedCube(insides);
+		GL11.glEnd();
+		
+		GL11.glEnable(GL11.GL_BLEND);
+		
+		GL11.glBegin(GL11.GL_QUADS);
+		Vector3fMax vector = new Vector3fMax(thickness + 0.1F, 0.0F, thickness+0.1F, 1.0F-thickness-0.1F, 1.01F-thickness, thickness+0.1F+0.2F);
+		
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 215F/256F, 0.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), 215F/256F, 0.39F);		
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), 189F/256F, 0.39F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), 189F/256F, 0.0F);
+		
+		GL11.glEnd();
+		GL11.glDisable(GL11.GL_BLEND);
+	}
+	
+	private void renderInsides(float thickness, TileHydraulicPump t){
+		thickness -= 0.025F;
+		GL11.glBegin(GL11.GL_QUADS);
+		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);	
+		RenderHelper.drawTexturedCubeWithLight(insides, (TileEntity)t);
+		
 		GL11.glEnd();
 		
 		GL11.glEnable(GL11.GL_BLEND);

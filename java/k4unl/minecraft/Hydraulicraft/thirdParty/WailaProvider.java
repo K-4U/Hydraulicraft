@@ -5,6 +5,7 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
+import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -54,8 +55,18 @@ public class WailaProvider implements IWailaDataProvider {
 	}
 	
 	public static void callbackRegister(IWailaRegistrar registrar){
-		registrar.registerHeadProvider(new WailaProvider(), MachineEntity.class);
-		registrar.registerBodyProvider(new WailaProvider(), MachineEntity.class);
+		registrar.registerHeadProvider(new WailaProvider(), IHydraulicMachine.class);
+		registrar.registerBodyProvider(new WailaProvider(), IHydraulicMachine.class);
+		registrar.registerTailProvider(new WailaProvider(), IHydraulicMachine.class);
+		
+		//registrar.registerBodyProvider(new WailaProvider(), Ids.blockHydraulicPump.act);
+	}
+
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack,
+			List<String> currenttip, IWailaDataAccessor accessor,
+			IWailaConfigHandler config) {
+		return currenttip;
 	}
 
 }

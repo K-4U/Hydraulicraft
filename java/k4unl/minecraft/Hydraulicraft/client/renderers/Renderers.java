@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHarvesterIte
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHarvesterTrolleyItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicHoseItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicPistonItem;
+import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicPumpItem;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -40,5 +41,6 @@ public class Renderers {
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicHarvester.act, new RendererHarvesterItem());
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHarvesterTrolley.act, new RendererHarvesterTrolleyItem());
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicHose.act+256,  new RendererHydraulicHoseItem());
+		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicPump.act,  new RendererHydraulicPumpItem());
 	}
 }

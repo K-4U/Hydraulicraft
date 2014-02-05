@@ -4,6 +4,8 @@ package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileDummyWasher;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -28,18 +30,17 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 		
 		tessellator.addTranslation(x, y, z);
         //GL11.glPushMatrix();
-        /*//GL11.glEnable(GL11.GL_LIGHTING);
-        float f = 1.0F;
-        int i1 = block.colorMultiplier(world, x, y, z);
-        float f1 = (float)(i1 >> 16 & 255) / 255.0F;
-        float f2 = (float)(i1 >> 8 & 255) / 255.0F;
-        float f3 = (float)(i1 & 255) / 255.0F;
+        //GL11.glEnable(GL11.GL_LIGHTING);
+		//int lightValue = world.getLightBrightnessForSkyBlocks(x, y, z, 0);
+		int lightValue = block.getMixedBrightnessForBlock(world, x, y, z);
+		//14680064
+        //tessellator.setBrightness(lightValue);
+        tessellator.setColorOpaque_F(0.8F, 0.8F, 0.8F);
+		//tessellator.setBrightness(14680064);
+		//GL11.glColor3f(0.9F, 0.9F, 0.9F);
 		
-
-        
-		int lightValue = world.getLightBrightnessForSkyBlocks(x, y, z, 0);
-        tessellator.setBrightness(14680064);
-        tessellator.setColorOpaque_F(f * f1, f * f2, f * f3);*/
+		
+		
 		//Lets try this:
 		TileDummyWasher washer = (TileDummyWasher) world.getBlockTileEntity(x, y, z);
 		
@@ -143,6 +144,8 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 			if(renderLeft){
 				vR = v;
 			}
+			//tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y + 1, z));
+			
 			tessellator.addVertexWithUV(0, 1, 1, uR, vR);
 			tessellator.addVertexWithUV(1, 1, 1, uR, VR);
 			tessellator.addVertexWithUV(1, 1, 0, UR, VR);
@@ -165,6 +168,8 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 			if(renderRight){
 				vR = v;
 			}
+			
+			//tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y - 1, z));
 			tessellator.addVertexWithUV(1, 0, 1, uR, vR);
 			tessellator.addVertexWithUV(0, 0, 1, uR, VR);
 			tessellator.addVertexWithUV(0, 0, 0, UR, VR);
@@ -189,6 +194,8 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 				UR = U;
 			}
 			
+			//tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x-1, y, z));
+			
 			tessellator.addVertexWithUV(0, 0, 1, uR, vR);
 			tessellator.addVertexWithUV(0, 1, 1, uR, VR);
 			tessellator.addVertexWithUV(0, 1, 0, UR, VR);
@@ -212,6 +219,9 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 			if(renderFront){
 				UR = U;
 			}
+			
+			//tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x+1, y, z));
+			
 			tessellator.addVertexWithUV(1, 0, 0, uR, vR);
 			tessellator.addVertexWithUV(1, 1, 0, uR, VR);
 			tessellator.addVertexWithUV(1, 1, 1, UR, VR);
@@ -236,6 +246,8 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 				UR = U;
 			}
 			
+			//tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z+1));
+			
 			tessellator.addVertexWithUV(1, 0, 1, uR, vR);
 			tessellator.addVertexWithUV(1, 1, 1, uR, VR);
 			tessellator.addVertexWithUV(0, 1, 1, UR, VR);
@@ -259,6 +271,8 @@ public class RendererDummyWasher implements ISimpleBlockRenderingHandler {
 			if(renderRight){
 				UR = U;
 			}
+			
+			//tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z-1));
 			
 			tessellator.addVertexWithUV(0, 0, 0, uR, vR);
 			tessellator.addVertexWithUV(0, 1, 0, uR, VR);

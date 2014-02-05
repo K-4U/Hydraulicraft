@@ -11,7 +11,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 public class ThirdParty{
 
     public static void init(){
-        FMLInterModComms.sendMessage("Waila", "register", "k4unl.minecraft.Hydraulicraft.thirdParty.WailaProvider.callbackRegister");
+    	FMLInterModComms.sendMessage("Waila", "register", "k4unl.minecraft.Hydraulicraft.thirdParty.WailaProvider.callbackRegister");
 
         if(Loader.isModLoaded("PneumaticCraft")) {
             Log.info("Pneumaticraft found! Initializing Pneumaticraft support!");
@@ -38,6 +38,8 @@ public class ThirdParty{
     		Log.info("ExtraUtilities found! Initializing ExtraUtilities support!");
     		ExtraUtilities.init();
         }
+    	
+    	
     }
 
 }
