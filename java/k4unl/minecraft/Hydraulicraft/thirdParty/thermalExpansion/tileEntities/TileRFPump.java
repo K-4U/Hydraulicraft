@@ -21,15 +21,16 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	private boolean isBurning = false;
 	private IBaseGenerator baseHandler;
 	private EnergyStorage energyStorage;
+	private ForgeDirection facing = ForgeDirection.NORTH;
 	
 	
 	private EnergyStorage getEnergyStorage(){
-		if(energyStorage == null) energyStorage = new EnergyStorage((getTier() + 1) * 400000);
-		return energyStorage;
+		if(this.energyStorage == null) 
+			this.energyStorage = new EnergyStorage((getTier() + 1) * 400000);
+		return this.energyStorage;
 	}
 	
 	public TileRFPump(){
-		//energyStorage = new EnergyStorage(40000);
 	}
 	
 	@Override
@@ -208,18 +209,22 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive,
 			boolean simulate) {
-		return getEnergyStorage().receiveEnergy(maxReceive, simulate);
+		if(from.equals(facing.getOpposite())){
+			return getEnergyStorage().receiveEnergy(maxReceive, simulate);
+		}else{
+			return 0;
+		}
 	}
 
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract,
 			boolean simulate) {
-		return getEnergyStorage().extractEnergy(maxExtract, simulate);
+		return 0;
 	}
 
 	@Override
 	public boolean canInterface(ForgeDirection from) {
-		return true;
+		return from.equals(facing.getOpposite());
 	}
 
 	@Override
@@ -234,7 +239,15 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
-		return true;
+		return side.equals(facing);
+	}
+
+	public ForgeDirection getFacing() {
+		return ForgeDirection.UNKNOWN;
+	}
+
+	public void setFacing(ForgeDirection rotation) {
+		facing = rotation;
 	}
 	
 }

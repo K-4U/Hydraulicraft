@@ -69,7 +69,7 @@ public class TileHydraulicMixer extends TileEntity implements
 	 * and if the item is smeltable
 	 */
 	private boolean canRun(){
-		if(inputInventory == null || (getHandler().getPressure() < requiredPressure)){
+		if(inputInventory == null || (getHandler().getPressure() < requiredPressure) || inputTank == null || inputTank.getFluid() == null){
 			return false;
 		}else{
 			if(outputTank.getFluidAmount() + Constants.OIL_FOR_ONE_SEED < outputTank.getCapacity()){

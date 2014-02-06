@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
@@ -28,6 +29,21 @@ public class BlockRFPump extends MachineTieredBlock {
 
 	
 	@Override
+    public int getRenderType(){
+        return -1;
+    }
+
+    @Override
+    public boolean isOpaqueCube(){
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock(){
+        return false;
+    }
+	
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
 		if(player.isSneaking())
@@ -43,5 +59,18 @@ public class BlockRFPump extends MachineTieredBlock {
 		
 		return true;
 	}
+	
+	@Override
+    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){
+		TileEntity te = world.getBlockTileEntity(x, y, z);
+		if(te instanceof TileHydraulicDynamo){
+			TileRFPump e = (TileRFPump) te;
+			ForgeDirection facing = e.getFacing();
+			e.setFacing(facing.getRotation(side));
+			e.getHandler().updateBlock();
+		}
+		
+		return true;
+    }
 
 }

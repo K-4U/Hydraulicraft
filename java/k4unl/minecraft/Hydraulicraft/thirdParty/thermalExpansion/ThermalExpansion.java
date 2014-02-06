@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockRFP
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.HandlerRFPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamoItem;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererRFPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import net.minecraft.block.Block;
@@ -35,6 +36,8 @@ public class ThermalExpansion {
 		GameRegistry.registerTileEntity(TileRFPump.class, "tileRFPump");
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicDynamo.class, new RendererHydraulicDynamo());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileRFPump.class, new RendererRFPump());
+		
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicDynamo.act, new RendererHydraulicDynamoItem());
 	}
 	
