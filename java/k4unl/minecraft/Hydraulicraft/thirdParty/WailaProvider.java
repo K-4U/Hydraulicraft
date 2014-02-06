@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
@@ -44,10 +45,9 @@ public class WailaProvider implements IWailaDataProvider {
 			currenttip.add("Fl: " + stored + "/" + max + " mBuckets (" + (int)(((float)stored / (float)max) * 100) + "%)");
 			currenttip.add("Pr: " + pressure + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");
 			
-			if(mEnt instanceof TileHydraulicPump){
-				float gen = ((TileHydraulicPump) mEnt).getGenerating();
-				int maxGen = ((TileHydraulicPump) mEnt).getMaxGenerating();
-				int tier = ((TileHydraulicPump) mEnt).getTier();
+			if(mEnt instanceof IHydraulicGenerator){
+				float gen = ((IHydraulicGenerator) mEnt).getGenerating();
+				int maxGen = ((IHydraulicGenerator) mEnt).getMaxGenerating();
 				currenttip.add("Gen: " + gen + "/" + maxGen);
 			}			
 		}

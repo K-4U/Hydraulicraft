@@ -114,7 +114,25 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public float workFunction(boolean simulate) {
-		return createPower(simulate);
+		float pressureRequired = createPower(simulate);
+		
+		if(simulate == false){
+			//PUSH pressure
+			//This had me busy for two days.
+			TileEntity receiver = worldObj.getBlockTileEntity(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ);
+			if(receiver != null && receiver instanceof IEnergyHandler){
+				IEnergyHandler recv = (IEnergyHandler) receiver;
+				int energyPushed = recv.receiveEnergy(facing.getOpposite(), storage.extractEnergy(Constants.MAX_TRANSFER_RF, true), true);
+				if(energyPushed > 0){
+					recv.receiveEnergy(facing.getOpposite(), storage.extractEnergy(energyPushed, false), false);
+				}
+			}
+		}
+		if(simulate == true && storage.getEnergyStored() > 0 && Float.compare(pressureRequired, 0.0F) == 0){
+			pressureRequired += 0.1F;
+		}
+		
+		return pressureRequired;
 	}
 	
 	private float createPower(boolean simulate){
@@ -124,7 +142,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 			return 0F;
 		}
 		
-		float energyToAdd = ((getHandler().getPressure() / getMaxPressure(getHandler().isOilStored())) * Constants.CONVERSION_RATIO_HYDRAULIC_RF) * (getHandler().getPressure() / 1000);
+		float energyToAdd = ((getHandler().getPressure() / getMaxPressure(getHandler().isOilStored())) * Constants.CONVERSION_RATIO_HYDRAULIC_RF) * Constants.MAX_TRANSFER_RF;
 		energyToAdd = storage.receiveEnergy((int)energyToAdd, simulate);
 		
         int efficiency = 40;
@@ -173,7 +191,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	public int receiveEnergy(ForgeDirection from, int maxReceive,
 			boolean simulate) {
 		if(from.equals(facing)){
-			return storage.receiveEnergy(maxReceive, simulate);			
+			return this.storage.receiveEnergy(maxReceive, simulate);			
 		}else{
 			return 0;
 		}
@@ -182,11 +200,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract,
 			boolean simulate) {
-		if(from.equals(facing)){
-			return storage.extractEnergy(maxExtract, simulate);
-		}else{
-			return 0;
-		}
+		return 0;
 	}
 
 	@Override
@@ -196,20 +210,16 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public int getEnergyStored(ForgeDirection from) {
-		if(from.equals(facing)){
-			return storage.getEnergyStored();
-		}else{
-			return 0;
-		}
+		return this.storage.getEnergyStored();
 	}
 
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
-		//if(from.equals(facing)){
-			return storage.getMaxEnergyStored();
-		//}else{
-			//return 0;
-		//}
+		if(from.equals(facing) || from.equals(ForgeDirection.UNKNOWN)){
+			return this.storage.getMaxEnergyStored();
+		}else{
+			return 0;
+		}
 	}
 	
 	@Override
@@ -233,11 +243,12 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public int getEnergy() {
-		return storage.getEnergyStored();
+		return this.storage.getEnergyStored();
 	}
 
 	@Override
 	public int getMaxEnergy() {
-		return storage.getMaxEnergyStored();
+		return this.storage.getMaxEnergyStored();
 	}
+
 }

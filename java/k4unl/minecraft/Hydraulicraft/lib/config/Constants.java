@@ -61,6 +61,7 @@ public class Constants {
 	public static final float MIN_REQUIRED_PRESSURE_ENGINE = 1000F;
 	
 	//Thermal Expansion
+	public static final int MAX_TRANSFER_RF = 100;
 	public static final float CONVERSION_RATIO_HYDRAULIC_RF = 0.8F;
 	public static final float CONVERSION_RATIO_RF_HYDRAULIC = 0.8F;
 	public static final float MIN_REQUIRED_PRESSURE_DYNAMO = 1000F;

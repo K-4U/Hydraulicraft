@@ -22,8 +22,14 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	private IBaseGenerator baseHandler;
 	private EnergyStorage energyStorage;
 	
+	
+	private EnergyStorage getEnergyStorage(){
+		if(energyStorage == null) energyStorage = new EnergyStorage((getTier() + 1) * 400000);
+		return energyStorage;
+	}
+	
 	public TileRFPump(){
-		energyStorage = new EnergyStorage(40000);
+		//energyStorage = new EnergyStorage(40000);
 	}
 	
 	@Override
@@ -49,7 +55,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			needsUpdate = true;
 			if(Float.compare(getGenerating(), 0.0F) > 0){
 				getHandler().setPressure(getHandler().getPressure() + getGenerating());
-				energyStorage.extractEnergy(getMaxGenerating(), false);
+				getEnergyStorage().extractEnergy(getMaxGenerating(), false);
 			}
 		}
 		
@@ -84,7 +90,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 
 	@Override
 	public float getGenerating() {
-		int extractedEnergy = energyStorage.extractEnergy(getMaxGenerating(), true);
+		int extractedEnergy = getEnergyStorage().extractEnergy(getMaxGenerating(), true);
 		if(extractedEnergy > 0){
 			float gen = extractedEnergy * Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
 			gen = gen * (getHandler().getStored() / getMaxStorage());
@@ -154,7 +160,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		
 		currentBurnTime = tagCompound.getInteger("currentBurnTime");
 		maxBurnTime = tagCompound.getInteger("maxBurnTime");
-		energyStorage.readFromNBT(tagCompound);
+		getEnergyStorage().readFromNBT(tagCompound);
 	}
 
 	@Override
@@ -163,7 +169,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		
 		tagCompound.setInteger("currentBurnTime",currentBurnTime);
 		tagCompound.setInteger("maxBurnTime",maxBurnTime);
-		energyStorage.writeToNBT(tagCompound);
+		getEnergyStorage().writeToNBT(tagCompound);
 	}
 
 	@Override
@@ -202,13 +208,13 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive,
 			boolean simulate) {
-		return energyStorage.receiveEnergy(maxReceive, simulate);
+		return getEnergyStorage().receiveEnergy(maxReceive, simulate);
 	}
 
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract,
 			boolean simulate) {
-		return energyStorage.extractEnergy(maxExtract, simulate);
+		return getEnergyStorage().extractEnergy(maxExtract, simulate);
 	}
 
 	@Override
@@ -218,12 +224,12 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 
 	@Override
 	public int getEnergyStored(ForgeDirection from) {
-		return energyStorage.getEnergyStored();
+		return getEnergyStorage().getEnergyStored();
 	}
 
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
-		return energyStorage.getMaxEnergyStored();
+		return getEnergyStorage().getMaxEnergyStored();
 	}
 
 	@Override

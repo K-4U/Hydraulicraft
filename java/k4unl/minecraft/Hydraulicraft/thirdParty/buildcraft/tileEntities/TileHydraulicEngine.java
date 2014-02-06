@@ -142,7 +142,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		if(!simulate)
 			energy += energyToAdd;
 		
-        int efficiency = 30;
+        int efficiency = 20;
         float pressureUsage = energyToAdd * (1.0F - (efficiency / 100F)); 
         if(pressureUsage > 0.0F){
         	isRunning = true;
