@@ -115,19 +115,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	@Override
 	public float workFunction(boolean simulate) {
 		float pressureRequired = createPower(simulate);
-		
-		if(simulate == false){
-			//PUSH pressure
-			//This had me busy for two days.
-			TileEntity receiver = worldObj.getBlockTileEntity(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ);
-			if(receiver != null && receiver instanceof IEnergyHandler){
-				IEnergyHandler recv = (IEnergyHandler) receiver;
-				int energyPushed = recv.receiveEnergy(facing.getOpposite(), storage.extractEnergy(Constants.MAX_TRANSFER_RF, true), true);
-				if(energyPushed > 0){
-					recv.receiveEnergy(facing.getOpposite(), storage.extractEnergy(energyPushed, false), false);
-				}
-			}
-		}
+
 		if(simulate == true && storage.getEnergyStored() > 0 && Float.compare(pressureRequired, 0.0F) == 0){
 			pressureRequired += 0.1F;
 		}
@@ -136,17 +124,18 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	}
 	
 	private float createPower(boolean simulate){
-		if(getHandler().getPressure() < Constants.MIN_REQUIRED_PRESSURE_DYNAMO){
+		if(getHandler().getPressure() < Constants.MIN_REQUIRED_PRESSURE_DYNAMO || !getHandler().getRedstonePowered()){
 			isRunning = false;
 			getHandler().updateBlock();
 			return 0F;
 		}
 		
 		float energyToAdd = ((getHandler().getPressure() / getMaxPressure(getHandler().isOilStored())) * Constants.CONVERSION_RATIO_HYDRAULIC_RF) * Constants.MAX_TRANSFER_RF;
+		//energyToAdd *= Constants.CONVERSION_RATIO_HYDRAULIC_RF;
 		energyToAdd = storage.receiveEnergy((int)energyToAdd, simulate);
 		
-        int efficiency = 40;
-        float pressureUsage = energyToAdd * (1.0F - (efficiency / 100F)); 
+        int efficiency = 80;
+        float pressureUsage = energyToAdd * (1.0F + (efficiency / 100F)); 
         if(pressureUsage > 0.0F){
         	isRunning = true;
         }else{
@@ -177,6 +166,18 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	public void updateEntity() {
 		super.updateEntity();
 		getHandler().updateEntity();
+		
+		//PUSH pressure
+		//This had me busy for two days.
+		TileEntity receiver = worldObj.getBlockTileEntity(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ);
+		if(receiver != null && receiver instanceof IEnergyHandler){
+			IEnergyHandler recv = (IEnergyHandler) receiver;
+			int energyPushed = recv.receiveEnergy(facing.getOpposite(), storage.extractEnergy(Constants.MAX_TRANSFER_RF, true), true);
+			
+			if(energyPushed > 0){
+				recv.receiveEnergy(facing.getOpposite(), storage.extractEnergy(energyPushed, false), false);
+			}
+		}
 	}
 
 	@Override

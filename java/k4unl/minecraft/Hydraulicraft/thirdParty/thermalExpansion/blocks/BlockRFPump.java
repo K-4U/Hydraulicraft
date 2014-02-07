@@ -50,11 +50,10 @@ public class BlockRFPump extends MachineTieredBlock {
 			return false;
 		
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileHydraulicDynamo)){
+		if(entity == null || !(entity instanceof TileRFPump)){
 			return false;
-			
 		}
-		//TileHydraulicPneumaticCompressor compressor = (TileHydraulicPneumaticCompressor) entity;
+		//TileRFPump compressor = (TileRFPump) entity;
 		//player.openGui(Hydraulicraft.instance, Ids.GUIPneumaticCompressor.act, world, x, y, z);
 		
 		return true;
@@ -63,11 +62,14 @@ public class BlockRFPump extends MachineTieredBlock {
 	@Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){
 		TileEntity te = world.getBlockTileEntity(x, y, z);
-		if(te instanceof TileHydraulicDynamo){
-			TileRFPump e = (TileRFPump) te;
-			ForgeDirection facing = e.getFacing();
-			e.setFacing(facing.getRotation(side));
-			e.getHandler().updateBlock();
+		if(te instanceof TileRFPump){
+			if(side.equals(ForgeDirection.UP) || side.equals(ForgeDirection.DOWN)){
+				TileRFPump e = (TileRFPump) te;
+				ForgeDirection facing = e.getFacing();
+				e.setFacing(facing.getRotation(side));
+				e.getHandler().updateBlock();
+				world.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
+			}
 		}
 		
 		return true;

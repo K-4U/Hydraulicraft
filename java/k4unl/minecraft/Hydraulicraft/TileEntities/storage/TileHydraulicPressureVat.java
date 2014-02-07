@@ -193,7 +193,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		if(resource.getFluid() == null)
 			return 0;
 		
-		if(tank != null && tank.getFluid() != null){
+		if(tank != null && tank.getFluid() != null && tank.getFluidAmount() > 0){
 			if(resource.getFluid().getID() != tank.getFluid().getFluid().getID()){
 				return 0;
 			}

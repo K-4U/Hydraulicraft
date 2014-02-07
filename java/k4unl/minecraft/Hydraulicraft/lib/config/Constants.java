@@ -42,7 +42,7 @@ public class Constants {
 	
 	
 	public static final float PRESSURE_USAGE_PISTON = 50;
-	public static final float PRESSURE_USAGE_ENGINE = 50;
+	
 	
 	public static final int HARVESTER_ID_ENDERLILY = 1;
 	
@@ -58,13 +58,21 @@ public class Constants {
 	
 	//Buildcraft
 	public static final float CONVERSION_RATIO_HYDRAULIC_MJ = 0.8F;
-	public static final float MIN_REQUIRED_PRESSURE_ENGINE = 1000F;
+	public static final float MIN_REQUIRED_PRESSURE_ENGINE = 10000F;
+	public static final float PRESSURE_USAGE_ENGINE = 50;
 	
 	//Thermal Expansion
-	public static final int MAX_TRANSFER_RF = 100;
+	public static final int[] RF_USAGE_PER_TICK = {500, 1500, 2000};
 	public static final float CONVERSION_RATIO_HYDRAULIC_RF = 0.8F;
 	public static final float CONVERSION_RATIO_RF_HYDRAULIC = 0.8F;
-	public static final float MIN_REQUIRED_PRESSURE_DYNAMO = 1000F;
+	
+	
+	public static final int MAX_TRANSFER_RF = 100;
+	public static final int MIN_REQUIRED_RF = 1000;
+	
+	public static final float MIN_REQUIRED_PRESSURE_DYNAMO = 10000F;
+	public static final float PRESSURE_USAGE_DYNAMO = 1000F;
+	
 	
 	
 	

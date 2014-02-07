@@ -45,8 +45,12 @@ public class BlockHydraulicDynamo extends MachineBlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		if(player.isSneaking())
-			return false;
+		
+		 
+		if(player.isSneaking()){
+			return true;
+		}
+			
 		
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileHydraulicDynamo)){
@@ -79,9 +83,11 @@ public class BlockHydraulicDynamo extends MachineBlockContainer {
 			ForgeDirection facing = e.getFacing();
 			e.setFacing(facing.getRotation(side));
 			e.getHandler().updateBlock();
+			world.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
+			return true;
 		}
 		
-		return true;
+		return false;
     }
 	
 }

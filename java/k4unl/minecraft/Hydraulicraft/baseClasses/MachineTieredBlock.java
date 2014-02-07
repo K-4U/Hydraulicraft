@@ -2,6 +2,8 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
@@ -127,6 +129,10 @@ public abstract class MachineTieredBlock extends MachineBlockContainer {
 		public void onNeighborBlockChange(World world, int x, int y,
 					int z, int blockId) {
 			super.onNeighborBlockChange(world, x, y, z, blockId);
+			TileEntity t = world.getBlockTileEntity(x, y, z);
+			if(t instanceof IHydraulicMachine){
+				((IHydraulicMachine)t).getHandler().checkRedstonePower();
+			}
 			
 		}
 }

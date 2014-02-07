@@ -18,7 +18,7 @@ import cofh.api.energy.IEnergyHandler;
 public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEnergyHandler {
 	private int currentBurnTime;
 	private int maxBurnTime;
-	private boolean isBurning = false;
+	private boolean isRunning = false;
 	private IBaseGenerator baseHandler;
 	private EnergyStorage energyStorage;
 	private ForgeDirection facing = ForgeDirection.NORTH;
@@ -50,6 +50,11 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	
 	@Override
 	public void workFunction() {
+		if(!getHandler().getRedstonePowered()){
+			isRunning = false;
+			getHandler().updateBlock();
+			return;
+		}
 		//This function gets called every tick.
 		boolean needsUpdate = false;
 		if(!worldObj.isRemote){
@@ -57,6 +62,9 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			if(Float.compare(getGenerating(), 0.0F) > 0){
 				getHandler().setPressure(getHandler().getPressure() + getGenerating());
 				getEnergyStorage().extractEnergy(getMaxGenerating(), false);
+				isRunning = true;
+			}else{
+				isRunning = false;
 			}
 		}
 		
@@ -91,8 +99,10 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 
 	@Override
 	public float getGenerating() {
-		int extractedEnergy = getEnergyStorage().extractEnergy(getMaxGenerating(), true);
-		if(extractedEnergy > 0){
+		if(!getHandler().getRedstonePowered()) return 0f;
+		int extractedEnergy = getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], true);
+		
+		if(getEnergyStorage().getEnergyStored() > Constants.MIN_REQUIRED_RF){
 			float gen = extractedEnergy * Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
 			gen = gen * (getHandler().getStored() / getMaxStorage());
 			
@@ -156,20 +166,18 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	@Override
 	public void readNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
-		
-		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inventory");
-		
-		currentBurnTime = tagCompound.getInteger("currentBurnTime");
-		maxBurnTime = tagCompound.getInteger("maxBurnTime");
+		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+
+		isRunning = tagCompound.getBoolean("isRunning");
 		getEnergyStorage().readFromNBT(tagCompound);
 	}
 
 	@Override
 	public void writeNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
-		
-		tagCompound.setInteger("currentBurnTime",currentBurnTime);
-		tagCompound.setInteger("maxBurnTime",maxBurnTime);
+
+		tagCompound.setInteger("facing", facing.ordinal());
+		tagCompound.setBoolean("isRunning", isRunning);
 		getEnergyStorage().writeToNBT(tagCompound);
 	}
 
@@ -243,11 +251,15 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	}
 
 	public ForgeDirection getFacing() {
-		return ForgeDirection.UNKNOWN;
+		return facing;
 	}
 
 	public void setFacing(ForgeDirection rotation) {
 		facing = rotation;
+	}
+	
+	public boolean getIsRunning(){
+		return isRunning;
 	}
 	
 }
