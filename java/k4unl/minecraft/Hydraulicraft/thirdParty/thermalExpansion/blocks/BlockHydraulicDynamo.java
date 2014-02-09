@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
 
+import buildcraft.api.tools.IToolWrench;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
@@ -48,9 +49,12 @@ public class BlockHydraulicDynamo extends MachineBlockContainer {
 		
 		 
 		if(player.isSneaking()){
-			return true;
+			return false;
 		}
-			
+		
+		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
+			return false;
+		}
 		
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileHydraulicDynamo)){
@@ -58,7 +62,7 @@ public class BlockHydraulicDynamo extends MachineBlockContainer {
 			
 		}
 		//TileHydraulicDynamo dyn = (TileHydraulicDynamo) entity;
-		player.openGui(Hydraulicraft.instance, Ids.GUIDynamo.act, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, Ids.GUIThermalExpansion.act, world, x, y, z);
 		
 		return true;
 	}

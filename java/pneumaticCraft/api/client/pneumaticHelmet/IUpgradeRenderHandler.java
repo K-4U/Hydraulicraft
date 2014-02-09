@@ -1,9 +1,9 @@
 package pneumaticCraft.api.client.pneumaticHelmet;
 
+import pneumaticCraft.api.client.IGuiAnimatedStat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
-import pneumaticCraft.api.client.IGuiAnimatedStat;
 
 /**
  * To add upgrades for in the Pneumatic Helmet implement this interface. You can add members to this class, however these can only 

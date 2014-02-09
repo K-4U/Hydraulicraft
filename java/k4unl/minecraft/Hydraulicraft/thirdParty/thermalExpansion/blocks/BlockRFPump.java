@@ -1,9 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
 
+import buildcraft.api.tools.IToolWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
@@ -49,12 +51,16 @@ public class BlockRFPump extends MachineTieredBlock {
 		if(player.isSneaking())
 			return false;
 		
+		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
+			return false;
+		}
+		
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileRFPump)){
 			return false;
 		}
 		//TileRFPump compressor = (TileRFPump) entity;
-		//player.openGui(Hydraulicraft.instance, Ids.GUIPneumaticCompressor.act, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, Ids.GUIThermalExpansion.act, world, x, y, z);
 		
 		return true;
 	}

@@ -34,7 +34,7 @@ public class RendererRFPump extends TileEntitySpecialRenderer {
 	}
 	
 	public void itemRender(float x, float y,
-			float z, float f){
+			float z, int tier){
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef(x, y, z);
@@ -42,12 +42,15 @@ public class RendererRFPump extends TileEntitySpecialRenderer {
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
 		
 		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
+		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
-		GL11.glBegin(GL11.GL_QUADS);
-		drawBase(0);
-		GL11.glEnd();
+		
+		drawBase(tier);
+		drawTEConnector();
+		drawHydraulicsConnector();
+		drawTEBlock(null, true);
+		drawHydraulicsTank(null, true);
 		
 		
 		
@@ -100,8 +103,8 @@ public class RendererRFPump extends TileEntitySpecialRenderer {
 		drawBase(t.getTier());
 		drawTEConnector();
 		drawHydraulicsConnector();
-		drawTEBlock(t);
-		drawHydraulicsTank(t);
+		drawTEBlock(t, false);
+		drawHydraulicsTank(t, false);
 		
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -258,11 +261,13 @@ public class RendererRFPump extends TileEntitySpecialRenderer {
 	}
 	
 	
-	private void drawTEBlock(TileRFPump t){
+	private void drawTEBlock(TileRFPump t, boolean isItem){
 		GL11.glPushMatrix();
 		
-		if(t.getIsRunning()){
-			GL11.glColor3f(0.9f, 0.4f, 0.4f);
+		if(!isItem){
+			if(t.getIsRunning()){
+				GL11.glColor3f(0.9f, 0.4f, 0.4f);
+			}
 		}
 		
 		GL11.glBegin(GL11.GL_QUADS);
@@ -313,37 +318,44 @@ public class RendererRFPump extends TileEntitySpecialRenderer {
 		GL11.glEnd();
 		
 		GL11.glPopMatrix();
-		if(t.getIsRunning()){
-			GL11.glColor3f(0.9f, 0.9f, 0.9f);
+		
+		if(!isItem){
+			if(t.getIsRunning()){
+				GL11.glColor3f(0.9f, 0.9f, 0.9f);
+			}
 		}
 	}
 	
-	private void drawHydraulicsTank(TileRFPump t){
+	private void drawHydraulicsTank(TileRFPump t, boolean isItem){
 		GL11.glEnable(GL11.GL_BLEND);
 		
 		
 		Vector3fMax vectorFilled = new Vector3fMax(0.301F, 0.301F, 0.201F, 0.699F, 0.699F, 0.499F);
-		float h = vectorFilled.getYMax() - vectorFilled.getYMin();
-		vectorFilled.setYMax(vectorFilled.getYMin() + (h * (t.getHandler().getStored() / t.getMaxStorage())));
+		if(!isItem){
+			float h = vectorFilled.getYMax() - vectorFilled.getYMin();
+			vectorFilled.setYMax(vectorFilled.getYMin() + (h * (t.getHandler().getStored() / t.getMaxStorage())));
 		
-		Icon fluidIcon;
-		if(t.getHandler().isOilStored()){
-			//RenderHelper.setARGBFromHex(Constants.COLOR_OIL + 0xFE000000);
-			float a = 0.7F;
-	        float r = (float)(Constants.COLOR_OIL >> 16 & 255) / 255.0F;
-	        float g = (float)(Constants.COLOR_OIL >> 8 & 255) / 255.0F;
-	        float b = (float)(Constants.COLOR_OIL & 255) / 255.0F;
-	        fluidIcon = Fluids.fluidOil.getIcon();
-		}else{
-			fluidIcon = FluidRegistry.WATER.getIcon();
+		
+			Icon fluidIcon;
+			if(t.getHandler().isOilStored()){
+				//RenderHelper.setARGBFromHex(Constants.COLOR_OIL + 0xFE000000);
+				float a = 0.7F;
+		        float r = (float)(Constants.COLOR_OIL >> 16 & 255) / 255.0F;
+		        float g = (float)(Constants.COLOR_OIL >> 8 & 255) / 255.0F;
+		        float b = (float)(Constants.COLOR_OIL & 255) / 255.0F;
+		        fluidIcon = Fluids.fluidOil.getIcon();
+			}else{
+				fluidIcon = FluidRegistry.WATER.getIcon();
+			}
+			
+			if(t.getHandler().getStored() > 0){
+				RenderHelper.drawTesselatedCubeWithTexture(vectorFilled, fluidIcon);
+			}
+			
+			//Reset texture after using tesselators.
+			FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
 		}
 		
-		if(t.getHandler().getStored() > 0){
-			RenderHelper.drawTesselatedCubeWithTexture(vectorFilled, fluidIcon);
-		}
-		
-		//Reset texture after using tesselators.
-		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
 		
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glColor4f(0.9F, 0.9F, 0.9F, 1.0F);

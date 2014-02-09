@@ -61,7 +61,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			needsUpdate = true;
 			if(Float.compare(getGenerating(), 0.0F) > 0){
 				getHandler().setPressure(getHandler().getPressure() + getGenerating());
-				getEnergyStorage().extractEnergy(getMaxGenerating(), false);
+				getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], false);
 				isRunning = true;
 			}else{
 				isRunning = false;

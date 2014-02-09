@@ -45,7 +45,7 @@ public class Ids {
 	public static final Id GUIPressureVat = new Id(6);
 	public static final Id GUIPneumaticCompressor = new Id(7);
 	public static final Id GUIHarvester = new Id(8);
-	public static final Id GUIDynamo = new Id(9);
+	public static final Id GUIThermalExpansion = new Id(9);
 	public static final Id GUIRFPump = new Id(10);
 	
 	
@@ -53,9 +53,10 @@ public class Ids {
 	
 	
 	//Third party!
-	public static final Id blockHydraulicPneumaticCompressor = new Id(3534);
-	public static final Id blockHydraulicEngine = new Id(3529);
-	public static final Id blockHydraulicDynamo = new Id(3527);
-	public static final Id blockRFPump = new Id(3526);
+	public static final Id blockHydraulicPneumaticCompressor = new Id(3533);
+	public static final Id blockHydraulicEngine = new Id(3534);
+	public static final Id blockMJPump = new Id(3535);
+	public static final Id blockHydraulicDynamo = new Id(3536);
+	public static final Id blockRFPump = new Id(3537);
 	
 }

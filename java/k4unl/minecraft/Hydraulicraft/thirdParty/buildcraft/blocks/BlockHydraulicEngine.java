@@ -76,6 +76,7 @@ public class BlockHydraulicEngine extends MachineBlockContainer {
 			ForgeDirection facing = e.getFacing();
 			e.setFacing(facing.getRotation(side));
 			e.getHandler().updateBlock();
+			world.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
 		}
 		
 		return true;

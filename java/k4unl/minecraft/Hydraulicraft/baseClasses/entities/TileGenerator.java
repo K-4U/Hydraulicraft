@@ -80,6 +80,7 @@ public class TileGenerator extends MachineEntity implements IBaseGenerator{
 		}else{
 			setPressure(getMaxPressure(target.getHandler().isOilStored()));
 		}
+		updateBlock();
 		/*
 		if(getPressure() != prevPressure){
 			//Functions.checkSidesSetPressure(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord, getPressure());

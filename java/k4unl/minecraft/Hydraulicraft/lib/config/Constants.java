@@ -57,9 +57,13 @@ public class Constants {
 	public static final float MIN_REQUIRED_PRESSURE_COMPRESSOR = 100F;
 	
 	//Buildcraft
+	public static final int[] MJ_USAGE_PER_TICK = {30, 90, 180};
+	public static final float CONVERSION_RATIO_MJ_HYDRAULIC = 0.8F;
 	public static final float CONVERSION_RATIO_HYDRAULIC_MJ = 0.8F;
 	public static final float MIN_REQUIRED_PRESSURE_ENGINE = 10000F;
-	public static final float PRESSURE_USAGE_ENGINE = 50;
+	public static final float PRESSURE_USAGE_ENGINE = 1000F;
+	public static final int ACTIVATION_MJ	= 20;
+	public static final int MIN_REQUIRED_MJ = 180;
 	
 	//Thermal Expansion
 	public static final int[] RF_USAGE_PER_TICK = {500, 1500, 2000};

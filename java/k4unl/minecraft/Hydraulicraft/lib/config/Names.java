@@ -26,6 +26,12 @@ public class Names {
 		new Name("HP RF Pump", "HPRFPump")
 	};
 	
+	public static final Name[] blockMJPump = {
+		new Name("LP MJ Pump", "LPMJPump"),
+		new Name("MP MJ Pump", "MPMJPump"),
+		new Name("HP MJ Pump", "HPMJPump")
+	};
+	
 	
 	public static final Name[] blockHydraulicHarvester = {
 		new Name("Harvester", "hydraulicHarvesterSource"),

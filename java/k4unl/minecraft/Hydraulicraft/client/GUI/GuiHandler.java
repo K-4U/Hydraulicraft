@@ -19,8 +19,9 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.client.GUI.GuiPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.containers.ContainerPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiThermalExpansion;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -66,8 +67,8 @@ public class GuiHandler implements IGuiHandler {
 				if(ent instanceof TileHydraulicHarvester){
 					return new ContainerHarvester(player.inventory, (TileHydraulicHarvester)ent);
 				}
-			}else if(ID == Ids.GUIDynamo.act){
-				if(ent instanceof TileHydraulicDynamo){
+			}else if(ID == Ids.GUIThermalExpansion.act){
+				if(ent instanceof TileHydraulicDynamo || ent instanceof TileRFPump){
 					return new ContainerEmpty(player.inventory);
 				}
 			}
@@ -115,9 +116,9 @@ public class GuiHandler implements IGuiHandler {
 				if(ent instanceof TileHydraulicHarvester){
 					return new GuiHarvester(player.inventory, (TileHydraulicHarvester)ent);
 				}
-			}else if(ID == Ids.GUIDynamo.act){
-				if(ent instanceof TileHydraulicDynamo){
-					return new GuiDynamo(player.inventory, (TileHydraulicDynamo)ent);
+			}else if(ID == Ids.GUIThermalExpansion.act){
+				if(ent instanceof TileHydraulicDynamo || ent instanceof TileRFPump){
+					return new GuiThermalExpansion(player.inventory, ent);
 				}
 			}
 		}
