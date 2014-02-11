@@ -135,9 +135,18 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	@Override
     public void writeDesc(MCDataOutput packet){
 		packet.writeInt(getTier());
+		
+		NBTTagCompound mainCompound = new NBTTagCompound();
 		NBTTagCompound connectedCompound = new NBTTagCompound();
+		NBTTagCompound handlerCompound = new NBTTagCompound();
 		writeConnectedSidesToNBT(connectedCompound);
-		packet.writeNBTTagCompound(connectedCompound);
+		getHandler().writeToNBT(handlerCompound);
+		
+		mainCompound.setCompoundTag("connectedSides", connectedCompound);
+		mainCompound.setCompoundTag("handler", handlerCompound);
+		
+		
+		packet.writeNBTTagCompound(mainCompound);
     }
 
     private void readConnectedSidesFromNBT(NBTTagCompound tagCompound){
@@ -166,8 +175,13 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     @Override
     public void readDesc(MCDataInput packet){
         tier = packet.readInt();
-        NBTTagCompound connectedCompound = packet.readNBTTagCompound();
-        readConnectedSidesFromNBT(connectedCompound);
+        
+        NBTTagCompound mainCompound = packet.readNBTTagCompound();
+		NBTTagCompound connectedCompound = mainCompound.getCompoundTag("connectedSides");
+		NBTTagCompound handlerCompound = mainCompound.getCompoundTag("handler");
+		readConnectedSidesFromNBT(connectedCompound);
+        
+        getHandler().readFromNBT(handlerCompound);
     }
 
 	
@@ -281,7 +295,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
             	}
             }
         }
-		updateBlock();
+		getHandler().updateBlock();
     }
     
     @Override
@@ -289,17 +303,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     	int d = side.getOpposite().ordinal();
     	return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]));
 	}
-
-    private void updateBlock(){
-    	if(!world().isRemote){
-	    	MCDataOutput writeStream = tile().getWriteStream(this);
-	        writeDesc(writeStream);
-    	}
-    }
     
     public void onNeighborChanged(){
         checkConnectedSides();
-        getHandler().disperse();
+        Functions.checkAndFillSideBlocks(world(), x(), y(), z());
+        //getHandler().disperse();
     }
     
     public ItemStack getItem(){
@@ -361,11 +369,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	public int getTier() {
 		return tier;
 	}
+	
 	@Override
 	public void onBlockBreaks() {
 	}
 
-   @Override
+    @Override
     public float getMaxPressure(boolean isOil){
         if(isOil) {
             switch(getTier()){

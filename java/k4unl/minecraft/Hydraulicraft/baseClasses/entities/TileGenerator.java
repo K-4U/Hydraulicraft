@@ -69,6 +69,7 @@ public class TileGenerator extends MachineEntity implements IBaseGenerator{
 	public void updateEntity(){
 		super.updateEntity();
 		if(tTarget.worldObj.isRemote) return;
+		
 		//Call work function:
 		target.workFunction();
 		//Set own pressure
@@ -77,7 +78,7 @@ public class TileGenerator extends MachineEntity implements IBaseGenerator{
 		int comp = Float.compare(getPressure() + gen, getMaxPressure(target.getHandler().isOilStored()));
 		if(comp < 0){
 			setPressure(getPressure() + gen);
-		}else{
+		}else if(Float.compare(gen, 0.0F) > 0){
 			setPressure(getMaxPressure(target.getHandler().isOilStored()));
 		}
 		updateBlock();

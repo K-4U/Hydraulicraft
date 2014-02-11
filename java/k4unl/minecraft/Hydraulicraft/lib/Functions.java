@@ -3,7 +3,9 @@ package k4unl.minecraft.Hydraulicraft.lib;
 import java.util.ArrayList;
 import java.util.List;
 
+import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -105,26 +107,6 @@ public class Functions {
 		return null;
 	}
 	
-	public static void checkSidesSetPressure(World w, int x, int y, int z, float newPressure){
-		if(!w.isRemote){
-			TileEntity t = w.getBlockTileEntity(x, y, z);
-			if(t instanceof IHydraulicMachine){
-				List <IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
-				mainList.add((IHydraulicMachine) t);
-				mainList = ((IHydraulicMachine) t).getHandler().getConnectedBlocks(mainList);
-				
-				
-				float pressureInSystem = 0;
-				if(newPressure < 0){
-					newPressure = 0;
-				}
-				for (IHydraulicMachine machineEntity : mainList) {
-					machineEntity.getHandler().setPressure(newPressure);
-				}
-			}
-		}
-	}
-	
 	public static void setFluidInSystem(List<IHydraulicMachine> mainList, int fluidInSystem, boolean isOil){
 		List<IHydraulicMachine> remainingBlocks = new ArrayList<IHydraulicMachine>();
 		int newFluidInSystem = 0;
@@ -195,10 +177,18 @@ public class Functions {
 	public static void checkAndFillSideBlocks(World w, int x, int y, int z){
 		if(!w.isRemote){
 			TileEntity t = w.getBlockTileEntity(x, y, z);
-			if(t instanceof IHydraulicMachine){
+			if(t instanceof IHydraulicMachine || t instanceof TileMultipart){
+				IHydraulicMachine mEnt;
+				
+				if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
+					mEnt = (IHydraulicMachine) Multipart.getTransporter((TileMultipart)t);
+				}else{
+					mEnt = (IHydraulicMachine) t;
+				}
+				
 				List <IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
-				mainList.add((IHydraulicMachine) t);
-				mainList = ((IHydraulicMachine) t).getHandler().getConnectedBlocks(mainList);
+				mainList.add(mEnt);
+				mainList = (mEnt).getHandler().getConnectedBlocks(mainList);
 				
 				//Log.info("Iteration done. " + mainList.size() + " machines found");
 				boolean isOil = false;
@@ -239,11 +229,17 @@ public class Functions {
 				
 				
 				//Log.info("Pressure in system: " + pressureInSystem);
+				//We only have to set the pressure once..
+				//Saves us on calls
+				boolean firstPressureSet = false;
 				for (IHydraulicMachine machineEntity : mainList) {
 					machineEntity.getHandler().setIsOilStored(isOil);
-					if(Float.compare(machineEntity.getHandler().getPressure(), 0.0F) == 0){
+					//if(Float.compare(machineEntity.getHandler().getPressure(), 0.0F) == 0){
+					if(firstPressureSet == false){
+						firstPressureSet = true;
 						machineEntity.getHandler().setPressure(pressureInSystem);
 					}
+					//}
 					machineEntity.getHandler().setNetworkCount(mainList.size());
 					machineEntity.getHandler().setTotalFluidCapacity(totalFluidCapacity);
 					//This will allow the machines themselves to explode when something goes wrong!

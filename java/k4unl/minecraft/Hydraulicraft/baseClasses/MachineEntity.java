@@ -23,6 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import codechicken.lib.data.MCDataOutput;
 import codechicken.microblock.FaceMicroblock;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
@@ -46,6 +47,7 @@ public class MachineEntity implements IBaseClass {
 	public IHydraulicMachine target;
 	
 	public boolean hasOwnFluidTank;
+	private boolean firstUpdate = true;
 		
 	public MachineEntity(TileEntity _target) {
 		tTarget = _target;
@@ -117,8 +119,13 @@ public class MachineEntity implements IBaseClass {
 	}
 
 	public void updateBlock(){
-		if(getWorld()!= null){
-			getWorld().markBlockForUpdate(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
+		if(getWorld() != null && !getWorld().isRemote){
+			if(isMultipart){
+		    	MCDataOutput writeStream = tMp.tile().getWriteStream(tMp);
+		    	tMp.writeDesc(writeStream);
+			}else{
+				getWorld().markBlockForUpdate(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
+			}
 		}
     }
 
@@ -140,11 +147,6 @@ public class MachineEntity implements IBaseClass {
 			}
 		}
 		
-		
-		
-		//if(tTarget instanceof IHydraulicTransporter){
-			
-		//}
         updateBlock();
 	}
 	
@@ -248,10 +250,10 @@ public class MachineEntity implements IBaseClass {
 		
 		TileEntity t = getWorld().getBlockTileEntity(x, y, z);
 		if(t instanceof IHydraulicMachine){
-			if(((IHydraulicMachine)t).canConnectTo(dir.getOpposite()))
+			if(((IHydraulicMachine)t).canConnectTo(dir.getOpposite()) && !list.contains(t))
 				list.add((IHydraulicMachine)t);
 		}else if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
-			if(Multipart.getTransporter((TileMultipart)t).isConnectedTo(dir.getOpposite())){
+			if(Multipart.getTransporter((TileMultipart)t).isConnectedTo(dir.getOpposite()) && !list.contains(t)){
 				list.add(Multipart.getTransporter((TileMultipart)t));
 			}
 		}
@@ -284,11 +286,11 @@ public class MachineEntity implements IBaseClass {
 			if(!mainList.contains(machineEntity)){
 				if(isMultipart){
 					mainList.add(machineEntity);
-					callList.add(machineEntity);
-					chain = true;
+					//callList.add(machineEntity);
+					//chain = true;
 				}
 				if(machineEntity instanceof PartHose){
-					mainList.add(machineEntity);
+					//mainList.add(machineEntity);
 					callList.add(machineEntity);	
 					chain = true;
 				}
@@ -365,6 +367,9 @@ public class MachineEntity implements IBaseClass {
 	@Override
 	public void updateEntity() {
 		//disperse();
+		if(firstUpdate){
+			firstUpdate = false;
+		}
 	}
 
 	@Override
