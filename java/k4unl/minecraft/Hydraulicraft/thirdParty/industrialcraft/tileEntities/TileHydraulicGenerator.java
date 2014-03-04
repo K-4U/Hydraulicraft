@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
+package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
@@ -19,7 +19,7 @@ import buildcraft.api.power.PowerHandler;
 import buildcraft.api.power.PowerHandler.PowerReceiver;
 import buildcraft.api.power.PowerHandler.Type;
 
-public class TileHydraulicEngine extends TileEntity implements IHydraulicConsumer, IPowerEmitter, IPowerReceptor {
+public class TileHydraulicGenerator extends TileEntity implements IHydraulicConsumer, IPowerEmitter, IPowerReceptor {
 	private IBaseClass baseHandler;
 	private final PowerHandler powerHandler;
 	private ForgeDirection facing = ForgeDirection.UP;
@@ -29,7 +29,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	private float direction = 0.005F;
 	
 	
-	public TileHydraulicEngine(){
+	public TileHydraulicGenerator(){
 		powerHandler = new PowerHandler(this, Type.ENGINE);
         powerHandler.configure(1.5F, 300, 10, 1000);
         powerHandler.configurePowerPerdition(1, 100);

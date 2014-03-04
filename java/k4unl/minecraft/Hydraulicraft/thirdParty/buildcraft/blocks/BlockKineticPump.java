@@ -3,16 +3,16 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileMJPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class BlockMJPump extends MachineTieredBlock {
+public class BlockKineticPump extends MachineTieredBlock {
 
-	public BlockMJPump() {
-		super(Ids.blockMJPump, Names.blockMJPump);
+	public BlockKineticPump() {
+		super(Ids.blockKineticPump, Names.blockKineticPump);
 		
 		this.hasTopIcon = true;
 	}
@@ -20,7 +20,7 @@ public class BlockMJPump extends MachineTieredBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return new TileMJPump();
+		return new TileKineticPump();
 	}
 
 	
@@ -46,7 +46,7 @@ public class BlockMJPump extends MachineTieredBlock {
 			return false;
 		
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileMJPump)){
+		if(entity == null || !(entity instanceof TileKineticPump)){
 			return false;
 		}
 		//TileRFPump compressor = (TileRFPump) entity;
@@ -58,9 +58,9 @@ public class BlockMJPump extends MachineTieredBlock {
 	@Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){
 		TileEntity te = world.getBlockTileEntity(x, y, z);
-		if(te instanceof TileMJPump){
+		if(te instanceof TileKineticPump){
 			if(side.equals(ForgeDirection.UP) || side.equals(ForgeDirection.DOWN)){
-				TileMJPump e = (TileMJPump) te;
+				TileKineticPump e = (TileKineticPump) te;
 				ForgeDirection facing = e.getFacing();
 				e.setFacing(facing.getRotation(side));
 				e.getHandler().updateBlock();

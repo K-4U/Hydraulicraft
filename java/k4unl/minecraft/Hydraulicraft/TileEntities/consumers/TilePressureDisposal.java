@@ -3,6 +3,10 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.consumers;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -16,6 +20,7 @@ public class TilePressureDisposal extends TileEntity implements
 		IHydraulicConsumer {
 
 	private IBaseClass baseHandler;
+	private IPressureNetwork pNetwork;
 
 	
 	@Override
@@ -116,5 +121,28 @@ public class TilePressureDisposal extends TileEntity implements
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
 		return true;
+	}
+
+	@Override
+	public IPressureNetwork getNetwork(ForgeDirection side) {
+		return pNetwork;
+	}
+
+	@Override
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+		pNetwork = toSet;
+	}
+
+	@Override
+	public void firstTick() {
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		if(newNetwork != null){
+			pNetwork = newNetwork;
+			pNetwork.addMachine(this);
+			Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(0, this);
+			Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+		}
 	}
 }

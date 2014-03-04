@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileDummyWasher;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
@@ -645,5 +646,23 @@ public class TileHydraulicWasher extends TileEntity implements
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
 		return true;
+	}
+
+	@Override
+	public IPressureNetwork getNetwork(ForgeDirection side) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void firstTick() {
+		// TODO Auto-generated method stub
+		
 	}
 }

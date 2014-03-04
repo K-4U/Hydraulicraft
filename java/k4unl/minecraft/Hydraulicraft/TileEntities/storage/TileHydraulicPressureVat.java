@@ -6,6 +6,8 @@ import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IBaseStorage;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -34,7 +36,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	private ItemStack outputInventory;
 	private IBaseStorage baseHandler;
 
-	
+	private IPressureNetwork pNetwork;
 	
 	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	
@@ -417,5 +419,28 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
 		return true;
+	}
+
+	@Override
+	public IPressureNetwork getNetwork(ForgeDirection side) {
+		return pNetwork;
+	}
+
+	@Override
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+		pNetwork = toSet;
+	}
+
+	@Override
+	public void firstTick() {
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		if(newNetwork != null){
+			pNetwork = newNetwork;
+			pNetwork.addMachine(this);
+			Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(0, this);
+			Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+		}		
 	}
 }

@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers;
+package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers;
 
 import org.lwjgl.opengl.GL11;
 
@@ -7,7 +7,7 @@ import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
-public class RendererMJPumpItem implements IItemRenderer {
+public class RendererElectricPumpItem implements IItemRenderer {
 
 
 	@Override
@@ -51,7 +51,7 @@ public class RendererMJPumpItem implements IItemRenderer {
 	}
 	
 	private void render(float x, float y, float z, float scale, int tier){
-		RendererMJPump t = new RendererMJPump();
+		RendererElectricPump t = new RendererElectricPump();
 		GL11.glScalef(scale, scale, scale);
 		t.itemRender(x, y, z, tier);
 	}

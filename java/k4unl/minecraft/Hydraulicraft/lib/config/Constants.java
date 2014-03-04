@@ -77,8 +77,10 @@ public class Constants {
 	public static final float MIN_REQUIRED_PRESSURE_DYNAMO = 10000F;
 	public static final float PRESSURE_USAGE_DYNAMO = 1000F;
 	
-	
-	
-	
+	//IC2
+	public static final int[] EU_USAGE_PER_TICK = {16, 64, 128};
+	public static final int[] INTERNAL_EU_STORAGE = {4000, 8000, 16000};
+	public static final int[] MAX_EU = {32, 128, 512};
+	public static final float CONVERSION_RATIO_EU_HYDRAULIC = 0.8F;
 	
 }

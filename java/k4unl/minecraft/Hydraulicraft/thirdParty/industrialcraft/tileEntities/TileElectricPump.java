@@ -1,46 +1,50 @@
-package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
+package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities;
 
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.event.EnergyTileUnloadEvent;
+import ic2.api.energy.tile.IEnergySink;
+import ic2.api.tile.IWrenchable;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import buildcraft.api.power.IPowerReceptor;
-import buildcraft.api.power.PowerHandler;
-import buildcraft.api.power.PowerHandler.PowerReceiver;
-import buildcraft.api.power.PowerHandler.Type;
 
-public class TileMJPump extends TileEntity implements IHydraulicGenerator, IPowerReceptor {
+public class TileElectricPump extends TileEntity implements IHydraulicGenerator, IEnergySink {
 	private boolean isRunning = false;
-	private PowerHandler powerHandler;
-	private int MJPower;
 	private IBaseGenerator baseHandler;
 	private ForgeDirection facing = ForgeDirection.NORTH;
+	private boolean isFirst = true;
+	private int ic2EnergyStored;
+	private float renderingPercentage = 0.0F;
+	private float renderingDir = 0.05F;
 	
-	public TileMJPump(){
+	public TileElectricPump(){
 		
 	}
 	
-	private PowerHandler getPowerHandler(){
-		if(powerHandler == null){
-			powerHandler = new PowerHandler(this, Type.MACHINE);
-			powerHandler.configure(Constants.MJ_USAGE_PER_TICK[getTier()]*2, Constants.MJ_USAGE_PER_TICK[getTier()] * 3, Constants.ACTIVATION_MJ, (getTier()+1) * 100);
-		}
-		return powerHandler;
+	public float getRenderingPercentage(){
+		return renderingPercentage;
 	}
 	
 	@Override
 	public void updateEntity(){
 		getHandler().updateEntity();
+		if(isFirst){
+			isFirst = false;
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+		}
 	}
 	
 	@Override
@@ -64,10 +68,15 @@ public class TileMJPump extends TileEntity implements IHydraulicGenerator, IPowe
 		boolean needsUpdate = false;
 		needsUpdate = true;
 		if(Float.compare(getGenerating(), 0.0F) > 0){
+			renderingPercentage+= renderingDir;
+			if(Float.compare(renderingPercentage, 1.0F) >= 0 && renderingDir > 0){
+				renderingDir = -renderingDir;
+			}else if(Float.compare(renderingPercentage, 0.0F) <= 0 && renderingDir < 0){
+				renderingDir = -renderingDir;
+			}
+			
 			getHandler().setPressure(getHandler().getPressure() + getGenerating());
-			getPowerHandler().useEnergy(0, Constants.MJ_USAGE_PER_TICK[getTier()], true);
-			//MJPower -= Constants.MJ_USAGE_PER_TICK[getTier()];
-			//getEnergyStorage().extractEnergy(getMaxGenerating(), false);
+			ic2EnergyStored -= getEUUsage();
 			isRunning = true;
 		}else{
 			isRunning = false;
@@ -105,26 +114,20 @@ public class TileMJPump extends TileEntity implements IHydraulicGenerator, IPowe
 	@Override
 	public float getGenerating() {
 		if(!getHandler().getRedstonePowered()) return 0f;
-
-		float extractedEnergy = getPowerHandler().useEnergy(0, Constants.MJ_USAGE_PER_TICK[getTier()], false);
-		//Log.info("PHL: " + getPowerHandler().getEnergyStored() + " EE: " + extractedEnergy);
-		
-		if(getPowerHandler().getEnergyStored() > Constants.MJ_USAGE_PER_TICK[getTier()] * 2){
-			float gen = extractedEnergy * Constants.CONVERSION_RATIO_MJ_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
-			//gen = gen * (gen / getMaxGenerating());
+		if(ic2EnergyStored > getEUUsage()){
+			float gen = getEUUsage() * Constants.CONVERSION_RATIO_EU_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
+			
 			if(gen > getMaxGenerating()){
 				gen = getMaxGenerating();
 			}
-			
 			if(Float.compare(gen + getHandler().getPressure(), getMaxPressure(getHandler().isOilStored())) > 0){
 				//This means the pressure we are generating is too much!
 				gen = getMaxPressure(getHandler().isOilStored()) - getHandler().getPressure();
 			}
-			
-			return gen; 
-		}else{
-			return 0F;
+			return gen;
 		}
+		
+		return 0F;
 	}
 
 
@@ -179,8 +182,9 @@ public class TileMJPump extends TileEntity implements IHydraulicGenerator, IPowe
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 
 		isRunning = tagCompound.getBoolean("isRunning");
-		//MJPower = tagCompound.getInteger("MJPower");
-		getPowerHandler().readFromNBT(tagCompound, "powerHandler");
+		ic2EnergyStored = tagCompound.getInteger("ic2EnergyStored");
+		
+		renderingPercentage = tagCompound.getFloat("renderingPercentage");
 	}
 
 	@Override
@@ -189,8 +193,8 @@ public class TileMJPump extends TileEntity implements IHydraulicGenerator, IPowe
 
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setBoolean("isRunning", isRunning);
-		getPowerHandler().writeToNBT(tagCompound, "powerHandler");
-		//tagCompound.setInteger("MJPower", MJPower);
+		tagCompound.setInteger("ic2EnergyStored", ic2EnergyStored);
+		tagCompound.setFloat("renderingPercentage", renderingPercentage);
 	}
 
 	@Override
@@ -239,20 +243,94 @@ public class TileMJPump extends TileEntity implements IHydraulicGenerator, IPowe
 	}
 
 	@Override
-	public PowerReceiver getPowerReceiver(ForgeDirection side) {
-		if(side.equals(facing.getOpposite())){
-			return getPowerHandler().getPowerReceiver();
+	public boolean acceptsEnergyFrom(TileEntity emitter,
+			ForgeDirection direction) {
+		if(direction.equals(facing.getOpposite())){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public double demandedEnergyUnits() {
+		if(ic2EnergyStored < Constants.INTERNAL_EU_STORAGE[getTier()]){
+			return Double.MAX_VALUE;
 		}else{
-			return null;
+			return 0;
 		}
 	}
 
 	@Override
-	public void doWork(PowerHandler workProvider) { }
+	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
+		if(amount > getMaxSafeInput()){
+			if(!worldObj.isRemote) {
+                worldObj.createExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.5F, true);
+                worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+            }
+            return 0;
+		}else{
+			//Work
+			//Best might be to store it in an internal buffer
+			//Then use that buffer to get work done..
+			if(ic2EnergyStored < getMaxEUStorage()){
+				ic2EnergyStored += amount;
+				amount = Math.max((ic2EnergyStored - getMaxEUStorage()),0);
+				getHandler().updateBlock();
+			}
+		}
+		return amount;
+	}
 
-	@Override
-	public World getWorld() {
-		return worldObj;
+	public int getMaxEUStorage(){
+		return Constants.INTERNAL_EU_STORAGE[getTier()];
 	}
 	
+	public int getEUUsage(){
+		//TODO: Add upgrades
+		return Constants.EU_USAGE_PER_TICK[getTier()];
+	}
+	
+	@Override
+	public int getMaxSafeInput() {
+		//TODO Add upgrades
+		return Constants.MAX_EU[getTier()];
+	}
+
+    @Override
+    public void invalidate(){
+        if(worldObj != null && !worldObj.isRemote) {
+            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+        }
+        super.invalidate();
+    }
+
+    @Override
+    public void onChunkUnload(){
+        if(worldObj != null && !worldObj.isRemote) {
+            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+        }
+        super.onChunkUnload();
+    }
+
+	public int getEUStored() {
+		return ic2EnergyStored;
+	}
+
+	@Override
+	public IPressureNetwork getNetwork(ForgeDirection side) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void firstTick() {
+		// TODO Auto-generated method stub
+		
+	}
 }

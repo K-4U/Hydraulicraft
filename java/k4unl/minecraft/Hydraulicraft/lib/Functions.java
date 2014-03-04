@@ -5,11 +5,14 @@ import java.util.List;
 
 import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
@@ -212,7 +215,7 @@ public class Functions {
 					
 					//if(machineEntity.getHandler().getPressure() > pressureInSystem){
 					if(machineEntity.getHandler().getPressure() > 0.0F){
-						pressureInSystem+= machineEntity.getHandler().getPressure();
+						//pressureInSystem+= machineEntity.getHandler().getPressure();
 					}
 					//}
 					//machineEntity.getHandler().setPressure(0);
@@ -223,7 +226,7 @@ public class Functions {
 				if(fluidInSystem < 10000 && fluidInSystem > 1){
 					pressureInSystem = pressureInSystem * ((float)fluidInSystem / 100F);
 				}*/
-				pressureInSystem = pressureInSystem / mainList.size();
+				//pressureInSystem = pressureInSystem / mainList.size();
 				//Log.info("Fluid in system: " + fluidInSystem);
 				
 				
@@ -237,7 +240,7 @@ public class Functions {
 					//if(Float.compare(machineEntity.getHandler().getPressure(), 0.0F) == 0){
 					if(firstPressureSet == false){
 						firstPressureSet = true;
-						machineEntity.getHandler().setPressure(pressureInSystem);
+						//machineEntity.getHandler().setPressure(pressureInSystem);
 					}
 					//}
 					machineEntity.getHandler().setNetworkCount(mainList.size());
@@ -252,4 +255,87 @@ public class Functions {
 		}
 	}
 	
+	
+	public static IPressureNetwork getNearestNetwork(IBlockAccess iba, int x, int y, int z){
+		TileEntity t = iba.getBlockTileEntity(x, y, z);
+		if(t instanceof IHydraulicMachine || t instanceof TileMultipart){
+			IHydraulicMachine mEnt;
+			boolean isMultipart = false;
+			if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
+				mEnt = (IHydraulicMachine) Multipart.getTransporter((TileMultipart)t);
+				isMultipart = true;
+			}else{
+				mEnt = (IHydraulicMachine) t;
+			}
+			
+			List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
+			IPressureNetwork newNetwork = null;
+			IPressureNetwork foundNetwork = null;
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+				
+				if(isMultipart){
+					if(((PartHose)mEnt).isConnectedTo(dir)){
+						int xn = x + dir.offsetX;
+						int yn = y + dir.offsetY;
+						int zn = z + dir.offsetZ;
+						TileEntity tn = iba.getBlockTileEntity(xn, yn, zn);
+						
+						if(tn instanceof IHydraulicMachine){
+							if(((IHydraulicMachine)tn).canConnectTo(dir.getOpposite())){
+								if(foundNetwork == null){
+									foundNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());	
+								}else{
+									newNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());
+								}
+								
+								//break;
+							}
+						}else if(tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)tn)){
+							if(Multipart.getTransporter((TileMultipart)tn).isConnectedTo(dir.getOpposite())){
+								if(foundNetwork == null){
+									foundNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
+								}else{
+									newNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
+								}
+								//break;
+							}
+						}					
+					}
+				}else{
+					int xn = x + dir.offsetX;
+					int yn = y + dir.offsetY;
+					int zn = z + dir.offsetZ;
+					TileEntity tn = iba.getBlockTileEntity(xn, yn, zn);
+					if(tn instanceof IHydraulicMachine){
+						if(((IHydraulicMachine)tn).canConnectTo(dir.getOpposite())){
+							if(foundNetwork == null){
+								foundNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());	
+							}else{
+								newNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());
+							}
+							
+							//break;
+						}
+					}else if(tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)tn)){
+						if(Multipart.getTransporter((TileMultipart)tn).isConnectedTo(dir.getOpposite())){
+							if(foundNetwork == null){
+								foundNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
+							}else{
+								newNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
+							}
+							//break;
+						}
+					}
+				}
+				if(newNetwork != null && foundNetwork != null){
+					//Hmm.. More networks!? What's this!?
+					foundNetwork.mergeNetwork(newNetwork);
+					newNetwork = null;
+				}
+			}
+			return foundNetwork;
+		}else{
+			return null;
+		}
+	}
 }

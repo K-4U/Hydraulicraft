@@ -3,14 +3,14 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockHydraulicEngine;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockMJPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.HandlerMJPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockKineticPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.HandlerKineticPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererHydraulicEngineItem;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererMJPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererMJPumpItem;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererKineticPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererKineticPumpItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileMJPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
 import net.minecraft.block.Block;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -18,7 +18,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Buildcraft {
 	public static Block blockHydraulicEngine;
-	public static Block blockMJPump;
+	public static Block blockKineticPump;
 	
 	public static void init(){
 		initBlocks();
@@ -27,20 +27,20 @@ public class Buildcraft {
 	
 	public static void initBlocks(){
 		blockHydraulicEngine = new BlockHydraulicEngine();
-		blockMJPump = new BlockMJPump();
+		blockKineticPump = new BlockKineticPump();
 		
 		
 		GameRegistry.registerBlock(blockHydraulicEngine, Names.blockHydraulicEngine.unlocalized);
-		GameRegistry.registerBlock(blockMJPump, HandlerMJPump.class, Names.blockMJPump[0].unlocalized);
+		GameRegistry.registerBlock(blockKineticPump, HandlerKineticPump.class, Names.blockKineticPump[0].unlocalized);
 		
 		GameRegistry.registerTileEntity(TileHydraulicEngine.class, "tileHydraulicEngine");
-		GameRegistry.registerTileEntity(TileMJPump.class, "tileMJPump");
+		GameRegistry.registerTileEntity(TileKineticPump.class, "tileKineticPump");
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicEngine.class, new RendererHydraulicEngine());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileMJPump.class, new RendererMJPump());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileKineticPump.class, new RendererKineticPump());
 		
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicEngine.act, new RendererHydraulicEngineItem());
-		MinecraftForgeClient.registerItemRenderer(Ids.blockMJPump.act, new RendererMJPumpItem());
+		MinecraftForgeClient.registerItemRenderer(Ids.blockKineticPump.act, new RendererKineticPumpItem());
 	}
 	
 	public static void initRecipes(){

@@ -19,6 +19,7 @@ public class Names {
 	public static final Name blockDummyWasher = new Name("Washer", "hydraulicDummyWasher");
 	public static final Name blockHydraulicEngine = new Name("Hydraulic Engine", "hydraulicEngine");
 	public static final Name blockHydraulicDynamo = new Name("Hydraulic Dynamo", "hydraulicDynamo");
+	public static final Name blockHydraulicGenerator = new Name("Hydraulic Generator", "hydraulicGenerator");
 
 	public static final Name[] blockRFPump = {
 		new Name("LP RF Pump", "LPRFPump"),
@@ -26,10 +27,16 @@ public class Names {
 		new Name("HP RF Pump", "HPRFPump")
 	};
 	
-	public static final Name[] blockMJPump = {
-		new Name("LP MJ Pump", "LPMJPump"),
-		new Name("MP MJ Pump", "MPMJPump"),
-		new Name("HP MJ Pump", "HPMJPump")
+	public static final Name[] blockKineticPump = {
+		new Name("LP Kinetic Pump", "LPKineticPump"),
+		new Name("MP Kinetic Pump", "MPKineticPump"),
+		new Name("HP Kinetic Pump", "HPKineticPump")
+	};
+	
+	public static final Name[] blockElectricPump = {
+		new Name("LP MJ Pump", "LPElectricPump"),
+		new Name("MP MJ Pump", "MPElectricPump"),
+		new Name("HP MJ Pump", "HPElectricPump")
 	};
 	
 	

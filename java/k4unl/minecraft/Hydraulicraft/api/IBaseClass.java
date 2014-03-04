@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraftforge.common.ForgeDirection;
 
 /**
  * DO NOT IMPLEMENT THIS INTERFACE!
@@ -50,6 +51,9 @@ public interface IBaseClass {
 	
 	public List<IHydraulicMachine> getConnectedBlocks(
 			List<IHydraulicMachine> mainList);
+	
+	public List<IHydraulicMachine> getConnectedBlocks(
+			List<IHydraulicMachine> mainList, boolean chain);
 
 	public void setPressure(float newPressure);
 

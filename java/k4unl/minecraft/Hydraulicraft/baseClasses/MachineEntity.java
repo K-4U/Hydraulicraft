@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses;
 
+import java.awt.Menu;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,12 @@ public class MachineEntity implements IBaseClass {
 	
 	public boolean hasOwnFluidTank;
 	private boolean firstUpdate = true;
+	
+	
+	private boolean refreshConnectedBlocks = true;
+	private List<IHydraulicMachine> connectedBlocks;
+	
+	private float pressureToSet;
 		
 	public MachineEntity(TileEntity _target) {
 		tTarget = _target;
@@ -64,6 +71,7 @@ public class MachineEntity implements IBaseClass {
 		tMp = _target;
 		tTarget = null;
 		target = (IHydraulicMachine) _target;
+		tWorld = _target.world();
 		if(target instanceof TileHydraulicPressureVat){
 			hasOwnFluidTank = true;
 		}
@@ -120,7 +128,7 @@ public class MachineEntity implements IBaseClass {
 
 	public void updateBlock(){
 		if(getWorld() != null && !getWorld().isRemote){
-			if(isMultipart){
+			if(isMultipart && tMp.tile() != null){
 		    	MCDataOutput writeStream = tMp.tile().getWriteStream(tMp);
 		    	tMp.writeDesc(writeStream);
 			}else{
@@ -141,20 +149,26 @@ public class MachineEntity implements IBaseClass {
 		//if((int)getMaxPressure(isOilStored()) < (int)newPressure){
 			//bar = getMaxPressure(isOilStored());
 		}else{
-			bar = newPressure;
+			//pressureToSet = newPressure;
+			//bar = newPressure;
+			target.getNetwork(ForgeDirection.UNKNOWN).setPressure(newPressure);
 			if(compare != 0){
-				disperse();
+				//disperse();
 			}
 		}
 		
-        updateBlock();
+        //updateBlock();
 	}
 	
 	public float getPressure(){
-		if(bar < 0 || bar != bar){
+		/*if(bar < 0 || bar != bar){
 			bar = 0;
+		}*/
+		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
+			return target.getNetwork(ForgeDirection.UNKNOWN).getPressure();
+		}else{
+			return 0;
 		}
-		return bar;
 	}
 	
 	
@@ -273,7 +287,8 @@ public class MachineEntity implements IBaseClass {
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			if(isMultipart){
 				if(((PartHose)tMp).isConnectedTo(dir)){
-					machines = getMachine(machines, dir);					
+					machines = getMachine(machines, dir);
+					
 				}
 			}else{
 				machines = getMachine(machines, dir);				
@@ -307,6 +322,8 @@ public class MachineEntity implements IBaseClass {
 			}
 		}
 		
+		this.connectedBlocks = mainList;
+		
 		return mainList;
 	}
 	
@@ -318,6 +335,11 @@ public class MachineEntity implements IBaseClass {
 		_isOilStored = tagCompound.getBoolean("isOilStored");
 		fluidInSystem = tagCompound.getInteger("fluidInSystem");
 		fluidTotalCapacity = tagCompound.getInteger("fluidTotalCapacity");
+		
+		
+		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
+			target.getNetwork(ForgeDirection.UNKNOWN).readFromNBT(tagCompound.getCompoundTag("network"));
+		}
 		
 		bar = tagCompound.getFloat("bar");
 		
@@ -341,6 +363,14 @@ public class MachineEntity implements IBaseClass {
 		tagCompound.setFloat("bar", bar);
 		
 		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
+		
+		NBTTagCompound pNetworkCompound = new NBTTagCompound();
+		
+		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
+			target.getNetwork(ForgeDirection.UNKNOWN).writeToNBT(pNetworkCompound);
+		}
+		
+		tagCompound.setCompoundTag("network", pNetworkCompound);
 		
 		if(isMultipart){
 			((IHydraulicMachine)tMp).writeNBT(tagCompound);
@@ -367,8 +397,18 @@ public class MachineEntity implements IBaseClass {
 	@Override
 	public void updateEntity() {
 		//disperse();
-		if(firstUpdate){
+		if(firstUpdate/* && tWorld!= null && !tWorld.isRemote*/){
 			firstUpdate = false;
+			target.firstTick();
+		}
+		
+		if(tWorld != null && !tWorld.isRemote && tWorld.getTotalWorldTime() % 20 == 0){
+			refreshConnectedBlocks = true;
+		}
+		if(Float.compare(pressureToSet,0.0F) > 0){
+			bar = pressureToSet;
+			disperse();
+			pressureToSet = 0F;
 		}
 	}
 
@@ -377,57 +417,80 @@ public class MachineEntity implements IBaseClass {
 		_isOilStored = b;
 	}
 	
+	private IHydraulicMachine isValidMachine(ForgeDirection dir){
+		int x = getBlockLocation().getX() + dir.offsetX;
+		int y = getBlockLocation().getY() + dir.offsetY;
+		int z = getBlockLocation().getZ() + dir.offsetZ;
+		int blockId = getWorld().getBlockId(x, y, z);
+		
+		TileEntity t = getWorld().getBlockTileEntity(x, y, z);
+		if(t instanceof IHydraulicMachine){
+			if(((IHydraulicMachine)t).canConnectTo(dir.getOpposite()))
+				return (IHydraulicMachine)t;
+		}else if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
+			if(Multipart.getTransporter((TileMultipart)t).isConnectedTo(dir.getOpposite())){
+				return Multipart.getTransporter((TileMultipart)t);
+			}
+		}
+		return null;
+	}
+	
+	
+	private List<IHydraulicMachine> getConnectedBlocks(){
+		if(this.connectedBlocks == null || refreshConnectedBlocks){
+			refreshConnectedBlocks = false;
+			this.connectedBlocks = new ArrayList<IHydraulicMachine>();
+			int x = getBlockLocation().getX();
+			int y = getBlockLocation().getY();
+			int z = getBlockLocation().getZ();
+			List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+				IHydraulicMachine isValid = null;
+				if(isMultipart){
+					if(((PartHose)tMp).isConnectedTo(dir)){
+						isValid = isValidMachine(dir);					
+					}
+				}else{
+					isValid = isValidMachine(dir);				
+				}
+				if(isValid != null)
+					this.connectedBlocks.add(isValid);
+					//isValid.getHandler().setPressure(getPressure());
+			}
+		}
+		
+		return this.connectedBlocks;
+	}
+	
 	@Override
 	public void disperse() {
 		//Should get connected blocks and set the pressure there.
-		List<IHydraulicMachine> connectedBlocks =  new ArrayList<IHydraulicMachine>();
-		connectedBlocks = getConnectedBlocks(connectedBlocks, false);
+		//List<IHydraulicMachine> connectedBlocks =  new ArrayList<IHydraulicMachine>();
+		//connectedBlocks = getConnectedBlocks();
 		
-		for (IHydraulicMachine machine : connectedBlocks) {
+		int x = getBlockLocation().getX();
+		int y = getBlockLocation().getY();
+		int z = getBlockLocation().getZ();
+		List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			IHydraulicMachine isValid = null;
+			if(isMultipart){
+				if(((PartHose)tMp).isConnectedTo(dir)){
+					isValid = isValidMachine(dir);					
+				}
+			}else{
+				isValid = isValidMachine(dir);				
+			}
+			if(isValid != null){
+				//isValid.getHandler().setPressure(getPressure());
+			}
+		}
+		
+		/*for (IHydraulicMachine machine : connectedBlocks) {
 			machine.getHandler().setPressure(getPressure());
-		}
-	}
-	
-	private IHydraulicMachine getLowestPressureMachine(List<IHydraulicMachine> list){
-		float foundPressure = Float.NaN;
-		IHydraulicMachine foundMachine = null;
-		for (IHydraulicMachine machine : list) {
-			int compare = Float.compare(foundPressure, machine.getHandler().getPressure());
-			if(compare > 0 || foundPressure != foundPressure){
-				foundPressure = machine.getHandler().getPressure();
-				foundMachine = machine;
-			}
-		}
-		return foundMachine;
-	}
-	
-	private IHydraulicMachine getHighestPressureMachine(List<IHydraulicMachine> list){
-		float foundPressure = 0.0F;
-		IHydraulicMachine foundMachine = null;
-		for (IHydraulicMachine machine : list) {
-			int compare = Float.compare(machine.getHandler().getPressure(), foundPressure);
-			if(compare > 0){
-				foundPressure = machine.getHandler().getPressure();
-				foundMachine = machine;
-			}
-		}
-		return foundMachine;
+		}*/
 	}
 
-	public void takeHighestPressure() {
-		List<IHydraulicMachine> connectedBlocks =  new ArrayList<IHydraulicMachine>();
-		connectedBlocks = getConnectedBlocks(connectedBlocks, false);
-		
-		float foundPressure = 0.0F;
-		for (IHydraulicMachine machine : connectedBlocks) {
-			int compare = Float.compare(machine.getHandler().getPressure(), foundPressure);
-			if(compare > 0){
-				foundPressure = machine.getHandler().getPressure();
-			}
-		}
-		setPressure(foundPressure);
-	}
-	
 	@Override
 	public void validate(){
 		//takeHighestPressure();

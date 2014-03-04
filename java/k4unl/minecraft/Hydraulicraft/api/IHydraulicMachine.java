@@ -99,4 +99,14 @@ public interface IHydraulicMachine {
 	 * @return
 	 */
 	public boolean canConnectTo(ForgeDirection side);
+
+
+	/**
+	 * Function that only triggers on the first tick!
+	 */
+	public void firstTick();
+	
+	public IPressureNetwork getNetwork(ForgeDirection side);
+	
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet);
 }

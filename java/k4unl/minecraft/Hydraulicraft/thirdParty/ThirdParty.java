@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.Buildcraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.IndustrialCraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
 import cpw.mods.fml.common.Loader;
@@ -30,6 +31,11 @@ public class ThirdParty{
         if(Loader.isModLoaded("ThermalExpansion")){
         	Log.info("Thermal Expansion found! Initializing Thermal Expansion support!");
         	ThermalExpansion.init();
+        }
+        
+        if(Loader.isModLoaded("IC2")){
+        	Log.info("Industrialcraft found! Initializing Industrialcraft support!");
+        	IndustrialCraft.init();
         }
     }
     

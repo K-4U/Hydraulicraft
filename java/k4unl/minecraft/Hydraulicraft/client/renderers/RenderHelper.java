@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3f;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -294,16 +295,17 @@ public class RenderHelper {
 	
 	public static void draw2DCircle(float xCenter, float yCenter, float r){
 		
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glBegin(GL11.GL_TRIANGLES);
 		int angle = 0;
-		int resolution = 1;
+		int resolution = 10;
+		float dToR = (float)(Math.PI / 180.0);
 		
-		GL11.glColor3f(1.0F, 0.0F, 0.0F);
-		double prevX = xCenter + (r*Math.cos(angle-resolution));
-		double prevY = yCenter + (r*Math.sin(angle-resolution));
+		double prevX = xCenter + (r*Math.cos((angle-resolution)*dToR));
+		double prevY = yCenter + (r*Math.sin((angle-resolution)*dToR));
 		while(angle < 360){
-			double x = xCenter + (r*Math.cos(angle));
-			double y = yCenter + (r*Math.sin(angle));
+			double x = xCenter + (r*Math.cos(angle*dToR));
+			double y = yCenter + (r*Math.sin(angle*dToR));
 			
 			GL11.glVertex2f(xCenter, yCenter);
 			GL11.glVertex2d(x, y);
@@ -314,9 +316,43 @@ public class RenderHelper {
 			angle+= resolution;
 		}
 		GL11.glEnd();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
 	
-	public static void drawCylinder(float xCenter, float yCenter, float zCenter, float r, float length){
+	public static void drawCylinder(float xCenter, float yCenter, float zCenter, float r, float length, float xTextureStart, float yTextureStart, float xTextureEnd, float yTextureEnd){
+		int ltd = 0;
+		float x;
+		float z;
+		float x2;
+		float z2;
+		float dToR = (float)(Math.PI / 180.0);
+		int reso = 20;
+
+		GL11.glBegin(GL11.GL_QUADS);
+		for(ltd = 0; ltd < 360; ltd+=reso){
+			x = (float) (xCenter + (Math.sin(ltd * dToR) * r));
+			z = (float) (zCenter + (Math.cos(ltd * dToR) * r));
+			
+			x2 = (float) (xCenter + (Math.sin((ltd+reso) * dToR) * r));
+			z2 = (float) (zCenter + (Math.cos((ltd+reso) * dToR) * r));
+			
+			//GL11.glColor3f(ltd/360.0F, 0.0F, 0F);
+			
+			GL11.glTexCoord2f(xTextureStart, yTextureStart);
+			GL11.glVertex3f(x2, yCenter, z2);
+			
+			GL11.glTexCoord2f(xTextureEnd, yTextureStart);
+			GL11.glVertex3f(x2, yCenter+length, z2);
+			
+			GL11.glTexCoord2f(xTextureEnd, yTextureEnd);
+			GL11.glVertex3f(x, yCenter+length, z);
+			
+			GL11.glTexCoord2f(xTextureStart, yTextureEnd);
+			GL11.glVertex3f(x, yCenter, z);
+		}
+		GL11.glEnd();
+		
+		/*
 		GL11.glColor3f(1.0F, 1.0F, 0.0F);
 		
 		Cylinder mainCylinder = new Cylinder();
@@ -326,7 +362,7 @@ public class RenderHelper {
 		Sphere endCap = new Sphere();
 		endCap.draw(r, 10, 10);
 		GL11.glTranslatef(0, 0, length-r*2);
-		endCap.draw(r, 10, 10);
+		endCap.draw(r, 10, 10);*/
 	}
 	
 }

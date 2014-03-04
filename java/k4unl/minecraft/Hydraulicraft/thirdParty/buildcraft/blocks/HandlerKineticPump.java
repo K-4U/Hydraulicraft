@@ -6,14 +6,14 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.Buildcraft;
 import net.minecraft.block.Block;
 import net.minecraft.util.Icon;
 
-public class HandlerMJPump extends MachineTieredBlockHandler {
+public class HandlerKineticPump extends MachineTieredBlockHandler {
 	
-	public HandlerMJPump(int blockId, Block block) {
-		super(blockId, Names.blockMJPump);
+	public HandlerKineticPump(int blockId, Block block) {
+		super(blockId, Names.blockKineticPump);
 	}
 	
 	@Override
 	public Icon getIconFromDamage(int metadata) {
-		return Buildcraft.blockMJPump.getIcon(0, metadata);
+		return Buildcraft.blockKineticPump.getIcon(0, metadata);
 	}
 }

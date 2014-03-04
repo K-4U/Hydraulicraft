@@ -2,16 +2,18 @@ package k4unl.minecraft.Hydraulicraft.thirdParty;
 
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import codechicken.multipart.TileMultipart;
 
 public class WailaProvider implements IWailaDataProvider {
 
@@ -33,8 +35,19 @@ public class WailaProvider implements IWailaDataProvider {
 			List<String> currenttip, IWailaDataAccessor accessor,
 			IWailaConfigHandler config) {
 		
-		if(accessor.getTileEntity() instanceof IHydraulicMachine){
-			IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
+		TileEntity ent = accessor.getTileEntity();
+		if(accessor.getTileEntity() instanceof IHydraulicMachine|| ent instanceof TileMultipart){
+			IHydraulicMachine mEnt = null;
+			if(ent instanceof TileMultipart){
+				if(Multipart.hasPartHose((TileMultipart)ent)){
+					mEnt = (IHydraulicMachine) Multipart.getHose((TileMultipart)ent);
+				}else{
+					return currenttip;
+				}
+			}else{
+				mEnt = (IHydraulicMachine) ent;
+			}
+			//IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
 			
 			int stored = mEnt.getHandler().getStored();
 			int max = mEnt.getMaxStorage();
@@ -49,7 +62,12 @@ public class WailaProvider implements IWailaDataProvider {
 				float gen = ((IHydraulicGenerator) mEnt).getGenerating();
 				int maxGen = ((IHydraulicGenerator) mEnt).getMaxGenerating();
 				currenttip.add("Gen: " + gen + "/" + maxGen);
-			}			
+			}
+			if(mEnt instanceof TileElectricPump){
+				int storedEU = ((TileElectricPump)mEnt).getEUStored();
+				int maxEU = ((TileElectricPump)mEnt).getMaxEUStorage();
+				currenttip.add("EU: " + storedEU + "/" + maxEU);
+			}
 		}
 		return currenttip;
 	}
@@ -58,6 +76,7 @@ public class WailaProvider implements IWailaDataProvider {
 		registrar.registerHeadProvider(new WailaProvider(), IHydraulicMachine.class);
 		registrar.registerBodyProvider(new WailaProvider(), IHydraulicMachine.class);
 		registrar.registerTailProvider(new WailaProvider(), IHydraulicMachine.class);
+		registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
 		
 		//registrar.registerBodyProvider(new WailaProvider(), Ids.blockHydraulicPump.act);
 	}

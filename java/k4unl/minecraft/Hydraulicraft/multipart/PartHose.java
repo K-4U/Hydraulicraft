@@ -10,6 +10,8 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseTransporter;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -49,6 +51,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter {
     public static Cuboid6[] boundingBoxes = new Cuboid6[14];
     private static int expandBounds = -1;
+    
+    private IPressureNetwork pNetwork;
     
     private IBaseTransporter baseHandler;
     private Map<ForgeDirection, TileEntity> connectedSides;
@@ -270,13 +274,21 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     }
 
     public boolean isConnectedTo(ForgeDirection side){
-    	if(connectedSides == null){
+    	int d = side.ordinal();
+    	
+    	if(world() != null && tile() != null){
+	    	TileEntity te = world().getBlockTileEntity(x() + side.offsetX, y() + side.offsetY, z() + side.offsetZ);
+	    	return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d])) && shouldConnectTo(te, side, this);
+    	}else{
+    		return false;
+    	}
+    	/*if(connectedSides == null){
     		checkConnectedSides();
     	}
     	if(connectedSideFlags == null){
     		return false;
     	}
-    	return connectedSides.containsKey(side);
+    	return connectedSides.containsKey(side);*/
     }
     
     public void checkConnectedSides(){
@@ -347,6 +359,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
 	@Override
 	public void validate() {
+		
 	}
 
 	@Override
@@ -459,6 +472,31 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			checkConnectedSides();
 		}
 		return connectedSides;
+	}
+	
+	
+
+	@Override
+	public IPressureNetwork getNetwork(ForgeDirection side) {
+		return pNetwork;
+	}
+
+	@Override
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+		pNetwork = toSet;
+	}
+
+	@Override
+	public void firstTick() {
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(world(), x(), y(), z());
+		if(newNetwork != null){
+			pNetwork = newNetwork;
+			pNetwork.addMachine(this);
+			Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+		}else{
+			pNetwork = new PressureNetwork(0, this);
+			Log.info("Created a new network @ " + x() + "," + y() + "," + z());
+		}		
 	}
 
 	

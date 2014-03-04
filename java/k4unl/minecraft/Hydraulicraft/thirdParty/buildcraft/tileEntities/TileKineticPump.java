@@ -1,37 +1,42 @@
-package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities;
+package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
+import buildcraft.api.power.IPowerReceptor;
+import buildcraft.api.power.PowerHandler;
+import buildcraft.api.power.PowerHandler.PowerReceiver;
+import buildcraft.api.power.PowerHandler.Type;
 
-public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEnergyHandler {
-	private int currentBurnTime;
-	private int maxBurnTime;
+public class TileKineticPump extends TileEntity implements IHydraulicGenerator, IPowerReceptor {
 	private boolean isRunning = false;
+	private PowerHandler powerHandler;
+	private int MJPower;
 	private IBaseGenerator baseHandler;
-	private EnergyStorage energyStorage;
 	private ForgeDirection facing = ForgeDirection.NORTH;
 	
-	
-	private EnergyStorage getEnergyStorage(){
-		if(this.energyStorage == null) 
-			this.energyStorage = new EnergyStorage((getTier() + 1) * 400000);
-		return this.energyStorage;
+	public TileKineticPump(){
+		
 	}
 	
-	public TileRFPump(){
+	private PowerHandler getPowerHandler(){
+		if(powerHandler == null){
+			powerHandler = new PowerHandler(this, Type.MACHINE);
+			powerHandler.configure(Constants.MJ_USAGE_PER_TICK[getTier()]*2, Constants.MJ_USAGE_PER_TICK[getTier()] * 3, Constants.ACTIVATION_MJ, (getTier()+1) * 100);
+		}
+		return powerHandler;
 	}
 	
 	@Override
@@ -58,15 +63,15 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		}
 		//This function gets called every tick.
 		boolean needsUpdate = false;
-		if(!worldObj.isRemote){
-			needsUpdate = true;
-			if(Float.compare(getGenerating(), 0.0F) > 0){
-				getHandler().setPressure(getHandler().getPressure() + getGenerating());
-				getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], false);
-				isRunning = true;
-			}else{
-				isRunning = false;
-			}
+		needsUpdate = true;
+		if(Float.compare(getGenerating(), 0.0F) > 0){
+			getHandler().setPressure(getHandler().getPressure() + getGenerating());
+			getPowerHandler().useEnergy(0, Constants.MJ_USAGE_PER_TICK[getTier()], true);
+			//MJPower -= Constants.MJ_USAGE_PER_TICK[getTier()];
+			//getEnergyStorage().extractEnergy(getMaxGenerating(), false);
+			isRunning = true;
+		}else{
+			isRunning = false;
 		}
 		
 		if(needsUpdate){
@@ -101,11 +106,16 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	@Override
 	public float getGenerating() {
 		if(!getHandler().getRedstonePowered()) return 0f;
-		int extractedEnergy = getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], true);
+
+		float extractedEnergy = getPowerHandler().useEnergy(0, Constants.MJ_USAGE_PER_TICK[getTier()], false);
+		//Log.info("PHL: " + getPowerHandler().getEnergyStored() + " EE: " + extractedEnergy);
 		
-		if(getEnergyStorage().getEnergyStored() > Constants.MIN_REQUIRED_RF){
-			float gen = extractedEnergy * Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
-			gen = gen * (getHandler().getStored() / getMaxStorage());
+		if(getPowerHandler().getEnergyStored() > Constants.MJ_USAGE_PER_TICK[getTier()] * 2){
+			float gen = extractedEnergy * Constants.CONVERSION_RATIO_MJ_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
+			//gen = gen * (gen / getMaxGenerating());
+			if(gen > getMaxGenerating()){
+				gen = getMaxGenerating();
+			}
 			
 			if(Float.compare(gen + getHandler().getPressure(), getMaxPressure(getHandler().isOilStored())) > 0){
 				//This means the pressure we are generating is too much!
@@ -114,15 +124,13 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			
 			return gen; 
 		}else{
-			return 0;
+			return 0F;
 		}
 	}
 
 
     public int getTier(){
-    	if(worldObj != null)
-    		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-    	return 0;
+        return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
     }
 	
 
@@ -172,7 +180,8 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 
 		isRunning = tagCompound.getBoolean("isRunning");
-		getEnergyStorage().readFromNBT(tagCompound);
+		//MJPower = tagCompound.getInteger("MJPower");
+		getPowerHandler().readFromNBT(tagCompound, "powerHandler");
 	}
 
 	@Override
@@ -181,7 +190,8 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setBoolean("isRunning", isRunning);
-		getEnergyStorage().writeToNBT(tagCompound);
+		getPowerHandler().writeToNBT(tagCompound, "powerHandler");
+		//tagCompound.setInteger("MJPower", MJPower);
 	}
 
 	@Override
@@ -192,11 +202,6 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	@Override
 	public Packet getDescriptionPacket() {
 		return getHandler().getDescriptionPacket();
-	}
-
-	@Override
-	public void onInventoryChanged() {
-		
 	}
 	
 	@Override
@@ -218,37 +223,6 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	}
 
 	@Override
-	public int receiveEnergy(ForgeDirection from, int maxReceive,
-			boolean simulate) {
-		if(from.equals(facing.getOpposite())){
-			return getEnergyStorage().receiveEnergy(maxReceive, simulate);
-		}else{
-			return 0;
-		}
-	}
-
-	@Override
-	public int extractEnergy(ForgeDirection from, int maxExtract,
-			boolean simulate) {
-		return 0;
-	}
-
-	@Override
-	public boolean canInterface(ForgeDirection from) {
-		return from.equals(facing.getOpposite());
-	}
-
-	@Override
-	public int getEnergyStored(ForgeDirection from) {
-		return getEnergyStorage().getEnergyStored();
-	}
-
-	@Override
-	public int getMaxEnergyStored(ForgeDirection from) {
-		return getEnergyStorage().getMaxEnergyStored();
-	}
-
-	@Override
 	public boolean canConnectTo(ForgeDirection side) {
 		return side.equals(facing);
 	}
@@ -263,6 +237,23 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	
 	public boolean getIsRunning(){
 		return isRunning;
+	}
+
+	@Override
+	public PowerReceiver getPowerReceiver(ForgeDirection side) {
+		if(side.equals(facing.getOpposite())){
+			return getPowerHandler().getPowerReceiver();
+		}else{
+			return null;
+		}
+	}
+
+	@Override
+	public void doWork(PowerHandler workProvider) { }
+
+	@Override
+	public World getWorld() {
+		return worldObj;
 	}
 
 	@Override
