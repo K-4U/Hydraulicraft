@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import codechicken.multipart.TileMultipart;
 
 public class ItemDebug extends MachineItem {
@@ -89,6 +90,10 @@ public class ItemDebug extends MachineItem {
 							int tier = ((TileHydraulicPump) ent).getTier();
 							player.addChatMessage("Tier:          " + tier);
 						}
+					}
+					
+					if(mEnt.getNetwork(ForgeDirection.UNKNOWN) != null){
+						player.addChatMessage("Network ID:    " + mEnt.getNetwork(ForgeDirection.UNKNOWN).getRandomNumber());
 					}
 					
 					itemStack.setTagCompound(tagC);

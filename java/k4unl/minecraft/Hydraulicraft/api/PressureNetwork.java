@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeDirection;
@@ -54,6 +55,13 @@ public class PressureNetwork implements IPressureNetwork{
 	public void mergeNetwork(IPressureNetwork toMerge){
 		float newPressure = ((pressure - toMerge.getPressure()) / 2) + toMerge.getPressure();
 		setPressure(newPressure);
+		for(IHydraulicMachine machine : toMerge.getMachines()){
+			machine.setNetwork(ForgeDirection.UNKNOWN, this);
+			this.addMachine(machine);
+		}
+		
+		Log.info("Merged network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
+		
 	}
 
 	@Override
