@@ -61,9 +61,13 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		if(isBurning){
 			currentBurnTime --;
 			needsUpdate = true;
+			float gen = getGenerating();
+			if(gen > 0){
+				setPressure(gen + getPressure(ForgeDirection.UNKNOWN), ForgeDirection.UNKNOWN);
+			}
 		}
 		if(!worldObj.isRemote){
-			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getHandler().getPressure() < getMaxPressure(getHandler().isOilStored())){
+			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure(ForgeDirection.UNKNOWN) < getMaxPressure(getHandler().isOilStored(), null)){
 				//Put new item in
 				currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory);
 				if(inventory != null){
@@ -75,6 +79,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 					needsUpdate = true;
 				}
 			}
+			
 		}
 		
 		if(needsUpdate){
@@ -130,24 +135,26 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			}
 			int maxFluid = getMaxStorage();
 			//We can only generate at the percentage the system is filled at.
-			float perc = (float)getHandler().getFluidInSystem() / (float)maxFluid;
+			float perc = (float)getHandler().getStored(ForgeDirection.UNKNOWN) / (float) getMaxStorage();
 			//Also.. we can only go to a max of which the system is filled at.
 			//So, if the system is 50% full, we only generate at 50% and we can only
 			//go to 50% of the max pressure.
 			
-			float result =(multiplier * perc);
-			if(result > getMaxGenerating())
-				result = getMaxGenerating();
+			float generating = (multiplier * perc);
+			float currentPressure = getPressure(ForgeDirection.UNKNOWN);
+			float maxPressure = getMaxPressure(getHandler().isOilStored(), ForgeDirection.UNKNOWN);
+			if(generating > getMaxGenerating())
+				generating = getMaxGenerating();
 			
-			if(result + getHandler().getPressure() <= (perc * getMaxPressure(getHandler().isOilStored()))){
-				return result;
+			if(generating + currentPressure <= (perc * maxPressure)){
+				return generating;
 			}else{
-				result = (perc * getMaxPressure(getHandler().isOilStored())) - getHandler().getPressure();
-				if(result < 0){
-					result = 0;
+				generating = (perc * maxPressure) - currentPressure;
+				if(generating < 0){
+					generating = 0;
 				}
-				if(result + getHandler().getPressure() <= (perc * getMaxPressure(getHandler().isOilStored()))){
-					return result;
+				if(generating + currentPressure <= (perc * maxPressure)){
+					return generating;
 				}else{
 					return 0;
 				}
@@ -270,7 +277,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	}
 
 	@Override
-	public float getMaxPressure(boolean isOil) {
+	public float getMaxPressure(boolean isOil, ForgeDirection from) {
 		if(isOil){
 			switch(getTier()){
 			case 0:
@@ -379,10 +386,20 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);
-			Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(0, this);
-			Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
 		}
+	}
+	
+	@Override
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
+	}
+
+	@Override
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
 }

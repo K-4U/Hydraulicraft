@@ -128,12 +128,12 @@ public class Functions {
 			}
 			
 			for (IHydraulicMachine machineEntity : mainList) {
-				if(machineEntity.getMaxStorage() < (toSet + machineEntity.getHandler().getStored())){
-					newFluidInSystem = newFluidInSystem + ((toSet + machineEntity.getHandler().getStored()) - machineEntity.getMaxStorage());
+				if(machineEntity.getMaxStorage() < (toSet + machineEntity.getHandler().getStored(null))){
+					newFluidInSystem = newFluidInSystem + ((toSet + machineEntity.getHandler().getStored(null)) - machineEntity.getMaxStorage());
 					machineEntity.getHandler().setStored(machineEntity.getMaxStorage(), isOil);
 				}else{
 					remainingBlocks.add(machineEntity);
-					machineEntity.getHandler().setStored(toSet + machineEntity.getHandler().getStored(), isOil);
+					machineEntity.getHandler().setStored(toSet + machineEntity.getHandler().getStored(null), isOil);
 				}
 				
 				if(firstIteration){
@@ -200,57 +200,16 @@ public class Functions {
 				float pressureInSystem = 0;
 				int oldMachineCount = 0;
 				float generating = 0;
-				int generators = 0;
 				for (IHydraulicMachine machineEntity : mainList) {
-					if(oldMachineCount == 0){
-						oldMachineCount = machineEntity.getHandler().getNetworkCount();
-					}
 					if(isOil == false && machineEntity.getHandler().isOilStored()){
 						isOil = true;
 					}
-					fluidInSystem = fluidInSystem + machineEntity.getHandler().getStored();
+					fluidInSystem = fluidInSystem + machineEntity.getHandler().getStored(null);
 					totalFluidCapacity = totalFluidCapacity + machineEntity.getMaxStorage();
 					machineEntity.getHandler().setStored(0, isOil);
-					
-					
-					//if(machineEntity.getHandler().getPressure() > pressureInSystem){
-					if(machineEntity.getHandler().getPressure() > 0.0F){
-						//pressureInSystem+= machineEntity.getHandler().getPressure();
-					}
-					//}
-					//machineEntity.getHandler().setPressure(0);
-				}
-				
-				
-				/*
-				if(fluidInSystem < 10000 && fluidInSystem > 1){
-					pressureInSystem = pressureInSystem * ((float)fluidInSystem / 100F);
-				}*/
-				//pressureInSystem = pressureInSystem / mainList.size();
-				//Log.info("Fluid in system: " + fluidInSystem);
-				
-				
-				
-				//Log.info("Pressure in system: " + pressureInSystem);
-				//We only have to set the pressure once..
-				//Saves us on calls
-				boolean firstPressureSet = false;
-				for (IHydraulicMachine machineEntity : mainList) {
-					machineEntity.getHandler().setIsOilStored(isOil);
-					//if(Float.compare(machineEntity.getHandler().getPressure(), 0.0F) == 0){
-					if(firstPressureSet == false){
-						firstPressureSet = true;
-						//machineEntity.getHandler().setPressure(pressureInSystem);
-					}
-					//}
-					machineEntity.getHandler().setNetworkCount(mainList.size());
-					machineEntity.getHandler().setTotalFluidCapacity(totalFluidCapacity);
-					//This will allow the machines themselves to explode when something goes wrong!
 				}
 				
 				setFluidInSystem(mainList, fluidInSystem, isOil);
-				
-				//Log.info("Done iterating. Found " + mainList.size() + " blocks!");
 			}
 		}
 	}

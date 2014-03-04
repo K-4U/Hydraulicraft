@@ -11,6 +11,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -97,8 +98,8 @@ public class RendererHarvesterSource extends TileEntitySpecialRenderer {
 		RenderHelper.vertexWithTexture(1.0F, 1.0F, 1.0F, 0.5F, 0.0F); //TL
 		RenderHelper.vertexWithTexture(1.0F, 0.0F, 1.0F, 0.5F, 0.5F); //BL
 		
-		float fPercentage = (float)h.getHandler().getStored() / (float)h.getMaxStorage();
-		float pPercentage = h.getHandler().getPressure() / h.getMaxPressure(h.getHandler().isOilStored());
+		float fPercentage = (float)h.getHandler().getStored(null) / (float)h.getMaxStorage();
+		float pPercentage = h.getPressure(ForgeDirection.UNKNOWN) / h.getMaxPressure(h.getHandler().isOilStored(), null);
 		float maxHeight = 0.452F;
 		float beginH = 0.445F;
 		float width = 0.14F;

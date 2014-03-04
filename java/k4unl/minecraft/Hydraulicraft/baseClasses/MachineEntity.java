@@ -37,8 +37,7 @@ public class MachineEntity implements IBaseClass {
 	private int fluidTotalCapacity = 0;
 	private boolean isRedstonePowered = false;
 	
-	private float bar = 0;
-	private int networkCount;
+	//private int networkCount;
 	
 	public boolean isMultipart;
 	public World tWorld;
@@ -51,10 +50,10 @@ public class MachineEntity implements IBaseClass {
 	private boolean firstUpdate = true;
 	
 	
-	private boolean refreshConnectedBlocks = true;
-	private List<IHydraulicMachine> connectedBlocks;
+	//private boolean refreshConnectedBlocks = true;
+	//private List<IHydraulicMachine> connectedBlocks;
 	
-	private float pressureToSet;
+	//private float pressureToSet;
 		
 	public MachineEntity(TileEntity _target) {
 		tTarget = _target;
@@ -118,14 +117,6 @@ public class MachineEntity implements IBaseClass {
 		return isRedstonePowered;
 	}
 	
-	public void setNetworkCount(int newCount){
-		networkCount = newCount;
-	}
-	
-	public int getNetworkCount() {
-		return networkCount;
-	}
-
 	public void updateBlock(){
 		if(getWorld() != null && !getWorld().isRemote){
 			if(isMultipart && tMp.tile() != null){
@@ -137,46 +128,35 @@ public class MachineEntity implements IBaseClass {
 		}
     }
 
-	public void setPressure(float newPressure){
+	public void setPressure(float newPressure, ForgeDirection dir){
 		if(getWorld() == null) return;
 		if(getWorld().isRemote) return;
 		
-		int compare = Float.compare(bar, newPressure);
-		if((int)getMaxPressure(isOilStored()) < (int)newPressure && getStored() > 0){
+		int compare = Float.compare(getMaxPressure(isOilStored(), dir), newPressure);
+		if(compare < 0 && getStored(null) > 0){
 			getWorld().createExplosion((Entity)null, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(),
-					1F + ((getMaxPressure(isOilStored()) / newPressure) * 3), true);
+					1F + ((getMaxPressure(isOilStored(), null) / newPressure) * 3), true);
 		
-		//if((int)getMaxPressure(isOilStored()) < (int)newPressure){
-			//bar = getMaxPressure(isOilStored());
 		}else{
-			//pressureToSet = newPressure;
-			//bar = newPressure;
-			target.getNetwork(ForgeDirection.UNKNOWN).setPressure(newPressure);
-			if(compare != 0){
-				//disperse();
-			}
+			target.setPressure(newPressure, dir);
 		}
-		
-        //updateBlock();
 	}
 	
+	/*
 	public float getPressure(){
-		/*if(bar < 0 || bar != bar){
-			bar = 0;
-		}*/
 		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
 			return target.getNetwork(ForgeDirection.UNKNOWN).getPressure();
 		}else{
 			return 0;
 		}
-	}
+	}*/
 	
 	
-	public float getMaxPressure(boolean isOil){
+	public float getMaxPressure(boolean isOil, ForgeDirection from){
 		if(isMultipart){
-			return ((IHydraulicMachine)tMp).getMaxPressure(isOil);
+			return ((IHydraulicMachine)tMp).getMaxPressure(isOil, from);
 		}else{
-			return ((IHydraulicMachine)tTarget).getMaxPressure(isOil);
+			return ((IHydraulicMachine)tTarget).getMaxPressure(isOil, from);
 		}
 	}
 	
@@ -186,12 +166,12 @@ public class MachineEntity implements IBaseClass {
 	 * Will return how much liquid this block stores
 	 * Will be used to calculate the pressure all over the network.
 	 */
-	public int getStored(){
+	public int getStored(ForgeDirection from){
 		if(hasOwnFluidTank){
 			if(isMultipart){
-				return ((IHydraulicStorageWithTank)tMp).getStored();
+				return ((IHydraulicStorageWithTank)tMp).getStored(from);
 			}else{
-				return ((IHydraulicStorageWithTank)target).getStored();
+				return ((IHydraulicStorageWithTank)target).getStored(from);
 			}
 		}else{
 			return fluidLevelStored;
@@ -322,15 +302,12 @@ public class MachineEntity implements IBaseClass {
 			}
 		}
 		
-		this.connectedBlocks = mainList;
-		
 		return mainList;
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		fluidLevelStored = tagCompound.getInteger("fluidLevelStored");
-		networkCount = tagCompound.getInteger("networkCount");
 		
 		_isOilStored = tagCompound.getBoolean("isOilStored");
 		fluidInSystem = tagCompound.getInteger("fluidInSystem");
@@ -341,7 +318,6 @@ public class MachineEntity implements IBaseClass {
 			target.getNetwork(ForgeDirection.UNKNOWN).readFromNBT(tagCompound.getCompoundTag("network"));
 		}
 		
-		bar = tagCompound.getFloat("bar");
 		
 		isRedstonePowered = tagCompound.getBoolean("isRedstonePowered");
 		if(isMultipart){
@@ -354,13 +330,11 @@ public class MachineEntity implements IBaseClass {
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
 		tagCompound.setInteger("fluidLevelStored",fluidLevelStored);
-		tagCompound.setInteger("networkCount", networkCount);
 		
 		tagCompound.setBoolean("isOilStored", _isOilStored);
 		tagCompound.setInteger("fluidInSystem", fluidInSystem );
 		tagCompound.setInteger("fluidTotalCapacity",fluidTotalCapacity);
 		
-		tagCompound.setFloat("bar", bar);
 		
 		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
 		
@@ -401,15 +375,6 @@ public class MachineEntity implements IBaseClass {
 			firstUpdate = false;
 			target.firstTick();
 		}
-		
-		if(tWorld != null && !tWorld.isRemote && tWorld.getTotalWorldTime() % 20 == 0){
-			refreshConnectedBlocks = true;
-		}
-		if(Float.compare(pressureToSet,0.0F) > 0){
-			bar = pressureToSet;
-			disperse();
-			pressureToSet = 0F;
-		}
 	}
 
 	@Override
@@ -437,29 +402,24 @@ public class MachineEntity implements IBaseClass {
 	
 	
 	private List<IHydraulicMachine> getConnectedBlocks(){
-		if(this.connectedBlocks == null || refreshConnectedBlocks){
-			refreshConnectedBlocks = false;
-			this.connectedBlocks = new ArrayList<IHydraulicMachine>();
-			int x = getBlockLocation().getX();
-			int y = getBlockLocation().getY();
-			int z = getBlockLocation().getZ();
-			List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-				IHydraulicMachine isValid = null;
-				if(isMultipart){
-					if(((PartHose)tMp).isConnectedTo(dir)){
-						isValid = isValidMachine(dir);					
-					}
-				}else{
-					isValid = isValidMachine(dir);				
+		int x = getBlockLocation().getX();
+		int y = getBlockLocation().getY();
+		int z = getBlockLocation().getZ();
+		List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			IHydraulicMachine isValid = null;
+			if(isMultipart){
+				if(((PartHose)tMp).isConnectedTo(dir)){
+					isValid = isValidMachine(dir);					
 				}
-				if(isValid != null)
-					this.connectedBlocks.add(isValid);
-					//isValid.getHandler().setPressure(getPressure());
+			}else{
+				isValid = isValidMachine(dir);				
 			}
+			if(isValid != null)
+				machines.add(isValid);
 		}
 		
-		return this.connectedBlocks;
+		return machines;
 	}
 	
 	@Override
@@ -467,7 +427,7 @@ public class MachineEntity implements IBaseClass {
 		//Should get connected blocks and set the pressure there.
 		//List<IHydraulicMachine> connectedBlocks =  new ArrayList<IHydraulicMachine>();
 		//connectedBlocks = getConnectedBlocks();
-		
+		/*
 		int x = getBlockLocation().getX();
 		int y = getBlockLocation().getY();
 		int z = getBlockLocation().getZ();
@@ -484,10 +444,6 @@ public class MachineEntity implements IBaseClass {
 			if(isValid != null){
 				//isValid.getHandler().setPressure(getPressure());
 			}
-		}
-		
-		/*for (IHydraulicMachine machine : connectedBlocks) {
-			machine.getHandler().setPressure(getPressure());
 		}*/
 	}
 

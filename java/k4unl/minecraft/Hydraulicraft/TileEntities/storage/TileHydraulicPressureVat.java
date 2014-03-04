@@ -223,7 +223,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 			}
 			filled = getHandler().getTotalFluidCapacity() - getHandler().getFluidInSystem();
 		}else{
-			filled = 0;
+			//filled = 0;
 		}
 		return filled;
 		
@@ -274,7 +274,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	}
 
 	@Override
-	public int getStored() {
+	public int getStored(ForgeDirection from) {
 		return tank.getFluidAmount();
 	}
 
@@ -297,7 +297,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	}
 
 	@Override
-    public float getMaxPressure(boolean isOil){
+    public float getMaxPressure(boolean isOil, ForgeDirection from){
         if(isOil) {
             switch(getTier()){
                 case 0:
@@ -437,10 +437,20 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);
-			Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(0, this);
-			Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
+	}
+	
+	@Override
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
+	}
+
+	@Override
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
 }

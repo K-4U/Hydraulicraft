@@ -2,11 +2,15 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.consumers;
 
 import java.util.Random;
 
+import buildcraft.api.power.IPowerReceptor;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -33,6 +37,8 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
     private int oldScaledCrushTime;
     private IBaseClass baseHandler;
 
+    private IPressureNetwork pNetwork;
+    
     public TileHydraulicCrusher(){
 
     }
@@ -80,7 +86,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
             //The higher the pressure
             //The higher the speed!
             //But also the more it uses..
-            return 7F + getHandler().getPressure() / 1000 * 0.005F;
+            return 7F + getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F;
         } else {
             return 0F;
         }
@@ -88,7 +94,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
     private void doCrush(){
         if(isCrushing()) {
-            crushingTicks = crushingTicks + 1 + (int)(getHandler().getPressure() / 1000 * 0.005F);
+            crushingTicks = crushingTicks + 1 + (int)(getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F);
             //Log.info(crushingTicks+ "");
             if(crushingTicks >= maxCrushingTicks) {
                 //Crushing done!
@@ -133,7 +139,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
      * and if the item is smeltable
      */
     private boolean canRun(){
-        if(inputInventory == null || getHandler().getPressure() < requiredPressure) {
+        if(inputInventory == null || getPressure(ForgeDirection.UNKNOWN) < requiredPressure) {
             return false;
         } else {
             //Get crushing result:
@@ -155,7 +161,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
     }
 
     @Override
-    public float getMaxPressure(boolean isOil){
+    public float getMaxPressure(boolean isOil, ForgeDirection from){
     	if(isOil){
 			return Constants.MAX_MBAR_OIL_TIER_3;
 		}else{
@@ -339,6 +345,8 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
         inventoryCompound = tagCompound.getCompoundTag("targetItem");
         targetItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
+        
+        
     }
 
     @Override
@@ -395,20 +403,37 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
 	@Override
 	public IPressureNetwork getNetwork(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return null;
+		return pNetwork;
 	}
 
 	@Override
 	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
-		// TODO Auto-generated method stub
-		
+		pNetwork = toSet;
+	}
+
+	
+	
+	@Override
+	public void firstTick() {
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		if(newNetwork != null){
+			pNetwork = newNetwork;
+			pNetwork.addMachine(this);
+			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(0, this);
+			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+		}
+	}
+	
+	@Override
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
 	}
 
 	@Override
-	public void firstTick() {
-		// TODO Auto-generated method stub
-		
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
-	
+
 }

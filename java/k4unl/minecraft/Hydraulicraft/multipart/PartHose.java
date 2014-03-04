@@ -388,7 +388,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	}
 
     @Override
-    public float getMaxPressure(boolean isOil){
+    public float getMaxPressure(boolean isOil, ForgeDirection from){
         if(isOil) {
             switch(getTier()){
                 case 0:
@@ -497,6 +497,16 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			pNetwork = new PressureNetwork(0, this);
 			Log.info("Created a new network @ " + x() + "," + y() + "," + z());
 		}		
+	}
+
+	@Override
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
+	}
+
+	@Override
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
 
 	

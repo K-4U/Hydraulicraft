@@ -5,6 +5,9 @@ import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -24,6 +27,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	private EnergyStorage energyStorage;
 	private ForgeDirection facing = ForgeDirection.NORTH;
 	
+	private IPressureNetwork pNetwork;
 	
 	private EnergyStorage getEnergyStorage(){
 		if(this.energyStorage == null) 
@@ -61,7 +65,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		if(!worldObj.isRemote){
 			needsUpdate = true;
 			if(Float.compare(getGenerating(), 0.0F) > 0){
-				getHandler().setPressure(getHandler().getPressure() + getGenerating());
+				setPressure(getPressure(getFacing()) + getGenerating(), getFacing());
 				getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], false);
 				isRunning = true;
 			}else{
@@ -105,11 +109,11 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		
 		if(getEnergyStorage().getEnergyStored() > Constants.MIN_REQUIRED_RF){
 			float gen = extractedEnergy * Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
-			gen = gen * (getHandler().getStored() / getMaxStorage());
+			gen = gen * (getHandler().getStored(null) / getMaxStorage());
 			
-			if(Float.compare(gen + getHandler().getPressure(), getMaxPressure(getHandler().isOilStored())) > 0){
+			if(Float.compare(gen + getPressure(getFacing()), getMaxPressure(getHandler().isOilStored(), null)) > 0){
 				//This means the pressure we are generating is too much!
-				gen = getMaxPressure(getHandler().isOilStored()) - getHandler().getPressure();
+				gen = getMaxPressure(getHandler().isOilStored(), null) - getPressure(getFacing());
 			}
 			
 			return gen; 
@@ -137,7 +141,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	}
 
 	@Override
-	public float getMaxPressure(boolean isOil) {
+	public float getMaxPressure(boolean isOil, ForgeDirection from) {
 		if(isOil){
 			switch(getTier()){
 			case 0:
@@ -267,20 +271,37 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 
 	@Override
 	public IPressureNetwork getNetwork(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return null;
+		return pNetwork;
 	}
 
 	@Override
 	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
-		// TODO Auto-generated method stub
-		
+		pNetwork = toSet;
+	}
+
+	
+	
+	@Override
+	public void firstTick() {
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		if(newNetwork != null){
+			pNetwork = newNetwork;
+			pNetwork.addMachine(this);
+			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(0, this);
+			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+		}
+	}
+	
+	
+	@Override
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
 	}
 
 	@Override
-	public void firstTick() {
-		// TODO Auto-generated method stub
-		
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
-	
 }

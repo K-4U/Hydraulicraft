@@ -5,6 +5,8 @@ import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,6 +28,8 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	private int MJPower;
 	private IBaseGenerator baseHandler;
 	private ForgeDirection facing = ForgeDirection.NORTH;
+	private IPressureNetwork pNetwork;
+	
 	
 	public TileKineticPump(){
 		
@@ -65,7 +69,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 		boolean needsUpdate = false;
 		needsUpdate = true;
 		if(Float.compare(getGenerating(), 0.0F) > 0){
-			getHandler().setPressure(getHandler().getPressure() + getGenerating());
+			setPressure(getPressure(ForgeDirection.UNKNOWN) + getGenerating(), getFacing());
 			getPowerHandler().useEnergy(0, Constants.MJ_USAGE_PER_TICK[getTier()], true);
 			//MJPower -= Constants.MJ_USAGE_PER_TICK[getTier()];
 			//getEnergyStorage().extractEnergy(getMaxGenerating(), false);
@@ -117,9 +121,9 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 				gen = getMaxGenerating();
 			}
 			
-			if(Float.compare(gen + getHandler().getPressure(), getMaxPressure(getHandler().isOilStored())) > 0){
+			if(Float.compare(gen + getPressure(ForgeDirection.UNKNOWN), getMaxPressure(getHandler().isOilStored(), null)) > 0){
 				//This means the pressure we are generating is too much!
-				gen = getMaxPressure(getHandler().isOilStored()) - getHandler().getPressure();
+				gen = getMaxPressure(getHandler().isOilStored(), null) - getPressure(ForgeDirection.UNKNOWN);
 			}
 			
 			return gen; 
@@ -145,7 +149,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	}
 
 	@Override
-	public float getMaxPressure(boolean isOil) {
+	public float getMaxPressure(boolean isOil, ForgeDirection from) {
 		if(isOil){
 			switch(getTier()){
 			case 0:
@@ -258,20 +262,37 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 
 	@Override
 	public IPressureNetwork getNetwork(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return null;
+		return pNetwork;
 	}
 
 	@Override
 	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
-		// TODO Auto-generated method stub
-		
+		pNetwork = toSet;
+	}
+
+	
+	
+	@Override
+	public void firstTick() {
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		if(newNetwork != null){
+			pNetwork = newNetwork;
+			pNetwork.addMachine(this);
+			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(0, this);
+			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+		}
 	}
 
 	@Override
-	public void firstTick() {
-		// TODO Auto-generated method stub
-		
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
+	}
+
+	@Override
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
 	
 }

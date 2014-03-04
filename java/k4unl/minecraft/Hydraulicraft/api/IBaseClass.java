@@ -39,11 +39,9 @@ public interface IBaseClass {
 	 */
 	public Packet getDescriptionPacket();
 
-	public int getStored();
+	public int getStored(ForgeDirection from);
 
 	public boolean isOilStored();
-
-	public float getPressure();
 
 	public boolean getRedstonePowered();
 
@@ -55,15 +53,11 @@ public interface IBaseClass {
 	public List<IHydraulicMachine> getConnectedBlocks(
 			List<IHydraulicMachine> mainList, boolean chain);
 
-	public void setPressure(float newPressure);
+	public void setPressure(float newPressure, ForgeDirection from);
 
 	public void setStored(int maxStorage, boolean isOil);
 
 	public void setFluidInSystem(int fluidInSystem);
-
-	public int getNetworkCount();
-
-	public void setNetworkCount(int size);
 
 	public void setTotalFluidCapacity(int totalFluidCapacity);
 	

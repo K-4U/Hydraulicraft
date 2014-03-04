@@ -13,6 +13,7 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
 import codechicken.multipart.TileMultipart;
 
 public class WailaProvider implements IWailaDataProvider {
@@ -49,11 +50,11 @@ public class WailaProvider implements IWailaDataProvider {
 			}
 			//IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
 			
-			int stored = mEnt.getHandler().getStored();
+			int stored = mEnt.getHandler().getStored(null);
 			int max = mEnt.getMaxStorage();
 			
-			float pressure = mEnt.getHandler().getPressure();
-			float maxPressure = mEnt.getMaxPressure(mEnt.getHandler().isOilStored());
+			float pressure = mEnt.getPressure(ForgeDirection.UNKNOWN);
+			float maxPressure = mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), null);
 	
 			currenttip.add("Fl: " + stored + "/" + max + " mBuckets (" + (int)(((float)stored / (float)max) * 100) + "%)");
 			currenttip.add("Pr: " + pressure + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");

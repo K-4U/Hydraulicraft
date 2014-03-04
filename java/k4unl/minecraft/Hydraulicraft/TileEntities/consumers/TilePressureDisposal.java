@@ -51,7 +51,7 @@ public class TilePressureDisposal extends TileEntity implements
 	}
 
 	@Override
-	public float getMaxPressure(boolean isOil) {
+	public float getMaxPressure(boolean isOil, ForgeDirection from) {
 		return Constants.MAX_MBAR_OIL_TIER_3;
 	}
 
@@ -76,10 +76,10 @@ public class TilePressureDisposal extends TileEntity implements
 	@Override
 	public float workFunction(boolean simulate) {
 		if(getHandler().getRedstonePowered()){
-			if(getHandler().getPressure() > (Constants.MAX_MBAR_GEN_OIL_TIER_3*4)){
-				return (Constants.MAX_MBAR_GEN_OIL_TIER_3*4) % getHandler().getPressure();
+			if(getPressure(ForgeDirection.UNKNOWN) > (Constants.MAX_MBAR_GEN_OIL_TIER_3*4)){
+				return (Constants.MAX_MBAR_GEN_OIL_TIER_3*4) % getPressure(ForgeDirection.UNKNOWN);
 			}else{
-				return getHandler().getPressure();
+				return getPressure(ForgeDirection.UNKNOWN);
 			}
 		}
 		return 0;
@@ -139,10 +139,20 @@ public class TilePressureDisposal extends TileEntity implements
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);
-			Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(0, this);
-			Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
 		}
+	}
+	
+	@Override
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
+	}
+
+	@Override
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
 }

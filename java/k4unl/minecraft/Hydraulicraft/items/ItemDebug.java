@@ -48,11 +48,11 @@ public class ItemDebug extends MachineItem {
 						tagC = new NBTTagCompound();
 					}
 					
-					int stored = mEnt.getHandler().getStored();
+					int stored = mEnt.getHandler().getStored(null);
 					int max = mEnt.getMaxStorage();
 					
-					float pressure = mEnt.getHandler().getPressure();
-					float maxPressure = mEnt.getMaxPressure(mEnt.getHandler().isOilStored());
+					float pressure = mEnt.getPressure(ForgeDirection.UNKNOWN);
+					float maxPressure = mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), ForgeDirection.UNKNOWN);
 					
 					float prevPressure = tagC.getFloat("prevPressure");
 					int prevFluid = tagC.getInteger("prevFluid");

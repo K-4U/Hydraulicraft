@@ -23,9 +23,10 @@ public interface IHydraulicMachine {
 	 * @author Koen Beckers
 	 * @date 14-12-2013
 	 * @param isOil Whether or not oil is stored.
+	 * @param from TODO
 	 * @return The max amount of pressure(bar) this machine can handle.
 	 */
-	public float getMaxPressure(boolean isOil);
+	public float getMaxPressure(boolean isOil, ForgeDirection from);
 
 	/**
 	 * Called when the block has been broken.
@@ -109,4 +110,8 @@ public interface IHydraulicMachine {
 	public IPressureNetwork getNetwork(ForgeDirection side);
 	
 	public void setNetwork(ForgeDirection side, IPressureNetwork toSet);
+	
+	public float getPressure(ForgeDirection from);
+	
+	public void setPressure(float newPressure, ForgeDirection side);
 }

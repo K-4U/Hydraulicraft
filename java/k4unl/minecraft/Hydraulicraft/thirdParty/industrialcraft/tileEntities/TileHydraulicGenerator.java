@@ -4,6 +4,9 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -28,6 +31,7 @@ public class TileHydraulicGenerator extends TileEntity implements IHydraulicCons
 	private float percentageRun = 0.0F;
 	private float direction = 0.005F;
 	
+	private IPressureNetwork pNetwork;
 	
 	public TileHydraulicGenerator(){
 		powerHandler = new PowerHandler(this, Type.ENGINE);
@@ -36,7 +40,7 @@ public class TileHydraulicGenerator extends TileEntity implements IHydraulicCons
 	}
 	
 	@Override
-	public float getMaxPressure(boolean isOil) {
+	public float getMaxPressure(boolean isOil, ForgeDirection from) {
 		if(isOil){
 			return Constants.MAX_MBAR_OIL_TIER_3;
 		}else{
@@ -133,13 +137,13 @@ public class TileHydraulicGenerator extends TileEntity implements IHydraulicCons
 	}
 	
 	private float createPower(boolean simulate){
-		if(getHandler().getPressure() < Constants.MIN_REQUIRED_PRESSURE_ENGINE){
+		if(getPressure(ForgeDirection.UNKNOWN) < Constants.MIN_REQUIRED_PRESSURE_ENGINE){
 			isRunning = false;
 			getHandler().updateBlock();
 			return 0F;
 		}
 		
-		float energyToAdd = ((getHandler().getPressure() / getMaxPressure(getHandler().isOilStored())) * Constants.CONVERSION_RATIO_HYDRAULIC_MJ) * (getHandler().getPressure() / 1000);
+		float energyToAdd = ((getPressure(ForgeDirection.UNKNOWN) / getMaxPressure(getHandler().isOilStored(), null)) * Constants.CONVERSION_RATIO_HYDRAULIC_MJ) * (getPressure(ForgeDirection.UNKNOWN) / 1000);
 		if(!simulate)
 			energy += energyToAdd;
 		
@@ -265,20 +269,38 @@ public class TileHydraulicGenerator extends TileEntity implements IHydraulicCons
 
 	@Override
 	public IPressureNetwork getNetwork(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return null;
+		return pNetwork;
 	}
 
 	@Override
 	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
-		// TODO Auto-generated method stub
-		
+		pNetwork = toSet;
+	}
+
+	
+	
+	@Override
+	public void firstTick() {
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		if(newNetwork != null){
+			pNetwork = newNetwork;
+			pNetwork.addMachine(this);
+			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(0, this);
+			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+		}
 	}
 
 	@Override
-	public void firstTick() {
-		// TODO Auto-generated method stub
-		
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
 	}
 
+	@Override
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
+	}
+
+	
 }

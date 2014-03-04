@@ -4,7 +4,9 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -42,6 +44,7 @@ public class TileHydraulicMixer extends TileEntity implements
 
 	private IBaseClass baseHandler;
 
+	private IPressureNetwork pNetwork;
 	
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
@@ -70,7 +73,7 @@ public class TileHydraulicMixer extends TileEntity implements
 	 * and if the item is smeltable
 	 */
 	private boolean canRun(){
-		if(inputInventory == null || (getHandler().getPressure() < requiredPressure) || inputTank == null || inputTank.getFluid() == null){
+		if(inputInventory == null || (getPressure(ForgeDirection.UNKNOWN) < requiredPressure) || inputTank == null || inputTank.getFluid() == null){
 			return false;
 		}else{
 			if(outputTank.getFluidAmount() + Constants.OIL_FOR_ONE_SEED < outputTank.getCapacity()){
@@ -93,7 +96,7 @@ public class TileHydraulicMixer extends TileEntity implements
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return 5F + (getHandler().getPressure() * 0.00005F);
+			return 5F + (getPressure(ForgeDirection.UNKNOWN) * 0.00005F);
 		}else{
 			return 0F;
 		}
@@ -101,7 +104,7 @@ public class TileHydraulicMixer extends TileEntity implements
 	
 	public void doConvert(){
 		if(isWorking){
-			ticksDone = ticksDone + 1 + (int)((getHandler().getPressure()/100) * 0.00005F);
+			ticksDone = ticksDone + 1 + (int)((getPressure(ForgeDirection.UNKNOWN)/100) * 0.00005F);
 			Log.info(ticksDone+ "");
 			if(ticksDone >= maxTicks){
 				if(outputTank.getFluidAmount() <= 0){
@@ -327,7 +330,7 @@ public class TileHydraulicMixer extends TileEntity implements
 	}
 
 	@Override
-	public float getMaxPressure(boolean isOil) {
+	public float getMaxPressure(boolean isOil, ForgeDirection from) {
 		if(isOil){
 			return Constants.MAX_MBAR_OIL_TIER_3;
 		}else{
@@ -393,19 +396,34 @@ public class TileHydraulicMixer extends TileEntity implements
 
 	@Override
 	public IPressureNetwork getNetwork(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return null;
+		return pNetwork;
 	}
 
 	@Override
 	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
-		// TODO Auto-generated method stub
-		
+		pNetwork = toSet;
+	}
+	
+	@Override
+	public void firstTick() {
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		if(newNetwork != null){
+			pNetwork = newNetwork;
+			pNetwork.addMachine(this);
+			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(0, this);
+			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+		}
+	}
+	
+	@Override
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
 	}
 
 	@Override
-	public void firstTick() {
-		// TODO Auto-generated method stub
-		
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
 }

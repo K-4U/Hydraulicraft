@@ -7,8 +7,11 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -47,6 +50,8 @@ public class TileHydraulicWasher extends TileEntity implements
 	
 	private boolean isValidMultiblock;
 	
+	private IPressureNetwork pNetwork;
+	
 	public boolean getIsValidMultiblock(){
 		return isValidMultiblock;
 	}
@@ -84,7 +89,7 @@ public class TileHydraulicWasher extends TileEntity implements
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return 5F + ((getHandler().getPressure() / 100) * 0.0005F);
+			return 5F + ((getPressure(ForgeDirection.UNKNOWN) / 100) * 0.0005F);
 		}else{
 			return 0F;
 		}
@@ -93,7 +98,7 @@ public class TileHydraulicWasher extends TileEntity implements
 	
 	private void doWash(){
 		if(isWashing()){
-			washingTicks = washingTicks + 1 + (int)((getHandler().getPressure()/100) * 0.0005F);
+			washingTicks = washingTicks + 1 + (int)((getPressure(ForgeDirection.UNKNOWN)/100) * 0.0005F);
 			if(washingTicks >= maxWashingTicks){
 				//washing done!
 				if(outputInventory == null){
@@ -143,7 +148,7 @@ public class TileHydraulicWasher extends TileEntity implements
 		if(!getIsValidMultiblock()){
 			return false;
 		}
-		if(inputInventory == null || (getHandler().getPressure() < requiredPressure) || tank.getFluidAmount() < Constants.MIN_REQUIRED_WATER_FOR_WASHER){
+		if(inputInventory == null || (getPressure(ForgeDirection.UNKNOWN) < requiredPressure) || tank.getFluidAmount() < Constants.MIN_REQUIRED_WATER_FOR_WASHER){
 			return false;
 		}else{
 			//Get smelting result:
@@ -434,7 +439,7 @@ public class TileHydraulicWasher extends TileEntity implements
 	}
 
 	@Override
-	public float getMaxPressure(boolean isOil) {
+	public float getMaxPressure(boolean isOil, ForgeDirection from) {
 		if(isOil){
 			return Constants.MAX_MBAR_OIL_TIER_3;
 		}else{
@@ -650,19 +655,34 @@ public class TileHydraulicWasher extends TileEntity implements
 
 	@Override
 	public IPressureNetwork getNetwork(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return null;
+		return pNetwork;
 	}
 
 	@Override
 	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
-		// TODO Auto-generated method stub
-		
+		pNetwork = toSet;
+	}
+	
+	@Override
+	public void firstTick() {
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		if(newNetwork != null){
+			pNetwork = newNetwork;
+			pNetwork.addMachine(this);
+			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(0, this);
+			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+		}
+	}
+	
+	@Override
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
 	}
 
 	@Override
-	public void firstTick() {
-		// TODO Auto-generated method stub
-		
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
 }

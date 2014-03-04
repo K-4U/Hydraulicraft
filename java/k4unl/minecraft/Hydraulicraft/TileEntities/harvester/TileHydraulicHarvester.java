@@ -8,6 +8,8 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -61,6 +63,8 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	private static final int idEndBlock = Ids.blockHydraulicPressureWall.act;
 	private static final int idTrolley = Ids.blockHarvesterTrolley.act;
 	
+	private IPressureNetwork pNetwork;
+	
 	
 	public TileHydraulicHarvester(){
 		seedsStorage = new ItemStack[9];
@@ -80,7 +84,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	}
 
 	@Override
-	public float getMaxPressure(boolean isOil) {
+	public float getMaxPressure(boolean isOil, ForgeDirection from) {
 		if(isOil){
 			return Constants.MAX_MBAR_OIL_TIER_3;
 		}else{
@@ -651,7 +655,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	
 	private boolean canRun(){
 		if(!isMultiblock) return false;
-		if(Float.compare(getHandler().getPressure(), Constants.MIN_REQUIRED_PRESSURE_HARVESTER) < 0) return false;
+		if(Float.compare(getPressure(ForgeDirection.UNKNOWN), Constants.MIN_REQUIRED_PRESSURE_HARVESTER) < 0) return false;
 		if(pistonList.size() == 0) return false;
 		
 		
@@ -1091,19 +1095,39 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 
 	@Override
 	public IPressureNetwork getNetwork(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return null;
+		return pNetwork;
 	}
 
 	@Override
 	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
-		// TODO Auto-generated method stub
-		
+		pNetwork = toSet;
+	}
+	
+	@Override
+	public void firstTick() {
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		if(newNetwork != null){
+			pNetwork = newNetwork;
+			pNetwork.addMachine(this);
+			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(0, this);
+			////Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+		}
+	}
+	
+	@Override
+	public float getPressure(ForgeDirection from) {
+		if(getNetwork(from) != null){
+			return getNetwork(from).getPressure();
+		}else{
+			return 0;
+		}
 	}
 
 	@Override
-	public void firstTick() {
-		// TODO Auto-generated method stub
-		
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
+
 }

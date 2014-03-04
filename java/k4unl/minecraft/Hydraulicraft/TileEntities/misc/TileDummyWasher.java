@@ -153,8 +153,8 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 	}
 
 	@Override
-	public float getMaxPressure(boolean isOil) {
-		return getCore().getMaxPressure(getHandler().isOilStored());
+	public float getMaxPressure(boolean isOil, ForgeDirection from) {
+		return getCore().getMaxPressure(getHandler().isOilStored(), null);
 	}
 
 	@Override
@@ -302,20 +302,28 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 
 	@Override
 	public IPressureNetwork getNetwork(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return null;
+		return getCore().getNetwork(side);
 	}
 
 	@Override
 	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
-		// TODO Auto-generated method stub
-		
+		getCore().setNetwork(side, toSet);
 	}
 
 	@Override
 	public void firstTick() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
+	}
+
+	@Override
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
 
 	

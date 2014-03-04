@@ -9,6 +9,9 @@ import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -29,6 +32,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	private int ic2EnergyStored;
 	private float renderingPercentage = 0.0F;
 	private float renderingDir = 0.05F;
+	private IPressureNetwork pNetwork;
 	
 	public TileElectricPump(){
 		
@@ -75,7 +79,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 				renderingDir = -renderingDir;
 			}
 			
-			getHandler().setPressure(getHandler().getPressure() + getGenerating());
+			setPressure(getPressure(ForgeDirection.UNKNOWN) + getGenerating(), getFacing().getOpposite());
 			ic2EnergyStored -= getEUUsage();
 			isRunning = true;
 		}else{
@@ -120,9 +124,9 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 			if(gen > getMaxGenerating()){
 				gen = getMaxGenerating();
 			}
-			if(Float.compare(gen + getHandler().getPressure(), getMaxPressure(getHandler().isOilStored())) > 0){
+			if(Float.compare(gen + getPressure(getFacing().getOpposite()), getMaxPressure(getHandler().isOilStored(), null)) > 0){
 				//This means the pressure we are generating is too much!
-				gen = getMaxPressure(getHandler().isOilStored()) - getHandler().getPressure();
+				gen = getMaxPressure(getHandler().isOilStored(), null) - getPressure(getFacing().getOpposite());
 			}
 			return gen;
 		}
@@ -147,7 +151,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	}
 
 	@Override
-	public float getMaxPressure(boolean isOil) {
+	public float getMaxPressure(boolean isOil, ForgeDirection from) {
 		if(isOil){
 			switch(getTier()){
 			case 0:
@@ -236,6 +240,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 
 	public void setFacing(ForgeDirection rotation) {
 		facing = rotation;
+		firstTick();
 	}
 	
 	public boolean getIsRunning(){
@@ -318,19 +323,37 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 
 	@Override
 	public IPressureNetwork getNetwork(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return null;
+		return pNetwork;
 	}
 
 	@Override
 	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
-		// TODO Auto-generated method stub
-		
+		pNetwork = toSet;
+	}
+
+	
+	
+	@Override
+	public void firstTick() {
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		if(newNetwork != null){
+			pNetwork = newNetwork;
+			pNetwork.addMachine(this);
+			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(0, this);
+			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
+		}
+	}
+	
+	@Override
+	public float getPressure(ForgeDirection from) {
+		return getNetwork(from).getPressure();
 	}
 
 	@Override
-	public void firstTick() {
-		// TODO Auto-generated method stub
-		
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
 	}
+
 }

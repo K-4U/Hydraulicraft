@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.ForgeDirection;
 
 public interface IHydraulicConsumer extends IHydraulicMachine {
 	/**
@@ -14,4 +14,6 @@ public interface IHydraulicConsumer extends IHydraulicMachine {
 	public float workFunction(boolean simulate);
 	
 	public void onBlockBreaks();
+	
+	
 }

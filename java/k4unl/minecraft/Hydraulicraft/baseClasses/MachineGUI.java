@@ -10,6 +10,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import org.lwjgl.opengl.GL11;
@@ -112,10 +113,10 @@ public class MachineGUI extends GuiContainer {
 			color = Constants.COLOR_OIL;
 			fluidName = Fluids.fluidOil.getLocalizedName();
 		}
-		drawVerticalProgressBar(8, 16, 54, 16, mEnt.getHandler().getStored(), mEnt.getMaxStorage(), color, fluidName, "mB");
+		drawVerticalProgressBar(8, 16, 54, 16, mEnt.getHandler().getStored(null), mEnt.getMaxStorage(), color, fluidName, "mB");
 	
 		color = Constants.COLOR_PRESSURE;
-		drawVerticalProgressBar(152, 16, 54, 16, mEnt.getHandler().getPressure(), mEnt.getMaxPressure(mEnt.getHandler().isOilStored()), color, "Pressure", "mBar");
+		drawVerticalProgressBar(152, 16, 54, 16, mEnt.getPressure(ForgeDirection.UNKNOWN), mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), null), color, "Pressure", "mBar");
 	}
 	
 	
