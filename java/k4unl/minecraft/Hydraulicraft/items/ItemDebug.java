@@ -83,8 +83,8 @@ public class ItemDebug extends MachineItem {
 					}
 					
 					if(ent instanceof IHydraulicGenerator){
-						float gen = ((IHydraulicGenerator) ent).getGenerating();
-						int maxGen = ((IHydraulicGenerator) ent).getMaxGenerating();
+						float gen = ((IHydraulicGenerator) ent).getGenerating(ForgeDirection.UP);
+						int maxGen = ((IHydraulicGenerator) ent).getMaxGenerating(ForgeDirection.UP);
 						player.addChatMessage("Generating:    " + gen + "/" + maxGen);
 						if(ent instanceof TileHydraulicPump){
 							int tier = ((TileHydraulicPump) ent).getTier();

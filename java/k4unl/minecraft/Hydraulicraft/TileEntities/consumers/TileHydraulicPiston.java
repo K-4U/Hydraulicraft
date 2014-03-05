@@ -5,7 +5,7 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvest
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -35,7 +35,7 @@ public class TileHydraulicPiston extends TileEntity implements
 	
 	private boolean isRetracting;
 
-	private IPressureNetwork pNetwork;
+	private PressureNetwork pNetwork;
 	
 	public float getExtendTarget(){
 		return extendTarget;
@@ -131,7 +131,7 @@ public class TileHydraulicPiston extends TileEntity implements
 	
 	
 	@Override
-	public float workFunction(boolean simulate) {
+	public float workFunction(boolean simulate, ForgeDirection from) {
 		int compResult = Float.compare(extendTarget, extendedLength);
 		if(compResult > 0 && !isRetracting){
 			extendedLength += movingSpeed;
@@ -168,7 +168,7 @@ public class TileHydraulicPiston extends TileEntity implements
 		if(harvesterPart && getHarvester() != null){
 			if(baseHandler == null) baseHandler = getHarvester().getHandler();
 		}else{
-			if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+			if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
 		}
         return baseHandler;
 	}
@@ -249,12 +249,12 @@ public class TileHydraulicPiston extends TileEntity implements
 	}
 
 	@Override
-	public IPressureNetwork getNetwork(ForgeDirection side) {
+	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
@@ -262,7 +262,7 @@ public class TileHydraulicPiston extends TileEntity implements
 	
 	@Override
 	public void firstTick() {
-		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);
@@ -281,5 +281,10 @@ public class TileHydraulicPiston extends TileEntity implements
 	@Override
 	public void setPressure(float newPressure, ForgeDirection side) {
 		getNetwork(side).setPressure(newPressure);
+	}
+	
+	@Override
+	public boolean canWork(ForgeDirection dir) {
+		return dir.equals(ForgeDirection.UP);
 	}
 }

@@ -6,7 +6,7 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileDummyWasher;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
@@ -50,7 +50,7 @@ public class TileHydraulicWasher extends TileEntity implements
 	
 	private boolean isValidMultiblock;
 	
-	private IPressureNetwork pNetwork;
+	private PressureNetwork pNetwork;
 	
 	public boolean getIsValidMultiblock(){
 		return isValidMultiblock;
@@ -81,7 +81,7 @@ public class TileHydraulicWasher extends TileEntity implements
 	
 	
 	@Override
-	public float workFunction(boolean simulate) {
+	public float workFunction(boolean simulate, ForgeDirection from) {
 		if(canRun() || isWashing()){
 			if(!simulate){
 				doWash();
@@ -449,7 +449,7 @@ public class TileHydraulicWasher extends TileEntity implements
 
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
         return baseHandler;
 	}
 
@@ -654,18 +654,18 @@ public class TileHydraulicWasher extends TileEntity implements
 	}
 
 	@Override
-	public IPressureNetwork getNetwork(ForgeDirection side) {
+	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 	
 	@Override
 	public void firstTick() {
-		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);
@@ -684,5 +684,10 @@ public class TileHydraulicWasher extends TileEntity implements
 	@Override
 	public void setPressure(float newPressure, ForgeDirection side) {
 		getNetwork(side).setPressure(newPressure);
+	}
+	
+	@Override
+	public boolean canWork(ForgeDirection dir) {
+		return dir.equals(ForgeDirection.UP);
 	}
 }

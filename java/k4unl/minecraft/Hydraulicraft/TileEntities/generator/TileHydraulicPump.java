@@ -2,12 +2,10 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.generator;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
-import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,9 +25,9 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	private int currentBurnTime;
 	private int maxBurnTime;
 	private boolean isBurning = false;
-	private IBaseGenerator baseHandler;
+	private IBaseClass baseHandler;
 	
-	private IPressureNetwork pNetwork;
+	private PressureNetwork pNetwork;
 	
 	
 	public TileHydraulicPump(){
@@ -51,7 +49,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	}
 	
 	@Override
-	public void workFunction() {
+	public void workFunction(ForgeDirection from) {
 		//This function gets called every tick.
 		//It should check how much coal is left
 		//How long that stuff burns
@@ -61,7 +59,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		if(isBurning){
 			currentBurnTime --;
 			needsUpdate = true;
-			float gen = getGenerating();
+			float gen = getGenerating(ForgeDirection.UP);
 			if(gen > 0){
 				setPressure(gen + getPressure(ForgeDirection.UNKNOWN), ForgeDirection.UNKNOWN);
 			}
@@ -88,7 +86,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	}
 
 	@Override
-	public int getMaxGenerating() {
+	public int getMaxGenerating(ForgeDirection from) {
 		if(!getHandler().isOilStored()){
 			switch(getTier()){
 			case 0:
@@ -125,7 +123,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	}
 
 	@Override
-	public float getGenerating() {
+	public float getGenerating(ForgeDirection from) {
 		float multiplier = 0;
 		if(getIsBurning()){
 			if(getHandler().isOilStored()){
@@ -143,8 +141,8 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			float generating = (multiplier * perc);
 			float currentPressure = getPressure(ForgeDirection.UNKNOWN);
 			float maxPressure = getMaxPressure(getHandler().isOilStored(), ForgeDirection.UNKNOWN);
-			if(generating > getMaxGenerating())
-				generating = getMaxGenerating();
+			if(generating > getMaxGenerating(ForgeDirection.UP))
+				generating = getMaxGenerating(ForgeDirection.UP);
 			
 			if(generating + currentPressure <= (perc * maxPressure)){
 				return generating;
@@ -302,7 +300,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getGeneratorClass(this);
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
         return baseHandler;
 	}
 
@@ -369,12 +367,12 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	}
 
 	@Override
-	public IPressureNetwork getNetwork(ForgeDirection side) {
+	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
@@ -382,7 +380,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	
 	@Override
 	public void firstTick() {
-		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);
@@ -401,5 +399,10 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	@Override
 	public void setPressure(float newPressure, ForgeDirection side) {
 		getNetwork(side).setPressure(newPressure);
+	}
+	
+	@Override
+	public boolean canWork(ForgeDirection dir) {
+		return dir.equals(ForgeDirection.UP);
 	}
 }

@@ -2,15 +2,11 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.storage;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
-import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
-import k4unl.minecraft.Hydraulicraft.api.IBaseStorage;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,9 +30,9 @@ import net.minecraftforge.fluids.IFluidHandler;
 public class TileHydraulicPressureVat extends TileEntity implements IInventory, IFluidHandler, IHydraulicStorageWithTank {
 	private ItemStack inputInventory;
 	private ItemStack outputInventory;
-	private IBaseStorage baseHandler;
+	private IBaseClass baseHandler;
 
-	private IPressureNetwork pNetwork;
+	private PressureNetwork pNetwork;
 	
 	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	
@@ -322,7 +318,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getStorageClass(this);
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
         return baseHandler;
 	}
 
@@ -422,18 +418,18 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	}
 
 	@Override
-	public IPressureNetwork getNetwork(ForgeDirection side) {
+	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
 	@Override
 	public void firstTick() {
-		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);

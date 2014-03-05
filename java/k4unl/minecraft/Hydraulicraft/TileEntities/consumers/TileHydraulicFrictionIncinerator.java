@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.consumers;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -32,7 +32,7 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	private int maxSmeltingTicks = 0;
 	private IBaseClass baseHandler;
 
-	private IPressureNetwork pNetwork;
+	private PressureNetwork pNetwork;
 	
 	public int getSmeltingTicks(){
 		return smeltingTicks;
@@ -51,7 +51,7 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	}
 	
 	@Override
-	public float workFunction(boolean simulate) {
+	public float workFunction(boolean simulate, ForgeDirection from) {
 		if(canRun() || isSmelting()){
 			if(!simulate){
 				doSmelt();
@@ -297,7 +297,7 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
         return baseHandler;
 	}
 
@@ -383,12 +383,12 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	}
 
 	@Override
-	public IPressureNetwork getNetwork(ForgeDirection side) {
+	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
@@ -396,7 +396,7 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	
 	@Override
 	public void firstTick() {
-		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);
@@ -417,4 +417,8 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 		getNetwork(side).setPressure(newPressure);
 	}
 
+	@Override
+	public boolean canWork(ForgeDirection dir) {
+		return dir.equals(ForgeDirection.UP);
+	}
 }

@@ -29,9 +29,10 @@ public class Config {
 		return (CrushingRecipes.getCrushingRecipe(toCrush) != null);
 	}
 	
+	/*
 	public static boolean canBeCrushed(String oreName){
 		return (CrushingRecipes.getCrushingRecipe(oreName) != null);
-	}
+	}*/
 	
 	public static boolean canBeWashed(ItemStack itemStack){
         return (WashingRecipes.getWashingRecipe(itemStack) != null);

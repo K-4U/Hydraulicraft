@@ -14,60 +14,34 @@ import codechicken.multipart.TMultiPart;
  */
 public class HydraulicBaseClassSupplier {
 	private static Constructor baseHandlerConstructor;
-	private static Constructor baseTransporterConstructor;
-	private static Constructor baseGeneratorConstructor;
-	private static Constructor baseStorageConstructor;
+	private static Constructor multipartConstructor;
 	
-    public static IBaseClass getConsumerClass(TileEntity target){
+    public static IBaseClass getBaseClass(TileEntity target){
     	IBaseClass baseClassEntity = null;
         try {
-            if(baseHandlerConstructor == null) baseHandlerConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileConsumer").getConstructor(TileEntity.class);
+            if(baseHandlerConstructor == null) baseHandlerConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity").getConstructor(TileEntity.class);
             baseClassEntity = (IBaseClass)baseHandlerConstructor.newInstance(target);
         } catch(Exception e) {
-            System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a Consumer class. Here's a stacktrace:");
+            System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a base class. Here's a stacktrace:");
             e.printStackTrace();
         }
         return baseClassEntity;
     }
 
-    public static IBaseTransporter getTransporterClass(TMultiPart target){
-    	IBaseTransporter baseClassEntity = null;
+    public static IBaseClass getBaseClass(TMultiPart target){
+    	IBaseClass baseClassEntity = null;
         try {
-            if(baseTransporterConstructor == null) baseTransporterConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter").getConstructor(TMultiPart.class);
-            baseClassEntity = (IBaseTransporter)baseTransporterConstructor.newInstance(target);
+            if(multipartConstructor == null) multipartConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity").getConstructor(TMultiPart.class);
+            baseClassEntity = (IBaseClass)multipartConstructor.newInstance(target);
         } catch(InvocationTargetException e) {
-            System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a transporter class. Here's a stacktrace:");
+            System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a base class. Here's a stacktrace:");
             e.printStackTrace();
             e.getCause().printStackTrace(); 
         } catch(Exception e){
-        	System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a transporter class. Here's a stacktrace:");
-            e.printStackTrace();
-        }
-        return baseClassEntity;
-    }
-    
-    
-    public static IBaseGenerator getGeneratorClass(TileEntity target){
-    	IBaseGenerator baseClassEntity = null;
-        try {
-            if(baseGeneratorConstructor == null) baseGeneratorConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileGenerator").getConstructor(TileEntity.class);
-            baseClassEntity = (IBaseGenerator)baseGeneratorConstructor.newInstance(target);
-        } catch(Exception e) {
-            System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a generator class. Here's a stacktrace:");
+        	System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a base class. Here's a stacktrace:");
             e.printStackTrace();
         }
         return baseClassEntity;
     }
 
-	public static IBaseStorage getStorageClass(TileEntity target) {
-		IBaseStorage baseClassEntity = null;
-        try {
-            if(baseStorageConstructor == null) baseStorageConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileStorage").getConstructor(TileEntity.class);
-            baseClassEntity = (IBaseStorage)baseStorageConstructor.newInstance(target);
-        } catch(Exception e) {
-            System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a storage class. Here's a stacktrace:");
-            e.printStackTrace();
-        }
-        return baseClassEntity;
-	}
 }

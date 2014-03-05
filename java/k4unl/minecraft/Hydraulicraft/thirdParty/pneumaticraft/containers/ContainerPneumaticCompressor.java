@@ -11,11 +11,11 @@ import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerPneumaticCompressor extends Container {
 
-	protected TileHydraulicPneumaticCompressor tileCompressor;
+	//protected TileHydraulicPneumaticCompressor tileCompressor;
 	
 	
 	public ContainerPneumaticCompressor(InventoryPlayer invPlayer, TileHydraulicPneumaticCompressor _compressor){
-		tileCompressor = _compressor;
+		//tileCompressor = _compressor;
 		
 		//addSlotToContainer(new Slot(vat, 0, 59, 15));
 		

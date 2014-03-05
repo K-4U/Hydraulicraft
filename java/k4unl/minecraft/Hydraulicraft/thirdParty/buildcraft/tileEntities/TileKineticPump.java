@@ -2,9 +2,8 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
-import k4unl.minecraft.Hydraulicraft.api.IBaseGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -26,9 +25,9 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	private boolean isRunning = false;
 	private PowerHandler powerHandler;
 	private int MJPower;
-	private IBaseGenerator baseHandler;
+	private IBaseClass baseHandler;
 	private ForgeDirection facing = ForgeDirection.NORTH;
-	private IPressureNetwork pNetwork;
+	private PressureNetwork pNetwork;
 	
 	
 	public TileKineticPump(){
@@ -59,7 +58,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	}
 	
 	@Override
-	public void workFunction() {
+	public void workFunction(ForgeDirection from) {
 		if(!getHandler().getRedstonePowered()){
 			isRunning = false;
 			getHandler().updateBlock();
@@ -68,8 +67,8 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 		//This function gets called every tick.
 		boolean needsUpdate = false;
 		needsUpdate = true;
-		if(Float.compare(getGenerating(), 0.0F) > 0){
-			setPressure(getPressure(ForgeDirection.UNKNOWN) + getGenerating(), getFacing());
+		if(Float.compare(getGenerating(ForgeDirection.UP), 0.0F) > 0){
+			setPressure(getPressure(ForgeDirection.UNKNOWN) + getGenerating(ForgeDirection.UP), getFacing());
 			getPowerHandler().useEnergy(0, Constants.MJ_USAGE_PER_TICK[getTier()], true);
 			//MJPower -= Constants.MJ_USAGE_PER_TICK[getTier()];
 			//getEnergyStorage().extractEnergy(getMaxGenerating(), false);
@@ -84,7 +83,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	}
 
 	@Override
-	public int getMaxGenerating() {
+	public int getMaxGenerating(ForgeDirection from) {
 		if(!getHandler().isOilStored()){
 			switch(getTier()){
 			case 0:
@@ -108,7 +107,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	}
 
 	@Override
-	public float getGenerating() {
+	public float getGenerating(ForgeDirection from) {
 		if(!getHandler().getRedstonePowered()) return 0f;
 
 		float extractedEnergy = getPowerHandler().useEnergy(0, Constants.MJ_USAGE_PER_TICK[getTier()], false);
@@ -117,8 +116,8 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 		if(getPowerHandler().getEnergyStored() > Constants.MJ_USAGE_PER_TICK[getTier()] * 2){
 			float gen = extractedEnergy * Constants.CONVERSION_RATIO_MJ_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
 			//gen = gen * (gen / getMaxGenerating());
-			if(gen > getMaxGenerating()){
-				gen = getMaxGenerating();
+			if(gen > getMaxGenerating(ForgeDirection.UP)){
+				gen = getMaxGenerating(ForgeDirection.UP);
 			}
 			
 			if(Float.compare(gen + getPressure(ForgeDirection.UNKNOWN), getMaxPressure(getHandler().isOilStored(), null)) > 0){
@@ -174,7 +173,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getGeneratorClass(this);
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
         return baseHandler;
 	}
 
@@ -261,12 +260,12 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	}
 
 	@Override
-	public IPressureNetwork getNetwork(ForgeDirection side) {
+	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
@@ -274,7 +273,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	
 	@Override
 	public void firstTick() {
-		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);
@@ -295,4 +294,8 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 		getNetwork(side).setPressure(newPressure);
 	}
 	
+	@Override
+	public boolean canWork(ForgeDirection dir) {
+		return dir.equals(getFacing());
+	}
 }

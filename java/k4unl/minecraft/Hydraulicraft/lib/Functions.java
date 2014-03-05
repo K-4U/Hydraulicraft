@@ -3,9 +3,8 @@ package k4unl.minecraft.Hydraulicraft.lib;
 import java.util.ArrayList;
 import java.util.List;
 
-import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.client.Minecraft;
@@ -16,6 +15,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
+import codechicken.multipart.TileMultipart;
 
 public class Functions {
 	private static boolean isUpdateAvailable;
@@ -215,7 +215,7 @@ public class Functions {
 	}
 	
 	
-	public static IPressureNetwork getNearestNetwork(IBlockAccess iba, int x, int y, int z){
+	public static PressureNetwork getNearestNetwork(IBlockAccess iba, int x, int y, int z){
 		TileEntity t = iba.getBlockTileEntity(x, y, z);
 		if(t instanceof IHydraulicMachine || t instanceof TileMultipart){
 			IHydraulicMachine mEnt;
@@ -228,8 +228,8 @@ public class Functions {
 			}
 			
 			List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
-			IPressureNetwork newNetwork = null;
-			IPressureNetwork foundNetwork = null;
+			PressureNetwork newNetwork = null;
+			PressureNetwork foundNetwork = null;
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 				
 				if(isMultipart){

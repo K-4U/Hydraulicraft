@@ -1,9 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import java.util.List;
-
-import pneumaticCraft.api.tileentity.IAirHandler;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -107,11 +103,12 @@ public interface IHydraulicMachine {
 	 */
 	public void firstTick();
 	
-	public IPressureNetwork getNetwork(ForgeDirection side);
+	public PressureNetwork getNetwork(ForgeDirection side);
 	
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet);
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet);
 	
 	public float getPressure(ForgeDirection from);
 	
 	public void setPressure(float newPressure, ForgeDirection side);
+
 }

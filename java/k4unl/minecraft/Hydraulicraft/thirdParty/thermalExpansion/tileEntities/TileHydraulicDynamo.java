@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -28,7 +28,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	private float direction = 0.005F;
 	protected EnergyStorage storage = new EnergyStorage(32000);
 	
-	private IPressureNetwork pNetwork;
+	private PressureNetwork pNetwork;
 	
 	public TileHydraulicDynamo(){
 
@@ -62,7 +62,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
         return baseHandler;
 	}
 
@@ -119,7 +119,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 
 
 	@Override
-	public float workFunction(boolean simulate) {
+	public float workFunction(boolean simulate, ForgeDirection from) {
 		float pressureRequired = createPower(simulate);
 
 		if(simulate == true && storage.getEnergyStored() > 0 && Float.compare(pressureRequired, 0.0F) == 0){
@@ -259,12 +259,12 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	}
 
 	@Override
-	public IPressureNetwork getNetwork(ForgeDirection side) {
+	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
@@ -272,7 +272,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	
 	@Override
 	public void firstTick() {
-		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);
@@ -292,7 +292,11 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	public void setPressure(float newPressure, ForgeDirection side) {
 		getNetwork(side).setPressure(newPressure);
 	}
-
+	
+	@Override
+	public boolean canWork(ForgeDirection dir) {
+		return dir.equals(facing.getOpposite());
+	}
 
 	
 }

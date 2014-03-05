@@ -7,10 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseTransporter;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
@@ -23,7 +22,6 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -34,11 +32,8 @@ import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
 import codechicken.lib.vec.Cuboid6;
-import codechicken.lib.vec.Rotation;
 import codechicken.lib.vec.Vector3;
-import codechicken.microblock.FaceMicroblock;
 import codechicken.microblock.IHollowConnect;
-import codechicken.microblock.MicroMaterialRegistry;
 import codechicken.multipart.JNormalOcclusion;
 import codechicken.multipart.NormalOcclusionTest;
 import codechicken.multipart.NormallyOccludedPart;
@@ -52,9 +47,9 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     public static Cuboid6[] boundingBoxes = new Cuboid6[14];
     private static int expandBounds = -1;
     
-    private IPressureNetwork pNetwork;
+    private PressureNetwork pNetwork;
     
-    private IBaseTransporter baseHandler;
+    private IBaseClass baseHandler;
     private Map<ForgeDirection, TileEntity> connectedSides;
     private final boolean[] connectedSideFlags = new boolean[6];
     private boolean needToCheckNeighbors;
@@ -329,7 +324,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     @Override
     public void onPartChanged(TMultiPart part){
         checkConnectedSides();
-        getHandler().disperse();
     }
     
     @Override
@@ -412,14 +406,14 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     }
 
 	@Override
-	public IBaseTransporter getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getTransporterClass(this);
+	public IBaseClass getHandler() {
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
         return baseHandler;
 	}
 
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
-		getHandler().onDataPacket(net, packet);
+		getHandler().onDataPacket(net, packet); 
 	}
 
 	@Override
@@ -477,18 +471,18 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	
 
 	@Override
-	public IPressureNetwork getNetwork(ForgeDirection side) {
+	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
 	@Override
 	public void firstTick() {
-		IPressureNetwork newNetwork = Functions.getNearestNetwork(world(), x(), y(), z());
+		PressureNetwork newNetwork = Functions.getNearestNetwork(world(), x(), y(), z());
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);

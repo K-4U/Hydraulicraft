@@ -60,8 +60,8 @@ public class WailaProvider implements IWailaDataProvider {
 			currenttip.add("Pr: " + pressure + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");
 			
 			if(mEnt instanceof IHydraulicGenerator){
-				float gen = ((IHydraulicGenerator) mEnt).getGenerating();
-				int maxGen = ((IHydraulicGenerator) mEnt).getMaxGenerating();
+				float gen = ((IHydraulicGenerator) mEnt).getGenerating(ForgeDirection.UP);
+				int maxGen = ((IHydraulicGenerator) mEnt).getMaxGenerating(ForgeDirection.UP);
 				currenttip.add("Gen: " + gen + "/" + maxGen);
 			}
 			if(mEnt instanceof TileElectricPump){

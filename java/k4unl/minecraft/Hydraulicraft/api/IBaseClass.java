@@ -39,41 +39,89 @@ public interface IBaseClass {
 	 */
 	public Packet getDescriptionPacket();
 
+	/**
+	 * Gets the ammount of fluid stored
+	 * @param from
+	 * @return the ammount of fluid stored
+	 */
 	public int getStored(ForgeDirection from);
 
+	/**
+	 * Sets the amount of fluid stored 
+	 * @param maxStorage
+	 * @param isOil
+	 */
+	public void setStored(int maxStorage, boolean isOil);
+	
+	/**
+	 * 
+	 * @return if Oil is stored in the tank.
+	 */
 	public boolean isOilStored();
-
+	
+	/**
+	 * Sets if oil is stored or not
+	 * @param b
+	 */
+	public void setIsOilStored(boolean b);
+	
+	/**
+	 * 
+	 * @return if the block has a redstone signal powering it.
+	 */
 	public boolean getRedstonePowered();
 
+	/**
+	 * Function to drop an item stack into the world.
+	 * @param inputInventory
+	 */
 	public void dropItemStackInWorld(ItemStack inputInventory);
+	
 	
 	public List<IHydraulicMachine> getConnectedBlocks(
 			List<IHydraulicMachine> mainList);
 	
-	public List<IHydraulicMachine> getConnectedBlocks(
-			List<IHydraulicMachine> mainList, boolean chain);
-
-	public void setPressure(float newPressure, ForgeDirection from);
-
-	public void setStored(int maxStorage, boolean isOil);
-
+	/**
+	 * Sets the fluid in the entire network.
+	 * @param fluidInSystem
+	 */
 	public void setFluidInSystem(int fluidInSystem);
 
+	/**
+	 * Sets the amount of fluid the entire network can handle.
+	 * @param totalFluidCapacity
+	 */
 	public void setTotalFluidCapacity(int totalFluidCapacity);
-	
-	public void updateEntity();
 
+	/**
+	 * Gets the fluid in the entire network.
+	 * @return
+	 */
+	public int getFluidInSystem();
+	
+	/**
+	 * Gets the amount of fluid the entire network can handle.
+	 * @return
+	 */
 	public int getTotalFluidCapacity();
 
-	public int getFluidInSystem();
-
+	/**
+	 * Forward this function the the Base class
+	 */
+	public void updateEntity();
+	
+	/**
+	 * Checks if the block is redstone powered. Does not return anything.
+	 */
 	public void checkRedstonePower();
 	
+	/**
+	 * Triggers a world.markBlockForUpdate()
+	 */
 	public void updateBlock();
-
-	public void setIsOilStored(boolean b);
-
-	public void disperse();
 	
+	/**
+	 * When the TE is validated.
+	 */
 	public void validate();
 }

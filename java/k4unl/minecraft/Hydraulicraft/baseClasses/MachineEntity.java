@@ -6,10 +6,14 @@ import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
@@ -37,24 +41,17 @@ public class MachineEntity implements IBaseClass {
 	private int fluidTotalCapacity = 0;
 	private boolean isRedstonePowered = false;
 	
-	//private int networkCount;
 	
-	public boolean isMultipart;
-	public World tWorld;
-	public Location blockLocation;
-	public TMultiPart tMp;
-	public TileEntity tTarget;
-	public IHydraulicMachine target;
+	private boolean isMultipart;
+	private World tWorld;
+	private Location blockLocation;
+	private TMultiPart tMp;
+	private TileEntity tTarget;
+	private IHydraulicMachine target;
 	
-	public boolean hasOwnFluidTank;
+	private boolean hasOwnFluidTank;
 	private boolean firstUpdate = true;
 	
-	
-	//private boolean refreshConnectedBlocks = true;
-	//private List<IHydraulicMachine> connectedBlocks;
-	
-	//private float pressureToSet;
-		
 	public MachineEntity(TileEntity _target) {
 		tTarget = _target;
 		target = (IHydraulicMachine) _target;
@@ -370,10 +367,36 @@ public class MachineEntity implements IBaseClass {
 
 	@Override
 	public void updateEntity() {
-		//disperse();
 		if(firstUpdate/* && tWorld!= null && !tWorld.isRemote*/){
 			firstUpdate = false;
 			target.firstTick();
+		}
+		if(tWorld != null){
+			if(!tWorld.isRemote){
+				
+				if(tTarget instanceof IHydraulicConsumer){
+					IHydraulicConsumer consumer = (IHydraulicConsumer)tTarget;
+			        float less = consumer.workFunction(true, ForgeDirection.UP);
+			        if(target.getPressure(ForgeDirection.UNKNOWN) >= less && less > 0){
+		                less = consumer.workFunction(false, ForgeDirection.UP);
+		                float newPressure = target.getPressure(ForgeDirection.UNKNOWN) - less;
+		                updateBlock();
+		                target.setPressure(newPressure, ForgeDirection.UNKNOWN);
+		                
+		                //So.. the water in this block should be going down a bit.
+		                if(!isOilStored()){
+		                    setStored((int)(getStored(null) - (less * Constants.USING_WATER_PENALTY)), false);
+		                }
+		            }
+		        }else if(tTarget instanceof IHydraulicGenerator){
+		        	IHydraulicGenerator gen = (IHydraulicGenerator) tTarget;
+		        	gen.workFunction(ForgeDirection.UP);
+		        }else if(tTarget instanceof IHydraulicStorage){
+		        	if(tTarget.worldObj.getTotalWorldTime() % 40 == 0){
+		    			Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+		    		}
+		        }
+			}
 		}
 	}
 
@@ -420,31 +443,6 @@ public class MachineEntity implements IBaseClass {
 		}
 		
 		return machines;
-	}
-	
-	@Override
-	public void disperse() {
-		//Should get connected blocks and set the pressure there.
-		//List<IHydraulicMachine> connectedBlocks =  new ArrayList<IHydraulicMachine>();
-		//connectedBlocks = getConnectedBlocks();
-		/*
-		int x = getBlockLocation().getX();
-		int y = getBlockLocation().getY();
-		int z = getBlockLocation().getZ();
-		List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			IHydraulicMachine isValid = null;
-			if(isMultipart){
-				if(((PartHose)tMp).isConnectedTo(dir)){
-					isValid = isValidMachine(dir);					
-				}
-			}else{
-				isValid = isValidMachine(dir);				
-			}
-			if(isValid != null){
-				//isValid.getHandler().setPressure(getPressure());
-			}
-		}*/
 	}
 
 	@Override
