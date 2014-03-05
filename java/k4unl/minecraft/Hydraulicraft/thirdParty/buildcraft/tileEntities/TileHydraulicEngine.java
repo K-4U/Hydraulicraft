@@ -87,13 +87,13 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
-		//getHandler().onDataPacket(net, packet);
+		getHandler().onDataPacket(net, packet);
 		
 	}
 
 	@Override
 	public Packet getDescriptionPacket() {
-		return null;//getHandler().getDescriptionPacket();
+		return getHandler().getDescriptionPacket();
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	private float createPower(boolean simulate){
 		if(getPressure(getFacing().getOpposite()) < Constants.MIN_REQUIRED_PRESSURE_ENGINE){
 			isRunning = false;
-			//getHandler().updateBlock();
+			getHandler().updateBlock();
 			return 0F;
 		}
 		
@@ -241,25 +241,25 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
-		//getHandler().readFromNBT(tagCompound);
+		getHandler().readFromNBT(tagCompound);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
-		//getHandler().writeToNBT(tagCompound);
+		getHandler().writeToNBT(tagCompound);
 	}
 
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		//getHandler().updateEntity();
+		getHandler().updateEntity();
 	}
 
 	@Override
 	public void validate() {
 		super.validate();
-		//getHandler().validate();
+		getHandler().validate();
 	}
 	
 	@Override

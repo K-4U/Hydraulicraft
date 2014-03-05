@@ -44,16 +44,16 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
     @Override
     public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
-        //getHandler().onDataPacket(net, packet);
-        readFromNBT(packet.data);
+        getHandler().onDataPacket(net, packet);
+        //readFromNBT(packet.data);
     }
 
     @Override
     public Packet getDescriptionPacket(){
-        // return getHandler().getDescriptionPacket();
-        NBTTagCompound tag = new NBTTagCompound();
+        return getHandler().getDescriptionPacket();
+        /*NBTTagCompound tag = new NBTTagCompound();
         writeToNBT(tag);
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, tag);
+        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, tag);*/
     }
 
     @Override
@@ -321,7 +321,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
     @Override
     public void updateEntity(){
-        //getHandler().updateEntity();
+        getHandler().updateEntity();
         /*
         if(!worldObj.isRemote && oldScaledCrushTime != getScaledCrushTime()) {//TODO refactor it so updates only will be made when a player has a GUI open of this block.
             oldScaledCrushTime = getScaledCrushTime();

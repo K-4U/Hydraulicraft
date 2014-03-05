@@ -311,10 +311,10 @@ public class MachineEntity implements IBaseClass {
 		fluidInSystem = tagCompound.getInteger("fluidInSystem");
 		fluidTotalCapacity = tagCompound.getInteger("fluidTotalCapacity");
 		
-		/*
+		
 		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
 			target.getNetwork(ForgeDirection.UNKNOWN).readFromNBT(tagCompound.getCompoundTag("network"));
-		}*/
+		}
 		
 		
 		isRedstonePowered = tagCompound.getBoolean("isRedstonePowered");
@@ -335,7 +335,7 @@ public class MachineEntity implements IBaseClass {
 		
 		
 		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
-		/*
+		
 		NBTTagCompound pNetworkCompound = new NBTTagCompound();
 		
 		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
@@ -343,7 +343,7 @@ public class MachineEntity implements IBaseClass {
 		}
 		
 		tagCompound.setCompoundTag("network", pNetworkCompound);
-		*/
+		
 		if(isMultipart){
 			((IHydraulicMachine)tMp).writeNBT(tagCompound);
 		}else{
@@ -370,11 +370,11 @@ public class MachineEntity implements IBaseClass {
 	public void updateEntity() {
 		if(firstUpdate/* && tWorld!= null && !tWorld.isRemote*/){
 			firstUpdate = false;
-			//target.firstTick();
+			target.firstTick();
 		}
-		//if(tWorld != null){
-		//	if(!tWorld.isRemote){
-				/*
+		if(tWorld != null){
+			if(!tWorld.isRemote){
+				
 				if(tTarget instanceof IHydraulicConsumer){
 					IHydraulicConsumer consumer = (IHydraulicConsumer)tTarget;
 			        float less = consumer.workFunction(true, ForgeDirection.UP);
@@ -397,9 +397,9 @@ public class MachineEntity implements IBaseClass {
 		    			Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
 		    		}
 		        }
-		        */
-			//}
-		//}
+		        
+			}
+		}
 	}
 
 	@Override

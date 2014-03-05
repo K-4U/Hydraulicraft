@@ -18,14 +18,14 @@ public class HydraulicBaseClassSupplier {
 	private static Constructor multipartConstructor;
 	
     public static IBaseClass getBaseClass(TileEntity target){
-    	IBaseClass baseClassEntity = new MachineEntity(target);
-        /*try {
+    	IBaseClass baseClassEntity = null;
+        try {
             if(baseHandlerConstructor == null) baseHandlerConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity").getConstructor(TileEntity.class);
             baseClassEntity = (IBaseClass)baseHandlerConstructor.newInstance(target);
         } catch(Exception e) {
             System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a base class. Here's a stacktrace:");
             e.printStackTrace();
-        }*/
+        }
     	
         return baseClassEntity;
     }
