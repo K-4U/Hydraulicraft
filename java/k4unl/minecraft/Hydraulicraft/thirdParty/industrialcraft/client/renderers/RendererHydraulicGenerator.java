@@ -35,7 +35,7 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 		
 		GL11.glTranslatef(x, y, z);
 
-		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
+		//FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
 		
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures

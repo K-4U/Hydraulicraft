@@ -1,15 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities;
 
-import pneumaticCraft.api.tileentity.AirHandlerSupplier;
-import pneumaticCraft.api.tileentity.IAirHandler;
-import pneumaticCraft.api.tileentity.IPneumaticMachine;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -18,6 +14,9 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import pneumaticCraft.api.tileentity.AirHandlerSupplier;
+import pneumaticCraft.api.tileentity.IAirHandler;
+import pneumaticCraft.api.tileentity.IPneumaticMachine;
 
 public class TileHydraulicPneumaticCompressor extends TileEntity implements
 		IPneumaticMachine, IHydraulicConsumer {
@@ -25,7 +24,7 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
     private IBaseClass baseHandler;
     private static float dangerPressure = 5;  
 
-    private PressureNetwork pNetwork;
+    private IPressureNetwork pNetwork;
     
     @Override
     public IAirHandler getAirHandler(){
@@ -176,12 +175,12 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 	}
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
+	public IPressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
@@ -189,7 +188,7 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 	
 	@Override
 	public void firstTick() {
-		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);

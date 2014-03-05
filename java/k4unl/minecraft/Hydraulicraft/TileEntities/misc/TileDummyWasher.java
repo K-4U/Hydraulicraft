@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.misc;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -299,12 +299,12 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 	}
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
+	public IPressureNetwork getNetwork(ForgeDirection side) {
 		return getCore().getNetwork(side);
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
 		getCore().setNetwork(side, toSet);
 	}
 

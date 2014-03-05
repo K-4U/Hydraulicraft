@@ -177,7 +177,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
 		
-		Functions.checkAndFillSideBlocks(world, x, y, z);
+		//Functions.checkAndFillSideBlocks(world, x, y, z);
 	}
 	
 	

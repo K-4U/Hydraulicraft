@@ -6,12 +6,10 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileDummyWasher;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -50,7 +48,7 @@ public class TileHydraulicWasher extends TileEntity implements
 	
 	private boolean isValidMultiblock;
 	
-	private PressureNetwork pNetwork;
+	private IPressureNetwork pNetwork;
 	
 	public boolean getIsValidMultiblock(){
 		return isValidMultiblock;
@@ -654,18 +652,18 @@ public class TileHydraulicWasher extends TileEntity implements
 	}
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
+	public IPressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 	
 	@Override
 	public void firstTick() {
-		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);

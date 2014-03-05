@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.generator;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -27,7 +27,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	private boolean isBurning = false;
 	private IBaseClass baseHandler;
 	
-	private PressureNetwork pNetwork;
+	private IPressureNetwork pNetwork;
 	
 	
 	public TileHydraulicPump(){
@@ -367,12 +367,12 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	}
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
+	public IPressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
@@ -380,7 +380,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	
 	@Override
 	public void firstTick() {
-		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);

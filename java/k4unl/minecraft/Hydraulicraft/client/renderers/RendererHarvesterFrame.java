@@ -33,9 +33,13 @@ public class RendererHarvesterFrame extends TileEntitySpecialRenderer {
 		
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float)z + 0.5F);
 		
-		TileHarvesterFrame frame = (TileHarvesterFrame) tileEntity;
-		if(frame.getIsRotated()){
-			GL11.glRotatef(180, 1F, 0F, 1F);
+		if(tileEntity != null){
+			TileHarvesterFrame frame = (TileHarvesterFrame) tileEntity;
+			if(frame.getIsRotated()){
+				GL11.glRotatef(180, 1F, 0F, 1F);
+			}else{
+				GL11.glRotatef(180, 0F, 0F, 1F);
+			}
 		}else{
 			GL11.glRotatef(180, 0F, 0F, 1F);
 		}

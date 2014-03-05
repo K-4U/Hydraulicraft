@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.client.Minecraft;
@@ -215,7 +215,7 @@ public class Functions {
 	}
 	
 	
-	public static PressureNetwork getNearestNetwork(IBlockAccess iba, int x, int y, int z){
+	public static IPressureNetwork getNearestNetwork(IBlockAccess iba, int x, int y, int z){
 		TileEntity t = iba.getBlockTileEntity(x, y, z);
 		if(t instanceof IHydraulicMachine || t instanceof TileMultipart){
 			IHydraulicMachine mEnt;
@@ -228,8 +228,8 @@ public class Functions {
 			}
 			
 			List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
-			PressureNetwork newNetwork = null;
-			PressureNetwork foundNetwork = null;
+			IPressureNetwork newNetwork = null;
+			IPressureNetwork foundNetwork = null;
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 				
 				if(isMultipart){

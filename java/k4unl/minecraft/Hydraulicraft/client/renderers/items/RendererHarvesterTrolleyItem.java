@@ -57,7 +57,7 @@ public class RendererHarvesterTrolleyItem implements IItemRenderer {
 	private void render(float x, float y, float z, float scale, int rotation){
 		RendererHarvesterTrolley t = new RendererHarvesterTrolley();
 		GL11.glScalef(scale, scale, scale);
-		t.doRender(new TileHarvesterTrolley(), x, y, z, 0, rotation, 0);
+		t.doRender(null, x, y, z, 0, rotation, 0);
 	}
 
 }

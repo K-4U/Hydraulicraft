@@ -1,16 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.consumers;
 
-import java.util.Random;
-
-import buildcraft.api.power.IPowerReceptor;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -24,7 +20,6 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TileHydraulicCrusher extends TileEntity implements ISidedInventory, IHydraulicConsumer{
     private ItemStack inputInventory;
@@ -37,7 +32,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
     private int oldScaledCrushTime;
     private IBaseClass baseHandler;
 
-    private PressureNetwork pNetwork;
+    private IPressureNetwork pNetwork;
     
     public TileHydraulicCrusher(){
 
@@ -65,6 +60,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
     public void readFromNBT(NBTTagCompound tagCompound){
         super.readFromNBT(tagCompound);
         getHandler().readFromNBT(tagCompound);
+        
         crushingTicks = tagCompound.getInteger("crushingTicks");
         maxCrushingTicks = tagCompound.getInteger("maxCrushingTicks");
     }
@@ -325,11 +321,12 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
     @Override
     public void updateEntity(){
-        getHandler().updateEntity();
+        //getHandler().updateEntity();
+        /*
         if(!worldObj.isRemote && oldScaledCrushTime != getScaledCrushTime()) {//TODO refactor it so updates only will be made when a player has a GUI open of this block.
             oldScaledCrushTime = getScaledCrushTime();
             getHandler().updateBlock();
-        }
+        }*/
     }
 
     @Override
@@ -402,12 +399,12 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 	}
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
+	public IPressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
@@ -415,7 +412,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 	
 	@Override
 	public void firstTick() {
-		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);

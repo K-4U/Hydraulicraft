@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
@@ -47,7 +48,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     public static Cuboid6[] boundingBoxes = new Cuboid6[14];
     private static int expandBounds = -1;
     
-    private PressureNetwork pNetwork;
+    private IPressureNetwork pNetwork;
     
     private IBaseClass baseHandler;
     private Map<ForgeDirection, TileEntity> connectedSides;
@@ -471,18 +472,18 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
+	public IPressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
 	@Override
 	public void firstTick() {
-		PressureNetwork newNetwork = Functions.getNearestNetwork(world(), x(), y(), z());
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(world(), x(), y(), z());
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);

@@ -3,10 +3,9 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -27,7 +26,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	private int MJPower;
 	private IBaseClass baseHandler;
 	private ForgeDirection facing = ForgeDirection.NORTH;
-	private PressureNetwork pNetwork;
+	private IPressureNetwork pNetwork;
 	
 	
 	public TileKineticPump(){
@@ -260,12 +259,12 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	}
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
+	public IPressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
@@ -273,7 +272,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	
 	@Override
 	public void firstTick() {
-		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);

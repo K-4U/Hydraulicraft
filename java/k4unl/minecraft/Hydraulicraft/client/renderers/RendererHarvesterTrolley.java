@@ -70,8 +70,9 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
-		
-		GL11.glTranslatef(0.0F, 0.0F, t.getSideLength());
+		if(t != null){
+			GL11.glTranslatef(0.0F, 0.0F, t.getSideLength());
+		}
 		drawBase(t);
 		drawHead(t);
 		drawPistonArm(t);
@@ -171,7 +172,9 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		float fromEdge = 0.1F;
 		float sideTexture = 25.0F / 256.0F;
 		float otherEdge = 1.0F - fromEdge;
-		GL11.glTranslatef(0.0F, -tileentity.getExtendedLength(), 0.0F);
+		if(tileentity != null){
+			GL11.glTranslatef(0.0F, -tileentity.getExtendedLength(), 0.0F);
+		}
 		//Facing east for TOP and BOTTOM
 		//Draw TOP side.
 		GL11.glBegin(GL11.GL_QUADS);
@@ -219,9 +222,14 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 	private void drawPistonArm(TileHarvesterTrolley tileentity) {
 		float half = 0.8F;
 		float begin = half;
-		float totalLength = tileentity.getExtendedLength();
+		float totalLength = 0f;
+		float maxLength = 1f;
+		if(tileentity != null){
+			totalLength = tileentity.getExtendedLength();
+			maxLength = tileentity.getMaxLength();
+		}
 		totalLength+=0.3F;
-		float maxLength = tileentity.getMaxLength();
+		
 		float remainingPercentage = totalLength;
 		float thickness = 0.15F;
 		float maxThickness = 0.5F;

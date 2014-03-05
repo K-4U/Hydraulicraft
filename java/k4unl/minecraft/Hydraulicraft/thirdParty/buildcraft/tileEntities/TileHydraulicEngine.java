@@ -3,7 +3,8 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -30,7 +31,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	private boolean isRunning = true;
 	private float percentageRun = 0.0F;
 	private float direction = 0.005F;
-	private PressureNetwork pNetwork;
+	private IPressureNetwork pNetwork;
 	
 	public TileHydraulicEngine(){
 		powerHandler = new PowerHandler(this, Type.ENGINE);
@@ -86,13 +87,13 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
-		getHandler().onDataPacket(net, packet);
+		//getHandler().onDataPacket(net, packet);
 		
 	}
 
 	@Override
 	public Packet getDescriptionPacket() {
-		return getHandler().getDescriptionPacket();
+		return null;//getHandler().getDescriptionPacket();
 	}
 
 	@Override
@@ -138,7 +139,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	private float createPower(boolean simulate){
 		if(getPressure(getFacing().getOpposite()) < Constants.MIN_REQUIRED_PRESSURE_ENGINE){
 			isRunning = false;
-			getHandler().updateBlock();
+			//getHandler().updateBlock();
 			return 0F;
 		}
 		
@@ -240,25 +241,25 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
-		getHandler().readFromNBT(tagCompound);
+		//getHandler().readFromNBT(tagCompound);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
-		getHandler().writeToNBT(tagCompound);
+		//getHandler().writeToNBT(tagCompound);
 	}
 
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		getHandler().updateEntity();
+		//getHandler().updateEntity();
 	}
 
 	@Override
 	public void validate() {
 		super.validate();
-		getHandler().validate();
+		//getHandler().validate();
 	}
 	
 	@Override
@@ -267,12 +268,12 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	}
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
+	public IPressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
@@ -280,7 +281,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	
 	@Override
 	public void firstTick() {
-		PressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
+		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this);

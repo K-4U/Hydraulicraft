@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeDirection;
 
-public class PressureNetwork {
+public class PressureNetwork implements IPressureNetwork {
 	private float pressure = 0;
 	
 	private List<IHydraulicMachine> machines;
@@ -52,7 +52,7 @@ public class PressureNetwork {
 		return machines;
 	}
 	
-	public void mergeNetwork(PressureNetwork toMerge){
+	public void mergeNetwork(IPressureNetwork toMerge){
 		float newPressure = ((pressure - toMerge.getPressure()) / 2) + toMerge.getPressure();
 		setPressure(newPressure);
 		for(IHydraulicMachine machine : toMerge.getMachines()){

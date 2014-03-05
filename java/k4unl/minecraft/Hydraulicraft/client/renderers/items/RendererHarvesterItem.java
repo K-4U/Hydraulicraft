@@ -59,11 +59,11 @@ public class RendererHarvesterItem implements IItemRenderer {
 		if(metadata == 1){
 			RendererHarvesterFrame f = new RendererHarvesterFrame();
 			GL11.glScalef(scale, scale, scale);
-			f.renderTileEntityAt(new TileHarvesterFrame(), x, y, z, 0);
+			f.renderTileEntityAt(null, x, y, z, 0);
 		}else if(metadata == 0){
 			RendererHarvesterSource f = new RendererHarvesterSource();
 			GL11.glScalef(scale, scale, scale);
-			f.doRender(new TileHydraulicHarvester(), (float)x, (float)y, (float)z, 0.0F, metadata);
+			f.doRender(null, (float)x, (float)y, (float)z, 0.0F, metadata);
 		}
 	}
 

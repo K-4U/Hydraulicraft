@@ -55,8 +55,12 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
 		drawBase((TileHydraulicPiston)tileentity);
-		if(!((TileHydraulicPiston)tileentity).getIsHarvesterPart()){
-			drawPistonHead((TileHydraulicPiston)tileentity);
+		if(tileentity != null){
+			if(!((TileHydraulicPiston)tileentity).getIsHarvesterPart()){
+				drawPistonHead((TileHydraulicPiston)tileentity);
+			}
+		}else{
+			drawPistonHead(null);
 		}
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		drawPistonArm((TileHydraulicPiston)tileentity);
@@ -71,8 +75,10 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 	
 	public static void drawBase(TileHydraulicPiston tileentity){
 		float half = 0.9F;
-		if(tileentity.getIsHarvesterPart()){
-			half = 1F;
+		if(tileentity != null){
+			if(tileentity.getIsHarvesterPart()){
+				half = 1F;
+			}
 		}
 		//Draw TOP side.
 		GL11.glBegin(GL11.GL_QUADS);
@@ -119,11 +125,15 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 	
 	public static void drawPistonHead(TileHydraulicPiston tileentity){
 		float half = 0.9F;
-		if(tileentity.getIsHarvesterPart()){
-			half = 1F;
-		}
 		float startCoord = half;
-		startCoord += tileentity.getExtendedLength();
+		
+		if(tileentity != null){
+			if(tileentity.getIsHarvesterPart()){
+				half = 1F;
+			}
+			startCoord += tileentity.getExtendedLength();
+		}
+		
 		
 		float headThickness = 0.1F;
 		float endCoord = startCoord + headThickness;
@@ -155,7 +165,6 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 
 		
 		//Draw right side:
-		
 		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, 0.0976F, 1.0F); //BR
 		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, 0.0976F, 0.5F); // TR
 		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, 0.0F, 0.5F); //TL
@@ -172,15 +181,18 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 	
 	public static void drawPistonArm(TileHydraulicPiston tileentity){
 		float half = 0.9F;
-		if(tileentity.getIsHarvesterPart()){
-			half = 1F;
+		float totalLength = 0F;
+		float maxLength = 1F;
+		if(tileentity != null){
+			if(tileentity.getIsHarvesterPart()){
+				half = 1F;
+				totalLength+=0.5F;
+			}	
+			totalLength = tileentity.getExtendedLength();
+			maxLength = tileentity.getMaxLength();
 		}
+		
 		float begin = half;
-		float totalLength = tileentity.getExtendedLength();
-		float maxLength = tileentity.getMaxLength();
-		if(tileentity.getIsHarvesterPart()){
-			totalLength+=0.5F;
-		}
 		float remainingPercentage = totalLength;
 		float thickness = 0.15F;
 		float maxThickness = 0.48F;

@@ -53,7 +53,7 @@ public class RendererHydraulicPistonItem implements IItemRenderer {
 	private void render(float x, float y, float z, float scale, int rotation){
 		RendererHydraulicPiston t = new RendererHydraulicPiston();
 		GL11.glScalef(scale, scale, scale);
-		t.doRender(new TileHydraulicPiston(), x, y, z, 0, rotation);
+		t.doRender(null, x, y, z, 0, rotation);
 	}
 
 }
