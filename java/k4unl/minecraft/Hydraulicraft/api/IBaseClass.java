@@ -124,4 +124,6 @@ public interface IBaseClass {
 	 * When the TE is validated.
 	 */
 	public void validate();
+
+	public void updateNetworkOnNextTick(float oldPressure);
 }

@@ -6,6 +6,8 @@ import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 public class RendererHydraulicDynamoItem implements IItemRenderer {
+
+	private static RendererHydraulicDynamo t = new RendererHydraulicDynamo();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -47,7 +49,7 @@ public class RendererHydraulicDynamoItem implements IItemRenderer {
 	}
 	
 	private void render(float x, float y, float z, float scale, int rotation){
-		RendererHydraulicDynamo t = new RendererHydraulicDynamo();
+		
 		GL11.glScalef(scale, scale, scale);
 		t.itemRender(x, y, z, 0.125F);
 	}

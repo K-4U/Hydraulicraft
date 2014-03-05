@@ -103,9 +103,11 @@ public interface IHydraulicMachine {
 	 */
 	public void firstTick();
 	
-	public IPressureNetwork getNetwork(ForgeDirection side);
+	public void updateNetwork(float oldPressure);
 	
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet);
+	public PressureNetwork getNetwork(ForgeDirection side);
+	
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet);
 	
 	public float getPressure(ForgeDirection from);
 	

@@ -1,15 +1,16 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.consumers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileDummyWasher;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -48,7 +49,13 @@ public class TileHydraulicWasher extends TileEntity implements
 	
 	private boolean isValidMultiblock;
 	
-	private IPressureNetwork pNetwork;
+	private PressureNetwork pNetwork;
+	private List<ForgeDirection> connectedSides;
+	
+	
+	public TileHydraulicWasher(){
+		connectedSides = new ArrayList<ForgeDirection>();
+	}
 	
 	public boolean getIsValidMultiblock(){
 		return isValidMultiblock;
@@ -652,26 +659,18 @@ public class TileHydraulicWasher extends TileEntity implements
 	}
 
 	@Override
-	public IPressureNetwork getNetwork(ForgeDirection side) {
+	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 	
 	@Override
 	public void firstTick() {
-		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
-		if(newNetwork != null){
-			pNetwork = newNetwork;
-			pNetwork.addMachine(this);
-			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
-		}else{
-			pNetwork = new PressureNetwork(0, this);
-			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
-		}
+
 	}
 	
 	@Override
@@ -687,5 +686,39 @@ public class TileHydraulicWasher extends TileEntity implements
 	@Override
 	public boolean canWork(ForgeDirection dir) {
 		return dir.equals(ForgeDirection.UP);
+	}
+	
+	@Override
+	public void updateNetwork(float oldPressure) {
+		PressureNetwork newNetwork = null;
+		PressureNetwork foundNetwork = null;
+		PressureNetwork endNetwork = null;
+		//This block can merge networks!
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			foundNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, dir);
+			if(foundNetwork != null){
+				if(endNetwork == null){
+					endNetwork = foundNetwork;
+				}else{
+					newNetwork = foundNetwork;
+				}
+				connectedSides.add(dir);
+			}
+			
+			if(newNetwork != null && endNetwork != null){
+				//Hmm.. More networks!? What's this!?
+				endNetwork.mergeNetwork(newNetwork);
+				newNetwork = null;
+			}
+		}
+			
+		if(endNetwork != null){
+			pNetwork = endNetwork;
+			pNetwork.addMachine(this, oldPressure);
+			Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(this, oldPressure);
+			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}		
 	}
 }

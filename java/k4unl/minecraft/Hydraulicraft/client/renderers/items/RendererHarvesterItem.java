@@ -15,6 +15,9 @@ import net.minecraftforge.client.IItemRenderer;
 
 public class RendererHarvesterItem implements IItemRenderer {
 
+	private static RendererHarvesterFrame fFrame = new RendererHarvesterFrame();
+	private static RendererHarvesterSource fHarvester = new RendererHarvesterSource();
+	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;
@@ -57,13 +60,11 @@ public class RendererHarvesterItem implements IItemRenderer {
 	
 	private void render(float x, float y, float z, float scale, int metadata){
 		if(metadata == 1){
-			RendererHarvesterFrame f = new RendererHarvesterFrame();
 			GL11.glScalef(scale, scale, scale);
-			f.renderTileEntityAt(null, x, y, z, 0);
+			fFrame.renderTileEntityAt(null, x, y, z, 0);
 		}else if(metadata == 0){
-			RendererHarvesterSource f = new RendererHarvesterSource();
 			GL11.glScalef(scale, scale, scale);
-			f.doRender(null, (float)x, (float)y, (float)z, 0.0F, metadata);
+			fHarvester.doRender(null, (float)x, (float)y, (float)z, 0.0F, metadata);
 		}
 	}
 

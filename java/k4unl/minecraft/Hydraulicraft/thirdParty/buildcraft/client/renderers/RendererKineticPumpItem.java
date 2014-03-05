@@ -9,6 +9,7 @@ import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class RendererKineticPumpItem implements IItemRenderer {
 
+	private static RendererKineticPump t = new RendererKineticPump();
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -51,7 +52,7 @@ public class RendererKineticPumpItem implements IItemRenderer {
 	}
 	
 	private void render(float x, float y, float z, float scale, int tier){
-		RendererKineticPump t = new RendererKineticPump();
+		
 		GL11.glScalef(scale, scale, scale);
 		t.itemRender(x, y, z, tier);
 	}

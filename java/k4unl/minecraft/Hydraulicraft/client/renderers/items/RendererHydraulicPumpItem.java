@@ -12,6 +12,8 @@ import org.lwjgl.opengl.GL11;
 
 public class RendererHydraulicPumpItem implements IItemRenderer{
 
+	private static RendererHydraulicPump t = new RendererHydraulicPump();
+	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;
@@ -53,7 +55,6 @@ public class RendererHydraulicPumpItem implements IItemRenderer{
 	}
 	
 	private void render(float x, float y, float z, float scale, int rotation, int tier){
-		RendererHydraulicPump t = new RendererHydraulicPump();
 		GL11.glScalef(scale, scale, scale);
 		t.itemRender(x, y, z, 0, tier);
 	}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.client.Minecraft;
@@ -211,90 +211,6 @@ public class Functions {
 				
 				setFluidInSystem(mainList, fluidInSystem, isOil);
 			}
-		}
-	}
-	
-	
-	public static IPressureNetwork getNearestNetwork(IBlockAccess iba, int x, int y, int z){
-		TileEntity t = iba.getBlockTileEntity(x, y, z);
-		if(t instanceof IHydraulicMachine || t instanceof TileMultipart){
-			IHydraulicMachine mEnt;
-			boolean isMultipart = false;
-			if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
-				mEnt = (IHydraulicMachine) Multipart.getTransporter((TileMultipart)t);
-				isMultipart = true;
-			}else{
-				mEnt = (IHydraulicMachine) t;
-			}
-			
-			List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
-			IPressureNetwork newNetwork = null;
-			IPressureNetwork foundNetwork = null;
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-				
-				if(isMultipart){
-					if(((PartHose)mEnt).isConnectedTo(dir)){
-						int xn = x + dir.offsetX;
-						int yn = y + dir.offsetY;
-						int zn = z + dir.offsetZ;
-						TileEntity tn = iba.getBlockTileEntity(xn, yn, zn);
-						
-						if(tn instanceof IHydraulicMachine){
-							if(((IHydraulicMachine)tn).canConnectTo(dir.getOpposite())){
-								if(foundNetwork == null){
-									foundNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());	
-								}else{
-									newNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());
-								}
-								
-								//break;
-							}
-						}else if(tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)tn)){
-							if(Multipart.getTransporter((TileMultipart)tn).isConnectedTo(dir.getOpposite())){
-								if(foundNetwork == null){
-									foundNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
-								}else{
-									newNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
-								}
-								//break;
-							}
-						}					
-					}
-				}else{
-					int xn = x + dir.offsetX;
-					int yn = y + dir.offsetY;
-					int zn = z + dir.offsetZ;
-					TileEntity tn = iba.getBlockTileEntity(xn, yn, zn);
-					if(tn instanceof IHydraulicMachine){
-						if(((IHydraulicMachine)tn).canConnectTo(dir.getOpposite())){
-							if(foundNetwork == null){
-								foundNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());	
-							}else{
-								newNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());
-							}
-							
-							//break;
-						}
-					}else if(tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)tn)){
-						if(Multipart.getTransporter((TileMultipart)tn).isConnectedTo(dir.getOpposite())){
-							if(foundNetwork == null){
-								foundNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
-							}else{
-								newNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
-							}
-							//break;
-						}
-					}
-				}
-				if(newNetwork != null && foundNetwork != null){
-					//Hmm.. More networks!? What's this!?
-					foundNetwork.mergeNetwork(newNetwork);
-					newNetwork = null;
-				}
-			}
-			return foundNetwork;
-		}else{
-			return null;
 		}
 	}
 }

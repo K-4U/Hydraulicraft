@@ -9,9 +9,9 @@ import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class RendererRFPumpItem implements IItemRenderer {
 
+	private static RendererRFPump t = new RendererRFPump();
 
-	@Override
-	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+	@Override	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;
 	}
 
@@ -51,7 +51,7 @@ public class RendererRFPumpItem implements IItemRenderer {
 	}
 	
 	private void render(float x, float y, float z, float scale, int tier){
-		RendererRFPump t = new RendererRFPump();
+		
 		GL11.glScalef(scale, scale, scale);
 		t.itemRender(x, y, z, tier);
 	}

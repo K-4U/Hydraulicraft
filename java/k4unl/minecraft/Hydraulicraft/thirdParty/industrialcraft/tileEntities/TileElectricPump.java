@@ -6,9 +6,10 @@ import ic2.api.energy.tile.IEnergySink;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.IPressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -27,7 +28,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	private int ic2EnergyStored;
 	private float renderingPercentage = 0.0F;
 	private float renderingDir = 0.05F;
-	private IPressureNetwork pNetwork;
+	private PressureNetwork pNetwork;
 	
 	public TileElectricPump(){
 		
@@ -234,8 +235,8 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	}
 
 	public void setFacing(ForgeDirection rotation) {
+		getHandler().updateNetworkOnNextTick(getNetwork(getFacing()).getPressure());
 		facing = rotation;
-		firstTick();
 	}
 	
 	public boolean getIsRunning(){
@@ -317,12 +318,12 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	}
 
 	@Override
-	public IPressureNetwork getNetwork(ForgeDirection side) {
+	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, IPressureNetwork toSet) {
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
 	}
 
@@ -330,15 +331,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	
 	@Override
 	public void firstTick() {
-		IPressureNetwork newNetwork = Functions.getNearestNetwork(worldObj, xCoord, yCoord, zCoord);
-		if(newNetwork != null){
-			pNetwork = newNetwork;
-			pNetwork.addMachine(this);
-			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
-		}else{
-			pNetwork = new PressureNetwork(0, this);
-			//Log.info("Created a new network @ " + xCoord + "," + yCoord + "," + zCoord);
-		}
+		
 	}
 	
 	@Override
@@ -354,5 +347,21 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	@Override
 	public boolean canWork(ForgeDirection dir) {
 		return dir.equals(getFacing());
+	}
+	
+	@Override
+	public void updateNetwork(float oldPressure) {
+		PressureNetwork endNetwork = null;
+
+		endNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, getFacing());
+			
+		if(endNetwork != null){
+			pNetwork = endNetwork;
+			pNetwork.addMachine(this, oldPressure);
+			Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(this, oldPressure);
+			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}		
 	}
 }

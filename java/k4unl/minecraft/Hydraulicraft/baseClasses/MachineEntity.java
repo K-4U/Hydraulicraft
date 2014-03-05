@@ -51,6 +51,8 @@ public class MachineEntity implements IBaseClass {
 	
 	private boolean hasOwnFluidTank;
 	private boolean firstUpdate = true;
+	private boolean shouldUpdateNetwork = true;
+	private float oldPressure = 0f;
 	
 	public MachineEntity(TileEntity _target) {
 		tTarget = _target;
@@ -138,16 +140,6 @@ public class MachineEntity implements IBaseClass {
 			target.setPressure(newPressure, dir);
 		}
 	}
-	
-	/*
-	public float getPressure(){
-		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
-			return target.getNetwork(ForgeDirection.UNKNOWN).getPressure();
-		}else{
-			return 0;
-		}
-	}*/
-	
 	
 	public float getMaxPressure(boolean isOil, ForgeDirection from){
 		if(isMultipart){
@@ -311,6 +303,7 @@ public class MachineEntity implements IBaseClass {
 		fluidInSystem = tagCompound.getInteger("fluidInSystem");
 		fluidTotalCapacity = tagCompound.getInteger("fluidTotalCapacity");
 		
+		oldPressure = tagCompound.getFloat("oldPressure");
 		
 		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
 			target.getNetwork(ForgeDirection.UNKNOWN).readFromNBT(tagCompound.getCompoundTag("network"));
@@ -340,9 +333,11 @@ public class MachineEntity implements IBaseClass {
 		
 		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
 			target.getNetwork(ForgeDirection.UNKNOWN).writeToNBT(pNetworkCompound);
+			tagCompound.setFloat("oldPressure", target.getNetwork(ForgeDirection.UNKNOWN).getPressure());
 		}
 		
 		tagCompound.setCompoundTag("network", pNetworkCompound);
+		
 		
 		if(isMultipart){
 			((IHydraulicMachine)tMp).writeNBT(tagCompound);
@@ -371,6 +366,10 @@ public class MachineEntity implements IBaseClass {
 		if(firstUpdate/* && tWorld!= null && !tWorld.isRemote*/){
 			firstUpdate = false;
 			target.firstTick();
+		}
+		if(shouldUpdateNetwork){
+			shouldUpdateNetwork = false;
+			target.updateNetwork(oldPressure);
 		}
 		if(tWorld != null){
 			if(!tWorld.isRemote){
@@ -450,5 +449,11 @@ public class MachineEntity implements IBaseClass {
 	@Override
 	public void validate(){
 		//takeHighestPressure();
+	}
+
+	@Override
+	public void updateNetworkOnNextTick(float oldPressure) {
+		shouldUpdateNetwork = true;
+		this.oldPressure = oldPressure;
 	}
 }

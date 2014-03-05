@@ -15,6 +15,8 @@ import net.minecraftforge.client.IItemRenderer;
 
 public class RendererHarvesterTrolleyItem implements IItemRenderer {
 
+	private static RendererHarvesterTrolley t = new RendererHarvesterTrolley();
+	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;
@@ -55,7 +57,7 @@ public class RendererHarvesterTrolleyItem implements IItemRenderer {
 	}
 	
 	private void render(float x, float y, float z, float scale, int rotation){
-		RendererHarvesterTrolley t = new RendererHarvesterTrolley();
+		
 		GL11.glScalef(scale, scale, scale);
 		t.doRender(null, x, y, z, 0, rotation, 0);
 	}

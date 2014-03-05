@@ -8,7 +8,7 @@ import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class RendererElectricPumpItem implements IItemRenderer {
-
+	private static RendererElectricPump t = new RendererElectricPump();
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -51,7 +51,7 @@ public class RendererElectricPumpItem implements IItemRenderer {
 	}
 	
 	private void render(float x, float y, float z, float scale, int tier){
-		RendererElectricPump t = new RendererElectricPump();
+		
 		GL11.glScalef(scale, scale, scale);
 		t.itemRender(x, y, z, tier);
 	}

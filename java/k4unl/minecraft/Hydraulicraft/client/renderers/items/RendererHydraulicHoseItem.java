@@ -21,6 +21,8 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class RendererHydraulicHoseItem implements IItemRenderer {
 
+	private static RendererHydraulicHose f = new RendererHydraulicHose();
+	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;
@@ -62,7 +64,7 @@ public class RendererHydraulicHoseItem implements IItemRenderer {
 	}
 	
 	private void render(float x, float y, float z, float scale, int metadata){
-		RendererHydraulicHose f = new RendererHydraulicHose();
+		
 		GL11.glScalef(scale, scale, scale);
 		Map<ForgeDirection, TileEntity> connectedSides = new HashMap<ForgeDirection, TileEntity>();
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){

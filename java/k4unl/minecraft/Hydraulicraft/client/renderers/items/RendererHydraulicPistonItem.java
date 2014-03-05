@@ -11,6 +11,8 @@ import net.minecraftforge.client.IItemRenderer;
 
 public class RendererHydraulicPistonItem implements IItemRenderer {
 
+	private static RendererHydraulicPiston t = new RendererHydraulicPiston();
+	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;
@@ -51,7 +53,6 @@ public class RendererHydraulicPistonItem implements IItemRenderer {
 	}
 	
 	private void render(float x, float y, float z, float scale, int rotation){
-		RendererHydraulicPiston t = new RendererHydraulicPiston();
 		GL11.glScalef(scale, scale, scale);
 		t.doRender(null, x, y, z, 0, rotation);
 	}

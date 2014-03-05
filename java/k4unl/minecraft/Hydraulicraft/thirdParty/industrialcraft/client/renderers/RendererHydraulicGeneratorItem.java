@@ -7,6 +7,8 @@ import org.lwjgl.opengl.GL11;
 
 public class RendererHydraulicGeneratorItem implements IItemRenderer {
 
+	private static RendererHydraulicGenerator t = new RendererHydraulicGenerator();
+	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;
@@ -47,7 +49,7 @@ public class RendererHydraulicGeneratorItem implements IItemRenderer {
 	}
 	
 	private void render(float x, float y, float z, float scale, int rotation){
-		RendererHydraulicGenerator t = new RendererHydraulicGenerator();
+		
 		GL11.glScalef(scale, scale, scale);
 		t.itemRender(x, y, z, 0);
 	}
