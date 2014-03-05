@@ -53,38 +53,40 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	
 	@Override
 	public void workFunction(ForgeDirection from) {
-		//This function gets called every tick.
-		//It should check how much coal is left
-		//How long that stuff burns
-		//And how long it has left to burn.
-		boolean needsUpdate = false;
-		isBurning = (currentBurnTime > 0);
-		if(isBurning){
-			currentBurnTime --;
-			needsUpdate = true;
-			float gen = getGenerating(ForgeDirection.UP);
-			if(gen > 0){
-				setPressure(gen + getPressure(ForgeDirection.UNKNOWN), ForgeDirection.UNKNOWN);
-			}
-		}
-		if(!worldObj.isRemote){
-			if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure(ForgeDirection.UNKNOWN) < getMaxPressure(getHandler().isOilStored(), null)){
-				//Put new item in
-				currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory);
-				if(inventory != null){
-					inventory.stackSize--;
-					if(inventory.stackSize <= 0){
-						inventory = null;
-					}
-					this.onInventoryChanged();
-					needsUpdate = true;
+		if(from.equals(ForgeDirection.UP)){
+			//This function gets called every tick.
+			//It should check how much coal is left
+			//How long that stuff burns
+			//And how long it has left to burn.
+			boolean needsUpdate = false;
+			isBurning = (currentBurnTime > 0);
+			if(isBurning){
+				currentBurnTime --;
+				needsUpdate = true;
+				float gen = getGenerating(from);
+				if(gen > 0){
+					setPressure(gen + getPressure(from), from);
 				}
 			}
+			if(!worldObj.isRemote){
+				if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure(from) < getMaxPressure(getHandler().isOilStored(), from)){
+					//Put new item in
+					currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory);
+					if(inventory != null){
+						inventory.stackSize--;
+						if(inventory.stackSize <= 0){
+							inventory = null;
+						}
+						this.onInventoryChanged();
+						needsUpdate = true;
+					}
+				}
+				
+			}
 			
-		}
-		
-		if(needsUpdate){
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			if(needsUpdate){
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			}
 		}
 	}
 
@@ -433,5 +435,13 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			pNetwork = new PressureNetwork(this, oldPressure);
 			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
+	}
+	
+	@Override
+	public void invalidate(){
+		super.invalidate();
+		for(ForgeDirection dir: connectedSides){
+			getNetwork(dir).removeMachine(this);
+		}
 	}
 }

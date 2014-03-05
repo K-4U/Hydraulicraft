@@ -373,30 +373,34 @@ public class MachineEntity implements IBaseClass {
 		}
 		if(tWorld != null){
 			if(!tWorld.isRemote){
-				
-				if(tTarget instanceof IHydraulicConsumer){
-					IHydraulicConsumer consumer = (IHydraulicConsumer)tTarget;
-			        float less = consumer.workFunction(true, ForgeDirection.UP);
-			        if(target.getPressure(ForgeDirection.UNKNOWN) >= less && less > 0){
-		                less = consumer.workFunction(false, ForgeDirection.UP);
-		                float newPressure = target.getPressure(ForgeDirection.UNKNOWN) - less;
-		                updateBlock();
-		                target.setPressure(newPressure, ForgeDirection.UNKNOWN);
-		                
-		                //So.. the water in this block should be going down a bit.
-		                if(!isOilStored()){
-		                    setStored((int)(getStored(null) - (less * Constants.USING_WATER_PENALTY)), false);
-		                }
-		            }
-		        }else if(tTarget instanceof IHydraulicGenerator){
-		        	IHydraulicGenerator gen = (IHydraulicGenerator) tTarget;
-		        	gen.workFunction(ForgeDirection.UP);
-		        }else if(tTarget instanceof IHydraulicStorage){
-		        	if(tTarget.worldObj.getTotalWorldTime() % 40 == 0){
-		    			Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
-		    		}
-		        }
-		        
+				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+					if(tTarget instanceof IHydraulicConsumer){
+						IHydraulicConsumer consumer = (IHydraulicConsumer)tTarget;
+						if(consumer.canWork(dir)){
+					        float less = consumer.workFunction(true, dir);
+					        if(target.getPressure(dir) >= less && less > 0){
+				                less = consumer.workFunction(false, dir);
+				                float newPressure = target.getPressure(dir) - less;
+				                updateBlock();
+				                target.setPressure(newPressure, dir);
+				                
+				                //So.. the water in this block should be going down a bit.
+				                if(!isOilStored()){
+				                    setStored((int)(getStored(dir) - (less * Constants.USING_WATER_PENALTY)), false);
+				                }
+				            }
+						}
+			        }else if(tTarget instanceof IHydraulicGenerator){
+			        	IHydraulicGenerator gen = (IHydraulicGenerator) tTarget;
+			        	if(gen.canWork(dir)){
+			        		gen.workFunction(dir);
+			        	}
+			        }else if(tTarget instanceof IHydraulicStorage){
+			        	if(tTarget.worldObj.getTotalWorldTime() % 40 == 0){
+			    			Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+			    		}
+			        }
+				}
 			}
 		}
 	}

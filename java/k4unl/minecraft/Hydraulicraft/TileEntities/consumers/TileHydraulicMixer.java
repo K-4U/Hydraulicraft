@@ -463,4 +463,12 @@ public class TileHydraulicMixer extends TileEntity implements
 			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}
+	
+	@Override
+	public void invalidate(){
+		super.invalidate();
+		for(ForgeDirection dir: connectedSides){
+			getNetwork(dir).removeMachine(this);
+		}
+	}
 }

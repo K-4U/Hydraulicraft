@@ -1,5 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.misc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
@@ -29,6 +32,8 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 	private int vert;
 	private int depth;
 	
+	public TileDummyWasher(){
+	}
 	
 	public void setCore(int x, int y, int z){
 		coreX = x;
@@ -333,7 +338,6 @@ public class TileDummyWasher extends TileEntity implements ISidedInventory, IFlu
 
 	@Override
 	public void updateNetwork(float oldPressure) {
-	
 	}
 	
 }
