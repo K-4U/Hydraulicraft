@@ -60,7 +60,7 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 		if(!worldObj.isRemote){
 			clientNeedsToSetTarget = true;
 		}
-		getHandler().updateBlock();
+		//getHandler().updateBlock();
 	}
 	
 	public IHydraulicConsumer getTarget(){
@@ -220,8 +220,8 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 	@Override
 	public void invalidate(){
 		super.invalidate();
-		for(ForgeDirection dir: connectedSides){
-			getNetwork(dir).removeMachine(this);
+		if(pNetwork != null){
+			pNetwork.removeMachine(this);
 		}
 	}
 

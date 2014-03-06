@@ -3,6 +3,9 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.misc;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -14,13 +17,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileInterfaceValve extends TileEntity implements IFluidHandler {
+public class TileInterfaceValve extends TileEntity implements ISidedInventory, IFluidHandler {
 	private int targetX;
 	private int targetY;
 	private int targetZ;
 	private boolean targetHasChanged = true;
 	private IHydraulicConsumer target;
 	private IFluidHandler fluidTarget;
+	private ISidedInventory inventoryTarget;
 	private boolean clientNeedsToResetTarget = false;
 	private boolean clientNeedsToSetTarget = false;
 	
@@ -59,9 +63,13 @@ public class TileInterfaceValve extends TileEntity implements IFluidHandler {
 			if(t instanceof IFluidHandler){
 				fluidTarget = (IFluidHandler) t;
 			}
+			if(t instanceof ISidedInventory){
+				inventoryTarget = (ISidedInventory) t;
+			}
 		}else if(targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
 			target = null;
 			fluidTarget = null;
+			inventoryTarget = null;
 		}
 		return target;
 	}
@@ -74,13 +82,38 @@ public class TileInterfaceValve extends TileEntity implements IFluidHandler {
 				if(t instanceof IFluidHandler){
 					fluidTarget = (IFluidHandler) t;
 				}
+				if(t instanceof ISidedInventory){
+					inventoryTarget = (ISidedInventory) t;
+				}
 				targetHasChanged = false;
 			}
 		}else if(targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
 			target = null;
 			fluidTarget = null;
+			inventoryTarget = null;
 		}
 		return fluidTarget;
+	}
+	
+	public ISidedInventory getInventoryTarget(){
+		if(targetHasChanged == true && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
+			TileEntity t = worldObj.getBlockTileEntity(targetX, targetY, targetZ);
+			if(t instanceof IHydraulicConsumer){
+				target = (IHydraulicConsumer) t;
+				if(t instanceof IFluidHandler){
+					fluidTarget = (IFluidHandler) t;
+				}
+				if(t instanceof ISidedInventory){
+					inventoryTarget = (ISidedInventory) t;
+				}
+				targetHasChanged = false;
+			}
+		}else if(targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
+			target = null;
+			fluidTarget = null;
+			inventoryTarget = null;
+		}
+		return inventoryTarget;
 	}
 	
 
@@ -190,6 +223,123 @@ public class TileInterfaceValve extends TileEntity implements IFluidHandler {
 		}else{
 			return null;
 		}
+	}
+
+	@Override
+	public int getSizeInventory() {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().getSizeInventory();
+		}
+		return 0;
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int i) {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().getStackInSlot(i);
+		}
+		return null;
+	}
+
+	@Override
+	public ItemStack decrStackSize(int i, int j) {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().decrStackSize(i, j);
+		}
+		return null;
+	}
+
+	@Override
+	public ItemStack getStackInSlotOnClosing(int i) {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().getStackInSlotOnClosing(i);
+		}
+		return null;
+	}
+
+	@Override
+	public void setInventorySlotContents(int i, ItemStack itemstack) {
+		if(getInventoryTarget() != null){
+			getInventoryTarget().setInventorySlotContents(i, itemstack);
+		}
+	}
+
+	@Override
+	public String getInvName() {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().getInvName();
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().isInvNameLocalized();
+		}
+		return false;
+	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().getInventoryStackLimit();
+		}
+		return 0;
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().isUseableByPlayer(entityplayer);
+		}
+		return false;
+	}
+
+	@Override
+	public void openChest() {
+		if(getInventoryTarget() != null){
+			getInventoryTarget().openChest();
+		}
+	}
+
+	@Override
+	public void closeChest() {
+		if(getInventoryTarget() != null){
+			getInventoryTarget().closeChest();
+		}
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().isItemValidForSlot(i, itemstack);
+		}
+		return false;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int var1) {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().getAccessibleSlotsFromSide(var1);
+		}
+		return null;
+	}
+
+	@Override
+	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().canInsertItem(i, itemstack, j);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().canExtractItem(i, itemstack, j);
+		}
+		return false;
 	}
 
 }
