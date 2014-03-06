@@ -14,9 +14,8 @@ public class Names {
 	public static final Name blockHydraulicPneumaticCompressor = new Name("Pneumatic Compressor", "hydraulicPneumaticCompressor");
 	public static final Name blockHydraulicPressureWall = new Name("Wall", "hydraulicPressureWall");
 	public static final Name blockPressureDisposal = new Name("Pressure Disposal", "pressureDisposal");
+	public static final Name blockValve = new Name("Valve", "valve");
 	
-	
-	public static final Name blockDummyWasher = new Name("Washer", "hydraulicDummyWasher");
 	public static final Name blockHydraulicEngine = new Name("Hydraulic Engine", "hydraulicEngine");
 	public static final Name blockHydraulicDynamo = new Name("Hydraulic Dynamo", "hydraulicDynamo");
 	public static final Name blockHydraulicGenerator = new Name("Hydraulic Generator", "hydraulicGenerator");

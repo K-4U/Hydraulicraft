@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
+import k4unl.minecraft.Hydraulicraft.events.EventHelper;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.ConfigHandler;
@@ -11,7 +12,6 @@ import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Recipes;
 import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.multipart.ItemPartHose;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
@@ -72,6 +72,7 @@ public class Hydraulicraft {
 		Fluids.init();
 		
 		Items.init();
+		EventHelper.init();
 		
 		mp = new Multipart();
 	}

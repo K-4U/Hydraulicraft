@@ -18,23 +18,14 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class Renderers {
-	public static ISimpleBlockRenderingHandler dummyWasher;
-	public static int dummyWasherId;
 	
 	public static void init(){
-		dummyWasher = new RendererDummyWasher();
-		dummyWasherId = RenderingRegistry.getNextAvailableRenderId();
-				
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterFrame.class, new RendererHarvesterFrame());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterTrolley.class, new RendererHarvesterTrolley());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicHarvester.class, new RendererHarvesterSource());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicPiston.class, new RendererHydraulicPiston());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicPump.class, new RendererHydraulicPump());
-		
-		
-		
-		RenderingRegistry.registerBlockHandler(Blocks.dummyWasher.getRenderType(), dummyWasher);
 		
 		
 		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicPiston.act, new RendererHydraulicPistonItem());

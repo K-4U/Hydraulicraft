@@ -15,10 +15,10 @@ public class Ids {
 	public static final Id blockHydraulicWasher = new Id(3524);
 	public static final Id blockHydraulicPressureWall = new Id(3525);
 	public static final Id blockHydraulicHarvester = new Id(3526);
-	public static final Id blockDummyWasher = new Id(3527); //This might become something else in the near future.
 	public static final Id blockHarvesterTrolley = new Id(3528);
 	public static final Id blockPressureDisposal = new Id(3529);
 	public static final Id blockCore = new Id(3530);
+	public static final Id blockValve = new Id(3540);
 	
 	
 	public static final Id oreCopper = new Id(3531);

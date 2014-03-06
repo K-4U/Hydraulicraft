@@ -112,6 +112,16 @@ public class Recipes {
 	}
 	
 	private static void initializeBlockRecipes(){
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockValve, 4, 0), true ,
+				new Object[] {
+					"WWW",
+					"WKW",
+					"WWW",
+					'W', Blocks.hydraulicPressureWall,
+					'K', Items.gasket
+			})
+		);
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPiston, 1, 0), true ,
 				new Object[] {
 					"WRW",

@@ -21,10 +21,10 @@ public class Blocks {
 	public static Block hydraulicWasher;
 	public static Block hydraulicPressureWall;
 	public static Block hydraulicHarvesterSource;
-	public static Block dummyWasher;
 	public static Block harvesterTrolley;
 	public static Block pressureDisposal;
 	public static Block blockCore;
+	public static Block blockValve;
 	
 	
 	/*!
@@ -47,10 +47,9 @@ public class Blocks {
 		
 		harvesterTrolley = new BlockHarvesterTrolley();
 		
-		dummyWasher = new BlockDummyWasher();
-		
 		pressureDisposal = new BlockPressureDisposal();
 		blockCore = new BlockHydraulicCore();
+		blockValve = new BlockHydraulicValve();
 		
 		registerBlocks();
 		addNames();
@@ -75,8 +74,8 @@ public class Blocks {
 		GameRegistry.registerBlock(hydraulicWasher, Names.blockHydraulicWasher.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureWall, Names.blockHydraulicPressureWall.unlocalized);
 		
-		GameRegistry.registerBlock(dummyWasher, Names.blockDummyWasher.unlocalized);
 		GameRegistry.registerBlock(pressureDisposal, Names.blockPressureDisposal.unlocalized);
+		GameRegistry.registerBlock(blockValve, Names.blockValve.unlocalized);
 		
 		
 		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);
