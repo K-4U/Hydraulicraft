@@ -25,6 +25,7 @@ public class Blocks {
 	public static Block pressureDisposal;
 	public static Block blockCore;
 	public static Block blockValve;
+	public static Block blockInterfaceValve;
 	
 	
 	/*!
@@ -50,6 +51,7 @@ public class Blocks {
 		pressureDisposal = new BlockPressureDisposal();
 		blockCore = new BlockHydraulicCore();
 		blockValve = new BlockHydraulicValve();
+		blockInterfaceValve = new BlockInterfaceValve();
 		
 		registerBlocks();
 		addNames();
@@ -76,6 +78,7 @@ public class Blocks {
 		
 		GameRegistry.registerBlock(pressureDisposal, Names.blockPressureDisposal.unlocalized);
 		GameRegistry.registerBlock(blockValve, Names.blockValve.unlocalized);
+		GameRegistry.registerBlock(blockInterfaceValve, Names.blockInterfaceValve.unlocalized);
 		
 		
 		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);

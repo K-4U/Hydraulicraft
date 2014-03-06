@@ -23,6 +23,8 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 	private boolean targetHasChanged = true;
 	private IHydraulicConsumer target;
 	private IBaseClass baseHandler;
+	private boolean clientNeedsToResetTarget = false;
+	private boolean clientNeedsToSetTarget = false;
 	
 	private PressureNetwork pNetwork;
 	private List<ForgeDirection> connectedSides;
@@ -40,6 +42,9 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 		if(pNetwork != null){
 			pNetwork.removeMachine(this);
 		}
+		if(!worldObj.isRemote){
+			clientNeedsToResetTarget = true;
+		}
 		getHandler().updateBlock();
 		getHandler().updateNetworkOnNextTick(0);
 	}
@@ -51,6 +56,9 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 		targetHasChanged = true;
 		if(pNetwork != null){
 			pNetwork.removeMachine(this);
+		}
+		if(!worldObj.isRemote){
+			clientNeedsToSetTarget = true;
 		}
 		getHandler().updateBlock();
 	}
@@ -106,7 +114,15 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 		if(tagCompound.getBoolean("isTargetNull")){
 			target = null;
 		}
-		targetHasChanged = tagCompound.getBoolean("targetHasChanged");
+		if(worldObj != null && worldObj.isRemote){
+			if(tagCompound.getBoolean("clientNeedsToResetTarget")){
+				resetTarget();
+			}
+			if(tagCompound.getBoolean("clientNeedsToSetTarget")){
+				targetHasChanged = true;
+				getTarget();
+			}
+		}
 	}
 
 	@Override
@@ -117,6 +133,12 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 		tagCompound.setBoolean("isTargetNull", (target == null));
 		if(target == null){
 			tagCompound.setBoolean("isTargetNull", (target == null));			
+		}
+		if(worldObj != null && !worldObj.isRemote){
+			tagCompound.setBoolean("clientNeedsToResetTarget", clientNeedsToResetTarget);
+			tagCompound.setBoolean("clientNeedsToSetTarget", clientNeedsToSetTarget);
+			clientNeedsToResetTarget = false;
+			clientNeedsToSetTarget = false;
 		}
 		tagCompound.setBoolean("targetHasChanged", targetHasChanged);
 	}
@@ -129,8 +151,9 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 
 	@Override
 	public void onFluidLevelChanged(int old) {
-		// TODO Auto-generated method stub
-
+		if(getTarget() != null){
+			getTarget().getHandler().setStored(getHandler().getStored(ForgeDirection.UP), getHandler().isOilStored());
+		}
 	}
 
 	@Override
@@ -191,7 +214,7 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 				pNetwork.addMachine(getTarget(), oldPressure);
 			}
 			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
-		}		
+		}
 	}
 	
 	@Override

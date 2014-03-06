@@ -427,6 +427,9 @@ public class TileHydraulicMixer extends TileEntity implements
 	
 	@Override
 	public boolean canWork(ForgeDirection dir) {
+		if(getNetwork(dir) == null){
+			return false;
+		}
 		return dir.equals(ForgeDirection.UP);
 	}
 	

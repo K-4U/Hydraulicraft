@@ -431,6 +431,9 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 	
 	@Override
 	public boolean canWork(ForgeDirection dir) {
+		if(getNetwork(dir) == null){
+			return false;
+		}
 		return dir.equals(ForgeDirection.UP);
 	}
 	

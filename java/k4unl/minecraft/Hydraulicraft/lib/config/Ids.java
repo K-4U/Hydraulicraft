@@ -19,6 +19,7 @@ public class Ids {
 	public static final Id blockPressureDisposal = new Id(3529);
 	public static final Id blockCore = new Id(3530);
 	public static final Id blockValve = new Id(3540);
+	public static final Id blockInterfaceValve = new Id(3527);
 	
 	
 	public static final Id oreCopper = new Id(3531);

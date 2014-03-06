@@ -437,6 +437,8 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     	if(getHandler() != null){
     		//This should never happen that this is null! :|
     		getHandler().updateEntity();
+    	}else{
+    		Log.error("PartHose does not have a handler!");
     	}
     	if(world().getTotalWorldTime() % 10 == 0 && hasCheckedSinceStartup == false){
     		checkConnectedSides();
@@ -503,10 +505,17 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(newNetwork != null){
 			pNetwork = newNetwork;
 			pNetwork.addMachine(this, oldPressure);
-			//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+			Log.info("Hose: Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure);
-			//Log.info("Created a new network @ " + x() + "," + y() + "," + z());
+			Log.info("Hose: Created a new network @ " + x() + "," + y() + "," + z());
+		}
+	}
+	
+	@Override
+	public void onRemoved(){
+		if(pNetwork != null){
+			pNetwork.removeMachine(this);
 		}
 	}
 

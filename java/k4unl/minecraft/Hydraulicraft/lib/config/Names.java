@@ -15,6 +15,7 @@ public class Names {
 	public static final Name blockHydraulicPressureWall = new Name("Wall", "hydraulicPressureWall");
 	public static final Name blockPressureDisposal = new Name("Pressure Disposal", "pressureDisposal");
 	public static final Name blockValve = new Name("Valve", "valve");
+	public static final Name blockInterfaceValve = new Name("Interface Valve", "interfaceValve");
 	
 	public static final Name blockHydraulicEngine = new Name("Hydraulic Engine", "hydraulicEngine");
 	public static final Name blockHydraulicDynamo = new Name("Hydraulic Dynamo", "hydraulicDynamo");

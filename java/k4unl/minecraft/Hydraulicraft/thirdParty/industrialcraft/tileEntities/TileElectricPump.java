@@ -319,6 +319,9 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 
 	@Override
 	public PressureNetwork getNetwork(ForgeDirection side) {
+		if(pNetwork == null && worldObj != null){
+			updateNetwork(0);
+		}
 		return pNetwork;
 	}
 
@@ -336,12 +339,21 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	
 	@Override
 	public float getPressure(ForgeDirection from) {
-		return getNetwork(from).getPressure();
+		if(getNetwork(from) != null){
+			return getNetwork(from).getPressure();			
+		}
+		Log.error("TileEntity TileElectricPump at " + xCoord + "," + yCoord + "," + zCoord + " has no network!");
+		return 0F;
+		
 	}
 
 	@Override
 	public void setPressure(float newPressure, ForgeDirection side) {
-		getNetwork(side).setPressure(newPressure);
+		if(getNetwork(side) != null){
+			getNetwork(side).setPressure(newPressure);
+		}else{
+			Log.error("TileEntity TileElectricPump at " + xCoord + "," + yCoord + "," + zCoord + " has no network!");
+		}
 	}
 
 	@Override

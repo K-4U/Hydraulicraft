@@ -197,6 +197,7 @@ public class MachineEntity implements IBaseClass {
 			}
 		}else{
 			_isOilStored = isOil;
+			target.onFluidLevelChanged(fluidLevelStored);
 			fluidLevelStored = i;
 		}
 		updateBlock();
@@ -305,9 +306,15 @@ public class MachineEntity implements IBaseClass {
 		
 		oldPressure = tagCompound.getFloat("oldPressure");
 		
-		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
-			target.getNetwork(ForgeDirection.UNKNOWN).readFromNBT(tagCompound.getCompoundTag("network"));
+		shouldUpdateNetwork = tagCompound.getBoolean("shouldUpdateNetwork");
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			if(target.getNetwork(dir) != null){
+				target.getNetwork(dir).readFromNBT(tagCompound.getCompoundTag("network" + dir.ordinal()));
+			}else{
+				updateNetworkOnNextTick(0);
+			}
 		}
+		
 		
 		
 		isRedstonePowered = tagCompound.getBoolean("isRedstonePowered");
@@ -329,14 +336,25 @@ public class MachineEntity implements IBaseClass {
 		
 		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
 		
-		NBTTagCompound pNetworkCompound = new NBTTagCompound();
+		tagCompound.setBoolean("shouldUpdateNetwork", shouldUpdateNetwork);
 		
+		
+		
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			if(target.getNetwork(dir) != null){
+				NBTTagCompound pNetworkCompound = new NBTTagCompound();
+				target.getNetwork(dir).writeToNBT(pNetworkCompound);
+				tagCompound.setCompoundTag("network" + dir.ordinal(), pNetworkCompound);
+			}
+		}
+		/*
 		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
 			target.getNetwork(ForgeDirection.UNKNOWN).writeToNBT(pNetworkCompound);
 			tagCompound.setFloat("oldPressure", target.getNetwork(ForgeDirection.UNKNOWN).getPressure());
 		}
+		*/
 		
-		tagCompound.setCompoundTag("network", pNetworkCompound);
 		
 		
 		if(isMultipart){
@@ -365,6 +383,7 @@ public class MachineEntity implements IBaseClass {
 	public void updateEntity() {
 		if(firstUpdate/* && tWorld!= null && !tWorld.isRemote*/){
 			firstUpdate = false;
+			shouldUpdateNetwork = true;
 			target.firstTick();
 		}
 		if(shouldUpdateNetwork){
