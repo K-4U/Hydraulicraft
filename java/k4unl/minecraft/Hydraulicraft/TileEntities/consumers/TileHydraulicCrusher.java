@@ -65,16 +65,14 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
         super.readFromNBT(tagCompound);
         getHandler().readFromNBT(tagCompound);
         
-        crushingTicks = tagCompound.getInteger("crushingTicks");
-        maxCrushingTicks = tagCompound.getInteger("maxCrushingTicks");
+        
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound){
         super.writeToNBT(tagCompound);
         getHandler().writeToNBT(tagCompound);
-        tagCompound.setInteger("crushingTicks", crushingTicks);
-        tagCompound.setInteger("maxCrushingTicks", maxCrushingTicks);
+        
     }
 
     @Override
@@ -326,11 +324,11 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
     @Override
     public void updateEntity(){
         getHandler().updateEntity();
-        /*
+        
         if(!worldObj.isRemote && oldScaledCrushTime != getScaledCrushTime()) {//TODO refactor it so updates only will be made when a player has a GUI open of this block.
             oldScaledCrushTime = getScaledCrushTime();
             getHandler().updateBlock();
-        }*/
+        }
     }
 
     @Override
@@ -347,7 +345,8 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
         inventoryCompound = tagCompound.getCompoundTag("targetItem");
         targetItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
         
-        
+        crushingTicks = tagCompound.getInteger("crushingTicks");
+        maxCrushingTicks = tagCompound.getInteger("maxCrushingTicks");
     }
 
     @Override
@@ -372,6 +371,9 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
             targetItem.writeToNBT(inventoryCompound);
             tagCompound.setCompoundTag("targetItem", inventoryCompound);
         }
+        
+        tagCompound.setInteger("crushingTicks", crushingTicks);
+        tagCompound.setInteger("maxCrushingTicks", maxCrushingTicks);
     }
 
     public int getScaledCrushTime(){
