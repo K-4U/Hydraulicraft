@@ -3,11 +3,16 @@ package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 
@@ -20,7 +25,9 @@ import org.lwjgl.opengl.GL11;
 public final class IconRenderer {
 
     private static ResourceLocation iconTexture =  new ResourceLocation("textures/atlas/items.png");
+    private static ResourceLocation blockTexture =  new ResourceLocation("textures/atlas/blocks.png");
 
+    private static RenderBlocks renderBlocks = new RenderBlocks();
 
     /**
      * Renders a merged icon from the given items. By increasing the transformation from 0 to 1 this will make the first
@@ -42,13 +49,16 @@ public final class IconRenderer {
         //enable blend to be able to draw the different alpha values
         GL11.glEnable(GL11.GL_BLEND);
         //bind the texture for the icons
-        Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);
+        
 
         //Fetch the icons from the items, or null if we don't have any items.
         //Null icons will be prevented from being rendered
         Icon recipeIcon = recipeItem == null ? null : recipeItem.getIconIndex();
         Icon resultIcon = resultItem == null ? null : resultItem.getIconIndex();
 
+        int recipeId = recipeItem == null ? 0 : recipeItem.itemID;
+        int resultId = resultItem == null ? 0 : resultItem.itemID;
+        
         //calculate the alpha values, the first one decreases with the transformation and the other increases
         //these alpha values will end respectively star below 0. This is to prevent them from being rendered in the
         //very edges of the transformation
@@ -57,8 +67,33 @@ public final class IconRenderer {
         float alpha2 = -0.25F + alphaOffset;
 
         //draw the icons, the size of the icons is alpha + 0.2F
-        drawIcon(x, y, z, recipeIcon, 16, 16, alpha1 + 0.2F, alpha1, wobble);
-        drawIcon(x, y, z, resultIcon, 16, 16, alpha2 + 0.2F, alpha2, wobble);
+        Block recipeBlock = (recipeId < Block.blocksList.length ? Block.blocksList[recipeId] : null);
+        Block resultBlock = (resultId < Block.blocksList.length ? Block.blocksList[resultId] : null);
+        if(recipeBlock != null && recipeBlock.blockID == 0){
+        	recipeBlock = null;
+        }
+        if(resultBlock != null && resultBlock.blockID == 0){
+        	resultBlock = null;
+        }
+
+        
+        if (resultItem.getItemSpriteNumber() == 0 && resultBlock != null && RenderBlocks.renderItemIn3d(Block.blocksList[resultId].getRenderType())){
+        	Minecraft.getMinecraft().getTextureManager().bindTexture(blockTexture);
+        }else{
+        	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
+        }
+        
+        drawIcon(x, y, z, resultIcon, 16, 16, alpha2 + 0.2F, alpha2, wobble, resultBlock);
+
+        
+        if (recipeItem.getItemSpriteNumber() == 0 && recipeBlock != null && RenderBlocks.renderItemIn3d(Block.blocksList[recipeId].getRenderType())){
+        	Minecraft.getMinecraft().getTextureManager().bindTexture(blockTexture);
+        }else{
+        	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
+        }
+        
+        drawIcon(x, y, z, recipeIcon, 16, 16, alpha1 + 0.2F, alpha1, wobble, recipeBlock);
+        
 
         GL11.glDisable(GL11.GL_BLEND);
     }
@@ -78,8 +113,9 @@ public final class IconRenderer {
      *              anything. For this to work you need to enable blend (GL11.glEnable(GL11.GL_BLEND))
      * @param wobble whether the icon should wobble or not, when set to true an animating icon which constantly is
      *               changing size will wobble. If set to false the size change will be smooth
+     * @param isBlock whether we need to render a block, or just an icon.
      */
-    public static void drawIcon(int x, int y, float z, Icon icon, int w, int h, float size, float alpha, boolean wobble) {
+    public static void drawIcon(int x, int y, float z, Icon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock) {
         //without an alpha size or an icon we have nothing to render
         if (alpha <= 0 || size <= 0 || icon == null) {
             return;
@@ -129,18 +165,56 @@ public final class IconRenderer {
         float sourceBot = icon.getMaxV() - sourceHeightMargin;
 
 
-        //render the icon with the given bounds. This is done in the same way an icon is normally being rendered by
-        //the base gui. However, there's no method to be called that allows you to specify all these things.
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(targetLeft, targetBot, z, sourceLeft, sourceBot);
-        tessellator.addVertexWithUV(targetRight, targetBot, z, sourceRight, sourceBot);
-        tessellator.addVertexWithUV(targetRight, targetTop, z, sourceRight, sourceTop);
-        tessellator.addVertexWithUV(targetLeft, targetTop, z, sourceLeft, sourceTop);
-        tessellator.draw();
-
-        //restore the alpha value
+        if(isBlock == null){
+	        //render the icon with the given bounds. This is done in the same way an icon is normally being rendered by
+	        //the base gui. However, there's no method to be called that allows you to specify all these things.
+        	GL11.glPushMatrix();
+        	GL11.glTranslatef(0.0F, 0.0F, 1.0F);
+        	GL11.glBegin(GL11.GL_QUADS);
+        	GL11.glTexCoord2f(sourceLeft, sourceBot);
+        	GL11.glVertex3f(targetLeft, targetBot, z);
+        	
+        	GL11.glTexCoord2f(sourceRight, sourceBot);
+        	GL11.glVertex3f(targetRight, targetBot, z);
+        	
+        	GL11.glTexCoord2f(sourceRight, sourceTop);
+        	GL11.glVertex3f(targetRight, targetTop, z);
+        	
+        	GL11.glTexCoord2f(sourceLeft, sourceTop);
+        	GL11.glVertex3f(targetLeft, targetTop, z);
+        	GL11.glEnd();
+        	
+        	GL11.glTranslatef(0.0F, 0.0F, -1.0F);
+        	GL11.glPopMatrix();
+        }else{
+        	renderBlock(isBlock, x, y, z, 0, alpha, targetWidthMargin);
+        }
+        //restore the alpha  value
         GL11.glColor4f(1F, 1F, 1F, 1F);
+    }
+    
+    public static void renderBlock(Block block, int x, int y, float z, int itemDamage, float alpha, float targetWidthMargin){
+    	//GL11.glEnable(GL11.GL_BLEND);
+    	
+    	GL11.glPushMatrix();
+    	GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glTranslatef((float)(x - 2), (float)(y + 3), -4.0F + z);
+        GL11.glScalef(10.0F, 10.0F, 10.0F);
+        GL11.glTranslatef(1.0F, 0.5F, 1.0F);
+        GL11.glScalef(1.0F, 1.0F, -1.0F);
+        GL11.glRotatef(210.0F, 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
+
+        GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+        GL11.glColor4f(1F, 1F, 1F, alpha);
+        
+        renderBlocks.useInventoryTint = false;
+        renderBlocks.setRenderBounds(targetWidthMargin, targetWidthMargin, targetWidthMargin, 1-targetWidthMargin, 1-targetWidthMargin, 1-targetWidthMargin);
+        renderBlocks.renderBlockAsItem(block, itemDamage, 1.0F);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glPopMatrix();
+        //GL11.glDisable(GL11.GL_BLEND);
+        
     }
 
     private IconRenderer() {}

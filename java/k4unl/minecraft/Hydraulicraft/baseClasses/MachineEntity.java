@@ -347,13 +347,6 @@ public class MachineEntity implements IBaseClass {
 			}
 			
 		}
-		/*
-		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
-			target.getNetwork(ForgeDirection.UNKNOWN).writeToNBT(pNetworkCompound);
-			
-		}
-		*/
-		
 		
 		
 		if(isMultipart){
