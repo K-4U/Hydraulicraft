@@ -25,6 +25,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	private Icon bottomIcon;
 	private Icon frontIcon;
 	
+	
 	private Id tBlockId;
 	public Name mName;
 	
@@ -53,7 +54,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	}
 	
 	
-	private String getTextureName(String side){
+	protected String getTextureName(String side){
 		if(side != null){
 			return ModInfo.LID + ":" + mName.unlocalized + "_" + side;
 		}else{

@@ -187,6 +187,8 @@ public class MachineEntity implements IBaseClass {
 	}
 	
 	public void setStored(int i, boolean isOil){
+		if(tWorld == null) return;
+		if(tWorld.isRemote) return;
 		if(i < 0)
 			i = 0;
 		if(hasOwnFluidTank){
