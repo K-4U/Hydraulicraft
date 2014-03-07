@@ -313,12 +313,10 @@ public class MachineEntity implements IBaseClass {
 			if(target.getNetwork(dir) != null){
 				target.getNetwork(dir).readFromNBT(tagCompound.getCompoundTag("network" + dir.ordinal()));
 			}else{
-				updateNetworkOnNextTick(0);
+				updateNetworkOnNextTick(oldPressure);
 			}
 		}
-		
-		
-		
+
 		isRedstonePowered = tagCompound.getBoolean("isRedstonePowered");
 		if(isMultipart){
 			((IHydraulicMachine)tMp).readNBT(tagCompound);
@@ -340,20 +338,19 @@ public class MachineEntity implements IBaseClass {
 		
 		tagCompound.setBoolean("shouldUpdateNetwork", shouldUpdateNetwork);
 		
-		
-		
-		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			if(target.getNetwork(dir) != null){
 				NBTTagCompound pNetworkCompound = new NBTTagCompound();
 				target.getNetwork(dir).writeToNBT(pNetworkCompound);
 				tagCompound.setCompoundTag("network" + dir.ordinal(), pNetworkCompound);
+				tagCompound.setFloat("oldPressure", target.getNetwork(dir).getPressure());
 			}
+			
 		}
 		/*
 		if(target.getNetwork(ForgeDirection.UNKNOWN) != null){
 			target.getNetwork(ForgeDirection.UNKNOWN).writeToNBT(pNetworkCompound);
-			tagCompound.setFloat("oldPressure", target.getNetwork(ForgeDirection.UNKNOWN).getPressure());
+			
 		}
 		*/
 		
@@ -392,8 +389,8 @@ public class MachineEntity implements IBaseClass {
 			shouldUpdateNetwork = false;
 			target.updateNetwork(oldPressure);
 		}
-		if(tWorld != null){
-			if(!tWorld.isRemote){
+		if(getWorld() != null){
+			if(!getWorld().isRemote){
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 					if(tTarget instanceof IHydraulicConsumer){
 						IHydraulicConsumer consumer = (IHydraulicConsumer)tTarget;
