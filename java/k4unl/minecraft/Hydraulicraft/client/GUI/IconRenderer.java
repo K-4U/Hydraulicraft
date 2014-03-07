@@ -83,7 +83,7 @@ public final class IconRenderer {
         	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
         }
         
-        drawIcon(x, y, z, resultIcon, 16, 16, alpha2 + 0.2F, alpha2, wobble, resultBlock);
+        drawIcon(x, y, z, resultIcon, 16, 16, alpha2 + 0.2F, alpha2, wobble, resultBlock, resultItem.getItemDamage());
 
         
         if (recipeItem.getItemSpriteNumber() == 0 && recipeBlock != null && RenderBlocks.renderItemIn3d(Block.blocksList[recipeId].getRenderType())){
@@ -92,7 +92,7 @@ public final class IconRenderer {
         	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
         }
         
-        drawIcon(x, y, z, recipeIcon, 16, 16, alpha1 + 0.2F, alpha1, wobble, recipeBlock);
+        drawIcon(x, y, z, recipeIcon, 16, 16, alpha1 + 0.2F, alpha1, wobble, recipeBlock, recipeItem.getItemDamage());
         
 
         GL11.glDisable(GL11.GL_BLEND);
@@ -114,8 +114,9 @@ public final class IconRenderer {
      * @param wobble whether the icon should wobble or not, when set to true an animating icon which constantly is
      *               changing size will wobble. If set to false the size change will be smooth
      * @param isBlock whether we need to render a block, or just an icon.
+     * @param itemDamage TODO
      */
-    public static void drawIcon(int x, int y, float z, Icon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock) {
+    public static void drawIcon(int x, int y, float z, Icon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock, int itemDamage) {
         //without an alpha size or an icon we have nothing to render
         if (alpha <= 0 || size <= 0 || icon == null) {
             return;
@@ -187,7 +188,7 @@ public final class IconRenderer {
         	GL11.glTranslatef(0.0F, 0.0F, -1.0F);
         	GL11.glPopMatrix();
         }else{
-        	renderBlock(isBlock, x, y, z, 0, alpha, targetWidthMargin);
+        	renderBlock(isBlock, x, y, z, itemDamage, alpha, targetWidthMargin);
         }
         //restore the alpha  value
         GL11.glColor4f(1F, 1F, 1F, 1F);

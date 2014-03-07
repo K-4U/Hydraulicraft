@@ -73,7 +73,7 @@ public class Recipes {
 		        
 		        
 		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe
-		                (ingotName, 10F,
+		                (ingotName, 100F,
 		                        new ItemStack(Items.itemDust.itemID, 1, metaId)));
 		
 		        

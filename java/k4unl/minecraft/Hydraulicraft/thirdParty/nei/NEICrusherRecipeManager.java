@@ -21,12 +21,12 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
                 ShapedRecipeHandler.CachedShapedRecipe(0, 0, null, recipe.output);
 
 
-        PositionedStack stack = new PositionedStack(OreDictionary.getOres(recipe.inputString), 42, 22);
+        PositionedStack stack = new PositionedStack(OreDictionary.getOres(recipe.inputString), 42, 24);
         
         //stack.setMaxSize(2);
         shape.ingredients.add(stack);
         shape.result.relx = 116;
-        shape.result.rely = 22;
+        shape.result.rely = 24;
         return shape;
     }
 
@@ -88,7 +88,7 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
     
     @Override
 	public void drawExtras(int recipe){
-		drawProgressBar(80, 21, 207, 0, 34, 19, 48, 2 | (1 << 3));
+		drawProgressBar(80, 22, 207, 0, 34, 19, 48, 2 | (1 << 3));
     }
     
 }

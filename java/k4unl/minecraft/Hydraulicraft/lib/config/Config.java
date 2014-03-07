@@ -26,7 +26,7 @@ public class Config {
 	}
 	
 	public static boolean canBeCrushed(ItemStack toCrush){
-		return (CrushingRecipes.getCrushingRecipe(toCrush) != null);
+		return (CrushingRecipes.getCrushingRecipeOutput(toCrush) != null);
 	}
 	
 	/*

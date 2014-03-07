@@ -3,20 +3,18 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 import java.util.List;
 import java.util.Map;
 
-import codechicken.nei.NEIClientUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.ShapedRecipeHandler;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
-import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
+import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import codechicken.nei.NEIClientUtils;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.ShapedRecipeHandler;
+import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
     private ShapedRecipeHandler.CachedShapedRecipe getShape(Map.Entry<List<Integer>, ItemStack> recipe) {
@@ -76,5 +74,25 @@ public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
                 break;
             }
         }
+    }
+    
+    @Override
+	public void drawExtras(int recipeIndex){
+    	int ticks = 48;
+    	float percentage = cycleticks % ticks / (float)ticks;
+    	
+    	CachedRecipe recipe = arecipes.get(recipeIndex); 
+    	
+    	
+    	ItemStack smeltingItem = recipe.getIngredients().get(0).item;
+		ItemStack targetItem = recipe.getResult().item;
+
+		int startX = 38;
+		int targetX = 114;
+		int travelPath = targetX - startX;
+		int xPos = startX + (int) (travelPath * percentage);
+        //TODO decide whether one should have a wobbling effect or not (the last parameter)
+        IconRenderer.drawMergedIcon(xPos, 8, 0, smeltingItem, targetItem, percentage, smeltingItem.stackSize % 2 == 0);
+		//drawProgressBar(80, 21, 207, 0, 34, 19, 48, 2 | (1 << 3));
     }
 }

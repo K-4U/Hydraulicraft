@@ -29,6 +29,10 @@ public class CrushingRecipes {
             input = inp;
         }
 
+		public ItemStack getOutput() {
+			return output.copy();
+		}
+
         
         /*public CrushingRecipe(ItemStack inp, float press, ItemStack outp){
         	inputString = "";
@@ -45,7 +49,7 @@ public class CrushingRecipes {
         crushingRecipes.add(toAdd);
     }
     
-    public static ItemStack getCrushingRecipe(ItemStack itemStack){
+    public static ItemStack getCrushingRecipeOutput(ItemStack itemStack){
     	String oreDictName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
     	if(oreDictName == ""){
     		for(CrushingRecipe rec : crushingRecipes){
@@ -54,10 +58,31 @@ public class CrushingRecipes {
                 }
             }
     	}
+        return getCrushingRecipeOutput(oreDictName);
+    }
+    
+    public static CrushingRecipe getCrushingRecipe(ItemStack itemStack){
+    	String oreDictName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
+    	if(oreDictName == ""){
+    		for(CrushingRecipe rec : crushingRecipes){
+                if(rec.input.isItemEqual(itemStack)){
+                    return rec;
+                }
+            }
+    	}
         return getCrushingRecipe(oreDictName);
     }
     
-    public static ItemStack getCrushingRecipe(String oreDictName){
+    public static CrushingRecipe getCrushingRecipe(String oreDictName){
+        for(CrushingRecipe rec : crushingRecipes){
+            if(rec.inputString.equals(oreDictName)){
+                return rec;
+            }
+        }
+        return null;
+    }
+    
+    public static ItemStack getCrushingRecipeOutput(String oreDictName){
         for(CrushingRecipe rec : crushingRecipes){
             if(rec.inputString.equals(oreDictName)){
                 return rec.output.copy();
