@@ -200,7 +200,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 				return 0;
 			}
 		}else{
-			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16); 
+			setTier(); 
 		}
 		
 		int filled = tank.fill(resource, doFill);
@@ -433,7 +433,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public void firstTick() {
-	
+		setTier();
 	}
 	
 	@Override
