@@ -53,7 +53,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	}
 	
 	public void setFacing(ForgeDirection newDir){
-		getHandler().updateNetworkOnNextTick(getNetwork(getFacing()).getPressure());
+		getHandler().updateNetworkOnNextTick(getNetwork(getFacing().getOpposite()).getPressure());
 		facing = newDir;
 	}
 	
@@ -138,7 +138,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	}
 	
 	private float createPower(boolean simulate){
-		if(getPressure(getFacing().getOpposite()) < Constants.MIN_REQUIRED_PRESSURE_ENGINE){
+		if(getPressure(getFacing().getOpposite()) < Constants.MIN_REQUIRED_PRESSURE_ENGINE || !getHandler().getRedstonePowered()){
 			isRunning = false;
 			getHandler().updateBlock();
 			return 0F;
