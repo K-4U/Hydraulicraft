@@ -54,7 +54,7 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 	}
 	
 	public IHydraulicConsumer getTarget(){
-		if(targetHasChanged == true && targetX != xCoord && targetY != yCoord && targetZ != zCoord){
+		if(targetHasChanged == true &&(targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
 			TileEntity t = worldObj.getBlockTileEntity(targetX, targetY, targetZ);
 			if(t instanceof IHydraulicConsumer){
 				target = (IHydraulicConsumer) t;

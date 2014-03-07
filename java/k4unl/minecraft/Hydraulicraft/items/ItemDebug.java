@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
@@ -73,6 +74,13 @@ public class ItemDebug extends MachineItem {
 							PartHose hose = Multipart.getHose((TileMultipart)ent);
 							int tier = hose.getTier();
 							player.addChatMessage("Tier:          " + tier);							
+						}
+					}
+					
+					if(ent instanceof TileHydraulicValve){
+						TileHydraulicValve v = (TileHydraulicValve) ent;
+						if(v.getTarget() != null){
+							player.addChatMessage("Target: " + v.xCoord + "," + v.yCoord + "," + v.zCoord);
 						}
 					}
 					

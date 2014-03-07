@@ -677,6 +677,7 @@ public class TileHydraulicWasher extends TileEntity implements
 					
 					if(blockId == Ids.blockValve.act){
 						TileHydraulicValve dummyTE = (TileHydraulicValve)worldObj.getBlockTileEntity(x, y, z);
+						Log.info("Settings valve to accept target. We are at h,v,d: " + horiz + "," + vert + "," + depth);
 						dummyTE.setTarget(xCoord, yCoord, zCoord);
 						dummyTE.getHandler().updateNetworkOnNextTick(0);
 						valves.add(dummyTE);
