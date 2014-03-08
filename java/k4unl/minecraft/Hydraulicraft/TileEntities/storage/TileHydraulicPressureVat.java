@@ -37,21 +37,29 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	private PressureNetwork pNetwork;
 	
-	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
+	private FluidTank tank = null;//
+	private int tier = -1;
 	private List<ForgeDirection> connectedSides;
 	
 	public TileHydraulicPressureVat(){
-		//tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
 		connectedSides = new ArrayList<ForgeDirection>();
 	}
 	
-	public void setTier(){
-		tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (getTier()+1)));
+	public void setTier(int tier){
+		this.tier = tier;
+		if(tank == null){
+			Log.info("Started a new tank");
+			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
+		}
+		
 	}
 	
 	
 	public int getTier() {
-		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		if(tier == -1 && worldObj != null){
+			tier = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		}
+		return tier;
 	}
 
 	@Override
@@ -200,7 +208,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 				return 0;
 			}
 		}else{
-			setTier(); 
+			//setTier(); 
 		}
 		
 		int filled = tank.fill(resource, doFill);
@@ -270,11 +278,17 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public int getMaxStorage() {
+		if(tank == null){
+			return 0;
+		}
 		return tank.getCapacity();
 	}
 
 	@Override
 	public int getStored(ForgeDirection from) {
+		if(tank == null){
+			return 0;
+		}
 		return tank.getFluidAmount();
 	}
 
@@ -336,7 +350,13 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
 		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
-		tank.readFromNBT(tagCompound.getCompoundTag("tank"));
+		setTier(tagCompound.getInteger("tier"));
+		
+		
+		NBTTagCompound tankCompound = tagCompound.getCompoundTag("tank");
+		if(tankCompound != null){
+			tank.readFromNBT(tankCompound);
+		}
 	}
 
 	@Override
@@ -353,9 +373,12 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 			outputInventory.writeToNBT(inventoryCompound);
 			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
 		}
+		
+		tagCompound.setInteger("tier", tier);
+		
 		NBTTagCompound tankCompound = new NBTTagCompound();
 		tank.writeToNBT(tankCompound);
-		tagCompound.setCompoundTag("tank", tankCompound);	
+		tagCompound.setCompoundTag("tank", tankCompound);
 	}
 
 	@Override
@@ -433,7 +456,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public void firstTick() {
-		setTier();
+		//setTier();
 	}
 	
 	@Override

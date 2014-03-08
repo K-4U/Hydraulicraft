@@ -25,8 +25,14 @@ public class BlockHydraulicPressureVat extends MachineTieredBlock {
 
 	
 	@Override
+	public TileEntity createTileEntity(World world, int metadata){
+		TileHydraulicPressureVat pVat = new TileHydraulicPressureVat();
+		pVat.setTier(metadata);
+		return pVat;
+    }
+	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return new TileHydraulicPressureVat();
+		return null;
 	}
 	
 	@Override
@@ -49,8 +55,11 @@ public class BlockHydraulicPressureVat extends MachineTieredBlock {
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
 		super.onBlockPlacedBy(world, x, y, z, player, iStack);
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
-		if(ent instanceof TileHydraulicPressureVat){
+		/*if(ent instanceof TileHydraulicPressureVat){
 			((TileHydraulicPressureVat) ent).setTier();
-		}
+		}*/
 	}
+
+
+	
 }
