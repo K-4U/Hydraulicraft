@@ -138,7 +138,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			}
 			int maxFluid = getMaxStorage();
 			//We can only generate at the percentage the system is filled at.
-			float perc = (float)getHandler().getStored(ForgeDirection.UNKNOWN) / (float) getMaxStorage();
+			float perc = (float)getHandler().getStored() / (float) getMaxStorage();
 			//Also.. we can only go to a max of which the system is filled at.
 			//So, if the system is 50% full, we only generate at 50% and we can only
 			//go to 50% of the max pressure.

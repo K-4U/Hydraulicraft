@@ -113,7 +113,7 @@ public class MachineGUI extends GuiContainer {
 			color = Constants.COLOR_OIL;
 			fluidName = Fluids.fluidOil.getLocalizedName();
 		}
-		drawVerticalProgressBar(8, 16, 54, 16, mEnt.getHandler().getStored(null), mEnt.getMaxStorage(), color, fluidName, "mB");
+		drawVerticalProgressBar(8, 16, 54, 16, mEnt.getHandler().getStored(), mEnt.getMaxStorage(), color, fluidName, "mB");
 	
 		color = Constants.COLOR_PRESSURE;
 		drawVerticalProgressBar(152, 16, 54, 16, mEnt.getPressure(ForgeDirection.UNKNOWN), mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), null), color, "Pressure", "mBar");

@@ -99,7 +99,7 @@ public class RendererHarvesterSource extends TileEntitySpecialRenderer {
 		RenderHelper.vertexWithTexture(1.0F, 0.0F, 1.0F, 0.5F, 0.5F); //BL
 		
 		if(h != null){
-			float fPercentage = (float)h.getHandler().getStored(null) / (float)h.getMaxStorage();
+			float fPercentage = (float)h.getHandler().getStored() / (float)h.getMaxStorage();
 			float pPercentage = h.getPressure(ForgeDirection.UNKNOWN) / h.getMaxPressure(h.getHandler().isOilStored(), null);
 			float maxHeight = 0.452F;
 			float beginH = 0.445F;

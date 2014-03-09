@@ -300,7 +300,7 @@ public class RendererElectricPump extends TileEntitySpecialRenderer {
 		Vector3fMax vectorFilled = new Vector3fMax(0.301F, 0.301F, 0.201F, 0.699F, 0.699F, 0.499F);
 		if(!isItem){
 			float h = vectorFilled.getYMax() - vectorFilled.getYMin();
-			vectorFilled.setYMax(vectorFilled.getYMin() + (h * (t.getHandler().getStored(null) / t.getMaxStorage())));
+			vectorFilled.setYMax(vectorFilled.getYMin() + (h * (t.getHandler().getStored() / t.getMaxStorage())));
 		
 		
 			Icon fluidIcon;
@@ -315,7 +315,7 @@ public class RendererElectricPump extends TileEntitySpecialRenderer {
 				fluidIcon = FluidRegistry.WATER.getIcon();
 			}
 			
-			if(t.getHandler().getStored(null) > 0){
+			if(t.getHandler().getStored() > 0){
 				RenderHelper.drawTesselatedCubeWithTexture(vectorFilled, fluidIcon);
 			}
 			

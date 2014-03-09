@@ -29,6 +29,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 
 import org.lwjgl.opengl.GL11;
 
+import codechicken.core.asm.TweakTransformer;
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
@@ -54,7 +55,9 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     private Map<ForgeDirection, TileEntity> connectedSides;
     private final boolean[] connectedSideFlags = new boolean[6];
     private boolean needToCheckNeighbors;
+    private boolean connectedSidesHaveChanged = true;
     private boolean hasCheckedSinceStartup;
+    private boolean canGoOverMax = false;
     
     
     private int tier = 0;
@@ -137,14 +140,15 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		packet.writeInt(getTier());
 		
 		NBTTagCompound mainCompound = new NBTTagCompound();
-		NBTTagCompound connectedCompound = new NBTTagCompound();
 		NBTTagCompound handlerCompound = new NBTTagCompound();
-		writeConnectedSidesToNBT(connectedCompound);
+		if(connectedSidesHaveChanged && world() != null && !world().isRemote){
+			connectedSidesHaveChanged = false;
+			mainCompound.setBoolean("connectedSidesHaveChanged", true);
+			//writeConnectedSidesToNBT(connectedCompound);
+			//mainCompound.setCompoundTag("connectedSides", connectedCompound);
+		}
 		getHandler().writeToNBT(handlerCompound);
-		
-		mainCompound.setCompoundTag("connectedSides", connectedCompound);
 		mainCompound.setCompoundTag("handler", handlerCompound);
-		
 		
 		packet.writeNBTTagCompound(mainCompound);
     }
@@ -177,9 +181,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         tier = packet.readInt();
         
         NBTTagCompound mainCompound = packet.readNBTTagCompound();
-		NBTTagCompound connectedCompound = mainCompound.getCompoundTag("connectedSides");
+		//NBTTagCompound connectedCompound = mainCompound.getCompoundTag("connectedSides");
 		NBTTagCompound handlerCompound = mainCompound.getCompoundTag("handler");
-		readConnectedSidesFromNBT(connectedCompound);
+		if(mainCompound.getBoolean("connectedSidesHaveChanged")){
+			hasCheckedSinceStartup = false;
+		}
+		//readConnectedSidesFromNBT(connectedCompound);
         
         getHandler().readFromNBT(handlerCompound);
     }
@@ -303,6 +310,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
             	}
             }
         }
+		connectedSidesHaveChanged = true;
 		getHandler().updateBlock();
     }
     
@@ -314,7 +322,8 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     
     public void onNeighborChanged(){
         checkConnectedSides();
-        Functions.checkAndFillSideBlocks(world(), x(), y(), z());
+        getHandler().updateFluidOnNextTick();
+        //Functions.checkAndFillSideBlocks(world(), x(), y(), z());
         //getHandler().disperse();
     }
     
@@ -446,6 +455,16 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     		//Hack hack hack
     		//Temporary bug fix that we will forget about
     	}
+    	
+    	if(world().getTotalWorldTime() % 10 == 0 && !pNetwork.getMachines().contains(this)){
+    		//Dum tie dum tie dum
+    		//If you see this, please step out of this if
+    		// *makes jedi hand motion* You never saw this!
+    		// TODO: figure out why the fuck this code is auto removing itself, without letting me know.
+    		// I Honestly believe it's because of FMP
+    		pNetwork.addMachine(this, pNetwork.getPressure());
+    	}
+    	
         if(needToCheckNeighbors) {
             needToCheckNeighbors = false;
             connectedSides = new HashMap<ForgeDirection, TileEntity>();
@@ -455,6 +474,10 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
                     connectedSides.put(dir, world().getBlockTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ));
                 }
             }
+            if(!world().isRemote){
+        		connectedSidesHaveChanged = true;
+        		getHandler().updateBlock();
+        	}
         }
     }
 
@@ -498,7 +521,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		getNetwork(side).setPressure(newPressure);
 	}
 
-	
 	@Override
 	public void updateNetwork(float oldPressure) {
 		PressureNetwork newNetwork = PressureNetwork.getNearestNetwork(world(), x(), y(), z());
@@ -517,6 +539,16 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(pNetwork != null){
 			pNetwork.removeMachine(this);
 		}
+	}
+
+	@Override
+	public boolean getCanGoOverMax() {
+		return canGoOverMax;
+	}
+
+	@Override
+	public void setCanGoOverMax(boolean newValue) {
+		canGoOverMax = newValue;
 	}
 
 	

@@ -50,7 +50,7 @@ public class WailaProvider implements IWailaDataProvider {
 			}
 			//IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
 			
-			int stored = mEnt.getHandler().getStored(null);
+			int stored = mEnt.getHandler().getStored();
 			int max = mEnt.getMaxStorage();
 			
 			float pressure = mEnt.getPressure(ForgeDirection.UNKNOWN);

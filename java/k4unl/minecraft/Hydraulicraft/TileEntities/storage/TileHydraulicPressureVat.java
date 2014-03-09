@@ -225,18 +225,16 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		}
 		if(doFill && filled > 10){
 			getHandler().updateFluidOnNextTick();
-			//Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
-			//worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}else if((getHandler().getFluidInSystem() + resource.amount) < getHandler().getTotalFluidCapacity()){
 			if(doFill){
-				getHandler().updateFluidOnNextTick();
-				//Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getFluidInSystem() + resource.amount, getHandler().isOilStored());
+				//getHandler().updateFluidOnNextTick();
+				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getFluidInSystem() + resource.amount, getHandler().isOilStored());
 			}
 			filled = resource.amount;
 		}else if(getHandler().getFluidInSystem() < getHandler().getTotalFluidCapacity()) {
 			if(doFill){
 				getHandler().updateFluidOnNextTick();
-				//Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getTotalFluidCapacity(), getHandler().isOilStored());
+				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getTotalFluidCapacity(), getHandler().isOilStored());
 			}
 			filled = getHandler().getTotalFluidCapacity() - getHandler().getFluidInSystem();
 		}else{
@@ -257,7 +255,8 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 		FluidStack drained = tank.drain(maxDrain, doDrain); 
 		if(doDrain && drained.amount > 0){
-			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+			//Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+			getHandler().updateFluidOnNextTick();
 		}
 		
 		return drained;
@@ -294,7 +293,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	}
 
 	@Override
-	public int getStored(ForgeDirection from) {
+	public int getStored() {
 		if(tank == null){
 			return 0;
 		}
@@ -304,14 +303,19 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	@Override
 	public void setStored(int i, boolean isOil) {
 		if(isOil){
+			tank.setFluid(null);
 			tank.setFluid(new FluidStack(Fluids.fluidOil, i));
 		}else{
+			if(i == 0){
+				tank.setFluid(null);
+			}
 			tank.setFluid(new FluidStack(FluidRegistry.WATER, i));
 			//Log.info("Fluid in tank: " + tank.getFluidAmount() + "x" + FluidRegistry.getFluidName(tank.getFluid().fluidID));
 			//if(!worldObj.isRemote){
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			
 			//}
 		}
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
 	@Override

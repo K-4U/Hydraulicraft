@@ -1,9 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import net.minecraftforge.common.ForgeDirection;
 
 public interface IHydraulicStorageWithTank extends IHydraulicStorage {
-	public int getStored(ForgeDirection from);
+	public int getStored();
 
 	void setStored(int i, boolean isOil);
 	

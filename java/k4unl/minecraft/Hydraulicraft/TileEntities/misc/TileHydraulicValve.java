@@ -152,7 +152,7 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 	@Override
 	public void onFluidLevelChanged(int old) {
 		if(getTarget() != null){
-			getTarget().getHandler().setStored(getHandler().getStored(ForgeDirection.UP), getHandler().isOilStored());
+			getTarget().getHandler().setStored(getHandler().getStored(), getHandler().isOilStored(), false);
 		}
 	}
 

@@ -49,7 +49,7 @@ public class ItemDebug extends MachineItem {
 						tagC = new NBTTagCompound();
 					}
 					
-					int stored = mEnt.getHandler().getStored(null);
+					int stored = mEnt.getHandler().getStored();
 					int max = mEnt.getMaxStorage();
 					
 					float pressure = mEnt.getPressure(ForgeDirection.UNKNOWN);

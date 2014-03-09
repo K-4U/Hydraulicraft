@@ -7,7 +7,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
-import net.minecraftforge.common.ForgeDirection;
 
 /**
  * DO NOT IMPLEMENT THIS INTERFACE!
@@ -41,17 +40,17 @@ public interface IBaseClass {
 
 	/**
 	 * Gets the ammount of fluid stored
-	 * @param from
 	 * @return the ammount of fluid stored
 	 */
-	public int getStored(ForgeDirection from);
+	public int getStored();
 
 	/**
 	 * Sets the amount of fluid stored 
 	 * @param maxStorage
 	 * @param isOil
+	 * @param doNotify TODO
 	 */
-	public void setStored(int maxStorage, boolean isOil);
+	public void setStored(int maxStorage, boolean isOil, boolean doNotify);
 	
 	/**
 	 * 

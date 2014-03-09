@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import codechicken.multipart.TileMultipart;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
@@ -37,6 +38,7 @@ public class PressureNetwork {
 			oPressure += pressureToAdd;
 			machines.add(machine);
 			pressure = oPressure / machines.size();
+			machine.getHandler().updateFluidOnNextTick();
 		}
 	}
 	
@@ -85,7 +87,9 @@ public class PressureNetwork {
 		pressure = tagCompound.getFloat("pressure");
 	}
 	
-	
+	public void disperseFluid(){
+		
+	}
 	
 	public static PressureNetwork getNetworkInDir(IBlockAccess iba, int x, int y, int z, ForgeDirection dir){
 		TileEntity t = iba.getBlockTileEntity(x, y, z);
