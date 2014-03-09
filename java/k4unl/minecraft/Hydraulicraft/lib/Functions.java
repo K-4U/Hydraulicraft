@@ -118,7 +118,7 @@ public class Functions {
 		while(fluidInSystem > 0){
 			if(mainList.size() == 0){
 				//Error!
-				//Log.error("Too much fluid in the system!");
+				Log.error("Too much fluid in the system!");
 				break;
 			}
 			int toSet = fluidInSystem / mainList.size();
@@ -129,6 +129,7 @@ public class Functions {
 			
 			for (IHydraulicMachine machineEntity : mainList) {
 				if(machineEntity.getMaxStorage() < (toSet + machineEntity.getHandler().getStored(null))){
+					//This machine can't store this much!
 					newFluidInSystem = newFluidInSystem + ((toSet + machineEntity.getHandler().getStored(null)) - machineEntity.getMaxStorage());
 					machineEntity.getHandler().setStored(machineEntity.getMaxStorage(), isOil);
 				}else{
@@ -139,9 +140,6 @@ public class Functions {
 				if(firstIteration){
 					machineEntity.getHandler().setFluidInSystem(fluidInSystem);
 				}
-				
-				//Log.info("Is this the original? " + machineEntity.equals(t));
-				
 			}
 
 			//Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
@@ -163,16 +161,16 @@ public class Functions {
 			TileEntity t = w.getBlockTileEntity(x, y, z);
 			if(t instanceof IHydraulicMachine){
 				List <IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
-				mainList.add((IHydraulicMachine) t);
-				mainList = ((IHydraulicMachine) t).getHandler().getConnectedBlocks(mainList);
+				//mainList = ((IHydraulicMachine) t).getNetwork(ForgeDirection.UP).getMachines();
+				mainList.add((IHydraulicMachine)t);
+				mainList = ((IHydraulicMachine)t).getHandler().getConnectedBlocks(mainList);
+				
 				
 				for (IHydraulicMachine machineEntity : mainList) {
 					machineEntity.getHandler().setStored(0, isOil);
 				}
 				
 				setFluidInSystem(mainList, newFluidInSystem, isOil);
-				
-				//Log.info("Done iterating. Found " + mainList.size() + " blocks!");
 			}
 		}
 	}
@@ -191,15 +189,14 @@ public class Functions {
 				
 				List <IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
 				mainList.add(mEnt);
-				mainList = (mEnt).getHandler().getConnectedBlocks(mainList);
+				mainList = mEnt.getHandler().getConnectedBlocks(mainList);
+				//if(mEnt.getNetwork(ForgeDirection.UP) == null) return;
+				//mainList = mEnt.getNetwork(ForgeDirection.UP).getMachines();
 				
 				//Log.info("Iteration done. " + mainList.size() + " machines found");
 				boolean isOil = false;
 				int fluidInSystem = 0;
 				int totalFluidCapacity = 0;
-				float pressureInSystem = 0;
-				int oldMachineCount = 0;
-				float generating = 0;
 				for (IHydraulicMachine machineEntity : mainList) {
 					if(isOil == false && machineEntity.getHandler().isOilStored()){
 						isOil = true;

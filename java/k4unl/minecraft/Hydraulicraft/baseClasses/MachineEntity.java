@@ -4,6 +4,8 @@ import java.awt.Menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TilePressureDisposal;
+import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
@@ -17,6 +19,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
+import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -52,6 +55,7 @@ public class MachineEntity implements IBaseClass {
 	private boolean hasOwnFluidTank;
 	private boolean firstUpdate = true;
 	private boolean shouldUpdateNetwork = true;
+	private boolean shouldUpdateFluid = false;
 	private float oldPressure = 0f;
 	
 	public MachineEntity(TileEntity _target) {
@@ -80,7 +84,9 @@ public class MachineEntity implements IBaseClass {
 	public Location getBlockLocation(){
 		if(blockLocation == null){
 			if(isMultipart){
-				blockLocation = new Location(tMp.x(), tMp.y(), tMp.z());				
+				if(tMp.tile() != null){
+					blockLocation = new Location(tMp.x(), tMp.y(), tMp.z());
+				}
 			}else{
 				blockLocation = new Location(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
 			}
@@ -201,6 +207,7 @@ public class MachineEntity implements IBaseClass {
 			_isOilStored = isOil;
 			target.onFluidLevelChanged(fluidLevelStored);
 			fluidLevelStored = i;
+			shouldUpdateFluid = true;
 		}
 		updateBlock();
 	}
@@ -248,7 +255,11 @@ public class MachineEntity implements IBaseClass {
 	
 	@Override
 	public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList){
-		return getConnectedBlocks(mainList, true);
+		if(target.getNetwork(ForgeDirection.UNKNOWN) == null){
+			return mainList;
+		}
+		return target.getNetwork(ForgeDirection.UNKNOWN).getMachines();
+		//return getConnectedBlocks(mainList, true);
 	}
 	
 	public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList, boolean chain){
@@ -281,6 +292,21 @@ public class MachineEntity implements IBaseClass {
 					callList.add(machineEntity);	
 					chain = true;
 				}
+				if(machineEntity instanceof TileHydraulicValve){
+					IHydraulicMachine target =((TileHydraulicValve)machineEntity).getTarget(); 
+					if(target != null){
+						mainList.add(target);
+						if(target instanceof IMachineMultiBlock){
+							List<TileHydraulicValve> valves = ((IMachineMultiBlock)target).getValves();
+							for(TileHydraulicValve valve : valves){
+								if(!valve.equals(machineEntity)){
+									callList.add((IHydraulicMachine) valve);
+								}
+							}
+							chain = true;
+						}
+					}
+				}
 			}
 		}
 		//Only go trough transporter items.
@@ -296,6 +322,7 @@ public class MachineEntity implements IBaseClass {
 		
 		return mainList;
 	}
+	
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
@@ -382,6 +409,12 @@ public class MachineEntity implements IBaseClass {
 			shouldUpdateNetwork = false;
 			target.updateNetwork(oldPressure);
 		}
+		if(shouldUpdateFluid && tWorld != null){
+			if(target instanceof TileHydraulicPressureVat){
+				shouldUpdateFluid = false;
+				Functions.checkAndFillSideBlocks(tWorld, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
+			}
+		}
 		if(getWorld() != null){
 			if(!getWorld().isRemote){
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
@@ -407,7 +440,7 @@ public class MachineEntity implements IBaseClass {
 			        		gen.workFunction(dir);
 			        	}
 			        }else if(tTarget instanceof IHydraulicStorage){
-			        	if(tTarget.worldObj.getTotalWorldTime() % 40 == 0){
+			        	if(tTarget.worldObj.getTotalWorldTime() % 40 == 0 && dir.equals(ForgeDirection.UP)){
 			    			Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
 			    		}
 			        }
@@ -452,10 +485,15 @@ public class MachineEntity implements IBaseClass {
 					isValid = isValidMachine(dir);					
 				}
 			}else{
-				isValid = isValidMachine(dir);				
+				isValid = isValidMachine(dir);
+								
 			}
-			if(isValid != null)
+			if(isValid != null){
+				if(isValid instanceof TileHydraulicValve){
+					machines.add(((TileHydraulicValve)isValid).getTarget());
+				}
 				machines.add(isValid);
+			}
 		}
 		
 		return machines;
@@ -463,12 +501,18 @@ public class MachineEntity implements IBaseClass {
 
 	@Override
 	public void validate(){
-		//takeHighestPressure();
+		
 	}
 
 	@Override
 	public void updateNetworkOnNextTick(float oldPressure) {
 		shouldUpdateNetwork = true;
 		this.oldPressure = oldPressure;
+		updateBlock();
+	}
+
+	@Override
+	public void updateFluidOnNextTick() {
+		shouldUpdateFluid = true;
 	}
 }

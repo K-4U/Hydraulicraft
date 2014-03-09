@@ -233,9 +233,6 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 	@Override
 	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
-		if(getTarget() != null){
-			getTarget().setNetwork(side, toSet);
-		}
 	}
 
 	@Override

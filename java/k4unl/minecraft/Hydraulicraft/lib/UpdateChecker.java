@@ -41,8 +41,6 @@ public class UpdateChecker {
 			Log.warning("Got empty message from update. Either not connected to internet or something fishy is going on!");
 			return false;
 		}
-			
-		
 	}
 	
 	private static String readUrl(String urlString) throws Exception {

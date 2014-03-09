@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import java.util.ArrayList;
+
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
@@ -11,6 +13,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -55,9 +58,21 @@ public class BlockHydraulicPressureVat extends MachineTieredBlock {
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
 		super.onBlockPlacedBy(world, x, y, z, player, iStack);
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
-		/*if(ent instanceof TileHydraulicPressureVat){
-			((TileHydraulicPressureVat) ent).setTier();
-		}*/
+		if(ent instanceof TileHydraulicPressureVat){
+			if(iStack != null){
+				if(iStack.getTagCompound() != null){
+					((TileHydraulicPressureVat)ent).newFromNBT(iStack.getTagCompound());
+					world.markBlockForUpdate(x, y, z);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune){
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+		//Don't drop anything please..
+		return ret;
 	}
 
 

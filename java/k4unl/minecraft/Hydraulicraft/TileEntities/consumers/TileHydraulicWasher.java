@@ -11,6 +11,7 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.baseClasses.IMachineMultiBlock;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
@@ -37,7 +38,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
 public class TileHydraulicWasher extends TileEntity implements
-		ISidedInventory, IFluidHandler, IHydraulicConsumer {
+		ISidedInventory, IFluidHandler, IHydraulicConsumer, IMachineMultiBlock {
 	private ItemStack inputInventory;
 	private ItemStack washingItem;
 	private ItemStack targetItem;
@@ -559,6 +560,10 @@ public class TileHydraulicWasher extends TileEntity implements
 					convertMultiblock();
 				}
 			}
+		}else{
+			if(isValidMultiblock && valves.size() == 0){
+				convertMultiblock();
+			}
 		}
 	}
 
@@ -677,10 +682,9 @@ public class TileHydraulicWasher extends TileEntity implements
 					
 					if(blockId == Ids.blockValve.act){
 						TileHydraulicValve dummyTE = (TileHydraulicValve)worldObj.getBlockTileEntity(x, y, z);
-						Log.info("Settings valve to accept target. We are at h,v,d: " + horiz + "," + vert + "," + depth);
 						dummyTE.setTarget(xCoord, yCoord, zCoord);
-						dummyTE.getHandler().updateNetworkOnNextTick(0);
 						valves.add(dummyTE);
+						dummyTE.getHandler().updateNetworkOnNextTick(0);
 					}
 					if(blockId == Ids.blockInterfaceValve.act){
 						TileInterfaceValve dummyTE = (TileInterfaceValve)worldObj.getBlockTileEntity(x, y, z);
@@ -703,6 +707,11 @@ public class TileHydraulicWasher extends TileEntity implements
 				}
 			}
 		}
+		float p = 0;
+		if(pNetwork != null){
+			p = pNetwork.getPressure();
+		}
+		getHandler().updateNetworkOnNextTick(p);
 	}
 	
 	@Override
@@ -739,7 +748,9 @@ public class TileHydraulicWasher extends TileEntity implements
 	
 	@Override
 	public void firstTick() {
-
+		if(isValidMultiblock){
+			convertMultiblock();
+		}
 	}
 	
 	@Override
@@ -770,21 +781,13 @@ public class TileHydraulicWasher extends TileEntity implements
 			getHandler().updateNetworkOnNextTick(oldPressure);
 			return;
 		}else{
-			PressureNetwork foundNetwork = null;
-			PressureNetwork newNetwork = null;
-			for(TileHydraulicValve valve: valves){
-				foundNetwork = valve.getNetwork(ForgeDirection.UNKNOWN);
-				if(foundNetwork != null){
-					if(newNetwork == null){
-						newNetwork = foundNetwork;
-					}else{
-						newNetwork.mergeNetwork(foundNetwork);
-					}
-				}
+			if(valves.size() > 0){
+
+			}else{
+				getHandler().updateNetworkOnNextTick(oldPressure);	
 			}
-			if(newNetwork != null){
-				pNetwork = newNetwork;
-			}
+			
+			
 		}
 	}
 	
@@ -795,5 +798,10 @@ public class TileHydraulicWasher extends TileEntity implements
 		for(ForgeDirection dir: connectedSides){
 			getNetwork(dir).removeMachine(this);
 		}
+	}
+
+	@Override
+	public List<TileHydraulicValve> getValves() {
+		return valves;
 	}
 }

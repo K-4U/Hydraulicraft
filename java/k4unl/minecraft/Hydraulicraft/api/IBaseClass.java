@@ -77,10 +77,6 @@ public interface IBaseClass {
 	 */
 	public void dropItemStackInWorld(ItemStack inputInventory);
 	
-	
-	public List<IHydraulicMachine> getConnectedBlocks(
-			List<IHydraulicMachine> mainList);
-	
 	/**
 	 * Sets the fluid in the entire network.
 	 * @param fluidInSystem
@@ -126,4 +122,9 @@ public interface IBaseClass {
 	public void validate();
 
 	public void updateNetworkOnNextTick(float oldPressure);
+
+	public List<IHydraulicMachine> getConnectedBlocks(
+			List<IHydraulicMachine> mainList);
+
+	public void updateFluidOnNextTick();
 }

@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -73,13 +74,19 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	}
 	
 	
+	public void newFromNBT(NBTTagCompound tagCompound){
+		getHandler().readFromNBT(tagCompound);
+	}
+	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
+		super.readFromNBT(tagCompound);
 		getHandler().readFromNBT(tagCompound);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
+		super.writeToNBT(tagCompound);
 		getHandler().writeToNBT(tagCompound);
 	}
 
@@ -198,6 +205,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+		if(worldObj.isRemote) return 0;
 		if(resource == null) //What!?
 			return 0;
 		if(resource.getFluid() == null)
@@ -207,8 +215,6 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 			if(resource.getFluid().getID() != tank.getFluid().getFluid().getID()){
 				return 0;
 			}
-		}else{
-			//setTier(); 
 		}
 		
 		int filled = tank.fill(resource, doFill);
@@ -218,16 +224,19 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 			getHandler().setIsOilStored(false);
 		}
 		if(doFill && filled > 10){
-			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
+			getHandler().updateFluidOnNextTick();
+			//Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 			//worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}else if((getHandler().getFluidInSystem() + resource.amount) < getHandler().getTotalFluidCapacity()){
 			if(doFill){
-				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getFluidInSystem() + resource.amount, getHandler().isOilStored());
+				getHandler().updateFluidOnNextTick();
+				//Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getFluidInSystem() + resource.amount, getHandler().isOilStored());
 			}
 			filled = resource.amount;
 		}else if(getHandler().getFluidInSystem() < getHandler().getTotalFluidCapacity()) {
 			if(doFill){
-				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getTotalFluidCapacity(), getHandler().isOilStored());
+				getHandler().updateFluidOnNextTick();
+				//Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getTotalFluidCapacity(), getHandler().isOilStored());
 			}
 			filled = getHandler().getTotalFluidCapacity() - getHandler().getFluidInSystem();
 		}else{
@@ -249,8 +258,8 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		FluidStack drained = tank.drain(maxDrain, doDrain); 
 		if(doDrain && drained.amount > 0){
 			Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
-			//worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
+		
 		return drained;
 	}
 
@@ -295,7 +304,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	@Override
 	public void setStored(int i, boolean isOil) {
 		if(isOil){
-			//tank.setFluid(new FluidStack(fluid, amount));
+			tank.setFluid(new FluidStack(Fluids.fluidOil, i));
 		}else{
 			tank.setFluid(new FluidStack(FluidRegistry.WATER, i));
 			//Log.info("Fluid in tank: " + tank.getFluidAmount() + "x" + FluidRegistry.getFluidName(tank.getFluid().fluidID));
@@ -307,7 +316,16 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public void onBlockBreaks() {
+		ItemStack ourEnt = new ItemStack(Blocks.hydraulicPressurevat, 1, getTier());
+		NBTTagCompound tCompound = new NBTTagCompound();
+		writeToNBT(tCompound);
+		tCompound.removeTag("x");
+		tCompound.removeTag("y");
+		tCompound.removeTag("z");
+		tCompound.removeTag("id");
 		
+		ourEnt.setTagCompound(tCompound);
+		getHandler().dropItemStackInWorld(ourEnt);
 	}
 
 	@Override
@@ -342,8 +360,6 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public void readNBT(NBTTagCompound tagCompound) {
-		super.readFromNBT(tagCompound);
-		
 		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
 		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
@@ -361,8 +377,6 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public void writeNBT(NBTTagCompound tagCompound) {
-		super.writeToNBT(tagCompound);
-		
 		if(inputInventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			inputInventory.writeToNBT(inventoryCompound);
@@ -384,7 +398,6 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	@Override
 	public void updateEntity() {
 		getHandler().updateEntity();
-		
 	}
 
 	@Override
@@ -424,7 +437,6 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	public void validate(){
 		super.validate();
 		getHandler().validate();
-		//setTier();
 	}
 
 	@Override
@@ -461,6 +473,9 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	
 	@Override
 	public float getPressure(ForgeDirection from) {
+		if(getNetwork(from) == null){
+			return 0;
+		}
 		return getNetwork(from).getPressure();
 	}
 
@@ -501,5 +516,13 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 			pNetwork = new PressureNetwork(this, oldPressure);
 			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
+	}
+	
+	@Override
+	public void invalidate(){
+		super.invalidate();
+		for(ForgeDirection dir: connectedSides){
+			getNetwork(dir).removeMachine(this);
+		}
 	}
 }
