@@ -28,7 +28,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	private IBaseClass baseHandler;
 	private ForgeDirection facing = ForgeDirection.NORTH;
 	private PressureNetwork pNetwork;
-	
+	private int tier = -1;
 	
 	public TileKineticPump(){
 		
@@ -133,7 +133,10 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 
 
     public int getTier(){
-        return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+    	if(tier == -1){
+    		tier = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+    	}
+        return tier;
     }
 	
 
@@ -182,6 +185,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 		super.readFromNBT(tagCompound);
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 
+		tier = tagCompound.getInteger("tier");
 		isRunning = tagCompound.getBoolean("isRunning");
 		//MJPower = tagCompound.getInteger("MJPower");
 		getPowerHandler().readFromNBT(tagCompound, "powerHandler");
@@ -193,6 +197,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setBoolean("isRunning", isRunning);
+		tagCompound.setInteger("tier", tier);
 		getPowerHandler().writeToNBT(tagCompound, "powerHandler");
 		//tagCompound.setInteger("MJPower", MJPower);
 	}

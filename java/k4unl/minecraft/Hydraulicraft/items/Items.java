@@ -84,12 +84,13 @@ public class Items {
 	 * Note: No localization yet. Maybe after Modjam!
 	 */
 	public static void addNames(){
+		/*
 		LanguageRegistry.addName(gasket, Names.itemGasket.localized);
 		LanguageRegistry.addName(ingotCopper, Names.ingotCopper.localized);
 		LanguageRegistry.addName(ingotEnrichedCopper, Names.ingotEnrichedCopper.localized);
 		LanguageRegistry.addName(ingotLead, Names.ingotLead.localized);
 		LanguageRegistry.addName(itemFrictionPlate, Names.itemFrictionPlate.localized);
 		LanguageRegistry.addName(itemDebugger, Names.itemDebugger.localized);
-		LanguageRegistry.addName(itemBucketOil, Names.itemBucketOil.localized);
+		LanguageRegistry.addName(itemBucketOil, Names.itemBucketOil.localized);*/
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
@@ -14,6 +15,8 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import org.lwjgl.opengl.GL11;
+
+import scala.tools.nsc.backend.icode.Members.Local;
 
 public class MachineGUI extends GuiContainer {
 	private ResourceLocation resLoc;
@@ -116,7 +119,7 @@ public class MachineGUI extends GuiContainer {
 		drawVerticalProgressBar(8, 16, 54, 16, mEnt.getHandler().getStored(), mEnt.getMaxStorage(), color, fluidName, "mB");
 	
 		color = Constants.COLOR_PRESSURE;
-		drawVerticalProgressBar(152, 16, 54, 16, mEnt.getPressure(ForgeDirection.UNKNOWN), mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), null), color, "Pressure", "mBar");
+		drawVerticalProgressBar(152, 16, 54, 16, mEnt.getPressure(ForgeDirection.UNKNOWN), mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), null), color, Localization.getString(Localization.PRESSURE_ENTRY), "mBar");
 	}
 	
 	

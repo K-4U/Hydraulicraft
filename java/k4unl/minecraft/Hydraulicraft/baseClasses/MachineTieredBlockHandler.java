@@ -27,7 +27,11 @@ public class MachineTieredBlockHandler extends ItemBlock {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack){
-		return tNames[itemStack.getItemDamage()].unlocalized;
+		String unlocalizedName = tNames[itemStack.getItemDamage()].unlocalized;
+		if(!unlocalizedName.startsWith("tile.")){
+			unlocalizedName = "tile." + unlocalizedName;
+		}
+		return unlocalizedName;
 	}
 	
 	@Override

@@ -19,16 +19,16 @@ public class Multipart implements IPartFactory{
 	
 	public Multipart(){
 		MultiPartRegistry.registerParts(this, new String[] { 
-                Names.blockHydraulicHose[0].unlocalized,
-                Names.blockHydraulicHose[1].unlocalized,
-                Names.blockHydraulicHose[2].unlocalized});
+                "tile." + Names.blockHydraulicHose[0].unlocalized,
+                "tile." + Names.blockHydraulicHose[1].unlocalized,
+                "tile." + Names.blockHydraulicHose[2].unlocalized});
 		
 		itemPartHose = new ItemPartHose(Ids.blockHydraulicHose.act);
 	}
 
 	@Override
 	public TMultiPart createPart(String id, boolean client) {
-		if(id.equals(Names.blockHydraulicHose[0].unlocalized) || id.equals(Names.blockHydraulicHose[1].unlocalized) || id.equals(Names.blockHydraulicHose[2].unlocalized)){
+		if(id.equals("tile." + Names.blockHydraulicHose[0].unlocalized) || id.equals("tile." + Names.blockHydraulicHose[1].unlocalized) || id.equals("tile." + Names.blockHydraulicHose[2].unlocalized)){
 			return new PartHose();
 		}
 		return null;

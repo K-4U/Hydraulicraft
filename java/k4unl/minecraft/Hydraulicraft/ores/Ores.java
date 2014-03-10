@@ -45,8 +45,8 @@ public class Ores {
 	 * Note: No localization yet. Maybe after Modjam!
 	 */
 	public static void addNames(){
-		LanguageRegistry.addName(oreCopper, Names.oreCopper.localized);
-		LanguageRegistry.addName(oreLead, Names.oreLead.localized);
+		//LanguageRegistry.addName(oreCopper, Names.oreCopper.localized);
+		//LanguageRegistry.addName(oreLead, Names.oreLead.localized);
 	}
 }
 

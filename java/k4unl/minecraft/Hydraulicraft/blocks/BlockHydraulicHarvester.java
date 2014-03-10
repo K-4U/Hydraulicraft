@@ -1,30 +1,30 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
 import java.util.List;
+import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicFrictionIncinerator;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
-import net.minecraft.block.Block;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockHydraulicHarvester extends MachineBlockContainer {
 	private Icon[] icons;
@@ -32,6 +32,8 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	private Icon[] bottomIcons;
 	
 	private Name[] mName;
+
+	public Vector3fMax blockBounds = new Vector3fMax(0.2f, 0.2f, 0.2f, 0.8F, 0.8F, 0.8F);
 	
 	protected boolean hasTopIcon[] = {
 			false, false
@@ -184,6 +186,57 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	public int damageDropped(int damageValue){
 		return damageValue;
 	}
+	
+	@Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z){
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+
+        if(tileEntity instanceof TileHarvesterFrame) {
+        	TileHarvesterFrame frame = (TileHarvesterFrame) tileEntity;
+        	float minX = blockBounds.getXMin();
+            float minY = blockBounds.getYMin();
+            float minZ = blockBounds.getZMin();
+            float maxX = blockBounds.getXMax();
+            float maxY = blockBounds.getYMax();
+            float maxZ = blockBounds.getZMax();
+            
+            if(!frame.getIsRotated()){
+            	minX = 0.0F;
+            	maxX = 1.0F;
+            }else{
+            	minZ = 0.0F;
+            	maxZ = 1.0F;
+            }
+            
+            setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        }
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity){
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+
+        if(tileEntity instanceof TileHarvesterFrame) {
+        	TileHarvesterFrame frame = (TileHarvesterFrame) tileEntity;
+        	float minX = blockBounds.getXMin();
+            float minY = blockBounds.getYMin();
+            float minZ = blockBounds.getZMin();
+            float maxX = blockBounds.getXMax();
+            float maxY = blockBounds.getYMax();
+            float maxZ = blockBounds.getZMax();
+            
+            if(!frame.getIsRotated()){
+            	minX = 0.0F;
+            	maxX = 1.0F;
+            }else{
+            	minZ = 0.0F;
+            	maxZ = 1.0F;
+            }
+            
+            super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
+            setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        }
+    }
 	
 
 }

@@ -31,7 +31,7 @@ public class GuiMixer extends MachineGUI {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRenderer.drawString(Names.blockHydraulicMixer.localized, 8, 6, 0xFFFFFF);
-		drawHorizontalAlignedString(7, 3, xSize-14, Blocks.hydraulicWasher.getLocalizedName(), true);
+		drawHorizontalAlignedString(7, 3, xSize-14, Blocks.hydraulicMixer.getLocalizedName(), true);
 		
 		
 		FluidTankInfo[] tankInfo = mixer.getTankInfo(ForgeDirection.UP);

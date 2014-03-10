@@ -8,7 +8,7 @@ public class Name {
 	
 	
 	public Name(String _localized, String _unlocalized){
-		localized = _localized;
+		//localized = _localized;
 		unlocalized = _unlocalized;
 	}
 	

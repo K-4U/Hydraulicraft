@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -156,13 +157,11 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public String getInvName() {
-		// TODO Localization
-		return Names.blockHydraulicPressurevat[getTier()].localized;
+		return Localization.getLocalizedName(Names.blockHydraulicPressurevat[getTier()].unlocalized);
 	}
 
 	@Override
 	public boolean isInvNameLocalized() {
-		// TODO Localization
 		return true;
 	}
 

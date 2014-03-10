@@ -16,11 +16,5 @@ public class FluidOil extends Fluid {
 		
 		setBlockID(Ids.blockFluidOil.act);
 		FluidRegistry.registerFluid(this);
-		
-		
-		
 	}
-	
-	
-
 }

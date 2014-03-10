@@ -6,6 +6,7 @@ import java.util.Random;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -34,7 +35,7 @@ public class ItemDusts extends Item {
 			_icon = i;
 		}
 		public String getName(){
-			return "dust" + _name;
+			return _name;
 		}
 		public Icon getIcon(){
 			return _icon;
@@ -75,10 +76,15 @@ public class ItemDusts extends Item {
 		return dusts.get(itemStack.getItemDamage()).getName();
 	}
 	
+	@Override	
+	public String getItemDisplayName(ItemStack itemStack){
+		return Localization.getString(Localization.DUST_ENTRY, dusts.get(itemStack.getItemDamage()).getName());
+	}
+	
 	@Override
 	public void registerIcons(IconRegister icon){
 		for (dust c : dusts) {
-			c.setIcon(icon.registerIcon(ModInfo.LID + ":" + c.getName()));
+			c.setIcon(icon.registerIcon(ModInfo.LID + ":" + "dust" + c.getName()));
 		}
 	}
 	/*

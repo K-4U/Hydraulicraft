@@ -36,6 +36,6 @@ public class Fluids {
 	 * Note: No localization yet. Maybe after Modjam!
 	 */
 	public static void addNames(){
-		LanguageRegistry.addName(fluidOilBlock, Names.fluidOil.localized);
+		//LanguageRegistry.addName(fluidOilBlock, Names.fluidOil.localized);
 	}
 }

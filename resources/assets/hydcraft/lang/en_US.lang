@@ -1,37 +1,77 @@
+### Main Mod
 #Items
 item.gasket.name=Gasket
 item.frictionPlate.name=Friction Plate
 item.ingotCopper.name=Copper Ingot
 item.ingotLead.name=Lead Ingot
 item.ingotEnrichedCopper=Enriched Copper Ingot
-item.chunk.name=Chunk
-item.dust.name=dust
-item.bucketHydraulicOil=Hydraulic Oil Bucket
+item.bucketHydraulicOil.name=Hydraulic Oil Bucket
 
+#Ores
+tile.oreCopper.name=Copper Ore
+tile.oreLead.name=Lead Ore
 
 #Blocks
+tile.hydraulicOil.name=Hydraulic Oil
 tile.hydraulicMixer.name=Mixer
 tile.hydraulicFrictionIncinerator.name=Friction Incinerator
 tile.hydraulicCrusher.name=Crusher
 tile.hydraulicWasher.name=Washer
 tile.hydraulicPressureWall.name=Wall
-tile.hydraulicHarvesterSource.name=Hydraulic harvester
 
-LPHydraulicPipe.name=Low Pressure Pipe
-MPHydraulicPipe.name=Medium Pressure Pipe
-HPHydraulicPipe.name=High Pressure Pipe
+tile.LPHydraulicPipe.name=Low Pressure Pipe
+tile.MPHydraulicPipe.name=Medium Pressure Pipe
+tile.HPHydraulicPipe.name=High Pressure Pipe
 
-LPHydraulicPressureVat.name=Low Pressure Vat
-MPHydraulicPressureVat.name=Medium Pressure Vat
-HPHydraulicPressureVat.name=High Pressure Vat
+tile.LPHydraulicPressureVat.name=Low Pressure Vat
+tile.MPHydraulicPressureVat.name=Medium Pressure Vat
+tile.HPHydraulicPressureVat.name=High Pressure Vat
 
-LPHydraulicPump.name=Low Pressure Pump
-MPHydraulicPump.name=Medium Pressure Pump
-HPHydraulicPump.name=High Pressure Pump
+tile.LPHydraulicPump.name=Low Pressure Pump
+tile.MPHydraulicPump.name=Medium Pressure Pump
+tile.HPHydraulicPump.name=High Pressure Pump
 
+tile.hydraulicHarvesterSource.name=Hydraulic Harvester
+tile.hydraulicHarvesterFrame.name=Harvester Frame
+tile.wheatHarvester.name=Harvester Wheat Dolley
+tile.enderLilyHarvester.name=Harvester Enderlily Dolley
 
-#Third party
+tile.hydraulicPiston.name=Hydraulic Piston
+tile.interfaceValve.name=Interface Valve
+tile.valve.name=Hydraulic Block Valve
+
+tile.LPBlockCore.name=Low Pressure Core
+tile.MPBlockCore.name=Medium Pressure Core
+tile.HPBlockCore.name=High Pressure Core
+
+####MISC
+itemGroup.tabHydraulicraft=HydrauliCraft
+lang.pressure=Pressure
+lang.dust=%s dust
+lang.chunk=%s chunk
+
+####Third party
+#PneumaticCraft
 tile.hydraulicPneumaticCompressor.name=Pneumatic Compressor
 
 
-itemGroup.tabHydraulicraft=HydrauliCraft
+#Buildcraft
+tile.hydraulicEngine.name=Hydraulic Engine
+tile.LPKineticPump.name=Low Pressure Kinetic Pump
+tile.MPKineticPump.name=Medium Pressure Kinetic Pump
+tile.HPKineticPump.name=High Pressure Kinetic Pump
+
+#Industrialcraft
+tile.hydraulicGenerator.name=Hydraulic Generator
+tile.LPElectricPump.name=Low Pressure Electric Pump
+tile.MPElectricPump.name=Medium Pressure Electric Pump
+tile.HPElectricPump.name=High Pressure Electric Pump
+
+#Thermal Expansion
+tile.hydraulicDynamo.name=Hydraulic Dynamo
+tile.LPRFPump.name=Low Pressure Redstone Pump
+tile.MPRFPump.name=Medium Pressure Redstone Pump
+tile.HPRFPump.name=High Pressure Redstone Pump
+
+
+

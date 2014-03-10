@@ -24,7 +24,12 @@ public class HandlerHarvester extends MachineTieredBlockHandler {
 		if(itemStack.getItemDamage() >= Names.blockHydraulicHarvester.length){
 			return "DERP";
 		}
-		return Names.blockHydraulicHarvester[itemStack.getItemDamage()].unlocalized;
+		String unlocalizedName = Names.blockHydraulicHarvester[itemStack.getItemDamage()].unlocalized;
+		if(!unlocalizedName.startsWith("tile.")){
+			unlocalizedName = "tile." + unlocalizedName;
+		}
+		
+		return unlocalizedName;
 	}
 
 }

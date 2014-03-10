@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -225,8 +226,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	
 	@Override
 	public String getInvName() {
-		// TODO Localization
-		return Names.blockHydraulicPump[getTier()].localized;
+		return Localization.getLocalizedName(Names.blockHydraulicPump[getTier()].unlocalized);
 	}
 
 	@Override

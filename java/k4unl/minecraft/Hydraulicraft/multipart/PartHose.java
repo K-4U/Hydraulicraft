@@ -109,7 +109,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     
 	@Override
 	public String getType() {
-		return Names.blockHydraulicHose[0].unlocalized;
+		return "tile." + Names.blockHydraulicHose[0].unlocalized;
 	}
 
 	public void preparePlacement(int itemDamage) {
@@ -449,20 +449,21 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     	}else{
     		Log.error("PartHose does not have a handler!");
     	}
-    	if(world().getTotalWorldTime() % 10 == 0 && hasCheckedSinceStartup == false){
-    		checkConnectedSides();
-    		hasCheckedSinceStartup = true;
-    		//Hack hack hack
-    		//Temporary bug fix that we will forget about
-    	}
-    	
-    	if(world().getTotalWorldTime() % 10 == 0 && !pNetwork.getMachines().contains(this)){
-    		//Dum tie dum tie dum
-    		//If you see this, please step out of this if
-    		// *makes jedi hand motion* You never saw this!
-    		// TODO: figure out why the fuck this code is auto removing itself, without letting me know.
-    		// I Honestly believe it's because of FMP
-    		pNetwork.addMachine(this, pNetwork.getPressure());
+    	if(world() != null){
+	    	if(world().getTotalWorldTime() % 10 == 0 && hasCheckedSinceStartup == false){
+	    		checkConnectedSides();
+	    		hasCheckedSinceStartup = true;
+	    		//Hack hack hack
+	    		//Temporary bug fix that we will forget about
+	    	}
+	    	if(world().getTotalWorldTime() % 10 == 0 && !pNetwork.getMachines().contains(this)){
+	    		//Dum tie dum tie dum
+	    		//If you see this, please step out of this if
+	    		// *makes jedi hand motion* You never saw this!
+	    		// TODO: figure out why the fuck this code is auto removing itself, without letting me know.
+	    		// I Honestly believe it's because of FMP
+	    		pNetwork.addMachine(this, pNetwork.getPressure());
+	    	}
     	}
     	
         if(needToCheckNeighbors) {

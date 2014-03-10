@@ -44,7 +44,7 @@ public class ItemPartHose extends JItemMultiPart
     @Override
     public TMultiPart newPart(ItemStack item, EntityPlayer player, World world, BlockCoord pos, int side, Vector3 vhit)
     {
-        PartHose w = (PartHose) MultiPartRegistry.createPart(Names.blockHydraulicHose[item.getItemDamage()].unlocalized, false);
+        PartHose w = (PartHose) MultiPartRegistry.createPart("tile." + Names.blockHydraulicHose[item.getItemDamage()].unlocalized, false);
         if (w != null)
             w.preparePlacement(item.getItemDamage());
         return w;
@@ -60,7 +60,7 @@ public class ItemPartHose extends JItemMultiPart
 
     @Override
     public String getUnlocalizedName(ItemStack stack){
-        return Names.blockHydraulicHose[stack.getItemDamage()].unlocalized;
+        return "tile." + Names.blockHydraulicHose[stack.getItemDamage()].unlocalized;
     }
 
     @Override
