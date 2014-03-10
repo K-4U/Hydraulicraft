@@ -283,6 +283,13 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 
 	@Override
 	public float getPressure(ForgeDirection from) {
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
+		}
+		if(getNetwork(from) == null){
+			Log.error("Kinetic Pump at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
+			return 0;
+		}
 		return getNetwork(from).getPressure();
 	}
 

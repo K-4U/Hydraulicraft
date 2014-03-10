@@ -407,6 +407,7 @@ public class MachineEntity implements IBaseClass {
 		
 			if(target.getNetwork(ForgeDirection.UP) != null){
 				tagCompound.setFloat("oldPressure", target.getNetwork(ForgeDirection.UP).getPressure());
+				tagCompound.setFloat("pressure", target.getNetwork(ForgeDirection.UP).getPressure());
 			}
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 				if(target.getNetwork(dir) != null){
@@ -415,8 +416,7 @@ public class MachineEntity implements IBaseClass {
 					tagCompound.setCompoundTag("network" + dir.ordinal(), pNetworkCompound);
 				}
 			}
-		}else if(getWorld() != null && getWorld().isRemote){
-			tagCompound.setFloat("pressure", pressure);
+			
 		}
 		
 		if(isMultipart){
@@ -461,6 +461,10 @@ public class MachineEntity implements IBaseClass {
 					//}
 				}
 				
+				if(getWorld().getTotalWorldTime() % 4 == 0){
+					updateBlock();
+				}
+				
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 					if(tTarget instanceof IHydraulicConsumer){
 						IHydraulicConsumer consumer = (IHydraulicConsumer)tTarget;
@@ -484,7 +488,7 @@ public class MachineEntity implements IBaseClass {
 			        		gen.workFunction(dir);
 			        	}
 			        }else if(tTarget instanceof IHydraulicStorage){
-			        	if(tTarget.worldObj.getTotalWorldTime() % 40 == 0 && dir.equals(ForgeDirection.UP)){
+			        	if(getWorld().getTotalWorldTime() % 40 == 0 && dir.equals(ForgeDirection.UP)){
 			    			//Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
 			    		}
 			        }

@@ -237,11 +237,14 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 
 	@Override
 	public float getPressure(ForgeDirection from) {
-		if(getNetwork(from) != null){
-			return getNetwork(from).getPressure();
-		}else{
-			return 0F;
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
 		}
+		if(getNetwork(from) == null){
+			Log.error("Valve at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
+			return 0;
+		}
+		return getNetwork(from).getPressure();
 	}
 
 	@Override

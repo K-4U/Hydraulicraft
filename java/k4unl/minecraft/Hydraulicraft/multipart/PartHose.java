@@ -60,7 +60,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     private boolean needToCheckNeighbors;
     private boolean connectedSidesHaveChanged = true;
     private boolean hasCheckedSinceStartup;
-    private boolean canGoOverMax = false;
     
     
     private int tier = 0;
@@ -145,6 +144,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	
 	@Override
     public void writeDesc(MCDataOutput packet){
+		super.writeDesc(packet);
 		packet.writeInt(getTier());
 		
 		NBTTagCompound mainCompound = new NBTTagCompound();
@@ -186,6 +186,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	
     @Override
     public void readDesc(MCDataInput packet){
+    	super.readDesc(packet);
         tier = packet.readInt();
         
         NBTTagCompound mainCompound = packet.readNBTTagCompound();
@@ -329,7 +330,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
             if(pNetwork != null){
             	oldPressure = pNetwork.getPressure();
             }
-        	getHandler().updateNetworkOnNextTick(oldPressure);
+        	//getHandler().updateNetworkOnNextTick(oldPressure);
         }
     }
     
@@ -585,16 +586,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(pNetwork != null){
 			pNetwork.removeMachine(this);
 		}
-	}
-
-	@Override
-	public boolean getCanGoOverMax() {
-		return canGoOverMax;
-	}
-
-	@Override
-	public void setCanGoOverMax(boolean newValue) {
-		canGoOverMax = newValue;
 	}
 
 	@Override

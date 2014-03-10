@@ -271,8 +271,12 @@ public class TileHydraulicPiston extends TileEntity implements
 
 	@Override
 	public float getPressure(ForgeDirection from) {
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
+		}
 		if(getNetwork(from) == null){
-			return 0f;
+			Log.error("Piston at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
+			return 0;
 		}
 		return getNetwork(from).getPressure();
 	}

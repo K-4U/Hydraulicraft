@@ -287,6 +287,13 @@ public class TileHydraulicGenerator extends TileEntity implements IHydraulicCons
 
 	@Override
 	public float getPressure(ForgeDirection from) {
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
+		}
+		if(getNetwork(from) == null){
+			Log.error("Hydraulic Generator at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
+			return 0;
+		}
 		return getNetwork(from).getPressure();
 	}
 

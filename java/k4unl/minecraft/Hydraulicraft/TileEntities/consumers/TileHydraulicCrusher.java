@@ -432,6 +432,13 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 	
 	@Override
 	public float getPressure(ForgeDirection from) {
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
+		}
+		if(getNetwork(from) == null){
+			Log.error("Crusher at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
+			return 0;
+		}
 		return getNetwork(from).getPressure();
 	}
 

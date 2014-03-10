@@ -709,7 +709,7 @@ public class TileHydraulicWasher extends TileEntity implements
 		}
 		float p = 0;
 		if(pNetwork != null){
-			p = pNetwork.getPressure();
+			getPressure(ForgeDirection.UP);
 		}
 		getHandler().updateNetworkOnNextTick(p);
 	}
@@ -755,11 +755,14 @@ public class TileHydraulicWasher extends TileEntity implements
 	
 	@Override
 	public float getPressure(ForgeDirection from) {
-		if(getNetwork(from) != null){
-			return getNetwork(from).getPressure();
-		}else{
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
+		}
+		if(getNetwork(from) == null){
+			Log.error("Harvester at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
 			return 0;
 		}
+		return getNetwork(from).getPressure();
 	}
 
 	@Override

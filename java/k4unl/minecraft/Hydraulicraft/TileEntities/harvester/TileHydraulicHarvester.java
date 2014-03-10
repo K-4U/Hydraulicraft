@@ -1112,11 +1112,14 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	
 	@Override
 	public float getPressure(ForgeDirection from) {
-		if(getNetwork(from) != null){
-			return getNetwork(from).getPressure();
-		}else{
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
+		}
+		if(getNetwork(from) == null){
+			Log.error("Harvester at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
 			return 0;
 		}
+		return getNetwork(from).getPressure();
 	}
 
 	@Override

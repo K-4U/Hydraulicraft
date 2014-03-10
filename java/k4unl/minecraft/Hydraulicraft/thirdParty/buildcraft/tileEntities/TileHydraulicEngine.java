@@ -53,7 +53,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	}
 	
 	public void setFacing(ForgeDirection newDir){
-		getHandler().updateNetworkOnNextTick(getNetwork(getFacing().getOpposite()).getPressure());
+		getHandler().updateNetworkOnNextTick(getPressure(getFacing()));
 		facing = newDir;
 	}
 	
@@ -287,6 +287,13 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public float getPressure(ForgeDirection from) {
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
+		}
+		if(getNetwork(from) == null){
+			Log.error("Hydraulic engine at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
+			return 0;
+		}
 		return getNetwork(from).getPressure();
 	}
 

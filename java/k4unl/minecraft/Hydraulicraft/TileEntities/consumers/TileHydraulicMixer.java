@@ -417,6 +417,14 @@ public class TileHydraulicMixer extends TileEntity implements
 	
 	@Override
 	public float getPressure(ForgeDirection from) {
+		if(worldObj == null) return 0F;
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
+		}
+		if(getNetwork(from) == null){
+			Log.error("Mixer at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
+			return 0;
+		}
 		return getNetwork(from).getPressure();
 	}
 
