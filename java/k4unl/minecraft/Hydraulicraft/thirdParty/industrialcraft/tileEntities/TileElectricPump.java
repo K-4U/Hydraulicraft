@@ -41,10 +41,6 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	@Override
 	public void updateEntity(){
 		getHandler().updateEntity();
-		if(isFirst){
-			isFirst = false;
-			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
-		}
 	}
 	
 	@Override
@@ -334,7 +330,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	
 	@Override
 	public void firstTick() {
-		
+		MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 	}
 	
 	@Override
@@ -370,10 +366,10 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 		if(endNetwork != null){
 			pNetwork = endNetwork;
 			pNetwork.addMachine(this, oldPressure);
-			Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure);
-			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}
 }

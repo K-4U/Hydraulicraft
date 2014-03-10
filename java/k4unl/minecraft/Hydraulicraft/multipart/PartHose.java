@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
+import ic2.api.energy.event.EnergyTileUnloadEvent;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -25,6 +27,7 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 import org.lwjgl.opengl.GL11;
@@ -123,6 +126,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			getHandler().readFromNBT(tagCompound);
 		tier = tagCompound.getInteger("tier");
 		
+		float oldPressure = 0F;
+        if(pNetwork != null){
+        	oldPressure = pNetwork.getPressure();
+        }
+		getHandler().updateNetworkOnNextTick(oldPressure);
 		//checkConnectedSides();
 		readConnectedSidesFromNBT(tagCompound);
 	}
@@ -285,13 +293,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     	}else{
     		return false;
     	}
-    	/*if(connectedSides == null){
-    		checkConnectedSides();
-    	}
-    	if(connectedSideFlags == null){
-    		return false;
-    	}
-    	return connectedSides.containsKey(side);*/
     }
     
     public void checkConnectedSides(){
@@ -322,9 +323,14 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     
     public void onNeighborChanged(){
         checkConnectedSides();
-        getHandler().updateFluidOnNextTick();
-        //Functions.checkAndFillSideBlocks(world(), x(), y(), z());
-        //getHandler().disperse();
+        if(!world().isRemote){
+        	getHandler().updateFluidOnNextTick();
+        	float oldPressure = 0F;
+            if(pNetwork != null){
+            	oldPressure = pNetwork.getPressure();
+            }
+        	getHandler().updateNetworkOnNextTick(oldPressure);
+        }
     }
     
     public ItemStack getItem(){
@@ -334,6 +340,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     @Override
     public void onPartChanged(TMultiPart part){
         checkConnectedSides();
+        getHandler().updateFluidOnNextTick();
+        float oldPressure = 0F;
+        if(pNetwork != null){
+        	oldPressure = pNetwork.getPressure();
+        }
+		getHandler().updateNetworkOnNextTick(oldPressure);
     }
     
     @Override
@@ -456,12 +468,13 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	    		//Hack hack hack
 	    		//Temporary bug fix that we will forget about
 	    	}
-	    	if(world().getTotalWorldTime() % 10 == 0 && !pNetwork.getMachines().contains(this)){
+	    	if(world().getTotalWorldTime() % 10 == 0 && pNetwork != null && !pNetwork.getMachines().contains(this)){
 	    		//Dum tie dum tie dum
 	    		//If you see this, please step out of this if
 	    		// *makes jedi hand motion* You never saw this!
 	    		// TODO: figure out why the fuck this code is auto removing itself, without letting me know.
 	    		// I Honestly believe it's because of FMP
+	    		//getHandler().updateNetworkOnNextTick(pNetwork.getPressure());
 	    		pNetwork.addMachine(this, pNetwork.getPressure());
 	    	}
     	}
@@ -514,6 +527,13 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
 	@Override
 	public float getPressure(ForgeDirection from) {
+		if(world().isRemote){
+			return getHandler().getPressure();
+		}
+		if(getNetwork(from) == null){
+			Log.error("PVAT at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
+			return 0;
+		}
 		return getNetwork(from).getPressure();
 	}
 
@@ -524,14 +544,39 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
 	@Override
 	public void updateNetwork(float oldPressure) {
-		PressureNetwork newNetwork = PressureNetwork.getNearestNetwork(world(), x(), y(), z());
-		if(newNetwork != null){
-			pNetwork = newNetwork;
+		PressureNetwork newNetwork = null;
+		PressureNetwork foundNetwork = null;
+		PressureNetwork endNetwork = null;
+		//This block can merge networks!
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			/*if(!isConnectedTo(dir)){
+				continue;
+			}*/
+			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), dir);
+			if(foundNetwork != null){
+				if(endNetwork == null){
+					endNetwork = foundNetwork;
+				}else{
+					newNetwork = foundNetwork;
+				}
+			}
+			
+			if(newNetwork != null && endNetwork != null){
+				//Hmm.. More networks!? What's this!?
+				Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+				endNetwork.mergeNetwork(newNetwork);
+				newNetwork = null;
+			}
+			
+		}
+			
+		if(endNetwork != null){
+			pNetwork = endNetwork;
 			pNetwork.addMachine(this, oldPressure);
-			Log.info("Hose: Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+			Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure);
-			Log.info("Hose: Created a new network @ " + x() + "," + y() + "," + z());
+			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}
 	}
 	
@@ -552,5 +597,24 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		canGoOverMax = newValue;
 	}
 
+	@Override
+    public void onChunkUnload(){
+        super.onChunkUnload();
+        float oldPressure = 0F;
+        if(pNetwork != null){
+        	oldPressure = pNetwork.getPressure();
+        }
+        //getHandler().updateNetworkOnNextTick(pNetwork.getPressure());
+    }
+	
+	@Override
+	public void onChunkLoad(){
+		super.onChunkLoad();
+		float oldPressure = 0F;
+        if(pNetwork != null){
+        	oldPressure = pNetwork.getPressure();
+        }
+		getHandler().updateNetworkOnNextTick(oldPressure);
+	}
 	
 }

@@ -7,8 +7,10 @@ import java.util.Random;
 import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
+import net.minecraft.block.BlockLockedChest;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -33,7 +35,7 @@ public class PressureNetwork {
 	}
 	
 	public void addMachine(IHydraulicMachine machine, float pressureToAdd){
-		if(!machines.contains(machine)){
+		if(!machines.contains(machine.getHandler().getBlockLocation())){
 			float oPressure = pressure * machines.size();
 			oPressure += pressureToAdd;
 			machines.add(machine);
@@ -43,8 +45,8 @@ public class PressureNetwork {
 	}
 	
 	public void removeMachine(IHydraulicMachine machineToRemove){
-		if(machines.contains(machineToRemove)){
-			machines.remove(machineToRemove);
+		if(machines.contains(machineToRemove.getHandler().getBlockLocation())){
+			machines.remove(machineToRemove.getHandler().getBlockLocation());
 		}
 		//And tell every machine in the block to recheck it's network! :D
 		//Note, this might cost a bit of time..
@@ -69,8 +71,12 @@ public class PressureNetwork {
 	}
 	
 	public void mergeNetwork(PressureNetwork toMerge){
+		Log.info("Trying to merge network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
+		if(toMerge.equals(this)) return;
+		
 		float newPressure = ((pressure - toMerge.getPressure()) / 2) + toMerge.getPressure();
 		setPressure(newPressure);
+
 		for(IHydraulicMachine machine : toMerge.getMachines()){
 			machine.setNetwork(ForgeDirection.UNKNOWN, this);
 			this.addMachine(machine, newPressure);

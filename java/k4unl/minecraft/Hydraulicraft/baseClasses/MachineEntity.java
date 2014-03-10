@@ -36,6 +36,8 @@ import codechicken.microblock.FaceMicroblock;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
 import cpw.mods.fml.common.LoadController;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class MachineEntity implements IBaseClass {
 	private boolean _isOilStored = false;
@@ -44,6 +46,7 @@ public class MachineEntity implements IBaseClass {
 	private int fluidTotalCapacity = 0;
 	private boolean isRedstonePowered = false;
 	
+	private float pressure = 0F;
 	
 	private boolean isMultipart;
 	private World tWorld;
@@ -54,9 +57,10 @@ public class MachineEntity implements IBaseClass {
 	
 	private boolean hasOwnFluidTank;
 	private boolean firstUpdate = true;
+	private float oldPressure = 0f;
+	
 	private boolean shouldUpdateNetwork = true;
 	private boolean shouldUpdateFluid = false;
-	private float oldPressure = 0f;
 	
 	public MachineEntity(TileEntity _target) {
 		tTarget = _target;
@@ -133,6 +137,7 @@ public class MachineEntity implements IBaseClass {
 		}
     }
 
+	@SideOnly(Side.SERVER)
 	public void setPressure(float newPressure, ForgeDirection dir){
 		if(getWorld() == null) return;
 		if(getWorld().isRemote) return;
@@ -193,36 +198,7 @@ public class MachineEntity implements IBaseClass {
 	}
 	
 	public void disperse(){
-		/*
-		//Scan blocks
-		int fluidLevel = getStored();
-		List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
-		machines.add(target);
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			IHydraulicMachine machine = getMachine(dir);
-			if(machine != null){
-				if(machine.getHandler().getStored() < getStored()){
-					if(machine.getHandler().getStored() < machine.getMaxStorage()){
-						fluidLevel += machine.getHandler().getStored();
-						machines.add(machine);
-					}
-				}else{
-					if(machine instanceof IHydraulicTransporter){
-						IHydraulicTransporter trans = (IHydraulicTransporter)machine;
-						if(trans.getCanGoOverMax()){
-							
-						}
-					}
-				}
-			}
-		}
-		if(machines.size() > 0){
-			fluidLevel = fluidLevel / machines.size();
-			
-			for(IHydraulicMachine machine : machines){
-				machine.getHandler().setStored(fluidLevel, isOilStored());
-			}
-		}*/
+		
 	}
 	
 	public void setStored(int i, boolean isOil, boolean doNotify){
@@ -241,7 +217,7 @@ public class MachineEntity implements IBaseClass {
 			target.onFluidLevelChanged(fluidLevelStored);
 			if(fluidLevelStored != i && doNotify == true){
 				//if new = 0 that probably means me setting it like that..
-				shouldUpdateFluid = true;
+				//shouldUpdateFluid = true;
 			}
 			fluidLevelStored = i;
 		}
@@ -316,8 +292,8 @@ public class MachineEntity implements IBaseClass {
 		if(target.getNetwork(ForgeDirection.UNKNOWN) == null){
 			return mainList;
 		}
-		return target.getNetwork(ForgeDirection.UNKNOWN).getMachines();
-		//return getConnectedBlocks(mainList, true);
+		
+		return target.getNetwork(ForgeDirection.UP).getMachines();
 	}
 	
 	public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList, boolean chain){
@@ -384,7 +360,6 @@ public class MachineEntity implements IBaseClass {
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
-		
 		fluidLevelStored = tagCompound.getInteger("fluidLevelStored");
 		
 		_isOilStored = tagCompound.getBoolean("isOilStored");
@@ -393,16 +368,20 @@ public class MachineEntity implements IBaseClass {
 		
 		oldPressure = tagCompound.getFloat("oldPressure");
 		
-		shouldUpdateNetwork = tagCompound.getBoolean("shouldUpdateNetwork");
-		if(shouldUpdateNetwork){
-			updateNetworkOnNextTick(oldPressure);
-		}
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			if(target.getNetwork(dir) != null){
-				target.getNetwork(dir).readFromNBT(tagCompound.getCompoundTag("network" + dir.ordinal()));
-			}else{
-				//updateNetworkOnNextTick(oldPressure);
+		if(getWorld() != null && !getWorld().isRemote){
+			shouldUpdateNetwork = tagCompound.getBoolean("shouldUpdateNetwork");
+			if(shouldUpdateNetwork){
+				updateNetworkOnNextTick(oldPressure);
 			}
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+				if(target.getNetwork(dir) != null){
+					target.getNetwork(dir).readFromNBT(tagCompound.getCompoundTag("network" + dir.ordinal()));
+				}else{
+					//updateNetworkOnNextTick(oldPressure);
+				}
+			}
+		}else if(getWorld() != null && getWorld().isRemote){
+			pressure = tagCompound.getFloat("pressure");
 		}
 
 		isRedstonePowered = tagCompound.getBoolean("isRedstonePowered");
@@ -423,17 +402,21 @@ public class MachineEntity implements IBaseClass {
 		
 		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
 		
-		tagCompound.setBoolean("shouldUpdateNetwork", shouldUpdateNetwork);
+		if(getWorld() != null && !getWorld().isRemote){
+			tagCompound.setBoolean("shouldUpdateNetwork", shouldUpdateNetwork);
 		
-		if(target.getNetwork(ForgeDirection.UP) != null){
-			tagCompound.setFloat("oldPressure", target.getNetwork(ForgeDirection.UP).getPressure());
-		}
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			if(target.getNetwork(dir) != null){
-				NBTTagCompound pNetworkCompound = new NBTTagCompound();
-				target.getNetwork(dir).writeToNBT(pNetworkCompound);
-				tagCompound.setCompoundTag("network" + dir.ordinal(), pNetworkCompound);
+			if(target.getNetwork(ForgeDirection.UP) != null){
+				tagCompound.setFloat("oldPressure", target.getNetwork(ForgeDirection.UP).getPressure());
 			}
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+				if(target.getNetwork(dir) != null){
+					NBTTagCompound pNetworkCompound = new NBTTagCompound();
+					target.getNetwork(dir).writeToNBT(pNetworkCompound);
+					tagCompound.setCompoundTag("network" + dir.ordinal(), pNetworkCompound);
+				}
+			}
+		}else if(getWorld() != null && getWorld().isRemote){
+			tagCompound.setFloat("pressure", pressure);
 		}
 		
 		if(isMultipart){
@@ -465,20 +448,18 @@ public class MachineEntity implements IBaseClass {
 			shouldUpdateNetwork = true;
 			target.firstTick();
 		}
-		if(shouldUpdateNetwork){
-			shouldUpdateNetwork = false;
-			target.updateNetwork(oldPressure);
-		}
-		if(shouldUpdateFluid && tWorld != null){
-			//if(target instanceof TileHydraulicPressureVat){
-			shouldUpdateFluid = false;
-			Functions.checkAndFillSideBlocks(tWorld, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
-			//}
-		}
 		if(getWorld() != null){
 			if(!getWorld().isRemote){
-				//disperse();
-				
+				if(shouldUpdateNetwork){
+					shouldUpdateNetwork = false;
+					target.updateNetwork(oldPressure);
+				}
+				if(shouldUpdateFluid && getWorld().getTotalWorldTime() % 10 == 0){
+					//if(target instanceof TileHydraulicPressureVat){
+					shouldUpdateFluid = false;
+					Functions.checkAndFillSideBlocks(tWorld, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
+					//}
+				}
 				
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 					if(tTarget instanceof IHydraulicConsumer){
@@ -569,13 +550,22 @@ public class MachineEntity implements IBaseClass {
 
 	@Override
 	public void updateNetworkOnNextTick(float oldPressure) {
-		shouldUpdateNetwork = true;
-		this.oldPressure = oldPressure;
-		updateBlock();
+		if(getWorld() != null && !getWorld().isRemote){
+			shouldUpdateNetwork = true;
+			this.oldPressure = oldPressure;
+			updateBlock();
+		}
 	}
 
 	@Override
 	public void updateFluidOnNextTick() {
-		shouldUpdateFluid = true;
+		if(!getWorld().isRemote){
+			shouldUpdateFluid = true;
+		}
+	}
+
+	@Override
+	public float getPressure() {
+		return pressure;
 	}
 }

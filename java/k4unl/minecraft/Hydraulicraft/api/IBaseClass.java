@@ -2,11 +2,13 @@ package k4unl.minecraft.Hydraulicraft.api;
 
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.world.IBlockAccess;
 
 /**
  * DO NOT IMPLEMENT THIS INTERFACE!
@@ -126,4 +128,10 @@ public interface IBaseClass {
 			List<IHydraulicMachine> mainList);
 
 	public void updateFluidOnNextTick();
+	
+	public Location getBlockLocation();
+
+	public IBlockAccess getWorld();
+
+	public float getPressure();
 }

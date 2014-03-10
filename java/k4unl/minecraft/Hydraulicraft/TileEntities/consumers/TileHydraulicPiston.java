@@ -271,6 +271,9 @@ public class TileHydraulicPiston extends TileEntity implements
 
 	@Override
 	public float getPressure(ForgeDirection from) {
+		if(getNetwork(from) == null){
+			return 0f;
+		}
 		return getNetwork(from).getPressure();
 	}
 
@@ -311,10 +314,10 @@ public class TileHydraulicPiston extends TileEntity implements
 		if(endNetwork != null){
 			pNetwork = endNetwork;
 			pNetwork.addMachine(this, oldPressure);
-			Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure);
-			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}
 	

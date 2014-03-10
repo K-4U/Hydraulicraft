@@ -206,14 +206,14 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 				getTarget().setNetwork(ForgeDirection.UP, pNetwork);
 				pNetwork.addMachine(getTarget(), oldPressure);
 			}
-			Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure);
 			if(getTarget() != null){
 				getTarget().setNetwork(ForgeDirection.UP, pNetwork);
 				pNetwork.addMachine(getTarget(), oldPressure);
 			}
-			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}
 	}
 	

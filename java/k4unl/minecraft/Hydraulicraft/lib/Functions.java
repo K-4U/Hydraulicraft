@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
@@ -163,6 +160,7 @@ public class Functions {
 			if(t instanceof IHydraulicMachine){
 				List <IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
 				mainList = ((IHydraulicMachine) t).getNetwork(ForgeDirection.UP).getMachines();
+				
 				//mainList.add((IHydraulicMachine)t);
 				//mainList = ((IHydraulicMachine)t).getHandler().getConnectedBlocks(mainList);
 				
@@ -188,10 +186,9 @@ public class Functions {
 					mEnt = (IHydraulicMachine) t;
 				}
 				
-				List <IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
-				//mainList.add(mEnt);
-				//mainList = mEnt.getHandler().getConnectedBlocks(mainList);
 				if(mEnt.getNetwork(ForgeDirection.UP) == null) return;
+
+				List <IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
 				mainList = mEnt.getNetwork(ForgeDirection.UP).getMachines();
 				
 				//Log.info("Iteration done. " + mainList.size() + " machines found");

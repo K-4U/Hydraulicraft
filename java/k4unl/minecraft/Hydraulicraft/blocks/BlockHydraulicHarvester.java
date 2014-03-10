@@ -209,6 +209,8 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
             }
             
             setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        }else{
+        	setBlockBounds(0,0,0,1,1,1);
         }
     }
 
@@ -235,6 +237,9 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
             
             super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
             setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        }else{
+        	super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
+        	setBlockBounds(0,0,0,1,1,1);
         }
     }
 	

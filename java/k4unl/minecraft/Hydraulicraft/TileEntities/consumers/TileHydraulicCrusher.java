@@ -483,10 +483,10 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 		if(endNetwork != null){
 			pNetwork = endNetwork;
 			pNetwork.addMachine(this, oldPressure);
-			Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure);
-			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}
 

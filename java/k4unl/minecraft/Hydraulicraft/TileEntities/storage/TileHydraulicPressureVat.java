@@ -226,14 +226,14 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 			getHandler().updateFluidOnNextTick();
 		}else if((getHandler().getFluidInSystem() + resource.amount) < getHandler().getTotalFluidCapacity()){
 			if(doFill){
-				//getHandler().updateFluidOnNextTick();
-				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getFluidInSystem() + resource.amount, getHandler().isOilStored());
+				getHandler().updateFluidOnNextTick();
+				//Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getFluidInSystem() + resource.amount, getHandler().isOilStored());
 			}
 			filled = resource.amount;
 		}else if(getHandler().getFluidInSystem() < getHandler().getTotalFluidCapacity()) {
 			if(doFill){
 				getHandler().updateFluidOnNextTick();
-				Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getTotalFluidCapacity(), getHandler().isOilStored());
+				//Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getTotalFluidCapacity(), getHandler().isOilStored());
 			}
 			filled = getHandler().getTotalFluidCapacity() - getHandler().getFluidInSystem();
 		}else{
@@ -298,17 +298,21 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		}
 		return tank.getFluidAmount();
 	}
-
+	
 	@Override
 	public void setStored(int i, boolean isOil) {
 		if(isOil){
-			tank.setFluid(null);
-			tank.setFluid(new FluidStack(Fluids.fluidOil, i));
+			if(i == 0){
+				tank.setFluid(null);
+			}else{
+				tank.setFluid(new FluidStack(Fluids.fluidOil, i));
+			}
 		}else{
 			if(i == 0){
 				tank.setFluid(null);
+			}else{
+				tank.setFluid(new FluidStack(FluidRegistry.WATER, i));
 			}
-			tank.setFluid(new FluidStack(FluidRegistry.WATER, i));
 			//Log.info("Fluid in tank: " + tank.getFluidAmount() + "x" + FluidRegistry.getFluidName(tank.getFluid().fluidID));
 			//if(!worldObj.isRemote){
 			
@@ -480,7 +484,11 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	
 	@Override
 	public float getPressure(ForgeDirection from) {
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
+		}
 		if(getNetwork(from) == null){
+			Log.error("PVAT at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
 			return 0;
 		}
 		return getNetwork(from).getPressure();
@@ -493,6 +501,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	
 	@Override
 	public void updateNetwork(float oldPressure) {
+		if(worldObj.isRemote) return;
 		PressureNetwork newNetwork = null;
 		PressureNetwork foundNetwork = null;
 		PressureNetwork endNetwork = null;
@@ -518,18 +527,20 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		if(endNetwork != null){
 			pNetwork = endNetwork;
 			pNetwork.addMachine(this, oldPressure);
-			Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure);
-			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}
 	
 	@Override
 	public void invalidate(){
 		super.invalidate();
-		for(ForgeDirection dir: connectedSides){
-			getNetwork(dir).removeMachine(this);
+		if(!worldObj.isRemote){
+			for(ForgeDirection dir: connectedSides){
+				getNetwork(dir).removeMachine(this);
+			}
 		}
 	}
 }

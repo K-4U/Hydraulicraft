@@ -25,6 +25,8 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	private IBaseClass baseHandler;
 	private EnergyStorage energyStorage;
 	private ForgeDirection facing = ForgeDirection.NORTH;
+
+	private int tier = -1;
 	
 	private PressureNetwork pNetwork;
 	
@@ -126,9 +128,9 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 
 
     public int getTier(){
-    	if(worldObj != null)
-    		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-    	return 0;
+    	if(tier == -1)
+    		tier = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+    	return tier;
     }
 	
 
@@ -178,6 +180,10 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 
 		isRunning = tagCompound.getBoolean("isRunning");
+		tier = tagCompound.getInteger("tier");
+		if(tier != -1){
+			energyStorage = null;
+		}
 		getEnergyStorage().readFromNBT(tagCompound);
 	}
 
@@ -187,6 +193,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setBoolean("isRunning", isRunning);
+		tagCompound.setInteger("tier", tier);
 		getEnergyStorage().writeToNBT(tagCompound);
 	}
 
@@ -264,7 +271,9 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	}
 
 	public void setFacing(ForgeDirection rotation) {
-		getHandler().updateNetworkOnNextTick(getNetwork(getFacing()).getPressure());
+		if(!worldObj.isRemote){
+			getHandler().updateNetworkOnNextTick(getNetwork(getFacing()).getPressure());
+		}
 		facing = rotation;
 	}
 	
@@ -292,6 +301,13 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	
 	@Override
 	public float getPressure(ForgeDirection from) {
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
+		}
+		if(getNetwork(from) == null){
+			Log.error("RF Pump at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
+			return 0;
+		}
 		return getNetwork(from).getPressure();
 	}
 
@@ -314,10 +330,10 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		if(endNetwork != null){
 			pNetwork = endNetwork;
 			pNetwork.addMachine(this, oldPressure);
-			Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure);
-			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}
 }
