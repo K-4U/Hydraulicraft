@@ -328,6 +328,10 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		tCompound.removeTag("z");
 		tCompound.removeTag("id");
 		
+		tCompound.setBoolean("hasBeenPlaced", true);
+		tCompound.setInteger("maxStorage", getMaxStorage());
+		tCompound.setFloat("maxPressure", getMaxPressure(getHandler().isOilStored(), ForgeDirection.UP));
+		tCompound.setFloat("oldPressure", getPressure(ForgeDirection.UP));
 		ourEnt.setTagCompound(tCompound);
 		getHandler().dropItemStackInWorld(ourEnt);
 	}

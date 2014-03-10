@@ -114,6 +114,9 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 				//This means the pressure we are generating is too much!
 				gen = getMaxPressure(getHandler().isOilStored(), null) - getPressure(getFacing());
 			}
+			if(Float.compare(gen, getMaxGenerating(from)) > 0){
+				gen = getMaxGenerating(from);
+			}
 			
 			return gen; 
 		}else{
@@ -306,7 +309,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	public void updateNetwork(float oldPressure) {
 		PressureNetwork endNetwork = null;
 
-		endNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, getFacing().getOpposite());
+		endNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, getFacing());
 			
 		if(endNetwork != null){
 			pNetwork = endNetwork;

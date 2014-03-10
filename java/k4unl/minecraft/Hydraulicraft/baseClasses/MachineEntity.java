@@ -394,11 +394,14 @@ public class MachineEntity implements IBaseClass {
 		oldPressure = tagCompound.getFloat("oldPressure");
 		
 		shouldUpdateNetwork = tagCompound.getBoolean("shouldUpdateNetwork");
+		if(shouldUpdateNetwork){
+			updateNetworkOnNextTick(oldPressure);
+		}
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			if(target.getNetwork(dir) != null){
 				target.getNetwork(dir).readFromNBT(tagCompound.getCompoundTag("network" + dir.ordinal()));
 			}else{
-				updateNetworkOnNextTick(oldPressure);
+				//updateNetworkOnNextTick(oldPressure);
 			}
 		}
 
@@ -422,15 +425,16 @@ public class MachineEntity implements IBaseClass {
 		
 		tagCompound.setBoolean("shouldUpdateNetwork", shouldUpdateNetwork);
 		
+		if(target.getNetwork(ForgeDirection.UP) != null){
+			tagCompound.setFloat("oldPressure", target.getNetwork(ForgeDirection.UP).getPressure());
+		}
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			if(target.getNetwork(dir) != null){
 				NBTTagCompound pNetworkCompound = new NBTTagCompound();
 				target.getNetwork(dir).writeToNBT(pNetworkCompound);
 				tagCompound.setCompoundTag("network" + dir.ordinal(), pNetworkCompound);
-				tagCompound.setFloat("oldPressure", target.getNetwork(dir).getPressure());
 			}
 		}
-		
 		
 		if(isMultipart){
 			((IHydraulicMachine)tMp).writeNBT(tagCompound);
