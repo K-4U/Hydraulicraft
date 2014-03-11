@@ -25,7 +25,11 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	private IBaseClass baseHandler;
 	private EnergyStorage energyStorage;
 	private ForgeDirection facing = ForgeDirection.NORTH;
-
+	private int RFUsage = 0;
+	
+	private int fluidInNetwork;
+	private int networkCapacity;
+	
 	private int tier = -1;
 	
 	private PressureNetwork pNetwork;
@@ -67,9 +71,12 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			needsUpdate = true;
 			if(Float.compare(getGenerating(ForgeDirection.UP), 0.0F) > 0){
 				setPressure(getPressure(getFacing()) + getGenerating(ForgeDirection.UP), getFacing());
-				getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], false);
+				getEnergyStorage().extractEnergy(RFUsage, false);
 				isRunning = true;
 			}else{
+				if(getHandler().getRedstonePowered()){
+					getEnergyStorage().extractEnergy(RFUsage, false);
+				}
 				isRunning = false;
 			}
 		}
@@ -105,21 +112,28 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 
 	@Override
 	public float getGenerating(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered()) return 0f;
-		int extractedEnergy = getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], true);
+		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0){
+			RFUsage = 0;
+			return 0f;
+		}
+		RFUsage = getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], true);
 		
 		if(getEnergyStorage().getEnergyStored() > Constants.MIN_REQUIRED_RF){
-			float gen = extractedEnergy * Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
-			gen = gen * (getHandler().getStored() / getMaxStorage());
+			float gen = RFUsage * Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
+			gen = gen * (getFluidInNetwork(from) / getFluidCapacity(from));
 			
-			if(Float.compare(gen + getPressure(getFacing()), getMaxPressure(getHandler().isOilStored(), null)) > 0){
+			if(Float.compare(gen + getPressure(from), getMaxPressure(getHandler().isOilStored(), from)) > 0){
 				//This means the pressure we are generating is too much!
-				gen = getMaxPressure(getHandler().isOilStored(), null) - getPressure(getFacing());
+				gen = getMaxPressure(getHandler().isOilStored(), from) - getPressure(from);
 			}
 			if(Float.compare(gen, getMaxGenerating(from)) > 0){
 				gen = getMaxGenerating(from);
 			}
 			
+			RFUsage = (int)(gen * (getFluidInNetwork(from) / getFluidCapacity(from)) / Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
+			if(RFUsage == 0){
+				RFUsage = 2;
+			}
 			return gen; 
 		}else{
 			return 0;
@@ -179,6 +193,10 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		super.readFromNBT(tagCompound);
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 
+		networkCapacity = tagCompound.getInteger("networkCapacity");
+		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
+		RFUsage = tagCompound.getInteger("RFUsage");
+		
 		isRunning = tagCompound.getBoolean("isRunning");
 		tier = tagCompound.getInteger("tier");
 		if(tier != -1){
@@ -194,6 +212,11 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setBoolean("isRunning", isRunning);
 		tagCompound.setInteger("tier", tier);
+		
+		tagCompound.setInteger("networkCapacity", getNetwork(getFacing()).getFluidCapacity());
+		tagCompound.setInteger("fluidInNetwork", getNetwork(getFacing()).getFluidInNetwork());
+		tagCompound.setInteger("RFUsage", RFUsage);
+		
 		getEnergyStorage().writeToNBT(tagCompound);
 	}
 
@@ -335,5 +358,30 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			pNetwork = new PressureNetwork(this, oldPressure);
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
+	}
+
+	
+	public int getRFUsage(){
+		return RFUsage;
+	}
+	
+	@Override
+	public int getFluidInNetwork(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return fluidInNetwork;
+		}else{
+			return getNetwork(from).getFluidInNetwork();
+		}
+	}
+
+	@Override
+	public int getFluidCapacity(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return networkCapacity;
+		}else{
+			return getNetwork(from).getFluidCapacity();
+		}
 	}
 }

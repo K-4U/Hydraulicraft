@@ -224,18 +224,18 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		}
 		if(doFill && filled > 10){
 			getHandler().updateFluidOnNextTick();
-		}else if((getNetwork(from).getFluidInNetwork() + resource.amount) < getNetwork(from).getFluidCapacity()){
-			if(doFill){
-				getHandler().updateFluidOnNextTick();
+		}else if(getNetwork(from) != null){
+			if((getNetwork(from).getFluidInNetwork() + resource.amount) < getNetwork(from).getFluidCapacity()){
+				if(doFill){
+					getHandler().updateFluidOnNextTick();
+				}
+				filled = resource.amount;
+			}else if(getNetwork(from).getFluidInNetwork() < getNetwork(from).getFluidCapacity()) {
+				if(doFill){
+					getHandler().updateFluidOnNextTick();
+				}
+				filled = getNetwork(from).getFluidCapacity() - getNetwork(from).getFluidInNetwork();
 			}
-			filled = resource.amount;
-		}else if(getNetwork(from).getFluidInNetwork() < getNetwork(from).getFluidCapacity()) {
-			if(doFill){
-				getHandler().updateFluidOnNextTick();
-			}
-			filled = getNetwork(from).getFluidCapacity() - getNetwork(from).getFluidInNetwork();
-		}else{
-			//filled = 0;
 		}
 		return filled;
 		
@@ -539,6 +539,25 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 			for(ForgeDirection dir: connectedSides){
 				getNetwork(dir).removeMachine(this);
 			}
+		}
+	}
+	@Override
+	public int getFluidInNetwork(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidInNetwork();
+		}
+	}
+
+	@Override
+	public int getFluidCapacity(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidCapacity();
 		}
 	}
 }

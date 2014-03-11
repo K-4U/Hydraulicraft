@@ -313,6 +313,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 		return ic2EnergyStored;
 	}
 
+
 	@Override
 	public PressureNetwork getNetwork(ForgeDirection side) {
 		if(pNetwork == null && worldObj != null){
@@ -374,5 +375,24 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 			pNetwork = new PressureNetwork(this, oldPressure);
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
+	}
+	@Override
+	public int getFluidInNetwork(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidInNetwork();
+		}
+	}
+
+	@Override
+	public int getFluidCapacity(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidCapacity();
+		}
 	}
 }

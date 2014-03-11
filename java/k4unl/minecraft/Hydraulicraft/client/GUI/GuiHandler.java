@@ -16,10 +16,19 @@ import k4unl.minecraft.Hydraulicraft.containers.ContainerPressureVat;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerPump;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerWasher;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.GUI.GuiHydraulicEngine;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.GUI.GuiKineticPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.GUI.GuiElectricPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.GUI.GuiHydraulicGenerator;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.client.GUI.GuiPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.containers.ContainerPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiThermalExpansion;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiHydraulicDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiRFPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import net.minecraft.entity.player.EntityPlayer;
@@ -67,8 +76,28 @@ public class GuiHandler implements IGuiHandler {
 				if(ent instanceof TileHydraulicHarvester){
 					return new ContainerHarvester(player.inventory, (TileHydraulicHarvester)ent);
 				}
-			}else if(ID == Ids.GUIThermalExpansion.act){
-				if(ent instanceof TileHydraulicDynamo || ent instanceof TileRFPump){
+			}else if(ID == Ids.GUIHydraulicDynamo.act){
+				if(ent instanceof TileHydraulicDynamo){
+					return new ContainerEmpty(player.inventory);
+				}
+			}else if(ID == Ids.GUIRFPump.act){
+				if(ent instanceof TileRFPump){
+					return new ContainerEmpty(player.inventory);
+				}
+			}else if(ID == Ids.GUIHydraulicGenerator.act){
+				if(ent instanceof TileHydraulicGenerator){
+					return new ContainerEmpty(player.inventory);
+				}
+			}else if(ID == Ids.GUIElecticPump.act){
+				if(ent instanceof TileElectricPump){
+					return new ContainerEmpty(player.inventory);
+				}
+			}else if(ID == Ids.GUIHydraulicEngine.act){
+				if(ent instanceof TileHydraulicEngine){
+					return new ContainerEmpty(player.inventory);
+				}
+			}else if(ID == Ids.GUIKineticPump.act){
+				if(ent instanceof TileKineticPump){
 					return new ContainerEmpty(player.inventory);
 				}
 			}
@@ -116,9 +145,29 @@ public class GuiHandler implements IGuiHandler {
 				if(ent instanceof TileHydraulicHarvester){
 					return new GuiHarvester(player.inventory, (TileHydraulicHarvester)ent);
 				}
-			}else if(ID == Ids.GUIThermalExpansion.act){
-				if(ent instanceof TileHydraulicDynamo || ent instanceof TileRFPump){
-					return new GuiThermalExpansion(player.inventory, ent);
+			}else if(ID == Ids.GUIHydraulicDynamo.act){
+				if(ent instanceof TileHydraulicDynamo){
+					return new GuiHydraulicDynamo(player.inventory, ent);
+				}
+			}else if(ID == Ids.GUIRFPump.act){
+				if(ent instanceof TileRFPump){
+					return new GuiRFPump(player.inventory, ent);
+				}
+			}else if(ID == Ids.GUIHydraulicGenerator.act){
+				if(ent instanceof TileHydraulicGenerator){
+					return new GuiHydraulicGenerator(player.inventory, ent);
+				}
+			}else if(ID == Ids.GUIElecticPump.act){
+				if(ent instanceof TileElectricPump){
+					return new GuiElectricPump(player.inventory, ent);
+				}
+			}else if(ID == Ids.GUIHydraulicEngine.act){
+				if(ent instanceof TileHydraulicEngine){
+					return new GuiHydraulicEngine(player.inventory, ent);
+				}
+			}else if(ID == Ids.GUIKineticPump.act){
+				if(ent instanceof TileKineticPump){
+					return new GuiKineticPump(player.inventory, ent);
 				}
 			}
 		}

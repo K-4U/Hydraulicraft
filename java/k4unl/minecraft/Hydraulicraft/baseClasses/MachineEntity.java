@@ -436,12 +436,12 @@ public class MachineEntity implements IBaseClass {
 					shouldUpdateNetwork = false;
 					target.updateNetwork(oldPressure);
 				}
-				if(shouldUpdateFluid && getWorld().getTotalWorldTime() % 10 == 0){
+				if(shouldUpdateFluid && getWorld().getTotalWorldTime() % 5 == 0){
 					shouldUpdateFluid = false;
 					target.getNetwork(ForgeDirection.UNKNOWN).updateFluid(target);
 				}
 				
-				if(getWorld().getTotalWorldTime() % 4 == 0){
+				if(getWorld().getTotalWorldTime() % 2 == 0){
 					updateBlock();
 				}
 				

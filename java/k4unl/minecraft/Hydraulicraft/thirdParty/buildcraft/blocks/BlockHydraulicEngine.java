@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks;
 
+import buildcraft.api.tools.IToolWrench;
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -47,13 +49,21 @@ public class BlockHydraulicEngine extends MachineBlockContainer {
 		if(player.isSneaking())
 			return false;
 		
+		if(player.isSneaking()){
+			return false;
+		}
+		
+		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
+			return false;
+		}
+		
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileHydraulicEngine)){
 			return false;
 			
 		}
-		//TileHydraulicPneumaticCompressor compressor = (TileHydraulicPneumaticCompressor) entity;
-		//player.openGui(Hydraulicraft.instance, Ids.GUIPneumaticCompressor.act, world, x, y, z);
+		
+		player.openGui(Hydraulicraft.instance, Ids.GUIHydraulicEngine.act, world, x, y, z);
 		
 		return true;
 	}

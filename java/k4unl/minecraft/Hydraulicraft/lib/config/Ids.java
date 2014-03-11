@@ -46,8 +46,14 @@ public class Ids {
 	public static final Id GUIPressureVat = new Id(6);
 	public static final Id GUIPneumaticCompressor = new Id(7);
 	public static final Id GUIHarvester = new Id(8);
-	public static final Id GUIThermalExpansion = new Id(9);
-	public static final Id GUIRFPump = new Id(10);
+	public static final Id GUIRFPump = new Id(9);
+	public static final Id GUIHydraulicDynamo = new Id(10);
+	public static final Id GUIKineticPump = new Id(11);
+	public static final Id GUIHydraulicEngine = new Id(12);
+	public static final Id GUIElecticPump = new Id(13);
+	public static final Id GUIHydraulicGenerator = new Id(14);
+	
+	
 	
 	
 	public static final Id blockFluidOil = new Id(3533);

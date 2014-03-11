@@ -106,6 +106,10 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	public float getPercentageOfRender(){
 		if(isRunning){
 			percentageRun += direction;
+		}else if(percentageRun > 0 && Float.compare(direction,0.0F) > 0){
+			percentageRun -= direction;
+		}else if(percentageRun > 0){
+			percentageRun += direction;
 		}
 		if(Float.compare(percentageRun, 0.0F) <= 0 && Float.compare(direction, 0.0F) < 0){
 			direction = 0.005F;
@@ -321,5 +325,25 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 			pNetwork = new PressureNetwork(this, oldPressure);
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
+	}
+	
+	@Override
+	public int getFluidInNetwork(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidInNetwork();
+		}
+	}
+
+	@Override
+	public int getFluidCapacity(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidCapacity();
+		}
 	}
 }

@@ -42,7 +42,6 @@ public class BlockHydraulicDynamo extends MachineBlockContainer {
         return false;
     }
 	
-	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
@@ -62,7 +61,7 @@ public class BlockHydraulicDynamo extends MachineBlockContainer {
 			
 		}
 		//TileHydraulicDynamo dyn = (TileHydraulicDynamo) entity;
-		player.openGui(Hydraulicraft.instance, Ids.GUIThermalExpansion.act, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, Ids.GUIHydraulicDynamo.act, world, x, y, z);
 		
 		return true;
 	}

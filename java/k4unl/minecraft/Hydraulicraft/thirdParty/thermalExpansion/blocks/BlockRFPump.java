@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
 import buildcraft.api.tools.IToolWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
@@ -60,10 +61,14 @@ public class BlockRFPump extends MachineTieredBlock {
 			return false;
 		}
 		//TileRFPump compressor = (TileRFPump) entity;
-		player.openGui(Hydraulicraft.instance, Ids.GUIThermalExpansion.act, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, Ids.GUIRFPump.act, world, x, y, z);
 		
 		return true;
 	}
+	
+	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
+		return true;
+    }
 	
 	@Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){

@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks;
 
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -52,9 +53,8 @@ public class BlockHydraulicGenerator extends MachineBlockContainer {
 			return false;
 			
 		}
-		//TileHydraulicPneumaticCompressor compressor = (TileHydraulicPneumaticCompressor) entity;
-		//player.openGui(Hydraulicraft.instance, Ids.GUIPneumaticCompressor.act, world, x, y, z);
 		
+		player.openGui(Hydraulicraft.instance, Ids.GUIHydraulicGenerator.act, world, x, y, z);
 		return true;
 	}
 	

@@ -31,7 +31,11 @@ public class Constants {
 	public final static int COLOR_PRESSURE = 0x3FFFFFFF;
 	public static final int COLOR_OIL = 0x4F8C6900;
 	public static final int COLOR_RF = 0x7FE00000;
+	public static final int COLOR_MJ = 0x7F03FFFF;
+	public static final int COLOR_EU = 0x7FEE0000;
 	public static final int COLOR_TEXT = 0xFFFFFFFF;
+	public static final int COLOR_GUI_TERMINAL = 0xFF00FF00;
+	
 	
 	//Washer
 	public final static int OIL_FOR_ONE_SEED	=	100;
@@ -79,5 +83,8 @@ public class Constants {
 	public static final int[] INTERNAL_EU_STORAGE = {4000, 8000, 16000};
 	public static final int[] MAX_EU = {32, 128, 512};
 	public static final float CONVERSION_RATIO_EU_HYDRAULIC = 0.8F;
+	
+	
+	
 	
 }

@@ -112,5 +112,9 @@ public interface IHydraulicMachine {
 	public float getPressure(ForgeDirection from);
 	
 	public void setPressure(float newPressure, ForgeDirection side);
+	
+	public int getFluidInNetwork(ForgeDirection from);
+	
+	public int getFluidCapacity(ForgeDirection from);
 
 }

@@ -17,6 +17,7 @@ import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdParty;
 import k4unl.minecraft.Hydraulicraft.world.OreGenerator;
+import thirdParty.truetyper.TrueTypeFont;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -52,6 +53,8 @@ public class Hydraulicraft {
 	)
 	public static CommonProxy proxy;
 	public static Multipart mp;
+	
+	public static TrueTypeFont smallGuiFont;
 	
 	/*!
 	 * @author Koen Beckers

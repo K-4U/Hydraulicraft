@@ -1,11 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks;
 
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -23,6 +25,9 @@ public class BlockKineticPump extends MachineTieredBlock {
 		return new TileKineticPump();
 	}
 
+	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
+		return true;
+    }
 	
 	@Override
     public int getRenderType(){
@@ -49,8 +54,8 @@ public class BlockKineticPump extends MachineTieredBlock {
 		if(entity == null || !(entity instanceof TileKineticPump)){
 			return false;
 		}
-		//TileRFPump compressor = (TileRFPump) entity;
-		//player.openGui(Hydraulicraft.instance, Ids.GUIPneumaticCompressor.act, world, x, y, z);
+
+		player.openGui(Hydraulicraft.instance, Ids.GUIKineticPump.act, world, x, y, z);
 		
 		return true;
 	}

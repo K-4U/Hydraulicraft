@@ -1,19 +1,18 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 
 /**
@@ -23,9 +22,8 @@ import org.lwjgl.opengl.GL11;
  */
 @SideOnly(Side.CLIENT)
 public final class IconRenderer {
-
-    private static ResourceLocation iconTexture =  new ResourceLocation("textures/atlas/items.png");
-    private static ResourceLocation blockTexture =  new ResourceLocation("textures/atlas/blocks.png");
+    private static ResourceLocation iconTexture =  TextureMap.locationItemsTexture; //new ResourceLocation("textures/atlas/items.png");
+    private static ResourceLocation blockTexture = TextureMap.locationBlocksTexture; //  new ResourceLocation("textures/atlas/blocks.png");
 
     private static RenderBlocks renderBlocks = new RenderBlocks();
 

@@ -52,8 +52,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		getHandler().writeToNBT(tagCompound);
 	}
 	
-	@Override
-	public void workFunction(ForgeDirection from) {
+	@Override	public void workFunction(ForgeDirection from) {
 		if(from.equals(ForgeDirection.UP)){
 			//This function gets called every tick.
 			//It should check how much coal is left
@@ -449,6 +448,25 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		super.invalidate();
 		for(ForgeDirection dir: connectedSides){
 			getNetwork(dir).removeMachine(this);
+		}
+	}
+	@Override
+	public int getFluidInNetwork(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidInNetwork();
+		}
+	}
+
+	@Override
+	public int getFluidCapacity(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidCapacity();
 		}
 	}
 }

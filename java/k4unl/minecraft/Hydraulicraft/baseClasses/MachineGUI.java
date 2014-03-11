@@ -3,10 +3,12 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
@@ -17,6 +19,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import org.lwjgl.opengl.GL11;
 
 import scala.tools.nsc.backend.icode.Members.Local;
+import thirdParty.truetyper.FontHelper;
 
 public class MachineGUI extends GuiContainer {
 	private ResourceLocation resLoc;
@@ -92,7 +95,19 @@ public class MachineGUI extends GuiContainer {
 		if(stringWidth < w){
 			newX = (w / 2) - (stringWidth / 2) + xOffset;
 		}
-		fontRenderer.drawStringWithShadow(text, newX, yOffset, Constants.COLOR_TEXT);
+		
+		fontRenderer.drawString(text, newX, yOffset, Constants.COLOR_TEXT, useShadow);
+	}
+	
+	public void drawString(int xOffset, int yOffset, String text, boolean useShadow){
+		fontRenderer.drawString(text, xOffset, yOffset, Constants.COLOR_TEXT, useShadow);
+	}
+	
+	public void drawSmallerString(int xOffset, int yOffset, String text, boolean useShadow){
+		GL11.glPushMatrix();
+		FontHelper.drawString(text, (float)xOffset, (float)yOffset, Hydraulicraft.smallGuiFont, 1f, 1f);
+		GL11.glPopMatrix();
+		
 	}
 	
 	protected void drawVerticalProgressBar(int xOffset, int yOffset, int h, int w, float value, float max, int color, String toolTipTitle, String toolTipUnit){

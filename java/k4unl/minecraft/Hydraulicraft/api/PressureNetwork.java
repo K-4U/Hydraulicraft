@@ -275,7 +275,7 @@ public class PressureNetwork {
 			}
 			
 			if(machine != null){
-				if((getIsOilStored() && machine.getHandler().isOilStored()) || (!getIsOilStored() && !machine.getHandler().isOilStored() )){ //Otherwise we would be turning water into oil
+				if((getIsOilStored() && machine.getHandler().isOilStored()) || (!getIsOilStored() && !machine.getHandler().isOilStored() ) || machine.getHandler().getStored() == 0){ //Otherwise we would be turning water into oil
 					fluidInNetwork = fluidInNetwork + machine.getHandler().getStored();
 					fluidCapacity = fluidCapacity + machine.getMaxStorage();
 					machine.getHandler().setStored(0, isOilStored, false);

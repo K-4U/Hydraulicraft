@@ -613,5 +613,24 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         }
 		getHandler().updateNetworkOnNextTick(oldPressure);
 	}
-*/	
+*/
+	@Override
+	public int getFluidInNetwork(ForgeDirection from) {
+		if(world().isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidInNetwork();
+		}
+	}
+
+	@Override
+	public int getFluidCapacity(ForgeDirection from) {
+		if(world().isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidCapacity();
+		}
+	}
 }
