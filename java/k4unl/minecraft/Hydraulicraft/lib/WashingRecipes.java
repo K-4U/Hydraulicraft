@@ -17,6 +17,10 @@ public class WashingRecipes {
             output = outp;
             pressure = press;
         }
+
+		public ItemStack getOutput() {
+			return output.copy();
+		}
     }
 
     public static LinkedList<WashingRecipe> washingRecipes = new
@@ -26,10 +30,19 @@ public class WashingRecipes {
         washingRecipes.add(toAdd);
     }
 
-    public static ItemStack getWashingRecipe(ItemStack itemStack){
+    public static ItemStack getWashingRecipeOutput(ItemStack itemStack){
         for(WashingRecipe rec : washingRecipes){
             if(rec.input.isItemEqual(itemStack)){
                 return rec.output.copy();
+            }
+        }
+        return null;
+    }
+    
+    public static WashingRecipe getWashingRecipe(ItemStack itemStack){
+        for(WashingRecipe rec : washingRecipes){
+            if(rec.input.isItemEqual(itemStack)){
+                return rec;
             }
         }
         return null;

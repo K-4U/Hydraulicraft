@@ -35,7 +35,7 @@ public class Config {
 	}*/
 	
 	public static boolean canBeWashed(ItemStack itemStack){
-        return (WashingRecipes.getWashingRecipe(itemStack) != null);
+        return (WashingRecipes.getWashingRecipeOutput(itemStack) != null);
 	}
 	
 }

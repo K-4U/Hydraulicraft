@@ -65,7 +65,7 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return (float) (5F + ((getPressure(ForgeDirection.UNKNOWN)/100) * 0.005F));
+			return (float) (5F + (getPressure(ForgeDirection.UNKNOWN) * 0.0005F));
 		}else{
 			return 0F;
 		}
@@ -74,7 +74,7 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	
 	private void doSmelt(){
 		if(isSmelting()){
-			smeltingTicks = smeltingTicks + 1 + (int)((getPressure(ForgeDirection.UNKNOWN)/100) * 0.005F);
+			smeltingTicks = smeltingTicks + 1 + (int)(getPressure(ForgeDirection.UNKNOWN) * 0.00005F);
 			if(smeltingTicks >= maxSmeltingTicks){
 				//Smelting done!
 				if(outputInventory == null){

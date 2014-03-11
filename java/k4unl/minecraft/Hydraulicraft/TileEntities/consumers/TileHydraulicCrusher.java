@@ -33,7 +33,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
     private int crushingTicks = 0;
     private int maxCrushingTicks = 0;
     private int oldScaledCrushTime;
-    private float pressureLeft = 0F;
+    private float pressurePerTick = 0F;
     private IBaseClass baseHandler;
     
 
@@ -88,7 +88,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
             //The higher the speed!
             //But also the more it uses..
             
-            return 0.1F + pressureLeft;
+            return 0.1F + pressurePerTick * (1+(getPressure(from) / getMaxPressure(getHandler().isOilStored(), from)));
         } else {
             return 0F;
         }
@@ -108,7 +108,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
                 crushingItem = null;
                 targetItem = null;
-                pressureLeft = 0;
+                pressurePerTick = 0;
             }
         } else {
         	maxCrushingTicks = 200;
@@ -121,7 +121,10 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
                     inputInventory = null;
                 }
                 crushingTicks = 0;
-                pressureLeft = currentRecipe.pressure;
+                pressurePerTick = currentRecipe.pressure;
+                if(!getHandler().isOilStored()){
+                	pressurePerTick /= 10;
+                }
             }
             
         }

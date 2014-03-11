@@ -167,8 +167,6 @@ public class MachineBlock extends Block {
 			
 			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
-		
-		Functions.checkAndFillSideBlocks(world, x, y, z);
 	}
 	
 

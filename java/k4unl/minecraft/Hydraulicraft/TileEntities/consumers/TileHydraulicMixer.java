@@ -111,7 +111,7 @@ public class TileHydraulicMixer extends TileEntity implements
 	public void doConvert(){
 		if(isWorking){
 			ticksDone = ticksDone + 1 + (int)((getPressure(ForgeDirection.UNKNOWN)/100) * 0.00005F);
-			Log.info(ticksDone+ "");
+			//Log.info(ticksDone+ "");
 			if(ticksDone >= maxTicks){
 				if(outputTank.getFluidAmount() <= 0){
 					outputTank.setFluid(new FluidStack(Fluids.fluidOil, Constants.OIL_FOR_ONE_SEED));
@@ -354,6 +354,8 @@ public class TileHydraulicMixer extends TileEntity implements
 		
 		inputTank.readFromNBT(tagCompound.getCompoundTag("inputTank"));
 		outputTank.readFromNBT(tagCompound.getCompoundTag("outputTank"));
+		
+		ticksDone = tagCompound.getInteger("ticksDone");
 	}
 
 	@Override
@@ -376,6 +378,8 @@ public class TileHydraulicMixer extends TileEntity implements
 		tankCompound = new NBTTagCompound();
 		outputTank.writeToNBT(tankCompound);
 		tagCompound.setCompoundTag("outputTank", tankCompound);
+		
+		tagCompound.setInteger("ticksDone", ticksDone);
 	}
 
 	@Override
@@ -481,5 +485,14 @@ public class TileHydraulicMixer extends TileEntity implements
 		for(ForgeDirection dir: connectedSides){
 			getNetwork(dir).removeMachine(this);
 		}
+	}
+
+	public float getScaledMixTime() {
+		if(maxTicks > 0){
+			return (float)ticksDone / (float)maxTicks;			
+		}else{
+			return 0;
+		}
+		
 	}
 }

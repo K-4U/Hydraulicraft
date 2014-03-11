@@ -224,18 +224,16 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		}
 		if(doFill && filled > 10){
 			getHandler().updateFluidOnNextTick();
-		}else if((getHandler().getFluidInSystem() + resource.amount) < getHandler().getTotalFluidCapacity()){
+		}else if((getNetwork(from).getFluidInNetwork() + resource.amount) < getNetwork(from).getFluidCapacity()){
 			if(doFill){
 				getHandler().updateFluidOnNextTick();
-				//Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getFluidInSystem() + resource.amount, getHandler().isOilStored());
 			}
 			filled = resource.amount;
-		}else if(getHandler().getFluidInSystem() < getHandler().getTotalFluidCapacity()) {
+		}else if(getNetwork(from).getFluidInNetwork() < getNetwork(from).getFluidCapacity()) {
 			if(doFill){
 				getHandler().updateFluidOnNextTick();
-				//Functions.checkAndSetSideBlocks(worldObj, xCoord, yCoord, zCoord, getHandler().getTotalFluidCapacity(), getHandler().isOilStored());
 			}
-			filled = getHandler().getTotalFluidCapacity() - getHandler().getFluidInSystem();
+			filled = getNetwork(from).getFluidCapacity() - getNetwork(from).getFluidInNetwork();
 		}else{
 			//filled = 0;
 		}

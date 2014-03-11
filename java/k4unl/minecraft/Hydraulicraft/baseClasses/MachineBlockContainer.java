@@ -177,15 +177,6 @@ public abstract class MachineBlockContainer extends BlockContainer {
 			
 			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
-		
-		//Functions.checkAndFillSideBlocks(world, x, y, z);
-	}
-	
-	
-	private void tellOtherBlockILeft(World w, int x, int y, int z){
-		if(!w.isRemote){
-			Functions.checkAndFillSideBlocks(w, x, y, z);
-		}
 	}
 	
 	@Override
@@ -203,7 +194,6 @@ public abstract class MachineBlockContainer extends BlockContainer {
 		}
 		
 		super.breakBlock(w, x, y, z, oldId, oldMetaData);
-		tellOtherBlockILeft(w, x, y, z);		
 	}
 	
 	

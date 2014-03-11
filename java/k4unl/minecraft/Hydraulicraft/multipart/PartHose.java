@@ -60,6 +60,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     private boolean needToCheckNeighbors;
     private boolean connectedSidesHaveChanged = true;
     private boolean hasCheckedSinceStartup;
+    private boolean hasFoundNetwork = false;
     
     
     private int tier = 0;
@@ -124,12 +125,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(getHandler() != null)
 			getHandler().readFromNBT(tagCompound);
 		tier = tagCompound.getInteger("tier");
-		
+		/*
 		float oldPressure = 0F;
         if(pNetwork != null){
         	oldPressure = pNetwork.getPressure();
-        }
-		getHandler().updateNetworkOnNextTick(oldPressure);
+        }*/
+		//getHandler().updateNetworkOnNextTick(oldPressure);
 		//checkConnectedSides();
 		readConnectedSidesFromNBT(tagCompound);
 	}
@@ -325,11 +326,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     public void onNeighborChanged(){
         checkConnectedSides();
         if(!world().isRemote){
-        	getHandler().updateFluidOnNextTick();
-        	float oldPressure = 0F;
+        	//getHandler().updateFluidOnNextTick();
+        	/*float oldPressure = 0F;
             if(pNetwork != null){
             	oldPressure = pNetwork.getPressure();
-            }
+            }*/
         	//getHandler().updateNetworkOnNextTick(oldPressure);
         }
     }
@@ -341,12 +342,14 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     @Override
     public void onPartChanged(TMultiPart part){
         checkConnectedSides();
-        getHandler().updateFluidOnNextTick();
-        float oldPressure = 0F;
-        if(pNetwork != null){
-        	oldPressure = pNetwork.getPressure();
+        //getHandler().updateFluidOnNextTick();
+        if(!world().isRemote && hasFoundNetwork == true){
+	        float oldPressure = 0F;
+	        if(pNetwork != null){
+	        	oldPressure = pNetwork.getPressure();
+	        }
+			getHandler().updateNetworkOnNextTick(oldPressure);
         }
-		getHandler().updateNetworkOnNextTick(oldPressure);
     }
     
     @Override
@@ -469,14 +472,14 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	    		//Hack hack hack
 	    		//Temporary bug fix that we will forget about
 	    	}
-	    	if(world().getTotalWorldTime() % 10 == 0 && pNetwork != null && !pNetwork.getMachines().contains(this)){
+	    	if(world().getTotalWorldTime() % 10 == 0 && pNetwork != null && !pNetwork.getMachines().contains(this.getHandler().getBlockLocation())){
 	    		//Dum tie dum tie dum
 	    		//If you see this, please step out of this if
 	    		// *makes jedi hand motion* You never saw this!
 	    		// TODO: figure out why the fuck this code is auto removing itself, without letting me know.
 	    		// I Honestly believe it's because of FMP
 	    		//getHandler().updateNetworkOnNextTick(pNetwork.getPressure());
-	    		pNetwork.addMachine(this, pNetwork.getPressure());
+	    		//pNetwork.addMachine(this, pNetwork.getPressure());
 	    	}
     	}
     	
@@ -579,15 +582,18 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			pNetwork = new PressureNetwork(this, oldPressure);
 			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}
+		hasFoundNetwork = true;
 	}
 	
 	@Override
 	public void onRemoved(){
+		super.onRemoved();
+		
 		if(pNetwork != null){
 			pNetwork.removeMachine(this);
 		}
 	}
-
+/*
 	@Override
     public void onChunkUnload(){
         super.onChunkUnload();
@@ -607,5 +613,5 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         }
 		getHandler().updateNetworkOnNextTick(oldPressure);
 	}
-	
+*/	
 }

@@ -14,20 +14,26 @@ import net.minecraft.block.BlockLockedChest;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 public class PressureNetwork {
 	private float pressure = 0;
 	
-	private List<IHydraulicMachine> machines;
+	private List<Location> machines;
 	private int randomNumber = 0;
+	private IBlockAccess world;
+	private int fluidInNetwork = 0;
+	private int fluidCapacity = 0;
+	private boolean isOilStored = false;
 	
 	
 	public PressureNetwork(IHydraulicMachine machine, float beginPressure){
 		randomNumber = new Random().nextInt();
-		machines = new ArrayList<IHydraulicMachine>();
-		machines.add(machine);
+		machines = new ArrayList<Location>();
+		machines.add(machine.getHandler().getBlockLocation());
 		pressure = beginPressure;
+		world = machine.getHandler().getWorld();
 	}
 	
 	public int getRandomNumber(){
@@ -38,22 +44,34 @@ public class PressureNetwork {
 		if(!machines.contains(machine.getHandler().getBlockLocation())){
 			float oPressure = pressure * machines.size();
 			oPressure += pressureToAdd;
-			machines.add(machine);
+			machines.add(machine.getHandler().getBlockLocation());
 			pressure = oPressure / machines.size();
 			machine.getHandler().updateFluidOnNextTick();
+			if(world == null){
+				world = machine.getHandler().getWorld();
+			}
 		}
 	}
 	
 	public void removeMachine(IHydraulicMachine machineToRemove){
 		if(machines.contains(machineToRemove.getHandler().getBlockLocation())){
 			machines.remove(machineToRemove.getHandler().getBlockLocation());
+			machineToRemove.setNetwork(ForgeDirection.UP, null);
 		}
 		//And tell every machine in the block to recheck it's network! :D
 		//Note, this might cost a bit of time..
 		//There should be a better way to do this..
-		for(IHydraulicMachine machine : machines){
-			machine.setNetwork(ForgeDirection.UNKNOWN, null);
-			machine.getHandler().updateNetworkOnNextTick(getPressure());
+		for(Location loc : machines){
+			TileEntity ent = world.getBlockTileEntity(loc.getX(), loc.getY(), loc.getZ());
+			if(ent instanceof IHydraulicMachine){
+				IHydraulicMachine machine = (IHydraulicMachine) ent;
+				machine.setNetwork(ForgeDirection.UNKNOWN, null);
+				machine.getHandler().updateNetworkOnNextTick(getPressure());
+			}else if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
+				IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
+				machine.setNetwork(ForgeDirection.UNKNOWN, null);
+				machine.getHandler().updateNetworkOnNextTick(getPressure());
+			}
 		}
 		
 	}
@@ -66,7 +84,11 @@ public class PressureNetwork {
 		pressure = newPressure;
 	}
 	
-	public List<IHydraulicMachine> getMachines(){
+	public boolean getIsOilStored(){
+		return isOilStored;
+	}
+	
+	public List<Location> getMachines(){
 		return machines;
 	}
 	
@@ -77,9 +99,19 @@ public class PressureNetwork {
 		float newPressure = ((pressure - toMerge.getPressure()) / 2) + toMerge.getPressure();
 		setPressure(newPressure);
 
-		for(IHydraulicMachine machine : toMerge.getMachines()){
-			machine.setNetwork(ForgeDirection.UNKNOWN, this);
-			this.addMachine(machine, newPressure);
+		List<Location> otherList = toMerge.getMachines();
+		
+		for(Location loc : otherList){
+			TileEntity ent = world.getBlockTileEntity(loc.getX(), loc.getY(), loc.getZ());
+			if(ent instanceof IHydraulicMachine){
+				IHydraulicMachine machine = (IHydraulicMachine) ent;
+				machine.setNetwork(ForgeDirection.UNKNOWN, this);
+				this.addMachine(machine, newPressure);
+			}else if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
+				IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
+				machine.setNetwork(ForgeDirection.UNKNOWN, this);
+				this.addMachine(machine, newPressure);
+			}
 		}
 		
 		Log.info("Merged network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
@@ -91,10 +123,6 @@ public class PressureNetwork {
 
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		pressure = tagCompound.getFloat("pressure");
-	}
-	
-	public void disperseFluid(){
-		
 	}
 	
 	public static PressureNetwork getNetworkInDir(IBlockAccess iba, int x, int y, int z, ForgeDirection dir){
@@ -218,5 +246,83 @@ public class PressureNetwork {
 		}
 	}
 	
+	public int getFluidCapacity(){
+		return fluidCapacity;
+	}
+	
+	public int getFluidInNetwork(){
+		return fluidInNetwork;
+	}
+	
+	public void updateFluid(IHydraulicMachine mEnt){
+		if(mEnt.getHandler().isOilStored()){
+			isOilStored = true;
+		}else{
+			isOilStored = false;
+		}
+		fluidInNetwork = 0;
+		fluidCapacity = 0;
+		
+		List<IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
+		
+		for (Location loc : machines) {
+			TileEntity ent = world.getBlockTileEntity(loc.getX(), loc.getY(), loc.getZ());
+			IHydraulicMachine machine = null;
+			if(ent instanceof IHydraulicMachine){
+				machine = (IHydraulicMachine) ent;
+			}else if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
+				machine = Multipart.getTransporter((TileMultipart) ent);
+			}
+			
+			if(machine != null){
+				if((getIsOilStored() && machine.getHandler().isOilStored()) || (!getIsOilStored() && !machine.getHandler().isOilStored() )){ //Otherwise we would be turning water into oil
+					fluidInNetwork = fluidInNetwork + machine.getHandler().getStored();
+					fluidCapacity = fluidCapacity + machine.getMaxStorage();
+					machine.getHandler().setStored(0, isOilStored, false);
+					mainList.add(machine);
+				}
+			}
+		}
+		disperseFluid(mainList);
+	}
+	
+	private void disperseFluid(List<IHydraulicMachine> mainList){
+		List<IHydraulicMachine> remainingBlocks = new ArrayList<IHydraulicMachine>();
+		float newFluidInSystem = 0;
+		boolean firstIteration = true;
+		float fluidInSystem = fluidInNetwork;
+		//Log.info("Before iteration: FIS = " + fluidInSystem + " M = " + mainList.size());
+		while(fluidInSystem > 0){
+			if(mainList.size() == 0){
+				//Error!
+				Log.error("Too much fluid in the system!");
+				break;
+			}
+			float toSet = (float)fluidInSystem / (float)mainList.size();
+			
+			for (IHydraulicMachine machineEntity : mainList) {
+				if(machineEntity.getMaxStorage() < (toSet + machineEntity.getHandler().getStored())){
+					//This machine can't store this much!
+					newFluidInSystem = newFluidInSystem + ((toSet + machineEntity.getHandler().getStored()) - machineEntity.getMaxStorage());
+					machineEntity.getHandler().setStored(machineEntity.getMaxStorage(), isOilStored, false);
+				}else{
+					remainingBlocks.add(machineEntity);
+					machineEntity.getHandler().setStored((int)toSet + machineEntity.getHandler().getStored(), isOilStored, false);
+				}
+			}
+
+			//Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
+			fluidInSystem = newFluidInSystem;
+			newFluidInSystem = 0;
+			
+			mainList.clear();
+			for (IHydraulicMachine machineEntity : remainingBlocks) {
+				mainList.add(machineEntity);
+			}
+			
+			remainingBlocks.clear();
+			firstIteration = false;
+		}
+	}
 	
 }

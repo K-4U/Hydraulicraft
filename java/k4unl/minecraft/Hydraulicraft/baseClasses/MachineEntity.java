@@ -42,8 +42,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class MachineEntity implements IBaseClass {
 	private boolean _isOilStored = false;
 	private int fluidLevelStored = 0;
-	private int fluidInSystem = 0;
-	private int fluidTotalCapacity = 0;
 	private boolean isRedstonePowered = false;
 	
 	private float pressure = 0F;
@@ -178,29 +176,6 @@ public class MachineEntity implements IBaseClass {
 		}
 	}
 
-
-	public void setTotalFluidCapacity(int totalFluidCapacity) {
-		fluidTotalCapacity = totalFluidCapacity;
-        updateBlock();
-	}
-	
-	public void setFluidInSystem(int i){
-		fluidInSystem = i;
-        updateBlock();
-	}
-	
-	public int getTotalFluidCapacity() {
-		return fluidTotalCapacity;
-	}
-	
-	public int getFluidInSystem(){
-		return fluidInSystem;
-	}
-	
-	public void disperse(){
-		
-	}
-	
 	public void setStored(int i, boolean isOil, boolean doNotify){
 		if(tWorld == null) return;
 		if(tWorld.isRemote) return;
@@ -289,11 +264,22 @@ public class MachineEntity implements IBaseClass {
 	
 	@Override
 	public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList){
-		if(target.getNetwork(ForgeDirection.UNKNOWN) == null){
+		if(target.getNetwork(ForgeDirection.UP) == null){
 			return mainList;
 		}
 		
-		return target.getNetwork(ForgeDirection.UP).getMachines();
+		List <Location> locationList = new ArrayList<Location>();
+		locationList = target.getNetwork(ForgeDirection.UP).getMachines();
+		
+		for (Location loc : locationList) {
+			TileEntity ent = getWorld().getBlockTileEntity(loc.getX(), loc.getY(), loc.getZ());
+			if(ent instanceof IHydraulicMachine){
+				IHydraulicMachine machine = (IHydraulicMachine) ent;
+				mainList.add(machine);
+			}
+		}
+		
+		return mainList;
 	}
 	
 	public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList, boolean chain){
@@ -363,8 +349,6 @@ public class MachineEntity implements IBaseClass {
 		fluidLevelStored = tagCompound.getInteger("fluidLevelStored");
 		
 		_isOilStored = tagCompound.getBoolean("isOilStored");
-		fluidInSystem = tagCompound.getInteger("fluidInSystem");
-		fluidTotalCapacity = tagCompound.getInteger("fluidTotalCapacity");
 		
 		oldPressure = tagCompound.getFloat("oldPressure");
 		
@@ -397,8 +381,6 @@ public class MachineEntity implements IBaseClass {
 		tagCompound.setInteger("fluidLevelStored",fluidLevelStored);
 		
 		tagCompound.setBoolean("isOilStored", _isOilStored);
-		tagCompound.setInteger("fluidInSystem", fluidInSystem);
-		tagCompound.setInteger("fluidTotalCapacity",fluidTotalCapacity);
 		
 		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
 		
@@ -455,10 +437,8 @@ public class MachineEntity implements IBaseClass {
 					target.updateNetwork(oldPressure);
 				}
 				if(shouldUpdateFluid && getWorld().getTotalWorldTime() % 10 == 0){
-					//if(target instanceof TileHydraulicPressureVat){
 					shouldUpdateFluid = false;
-					Functions.checkAndFillSideBlocks(tWorld, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
-					//}
+					target.getNetwork(ForgeDirection.UNKNOWN).updateFluid(target);
 				}
 				
 				if(getWorld().getTotalWorldTime() % 4 == 0){
@@ -466,32 +446,35 @@ public class MachineEntity implements IBaseClass {
 				}
 				
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-					if(tTarget instanceof IHydraulicConsumer){
-						IHydraulicConsumer consumer = (IHydraulicConsumer)tTarget;
-						if(consumer.canWork(dir)){
-					        float less = consumer.workFunction(true, dir);
-					        if(target.getPressure(dir) >= less && less > 0){
-				                less = consumer.workFunction(false, dir);
-				                float newPressure = target.getPressure(dir) - less;
-				                updateBlock();
-				                target.setPressure(newPressure, dir);
-				                
-				                //So.. the water in this block should be going down a bit.
-				                if(!isOilStored()){
-				                    setStored((int)(getStored() - (less * Constants.USING_WATER_PENALTY)), false, true);
-				                }
-				            }
-						}
-			        }else if(tTarget instanceof IHydraulicGenerator){
-			        	IHydraulicGenerator gen = (IHydraulicGenerator) tTarget;
-			        	if(gen.canWork(dir)){
-			        		gen.workFunction(dir);
-			        	}
-			        }else if(tTarget instanceof IHydraulicStorage){
-			        	if(getWorld().getTotalWorldTime() % 40 == 0 && dir.equals(ForgeDirection.UP)){
-			    			//Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
-			    		}
-			        }
+					if(target.getNetwork(dir) != null){
+						if(tTarget instanceof IHydraulicConsumer){
+							IHydraulicConsumer consumer = (IHydraulicConsumer)tTarget;
+							if(consumer.canWork(dir)){
+						        float less = consumer.workFunction(true, dir);
+						        if(target.getPressure(dir) >= less && less > 0){
+					                less = consumer.workFunction(false, dir);
+					                float newPressure = target.getPressure(dir) - less;
+					                updateBlock();
+					                target.setPressure(newPressure, dir);
+					                
+					                //So.. the water in this block should be going down a bit.
+					                if(!isOilStored()){
+					                    setStored((int)(getStored() - (less * Constants.USING_WATER_PENALTY)), false, true);
+					                    shouldUpdateFluid = true;
+					                }
+					            }
+							}
+				        }else if(tTarget instanceof IHydraulicGenerator){
+				        	IHydraulicGenerator gen = (IHydraulicGenerator) tTarget;
+				        	if(gen.canWork(dir)){
+				        		gen.workFunction(dir);
+				        	}
+				        }else if(tTarget instanceof IHydraulicStorage){
+				        	if(getWorld().getTotalWorldTime() % 40 == 0 && dir.equals(ForgeDirection.UP)){
+				    			//Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+				    		}
+				        }
+					}
 				}
 			}
 		}

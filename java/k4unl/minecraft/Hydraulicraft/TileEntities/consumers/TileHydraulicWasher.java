@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import buildcraft.api.power.IPowerReceptor;
 import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
@@ -15,6 +14,7 @@ import k4unl.minecraft.Hydraulicraft.baseClasses.IMachineMultiBlock;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
+import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes.WashingRecipe;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
@@ -58,6 +58,7 @@ public class TileHydraulicWasher extends TileEntity implements
 	private TileInterfaceValve fluidValve;
 	private TileInterfaceValve itemValve;
 	private int tier = 0;
+	private float pressurePerTick = 0F;
 	
 	
 	public TileHydraulicWasher(){
@@ -69,7 +70,7 @@ public class TileHydraulicWasher extends TileEntity implements
 		return isValidMultiblock;
 	}
 	
-	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
+	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 50);
 	
 	
 	public int getWashingTicks(){
@@ -102,7 +103,7 @@ public class TileHydraulicWasher extends TileEntity implements
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return 5F + ((getPressure(ForgeDirection.UNKNOWN) / 100) * 0.0005F);
+			return 0.1F + pressurePerTick + (1+(getPressure(from) / getMaxPressure(getHandler().isOilStored(), from)));
 		}else{
 			return 0F;
 		}
@@ -127,7 +128,9 @@ public class TileHydraulicWasher extends TileEntity implements
 			}
 		}else{
 			if(canRun()){
-				targetItem = WashingRecipes.getWashingRecipe(inputInventory);
+				WashingRecipe recipe = WashingRecipes.getWashingRecipe(inputInventory);
+				targetItem = recipe.getOutput();
+				pressurePerTick = recipe.pressure;
 				if(new Random().nextFloat() > 0.70F) {
                 	targetItem.stackSize+=1;
                 }
@@ -166,7 +169,7 @@ public class TileHydraulicWasher extends TileEntity implements
 		}else{
 			//Get smelting result:
 			//ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
-			ItemStack target = WashingRecipes.getWashingRecipe(inputInventory);
+			ItemStack target = WashingRecipes.getWashingRecipeOutput(inputInventory);
 			if(target == null) return false;
 			if(outputInventory != null){
 				if(!outputInventory.isItemEqual(target)) return false;

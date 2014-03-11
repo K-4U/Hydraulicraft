@@ -79,30 +79,6 @@ public interface IBaseClass {
 	public void dropItemStackInWorld(ItemStack inputInventory);
 	
 	/**
-	 * Sets the fluid in the entire network.
-	 * @param fluidInSystem
-	 */
-	public void setFluidInSystem(int fluidInSystem);
-
-	/**
-	 * Sets the amount of fluid the entire network can handle.
-	 * @param totalFluidCapacity
-	 */
-	public void setTotalFluidCapacity(int totalFluidCapacity);
-
-	/**
-	 * Gets the fluid in the entire network.
-	 * @return
-	 */
-	public int getFluidInSystem();
-	
-	/**
-	 * Gets the amount of fluid the entire network can handle.
-	 * @return
-	 */
-	public int getTotalFluidCapacity();
-
-	/**
 	 * Forward this function the the Base class
 	 */
 	public void updateEntity();
