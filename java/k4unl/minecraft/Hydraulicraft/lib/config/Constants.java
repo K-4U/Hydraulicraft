@@ -84,6 +84,7 @@ public class Constants {
 	public static final int[] INTERNAL_EU_STORAGE = {4000, 8000, 16000};
 	public static final int[] MAX_EU = {32, 128, 512};
 	public static final float CONVERSION_RATIO_EU_HYDRAULIC = 0.8F;
+	public static final int MIN_REQUIRED_EU = 128;
 	
 	
 	

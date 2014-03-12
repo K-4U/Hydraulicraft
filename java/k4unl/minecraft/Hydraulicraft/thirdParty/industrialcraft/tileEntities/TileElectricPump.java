@@ -30,6 +30,14 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	private float renderingDir = 0.05F;
 	private PressureNetwork pNetwork;
 	
+	private int EUUsage = 0;
+	
+	private int fluidInNetwork;
+	private int networkCapacity;
+	
+	private int tier = -1;
+
+	
 	public TileElectricPump(){
 		
 	}
@@ -57,6 +65,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	public void workFunction(ForgeDirection from) {
 		if(!getHandler().getRedstonePowered()){
 			isRunning = false;
+			EUUsage = 0;
 			getHandler().updateBlock();
 			return;
 		}
@@ -71,7 +80,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 				renderingDir = -renderingDir;
 			}
 			
-			setPressure(getPressure(ForgeDirection.UNKNOWN) + getGenerating(ForgeDirection.UP), getFacing().getOpposite());
+			setPressure(getPressure(from) + getGenerating(from), getFacing().getOpposite());
 			ic2EnergyStored -= getEUUsage();
 			isRunning = true;
 		}else{
@@ -86,32 +95,24 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	@Override
 	public int getMaxGenerating(ForgeDirection from) {
 		if(!getHandler().isOilStored()){
-			switch(getTier()){
-			case 0:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_1;
-			case 1:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_2;
-			case 2:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_3;
-			}			
+			return (int)(Constants.EU_USAGE_PER_TICK[getTier()] * Constants.CONVERSION_RATIO_EU_HYDRAULIC * Constants.WATER_CONVERSION_RATIO);		
 		}else{
-			switch(getTier()){
-			case 0:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_1;
-			case 1:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_2;
-			case 2:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_3;
-			}
+			return (int)(Constants.EU_USAGE_PER_TICK[getTier()] * Constants.CONVERSION_RATIO_EU_HYDRAULIC);
 		}
-		return 0;
 	}
 
 	@Override
 	public float getGenerating(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered()) return 0f;
-		if(ic2EnergyStored > getEUUsage()){
+		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0){
+			EUUsage = 0;
+			return 0f;
+		}
+		
+		EUUsage = Constants.EU_USAGE_PER_TICK[getTier()] % ic2EnergyStored;
+		
+		if(ic2EnergyStored > Constants.MIN_REQUIRED_EU){
 			float gen = getEUUsage() * Constants.CONVERSION_RATIO_EU_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
+			gen = gen * ((float)getFluidInNetwork(from) / (float)getFluidCapacity(from));
 			
 			if(gen > getMaxGenerating(ForgeDirection.UP)){
 				gen = getMaxGenerating(ForgeDirection.UP);
@@ -120,15 +121,21 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 				//This means the pressure we are generating is too much!
 				gen = getMaxPressure(getHandler().isOilStored(), null) - getPressure(getFacing().getOpposite());
 			}
+			
+			EUUsage = (int)(gen * (getFluidInNetwork(from) / getFluidCapacity(from)) / Constants.CONVERSION_RATIO_EU_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
 			return gen;
+		}else{
+			EUUsage = 0;
 		}
 		
 		return 0F;
 	}
 
 
-    public int getTier(){
-        return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+	public int getTier(){
+    	if(tier == -1)
+    		tier = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+    	return tier;
     }
 	
 
@@ -181,6 +188,11 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 		ic2EnergyStored = tagCompound.getInteger("ic2EnergyStored");
 		
 		renderingPercentage = tagCompound.getFloat("renderingPercentage");
+		
+		networkCapacity = tagCompound.getInteger("networkCapacity");
+		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
+		EUUsage = tagCompound.getInteger("EUUsage");
+		tier = tagCompound.getInteger("tier");
 	}
 
 	@Override
@@ -191,6 +203,12 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 		tagCompound.setBoolean("isRunning", isRunning);
 		tagCompound.setInteger("ic2EnergyStored", ic2EnergyStored);
 		tagCompound.setFloat("renderingPercentage", renderingPercentage);
+		
+		tagCompound.setInteger("tier", tier);
+		
+		tagCompound.setInteger("networkCapacity", getNetwork(getFacing()).getFluidCapacity());
+		tagCompound.setInteger("fluidInNetwork", getNetwork(getFacing()).getFluidInNetwork());
+		tagCompound.setInteger("EUUsage", EUUsage);
 	}
 
 	@Override
@@ -251,7 +269,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	@Override
 	public double demandedEnergyUnits() {
 		if(ic2EnergyStored < Constants.INTERNAL_EU_STORAGE[getTier()]){
-			return Double.MAX_VALUE;
+			return Double.MAX_VALUE; 
 		}else{
 			return 0;
 		}
@@ -261,8 +279,11 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
 		if(amount > getMaxSafeInput()){
 			if(!worldObj.isRemote) {
-                worldObj.createExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.5F, true);
-                worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+				//And, better check if the block actually still exists..
+				if(!this.isInvalid()){
+	                worldObj.createExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.5F, true);
+	                worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+				}
             }
             return 0;
 		}else{
@@ -271,7 +292,12 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 			//Then use that buffer to get work done..
 			if(ic2EnergyStored < getMaxEUStorage()){
 				ic2EnergyStored += amount;
+				
 				amount = Math.max((ic2EnergyStored - getMaxEUStorage()),0);
+				if(ic2EnergyStored > getMaxEUStorage()){
+					amount = ic2EnergyStored - getMaxEUStorage();
+					ic2EnergyStored = getMaxEUStorage();
+				}
 				getHandler().updateBlock();
 			}
 		}
@@ -280,11 +306,6 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 
 	public int getMaxEUStorage(){
 		return Constants.INTERNAL_EU_STORAGE[getTier()];
-	}
-	
-	public int getEUUsage(){
-		//TODO: Add upgrades
-		return Constants.EU_USAGE_PER_TICK[getTier()];
 	}
 	
 	@Override
@@ -376,11 +397,18 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}
+	
+	public int getEUUsage(){
+		if(EUUsage > Constants.MAX_EU[getTier()]){
+			//EUUsage = Constants.MAX_EU[getTier()];
+		}
+		return EUUsage;
+	}
+	
 	@Override
 	public int getFluidInNetwork(ForgeDirection from) {
 		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
+			return fluidInNetwork;
 		}else{
 			return getNetwork(from).getFluidInNetwork();
 		}
@@ -389,10 +417,8 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	@Override
 	public int getFluidCapacity(ForgeDirection from) {
 		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
+			return networkCapacity;
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
-	}
-}
+	}}

@@ -74,9 +74,10 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 				getEnergyStorage().extractEnergy(RFUsage, false);
 				isRunning = true;
 			}else{
+				/*
 				if(getHandler().getRedstonePowered()){
 					getEnergyStorage().extractEnergy(RFUsage, false);
-				}
+				}*/
 				isRunning = false;
 			}
 		}
@@ -131,9 +132,6 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			}
 			
 			RFUsage = (int)(gen * (getFluidInNetwork(from) / getFluidCapacity(from)) / Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
-			if(RFUsage == 0){
-				RFUsage = 2;
-			}
 			return gen; 
 		}else{
 			return 0;
@@ -196,9 +194,10 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		networkCapacity = tagCompound.getInteger("networkCapacity");
 		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
 		RFUsage = tagCompound.getInteger("RFUsage");
+		tier = tagCompound.getInteger("tier");
 		
 		isRunning = tagCompound.getBoolean("isRunning");
-		tier = tagCompound.getInteger("tier");
+		
 		if(tier != -1){
 			energyStorage = null;
 		}
