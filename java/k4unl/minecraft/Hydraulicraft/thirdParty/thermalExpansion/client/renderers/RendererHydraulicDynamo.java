@@ -248,7 +248,7 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 		
 		
 		GL11.glBegin(GL11.GL_QUADS);
-		Vector3fMax vector = new Vector3fMax(-0.45F, b, -0.45F, 0.45F, b+w, 0.45F);
+		Vector3fMax vector = new Vector3fMax(-0.36F, b, -0.36F, 0.36F, b+w, 0.36F);
 		//Top side:
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 0.25F, 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), 0.75F, 0.5F);		
