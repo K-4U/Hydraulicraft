@@ -126,7 +126,7 @@ public class TileHydraulicGenerator extends TileEntity implements IHydraulicCons
 
 	@Override
 	public boolean canEmitPowerFrom(ForgeDirection side) {
-		return side.equals(facing);
+		return !side.equals(facing);
 	}
 
 	@Override
@@ -265,7 +265,7 @@ public class TileHydraulicGenerator extends TileEntity implements IHydraulicCons
 	
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
-		return side.equals(facing.getOpposite());
+		return !side.equals(facing);
 	}
 
 	@Override

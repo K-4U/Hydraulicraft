@@ -16,7 +16,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 
 	private static final ResourceLocation resLoc =
-			new ResourceLocation(ModInfo.LID,"textures/model/hydraulicEngine.png");
+			new ResourceLocation(ModInfo.LID,"textures/model/hydraulicDynamo.png");
 	
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
