@@ -146,6 +146,9 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			float generating = (multiplier * perc);
 			float currentPressure = getPressure(ForgeDirection.UNKNOWN);
 			float maxPressure = getMaxPressure(getHandler().isOilStored(), ForgeDirection.UNKNOWN);
+			
+			generating = generating * (getFluidInNetwork(from) / getFluidCapacity(from));
+			
 			if(generating > getMaxGenerating(ForgeDirection.UP))
 				generating = getMaxGenerating(ForgeDirection.UP);
 			
