@@ -8,6 +8,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.IndustrialCraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
@@ -33,7 +34,7 @@ public class GuiHydraulicGenerator extends MachineGUI {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		
 		
-		drawHorizontalAlignedString(7, 3, xSize - 14, ThermalExpansion.blockHydraulicDynamo.getLocalizedName(), true);
+		drawHorizontalAlignedString(7, 3, xSize - 14, IndustrialCraft.blockHydraulicGenerator.getLocalizedName(), true);
 		drawVerticalProgressBar(40, 16, 54, 16, generator.getPowerReceiver(generator.getFacing()).getEnergyStored(), generator.getPowerReceiver(generator.getFacing()).getMaxEnergyStored(), Constants.COLOR_EU, "Energy Units", "EU");
 		
 		drawFluidAndPressure();

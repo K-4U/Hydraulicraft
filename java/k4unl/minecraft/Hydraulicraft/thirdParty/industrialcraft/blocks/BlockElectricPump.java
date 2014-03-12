@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks;
 
+import buildcraft.api.tools.IToolWrench;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
@@ -53,6 +54,9 @@ public class BlockElectricPump extends MachineTieredBlock {
 		
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileElectricPump)){
+			return false;
+		}
+		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
 			return false;
 		}
 

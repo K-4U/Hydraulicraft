@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks;
 
+import buildcraft.api.tools.IToolWrench;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
@@ -56,7 +57,10 @@ public class BlockHydraulicGenerator extends MachineBlockContainer {
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileHydraulicGenerator)){
 			return false;
-			
+		}
+		
+		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
+			return false;
 		}
 		
 		player.openGui(Hydraulicraft.instance, Ids.GUIHydraulicGenerator.act, world, x, y, z);
