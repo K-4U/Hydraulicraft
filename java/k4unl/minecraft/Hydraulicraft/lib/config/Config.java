@@ -9,6 +9,9 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
 import net.minecraft.item.ItemStack;
 
 public class Config {
+	public static boolean shouldGenOres = true;
+	public static boolean shouldDolleyInHarvesterGoBack = true;
+	
 	
 	//First is harvester ID
 	//Second blockId. 
@@ -17,8 +20,8 @@ public class Config {
 	
 	public static void initHarvestableItems(){
 		addHarvestableItem(new Seed(0, 59, 7, 295));
-		addHarvestableItem(new Seed(0, 141, 7));
-		addHarvestableItem(new Seed(0, 142, 7));
+		addHarvestableItem(new Seed(0, 141, 7, 391));
+		addHarvestableItem(new Seed(0, 142, 7, 392));
 	}
 	
 	public static void addHarvestableItem(Seed toAdd){

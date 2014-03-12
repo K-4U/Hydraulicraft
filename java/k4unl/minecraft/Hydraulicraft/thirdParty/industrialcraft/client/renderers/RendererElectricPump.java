@@ -37,6 +37,7 @@ public class RendererElectricPump extends TileEntitySpecialRenderer {
 	public void itemRender(float x, float y,
 			float z, int tier){
 		GL11.glPushMatrix();
+		GL11.glPushMatrix();
 		
 		GL11.glTranslatef(x, y, z);
 
@@ -59,10 +60,12 @@ public class RendererElectricPump extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING); //Disregard lighting
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
+		GL11.glPopMatrix();
 	}
 	
 	public void doRender(TileElectricPump t, float x, float y,
 			float z, float f, int rotation, int metadata){
+		GL11.glPushMatrix();
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef(x, y, z);
@@ -110,6 +113,7 @@ public class RendererElectricPump extends TileEntitySpecialRenderer {
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_LIGHTING); //Disregard lighting
+		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}

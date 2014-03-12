@@ -100,10 +100,14 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 			return false;
 			
 		}
-		TileHydraulicHarvester pump = (TileHydraulicHarvester) entity;
-		player.openGui(Hydraulicraft.instance, Ids.GUIHarvester.act, world, x, y, z);
 		
-		return true;
+		TileHydraulicHarvester harvester = (TileHydraulicHarvester) entity;
+		if(harvester.getIsMultiblock()){
+			player.openGui(Hydraulicraft.instance, Ids.GUIHarvester.act, world, x, y, z);
+			return true;
+		}
+		
+		return false;
 	}
 	
 	private String getTextureName(String side, int subId){

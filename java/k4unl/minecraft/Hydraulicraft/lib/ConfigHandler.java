@@ -6,7 +6,6 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraftforge.common.Configuration;
-import cpw.mods.fml.common.Loader;
 
 /*!
  * @author Koen Beckers
@@ -28,6 +27,7 @@ public class ConfigHandler{
 
         loadIds();
         Config.initHarvestableItems();
+        loadOptions();
         
         if(config.hasChanged()) {
             config.save();
@@ -76,5 +76,12 @@ public class ConfigHandler{
         Ids.blockHydraulicDynamo.loadBlock(config, Names.blockHydraulicDynamo);
         
         Ids.blockRFPump.loadBlock(config, Names.blockRFPump);
+    }
+    
+    private static void loadOptions(){
+    	Config.shouldDolleyInHarvesterGoBack = config.get(config.CATEGORY_GENERAL, "shouldDolleyInHarvesterGoBack", true).getBoolean(true);
+    	Config.shouldGenOres = config.get(config.CATEGORY_GENERAL, "shouldGenOres", true).getBoolean(true);
+    	
+    	
     }
 }

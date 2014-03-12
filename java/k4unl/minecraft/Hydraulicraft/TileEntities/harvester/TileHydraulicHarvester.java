@@ -236,6 +236,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 					firstRun = false;
 					if(isMultiblock){
 						convertMultiblock();
+						getHandler().updateBlock();
 					}
 				}
 				if(!isMultiblock){
@@ -639,12 +640,21 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			h2 -= 1;
 		if(!retracting){
 			p.extendTo(h2);
+		}else{
+			if(Config.shouldDolleyInHarvesterGoBack){
+				p.extendTo(0f);
+			}
 		}
 		
 		if(w < trolleyList.size()){
 			if(retracting){
-				float currentLocation = getTrolleyFromList(w).getSideLength();
-				getTrolleyFromList(w).extendTo(0, currentLocation);			
+				if(Config.shouldDolleyInHarvesterGoBack){
+					getTrolleyFromList(w).extendTo(0, 0F);
+				}else{
+					float currentLocation = getTrolleyFromList(w).getSideLength();
+					getTrolleyFromList(w).extendTo(0, currentLocation);	
+				}
+				
 			}else{
 				if(isPlanting){
 					getTrolleyFromList(w).extendTo(2.7F, h2);
@@ -772,6 +782,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		}
 		pistonList.clear();
 		trolleyList.clear();
+		getHandler().updateBlock();
 	}
 	
 	private int getBlockId(Location l){
@@ -1092,7 +1103,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
-		return true;
+		return isMultiblock;
 	}
 
 	@Override
@@ -1191,5 +1202,9 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
+	}
+
+	public boolean getIsMultiblock() {
+		return isMultiblock;
 	}
 }

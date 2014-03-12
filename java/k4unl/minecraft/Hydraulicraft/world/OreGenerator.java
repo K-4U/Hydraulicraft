@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.world;
 import java.util.Random;
 
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import net.minecraft.world.World;
@@ -42,7 +43,7 @@ public class OreGenerator implements IWorldGenerator {
 	private void generateOre(Id ore, World world, Random random, int chunkX, int chunkZ){
 		for(int i = 0; i < 3; i++){
 			int firstBlockXCoord = chunkX + random.nextInt(16);
-			int firstBlockYCoord = 18 + random.nextInt(64); // From +18 to 82
+			int firstBlockYCoord = 18 + random.nextInt(72); // From +18 to 70
 			int firstBlockZCoord = chunkZ + random.nextInt(16);
 			
 			(new WorldGenMinable(ore.act, 12)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
@@ -50,8 +51,10 @@ public class OreGenerator implements IWorldGenerator {
 	}
 	
 	private void generateOverworld(World world, Random random, int chunkX, int chunkZ){
-		generateOre(Ids.oreCopper, world, random, chunkX, chunkZ);
-		generateOre(Ids.oreLead, world, random, chunkX, chunkZ);
+		if(Config.shouldGenOres){
+			generateOre(Ids.oreCopper, world, random, chunkX, chunkZ);
+			generateOre(Ids.oreLead, world, random, chunkX, chunkZ);
+		}
 	}
 
 }

@@ -19,6 +19,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	private float sideLength;
 	private float movingSpeedExtending = 0.05F;
 	private static final float movingSpeedSideways = 0.05F;
+	private static final float movingSpeedSidewaysBack = 0.1F;
 	private int dir = 0;
 	private boolean harvesterPart = false;
 	
@@ -57,11 +58,21 @@ public class TileHarvesterTrolley extends TileEntity {
 		
 		float blocksToMoveSideways = Math.abs(sideTarget - sideLength);
 		float blocksToExtendDown = Math.abs(extendTarget - extendedLength);
-		float movingSpeedPercentage = movingSpeedSideways / blocksToMoveSideways;
+		
+		float movingSpeedPercentage = 0F;
+		if(isRetracting){
+			movingSpeedPercentage = movingSpeedSidewaysBack / blocksToMoveSideways;
+		}else{
+			movingSpeedPercentage = movingSpeedSideways / blocksToMoveSideways;
+		}
 		movingSpeedExtending = movingSpeedPercentage * blocksToExtendDown;
 		
 		if(movingSpeedExtending > 500F){ //Which is just absurd..
-			movingSpeedExtending = movingSpeedSideways;
+			if(isRetracting){
+				movingSpeedExtending = movingSpeedSidewaysBack;
+			}else{
+				movingSpeedExtending = movingSpeedSideways;
+			}
 		}
 		
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -94,7 +105,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		if(compResult > 0 && !isMoving){
 			sideLength += movingSpeedSideways;
 		}else if(compResult < 0 && isMoving){
-			sideLength -= movingSpeedSideways;
+			sideLength -= movingSpeedSidewaysBack;
 		}else{
 			sideLength = sideTarget;
 		}

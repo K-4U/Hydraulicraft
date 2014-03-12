@@ -29,6 +29,7 @@ public class TileHydraulicPiston extends TileEntity implements
 	private float maxLength = 4F;
 	private float extendTarget = 0F;
 	private float movingSpeed = 0.05F;
+	private float movingSpeedBack = 0.1F;
 	private boolean harvesterPart = false;
 	private Location harvesterLocation;
 	
@@ -140,7 +141,7 @@ public class TileHydraulicPiston extends TileEntity implements
 		if(compResult > 0 && !isRetracting){
 			extendedLength += movingSpeed;
 		}else if(compResult < 0 && isRetracting){
-			extendedLength -= movingSpeed;
+			extendedLength -= movingSpeedBack;
 		}else{
 			extendTarget = extendedLength;
 		}
