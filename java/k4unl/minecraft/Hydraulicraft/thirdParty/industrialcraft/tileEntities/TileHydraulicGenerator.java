@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
@@ -38,6 +39,7 @@ public class TileHydraulicGenerator extends TileEntity implements IHydraulicCons
 		powerHandler = new PowerHandler(this, Type.ENGINE);
         powerHandler.configure(1.5F, 300, 10, 1000);
         powerHandler.configurePowerPerdition(1, 100);
+        connectedSides = new ArrayList<ForgeDirection>();
 	}
 	
 	@Override

@@ -103,14 +103,15 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 
 	@Override
 	public float getGenerating(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0){
+		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0 ){
 			EUUsage = 0;
 			return 0f;
 		}
 		
-		EUUsage = Constants.EU_USAGE_PER_TICK[getTier()] % ic2EnergyStored;
+		
 		
 		if(ic2EnergyStored > Constants.MIN_REQUIRED_EU){
+			EUUsage = Constants.EU_USAGE_PER_TICK[getTier()] % ic2EnergyStored;
 			float gen = getEUUsage() * Constants.CONVERSION_RATIO_EU_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
 			gen = gen * ((float)getFluidInNetwork(from) / (float)getFluidCapacity(from));
 			
