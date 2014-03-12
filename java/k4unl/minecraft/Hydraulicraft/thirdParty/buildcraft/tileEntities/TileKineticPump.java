@@ -13,6 +13,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -29,6 +30,10 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	private ForgeDirection facing = ForgeDirection.NORTH;
 	private PressureNetwork pNetwork;
 	private int tier = -1;
+	private float MJUsage = 0;
+	
+	private int fluidInNetwork;
+	private int networkCapacity;
 	
 	public TileKineticPump(){
 		
@@ -37,7 +42,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	private PowerHandler getPowerHandler(){
 		if(powerHandler == null){
 			powerHandler = new PowerHandler(this, Type.MACHINE);
-			powerHandler.configure(Constants.MJ_USAGE_PER_TICK[getTier()]*2, Constants.MJ_USAGE_PER_TICK[getTier()] * 3, Constants.ACTIVATION_MJ, (getTier()+1) * 100);
+			powerHandler.configure(Constants.MJ_USAGE_PER_TICK[getTier()]*2, Constants.MJ_USAGE_PER_TICK[getTier()] * 3, Constants.ACTIVATION_MJ, (getTier()+1) * 1000);
 		}
 		return powerHandler;
 	}
@@ -69,7 +74,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 		needsUpdate = true;
 		if(Float.compare(getGenerating(ForgeDirection.UP), 0.0F) > 0){
 			setPressure(getPressure(ForgeDirection.UNKNOWN) + getGenerating(ForgeDirection.UP), getFacing());
-			getPowerHandler().useEnergy(0, Constants.MJ_USAGE_PER_TICK[getTier()], true);
+			getPowerHandler().useEnergy(0, MJUsage, true);
 			//MJPower -= Constants.MJ_USAGE_PER_TICK[getTier()];
 			//getEnergyStorage().extractEnergy(getMaxGenerating(), false);
 			isRunning = true;
@@ -108,13 +113,17 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 
 	@Override
 	public float getGenerating(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered()) return 0f;
+		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0){
+			MJUsage = 0; 
+			return 0f;
+		}
 
-		float extractedEnergy = getPowerHandler().useEnergy(0, Constants.MJ_USAGE_PER_TICK[getTier()], false);
+		MJUsage = getPowerHandler().useEnergy(0, Constants.MJ_USAGE_PER_TICK[getTier()], false);
 		//Log.info("PHL: " + getPowerHandler().getEnergyStored() + " EE: " + extractedEnergy);
 		
 		if(getPowerHandler().getEnergyStored() > Constants.MJ_USAGE_PER_TICK[getTier()] * 2){
-			float gen = extractedEnergy * Constants.CONVERSION_RATIO_MJ_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
+			float gen = MJUsage * Constants.CONVERSION_RATIO_MJ_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
+			gen = gen * ((float)getFluidInNetwork(from) / (float)getFluidCapacity(from));
 			//gen = gen * (gen / getMaxGenerating());
 			if(gen > getMaxGenerating(ForgeDirection.UP)){
 				gen = getMaxGenerating(ForgeDirection.UP);
@@ -124,6 +133,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 				//This means the pressure we are generating is too much!
 				gen = getMaxPressure(getHandler().isOilStored(), null) - getPressure(ForgeDirection.UNKNOWN);
 			}
+			MJUsage = gen * (getFluidInNetwork(from) / getFluidCapacity(from)) / Constants.CONVERSION_RATIO_MJ_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
 			
 			return gen; 
 		}else{
@@ -185,6 +195,10 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 		super.readFromNBT(tagCompound);
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 
+		networkCapacity = tagCompound.getInteger("networkCapacity");
+		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
+		MJUsage = tagCompound.getFloat("MJUsage");
+		
 		tier = tagCompound.getInteger("tier");
 		isRunning = tagCompound.getBoolean("isRunning");
 		//MJPower = tagCompound.getInteger("MJPower");
@@ -198,6 +212,14 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setBoolean("isRunning", isRunning);
 		tagCompound.setInteger("tier", tier);
+		
+		if(getNetwork(getFacing()) != null){
+			tagCompound.setInteger("networkCapacity", getNetwork(getFacing()).getFluidCapacity());
+			tagCompound.setInteger("fluidInNetwork", getNetwork(getFacing()).getFluidInNetwork());
+		}
+		tagCompound.setFloat("MJUsage", MJUsage);
+		
+		
 		getPowerHandler().writeToNBT(tagCompound, "powerHandler");
 		//tagCompound.setInteger("MJPower", MJPower);
 	}
@@ -232,7 +254,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
-		return side.equals(facing);
+		return side.equals(getFacing());
 	}
 
 	public ForgeDirection getFacing() {
@@ -240,7 +262,11 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	}
 
 	public void setFacing(ForgeDirection rotation) {
+		if(!worldObj.isRemote){
+			getHandler().updateNetworkOnNextTick(getNetwork(getFacing()).getPressure());
+		}
 		facing = rotation;
+		
 	}
 	
 	public boolean getIsRunning(){
@@ -307,7 +333,7 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	public void updateNetwork(float oldPressure) {
 		PressureNetwork endNetwork = null;
 
-		endNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, getFacing().getOpposite());
+		endNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, getFacing());
 			
 		if(endNetwork != null){
 			pNetwork = endNetwork;
@@ -318,11 +344,12 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}
+	
 	@Override
 	public int getFluidInNetwork(ForgeDirection from) {
 		if(worldObj.isRemote){
 			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
+			return fluidInNetwork;
 		}else{
 			return getNetwork(from).getFluidInNetwork();
 		}
@@ -332,9 +359,13 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	public int getFluidCapacity(ForgeDirection from) {
 		if(worldObj.isRemote){
 			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
+			return networkCapacity;
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
+	}
+
+	public float getMJUsage() {
+		return MJUsage;
 	}
 }

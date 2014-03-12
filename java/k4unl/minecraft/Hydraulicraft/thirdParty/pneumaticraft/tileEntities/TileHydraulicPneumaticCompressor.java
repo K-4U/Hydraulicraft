@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
@@ -27,6 +28,10 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 
     private PressureNetwork pNetwork;
     private List<ForgeDirection> connectedSides;
+    
+    public TileHydraulicPneumaticCompressor(){
+    	connectedSides = new ArrayList<ForgeDirection>();
+    }
     
     @Override
     public IAirHandler getAirHandler(){

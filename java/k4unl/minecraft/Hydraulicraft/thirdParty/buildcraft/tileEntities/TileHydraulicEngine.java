@@ -14,6 +14,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -31,12 +32,12 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	private boolean isRunning = true;
 	private float percentageRun = 0.0F;
 	private float direction = 0.005F;
+	private float pressureRequired;
 	private PressureNetwork pNetwork;
 	
 	public TileHydraulicEngine(){
 		powerHandler = new PowerHandler(this, Type.ENGINE);
-        powerHandler.configure(1.5F, 300, 10, 1000);
-        powerHandler.configurePowerPerdition(1, 100);
+		powerHandler.configure(Constants.MJ_USAGE_PER_TICK[2]*2, Constants.MJ_USAGE_PER_TICK[2] * 3, Constants.ACTIVATION_MJ, 3000);
 	}
 	
 	@Override
@@ -76,6 +77,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	public void readNBT(NBTTagCompound tagCompound) {
 		powerHandler.readFromNBT(tagCompound);
 		isRunning = tagCompound.getBoolean("isRunning");
+		pressureRequired = tagCompound.getFloat("pressureRequired");
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 	}
 
@@ -84,6 +86,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		powerHandler.writeToNBT(tagCompound);
 		tagCompound.setBoolean("isRunning", isRunning);
 		tagCompound.setInteger("facing", facing.ordinal());
+		tagCompound.setFloat("pressureRequired", pressureRequired);
 	}
 
 	@Override
@@ -135,22 +138,27 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
-		if(!simulate){
-			sendPower();
-		}
 		return createPower(simulate);
 	}
 	
-	private float createPower(boolean simulate){
-		if(getPressure(getFacing().getOpposite()) < Constants.MIN_REQUIRED_PRESSURE_ENGINE || !getHandler().getRedstonePowered()){
+	public float createPower(boolean simulate){
+		boolean rp =getHandler().getRedstonePowered();
+		int pressureReq = Float.compare(getPressure(getFacing().getOpposite()), Constants.MIN_REQUIRED_PRESSURE_ENGINE);
+		float energyStored = getPowerReceiver(getFacing()).getEnergyStored();
+		float energyMax = getPowerReceiver(getFacing()).getMaxEnergyStored();
+		int MJReq = Float.compare(getPowerReceiver(getFacing()).getEnergyStored(), getPowerReceiver(getFacing()).getMaxEnergyStored());
+		
+		if(!rp || pressureReq < 0 || MJReq >= 0){
 			isRunning = false;
+			pressureRequired = 0F;
 			getHandler().updateBlock();
 			return 0F;
 		}
 		
-		float energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), null)) * Constants.CONVERSION_RATIO_HYDRAULIC_MJ) * (getPressure(getFacing().getOpposite()) / 1000);
-		if(!simulate)
-			energy += energyToAdd;
+		float energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), getFacing())) * Constants.CONVERSION_RATIO_HYDRAULIC_MJ) * Constants.MAX_TRANSFER_MJ;
+		if(!simulate){
+			energyToAdd = powerHandler.addEnergy(energyToAdd);
+		}
 		
         int efficiency = 20;
         float pressureUsage = energyToAdd * (1.0F - (efficiency / 100F)); 
@@ -159,6 +167,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
         }else{
         	isRunning = false;
         }
+        pressureRequired = pressureUsage;
         return pressureUsage;
     }
 
@@ -189,34 +198,19 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
         }
 }
 
-	private float getPowerToExtract() {
+	public float getPowerToExtract() {
 		ForgeDirection o = facing;
         TileEntity tile = worldObj.getBlockTileEntity(xCoord + o.offsetX, yCoord + o.offsetY, zCoord + o.offsetZ);
-        PowerReceiver receptor = ((IPowerReceptor)tile).getPowerReceiver(o.getOpposite());
-        return extractEnergy(receptor.getMinEnergyReceived(), receptor.getMaxEnergyReceived(), false);
+        if(tile instanceof IPowerReceptor){
+        	PowerReceiver receptor = ((IPowerReceptor)tile).getPowerReceiver(o.getOpposite());
+        	return extractEnergy(receptor.getMinEnergyReceived(), receptor.getMaxEnergyReceived(), false);
+        }else{
+        	return 0;
+        }
 	}
 	
 	public float extractEnergy(float min, float max, boolean doExtract){
-        if(energy < min) return 0;
-
-        float actualMax;
-
-        if(max > maxEnergyExtracted()) actualMax = maxEnergyExtracted();
-        else actualMax = max;
-
-        if(actualMax < min) return 0;
-
-        float extracted;
-
-        if(energy >= actualMax) {
-            extracted = actualMax;
-            if(doExtract) energy -= actualMax;
-        } else {
-            extracted = energy;
-            if(doExtract) energy = 0;
-        }
-
-        return extracted;
+        return powerHandler.useEnergy(min, max, doExtract);
     }
 	
     private float maxEnergyExtracted(){
@@ -259,6 +253,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	public void updateEntity() {
 		super.updateEntity();
 		getHandler().updateEntity();
+		sendPower();
 	}
 
 	@Override
@@ -345,5 +340,9 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
+	}
+
+	public float getPressureRequired() {
+		return pressureRequired;
 	}
 }
