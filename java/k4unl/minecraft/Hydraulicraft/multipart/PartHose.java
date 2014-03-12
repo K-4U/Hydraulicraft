@@ -98,7 +98,9 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     		double zMin2 = (dir.offsetZ < 0 ? 0.0 : (dir.offsetZ == 0 ? centerSecond - w : centerSecond + w));
     		double zMax2 = (dir.offsetZ > 0 ? 1.0 : (dir.offsetZ == 0 ? centerSecond + w : centerSecond - w));
     		
-    		boundingBoxes[i] = new Cuboid6(xMin1, yMin1, zMin1, xMax1, yMax1, zMax1);
+    		Cuboid6 first = new Cuboid6(xMin1, yMin1, zMin1, xMax1, yMax1, zMax1);
+    		Cuboid6 second = new Cuboid6(xMin2, yMin2, zMin2, xMax2, yMax2, zMax2);
+    		boundingBoxes[i] = first;
     		boundingBoxes[i+7] = new Cuboid6(xMin2, yMin2, zMin2, xMax2, yMax2, zMax2);
     		i++;
     	}

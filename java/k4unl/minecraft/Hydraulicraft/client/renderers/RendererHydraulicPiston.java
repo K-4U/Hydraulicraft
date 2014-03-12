@@ -184,18 +184,18 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		float totalLength = 0F;
 		float maxLength = 1F;
 		if(tileentity != null){
+			totalLength = tileentity.getExtendedLength();
+			maxLength = tileentity.getMaxLength();
 			if(tileentity.getIsHarvesterPart()){
 				half = 1F;
 				totalLength+=0.5F;
-			}	
-			totalLength = tileentity.getExtendedLength();
-			maxLength = tileentity.getMaxLength();
+			}
 		}
 		
 		float begin = half;
 		float remainingPercentage = totalLength;
 		float thickness = 0.15F;
-		float maxThickness = 0.48F;
+		float maxThickness = 0.46F;
 		float armLength = 0.81F;
 		float thicknessChange = (maxThickness - thickness) / (maxLength / armLength);
 
