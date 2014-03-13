@@ -323,7 +323,7 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 		if(getInventoryTarget() != null){
 			return getInventoryTarget().getAccessibleSlotsFromSide(var1);
 		}
-		return null;
+		return new int[0];
 	}
 
 	@Override
