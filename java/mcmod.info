@@ -16,9 +16,6 @@
             ""
         ],
         "parent":       "",
-        "dependencies": [
-            "Waila"
-        ]
     }
 ]       
         

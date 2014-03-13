@@ -32,8 +32,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @Mod(
 	modid = ModInfo.ID,
 	name = ModInfo.NAME,
-	version = ModInfo.VERSION,
-	dependencies="required-after:Waila"
+	version = ModInfo.VERSION
 )
 
 @NetworkMod (
