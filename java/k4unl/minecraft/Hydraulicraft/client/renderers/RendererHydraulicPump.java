@@ -45,7 +45,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
-		GL11.glColor3f(0.9F, 0.9F, 0.9F);
+		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		//Do rendering
         
 		float thickness = 0.06F;

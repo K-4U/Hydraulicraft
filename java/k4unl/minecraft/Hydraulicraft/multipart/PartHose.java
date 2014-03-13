@@ -62,7 +62,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     private boolean hasCheckedSinceStartup;
     private boolean hasFoundNetwork = false;
     
-    
+    private static RendererHydraulicHose renderer = new RendererHydraulicHose();
     private int tier = 0;
 
     static {
@@ -257,8 +257,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     public void renderDynamic(Vector3 pos, float frame, int pass){
         if (pass == 0){
             GL11.glDisable(GL11.GL_LIGHTING);
-            RendererHydraulicHose r = new RendererHydraulicHose();
-            r.doRender(pos.x, pos.y, pos.z, 0, tier, connectedSides);
+            renderer.doRender(pos.x, pos.y, pos.z, 0, tier, connectedSides);
             GL11.glEnable(GL11.GL_LIGHTING);
         }
     }

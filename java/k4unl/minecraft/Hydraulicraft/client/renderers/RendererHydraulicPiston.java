@@ -48,7 +48,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		}
 		
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
-		
+		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		GL11.glPushMatrix();
 		
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
