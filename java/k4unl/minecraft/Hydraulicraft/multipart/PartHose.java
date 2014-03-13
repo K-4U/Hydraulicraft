@@ -554,9 +554,9 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		PressureNetwork endNetwork = null;
 		//This block can merge networks!
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			/*if(!isConnectedTo(dir)){
+			if(!isConnectedTo(dir)){
 				continue;
-			}*/
+			}
 			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), dir);
 			if(foundNetwork != null){
 				if(endNetwork == null){

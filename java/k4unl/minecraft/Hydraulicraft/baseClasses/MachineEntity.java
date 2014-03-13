@@ -135,18 +135,15 @@ public class MachineEntity implements IBaseClass {
 		}
     }
 
-	@SideOnly(Side.SERVER)
-	public void setPressure(float newPressure, ForgeDirection dir){
+	public void checkPressure(ForgeDirection dir){
 		if(getWorld() == null) return;
 		if(getWorld().isRemote) return;
 		
+		float newPressure = target.getPressure(dir);
 		int compare = Float.compare(getMaxPressure(isOilStored(), dir), newPressure);
 		if(compare < 0 && getStored() > 0){
 			getWorld().createExplosion((Entity)null, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(),
 					1F + ((getMaxPressure(isOilStored(), null) / newPressure) * 3), true);
-		
-		}else{
-			target.setPressure(newPressure, dir);
 		}
 	}
 	
@@ -445,8 +442,13 @@ public class MachineEntity implements IBaseClass {
 					updateBlock();
 				}
 				
+				
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 					if(target.getNetwork(dir) != null){
+						if(getWorld().getTotalWorldTime() % 2 == 0){
+							checkPressure(dir);
+						}
+						
 						if(tTarget instanceof IHydraulicConsumer){
 							IHydraulicConsumer consumer = (IHydraulicConsumer)tTarget;
 							if(consumer.canWork(dir)){
