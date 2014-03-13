@@ -18,6 +18,7 @@ public class BlockElectricPump extends MachineTieredBlock {
 		super(Ids.blockElectricPump, Names.blockElectricPump);
 		
 		this.hasTopIcon = true;
+		hasTextures = false;
 	}
 
 

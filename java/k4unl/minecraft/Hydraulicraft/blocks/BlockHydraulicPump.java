@@ -16,7 +16,7 @@ public class BlockHydraulicPump extends MachineTieredBlock {
 
     protected BlockHydraulicPump() {
         super(Ids.blockHydraulicPump, Names.blockHydraulicPump);
-        this.hasTopIcon = true;
+        hasTextures = false;
     }
 
 	@Override

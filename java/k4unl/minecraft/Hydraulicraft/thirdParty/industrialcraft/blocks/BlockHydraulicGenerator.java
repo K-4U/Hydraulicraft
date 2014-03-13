@@ -21,6 +21,7 @@ public class BlockHydraulicGenerator extends MachineBlockContainer {
 	public BlockHydraulicGenerator() {
 		super(Ids.blockHydraulicGenerator, Names.blockHydraulicGenerator);
 		hasFrontIcon = true;
+		hasTextures = false;
 	}
 
 	@Override

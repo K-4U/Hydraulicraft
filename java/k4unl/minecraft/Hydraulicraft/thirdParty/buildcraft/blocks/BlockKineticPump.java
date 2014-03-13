@@ -18,6 +18,7 @@ public class BlockKineticPump extends MachineTieredBlock {
 		super(Ids.blockKineticPump, Names.blockKineticPump);
 		
 		this.hasTopIcon = true;
+		hasTextures = false;
 	}
 
 

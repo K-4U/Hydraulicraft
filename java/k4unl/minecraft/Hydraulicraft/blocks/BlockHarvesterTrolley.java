@@ -26,6 +26,7 @@ public class BlockHarvesterTrolley extends MachineBlockContainer{
 		
 		mName = Names.blockHarvesterTrolley;
 		enabledHarvesters.add(0);
+		hasTextures = false;
 	}
 	
 	public void enableHarvester(int id){

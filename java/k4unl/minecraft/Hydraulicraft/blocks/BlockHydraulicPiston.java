@@ -16,9 +16,7 @@ public class BlockHydraulicPiston extends MachineBlockContainer {
 
 	protected BlockHydraulicPiston() {
 		super(Ids.blockHydraulicPiston, Names.blockHydraulicPiston);
-		this.hasTopIcon = true;
-		this.hasBottomIcon = true;
-		this.hasFrontIcon = true;
+		hasTextures = false;
 	}
 
 	@Override

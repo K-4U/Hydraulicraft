@@ -22,6 +22,7 @@ public class BlockRFPump extends MachineTieredBlock {
 		super(Ids.blockRFPump, Names.blockRFPump);
 		
 		this.hasTopIcon = true;
+		hasTextures = false;
 	}
 
 

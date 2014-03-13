@@ -26,12 +26,15 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	private Icon frontIcon;
 	
 	
+	
 	private Id tBlockId;
 	public Name mName;
 	
 	protected boolean hasBottomIcon = false;
 	protected boolean hasTopIcon = false;
 	protected boolean hasFrontIcon = false;
+	
+	protected boolean hasTextures = true;
 	
 	@Override
 	public abstract TileEntity createNewTileEntity(World world);
@@ -65,6 +68,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	
 	@Override
 	public void registerIcons(IconRegister iconRegistry){
+		if(!hasTextures) return;
 		if(hasTopIcon || hasBottomIcon || hasFrontIcon){
 			blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
 			if(hasTopIcon){

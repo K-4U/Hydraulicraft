@@ -16,6 +16,7 @@ public class BlockHydraulicDynamo extends MachineBlockContainer {
 
 	public BlockHydraulicDynamo() {
 		super(Ids.blockHydraulicDynamo, Names.blockHydraulicDynamo);
+		hasTextures = false;
 	}
 
 	@Override

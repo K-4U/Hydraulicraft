@@ -16,6 +16,7 @@ public class BlockHydraulicEngine extends MachineBlockContainer {
 
 	public BlockHydraulicEngine() {
 		super(Ids.blockHydraulicEngine, Names.blockHydraulicEngine);
+		hasTextures = false;
 	}
 
 	@Override
