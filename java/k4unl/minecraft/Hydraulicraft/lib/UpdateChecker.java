@@ -30,7 +30,7 @@ public class UpdateChecker {
 			Gson gson = new Gson();        
 			UpdateInfo info = gson.fromJson(json, UpdateInfo.class);
 			
-			if(info.latestVersion.get(0) != ModInfo.VERSION_MAIN || info.latestVersion.get(1) != ModInfo.VERSION_MAJOR || info.latestVersion.get(2) != ModInfo.VERSION_MINOR){
+			if(!info.latestVersion.equals(ModInfo.VERSION)){
 				Log.info("New version available!");
 				Log.info("Latest version released at: " + info.dateOfRelease);
 				return true;
