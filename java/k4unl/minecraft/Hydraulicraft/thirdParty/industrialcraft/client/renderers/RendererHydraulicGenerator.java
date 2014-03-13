@@ -39,7 +39,10 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef(x, y, z);
-
+		
+		GL11.glTranslatef(1.0F, 0.0F, 0.0F);
+		GL11.glRotatef(90F, 0.0F, -1.0F, 0.0F);
+		
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
 		
 		GL11.glPushMatrix();

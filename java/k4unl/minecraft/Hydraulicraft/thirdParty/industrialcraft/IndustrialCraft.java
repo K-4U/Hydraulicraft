@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft;
 
+import ic2.api.item.Items;
+import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.BlockElectricPump;
@@ -12,7 +14,10 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -44,15 +49,16 @@ public class IndustrialCraft {
 	}
 	
 	public static void initRecipes(){
-		/*GameRegistry.addRecipe(new ItemStack(hydraulicPneumaticCompressor, 1),
+		ItemStack generator = Items.getItem("generator");
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockHydraulicGenerator, 1), true,
 				new Object [] {
-					"WWW",
-					"KCT",
-					"WWW",
-					'K', Items.gasket,
-					'T', new ItemStack(BlockSupplier.getBlock("pressureTube"), 1, 0),
-					'W', Blocks.hydraulicPressureWall,
-					'C', BlockSupplier.getBlock("airCompressor")
-				});*/
+					"PWP",
+					"PGP",
+					"WKW",
+					'P', Block.thinGlass,
+					'G', generator,
+					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
+					'W', Blocks.hydraulicPressureWall
+				}));
 	}
 }

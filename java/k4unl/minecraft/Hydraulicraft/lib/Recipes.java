@@ -8,6 +8,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.Buildcraft;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraft.block.Block;
@@ -115,11 +116,22 @@ public class Recipes {
 	private static void initializeBlockRecipes(){
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockValve, 4, 0), true ,
 				new Object[] {
-					"WWW",
 					"WKW",
-					"WWW",
+					"K K",
+					"WKW",
 					'W', Blocks.hydraulicPressureWall,
 					'K', Items.gasket
+			})
+		);
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockInterfaceValve, 4, 0), true ,
+				new Object[] {
+					"WHW",
+					"K K",
+					"WHW",
+					'W', Blocks.hydraulicPressureWall,
+					'K', Items.gasket,
+					'H', Block.hopperBlock
 			})
 		);
 		
@@ -227,11 +239,11 @@ public class Recipes {
 				new Object [] {
 					"PKP",
 					"GCG",
-					"PWP",
+					"PUP",
 					'P', Block.pistonBase,
 					'K', Items.gasket,
 					'G', Block.glass,
-					'W', Blocks.hydraulicPressureWall,
+					'U', new ItemStack(Blocks.hydraulicPump, 1,0),
 					'C', new ItemStack(Blocks.blockCore, 1, 1)
 				})
 			);
@@ -239,11 +251,11 @@ public class Recipes {
                 new Object[]{
                         "PKP",
                         "GCG",
-                        "PWP",
+                        "PUP",
                         'P', Block.pistonBase,
                         'K', Items.gasket,
                         'G', Block.glass,
-                        'W', Blocks.hydraulicPressureWall,
+                        'U', new ItemStack(Blocks.hydraulicPump, 1, 1),
                         'C', new ItemStack(Blocks.blockCore, 1, 2)
                 })
         );
@@ -337,16 +349,6 @@ public class Recipes {
 				
 			});
 		
-		
-		/*GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicPressureValve, 1),
-				new Object [] {
-					"---",
-					"HLH",
-					"---",
-					'H', Blocks.hydraulicHose,
-					'L', Block.lever,
-				});*/
-		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicCrusher, 1),
 				new Object [] {
 					"-K-",
@@ -366,8 +368,10 @@ public class Recipes {
 					'K', Items.gasket,
 					'G', Block.glass,
 					'W', Blocks.hydraulicPressureWall,
-					'C', new ItemStack(Blocks.blockCore, 1, 1)
+					'C', new ItemStack(Blocks.blockCore, 1, 2)
 				});
+		
+
 	}
 	
 	private static void initializeItemRecipes(){
@@ -380,11 +384,10 @@ public class Recipes {
 			
 		});
 	
-		//TODO: Change me!
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.ingotEnrichedCopper, 4), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.ingotEnrichedCopper, 1), true,
 			new Object [] {
 				"---",
-				"CDC",
+				"-DC",
 				"---",
 				'D', Item.diamond,
 				'C', "ingotCopper"

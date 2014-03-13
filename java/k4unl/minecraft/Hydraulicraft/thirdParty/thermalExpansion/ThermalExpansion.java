@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion;
 
+import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockHydraulicDynamo;
@@ -12,7 +13,10 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderer
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -22,6 +26,9 @@ public class ThermalExpansion {
 	
 	public static void init(){
 		initBlocks();
+	}
+	
+	public static void postInit(){
 		initRecipes();
 	}
 	
@@ -44,15 +51,18 @@ public class ThermalExpansion {
 	}
 	
 	public static void initRecipes(){
-		/*GameRegistry.addRecipe(new ItemStack(hydraulicPneumaticCompressor, 1),
+		ItemStack powerCoil = GameRegistry.findItemStack("ThermalExpansion", "powerCoilSilver", 1);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockHydraulicDynamo, 1), true,
 				new Object [] {
-					"WWW",
-					"KCT",
-					"WWW",
+					"-C-",
+					"FIK",
+					"IRI",
+					'F', Items.itemFrictionPlate,
+					'C', powerCoil,
 					'K', Items.gasket,
-					'T', new ItemStack(BlockSupplier.getBlock("pressureTube"), 1, 0),
-					'W', Blocks.hydraulicPressureWall,
-					'C', BlockSupplier.getBlock("airCompressor")
-				});*/
+					'I', "ingotCopper",
+					'R', Item.redstone
+				}));
+		
 	}
 }

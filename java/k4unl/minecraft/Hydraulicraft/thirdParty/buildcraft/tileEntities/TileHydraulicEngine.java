@@ -33,6 +33,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	private float percentageRun = 0.0F;
 	private float direction = 0.005F;
 	private float pressureRequired;
+	private float energyToAdd = 0F;
 	private PressureNetwork pNetwork;
 	
 	public TileHydraulicEngine(){
@@ -79,6 +80,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		isRunning = tagCompound.getBoolean("isRunning");
 		pressureRequired = tagCompound.getFloat("pressureRequired");
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+		energyToAdd = tagCompound.getFloat("energyToAdd");
 	}
 
 	@Override
@@ -87,6 +89,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		tagCompound.setBoolean("isRunning", isRunning);
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setFloat("pressureRequired", pressureRequired);
+		tagCompound.setFloat("energyToAdd", energyToAdd);
 	}
 
 	@Override
@@ -142,7 +145,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	}
 	
 	public float createPower(boolean simulate){
-		boolean rp =getHandler().getRedstonePowered();
+		boolean rp = getHandler().getRedstonePowered();
 		int pressureReq = Float.compare(getPressure(getFacing().getOpposite()), Constants.MIN_REQUIRED_PRESSURE_ENGINE);
 		float energyStored = getPowerReceiver(getFacing()).getEnergyStored();
 		float energyMax = getPowerReceiver(getFacing()).getMaxEnergyStored();
@@ -155,7 +158,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 			return 0F;
 		}
 		
-		float energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), getFacing())) * Constants.CONVERSION_RATIO_HYDRAULIC_MJ) * Constants.MAX_TRANSFER_MJ;
+		energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), getFacing())) * Constants.CONVERSION_RATIO_HYDRAULIC_MJ) * Constants.MAX_TRANSFER_MJ;
 		if(!simulate){
 			energyToAdd = powerHandler.addEnergy(energyToAdd);
 		}
@@ -170,6 +173,10 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
         pressureRequired = pressureUsage;
         return pressureUsage;
     }
+	
+	public float getEnergyToAdd(){
+		return energyToAdd;
+	}
 
 	public void checkRedstonePower() {
 		getHandler().checkRedstonePower();
@@ -345,4 +352,5 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	public float getPressureRequired() {
 		return pressureRequired;
 	}
+
 }

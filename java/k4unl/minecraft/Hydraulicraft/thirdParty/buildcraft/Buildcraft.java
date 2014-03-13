@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft;
 
+import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
+import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockHydraulicEngine;
@@ -12,6 +14,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.Rend
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -44,15 +47,17 @@ public class Buildcraft {
 	}
 	
 	public static void initRecipes(){
-		/*GameRegistry.addRecipe(new ItemStack(hydraulicPneumaticCompressor, 1),
+		GameRegistry.addRecipe(new ItemStack(Buildcraft.blockHydraulicEngine, 1),
 				new Object [] {
 					"WWW",
-					"KCT",
-					"WWW",
-					'K', Items.gasket,
-					'T', new ItemStack(BlockSupplier.getBlock("pressureTube"), 1, 0),
+					"-G-",
+					"FPK",
 					'W', Blocks.hydraulicPressureWall,
-					'C', BlockSupplier.getBlock("airCompressor")
-				});*/
+					'G', Block.glass,
+					'F', Items.itemFrictionPlate,
+					'P', Block.pistonBase,
+					'K', Items.gasket
+				});
+		
 	}
 }

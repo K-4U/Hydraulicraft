@@ -45,6 +45,11 @@ public class ThirdParty{
     		ExtraUtilities.init();
         }
     	
+    	if(Loader.isModLoaded("ThermalExpansion")){
+        	Log.info("Thermal Expansion found! Initializing Thermal Expansion support!");
+        	ThermalExpansion.postInit();
+        }
+    	
     	
     }
 
