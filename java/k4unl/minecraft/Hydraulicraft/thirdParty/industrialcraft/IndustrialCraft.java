@@ -50,15 +50,52 @@ public class IndustrialCraft {
 	
 	public static void initRecipes(){
 		ItemStack generator = Items.getItem("generator");
+		ItemStack battery = Items.getItem("reBattery");
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockHydraulicGenerator, 1), true,
 				new Object [] {
-					"PWP",
+					"PBP",
 					"PGP",
 					"WKW",
 					'P', Block.thinGlass,
 					'G', generator,
 					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
-					'W', Blocks.hydraulicPressureWall
+					'W', Blocks.hydraulicPressureWall,
+					'B', battery
+				}));
+		
+		ItemStack coil = Items.getItem("coil");
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectricPump, 1, 0), true,
+				new Object [] {
+					"L-L",
+					"KGC",
+					"WWW",
+					'G', Block.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
+					'W', Blocks.hydraulicPressureWall,
+					'C', coil,
+					'L', "ingotLead"
+				}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectricPump, 1, 1), true,
+				new Object [] {
+					"R-R",
+					"KGC",
+					"WWW",
+					'G', Block.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
+					'W', Blocks.hydraulicPressureWall,
+					'C', coil,
+					'R', "ingotCopper"
+				}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectricPump, 1, 2), true,
+				new Object [] {
+					"R-R",
+					"KGC",
+					"WWW",
+					'G', Block.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
+					'W', Blocks.hydraulicPressureWall,
+					'C', coil,
+					'R', "ingotEnrichedCopper"
 				}));
 	}
 }

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
+import k4unl.minecraft.Hydraulicraft.client.GUI.GuiIncinerator;
 import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -44,12 +46,12 @@ public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
 
     @Override
     public Class<? extends GuiContainer> getGuiClass(){
-        return GuiCrusher.class;
+        return GuiIncinerator.class;
     }
 
     @Override
     public String getRecipeName(){
-        return Names.blockHydraulicFrictionIncinerator.localized;
+        return Localization.getLocalizedName(Names.blockHydraulicFrictionIncinerator.unlocalized);
     }
 
     @Override

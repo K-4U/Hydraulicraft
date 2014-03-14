@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion;
 
+import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -51,17 +52,54 @@ public class ThermalExpansion {
 	}
 	
 	public static void initRecipes(){
-		ItemStack powerCoil = GameRegistry.findItemStack("ThermalExpansion", "powerCoilSilver", 1);
+		ItemStack powerTransmissionCoil = GameRegistry.findItemStack("ThermalExpansion", "powerCoilSilver", 1);
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockHydraulicDynamo, 1), true,
 				new Object [] {
 					"-C-",
 					"FIK",
 					"IRI",
 					'F', Items.itemFrictionPlate,
-					'C', powerCoil,
+					'C', powerTransmissionCoil,
 					'K', Items.gasket,
 					'I', "ingotCopper",
 					'R', Item.redstone
+				}));
+		
+		ItemStack powerReceptionCoil = GameRegistry.findItemStack("ThermalExpansion", "powerCoilGold", 1);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockRFPump, 1, 0), true,
+				new Object [] {
+					"L-L",
+					"KGC",
+					"WWW",
+					'G', Block.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
+					'W', Blocks.hydraulicPressureWall,
+					'C', powerReceptionCoil,
+					'L', "ingotLead"
+				}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockRFPump, 1, 1), true,
+				new Object [] {
+					"R-R",
+					"KGC",
+					"WWW",
+					'G', Block.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
+					'W', Blocks.hydraulicPressureWall,
+					'C', powerReceptionCoil,
+					'R', "ingotCopper"
+				}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockRFPump, 1, 2), true,
+				new Object [] {
+					"R-R",
+					"KGC",
+					"WWW",
+					'G', Block.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
+					'W', Blocks.hydraulicPressureWall,
+					'C', powerReceptionCoil,
+					'R', "ingotEnrichedCopper"
 				}));
 		
 	}

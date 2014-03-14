@@ -7,6 +7,7 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.ShapedRecipeHandler;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -46,7 +47,7 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
 
     @Override
     public String getRecipeName(){
-        return Names.blockHydraulicCrusher.localized;
+        return Localization.getLocalizedName(Names.blockHydraulicCrusher.unlocalized);
     }
 
     @Override
@@ -56,8 +57,7 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
 
 
     @Override
-    public boolean hasOverlay(GuiContainer gui, Container container, int recipe)
-    {
+    public boolean hasOverlay(GuiContainer gui, Container container, int recipe){
         return false;
     }
 
@@ -73,7 +73,7 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
     }
 
 
-
+/*
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if(outputId.equals("crafting") && getClass() ==
@@ -84,7 +84,7 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
         } else {
             super.loadCraftingRecipes(outputId, results);
         }
-    }
+    }*/
     
     @Override
 	public void drawExtras(int recipe){

@@ -110,9 +110,14 @@ public class MachineGUI extends GuiContainer {
 		
 	}
 	
-	protected void drawVerticalProgressBar(int xOffset, int yOffset, int h, int w, float value, float max, int color, String toolTipTitle, String toolTipUnit){
-		int x = (width - xSize) / 2;
-		int y = (height - ySize) / 2;
+	public static void drawVerticalProgressBar(int xOffset, int yOffset, int h, int w, float value, float max, int color){
+		float perc = (float)value / (float)max;
+		int height = (int)(h * perc);
+		//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+		drawRect(xOffset, yOffset + (h-height), xOffset + w, yOffset + h, color);
+	}
+	
+	public void drawVerticalProgressBar(int xOffset, int yOffset, int h, int w, float value, float max, int color, String toolTipTitle, String toolTipUnit){
 		float perc = (float)value / (float)max;
 		int height = (int)(h * perc);
 		//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);

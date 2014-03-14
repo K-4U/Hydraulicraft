@@ -1,26 +1,20 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import java.util.ArrayList;
+import java.util.List;
+
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.items.Items;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.Buildcraft;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Recipes {
 	public static void init(){
@@ -384,15 +378,10 @@ public class Recipes {
 			
 		});
 	
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.ingotEnrichedCopper, 1), true,
-			new Object [] {
-				"---",
-				"-DC",
-				"---",
-				'D', Item.diamond,
-				'C', "ingotCopper"
-		}));
+		
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.ingotEnrichedCopper, 1), "gemDiamond", "ingotCopper"));
 
+		
 		
 		GameRegistry.addRecipe(new ItemStack(Items.gasket, 4),
 			new Object [] {

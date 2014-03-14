@@ -7,6 +7,7 @@ import codechicken.nei.recipe.TemplateRecipeHandler.CachedRecipe;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
 import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -45,7 +46,7 @@ public class NEIWasherRecipeManager extends ShapedRecipeHandler{
 
     @Override
     public String getRecipeName(){
-        return Names.blockHydraulicWasher.localized;
+        return Localization.getLocalizedName(Names.blockHydraulicWasher.unlocalized);
     }
 
     @Override

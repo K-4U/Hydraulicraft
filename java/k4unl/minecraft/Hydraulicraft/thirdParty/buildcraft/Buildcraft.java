@@ -16,6 +16,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKine
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -58,6 +59,44 @@ public class Buildcraft {
 					'P', Block.pistonBase,
 					'K', Items.gasket
 				});
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockKineticPump, 1, 0), true,
+				new Object [] {
+					"L-L",
+					"KGP",
+					"WWW",
+					'G', Block.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
+					'W', Blocks.hydraulicPressureWall,
+					'P', Block.pistonBase,
+					'L', "ingotLead"
+				}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockKineticPump, 1, 1), true,
+				new Object [] {
+					"R-R",
+					"KGP",
+					"WWW",
+					'G', Block.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
+					'W', Blocks.hydraulicPressureWall,
+					'P', Block.pistonBase,
+					'R', "ingotCopper"
+				}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockKineticPump, 1, 2), true,
+				new Object [] {
+					"R-R",
+					"KGP",
+					"WWW",
+					'G', Block.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
+					'W', Blocks.hydraulicPressureWall,
+					'P', Block.pistonBase,
+					'R', "ingotEnrichedCopper"
+				}));
+		
+		
 		
 	}
 }
