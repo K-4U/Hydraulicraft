@@ -60,8 +60,7 @@ public class ThirdParty{
         	Log.info("Forge Microblock found! Initializing FMP support!");
         	FMP.initRecipes();
         }
-    	
-    	
     }
+    
 
 }

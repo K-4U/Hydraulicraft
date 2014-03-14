@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,8 +11,7 @@ import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
+
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -27,12 +24,10 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 import org.lwjgl.opengl.GL11;
 
-import codechicken.core.asm.TweakTransformer;
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
@@ -47,6 +42,7 @@ import codechicken.multipart.TSlottedPart;
 import codechicken.multipart.TileMultipart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
 
 public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter {
     public static Cuboid6[] boundingBoxes = new Cuboid6[14];
@@ -62,9 +58,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     private boolean hasCheckedSinceStartup;
     private boolean hasFoundNetwork = false;
     
-    private static RendererHydraulicHose renderer = new RendererHydraulicHose();
     private int tier = 0;
 
+    @SideOnly(Side.CLIENT)
+    private static RendererHydraulicHose renderer;
+    
     static {
     	float center = 0.5F;
     	float offset = 0.10F;
@@ -256,6 +254,9 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     @SideOnly(Side.CLIENT)
     public void renderDynamic(Vector3 pos, float frame, int pass){
         if (pass == 0){
+        	if(renderer == null){
+        		renderer = new RendererHydraulicHose();
+        	}
             GL11.glDisable(GL11.GL_LIGHTING);
             renderer.doRender(pos.x, pos.y, pos.z, 0, tier, connectedSides);
             GL11.glEnable(GL11.GL_LIGHTING);

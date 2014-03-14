@@ -2,22 +2,15 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft;
 
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.items.Items;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockKineticPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.HandlerKineticPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererHydraulicEngine;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererHydraulicEngineItem;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererKineticPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererKineticPumpItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Buildcraft {
@@ -40,11 +33,6 @@ public class Buildcraft {
 		GameRegistry.registerTileEntity(TileHydraulicEngine.class, "tileHydraulicEngine");
 		GameRegistry.registerTileEntity(TileKineticPump.class, "tileKineticPump");
 		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicEngine.class, new RendererHydraulicEngine());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileKineticPump.class, new RendererKineticPump());
-		
-		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicEngine.act, new RendererHydraulicEngineItem());
-		MinecraftForgeClient.registerItemRenderer(Ids.blockKineticPump.act, new RendererKineticPumpItem());
 	}
 	
 	public static void initRecipes(){
@@ -97,6 +85,10 @@ public class Buildcraft {
 				}));
 		
 		
+		
+	}
+
+	public static void initRenderers() {
 		
 	}
 }

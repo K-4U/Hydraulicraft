@@ -6,6 +6,8 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.client.renderers.Renderers;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdParty;
+import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyClient;
 
 
 public class ClientProxy extends CommonProxy {
@@ -18,6 +20,7 @@ public class ClientProxy extends CommonProxy {
 	
 	public void initRenderers(){
 		Renderers.init();
+		ThirdPartyClient.initRenderers();
 	}
 	
 	public void initFonts(){

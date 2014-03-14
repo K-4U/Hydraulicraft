@@ -2,23 +2,16 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion;
 
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.items.Items;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockRFPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.HandlerRFPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamoItem;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererRFPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererRFPumpItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ThermalExpansion {
@@ -40,15 +33,8 @@ public class ThermalExpansion {
 		GameRegistry.registerBlock(blockHydraulicDynamo, Names.blockHydraulicDynamo.unlocalized);
 		GameRegistry.registerBlock(blockRFPump, HandlerRFPump.class, Names.blockRFPump[0].unlocalized);
 		
-		
 		GameRegistry.registerTileEntity(TileHydraulicDynamo.class, "tileHydraulicDynamo");
 		GameRegistry.registerTileEntity(TileRFPump.class, "tileRFPump");
-		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicDynamo.class, new RendererHydraulicDynamo());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileRFPump.class, new RendererRFPump());
-		
-		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicDynamo.act, new RendererHydraulicDynamoItem());
-		MinecraftForgeClient.registerItemRenderer(Ids.blockRFPump.act, new RendererRFPumpItem());
 	}
 	
 	public static void initRecipes(){

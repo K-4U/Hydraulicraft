@@ -27,14 +27,19 @@ public class UpdateChecker {
 		}
 		
 		if(json != ""){
-			Gson gson = new Gson();        
-			UpdateInfo info = gson.fromJson(json, UpdateInfo.class);
-			
-			if(!info.latestVersion.equals(ModInfo.VERSION)){
-				Log.info("New version available!");
-				Log.info("Latest version released at: " + info.dateOfRelease);
-				return true;
-			}else{
+			try{
+				Gson gson = new Gson();        
+				UpdateInfo info = gson.fromJson(json, UpdateInfo.class);
+				
+				if(!info.latestVersion.equals(ModInfo.VERSION)){
+					Log.info("New version available!");
+					Log.info("Latest version released at: " + info.dateOfRelease);
+					return true;
+				}else{
+					return false;
+				}
+			}catch (Exception e){
+				e.printStackTrace();
 				return false;
 			}
 		}else{

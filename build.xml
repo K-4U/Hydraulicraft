@@ -115,7 +115,7 @@
 		</jar>
 
 		<!-- Clean up the MCP source now that we are done -->
-		<!--<antcall target="clean" />-->
+		<antcall target="clean" />
 	</target>
 
 	<target name="release" depends="clean, increment_build_number, prep, replace_tokens, recompile, copyFMP, reobfuscate, cleanFMP">

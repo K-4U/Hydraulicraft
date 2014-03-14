@@ -41,4 +41,8 @@ public class Pneumaticraft {
 					'C', BlockSupplier.getBlock("airCompressor")
 				});
 	}
+
+	public static void initRenderers() {
+		// 
+	}
 }

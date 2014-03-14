@@ -22,8 +22,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemPartHose extends JItemMultiPart
 {
-    public ItemPartHose(int id)
-    {
+    public ItemPartHose(int id){
         super(id);
         setHasSubtypes(true);
         setCreativeTab(CustomTabs.tabHydraulicraft);

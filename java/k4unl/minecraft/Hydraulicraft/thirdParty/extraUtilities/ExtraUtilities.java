@@ -53,4 +53,8 @@ public class ExtraUtilities {
 			})
 		);
 	}
+
+	public static void initRenderers() {
+		
+	}
 }
