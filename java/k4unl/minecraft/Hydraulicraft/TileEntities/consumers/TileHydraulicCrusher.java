@@ -9,6 +9,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes.CrushingRecipe;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -52,15 +53,11 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
     @Override
     public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
         getHandler().onDataPacket(net, packet);
-        //readFromNBT(packet.data);
     }
 
     @Override
     public Packet getDescriptionPacket(){
         return getHandler().getDescriptionPacket();
-        /*NBTTagCompound tag = new NBTTagCompound();
-        writeToNBT(tag);
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, tag);*/
     }
 
     @Override
@@ -245,8 +242,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
     @Override
     public String getInvName(){
-        // TODO Localization
-        return Names.blockHydraulicCrusher.localized;
+        return Localization.getLocalizedName(Names.blockHydraulicCrusher.unlocalized);
     }
 
     @Override

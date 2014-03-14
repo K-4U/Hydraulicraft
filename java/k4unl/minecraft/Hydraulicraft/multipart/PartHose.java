@@ -568,7 +568,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			
 			if(newNetwork != null && endNetwork != null){
 				//Hmm.. More networks!? What's this!?
-				Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+				//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 				endNetwork.mergeNetwork(newNetwork);
 				newNetwork = null;
 			}
@@ -578,10 +578,10 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(endNetwork != null){
 			pNetwork = endNetwork;
 			pNetwork.addMachine(this, oldPressure);
-			Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure);
-			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}
 		hasFoundNetwork = true;
 	}

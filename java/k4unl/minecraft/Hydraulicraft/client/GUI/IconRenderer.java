@@ -3,11 +3,15 @@ package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.IItemRenderer.ItemRenderType;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 import org.lwjgl.opengl.GL11;
 
@@ -64,6 +68,8 @@ public final class IconRenderer {
         float alpha1 = 1.25F - alphaOffset;
         float alpha2 = -0.25F + alphaOffset;
 
+        IItemRenderer resultRenderer = MinecraftForgeClient.getItemRenderer(resultItem, ItemRenderType.INVENTORY);
+        IItemRenderer recipeRenderer = MinecraftForgeClient.getItemRenderer(recipeItem, ItemRenderType.INVENTORY);
         //draw the icons, the size of the icons is alpha + 0.2F
         Block recipeBlock = (recipeId < Block.blocksList.length ? Block.blocksList[recipeId] : null);
         Block resultBlock = (resultId < Block.blocksList.length ? Block.blocksList[resultId] : null);
@@ -72,6 +78,7 @@ public final class IconRenderer {
         }
         if(resultBlock != null && resultBlock.blockID == 0){
         	resultBlock = null;
+        	
         }
 
         
@@ -81,7 +88,7 @@ public final class IconRenderer {
         	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
         }
         
-        drawIcon(x, y, z, resultIcon, 16, 16, alpha2 + 0.2F, alpha2, wobble, resultBlock, resultItem.getItemDamage());
+        drawIcon(x, y, z, resultIcon, 16, 16, alpha2 + 0.2F, alpha2, wobble, resultBlock, resultItem.getItemDamage(), resultItem, resultRenderer);
 
         
         if (recipeItem.getItemSpriteNumber() == 0 && recipeBlock != null && RenderBlocks.renderItemIn3d(Block.blocksList[recipeId].getRenderType())){
@@ -90,7 +97,7 @@ public final class IconRenderer {
         	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
         }
         
-        drawIcon(x, y, z, recipeIcon, 16, 16, alpha1 + 0.2F, alpha1, wobble, recipeBlock, recipeItem.getItemDamage());
+        drawIcon(x, y, z, recipeIcon, 16, 16, alpha1 + 0.2F, alpha1, wobble, recipeBlock, recipeItem.getItemDamage(), recipeItem, recipeRenderer);
         
 
         GL11.glDisable(GL11.GL_BLEND);
@@ -113,8 +120,9 @@ public final class IconRenderer {
      *               changing size will wobble. If set to false the size change will be smooth
      * @param isBlock whether we need to render a block, or just an icon.
      * @param itemDamage TODO
+     * @param recipeRenderer 
      */
-    public static void drawIcon(int x, int y, float z, Icon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock, int itemDamage) {
+    public static void drawIcon(int x, int y, float z, Icon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock, int itemDamage, ItemStack item, IItemRenderer renderer) {
         //without an alpha size or an icon we have nothing to render
         if (alpha <= 0 || size <= 0 || icon == null) {
             return;
@@ -164,7 +172,7 @@ public final class IconRenderer {
         float sourceBot = icon.getMaxV() - sourceHeightMargin;
 
 
-        if(isBlock == null){
+        if(isBlock == null && renderer == null){
 	        //render the icon with the given bounds. This is done in the same way an icon is normally being rendered by
 	        //the base gui. However, there's no method to be called that allows you to specify all these things.
         	GL11.glPushMatrix();
@@ -185,8 +193,10 @@ public final class IconRenderer {
         	
         	GL11.glTranslatef(0.0F, 0.0F, -1.0F);
         	GL11.glPopMatrix();
-        }else{
+        }else if(isBlock != null){
         	renderBlock(isBlock, x, y, z, itemDamage, alpha, targetWidthMargin);
+        }else{
+        	renderer.renderItem(ItemRenderType.INVENTORY, item);
         }
         //restore the alpha  value
         GL11.glColor4f(1F, 1F, 1F, 1F);

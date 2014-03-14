@@ -19,7 +19,7 @@ public class Ids {
 	public static final Id blockPressureDisposal = new Id(3529);
 	public static final Id blockCore = new Id(3530);
 	public static final Id blockValve = new Id(3540);
-	public static final Id blockInterfaceValve = new Id(3527);
+	public static final Id blockInterfaceValve = new Id(3541);
 	
 	
 	public static final Id oreCopper = new Id(3531);
@@ -52,6 +52,7 @@ public class Ids {
 	public static final Id GUIHydraulicEngine = new Id(12);
 	public static final Id GUIElecticPump = new Id(13);
 	public static final Id GUIHydraulicGenerator = new Id(14);
+	public static final Id GUISaw = new Id(15);
 	
 	
 	
@@ -67,5 +68,7 @@ public class Ids {
 	public static final Id blockRFPump = new Id(3537);
 	public static final Id blockHydraulicGenerator = new Id(3538);
 	public static final Id blockElectricPump = new Id(3539);
+	
+	public static final Id blockHydraulicSaw = new Id(3542);
 	
 }

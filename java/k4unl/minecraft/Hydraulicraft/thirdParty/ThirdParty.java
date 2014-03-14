@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.Buildcraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
+import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.FMP;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.IndustrialCraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
@@ -37,6 +38,12 @@ public class ThirdParty{
         	Log.info("Industrialcraft found! Initializing Industrialcraft support!");
         	IndustrialCraft.init();
         }
+        
+        if(Loader.isModLoaded("ForgeMicroblock")){
+        	Log.info("Forge Microblock found! Initializing FMP support!");
+        	FMP.init();
+        }
+        
     }
     
     public static void postInit(){

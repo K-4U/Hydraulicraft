@@ -33,20 +33,23 @@ public class Config {
 		}
 	}
 	private static final List<configOption> configOptions = new ArrayList<configOption>();
+	//First is harvester ID
+	//Second blockId. 
+	//Next one is metadata when fully grown.
+	public static List<Seed> harvestableItems = new ArrayList<Seed>();
+	
+	
 	static {
 		configOptions.add(new configOption("shouldGenOres", true));
 		configOptions.add(new configOption("shouldDolleyInHarvesterGoBack", true));
 		configOptions.add(new configOption("explosions", true));
+		configOptions.add(new configOption("canSawTwoMicroblocksAtOnce", true));
 		
 		addHarvestableItem(new Seed(0, 59, 7, 295));
 		addHarvestableItem(new Seed(0, 141, 7, 391));
 		addHarvestableItem(new Seed(0, 142, 7, 392));
 	}
 	
-	//First is harvester ID
-	//Second blockId. 
-	//Next one is metadata when fully grown.
-	public static List<Seed> harvestableItems = new ArrayList<Seed>();
 	
 	public static void addHarvestableItem(Seed toAdd){
 		harvestableItems.add(toAdd);

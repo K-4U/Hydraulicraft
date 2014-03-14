@@ -20,6 +20,9 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.GUI.GuiHydraul
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.GUI.GuiKineticPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.client.GUI.GuiSaw;
+import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.containers.ContainerSaw;
+import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities.TileHydraulicSaw;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.GUI.GuiElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.GUI.GuiHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
@@ -100,6 +103,10 @@ public class GuiHandler implements IGuiHandler {
 				if(ent instanceof TileKineticPump){
 					return new ContainerEmpty(player.inventory);
 				}
+			}else if(ID == Ids.GUISaw.act){
+				if(ent instanceof TileHydraulicSaw){
+					return new ContainerSaw(player.inventory, (TileHydraulicSaw)ent);
+				}
 			}
 		}
 		
@@ -168,6 +175,10 @@ public class GuiHandler implements IGuiHandler {
 			}else if(ID == Ids.GUIKineticPump.act){
 				if(ent instanceof TileKineticPump){
 					return new GuiKineticPump(player.inventory, ent);
+				}
+			}else if(ID == Ids.GUISaw.act){
+				if(ent instanceof TileHydraulicSaw){
+					return new GuiSaw(player.inventory, (TileHydraulicSaw)ent);
 				}
 			}
 		}
