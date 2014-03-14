@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.misc;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -12,7 +12,7 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
 public class BlockInterfaceValve extends MachineBlockContainer {
 
-	protected BlockInterfaceValve() {
+	public BlockInterfaceValve() {
 		super(Ids.blockInterfaceValve, Names.blockInterfaceValve);
 	}
 

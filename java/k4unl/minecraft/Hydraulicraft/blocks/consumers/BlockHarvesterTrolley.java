@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.consumers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class BlockHarvesterTrolley extends MachineBlockContainer{
 	private List<Integer> enabledHarvesters = new ArrayList<Integer>();
 	
 	
-	protected BlockHarvesterTrolley() {
+	public BlockHarvesterTrolley() {
 		super(Ids.blockHarvesterTrolley, Names.blockHarvesterTrolley[0]);
 		
 		mName = Names.blockHarvesterTrolley;

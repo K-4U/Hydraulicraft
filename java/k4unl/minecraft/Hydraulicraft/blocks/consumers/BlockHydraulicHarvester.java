@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.consumers;
 
 import java.util.List;
 import java.util.Map;
@@ -43,7 +43,7 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	};
 	
 	
-	protected BlockHydraulicHarvester() {
+	public BlockHydraulicHarvester() {
 		super(Ids.blockHydraulicHarvester, Names.blockHydraulicHarvester[0]);
 		
 		mName = Names.blockHydraulicHarvester;

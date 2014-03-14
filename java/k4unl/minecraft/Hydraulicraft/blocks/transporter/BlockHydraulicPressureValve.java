@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.transporter;
 
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;

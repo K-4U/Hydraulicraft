@@ -1,7 +1,7 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.consumers;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
@@ -10,16 +10,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicWasher extends MachineBlockContainer {
+public class BlockHydraulicCrusher extends MachineBlockContainer {
 
-	protected BlockHydraulicWasher() {
-		super(Ids.blockHydraulicWasher, Names.blockHydraulicWasher);
+	public BlockHydraulicCrusher() {
+		super(Ids.blockHydraulicCrusher, Names.blockHydraulicCrusher);
 		this.hasFrontIcon = true;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return new TileHydraulicWasher();
+		return new TileHydraulicCrusher();
 	}
 	
 	@Override
@@ -28,17 +28,13 @@ public class BlockHydraulicWasher extends MachineBlockContainer {
 			return false;
 		
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileHydraulicWasher)){
+		if(entity == null || !(entity instanceof TileHydraulicCrusher)){
 			return false;
 			
 		}
-		TileHydraulicWasher washer = (TileHydraulicWasher) entity;
-		if(washer.getIsValidMultiblock()){
-			player.openGui(Hydraulicraft.instance, Ids.GUIWasher.act, world, x, y, z);
-			return true;
-		}
+		TileHydraulicCrusher pump = (TileHydraulicCrusher) entity;
+		player.openGui(Hydraulicraft.instance, Ids.GUICrusher.act, world, x, y, z);
 		
-		return false;
+		return true;
 	}
-
 }

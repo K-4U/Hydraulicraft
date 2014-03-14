@@ -1,10 +1,24 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicCrusher;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicFrictionIncinerator;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockPressureDisposal;
+import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerCoreBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
+import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.registry.GameRegistry;

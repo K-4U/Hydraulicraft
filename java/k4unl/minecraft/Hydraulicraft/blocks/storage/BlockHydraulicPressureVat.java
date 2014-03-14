@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.storage;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicPressureVat extends MachineTieredBlock {
 	
 	
-	protected BlockHydraulicPressureVat() {
+	public BlockHydraulicPressureVat() {
 		super(Ids.blockHydraulicPressureVat, Names.blockHydraulicPressurevat);
 		hasTopIcon = true;
 		hasBottomIcon = true;

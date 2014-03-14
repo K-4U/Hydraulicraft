@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.misc;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +20,7 @@ public class BlockHydraulicValve extends MachineBlockContainer {
 	
 	
 	
-	protected BlockHydraulicValve() {
+	public BlockHydraulicValve() {
 		super(Ids.blockValve, Names.blockValve);
 	}
 

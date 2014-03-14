@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.consumers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +14,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileH
 
 public class BlockPressureDisposal extends MachineBlockContainer {
 
-	protected BlockPressureDisposal() {
+	public BlockPressureDisposal() {
 		super(Ids.blockPressureDisposal, Names.blockPressureDisposal);
 		
 	}

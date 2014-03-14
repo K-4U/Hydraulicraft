@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.consumers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockHydraulicPiston extends MachineBlockContainer {
 
-	protected BlockHydraulicPiston() {
+	public BlockHydraulicPiston() {
 		super(Ids.blockHydraulicPiston, Names.blockHydraulicPiston);
 		hasTextures = false;
 	}

@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.consumers;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicFrictionIncinerator;
@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 public class BlockHydraulicFrictionIncinerator extends MachineBlockContainer {
 
-	protected BlockHydraulicFrictionIncinerator() {
+	public BlockHydraulicFrictionIncinerator() {
 		super(Ids.blockHydraulicFrictionIncinerator, Names.blockHydraulicFrictionIncinerator);
 		this.hasFrontIcon = true;
 	}

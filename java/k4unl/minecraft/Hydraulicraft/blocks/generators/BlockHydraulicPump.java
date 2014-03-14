@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.generators;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public class BlockHydraulicPump extends MachineTieredBlock {
 
-    protected BlockHydraulicPump() {
+	public BlockHydraulicPump() {
         super(Ids.blockHydraulicPump, Names.blockHydraulicPump);
         hasTextures = false;
     }

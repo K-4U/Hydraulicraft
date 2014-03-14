@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.blocks.misc;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -11,7 +11,7 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
 public class BlockHydraulicCore extends SubBlock {
 
-	protected BlockHydraulicCore() {
+	public BlockHydraulicCore() {
 		super(Ids.blockCore, Names.blockCore);
 	}
 

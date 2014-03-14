@@ -1,8 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import k4unl.minecraft.Hydraulicraft.blocks.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
