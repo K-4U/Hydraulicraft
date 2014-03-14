@@ -48,6 +48,16 @@
 		<delete dir="${environment.mcp_location}/src/minecraft/thirdParty/" />
 		<delete dir="${environment.mcp_location}/reobf/minecraft" />
 	</target>
+	
+	<target name="cleanFMP">
+		<delete dir="${environment.mcp_location}/reobf/minecraft/codechicken" />
+	</target>
+	
+	<target name="copyFMP">
+	    <copy todir="${environment.mcp_location}/bin/minecraft/">
+	        <fileset dir="${environment.mcp_location}/FMP/" />		
+		</copy>
+	</target>
 
 	<target name="increment_build_number">
 		<propertyfile file="build.properties">
@@ -93,7 +103,7 @@
 		<signjar jar="${environment.release_location}/MC ${build.minecraft_version}/${build.mod_version}/ee3-universal-${build.mod_version}-${build.build_number}.jar" keystore="${private.keystore_location}" alias="${private.keystore_user_alias}" storepass="${private.keystore_user_password}" />
 	</target>
 
-	<target name="build" depends="clean, increment_build_number, replace_tokens_dev, prep, recompile, reobfuscate">
+	<target name="build" depends="clean, increment_build_number, prep, replace_tokens_dev, recompile, copyFMP, reobfuscate, cleanFMP">
 
 		<!-- Build the jar -->
 		<mkdir dir="${environment.release_location}/MC ${build.minecraft_version}/${build.mod_version}" />
@@ -105,10 +115,10 @@
 		</jar>
 
 		<!-- Clean up the MCP source now that we are done -->
-		<antcall target="clean" />
+		<!--<antcall target="clean" />-->
 	</target>
 
-	<target name="release" depends="clean, increment_build_number, prep, replace_tokens, recompile, reobfuscate">
+	<target name="release" depends="clean, increment_build_number, prep, replace_tokens, recompile, copyFMP, reobfuscate, cleanFMP">
 
 		<!-- Build the jar -->
 		<mkdir dir="${environment.release_location}/MC ${build.minecraft_version}/${build.mod_version}" />
@@ -118,9 +128,6 @@
 			<fileset dir="${environment.mcp_location}/reobf/minecraft" />
 			<fileset dir="${environment.source_location}/resources" excludes="**/xcf/**" />
 		</jar>
-
-		<!-- Sign the finished jar -->
-		<antcall target="sign_jar" />
 
 		<!-- Clean up the MCP source now that we are done -->
 		<antcall target="clean" />
