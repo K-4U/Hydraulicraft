@@ -153,11 +153,12 @@ public class Recipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHarvesterSource, 1, 0), true ,
 				new Object[] {
 					"WWW",
-					"WCK",
+					"ICK",
 					"WWW",
 					'C', new ItemStack(Blocks.blockCore, 1, 1),
 					'W', Blocks.hydraulicPressureWall,
-					'K', Items.gasket
+					'K', Items.gasket,
+					'I', Blocks.blockInterfaceValve
 			})
 		);
 		
@@ -216,7 +217,7 @@ public class Recipes {
 					'L', "ingotLead"
 				}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPump,1,0), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPump, 1, 0), true,
 			new Object [] {
 				"PKP",
 				"GCG",
@@ -259,11 +260,12 @@ public class Recipes {
                 new Object[]{
                         "GKG",
                         "KCK",
-                        "WWW",
+                        "WIW",
                         'K', Items.gasket,
                         'G', Block.glass,
                         'W', Blocks.hydraulicPressureWall,
-                        'C', new ItemStack(Blocks.blockCore, 1, 2)
+                        'C', new ItemStack(Blocks.blockCore, 1, 2),
+                        'I', Blocks.blockInterfaceValve
                 });
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 4, 0), true,
@@ -334,12 +336,13 @@ public class Recipes {
 			new Object [] {
 				"GKG",
 				"FCF",
-				"WWW",
+				"WIW",
 				'W', Blocks.hydraulicPressureWall,
 				'G', Block.glass,
 				'F', Items.itemFrictionPlate,
 				'K', Items.gasket,
-				'C', new ItemStack(Blocks.blockCore, 1, 1)
+				'C', new ItemStack(Blocks.blockCore, 1, 1),
+				'I', Blocks.blockInterfaceValve
 				
 			});
 		
@@ -347,11 +350,12 @@ public class Recipes {
 				new Object [] {
 					"-K-",
 					"PCP",
-					"WWW",
+					"WIW",
 					'K', Items.gasket,
 					'P', Block.pistonBase,
 					'W', Blocks.hydraulicPressureWall,
-					'C', new ItemStack(Blocks.blockCore, 1, 1)
+					'C', new ItemStack(Blocks.blockCore, 1, 1),
+					'I', Blocks.blockInterfaceValve
 				});
 		
 		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicWasher, 1),

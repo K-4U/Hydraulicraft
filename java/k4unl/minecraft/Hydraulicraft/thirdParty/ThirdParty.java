@@ -56,6 +56,10 @@ public class ThirdParty{
         	Log.info("Thermal Expansion found! Initializing Thermal Expansion support!");
         	ThermalExpansion.postInit();
         }
+    	if(Loader.isModLoaded("ForgeMicroblock")){
+        	Log.info("Forge Microblock found! Initializing FMP support!");
+        	FMP.initRecipes();
+        }
     	
     	
     }
