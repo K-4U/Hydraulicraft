@@ -7,22 +7,46 @@ import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
 
 public class Config {
-	public static boolean shouldGenOres = true;
-	public static boolean shouldDolleyInHarvesterGoBack = true;
-	
+	private static class configOption{
+		private String key;
+		private boolean val;
+		private boolean def;
+		public configOption(String nKey, boolean def){
+			key = nKey;
+			val = def;
+			this.def = def;
+		}
+		public String getKey(){
+			return key;
+		}
+		public boolean getValue(){
+			return val;
+		}
+		public void setValue(boolean nValue){
+			val = nValue;
+		}
+		public void loadFromConfig(Configuration config){
+			config.get(config.CATEGORY_GENERAL, key, def).getBoolean(def);
+		}
+	}
+	private static final List<configOption> configOptions = new ArrayList<configOption>();
+	static {
+		configOptions.add(new configOption("shouldGenOres", true));
+		configOptions.add(new configOption("shouldDolleyInHarvesterGoBack", true));
+		configOptions.add(new configOption("explosions", true));
+		
+		addHarvestableItem(new Seed(0, 59, 7, 295));
+		addHarvestableItem(new Seed(0, 141, 7, 391));
+		addHarvestableItem(new Seed(0, 142, 7, 392));
+	}
 	
 	//First is harvester ID
 	//Second blockId. 
 	//Next one is metadata when fully grown.
 	public static List<Seed> harvestableItems = new ArrayList<Seed>();
-	
-	public static void initHarvestableItems(){
-		addHarvestableItem(new Seed(0, 59, 7, 295));
-		addHarvestableItem(new Seed(0, 141, 7, 391));
-		addHarvestableItem(new Seed(0, 142, 7, 392));
-	}
 	
 	public static void addHarvestableItem(Seed toAdd){
 		harvestableItems.add(toAdd);
@@ -39,6 +63,21 @@ public class Config {
 	
 	public static boolean canBeWashed(ItemStack itemStack){
         return (WashingRecipes.getWashingRecipeOutput(itemStack) != null);
+	}
+
+	public static void loadConfigOptions(Configuration c){
+		for(configOption config : configOptions){
+			config.loadFromConfig(c);
+		}
+	}
+	
+	public static boolean get(String key) {
+		for(configOption config : configOptions){
+			if(config.getKey().equals(key)){
+				return config.getValue();
+			}
+		}
+		return false;
 	}
 	
 }

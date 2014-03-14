@@ -26,8 +26,7 @@ public class ConfigHandler{
         config.load();
 
         loadIds();
-        Config.initHarvestableItems();
-        loadOptions();
+        Config.loadConfigOptions(config);
         
         if(config.hasChanged()) {
             config.save();
@@ -76,12 +75,5 @@ public class ConfigHandler{
         Ids.blockHydraulicDynamo.loadBlock(config, Names.blockHydraulicDynamo);
         
         Ids.blockRFPump.loadBlock(config, Names.blockRFPump);
-    }
-    
-    private static void loadOptions(){
-    	Config.shouldDolleyInHarvesterGoBack = config.get(config.CATEGORY_GENERAL, "shouldDolleyInHarvesterGoBack", true).getBoolean(true);
-    	Config.shouldGenOres = config.get(config.CATEGORY_GENERAL, "shouldGenOres", true).getBoolean(true);
-    	
-    	
     }
 }

@@ -15,6 +15,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
@@ -442,10 +443,9 @@ public class MachineEntity implements IBaseClass {
 					updateBlock();
 				}
 				
-				
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 					if(target.getNetwork(dir) != null){
-						if(getWorld().getTotalWorldTime() % 2 == 0){
+						if(getWorld().getTotalWorldTime() % 2 == 0 && Config.get("explosions")){
 							checkPressure(dir);
 						}
 						

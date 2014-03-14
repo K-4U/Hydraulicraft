@@ -51,7 +51,7 @@ public class OreGenerator implements IWorldGenerator {
 	}
 	
 	private void generateOverworld(World world, Random random, int chunkX, int chunkZ){
-		if(Config.shouldGenOres){
+		if(Config.get("shouldGenOres")){
 			generateOre(Ids.oreCopper, world, random, chunkX, chunkZ);
 			generateOre(Ids.oreLead, world, random, chunkX, chunkZ);
 		}

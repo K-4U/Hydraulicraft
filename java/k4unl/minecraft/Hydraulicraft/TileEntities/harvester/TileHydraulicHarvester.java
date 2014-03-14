@@ -641,14 +641,14 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		if(!retracting){
 			p.extendTo(h2);
 		}else{
-			if(Config.shouldDolleyInHarvesterGoBack){
+			if(Config.get("shouldDolleyInHarvesterGoBack")){
 				p.extendTo(0f);
 			}
 		}
 		
 		if(w < trolleyList.size()){
 			if(retracting){
-				if(Config.shouldDolleyInHarvesterGoBack){
+				if(Config.get("shouldDolleyInHarvesterGoBack")){
 					getTrolleyFromList(w).extendTo(0, 0F);
 				}else{
 					float currentLocation = getTrolleyFromList(w).getSideLength();
