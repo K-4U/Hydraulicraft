@@ -68,8 +68,6 @@ public final class IconRenderer {
         float alpha1 = 1.25F - alphaOffset;
         float alpha2 = -0.25F + alphaOffset;
 
-        IItemRenderer resultRenderer = MinecraftForgeClient.getItemRenderer(resultItem, ItemRenderType.INVENTORY);
-        IItemRenderer recipeRenderer = MinecraftForgeClient.getItemRenderer(recipeItem, ItemRenderType.INVENTORY);
         //draw the icons, the size of the icons is alpha + 0.2F
         Block recipeBlock = (recipeId < Block.blocksList.length ? Block.blocksList[recipeId] : null);
         Block resultBlock = (resultId < Block.blocksList.length ? Block.blocksList[resultId] : null);
@@ -88,7 +86,7 @@ public final class IconRenderer {
         	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
         }
         
-        drawIcon(x, y, z, resultIcon, 16, 16, alpha2 + 0.2F, alpha2, wobble, resultBlock, resultItem.getItemDamage(), resultItem, resultRenderer);
+        drawIcon(x, y, z, resultIcon, 16, 16, alpha2 + 0.2F, alpha2, wobble, resultBlock, resultItem.getItemDamage(), resultItem);
 
         
         if (recipeItem.getItemSpriteNumber() == 0 && recipeBlock != null && RenderBlocks.renderItemIn3d(Block.blocksList[recipeId].getRenderType())){
@@ -97,7 +95,7 @@ public final class IconRenderer {
         	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
         }
         
-        drawIcon(x, y, z, recipeIcon, 16, 16, alpha1 + 0.2F, alpha1, wobble, recipeBlock, recipeItem.getItemDamage(), recipeItem, recipeRenderer);
+        drawIcon(x, y, z, recipeIcon, 16, 16, alpha1 + 0.2F, alpha1, wobble, recipeBlock, recipeItem.getItemDamage(), recipeItem);
         
 
         GL11.glDisable(GL11.GL_BLEND);
@@ -119,10 +117,9 @@ public final class IconRenderer {
      * @param wobble whether the icon should wobble or not, when set to true an animating icon which constantly is
      *               changing size will wobble. If set to false the size change will be smooth
      * @param isBlock whether we need to render a block, or just an icon.
-     * @param itemDamage TODO
-     * @param recipeRenderer 
+     * @param itemDamage TODO 
      */
-    public static void drawIcon(int x, int y, float z, Icon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock, int itemDamage, ItemStack item, IItemRenderer renderer) {
+    public static void drawIcon(int x, int y, float z, Icon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock, int itemDamage, ItemStack item) {
         //without an alpha size or an icon we have nothing to render
         if (alpha <= 0 || size <= 0 || icon == null) {
             return;
@@ -172,7 +169,7 @@ public final class IconRenderer {
         float sourceBot = icon.getMaxV() - sourceHeightMargin;
 
 
-        if(isBlock == null && renderer == null){
+        if(isBlock == null){
 	        //render the icon with the given bounds. This is done in the same way an icon is normally being rendered by
 	        //the base gui. However, there's no method to be called that allows you to specify all these things.
         	GL11.glPushMatrix();
@@ -195,8 +192,6 @@ public final class IconRenderer {
         	GL11.glPopMatrix();
         }else if(isBlock != null){
         	renderBlock(isBlock, x, y, z, itemDamage, alpha, targetWidthMargin);
-        }else{
-        	renderer.renderItem(ItemRenderType.INVENTORY, item);
         }
         //restore the alpha  value
         GL11.glColor4f(1F, 1F, 1F, 1F);

@@ -73,7 +73,7 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
     }
 
 
-/*
+
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if(outputId.equals("crafting") && getClass() ==
@@ -84,7 +84,7 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
         } else {
             super.loadCraftingRecipes(outputId, results);
         }
-    }*/
+    }
     
     @Override
 	public void drawExtras(int recipe){

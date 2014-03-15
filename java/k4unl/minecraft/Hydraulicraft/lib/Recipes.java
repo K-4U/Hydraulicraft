@@ -90,6 +90,8 @@ public class Recipes {
         CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe("oreNetherQuartz", 1.0F, new ItemStack(Item.netherQuartz, 3)));
         CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Block.cobblestone, 1), 0.9F, new ItemStack(Block.sand, 2)));
         CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe("cobblestone", 0.8F, new ItemStack(Block.sand, 2)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Item.bone, 1), 0.5F, new ItemStack(Item.dyePowder, 5, 15)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Item.blazeRod, 1), 0.5F, new ItemStack(Item.blazePowder, 5)));
     }
     
     private static void registerNonStandardCrushRecipe(String sourceName, String targetName, int number){
