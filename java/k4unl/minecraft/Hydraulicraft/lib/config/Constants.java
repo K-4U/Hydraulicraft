@@ -11,20 +11,17 @@ public class Constants {
 	
 	
 	//Generators
-	public final static int MAX_MBAR_GEN_WATER_TIER_1 = 10;
-	public final static int MAX_MBAR_GEN_WATER_TIER_2 = 20;
-	public final static int MAX_MBAR_GEN_WATER_TIER_3 = 30;
+	public final static int MAX_MBAR_GEN_WATER_TIER_1 = 25;
+	public final static int MAX_MBAR_GEN_WATER_TIER_2 = 75;
+	public final static int MAX_MBAR_GEN_WATER_TIER_3 = 100;
 	
 	public final static int MAX_MBAR_GEN_OIL_TIER_1 = 50;
 	public final static int MAX_MBAR_GEN_OIL_TIER_2 = 150;
 	public final static int MAX_MBAR_GEN_OIL_TIER_3 = 200;
 	
 	
-	public final static int BURNING_TIME_DIVIDER_WATER = 160;
-	public final static int BURNING_TIME_DIVIDER_OIL = 32;
-	
-	
 	public final static float USING_WATER_PENALTY = 3.25F;
+	public final static float WATER_MAXTICKS_PENALTY = 0.8F;
 	
 	//GUI
 	public final static int COLOR_WATER = 0x4F006DD9;
@@ -37,19 +34,19 @@ public class Constants {
 	public static final int COLOR_GUI_TERMINAL = 0xFF00FF00;
 	
 	
-	//Washer
+	//Mixer
 	public final static int OIL_FOR_ONE_SEED	=	100;
 	public final static int WATER_FOR_ONE_SEED  = 	50;
+	//Washer
 	public static final int MIN_REQUIRED_WATER_FOR_WASHER = 10000;
 	
+	//Harvester
 	public static final float MIN_REQUIRED_PRESSURE_HARVESTER = 10000.0F;
-	
-	
 	public static final float PRESSURE_USAGE_PISTON = 50;
-	
-	
 	public static final int HARVESTER_ID_ENDERLILY = 1;
 	
+	//Friction Incinerator
+	public static final float PRESSURE_PER_TICK_INCINERATOR = 100.0F;
 	
 	/**
 	 * Conversion to other mods

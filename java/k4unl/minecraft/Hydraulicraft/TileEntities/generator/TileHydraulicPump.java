@@ -33,6 +33,10 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	private PressureNetwork pNetwork;
 	private List<ForgeDirection> connectedSides;
 	
+	
+	private int fluidInNetwork;
+	private int networkCapacity;
+	
 	public TileHydraulicPump(){
 		connectedSides = new ArrayList<ForgeDirection>();
 	}
@@ -131,11 +135,6 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	public float getGenerating(ForgeDirection from) {
 		float multiplier = 0;
 		if(getIsBurning()){
-			if(getHandler().isOilStored()){
-				multiplier = ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_OIL);
-			}else{
-				multiplier = ((float)maxBurnTime / (float)Constants.BURNING_TIME_DIVIDER_WATER);
-			}
 			int maxFluid = getMaxStorage();
 			//We can only generate at the percentage the system is filled at.
 			float perc = (float)getHandler().getStored() / (float) getMaxStorage();
@@ -143,12 +142,14 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			//So, if the system is 50% full, we only generate at 50% and we can only
 			//go to 50% of the max pressure.
 			
-			float generating = (multiplier * perc);
+			float generating = perc;
 			float currentPressure = getPressure(ForgeDirection.UNKNOWN);
 			float maxPressure = getMaxPressure(getHandler().isOilStored(), ForgeDirection.UNKNOWN);
 			
-			generating = generating * (getFluidInNetwork(from) / getFluidCapacity(from));
-			
+			if(getFluidInNetwork(from) > 0){
+				generating = generating * (getFluidInNetwork(from) / getFluidCapacity(from));
+				generating = generating * getMaxGenerating(ForgeDirection.UP);
+			}
 			if(generating > getMaxGenerating(ForgeDirection.UP))
 				generating = getMaxGenerating(ForgeDirection.UP);
 			
@@ -320,6 +321,9 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		
 		currentBurnTime = tagCompound.getInteger("currentBurnTime");
 		maxBurnTime = tagCompound.getInteger("maxBurnTime");
+		
+		networkCapacity = tagCompound.getInteger("networkCapacity");
+		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
 	}
 
 	@Override
@@ -333,6 +337,9 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		}
 		tagCompound.setInteger("currentBurnTime",currentBurnTime);
 		tagCompound.setInteger("maxBurnTime",maxBurnTime);
+		
+		tagCompound.setInteger("networkCapacity", getNetwork(ForgeDirection.UP).getFluidCapacity());
+		tagCompound.setInteger("fluidInNetwork", getNetwork(ForgeDirection.UP).getFluidInNetwork());
 	}
 
 	@Override
@@ -453,11 +460,12 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			getNetwork(dir).removeMachine(this);
 		}
 	}
+	
 	@Override
 	public int getFluidInNetwork(ForgeDirection from) {
 		if(worldObj.isRemote){
 			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
+			return fluidInNetwork;
 		}else{
 			return getNetwork(from).getFluidInNetwork();
 		}
@@ -467,7 +475,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	public int getFluidCapacity(ForgeDirection from) {
 		if(worldObj.isRemote){
 			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
+			return networkCapacity;
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}

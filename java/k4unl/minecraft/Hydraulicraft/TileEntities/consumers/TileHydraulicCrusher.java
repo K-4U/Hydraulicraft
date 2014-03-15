@@ -85,7 +85,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
             //The higher the speed!
             //But also the more it uses..
             
-            return 0.1F + pressurePerTick * (1+(getPressure(from) / getMaxPressure(getHandler().isOilStored(), from)));
+            return 0.1F + pressurePerTick * (1.0F-(getPressure(from) / getMaxPressure(getHandler().isOilStored(), from)));
         } else {
             return 0F;
         }
@@ -93,7 +93,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
     private void doCrush(){
         if(isCrushing()) {
-            crushingTicks = crushingTicks + 1 + (int)(getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F);
+            crushingTicks = crushingTicks + 1;// + (int)(getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F);
             //Log.info(crushingTicks+ "");
             if(crushingTicks >= maxCrushingTicks) {
                 //Crushing done!
@@ -108,7 +108,12 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
                 pressurePerTick = 0;
             }
         } else {
-        	maxCrushingTicks = 200;
+        	int division = (int)(getPressure(ForgeDirection.UP) / getMaxPressure(getHandler().isOilStored(), ForgeDirection.UP));
+        	if(division > 0){
+        		maxCrushingTicks = 20 / division;
+        	}else{
+        		maxCrushingTicks = 2000;
+        	}
             if(canRun()) {
             	CrushingRecipe currentRecipe = CrushingRecipes.getCrushingRecipe(inputInventory); 
                 targetItem = currentRecipe.output.copy();
@@ -118,7 +123,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
                     inputInventory = null;
                 }
                 crushingTicks = 0;
-                pressurePerTick = currentRecipe.pressure;
+                pressurePerTick = currentRecipe.pressure / 10;
                 if(!getHandler().isOilStored()){
                 	pressurePerTick /= 10;
                 }
