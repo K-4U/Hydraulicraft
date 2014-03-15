@@ -67,9 +67,9 @@ public class PressureNetwork {
 		}else{
 			if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
 				lowestTier = 0;
-			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
+			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_2) == 0){
 				lowestTier = 1;
-			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
+			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_3) == 0){
 				lowestTier = 2;
 			} 
 		}
