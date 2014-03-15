@@ -328,10 +328,10 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 			
 		if(endNetwork != null){
 			pNetwork = endNetwork;
-			pNetwork.addMachine(this, oldPressure);
+			pNetwork.addMachine(this, oldPressure, getFacing().getOpposite());
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
-			pNetwork = new PressureNetwork(this, oldPressure);
+			pNetwork = new PressureNetwork(this, oldPressure, getFacing().getOpposite());
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}

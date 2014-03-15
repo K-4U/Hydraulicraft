@@ -1,13 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.lib.config;
 
 public class Constants {
-	public final static int MAX_MBAR_OIL_TIER_1 = 100000;
-	public final static int MAX_MBAR_OIL_TIER_2 = 200000;
-	public final static int MAX_MBAR_OIL_TIER_3 = 500000;
+	public final static int MAX_MBAR_OIL_TIER_1 = 1000000;
+	public final static int MAX_MBAR_OIL_TIER_2 = 5000000;
+	public final static int MAX_MBAR_OIL_TIER_3 = 10000000;
 	
-	public final static int MAX_MBAR_WATER_TIER_1 = 50000;
-	public final static int MAX_MBAR_WATER_TIER_2 = 100000;
-	public final static int MAX_MBAR_WATER_TIER_3 = 150000;
+	public final static int MAX_MBAR_WATER_TIER_1 = 500000;
+	public final static int MAX_MBAR_WATER_TIER_2 = 1000000;
+	public final static int MAX_MBAR_WATER_TIER_3 = 1500000;
 	
 	
 	//Generators
@@ -20,8 +20,7 @@ public class Constants {
 	public final static int MAX_MBAR_GEN_OIL_TIER_3 = 200;
 	
 	
-	public final static float USING_WATER_PENALTY = 3.25F;
-	public final static float WATER_MAXTICKS_PENALTY = 0.8F;
+	public final static float USING_WATER_PENALTY = 1.75F;
 	
 	//GUI
 	public final static int COLOR_WATER = 0x4F006DD9;
@@ -46,7 +45,7 @@ public class Constants {
 	public static final int HARVESTER_ID_ENDERLILY = 1;
 	
 	//Friction Incinerator
-	public static final float PRESSURE_PER_TICK_INCINERATOR = 100.0F;
+	public static final float PRESSURE_INCINERATOR = 100.0F;
 	
 	/**
 	 * Conversion to other mods

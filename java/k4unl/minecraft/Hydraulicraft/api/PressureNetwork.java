@@ -7,9 +7,11 @@ import java.util.Random;
 import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
+import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.BlockLockedChest;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -18,58 +20,136 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 public class PressureNetwork {
+	public static class networkEntry{
+		private Location blockLocation;
+		private ForgeDirection from;
+		
+		public networkEntry(Location nLocation, ForgeDirection nFrom){
+			blockLocation = nLocation;
+			from = nFrom;
+		}
+		
+		public Location getLocation(){
+			return blockLocation;
+		}
+		
+		public ForgeDirection getFrom(){
+			return from;
+		}
+	}
 	private float pressure = 0;
 	
-	private List<Location> machines;
+	private List<networkEntry> machines;
 	private int randomNumber = 0;
 	private IBlockAccess world;
 	private int fluidInNetwork = 0;
 	private int fluidCapacity = 0;
 	private boolean isOilStored = false;
+	private int lowestTier = -1;
 	
 	
-	public PressureNetwork(IHydraulicMachine machine, float beginPressure){
+	public PressureNetwork(IHydraulicMachine machine, float beginPressure, ForgeDirection from){
 		randomNumber = new Random().nextInt();
-		machines = new ArrayList<Location>();
-		machines.add(machine.getHandler().getBlockLocation());
+		machines = new ArrayList<networkEntry>();
+		machines.add(new networkEntry(machine.getHandler().getBlockLocation(), from));
 		pressure = beginPressure;
 		world = machine.getHandler().getWorld();
+		isOilStored = machine.getHandler().isOilStored();
+		float maxPressure = machine.getMaxPressure(isOilStored, from);
+		if(isOilStored){
+			if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_1) == 0){
+				lowestTier = 0;
+			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_2) == 0){
+				lowestTier = 1;
+			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_3) == 0){
+				lowestTier = 2;
+			} 
+		}else{
+			if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
+				lowestTier = 0;
+			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
+				lowestTier = 1;
+			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
+				lowestTier = 2;
+			} 
+		}
 	}
 	
 	public int getRandomNumber(){
 		return randomNumber;
 	}
 	
-	public void addMachine(IHydraulicMachine machine, float pressureToAdd){
-		if(!machines.contains(machine.getHandler().getBlockLocation())){
+	public int getLowestTier(){
+		return lowestTier;
+	}
+	
+	private int contains(IHydraulicMachine machine){
+		int i = 0;
+		for(i=0; i< machines.size(); i++){
+			if(machines.get(i).getLocation().equals(machine.getHandler().getBlockLocation())){
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	public void addMachine(IHydraulicMachine machine, float pressureToAdd, ForgeDirection from){
+		if(contains(machine) == -1){
 			float oPressure = pressure * machines.size();
 			oPressure += pressureToAdd;
-			machines.add(machine.getHandler().getBlockLocation());
+			machines.add(new networkEntry(machine.getHandler().getBlockLocation(), from));
 			pressure = oPressure / machines.size();
 			machine.getHandler().updateFluidOnNextTick();
 			if(world == null){
 				world = machine.getHandler().getWorld();
 			}
+			
+			int newestTier = 4;
+			isOilStored = machine.getHandler().isOilStored();
+			float maxPressure = machine.getMaxPressure(isOilStored, from);
+			if(isOilStored){
+				if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_1) == 0){
+					newestTier = 0;
+				}else if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_2) == 0){
+					newestTier = 1;
+				}else if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_3) == 0){
+					newestTier = 2;
+				} 
+			}else{
+				if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
+					newestTier = 0;
+				}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
+					newestTier = 1;
+				}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
+					newestTier = 2;
+				} 
+			}
+			if(newestTier < lowestTier){
+				lowestTier = newestTier;
+			}
+			
 		}
 	}
 	
 	public void removeMachine(IHydraulicMachine machineToRemove){
-		if(machines.contains(machineToRemove.getHandler().getBlockLocation())){
-			machines.remove(machineToRemove.getHandler().getBlockLocation());
-			machineToRemove.setNetwork(ForgeDirection.UP, null);
+		int machineIndex = contains(machineToRemove);
+		if(machineIndex != -1){
+			machineToRemove.setNetwork(machines.get(machineIndex).getFrom(), null);
+			machines.remove(machineIndex);
 		}
 		//And tell every machine in the block to recheck it's network! :D
 		//Note, this might cost a bit of time..
 		//There should be a better way to do this..
-		for(Location loc : machines){
+		for(networkEntry entry : machines){
+			Location loc = entry.getLocation();
 			TileEntity ent = world.getBlockTileEntity(loc.getX(), loc.getY(), loc.getZ());
 			if(ent instanceof IHydraulicMachine){
 				IHydraulicMachine machine = (IHydraulicMachine) ent;
-				machine.setNetwork(ForgeDirection.UNKNOWN, null);
+				machine.setNetwork(entry.getFrom(), null);
 				machine.getHandler().updateNetworkOnNextTick(getPressure());
 			}else if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
 				IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
-				machine.setNetwork(ForgeDirection.UNKNOWN, null);
+				machine.setNetwork(entry.getFrom(), null);
 				machine.getHandler().updateNetworkOnNextTick(getPressure());
 			}
 		}
@@ -88,7 +168,7 @@ public class PressureNetwork {
 		return isOilStored;
 	}
 	
-	public List<Location> getMachines(){
+	public List<networkEntry> getMachines(){
 		return machines;
 	}
 	
@@ -99,22 +179,23 @@ public class PressureNetwork {
 		float newPressure = ((pressure - toMerge.getPressure()) / 2) + toMerge.getPressure();
 		setPressure(newPressure);
 
-		List<Location> otherList = toMerge.getMachines();
+		List<networkEntry> otherList = toMerge.getMachines();
 		
-		for(Location loc : otherList){
+		for(networkEntry entry : otherList){
+			Location loc = entry.getLocation();
 			TileEntity ent = world.getBlockTileEntity(loc.getX(), loc.getY(), loc.getZ());
 			if(ent instanceof IHydraulicMachine){
 				IHydraulicMachine machine = (IHydraulicMachine) ent;
-				machine.setNetwork(ForgeDirection.UNKNOWN, this);
-				this.addMachine(machine, newPressure);
+				machine.setNetwork(entry.getFrom(), this);
+				this.addMachine(machine, newPressure, entry.getFrom());
 			}else if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
 				IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
-				machine.setNetwork(ForgeDirection.UNKNOWN, this);
-				this.addMachine(machine, newPressure);
+				machine.setNetwork(entry.getFrom(), this);
+				this.addMachine(machine, newPressure, entry.getFrom());
 			}
 		}
 		
-		Log.info("Merged network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
+		//Log.info("Merged network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
 	}
 
 	public void writeToNBT(NBTTagCompound tagCompound) {
@@ -265,7 +346,8 @@ public class PressureNetwork {
 		
 		List<IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
 		
-		for (Location loc : machines) {
+		for (networkEntry entry : machines) {
+			Location loc = entry.getLocation();
 			TileEntity ent = world.getBlockTileEntity(loc.getX(), loc.getY(), loc.getZ());
 			IHydraulicMachine machine = null;
 			if(ent instanceof IHydraulicMachine){

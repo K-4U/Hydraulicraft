@@ -391,10 +391,10 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 			
 		if(endNetwork != null){
 			pNetwork = endNetwork;
-			pNetwork.addMachine(this, oldPressure);
+			pNetwork.addMachine(this, oldPressure, getFacing());
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
-			pNetwork = new PressureNetwork(this, oldPressure);
+			pNetwork = new PressureNetwork(this, oldPressure, getFacing());
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}

@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -28,7 +29,7 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	private ItemStack smeltingItem;
 	private ItemStack targetItem;
 	private ItemStack outputInventory;
-	private final float requiredPressure = 5F;
+	private float requiredPressure = 0F;
 	private int smeltingTicks = 0;
 	private int maxSmeltingTicks = 0;
 	private IBaseClass baseHandler;
@@ -62,10 +63,8 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 			if(!simulate){
 				doSmelt();
 			}
-			//The higher the pressure
-			//The higher the speed!
-			//But also the more it uses..
-			return (float) (5F + (getPressure(ForgeDirection.UNKNOWN) * 0.0005F));
+
+			return 0.1F + requiredPressure; 
 		}else{
 			return 0F;
 		}
@@ -74,7 +73,14 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	
 	private void doSmelt(){
 		if(isSmelting()){
-			smeltingTicks = smeltingTicks + 1 + (int)(getPressure(ForgeDirection.UNKNOWN) * 0.00005F);
+			//The higher the pressure
+			//The higher the speed!
+			float maxPressureThisTier = Functions.getMaxPressurePerTier(pNetwork.getLowestTier(), true);
+			float ratio = getPressure(ForgeDirection.UP) / maxPressureThisTier;
+			smeltingTicks = smeltingTicks + 1 + (int)((pNetwork.getLowestTier() * 4) * ratio);
+			if(smeltingTicks < 0){
+				smeltingTicks = 0;
+			}
 			if(smeltingTicks >= maxSmeltingTicks){
 				//Smelting done!
 				if(outputInventory == null){
@@ -95,10 +101,12 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 				}
 				smeltingTicks = 0;
 			}
+			//We need to check on what kind of network we are though..
+			//This pressure requirement is only for HP oil.
+			requiredPressure = Functions.getMaxGenPerTier(pNetwork.getLowestTier(), true) / 4.0F;
+			
 			//Start smelting
 			maxSmeltingTicks = 200;
-			//Take item out of the input slot
-			//And store it in the smeltingSlot
 		}
 	}
 	
@@ -456,10 +464,10 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 			
 		if(endNetwork != null){
 			pNetwork = endNetwork;
-			pNetwork.addMachine(this, oldPressure);
+			pNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
-			pNetwork = new PressureNetwork(this, oldPressure);
+			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}

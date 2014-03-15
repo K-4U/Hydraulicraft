@@ -14,9 +14,12 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork.networkEntry;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
@@ -144,7 +147,8 @@ public class MachineEntity implements IBaseClass {
 		int compare = Float.compare(getMaxPressure(isOilStored(), dir), newPressure);
 		if(compare < 0 && getStored() > 0){
 			getWorld().createExplosion((Entity)null, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(),
-					1F + ((getMaxPressure(isOilStored(), null) / newPressure) * 3), true);
+					0.6F + ((getMaxPressure(isOilStored(), null) / newPressure)), true);
+			getWorld().setBlock(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), Ids.blockFluidOil.act);
 		}
 	}
 	
@@ -266,10 +270,11 @@ public class MachineEntity implements IBaseClass {
 			return mainList;
 		}
 		
-		List <Location> locationList = new ArrayList<Location>();
-		locationList = target.getNetwork(ForgeDirection.UP).getMachines();
+		List<networkEntry> entryList = new ArrayList<networkEntry>();
+		entryList = target.getNetwork(ForgeDirection.UP).getMachines();
 		
-		for (Location loc : locationList) {
+		for (networkEntry entry : entryList) {
+			Location loc = entry.getLocation();
 			TileEntity ent = getWorld().getBlockTileEntity(loc.getX(), loc.getY(), loc.getZ());
 			if(ent instanceof IHydraulicMachine){
 				IHydraulicMachine machine = (IHydraulicMachine) ent;

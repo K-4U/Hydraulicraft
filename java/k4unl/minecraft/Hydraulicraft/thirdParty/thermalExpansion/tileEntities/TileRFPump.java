@@ -212,8 +212,10 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		tagCompound.setBoolean("isRunning", isRunning);
 		tagCompound.setInteger("tier", tier);
 		
-		tagCompound.setInteger("networkCapacity", getNetwork(getFacing()).getFluidCapacity());
-		tagCompound.setInteger("fluidInNetwork", getNetwork(getFacing()).getFluidInNetwork());
+		if(getNetwork(getFacing()) != null){
+			tagCompound.setInteger("networkCapacity", getNetwork(getFacing()).getFluidCapacity());
+			tagCompound.setInteger("fluidInNetwork", getNetwork(getFacing()).getFluidInNetwork());
+		}
 		tagCompound.setInteger("RFUsage", RFUsage);
 		
 		getEnergyStorage().writeToNBT(tagCompound);
@@ -351,10 +353,10 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			
 		if(endNetwork != null){
 			pNetwork = endNetwork;
-			pNetwork.addMachine(this, oldPressure);
+			pNetwork.addMachine(this, oldPressure, getFacing());
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
-			pNetwork = new PressureNetwork(this, oldPressure);
+			pNetwork = new PressureNetwork(this, oldPressure, getFacing());
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}

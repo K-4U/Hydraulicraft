@@ -56,7 +56,8 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		getHandler().writeToNBT(tagCompound);
 	}
 	
-	@Override	public void workFunction(ForgeDirection from) {
+	@Override	
+	public void workFunction(ForgeDirection from) {
 		if(from.equals(ForgeDirection.UP)){
 			//This function gets called every tick.
 			//It should check how much coal is left
@@ -73,9 +74,9 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 				}
 			}
 			if(!worldObj.isRemote){
-				if(currentBurnTime == 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure(from) < getMaxPressure(getHandler().isOilStored(), from)){
+				if(currentBurnTime <= 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure(from) < getMaxPressure(getHandler().isOilStored(), from)){
 					//Put new item in
-					currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory);
+					currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory)+1;
 					if(inventory != null){
 						inventory.stackSize--;
 						if(inventory.stackSize <= 0){
@@ -116,7 +117,6 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			}
 		}
 		return 0;
-		
 	}
 
 	public float getBurningPercentage() {
@@ -147,8 +147,10 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			float maxPressure = getMaxPressure(getHandler().isOilStored(), ForgeDirection.UNKNOWN);
 			
 			if(getFluidInNetwork(from) > 0){
-				generating = generating * (getFluidInNetwork(from) / getFluidCapacity(from));
+				generating = generating * ((float)getFluidInNetwork(from) / (float)getFluidCapacity(from));
 				generating = generating * getMaxGenerating(ForgeDirection.UP);
+			}else{
+				generating = 0;
 			}
 			if(generating > getMaxGenerating(ForgeDirection.UP))
 				generating = getMaxGenerating(ForgeDirection.UP);
@@ -338,8 +340,10 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		tagCompound.setInteger("currentBurnTime",currentBurnTime);
 		tagCompound.setInteger("maxBurnTime",maxBurnTime);
 		
-		tagCompound.setInteger("networkCapacity", getNetwork(ForgeDirection.UP).getFluidCapacity());
-		tagCompound.setInteger("fluidInNetwork", getNetwork(ForgeDirection.UP).getFluidInNetwork());
+		if(pNetwork != null){
+			tagCompound.setInteger("networkCapacity", getNetwork(ForgeDirection.UP).getFluidCapacity());
+			tagCompound.setInteger("fluidInNetwork", getNetwork(ForgeDirection.UP).getFluidInNetwork());
+		}
 	}
 
 	@Override
@@ -445,10 +449,10 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 			
 		if(endNetwork != null){
 			pNetwork = endNetwork;
-			pNetwork.addMachine(this, oldPressure);
+			pNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
-			pNetwork = new PressureNetwork(this, oldPressure);
+			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}
@@ -456,15 +460,12 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	@Override
 	public void invalidate(){
 		super.invalidate();
-		for(ForgeDirection dir: connectedSides){
-			getNetwork(dir).removeMachine(this);
-		}
+		getNetwork(ForgeDirection.UP).removeMachine(this);
 	}
 	
 	@Override
 	public int getFluidInNetwork(ForgeDirection from) {
 		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
 			return fluidInNetwork;
 		}else{
 			return getNetwork(from).getFluidInNetwork();
@@ -474,8 +475,11 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	@Override
 	public int getFluidCapacity(ForgeDirection from) {
 		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return networkCapacity;
+			if(networkCapacity > 0){
+				return networkCapacity;
+			}else{
+				return getMaxStorage();
+			}
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}

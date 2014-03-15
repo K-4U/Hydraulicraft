@@ -17,7 +17,7 @@ public class ContainerPump extends Container {
 	public ContainerPump(InventoryPlayer invPlayer, TileHydraulicPump pump){
 		tilePump = pump;
 		
-		addSlotToContainer(new SlotMachineInput(pump, pump, 0, 67, 49));
+		addSlotToContainer(new SlotMachineInput(pump, pump, 0, 35, 49));
 		
 		bindPlayerInventory(invPlayer);
 		

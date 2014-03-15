@@ -578,10 +578,10 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			
 		if(endNetwork != null){
 			pNetwork = endNetwork;
-			pNetwork.addMachine(this, oldPressure);
+			pNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}else{
-			pNetwork = new PressureNetwork(this, oldPressure);
+			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}
 		hasFoundNetwork = true;

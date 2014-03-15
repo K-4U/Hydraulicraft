@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.client.Minecraft;
@@ -106,5 +107,51 @@ public class Functions {
 			return targetStackL.get(0);
 		}
 		return null;
+	}
+	
+	public static int getMaxGenPerTier(int tier, boolean isOil){
+		if(!isOil){
+			switch(tier){
+			case 0:
+				return Constants.MAX_MBAR_GEN_WATER_TIER_1;
+			case 1:
+				return Constants.MAX_MBAR_GEN_WATER_TIER_2;
+			case 2:
+				return Constants.MAX_MBAR_GEN_WATER_TIER_3;
+			}			
+		}else{
+			switch(tier){
+			case 0:
+				return Constants.MAX_MBAR_GEN_OIL_TIER_1;
+			case 1:
+				return Constants.MAX_MBAR_GEN_OIL_TIER_2;
+			case 2:
+				return Constants.MAX_MBAR_GEN_OIL_TIER_3;
+			}
+		}
+		return 0;
+	}
+	
+	public static int getMaxPressurePerTier(int tier, boolean isOil){
+		if(!isOil){
+			switch(tier){
+			case 0:
+				return Constants.MAX_MBAR_WATER_TIER_1;
+			case 1:
+				return Constants.MAX_MBAR_WATER_TIER_2;
+			case 2:
+				return Constants.MAX_MBAR_WATER_TIER_3;
+			}			
+		}else{
+			switch(tier){
+			case 0:
+				return Constants.MAX_MBAR_OIL_TIER_1;
+			case 1:
+				return Constants.MAX_MBAR_OIL_TIER_2;
+			case 2:
+				return Constants.MAX_MBAR_OIL_TIER_3;
+			}
+		}
+		return 0;
 	}
 }
