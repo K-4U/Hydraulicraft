@@ -351,10 +351,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     public void onPartChanged(TMultiPart part){
         checkConnectedSides();
         //getHandler().updateFluidOnNextTick();
-        if(!world().isRemote && hasFoundNetwork == true){
+        if(!world().isRemote){
 	        float oldPressure = 0F;
 	        if(pNetwork != null){
 	        	oldPressure = pNetwork.getPressure();
+	        	pNetwork.removeMachine(this);
 	        }
 			getHandler().updateNetworkOnNextTick(oldPressure);
         }
@@ -564,6 +565,9 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			if(!isConnectedTo(dir)){
 				continue;
 			}
+			TileEntity ent = world().getBlockTileEntity(x() + dir.offsetX, y()+dir.offsetY, z()+ dir.offsetZ);
+			if(ent == null) continue;
+			if(!shouldConnectTo(ent, dir, this)) continue;
 			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), dir);
 			if(foundNetwork != null){
 				if(endNetwork == null){
