@@ -7,9 +7,11 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
 public class EventHelper {
@@ -46,6 +48,13 @@ public class EventHelper {
 					break;
 				}
 			}
+		}
+	}
+	
+	@ForgeSubscribe
+	public void onDeathEvent(LivingDeathEvent event){
+		if(event.entity instanceof EntityPig){
+			
 		}
 	}
 }

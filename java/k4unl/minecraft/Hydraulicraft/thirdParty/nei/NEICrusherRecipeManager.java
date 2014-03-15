@@ -1,10 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
+import java.awt.Rectangle;
+import java.util.LinkedList;
+
 import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.ShapedRecipeHandler;
+import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
@@ -76,14 +80,18 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
 
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
-        if(outputId.equals("crafting") && getClass() ==
+        if(outputId.equals("crushing") && getClass() ==
                 NEICrusherRecipeManager.class) {
             for(CrushingRecipes.CrushingRecipe recipe: CrushingRecipes.crushingRecipes) {
                 this.arecipes.add(getShape(recipe));
             }
-        } else {
-            super.loadCraftingRecipes(outputId, results);
         }
+    }
+    
+    @Override
+    public void loadTransferRects(){
+    	transferRects = new LinkedList<RecipeTransferRect>();
+        transferRects.add(new RecipeTransferRect(new Rectangle(74, 28, 35, 20), "crushing"));
     }
     
     @Override

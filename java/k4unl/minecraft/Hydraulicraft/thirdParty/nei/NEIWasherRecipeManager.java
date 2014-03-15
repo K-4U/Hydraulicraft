@@ -81,9 +81,12 @@ public class NEIWasherRecipeManager extends ShapedRecipeHandler{
             for(WashingRecipes.WashingRecipe recipe: WashingRecipes.washingRecipes) {
                 this.arecipes.add(getShape(recipe));
             }
-        } else {
-            super.loadCraftingRecipes(outputId, results);
         }
+    }
+    
+    @Override
+    public void loadTransferRects(){
+    	
     }
     
     @Override

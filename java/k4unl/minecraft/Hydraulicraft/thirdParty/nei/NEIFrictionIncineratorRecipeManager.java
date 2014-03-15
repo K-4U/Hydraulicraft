@@ -1,11 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
+import java.awt.Rectangle;
 import java.util.List;
 import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiIncinerator;
 import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
+import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -17,6 +19,7 @@ import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.ShapedRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
 
 public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
     private ShapedRecipeHandler.CachedShapedRecipe getShape(Map.Entry<List<Integer>, ItemStack> recipe) {
@@ -76,6 +79,24 @@ public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
                 break;
             }
         }
+    }
+    
+    @Override
+    public void loadCraftingRecipes(String outputId, Object... results) {
+        if(outputId.equals("incinerator") && getClass() ==
+                NEIFrictionIncineratorRecipeManager.class) {
+        	Map<List<Integer>, ItemStack> recipes = FurnaceRecipes.smelting().getMetaSmeltingList(); 
+        	
+            for(Map.Entry<List<Integer>, ItemStack> recipe: recipes.entrySet()) {
+            	this.arecipes.add(getShape(recipe));
+            }
+        }
+    }
+    
+    @Override
+    public void loadTransferRects(){
+        transferRects.add(new RecipeTransferRect(new Rectangle(53, 8, 60, 18), "incinerator"));
+        transferRects.add(new RecipeTransferRect(new Rectangle(28, 32, 112, 12), "incinerator"));
     }
     
     @Override
