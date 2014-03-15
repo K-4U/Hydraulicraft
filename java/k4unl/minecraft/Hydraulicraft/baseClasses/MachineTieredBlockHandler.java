@@ -43,6 +43,7 @@ public class MachineTieredBlockHandler extends ItemBlock {
 	/********************
 	 * FMP
 	 */
+	/*
 	@SideOnly(Side.CLIENT)
     public boolean canPlaceItemBlockOnSide(World par1World, int par2, int par3,
             int par4, int par5, EntityPlayer par6EntityPlayer,
@@ -127,6 +128,7 @@ public class MachineTieredBlockHandler extends ItemBlock {
         return super.onItemUse(par1ItemStack, par2EntityPlayer, par3World,
                 par4, par5, par6, par7, par8, par9, par10);
     }
+    */
 	
 }
 

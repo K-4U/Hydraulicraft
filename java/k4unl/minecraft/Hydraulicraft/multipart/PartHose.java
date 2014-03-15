@@ -11,17 +11,22 @@ import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-
+import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
+import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import net.minecraft.block.BlockWall;
+import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -31,6 +36,7 @@ import org.lwjgl.opengl.GL11;
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
+import codechicken.lib.render.EntityDigIconFX;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
 import codechicken.microblock.IHollowConnect;
@@ -42,7 +48,6 @@ import codechicken.multipart.TSlottedPart;
 import codechicken.multipart.TileMultipart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
 
 public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter {
     public static Cuboid6[] boundingBoxes = new Cuboid6[14];
@@ -62,6 +67,9 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
     @SideOnly(Side.CLIENT)
     private static RendererHydraulicHose renderer;
+    
+    @SideOnly(Side.CLIENT)
+    private static Icon breakIcon;
     
     static {
     	float center = 0.5F;
@@ -145,7 +153,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	
 	@Override
     public void writeDesc(MCDataOutput packet){
-		super.writeDesc(packet);
 		packet.writeInt(getTier());
 		
 		NBTTagCompound mainCompound = new NBTTagCompound();
@@ -187,7 +194,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	
     @Override
     public void readDesc(MCDataInput packet){
-    	super.readDesc(packet);
         tier = packet.readInt();
         
         NBTTagCompound mainCompound = packet.readNBTTagCompound();
@@ -589,33 +595,13 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	
 	@Override
 	public void onRemoved(){
-		super.onRemoved();
-		
-		if(pNetwork != null){
-			pNetwork.removeMachine(this);
+		if(!world().isRemote){
+			if(pNetwork != null){
+				pNetwork.removeMachine(this);
+			}
 		}
 	}
-/*
-	@Override
-    public void onChunkUnload(){
-        super.onChunkUnload();
-        float oldPressure = 0F;
-        if(pNetwork != null){
-        	oldPressure = pNetwork.getPressure();
-        }
-        //getHandler().updateNetworkOnNextTick(pNetwork.getPressure());
-    }
-	
-	@Override
-	public void onChunkLoad(){
-		super.onChunkLoad();
-		float oldPressure = 0F;
-        if(pNetwork != null){
-        	oldPressure = pNetwork.getPressure();
-        }
-		getHandler().updateNetworkOnNextTick(oldPressure);
-	}
-*/
+
 	@Override
 	public int getFluidInNetwork(ForgeDirection from) {
 		if(world().isRemote){
@@ -635,4 +621,38 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			return getNetwork(from).getFluidCapacity();
 		}
 	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+    public void addDestroyEffects(MovingObjectPosition hit, EffectRenderer effectRenderer){
+		addDestroyEffects(effectRenderer);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+    public void addDestroyEffects(EffectRenderer effectRenderer) {
+		if(breakIcon == null){
+			breakIcon = Blocks.hydraulicPressureWall.getIcon(0, 0);
+		}
+        EntityDigIconFX.addBlockDestroyEffects(world(), Cuboid6.full.copy()
+                .add(Vector3.fromTileEntity(tile())), new Icon[] { breakIcon,
+                breakIcon, breakIcon, breakIcon, breakIcon, breakIcon },
+                effectRenderer);
+    }
+	
+	@SideOnly(Side.CLIENT)
+    @Override
+    public void addHitEffects(MovingObjectPosition hit,
+            EffectRenderer effectRenderer) {
+   
+        EntityDigIconFX.addBlockHitEffects(world(),
+                Cuboid6.full.copy().add(Vector3.fromTileEntity(tile())),
+                hit.sideHit, breakIcon, effectRenderer);
+    }
+	
+	@Override
+	public float getStrength(MovingObjectPosition hit, EntityPlayer player){
+		return 8F;
+	}
+	
 }
