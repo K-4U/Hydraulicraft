@@ -320,6 +320,13 @@ public class TileHydraulicGenerator extends TileEntity implements IHydraulicCons
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
         }
         super.invalidate();
+		if(!worldObj.isRemote){
+			for(ForgeDirection dir: connectedSides){
+				if(getNetwork(dir) != null){
+					getNetwork(dir).removeMachine(this);
+				}
+			}
+		}
     }
 
     @Override

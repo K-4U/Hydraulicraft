@@ -537,10 +537,13 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		super.invalidate();
 		if(!worldObj.isRemote){
 			for(ForgeDirection dir: connectedSides){
-				getNetwork(dir).removeMachine(this);
+				if(getNetwork(dir) != null){
+					getNetwork(dir).removeMachine(this);
+				}
 			}
 		}
 	}
+	
 	@Override
 	public int getFluidInNetwork(ForgeDirection from) {
 		if(worldObj.isRemote){

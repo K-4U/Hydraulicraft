@@ -356,4 +356,13 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 		}
 	}
 	
+	@Override
+	public void invalidate(){
+		super.invalidate();
+		if(!worldObj.isRemote){
+			if(getNetwork(getFacing().getOpposite()) != null){
+				getNetwork(getFacing().getOpposite()).removeMachine(this);
+			}
+		}
+	}
 }

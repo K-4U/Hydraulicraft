@@ -385,4 +385,14 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			return getNetwork(from).getFluidCapacity();
 		}
 	}
+	
+	@Override
+	public void invalidate(){
+		super.invalidate();
+		if(!worldObj.isRemote){
+			if(getNetwork(getFacing()) != null){
+				getNetwork(getFacing()).removeMachine(this);
+			}
+		}
+	}
 }

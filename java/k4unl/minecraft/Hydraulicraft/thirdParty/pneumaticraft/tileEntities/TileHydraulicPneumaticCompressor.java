@@ -274,4 +274,16 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 			return getNetwork(from).getFluidCapacity();
 		}
 	}
+	
+	@Override
+	public void invalidate(){
+		super.invalidate();
+		if(!worldObj.isRemote){
+			for(ForgeDirection dir: connectedSides){
+				if(getNetwork(dir) != null){
+					getNetwork(dir).removeMachine(this);
+				}
+			}
+		}
+	}
 }

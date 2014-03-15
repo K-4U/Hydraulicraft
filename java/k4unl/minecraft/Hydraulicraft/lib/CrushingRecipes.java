@@ -64,9 +64,11 @@ public class CrushingRecipes {
     public static CrushingRecipe getCrushingRecipe(ItemStack itemStack){
     	String oreDictName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
 		for(CrushingRecipe rec : crushingRecipes){
-            if(rec.input.isItemEqual(itemStack)){
-                return rec;
-            }
+			if(rec.input != null){
+	            if(rec.input.isItemEqual(itemStack)){
+	                return rec;
+	            }
+			}
         }
         return getCrushingRecipe(oreDictName);
     }

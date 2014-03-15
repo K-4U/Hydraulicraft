@@ -321,6 +321,11 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
         }
         super.invalidate();
+		if(!worldObj.isRemote){
+			if(pNetwork != null){
+				pNetwork.removeMachine(this);
+			}
+		}
     }
 
     @Override
@@ -422,4 +427,5 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
-	}}
+	}
+}

@@ -482,8 +482,12 @@ public class TileHydraulicMixer extends TileEntity implements
 	@Override
 	public void invalidate(){
 		super.invalidate();
-		for(ForgeDirection dir: connectedSides){
-			getNetwork(dir).removeMachine(this);
+		if(!worldObj.isRemote){
+			for(ForgeDirection dir: connectedSides){
+				if(getNetwork(dir) != null){
+					getNetwork(dir).removeMachine(this);
+				}
+			}
 		}
 	}
 

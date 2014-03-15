@@ -475,10 +475,15 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	@Override
 	public void invalidate(){
 		super.invalidate();
-		for(ForgeDirection dir: connectedSides){
-			getNetwork(dir).removeMachine(this);
+		if(!worldObj.isRemote){
+			for(ForgeDirection dir: connectedSides){
+				if(getNetwork(dir) != null){
+					getNetwork(dir).removeMachine(this);
+				}
+			}
 		}
 	}
+	
 	@Override
 	public int getFluidInNetwork(ForgeDirection from) {
 		if(worldObj.isRemote){

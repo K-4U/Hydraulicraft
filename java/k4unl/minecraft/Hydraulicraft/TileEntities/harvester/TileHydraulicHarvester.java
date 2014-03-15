@@ -1176,13 +1176,19 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}
+	
 	@Override
 	public void invalidate(){
 		super.invalidate();
-		for(ForgeDirection dir: connectedSides){
-			getNetwork(dir).removeMachine(this);
+		if(!worldObj.isRemote){
+			invalidateMultiblock();
+			for(ForgeDirection dir: connectedSides){
+				if(getNetwork(dir) != null){
+					getNetwork(dir).removeMachine(this);
+				}
+			}
 		}
-	}	
+	}
 	
 	@Override
 	public int getFluidInNetwork(ForgeDirection from) {

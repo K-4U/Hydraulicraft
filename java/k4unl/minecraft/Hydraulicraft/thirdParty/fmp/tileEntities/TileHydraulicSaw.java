@@ -641,5 +641,17 @@ public class TileHydraulicSaw extends TileEntity implements IHydraulicConsumer, 
 	public int getSawingTicksLeftRight() {
 		return sawingTicksLeftRight;
 	}
+	
+	@Override
+	public void invalidate(){
+		super.invalidate();
+		if(!worldObj.isRemote){
+			for(ForgeDirection dir: connectedSides){
+				if(getNetwork(dir) != null){
+					getNetwork(dir).removeMachine(this);
+				}
+			}
+		}
+	}
 
 }

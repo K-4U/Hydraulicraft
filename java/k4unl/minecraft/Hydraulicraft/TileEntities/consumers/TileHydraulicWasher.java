@@ -801,8 +801,12 @@ public class TileHydraulicWasher extends TileEntity implements
 	public void invalidate(){
 		super.invalidate();
 		this.invalidateMultiblock();
-		for(ForgeDirection dir: connectedSides){
-			getNetwork(dir).removeMachine(this);
+		if(!worldObj.isRemote){
+			for(ForgeDirection dir: connectedSides){
+				if(getNetwork(dir) != null){
+					getNetwork(dir).removeMachine(this);
+				}
+			}
 		}
 	}
 

@@ -460,7 +460,13 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	@Override
 	public void invalidate(){
 		super.invalidate();
-		getNetwork(ForgeDirection.UP).removeMachine(this);
+		if(!worldObj.isRemote){
+			for(ForgeDirection dir: connectedSides){
+				if(getNetwork(dir) != null){
+					getNetwork(dir).removeMachine(this);
+				}
+			}
+		}
 	}
 	
 	@Override

@@ -368,4 +368,14 @@ public class TileKineticPump extends TileEntity implements IHydraulicGenerator, 
 	public float getMJUsage() {
 		return MJUsage;
 	}
+	
+	@Override
+	public void invalidate(){
+		super.invalidate();
+		if(!worldObj.isRemote){
+			if(getNetwork(getFacing()) != null){
+				getNetwork(getFacing()).removeMachine(this);
+			}
+		}
+	}
 }

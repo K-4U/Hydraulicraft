@@ -353,4 +353,13 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		return pressureRequired;
 	}
 
+	@Override
+	public void invalidate(){
+		super.invalidate();
+		if(!worldObj.isRemote){
+			if(getNetwork(getFacing().getOpposite()) != null){
+				getNetwork(getFacing().getOpposite()).removeMachine(this);
+			}
+		}
+	}
 }
