@@ -26,7 +26,13 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
                 ShapedRecipeHandler.CachedShapedRecipe(0, 0, null, recipe.output);
 
 
-        PositionedStack stack = new PositionedStack(OreDictionary.getOres(recipe.inputString), 42, 24);
+        Object inputStack = null;
+        if(recipe.inputString != ""){
+        	inputStack = OreDictionary.getOres(recipe.inputString);
+        }else{
+        	inputStack = recipe.input;
+        }
+        PositionedStack stack = new PositionedStack(inputStack, 42, 24);
         
         //stack.setMaxSize(2);
         shape.ingredients.add(stack);
@@ -68,11 +74,18 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {    	
         for(CrushingRecipes.CrushingRecipe recipe: CrushingRecipes.crushingRecipes) {
-        	String oreName = OreDictionary.getOreName(OreDictionary.getOreID(ingredient));
-        	if(recipe.inputString == oreName){
-                this.arecipes.add(getShape(recipe));
-                break;
-            }
+        	if(recipe.inputString != ""){
+	        	String oreName = OreDictionary.getOreName(OreDictionary.getOreID(ingredient));
+	        	if(recipe.inputString == oreName){
+	                this.arecipes.add(getShape(recipe));
+	                break;
+	            }
+        	}else{
+        		if(recipe.input.isItemEqual(ingredient)){
+	                this.arecipes.add(getShape(recipe));
+	                break;
+	            }
+        	}
         }
     }
 

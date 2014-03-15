@@ -51,25 +51,23 @@ public class CrushingRecipes {
     
     public static ItemStack getCrushingRecipeOutput(ItemStack itemStack){
     	String oreDictName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
-    	if(oreDictName == ""){
-    		for(CrushingRecipe rec : crushingRecipes){
-                if(rec.input.isItemEqual(itemStack)){
-                    return rec.output.copy();
-                }
-            }
-    	}
+		for(CrushingRecipe rec : crushingRecipes){
+			if(rec.input != null){
+	            if(rec.input.isItemEqual(itemStack)){
+	                return rec.output.copy();
+	            }
+			}
+        }
         return getCrushingRecipeOutput(oreDictName);
     }
     
     public static CrushingRecipe getCrushingRecipe(ItemStack itemStack){
     	String oreDictName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
-    	if(oreDictName == ""){
-    		for(CrushingRecipe rec : crushingRecipes){
-                if(rec.input.isItemEqual(itemStack)){
-                    return rec;
-                }
+		for(CrushingRecipe rec : crushingRecipes){
+            if(rec.input.isItemEqual(itemStack)){
+                return rec;
             }
-    	}
+        }
         return getCrushingRecipe(oreDictName);
     }
     
