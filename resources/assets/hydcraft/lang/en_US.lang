@@ -6,6 +6,7 @@ item.ingotCopper.name=Copper Ingot
 item.ingotLead.name=Lead Ingot
 item.ingotEnrichedCopper=Enriched Copper Ingot
 item.bucketHydraulicOil.name=Hydraulic Oil Bucket
+item.bacon.name=Bacon
 
 #Ores
 tile.oreCopper.name=Copper Ore

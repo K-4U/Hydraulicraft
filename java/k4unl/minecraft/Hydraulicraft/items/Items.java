@@ -29,6 +29,7 @@ public class Items {
 	public static ItemChunks itemChunk;
 	public static ItemDusts itemDust;
 	public static Item itemBucketOil;
+	public static Item itemBacon;
 	
 	/*!
 	 * @author Koen Beckers
@@ -43,6 +44,7 @@ public class Items {
 		itemFrictionPlate = new ItemFrictionPlate();
 		itemDebugger = new ItemDebug();
 		itemBucketOil = new ItemBucketOil();
+		itemBacon = new ItemBacon();
 		
 		
 		itemChunk = new ItemChunks();
@@ -66,11 +68,13 @@ public class Items {
 		GameRegistry.registerItem(itemFrictionPlate, Names.itemFrictionPlate.unlocalized);
 		GameRegistry.registerItem(itemDebugger, Names.itemDebugger.unlocalized);
 		GameRegistry.registerItem(itemBucketOil, Names.itemBucketOil.unlocalized);
+		GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);
 		
 		
 		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));
 		OreDictionary.registerOre(Names.ingotLead.unlocalized, new ItemStack(ingotLead));
 		OreDictionary.registerOre(Names.ingotEnrichedCopper.unlocalized, new ItemStack(ingotEnrichedCopper));
+		OreDictionary.registerOre(Names.itemBacon.unlocalized, new ItemStack(itemBacon));
 		
 		FluidStack st = FluidRegistry.getFluidStack(Names.fluidOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
 		FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketOil), new ItemStack(Item.bucketEmpty));

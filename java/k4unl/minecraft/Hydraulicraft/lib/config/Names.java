@@ -87,6 +87,9 @@ public class Names {
 	public static final Name itemChunk = new Name("Chunks","chunk");
 	public static final Name itemDust = new Name("Dusts","dust");
 	public static final Name itemBucketOil = new Name("Hydraulic Oil Bucket","bucketHydraulicOil");
+	public static final Name itemBacon = new Name("Bacon","bacon");
+	
 	
 	public static final Name fluidOil = new Name("Hydraulic Oil", "hydraulicOil");
+	
 }

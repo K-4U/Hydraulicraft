@@ -35,6 +35,7 @@ public class Ids {
 	public static final Id itemChunks = new Id(3006);
 	public static final Id itemDusts = new Id(3007);
 	public static final Id itemBucketOil = new Id(3008);
+	public static final Id itemBacon = new Id(3009);
 	
 	
 	//DO NOT SAVE THESE IN THE CONFIG!!!
@@ -70,5 +71,6 @@ public class Ids {
 	public static final Id blockElectricPump = new Id(3539);
 	
 	public static final Id blockHydraulicSaw = new Id(3542);
+	
 	
 }

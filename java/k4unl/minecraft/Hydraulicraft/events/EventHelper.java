@@ -5,9 +5,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
+import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -54,7 +57,12 @@ public class EventHelper {
 	@ForgeSubscribe
 	public void onDeathEvent(LivingDeathEvent event){
 		if(event.entity instanceof EntityPig){
-			
+			if(!event.entity.worldObj.isRemote){
+				EntityItem ei = new EntityItem(event.entityLiving.worldObj);
+				ei.setEntityItemStack(new ItemStack(Items.itemBacon, 1));
+				ei.setPosition(event.entityLiving.posX,event.entityLiving.posY,event.entityLiving.posZ);
+				event.entityLiving.worldObj.spawnEntityInWorld(ei);
+			}
 		}
 	}
 }
