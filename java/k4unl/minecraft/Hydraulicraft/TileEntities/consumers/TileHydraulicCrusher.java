@@ -9,6 +9,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes.CrushingRecipe;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
@@ -85,7 +86,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
             //The higher the speed!
             //But also the more it uses..
             
-            return 0.1F + pressurePerTick * (1.0F-(getPressure(from) / getMaxPressure(getHandler().isOilStored(), from)));
+            return 0.1F + pressurePerTick;
         } else {
             return 0F;
         }
@@ -93,7 +94,9 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
     private void doCrush(){
         if(isCrushing()) {
-            crushingTicks = crushingTicks + 1;// + (int)(getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F);
+        	float maxPressureThisTier = Functions.getMaxPressurePerTier(pNetwork.getLowestTier(), true);
+			float ratio = getPressure(ForgeDirection.UP) / maxPressureThisTier;
+            crushingTicks = crushingTicks + 1 + (int)((pNetwork.getLowestTier() * 4) * ratio);// + (int)(getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F);
             //Log.info(crushingTicks+ "");
             if(crushingTicks >= maxCrushingTicks) {
                 //Crushing done!
@@ -108,12 +111,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
                 pressurePerTick = 0;
             }
         } else {
-        	int division = (int)(getPressure(ForgeDirection.UP) / getMaxPressure(getHandler().isOilStored(), ForgeDirection.UP));
-        	if(division > 0){
-        		maxCrushingTicks = 20 / division;
-        	}else{
-        		maxCrushingTicks = 2000;
-        	}
+        	maxCrushingTicks = 200;
             if(canRun()) {
             	CrushingRecipe currentRecipe = CrushingRecipes.getCrushingRecipe(inputInventory); 
                 targetItem = currentRecipe.output.copy();
@@ -123,10 +121,8 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
                     inputInventory = null;
                 }
                 crushingTicks = 0;
-                pressurePerTick = currentRecipe.pressure / 10;
-                if(!getHandler().isOilStored()){
-                	pressurePerTick /= 10;
-                }
+                
+                pressurePerTick = (Functions.getMaxGenPerTier(pNetwork.getLowestTier(), true) * 0.75F) * currentRecipe.pressureRatio;
             }
             
         }
@@ -158,7 +154,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
             if(outputInventory != null) {
             	ItemStack target = targetRecipe.getOutput();
                 if(!outputInventory.isItemEqual(target)) return false;
-                if(Float.compare(getPressure(ForgeDirection.UP),targetRecipe.pressure) < 0) return false; 
+                if(Float.compare(getPressure(ForgeDirection.UP), targetRecipe.pressureRatio) < 0) return false; 
                 int newItemStackSize = outputInventory.stackSize + target.stackSize + 1; //The random chance..
                 boolean ret = newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize();
                 return ret;

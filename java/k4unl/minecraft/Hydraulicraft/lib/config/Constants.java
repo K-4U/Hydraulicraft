@@ -20,7 +20,7 @@ public class Constants {
 	public final static int MAX_MBAR_GEN_OIL_TIER_3 = 200;
 	
 	
-	public final static float USING_WATER_PENALTY = 1.75F;
+	public final static float USING_WATER_PENALTY = 0.5F;
 	
 	//GUI
 	public final static int COLOR_WATER = 0x4F006DD9;

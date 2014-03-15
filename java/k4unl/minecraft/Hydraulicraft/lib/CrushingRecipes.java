@@ -13,19 +13,19 @@ public class CrushingRecipes {
         public final String inputString;
         public final ItemStack input;
         public final ItemStack output;
-        public final float pressure;
+        public final float pressureRatio;
 
         public CrushingRecipe(String inp, float press, ItemStack outp){
         	inputString = inp;
             output = outp;
-            pressure = press;
+            pressureRatio = press;
             input = null;
         }
         
         public CrushingRecipe(ItemStack inp, float press, ItemStack outp){
         	inputString = "";
             output = outp;
-            pressure = press;
+            pressureRatio = press;
             input = inp;
         }
 

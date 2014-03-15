@@ -1,11 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -54,15 +54,15 @@ public class WailaProvider implements IWailaDataProvider {
 			int max = mEnt.getMaxStorage();
 			
 			float pressure = mEnt.getPressure(ForgeDirection.UNKNOWN);
-			float maxPressure = mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), null);
+			int maxPressure = (int)mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), null);
 	
 			currenttip.add("Fl: " + stored + "/" + max + " mBuckets (" + (int)(((float)stored / (float)max) * 100) + "%)");
-			currenttip.add("Pr: " + pressure + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");
+			currenttip.add("Pr: " + (new DecimalFormat("#.##")).format(pressure) + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");
 			
 			if(mEnt instanceof IHydraulicGenerator){
 				float gen = ((IHydraulicGenerator) mEnt).getGenerating(ForgeDirection.UP);
 				int maxGen = ((IHydraulicGenerator) mEnt).getMaxGenerating(ForgeDirection.UP);
-				currenttip.add("Gen: " + gen + "/" + maxGen);
+				currenttip.add("Gen: " + (new DecimalFormat("#.##")).format(gen) + "/" + maxGen);
 			}
 			if(mEnt instanceof TileElectricPump){
 				int storedEU = ((TileElectricPump)mEnt).getEUStored();

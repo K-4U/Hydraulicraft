@@ -64,12 +64,12 @@ public class Recipes {
                 
 		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes
 		                .CrushingRecipe
-		                (oreName, 200F, new ItemStack(Items.itemChunk
+		                (oreName, 1.0F, new ItemStack(Items.itemChunk
 		                .itemID, 2, metaId)));
 		        
 		        
 		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe
-		                (ingotName, 200F,
+		                (ingotName, 0.5F,
 		                        new ItemStack(Items.itemDust.itemID, 1, metaId)));
 		
 		        
@@ -87,9 +87,9 @@ public class Recipes {
         	registerNonStandardCrushRecipe("oreUranium", "crushedUranium", 2);
         }
         
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe("oreNetherQuartz", 10F, new ItemStack(Item.netherQuartz, 3)));
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Block.cobblestone, 1), 100F, new ItemStack(Block.sand, 2)));
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe("cobblestone", 100F, new ItemStack(Block.sand, 2)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe("oreNetherQuartz", 1.0F, new ItemStack(Item.netherQuartz, 3)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Block.cobblestone, 1), 0.9F, new ItemStack(Block.sand, 2)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe("cobblestone", 0.8F, new ItemStack(Block.sand, 2)));
     }
     
     private static void registerNonStandardCrushRecipe(String sourceName, String targetName, int number){
@@ -99,7 +99,7 @@ public class Recipes {
         	return;
         
         ItemStack targetStack = targetStackL.get(0);
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(sourceName, 100F, targetStack));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(sourceName, 1.1F, targetStack));
     }
 
     private static void initializeSmeltingRecipes(){
