@@ -40,7 +40,7 @@ public class Constants {
 	public static final int MIN_REQUIRED_WATER_FOR_WASHER = 10000;
 	
 	//Harvester
-	public static final float MIN_REQUIRED_PRESSURE_HARVESTER = 10000.0F;
+	public static final float MIN_REQUIRED_PRESSURE_HARVESTER = 100.0F;
 	public static final float PRESSURE_USAGE_PISTON = 50;
 	public static final int HARVESTER_ID_ENDERLILY = 1;
 	

@@ -16,6 +16,7 @@ public class BlockHydraulicPiston extends MachineBlockContainer {
 
 	public BlockHydraulicPiston() {
 		super(Ids.blockHydraulicPiston, Names.blockHydraulicPiston);
+		hasFrontIcon = true;
 		hasTextures = false;
 	}
 

@@ -138,15 +138,17 @@ public class TileHydraulicPiston extends TileEntity implements
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
 		int compResult = Float.compare(extendTarget, extendedLength);
-		if(compResult > 0 && !isRetracting){
-			extendedLength += movingSpeed;
-		}else if(compResult < 0 && isRetracting){
-			extendedLength -= movingSpeedBack;
-		}else{
-			extendTarget = extendedLength;
+		if(simulate == false){
+			if(compResult > 0 && !isRetracting){
+				extendedLength += movingSpeed;
+			}else if(compResult < 0 && isRetracting){
+				extendedLength -= movingSpeedBack;
+			}else{
+				extendTarget = extendedLength;
+			}
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			
 		}
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		
 		if(compResult >= 0){
 			return Constants.PRESSURE_USAGE_PISTON;
 		}

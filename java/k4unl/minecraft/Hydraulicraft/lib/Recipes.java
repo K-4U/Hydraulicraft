@@ -187,7 +187,7 @@ public class Recipes {
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockCore, 2, 1), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockCore, 1, 1), true ,
 				new Object[] {
 					"CWC",
 					"WBW",
@@ -198,7 +198,7 @@ public class Recipes {
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockCore, 2, 2), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockCore, 1, 2), true ,
 				new Object[] {
 					"EWE",
 					"WBW",
@@ -209,7 +209,7 @@ public class Recipes {
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressureWall, 6),true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressureWall, 8),true,
 				new Object [] {
 					"SSS",
 					"SLS",
@@ -278,21 +278,21 @@ public class Recipes {
                         'L', "ingotLead"
                 }));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 6, 1), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 1, 1), true,
                 new Object[]{
-                        "CCC",
+                        "C-C",
                         "KHK",
-                        "CCC",
+                        "C-C",
                         'K', Items.gasket,
                         'C', "ingotCopper",
                         'H', new ItemStack(Multipart.itemPartHose, 1, 0)
                 }));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 12, 2), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 1, 2), true,
 				new Object [] {
-					"C-C",
-					"KHK",
-					"C-C",
+					"C-K",
+					"-H-",
+					"K-C",
 					'K', Items.gasket,
 					'C', "ingotEnrichedCopper",
 					'H', new ItemStack(Multipart.itemPartHose,1,1)

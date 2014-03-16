@@ -1,7 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.harvester;
 
+import java.util.ArrayList;
+
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -9,8 +16,10 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.IPlantable;
 
-public class TileHarvesterTrolley extends TileEntity {
+public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolley {
 	private float extendedLength;
 	private float maxLength = 4F;
 	private float maxSide = 8F;
@@ -20,11 +29,23 @@ public class TileHarvesterTrolley extends TileEntity {
 	private float movingSpeedExtending = 0.05F;
 	private static final float movingSpeedSideways = 0.05F;
 	private static final float movingSpeedSidewaysBack = 0.1F;
-	private int dir = 0;
+	private ForgeDirection facing = ForgeDirection.NORTH;
 	private boolean harvesterPart = false;
 	
 	private boolean isRetracting;
+	private boolean isMovingUpDown;
 	private boolean isMoving;
+	private boolean isMovingSideways;
+	private boolean isPlanting;
+	private boolean isHarvesting;
+	
+	
+	private ItemStack plantingItem = null;
+	private ArrayList<ItemStack> harvestedItems = null;
+	private int locationToPlant = -1;
+	private int locationToHarvest = -1;
+	private TileHydraulicHarvester harvester = null;
+	private TileHydraulicPiston piston = null;
 
 	public void extendTo(float blocksToExtend, float sideExtend){
 		if(blocksToExtend > maxLength){
@@ -51,9 +72,9 @@ public class TileHarvesterTrolley extends TileEntity {
 		
 		compResult = Float.compare(sideTarget, sideLength); 
 		if(compResult > 0){
-			isMoving = false;
+			isMovingSideways = false;
 		}else if(compResult < 0){
-			isMoving = true;
+			isMovingSideways = true;
 		}
 		
 		float blocksToMoveSideways = Math.abs(sideTarget - sideLength);
@@ -74,6 +95,12 @@ public class TileHarvesterTrolley extends TileEntity {
 				movingSpeedExtending = movingSpeedSideways;
 			}
 		}
+		if(piston != null){
+			piston.extendTo(sideExtend);
+		}
+		isMoving = true;
+		isMovingUpDown = true;
+		
 		
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
@@ -91,6 +118,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 4, tagCompound);
 	}
 	
+	@Override
 	public void doMove(){
 		int compResult = Float.compare(extendTarget, extendedLength);
 		if(compResult > 0 && !isRetracting){
@@ -99,15 +127,27 @@ public class TileHarvesterTrolley extends TileEntity {
 			extendedLength -= movingSpeedExtending;
 		}else{
 			extendTarget = extendedLength;
+			isMovingUpDown = false;
 		}
 		
 		compResult = Float.compare(sideTarget, sideLength);
-		if(compResult > 0 && !isMoving){
+		if(compResult > 0 && !isMovingSideways){
 			sideLength += movingSpeedSideways;
-		}else if(compResult < 0 && isMoving){
+		}else if(compResult < 0 && isMovingSideways){
 			sideLength -= movingSpeedSidewaysBack;
 		}else{
+			//Arrived at location!
 			sideLength = sideTarget;
+			isMoving = false;
+		}
+		if(!isMoving && !isMovingUpDown){
+			if(isPlanting){
+				actuallyPlant();
+			}else if(isHarvesting){
+				actuallyHarvest();
+			}else if(Config.get("shouldDolleyInHarvesterGoBack") && harvestedItems != null){
+				harvester.putInInventory(harvestedItems);
+			}
 		}
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
@@ -124,10 +164,10 @@ public class TileHarvesterTrolley extends TileEntity {
 		extendedLength = tagCompound.getFloat("extendedLength");
 		extendTarget = tagCompound.getFloat("extendTarget");
 		isRetracting = tagCompound.getBoolean("isRetracting");
-		isMoving = tagCompound.getBoolean("isMoving");
+		isMovingSideways = tagCompound.getBoolean("isMoving");
 		sideLength = tagCompound.getFloat("sideLength");
 		sideTarget = tagCompound.getFloat("sideTarget");
-		dir = tagCompound.getInteger("dir");
+		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 		
 		harvesterPart = tagCompound.getBoolean("harvesterPart");
 	}
@@ -137,10 +177,10 @@ public class TileHarvesterTrolley extends TileEntity {
 		tagCompound.setFloat("extendedLength", extendedLength);
 		tagCompound.setFloat("extendTarget", extendTarget);
 		tagCompound.setBoolean("isRetracting", isRetracting);
-		tagCompound.setBoolean("isMoving", isMoving);
+		tagCompound.setBoolean("isMoving", isMovingSideways);
 		tagCompound.setFloat("sideLength", sideLength);
 		tagCompound.setFloat("sideTarget", sideTarget);
-		tagCompound.setInteger("dir", dir);
+		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setBoolean("harvesterPart", harvesterPart);
 	}
 	
@@ -166,7 +206,49 @@ public class TileHarvesterTrolley extends TileEntity {
 		return sideTarget;
 	}
 
-	public boolean canPlantSeed(ItemStack seed){
+
+	
+	@Override
+    public AxisAlignedBB getRenderBoundingBox(){
+		float extendedLength = getExtendedLength();
+        float sidewaysMovement = getSideLength();
+
+        //Get rotation:
+        int dir = getFacing().ordinal();
+        float minX = 0.0F + xCoord;
+        float minY = 0.0F + yCoord;
+        float minZ = 0.0F + zCoord;
+        float maxX = 1.0F + xCoord;
+        float maxY = 1.0F + yCoord;
+        float maxZ = 1.0F + zCoord;
+        
+        minX += sidewaysMovement * getFacing().offsetX;
+        minY -= extendedLength;
+        minZ += sidewaysMovement * getFacing().offsetZ;
+        
+        maxX += sidewaysMovement * getFacing().offsetZ;
+        //maxY += extendedLength;
+        maxZ += sidewaysMovement * getFacing().offsetX;
+        
+        return AxisAlignedBB.getAABBPool().getAABB(minX, minY, minZ, maxX, maxY, maxZ);
+    }
+
+	public void setFacing(ForgeDirection nFacing) {
+		facing = nFacing;
+	}
+
+	public ForgeDirection getFacing() {
+		return facing;
+	}
+
+	public void setIsHarvesterPart(boolean isit){
+		harvesterPart = isit;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}
+	
+	
+	@Override
+	public boolean canHandleSeed(ItemStack seed){
 		int metadata = getBlockMetadata();
 		for(Seed s : Config.harvestableItems){
 			if(s.getSeedId() == seed.itemID){
@@ -178,46 +260,192 @@ public class TileHarvesterTrolley extends TileEntity {
 		return false;
 	}
 	
+	
+	public Location getLocation(int length, int y){
+		Location l = new Location(xCoord + getFacing().offsetX * length, yCoord + y, zCoord + getFacing().offsetZ * length);
+		return l;
+	}
+	
+	private int getBlockId(Location l){
+		return worldObj.getBlockId(l.getX(), l.getY(), l.getZ());
+	}
+	
 	@Override
-    public AxisAlignedBB getRenderBoundingBox(){
-		float extendedLength = getExtendedLength();
-        float sidewaysMovement = getSideLength();
-
-        //Get rotation:
-        int dir = getDir();
-        float minX = 0.0F + xCoord;
-        float minY = 0.0F + yCoord;
-        float minZ = 0.0F + zCoord;
-        float maxX = 1.0F + xCoord;
-        float maxY = 1.0F + yCoord;
-        float maxZ = 1.0F + zCoord;
-        
-        
-        int dirXMin = (dir == 1 ? -1  : 0);
-        int dirZMin = (dir == 0 ? -1  : 0);
-        int dirXMax = (dir == 3 ? 1  : 0);
-        int dirZMax = (dir == 2 ? 1  : 0);
-        minX += sidewaysMovement * dirXMin;
-        minY -= extendedLength;
-        minZ += sidewaysMovement * dirZMin;
-        
-        maxX += sidewaysMovement * dirXMax;
-        //maxY += extendedLength;
-        maxZ += sidewaysMovement * dirZMax;
-        
-        return AxisAlignedBB.getAABBPool().getAABB(minX, minY, minZ, maxX, maxY, maxZ);
-    }
-
-	public void setDir(int dir2) {
-		this.dir = dir2;
+	public int canPlantSeed(ItemStack[] seeds, int maxLength){
+		ItemStack firstSeed = null;
+		int seedLocation = 0;
+		for(int i = 0; i < 9; i++){
+			if(seeds[i] != null){
+				if(canHandleSeed(seeds[i])){
+					seedLocation = i;
+					firstSeed = seeds[i];
+					break;
+				}
+			}
+		}
+		if(firstSeed == null){
+			return -1;
+		}
+		
+		for(int horiz = 0; horiz <= maxLength; horiz++){
+			int blockId = getBlockId(getLocation(horiz, -2));
+			int soilId = getBlockId(getLocation(horiz, -3));
+			boolean canIPlantHere = false;
+			if(getBlockMetadata() != Constants.HARVESTER_ID_ENDERLILY){
+				//For "vanilla" plants:
+				canIPlantHere = canPlantSeed(getLocation(horiz, -2), firstSeed);
+			}else if(getBlockMetadata() == Constants.HARVESTER_ID_ENDERLILY){
+				if(soilId == Block.dirt.blockID || soilId == Block.grass.blockID || soilId == Block.whiteStone.blockID){
+					canIPlantHere = true;
+				}else{
+					canIPlantHere = false;
+				}
+			}
+			
+			if(blockId == 0 && canIPlantHere){
+				locationToPlant = horiz;
+				return seedLocation;
+			}
+		}
+		
+		return -1;
+	}
+	
+	@Override
+	public void doPlant(ItemStack seed){
+		plantingItem = seed;
+		extendTo(2.7F, locationToPlant);
+		isPlanting = true;
+		isHarvesting = false; //Just to be safe
+	}
+	
+	private void actuallyPlant(){
+		//The trolley has arrived at the location and should plant.
+		int plantId = 0;
+		int plantMeta = 0;
+		Location l = getLocation(locationToPlant, -2);
+		if(plantingItem.getItem() instanceof IPlantable && getBlockMetadata() != Constants.HARVESTER_ID_ENDERLILY){
+			IPlantable seed = (IPlantable)plantingItem.getItem();
+			plantId = seed.getPlantID(worldObj, l.getX(), l.getY(), l.getZ());
+			plantMeta = seed.getPlantMetadata(worldObj, l.getX(), l.getY(), l.getZ());
+		}else if(getBlockMetadata() == Constants.HARVESTER_ID_ENDERLILY){
+			//It probably is a ender lilly we want to plant..
+			plantId = plantingItem.itemID;
+			plantMeta = 0;
+		}
+		
+		worldObj.setBlock(l.getX(), l.getY(), l.getZ(), plantId, plantMeta, 2);
+		
+		plantingItem = null;
+		isHarvesting = false;
+		isPlanting = false;
+		if(Config.get("shouldDolleyInHarvesterGoBack")){
+			extendTo(0, 0);
+		}else{
+			extendTo(0, locationToPlant);
+		}
+	}
+	
+	private boolean canPlantSeed(Location l, ItemStack seed) {
+		if(seed.getItem() instanceof IPlantable){
+			int x = l.getX();
+			int y = l.getY();
+			int z = l.getZ();
+			Block soil = Block.blocksList[worldObj.getBlockId(x, y - 1, z)];
+		    return (worldObj.getFullBlockLightValue(x, y, z) >= 8 ||
+		            worldObj.canBlockSeeTheSky(x, y, z)) &&
+		            (soil != null && soil.canSustainPlant(worldObj, x, y - 1, z,
+		                  ForgeDirection.UP, (IPlantable)seed.getItem()));			
+		}else{
+			return false;
+		}
+	    
+	}
+	
+	private ArrayList<ItemStack> getDroppedItems(int h){
+		Location cropLocation = getLocation(h, -2);
+		int id = worldObj.getBlockId(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
+		int metaData = worldObj.getBlockMetadata(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
+		if(id > 0){
+			Block toHarvest = Block.blocksList[id];
+			return toHarvest.getBlockDropped(worldObj, cropLocation.getX(), cropLocation.getY(), cropLocation.getZ(), metaData, 0);
+		}else{
+			return null;
+		}
+	}
+	
+	@Override
+	public ArrayList<ItemStack> checkHarvest(int maxLen){
+		//For now, only crops!
+		for(int horiz = 0; horiz <= maxLen; horiz++){
+			Location l = getLocation(horiz, -2);
+			int x = l.getX();
+			int y = l.getY();
+			int z = l.getZ();
+			
+			int blockId = worldObj.getBlockId(x, y, z);
+			int metaData = worldObj.getBlockMetadata(x, y, z);
+			
+			for(Seed harvestable : Config.harvestableItems){
+				if(harvestable.getItemId() == blockId && harvestable.getFullGrown() == metaData){
+					/*if(!simulate){
+						isHarvesting = true;
+						retracting = false;
+						moveTrolley(horiz, w);
+						return true;
+					}else{*/
+					ArrayList<ItemStack> dropped = getDroppedItems(horiz);
+					locationToHarvest = horiz;
+					return dropped;
+				}
+			}
+		}
+		return null;
 	}
 
-	public int getDir() {
-		return dir;
+
+	@Override
+	public void setPiston(TileHydraulicPiston nPiston) {
+		piston = nPiston;
+	}
+	
+	@Override
+	public void setHarvester(TileHydraulicHarvester nHarvester){
+		harvester = nHarvester;
 	}
 
-	public void setIsHarvesterPart(boolean isit){
-		harvesterPart = isit;
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	@Override
+	public boolean isMoving() {
+		return isMovingSideways;
+	}
+	
+	@Override
+	public boolean isWorking() {
+		return isPlanting || isHarvesting || isMoving || isMovingUpDown;
+	}
+
+	@Override
+	public void doHarvest() {
+		plantingItem = null;
+		extendTo(2.0F, locationToHarvest);
+		isPlanting = false; //Just to be safe
+		isHarvesting = true; 
+	}
+	
+	private void actuallyHarvest(){
+		ArrayList<ItemStack> dropped = getDroppedItems(locationToHarvest);
+		Location cropLocation = getLocation(locationToHarvest, -2);
+		worldObj.setBlockToAir(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
+		
+		
+		isHarvesting = false;
+		isPlanting = false;
+		if(Config.get("shouldDolleyInHarvesterGoBack")){
+			harvestedItems = dropped;
+			extendTo(0, 0);
+		}else{
+			harvester.putInInventory(dropped);
+			extendTo(0, locationToHarvest);
+		}
 	}
 }

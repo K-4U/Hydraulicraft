@@ -173,7 +173,7 @@ public class PressureNetwork {
 	}
 	
 	public void mergeNetwork(PressureNetwork toMerge){
-		Log.info("Trying to merge network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
+		//Log.info("Trying to merge network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
 		if(toMerge.equals(this)) return;
 		
 		float newPressure = ((pressure - toMerge.getPressure()) / 2) + toMerge.getPressure();

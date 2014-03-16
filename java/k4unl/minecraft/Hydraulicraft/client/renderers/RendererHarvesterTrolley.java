@@ -35,7 +35,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		
 		TileHarvesterTrolley t = (TileHarvesterTrolley)tileentity;
 		//Get metadata for rotation:
-		int rotation = t.getDir();
+		int rotation = t.getFacing().ordinal();
 		int metadata = t.getBlockMetadata();
 		
 		doRender(t, (float)x, (float)y, (float)z, f, rotation, metadata);
@@ -57,7 +57,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 			GL11.glRotatef(-90F, 0.0F, 1.0F, 0F);
 			GL11.glTranslatef(0.0F, 0.0F, -1.0F);
 			break;
-		case 0:
+		case 2:
 			GL11.glRotatef(180F, 0.0F, 1.0F, 0F);
 			GL11.glTranslatef(-1.0F, 0.0F, -1.0F);
 			break;

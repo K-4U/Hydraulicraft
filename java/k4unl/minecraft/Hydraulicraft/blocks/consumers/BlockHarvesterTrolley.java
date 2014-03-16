@@ -77,23 +77,25 @@ public class BlockHarvesterTrolley extends MachineBlockContainer{
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
         if(tileEntity instanceof TileHarvesterTrolley) {
-            float extendedLength = ((TileHarvesterTrolley)tileEntity).getExtendedLength();
-            float sidewaysMovement = ((TileHarvesterTrolley)tileEntity).getSideLength();
+        	TileHarvesterTrolley ht = ((TileHarvesterTrolley) tileEntity);
+        	float extendedLength = ht.getExtendedLength();
+            float sidewaysMovement = ht.getSideLength();
 
             //Get rotation:
-            int dir = ((TileHarvesterTrolley) tileEntity).getDir();
+            
+            int dir = ht.getFacing().ordinal();
             float minX = 0.0F;
             float minY = 0.8F;
             float minZ = 0.0F;
             float maxX = 1.0F;
             float maxY = 1.0F;
             float maxZ = 1.0F;
+            int dirXMin = (dir == 1 ? -1 : 0);
+            int dirZMin = (dir == 2 ? -1 : 0);
+            int dirXMax = (dir == 0 ? 1 : 0);
+            int dirZMax = (dir == 3 ? 1 : 0);
             
             
-            int dirXMin = (dir == 1 ? -1  : 0);
-            int dirZMin = (dir == 0 ? -1  : 0);
-            int dirXMax = (dir == 3 ? 1  : 0);
-            int dirZMax = (dir == 2 ? 1  : 0);
             minX += sidewaysMovement * dirXMin;
             minY -= extendedLength;
             minZ += sidewaysMovement * dirZMin;
