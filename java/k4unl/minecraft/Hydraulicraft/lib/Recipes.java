@@ -5,6 +5,7 @@ import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.items.Items;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.block.Block;
@@ -175,6 +176,18 @@ public class Recipes {
 			})
 		);
 		
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.harvesterTrolley, 4, Constants.HARVESTER_ID_SUGARCANE), true ,
+				new Object[] {
+					"-P-",
+					"WCW",
+					"-S-",
+					'C', new ItemStack(Blocks.blockCore, 1, 1),
+					'W', Blocks.hydraulicPressureWall,
+					'S', Item.shears,
+					'P', Blocks.hydraulicPiston
+			})
+		);
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockCore, 2, 0), true ,
 				new Object[] {

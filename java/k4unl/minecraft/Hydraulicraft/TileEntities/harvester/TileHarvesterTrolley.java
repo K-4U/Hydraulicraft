@@ -9,6 +9,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockReed;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -291,9 +292,12 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 			int blockId = getBlockId(getLocation(horiz, -2));
 			int soilId = getBlockId(getLocation(horiz, -3));
 			boolean canIPlantHere = false;
-			if(getBlockMetadata() != Constants.HARVESTER_ID_ENDERLILY){
+			if(getBlockMetadata() == 0){
 				//For "vanilla" plants:
 				canIPlantHere = canPlantSeed(getLocation(horiz, -2), firstSeed);
+			}else if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
+				Location toPlaceLocation = getLocation(horiz, -2);
+				canIPlantHere = Block.reed.canPlaceBlockAt(worldObj, toPlaceLocation.getX(), toPlaceLocation.getY(), toPlaceLocation.getZ());
 			}else if(getBlockMetadata() == Constants.HARVESTER_ID_ENDERLILY){
 				if(soilId == Block.dirt.blockID || soilId == Block.grass.blockID || soilId == Block.whiteStone.blockID){
 					canIPlantHere = true;
@@ -314,7 +318,12 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	@Override
 	public void doPlant(ItemStack seed){
 		plantingItem = seed;
-		extendTo(2.7F, locationToPlant);
+		if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
+			extendTo(2F, locationToPlant);
+		}else{
+			extendTo(2.7F, locationToPlant);
+		}
+		
 		isPlanting = true;
 		isHarvesting = false; //Just to be safe
 	}
@@ -331,6 +340,9 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		}else if(getBlockMetadata() == Constants.HARVESTER_ID_ENDERLILY){
 			//It probably is a ender lilly we want to plant..
 			plantId = plantingItem.itemID;
+			plantMeta = 0;
+		}else if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
+			plantId = Block.reed.blockID;
 			plantMeta = 0;
 		}
 		
@@ -376,9 +388,13 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	
 	@Override
 	public ArrayList<ItemStack> checkHarvest(int maxLen){
-		//For now, only crops!
 		for(int horiz = 0; horiz <= maxLen; horiz++){
-			Location l = getLocation(horiz, -2);
+			Location l;
+			if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
+				l = getLocation(horiz, -1);
+			}else{
+				l = getLocation(horiz, -2);
+			}
 			int x = l.getX();
 			int y = l.getY();
 			int z = l.getZ();
@@ -387,13 +403,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 			int metaData = worldObj.getBlockMetadata(x, y, z);
 			
 			for(Seed harvestable : Config.harvestableItems){
-				if(harvestable.getItemId() == blockId && harvestable.getFullGrown() == metaData){
-					/*if(!simulate){
-						isHarvesting = true;
-						retracting = false;
-						moveTrolley(horiz, w);
-						return true;
-					}else{*/
+				if(harvestable.getItemId() == blockId && harvestable.getFullGrown() == metaData && harvestable.getHarvesterMeta() == getBlockMetadata()){
 					ArrayList<ItemStack> dropped = getDroppedItems(horiz);
 					locationToHarvest = horiz;
 					return dropped;
@@ -427,14 +437,23 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	@Override
 	public void doHarvest() {
 		plantingItem = null;
-		extendTo(2.0F, locationToHarvest);
+		if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
+			extendTo(1.0F, locationToHarvest);
+		}else{
+			extendTo(2.0F, locationToHarvest);
+		}
 		isPlanting = false; //Just to be safe
 		isHarvesting = true; 
 	}
 	
 	private void actuallyHarvest(){
 		ArrayList<ItemStack> dropped = getDroppedItems(locationToHarvest);
-		Location cropLocation = getLocation(locationToHarvest, -2);
+		Location cropLocation;
+		if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
+			cropLocation = getLocation(locationToHarvest, -1);
+		}else{
+			cropLocation = getLocation(locationToHarvest, -2);
+		}
 		worldObj.setBlockToAir(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
 		
 		

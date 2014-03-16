@@ -6,6 +6,8 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 
@@ -48,6 +50,7 @@ public class Config {
 		addHarvestableItem(new Seed(0, 59, 7, 295));
 		addHarvestableItem(new Seed(0, 141, 7, 391));
 		addHarvestableItem(new Seed(0, 142, 7, 392));
+		addHarvestableItem(new Seed(Constants.HARVESTER_ID_SUGARCANE, Block.reed.blockID, 0, Item.reed.itemID));
 	}
 	
 	

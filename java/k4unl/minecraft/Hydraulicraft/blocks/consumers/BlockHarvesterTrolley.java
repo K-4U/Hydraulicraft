@@ -5,6 +5,7 @@ import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
@@ -27,6 +28,7 @@ public class BlockHarvesterTrolley extends MachineBlockContainer{
 		mName = Names.blockHarvesterTrolley;
 		enabledHarvesters.add(0);
 		hasTextures = false;
+		enabledHarvesters.add(Constants.HARVESTER_ID_SUGARCANE);
 	}
 	
 	public void enableHarvester(int id){

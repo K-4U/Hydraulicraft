@@ -34,8 +34,9 @@ tile.HPHydraulicPump.name=High Pressure Pump
 
 tile.hydraulicHarvesterSource.name=Hydraulic Harvester
 tile.hydraulicHarvesterFrame.name=Harvester Frame
-tile.wheatHarvester.name=Harvester Wheat Dolley
-tile.enderLilyHarvester.name=Harvester Enderlily Dolley
+tile.wheatHarvester.name=Wheat Harvester Dolley
+tile.enderLilyHarvester.name=Enderlily Harvester Dolley
+tile.sugarCaneHarvester.name=Sugar Cane Harvester Dolley
 
 tile.hydraulicPiston.name=Hydraulic Piston
 tile.interfaceValve.name=Interface Valve

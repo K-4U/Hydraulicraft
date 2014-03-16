@@ -844,10 +844,14 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack){
         if(i < 9) {
-        	for(Seed s: Config.harvestableItems){
-        		if(s.getSeedId() == itemStack.itemID){
-        			return true;
-        		}
+        	if(seedsStorage[i] == null){
+	        	for(Seed s: Config.harvestableItems){
+	        		if(s.getSeedId() == itemStack.itemID){
+	        			return true;
+	        		}
+	        	}
+        	}else{
+        		return (seedsStorage[i].getItem().itemID == itemStack.itemID && seedsStorage[i].getItemDamage() == itemStack.getItemDamage());
         	}
             return itemStack.getItem() instanceof IPlantable;
         } else {
