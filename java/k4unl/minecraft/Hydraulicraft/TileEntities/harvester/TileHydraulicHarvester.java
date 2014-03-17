@@ -327,9 +327,6 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	}
 	
 	private void updateTrolleys(){
-		for(Location l: trolleyList){
-			getTrolleyFromCoords(l).doMove();
-		}
 	}
 	
 	

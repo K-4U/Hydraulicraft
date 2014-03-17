@@ -160,8 +160,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(connectedSidesHaveChanged && world() != null && !world().isRemote){
 			connectedSidesHaveChanged = false;
 			mainCompound.setBoolean("connectedSidesHaveChanged", true);
-			//writeConnectedSidesToNBT(connectedCompound);
-			//mainCompound.setCompoundTag("connectedSides", connectedCompound);
 		}
 		getHandler().writeToNBT(handlerCompound);
 		mainCompound.setCompoundTag("handler", handlerCompound);
@@ -197,12 +195,10 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         tier = packet.readInt();
         
         NBTTagCompound mainCompound = packet.readNBTTagCompound();
-		//NBTTagCompound connectedCompound = mainCompound.getCompoundTag("connectedSides");
 		NBTTagCompound handlerCompound = mainCompound.getCompoundTag("handler");
 		if(mainCompound.getBoolean("connectedSidesHaveChanged")){
 			hasCheckedSinceStartup = false;
 		}
-		//readConnectedSidesFromNBT(connectedCompound);
         
         getHandler().readFromNBT(handlerCompound);
     }
@@ -481,7 +477,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	    		//Hack hack hack
 	    		//Temporary bug fix that we will forget about
 	    	}
-	    	if(world().getTotalWorldTime() % 10 == 0 && pNetwork != null && !pNetwork.getMachines().contains(this.getHandler().getBlockLocation())){
+	    	//if(world().getTotalWorldTime() % 10 == 0 && pNetwork != null && !pNetwork.getMachines().contains(this.getHandler().getBlockLocation())){
 	    		//Dum tie dum tie dum
 	    		//If you see this, please step out of this if
 	    		// *makes jedi hand motion* You never saw this!
@@ -489,7 +485,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	    		// I Honestly believe it's because of FMP
 	    		//getHandler().updateNetworkOnNextTick(pNetwork.getPressure());
 	    		//pNetwork.addMachine(this, pNetwork.getPressure());
-	    	}
+	    	//}
     	}
     	
         if(needToCheckNeighbors) {

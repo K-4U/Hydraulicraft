@@ -428,7 +428,7 @@ public class MachineEntity implements IBaseClass {
 
 	@Override
 	public void updateEntity() {
-		if(firstUpdate/* && tWorld!= null && !tWorld.isRemote*/){
+		if(firstUpdate && tWorld!= null && !tWorld.isRemote){
 			firstUpdate = false;
 			shouldUpdateNetwork = true;
 			target.firstTick();

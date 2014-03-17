@@ -155,7 +155,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	
 	@Override
 	public void updateEntity() {
-		if(!harvesterPart){
+		if(harvester != null){
 			doMove();
 		}
 	}
@@ -403,7 +403,10 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 			int metaData = worldObj.getBlockMetadata(x, y, z);
 			
 			for(Seed harvestable : Config.harvestableItems){
-				if(harvestable.getItemId() == blockId && harvestable.getFullGrown() == metaData && harvestable.getHarvesterMeta() == getBlockMetadata()){
+				boolean idCorrect = harvestable.getItemId() == blockId;
+				boolean fullGrown = harvestable.getFullGrown() == metaData || getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE;
+				boolean correctDolley = harvestable.getHarvesterMeta() == getBlockMetadata();
+				if(idCorrect && fullGrown && correctDolley){
 					ArrayList<ItemStack> dropped = getDroppedItems(horiz);
 					locationToHarvest = horiz;
 					return dropped;
