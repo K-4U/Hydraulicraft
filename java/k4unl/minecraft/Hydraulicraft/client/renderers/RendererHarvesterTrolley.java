@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -48,18 +49,20 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		
 		GL11.glTranslatef(x, y, z);
 
-		switch(rotation){
-		case 3:
+		switch(ForgeDirection.getOrientation(rotation)){
+		case EAST:
 			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
 			GL11.glTranslatef(-1.0F, 0.0F, 0.0F);
 			break;
-		case 1:
+		case WEST:
 			GL11.glRotatef(-90F, 0.0F, 1.0F, 0F);
 			GL11.glTranslatef(0.0F, 0.0F, -1.0F);
 			break;
-		case 2:
+		case NORTH:
 			GL11.glRotatef(180F, 0.0F, 1.0F, 0F);
 			GL11.glTranslatef(-1.0F, 0.0F, -1.0F);
+			break;
+		default:
 			break;
 		}
 		

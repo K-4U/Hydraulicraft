@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 import codechicken.multipart.TileMultipart;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class Functions {
 	private static boolean isUpdateAvailable;

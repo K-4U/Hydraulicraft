@@ -383,6 +383,46 @@ public class Recipes {
 					'C', new ItemStack(Blocks.blockCore, 1, 2)
 				});
 		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicLavaPump, 1, 0), true,
+				new Object [] {
+					"GKG",
+					"ICG",
+					"PWP",
+					'P', Block.pistonBase,
+					'K', Items.gasket,
+					'G', Block.glass,
+					'W', Blocks.hydraulicPressureWall,
+					'I', Blocks.blockInterfaceValve,
+					'C', new ItemStack(Blocks.blockCore, 1, 0)
+				})
+			);
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicLavaPump,1,1), true,
+				new Object [] {
+					"GKG",
+					"ICG",
+					"PUP",
+					'P', Block.pistonBase,
+					'K', Items.gasket,
+					'G', Block.glass,
+					'I', Blocks.blockInterfaceValve,
+					'U', new ItemStack(Blocks.hydraulicLavaPump, 1,0),
+					'C', new ItemStack(Blocks.blockCore, 1, 1)
+				})
+			);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicLavaPump, 1, 2), true,
+                new Object[]{
+                        "GKG",
+                        "ICG",
+                        "PUP",
+                        'P', Block.pistonBase,
+                        'K', Items.gasket,
+                        'G', Block.glass,
+                        'I', Blocks.blockInterfaceValve,
+                        'U', new ItemStack(Blocks.hydraulicLavaPump, 1, 1),
+                        'C', new ItemStack(Blocks.blockCore, 1, 2)
+                })
+        );
 
 	}
 	

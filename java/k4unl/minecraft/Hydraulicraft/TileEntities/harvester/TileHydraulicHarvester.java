@@ -244,8 +244,8 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 						if(checkMultiblock(dir)){
 							this.facing = dir;
 							isMultiblock = true;
-							Functions.showMessageInChat("Width of harvester("+dir+"): " + harvesterWidth);
-							Functions.showMessageInChat("Length of harvester("+dir+"): " + harvesterLength);
+							//Functions.showMessageInChat("Width of harvester("+dir+"): " + harvesterWidth);
+							//Functions.showMessageInChat("Length of harvester("+dir+"): " + harvesterLength);
 							convertMultiblock();
 							pNetwork = null;
 							getHandler().updateNetworkOnNextTick(0);
