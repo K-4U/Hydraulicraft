@@ -32,6 +32,10 @@ tile.LPHydraulicPump.name=Low Pressure Pump
 tile.MPHydraulicPump.name=Medium Pressure Pump
 tile.HPHydraulicPump.name=High Pressure Pump
 
+tile.LPHydraulicLavaPump.name=Low Pressure Lava Pump
+tile.MPHydraulicLavaPump.name=Medium Pressure Lava Pump
+tile.HPHydraulicLavaPump.name=High Pressure Lava Pump
+
 tile.hydraulicHarvesterSource.name=Hydraulic Harvester
 tile.hydraulicHarvesterFrame.name=Harvester Frame
 tile.wheatHarvester.name=Wheat Harvester Dolley

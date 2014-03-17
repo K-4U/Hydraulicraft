@@ -38,6 +38,8 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 	
 	private FluidTank tank = null;
 	private int tier = -1;
+	private int lavaUsage = 0;
+	private boolean isRunning = false;
 	
 	private int fluidInNetwork;
 	private int networkCapacity;
@@ -65,8 +67,28 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 	
 	@Override	
 	public void workFunction(ForgeDirection from) {
-		if(from.equals(ForgeDirection.UP)){
-			
+		if(!from.equals(ForgeDirection.UP)) return;
+		
+		if(!getHandler().getRedstonePowered()){
+			isRunning = false;
+			getHandler().updateBlock();
+			return;
+		}
+		//This function gets called every tick.
+		boolean needsUpdate = false;
+		if(!worldObj.isRemote){
+			needsUpdate = true;
+			if(Float.compare(getGenerating(ForgeDirection.UP), 0.0F) > 0){
+				setPressure(getPressure(getFacing()) + getGenerating(ForgeDirection.UP), getFacing());
+				tank.drain(Constants.MAX_LAVA_USAGE[getTier()], true);
+				isRunning = true;
+			}else{
+				isRunning = false;
+			}
+		}
+		
+		if(needsUpdate){
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
 
@@ -98,11 +120,38 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 		return 0;
 	}
 
+	public int getLavaUsage(){
+		return lavaUsage;
+	}
+	
 	@Override
 	public float getGenerating(ForgeDirection from) {
-		return 0;
+		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0){
+			lavaUsage = 0;
+			return 0f;
+		}
+		
+		if(tank.getFluidAmount() > Constants.MAX_LAVA_USAGE[getTier()] * 2){
+			
+			lavaUsage = tank.drain(Constants.MAX_LAVA_USAGE[getTier()], false).amount;
+			
+			float gen = lavaUsage * Constants.CONVERSION_RATIO_LAVA_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
+			gen = gen * (getFluidInNetwork(from) / getFluidCapacity(from));
+			
+			if(Float.compare(gen + getPressure(from), getMaxPressure(getHandler().isOilStored(), from)) > 0){
+				//This means the pressure we are generating is too much!
+				gen = getMaxPressure(getHandler().isOilStored(), from) - getPressure(from);
+			}
+			if(Float.compare(gen, getMaxGenerating(from)) > 0){
+				gen = getMaxGenerating(from);
+			}
+			
+			lavaUsage = (int)(gen * (getFluidInNetwork(from) / getFluidCapacity(from)) / Constants.CONVERSION_RATIO_LAVA_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
+			return gen; 
+		}else{
+			return 0;
+		}
 	}
-
 	@Override
 	public int getMaxStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * (2 * (getTier() + 1));
@@ -163,8 +212,6 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 		super.readFromNBT(tagCompound);
 		
 		setTier(tagCompound.getInteger("tier"));
-		
-		
 		NBTTagCompound tankCompound = tagCompound.getCompoundTag("tank");
 		if(tankCompound != null){
 			tank.readFromNBT(tankCompound);
@@ -173,6 +220,9 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 		networkCapacity = tagCompound.getInteger("networkCapacity");
 		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
+		
+		lavaUsage = tagCompound.getInteger("lavaUsage");
+		isRunning = tagCompound.getBoolean("isRunning");
 	}
 
 	@Override
@@ -191,6 +241,9 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 			tagCompound.setInteger("fluidInNetwork", getNetwork(ForgeDirection.UP).getFluidInNetwork());
 		}
 		tagCompound.setInteger("facing", facing.ordinal());
+		
+		tagCompound.setInteger("lavaUsage", lavaUsage);
+		tagCompound.setBoolean("isRunning", isRunning);
 	}
 
 	@Override
@@ -378,8 +431,12 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
-		return tankInfo;
+		if(tank != null){
+			FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
+			return tankInfo;
+		}else{
+			return null;
+		}
 	}
 	
 	public ForgeDirection getFacing(){

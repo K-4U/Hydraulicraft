@@ -48,9 +48,11 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
 		
 		GL11.glPushMatrix();
+		
 		GL11.glTranslatef(0.0F, 1.0F, 1.0F);
 		GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
 		GL11.glRotatef(90F, 0.0F, 0.0F, -1.0F);
+		
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
@@ -58,8 +60,8 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
         
 		float thickness = 0.06F;
 		renderTieredBars(tier, thickness);
-		
 		renderInsidesWithoutLighting(thickness);
+		renderGauges(thickness);
 		
 		//GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_LIGHTING); 
@@ -113,6 +115,8 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		float thickness = 0.06F;
 		renderTieredBars(t.getTier(), thickness);
 		renderInsides(thickness, t);
+		renderGaugesContents(thickness, t);
+		renderGauges(thickness);
 		
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -127,38 +131,33 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);
 		RenderHelper.drawTexturedCube(insides);
 		GL11.glEnd();
-		
+	}
+	
+	private void renderGauges(float thickness){
+		thickness -= 0.025F;
 		GL11.glEnable(GL11.GL_BLEND);
-		
 		GL11.glBegin(GL11.GL_QUADS);
-		Vector3fMax vector = new Vector3fMax(thickness + 0.1F, 0.0F, thickness+0.1F, 1.0F-thickness-0.1F, 1.01F-thickness, thickness+0.1F+0.2F);
+		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - 0.1F - 0.2F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F, 1.0002F-thickness, 1.0F - thickness - 0.1F);
 		
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 215F/256F, 0.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), 215F/256F, 0.39F);		
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), 189F/256F, 0.39F);
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), 189F/256F, 0.0F);
+		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMax(), 189F/256F, 0.39F); //BL
+		RenderHelper.vertexWithTexture(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMax(), 215F/256F, 0.39F);	//BR
+		RenderHelper.vertexWithTexture(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMin(), 215F/256F, 0.0F); //TR
+		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMin(), 189F/256F, 0.0F); //TL
+		
+		Vector3fMax vectorLavaWindow = new Vector3fMax(thickness + 0.1F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F - 0.3F, 1.0002F-thickness, 1.0F - thickness - 0.1F);
+		
+		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMin(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMax(), 188F/256F, 206F/256F); //BL
+		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMax(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMax(), 248F/256F, 206F/256F); //BR
+		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMax(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMin(), 248F/256F, 104F/256F);  //TR
+		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMin(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMin(), 188F/256F, 104F/256F);  //TL
 		
 		GL11.glEnd();
 		GL11.glDisable(GL11.GL_BLEND);
+		
 	}
-	
-	private void renderInsides(float thickness, TileHydraulicLavaPump t){
+	private void renderGaugesContents(float thickness, TileHydraulicLavaPump t){
 		thickness -= 0.025F;
-		float tX = 188;
-		float tY = 104;
-		float tyE = 206;
-		float txE = 248;
-		GL11.glBegin(GL11.GL_QUADS);
-		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);	
-		RenderHelper.drawTexturedCubeWithLight(insides, (TileEntity)t);
-		
-		GL11.glEnd();
-		
-		
-		
-		
-		
-		drawLavaTank(t, false, thickness);
+		//drawLavaTank(t, false, thickness);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -183,28 +182,19 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glPopMatrix();
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		
-		
+	}
+	
+	private void renderInsides(float thickness, TileHydraulicLavaPump t){
+		thickness -= 0.025F;
+		float tX = 188;
+		float tY = 104;
+		float tyE = 206;
+		float txE = 248;
 		GL11.glBegin(GL11.GL_QUADS);
-		vectorPressure = new Vector3fMax(1.0F - thickness - 0.1F - 0.2F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F, 1.0002F-thickness, 1.0F - thickness - 0.1F);
-		
-		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMax(), 189F/256F, 0.39F); //BL
-		RenderHelper.vertexWithTexture(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMax(), 215F/256F, 0.39F);	//BR
-		RenderHelper.vertexWithTexture(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMin(), 215F/256F, 0.0F); //TR
-		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMin(), 189F/256F, 0.0F); //TL
-		
-		Vector3fMax vectorLavaWindow = new Vector3fMax(thickness + 0.1F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F - 0.3F, 1.0002F-thickness, 1.0F - thickness - 0.1F);
-		
-		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMin(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMax(), 188F/256F, 206F/256F); //BL
-		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMax(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMax(), 248F/256F, 206F/256F); //BR
-		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMax(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMin(), 248F/256F, 104F/256F);  //TR
-		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMin(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMin(), 188F/256F, 104F/256F);  //TL
-		
+		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);	
+		RenderHelper.drawTexturedCubeWithLight(insides, (TileEntity)t);
 		
 		GL11.glEnd();
-		GL11.glDisable(GL11.GL_BLEND);
-		
-		
 	}
 	
 	private void drawLavaTank(TileHydraulicLavaPump t, boolean isItem, float thickness){
@@ -222,20 +212,22 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		if(!isItem){
 			float h = vectorFilled.getZMax() - vectorFilled.getZMin();
 			FluidTankInfo[] tankInfo = t.getTankInfo(ForgeDirection.UP);
-			float fluidAmount = 0F;
-			if(tankInfo[0].fluid != null){
-				fluidAmount = tankInfo[0].fluid.amount;
+			if(tankInfo != null){
+			
+				float fluidAmount = 0F;
+				if(tankInfo[0].fluid != null){
+					fluidAmount = tankInfo[0].fluid.amount;
+				}
+				
+				vectorFilled.setZMin(vectorFilled.getZMax() - (h * (fluidAmount / (float)tankInfo[0].capacity)));
+			
+			
+				Icon fluidIcon = FluidRegistry.LAVA.getIcon();
+				
+				if(fluidAmount > 0){
+					RenderHelper.drawTesselatedCubeWithTexture(vectorFilled, fluidIcon);
+				}
 			}
-			
-			vectorFilled.setZMin(vectorFilled.getZMax() - (h * (fluidAmount / (float)tankInfo[0].capacity)));
-		
-		
-			Icon fluidIcon = FluidRegistry.LAVA.getIcon();
-			
-			if(fluidAmount > 0){
-				RenderHelper.drawTesselatedCubeWithTexture(vectorFilled, fluidIcon);
-			}
-			
 			//Reset texture after using tesselators.
 			FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
 		}

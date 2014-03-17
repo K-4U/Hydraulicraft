@@ -47,8 +47,8 @@ public class GuiLavaPump extends MachineGUI {
 		drawSmallerString(65, startY + (step * 1), EnumChatFormatting.GREEN + "" + generating + " mBar/t", false);
 		drawSmallerString(61, startY + (step * 2), EnumChatFormatting.GREEN + "Max:", false);
 		drawSmallerString(65, startY + (step * 3), EnumChatFormatting.GREEN + "" + pump.getMaxGenerating(ForgeDirection.UP) + " mBar/t", false);
-		drawSmallerString(61, startY + (step * 4), EnumChatFormatting.GREEN + "Burn left:", false);
-		drawSmallerString(65, startY + (step * 5), EnumChatFormatting.GREEN + "" + (int)(pump.getBurningPercentage()*100) + " %", false);
+		drawSmallerString(61, startY + (step * 4), EnumChatFormatting.GREEN + "Using:", false);
+		drawSmallerString(65, startY + (step * 5), EnumChatFormatting.GREEN + "" + (int)(pump.getLavaUsage()) + " mB/t", false);
 		
 		
 		drawFluidAndPressure();
