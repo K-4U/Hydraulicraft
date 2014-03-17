@@ -3,7 +3,8 @@ package k4unl.minecraft.Hydraulicraft.lib.config;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 
 public class Ids {
-	public static final Id blockHydraulicPump = new Id(3515);
+	public static final Id blockHydraulicPump = new Id(3514);
+	public static final Id blockHydraulicLavaPump = new Id(3515);
 	public static final Id blockHydraulicPressureVat = new Id(3516);
 	public static final Id blockHydraulicMixer = new Id(3517);
 	public static final Id blockHydraulicFrictionIncinerator = new Id(3518);
@@ -54,6 +55,7 @@ public class Ids {
 	public static final Id GUIElecticPump = new Id(13);
 	public static final Id GUIHydraulicGenerator = new Id(14);
 	public static final Id GUISaw = new Id(15);
+	public static final Id GUILavaPump = new Id(16);
 	
 	
 	
@@ -71,6 +73,7 @@ public class Ids {
 	public static final Id blockElectricPump = new Id(3539);
 	
 	public static final Id blockHydraulicSaw = new Id(3542);
+	
 	
 	
 }

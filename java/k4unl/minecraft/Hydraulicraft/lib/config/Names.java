@@ -75,6 +75,12 @@ public class Names {
 		new Name("HP Hydraulic Pump", "HPHydraulicPump")
 	};
 	
+	public static final Name[] blockHydraulicLavaPump = {
+		new Name("LP Hydraulic Lava Pump", "LPHydraulicLavaPump"),
+		new Name("MP Hydraulic Lava Pump", "MPHydraulicLavaPump"),
+		new Name("HP Hydraulic Lava Pump", "HPHydraulicLavaPump")
+	};
+	
 	
 	public static final Name oreCopper = new Name("Copper Ore", "oreCopper");
 	public static final Name oreLead = new Name("Lead Ore", "oreLead");

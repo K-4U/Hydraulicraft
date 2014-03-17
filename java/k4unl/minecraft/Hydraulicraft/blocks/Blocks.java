@@ -8,10 +8,12 @@ import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicMixer;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockPressureDisposal;
+import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerCoreBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
@@ -19,13 +21,14 @@ import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Blocks {
+	
 	public static Block hydraulicPump;
+	public static Block hydraulicLavaPump;
 	public static Block hydraulicMixer;
 	public static Block hydraulicFrictionIncinerator;
 	public static Block hydraulicCrusher;
@@ -50,6 +53,7 @@ public class Blocks {
 	 */
 	public static void init(){
 		hydraulicPump = new BlockHydraulicPump();
+		hydraulicLavaPump = new BlockHydraulicLavaPump();
 		hydraulicPressurevat = new BlockHydraulicPressureVat();
 		hydraulicMixer = new BlockHydraulicMixer();
 		hydraulicFrictionIncinerator = new BlockHydraulicFrictionIncinerator();
@@ -67,6 +71,7 @@ public class Blocks {
 		blockCore = new BlockHydraulicCore();
 		blockValve = new BlockHydraulicValve();
 		blockInterfaceValve = new BlockInterfaceValve();
+		
 		
 		registerBlocks();
 		addNames();
@@ -98,6 +103,7 @@ public class Blocks {
 		
 		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicPump, HandlerPump.class, Names.blockHydraulicPump[0].unlocalized);
+		GameRegistry.registerBlock(hydraulicLavaPump, HandlerLavaPump.class, Names.blockHydraulicLavaPump[0].unlocalized);
 		
 		GameRegistry.registerBlock(hydraulicHarvesterSource, HandlerHarvester.class, Names.blockHydraulicHarvester[0].unlocalized);
 		GameRegistry.registerBlock(harvesterTrolley, HandlerHarvesterTrolley.class, Names.blockHarvesterTrolley[0].unlocalized);

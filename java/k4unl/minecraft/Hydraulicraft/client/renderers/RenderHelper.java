@@ -19,7 +19,6 @@ public class RenderHelper {
 	static float lightEastWest = 0.8F;
 	static float lightNorthSouth = 0.6F;
 	
-	
 	public static void vertexWithTexture(float x, float y, float z, float tL, float tT){
 		GL11.glTexCoord2f(tL, tT);
 		GL11.glVertex3f(x, y, z);

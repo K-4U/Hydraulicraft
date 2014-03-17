@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicMixer;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TilePressureDisposal;
+import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
@@ -23,6 +24,7 @@ public class TileEntities {
 	 */
 	public static void init(){
 		GameRegistry.registerTileEntity(TileHydraulicPump.class, "tileHydraulicPump");
+		GameRegistry.registerTileEntity(TileHydraulicLavaPump.class, "tileHydraulicLavaPump");
 		GameRegistry.registerTileEntity(TileHydraulicFrictionIncinerator.class, "tileHydraulicFrictionIncinerator");
 		GameRegistry.registerTileEntity(TileHydraulicPressureVat.class, "tileHydraulicPressureVat");
 		GameRegistry.registerTileEntity(TileHydraulicCrusher.class, "tileHydraulicCrusher");
@@ -37,5 +39,6 @@ public class TileEntities {
 		GameRegistry.registerTileEntity(TileHarvesterFrame.class, "tileHarvesterFrame");
 		GameRegistry.registerTileEntity(TileHydraulicHarvester.class, "tileHydraulicHarvester");
 		GameRegistry.registerTileEntity(TileHarvesterTrolley.class, "tileHarvesterTrolley");
+		
 	}
 }

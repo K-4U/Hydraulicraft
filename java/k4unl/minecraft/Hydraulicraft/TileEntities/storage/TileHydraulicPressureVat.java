@@ -41,6 +41,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	
 	private FluidTank tank = null;//
 	private int tier = -1;
+	
 	private List<ForgeDirection> connectedSides;
 	
 	public TileHydraulicPressureVat(){
@@ -50,7 +51,6 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	public void setTier(int tier){
 		this.tier = tier;
 		if(tank == null){
-			Log.info("Started a new tank");
 			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
 		}
 		

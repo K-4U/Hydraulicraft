@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicCrusher
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicFrictionIncinerator;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicMixer;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
@@ -107,6 +108,10 @@ public class GuiHandler implements IGuiHandler {
 				if(ent instanceof TileHydraulicSaw){
 					return new ContainerSaw(player.inventory, (TileHydraulicSaw)ent);
 				}
+			}else if(ID == Ids.GUILavaPump.act){
+				if(ent instanceof TileHydraulicLavaPump){
+					return new ContainerEmpty(player.inventory);
+				}
 			}
 		}
 		
@@ -179,6 +184,10 @@ public class GuiHandler implements IGuiHandler {
 			}else if(ID == Ids.GUISaw.act){
 				if(ent instanceof TileHydraulicSaw){
 					return new GuiSaw(player.inventory, (TileHydraulicSaw)ent);
+				}
+			}else if(ID == Ids.GUILavaPump.act){
+				if(ent instanceof TileHydraulicLavaPump){
+					return new GuiLavaPump(player.inventory, (TileHydraulicLavaPump) ent);
 				}
 			}
 		}
