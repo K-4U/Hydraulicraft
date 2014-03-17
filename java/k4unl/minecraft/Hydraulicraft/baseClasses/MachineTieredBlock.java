@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
@@ -31,6 +32,7 @@ public abstract class MachineTieredBlock extends MachineBlockContainer {
 		
 		protected boolean hasTopIcon = false;
 		protected boolean hasBottomIcon = false;
+		protected boolean hasTextures = true;
 		
 		
 		@Override
@@ -73,23 +75,31 @@ public abstract class MachineTieredBlock extends MachineBlockContainer {
 		
 		@Override
 		public void registerIcons(IconRegister iconRegistry){
-			if(hasTopIcon || hasBottomIcon){
-				for(int i = 0; i < 3; i++){
-					tieredIcon[i] = iconRegistry.registerIcon(getTieredTextureName("sides",i));
-					if(hasTopIcon){
-						tieredTopIcon[i] = iconRegistry.registerIcon(getTieredTextureName("top",i));
-					}else{
-						tieredTopIcon[i] = tieredIcon[i];
+			if(hasTextures){
+				if(hasTopIcon || hasBottomIcon){
+					for(int i = 0; i < 3; i++){
+						tieredIcon[i] = iconRegistry.registerIcon(getTieredTextureName("sides",i));
+						if(hasTopIcon){
+							tieredTopIcon[i] = iconRegistry.registerIcon(getTieredTextureName("top",i));
+						}else{
+							tieredTopIcon[i] = tieredIcon[i];
+						}
+						if(hasBottomIcon){
+							tieredBottomIcon[i] = iconRegistry.registerIcon(getTieredTextureName("bottom",i));
+						}else{
+							tieredBottomIcon[i] = tieredIcon[i];
+						}
 					}
-					if(hasBottomIcon){
-						tieredBottomIcon[i] = iconRegistry.registerIcon(getTieredTextureName("bottom",i));
-					}else{
+				}else{
+					for(int i = 0; i < 3; i++){
+						tieredIcon[i] = iconRegistry.registerIcon(getTieredTextureName("",i));
 						tieredBottomIcon[i] = tieredIcon[i];
+						tieredTopIcon[i] = tieredIcon[i];
 					}
 				}
 			}else{
 				for(int i = 0; i < 3; i++){
-					tieredIcon[i] = iconRegistry.registerIcon(getTieredTextureName("",i));
+					tieredIcon[i] = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
 					tieredBottomIcon[i] = tieredIcon[i];
 					tieredTopIcon[i] = tieredIcon[i];
 				}

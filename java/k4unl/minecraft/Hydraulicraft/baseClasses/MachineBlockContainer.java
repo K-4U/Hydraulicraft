@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
@@ -68,26 +69,32 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	
 	@Override
 	public void registerIcons(IconRegister iconRegistry){
-		if(!hasTextures) return;
-		if(hasTopIcon || hasBottomIcon || hasFrontIcon){
-			blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
-			if(hasTopIcon){
-				topIcon = iconRegistry.registerIcon(getTextureName("top"));
+		if(hasTextures){
+			if(hasTopIcon || hasBottomIcon || hasFrontIcon){
+				blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
+				if(hasTopIcon){
+					topIcon = iconRegistry.registerIcon(getTextureName("top"));
+				}else{
+					topIcon = blockIcon;
+				}
+				if(hasBottomIcon){
+					bottomIcon = iconRegistry.registerIcon(getTextureName("bottom"));
+				}else{
+					bottomIcon = blockIcon;
+				}
+				if(hasFrontIcon){
+					frontIcon = iconRegistry.registerIcon(getTextureName("front"));
+				}else{
+					frontIcon = blockIcon;
+				}
 			}else{
-				topIcon = blockIcon;
-			}
-			if(hasBottomIcon){
-				bottomIcon = iconRegistry.registerIcon(getTextureName("bottom"));
-			}else{
+				blockIcon = iconRegistry.registerIcon(getTextureName(null));
 				bottomIcon = blockIcon;
-			}
-			if(hasFrontIcon){
-				frontIcon = iconRegistry.registerIcon(getTextureName("front"));
-			}else{
+				topIcon = blockIcon;
 				frontIcon = blockIcon;
 			}
 		}else{
-			blockIcon = iconRegistry.registerIcon(getTextureName(null));
+			blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
 			bottomIcon = blockIcon;
 			topIcon = blockIcon;
 			frontIcon = blockIcon;

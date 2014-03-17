@@ -27,10 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 public class BlockHydraulicHarvester extends MachineBlockContainer {
-	private Icon[] icons;
-	private Icon[] topIcons;
-	private Icon[] bottomIcons;
-	
+	private Icon blockIcon;
 	private Name[] mName;
 
 	public Vector3fMax blockBounds = new Vector3fMax(0.2f, 0.2f, 0.2f, 0.8F, 0.8F, 0.8F);
@@ -47,10 +44,6 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 		super(Ids.blockHydraulicHarvester, Names.blockHydraulicHarvester[0]);
 		
 		mName = Names.blockHydraulicHarvester;
-		
-		icons = new Icon[mName.length];
-		topIcons = new Icon[mName.length];
-		bottomIcons = new Icon[mName.length];
 	}
 
     @Override
@@ -120,36 +113,14 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	
 	@Override
 	public void registerIcons(IconRegister iconRegistry){
-		for(int i = 0; i < mName.length; i++){
-			icons[i] = iconRegistry.registerIcon(getTextureName("sides",i));
-			if(hasTopIcon[i]){
-				topIcons[i] = iconRegistry.registerIcon(getTextureName("top",i));
-			}else{
-				topIcons[i] = icons[i];
-			}
-			if(hasBottomIcon[i]){
-				bottomIcons[i] = iconRegistry.registerIcon(getTextureName("bottom",i));
-			}else{
-				bottomIcons[i] = icons[i];
-			}
-		}
+		blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
 	}
 	
 	
 	
 	@Override
 	public Icon getIcon(int side, int metadata){
-		ForgeDirection s = ForgeDirection.getOrientation(side);
-		if(metadata >= topIcons.length){
-			metadata = 0;
-		}
-		if(s.equals(ForgeDirection.UP)){
-			return topIcons[metadata];
-		}else if(s.equals(ForgeDirection.DOWN)){
-			return bottomIcons[metadata];
-		}
-
-		return icons[metadata];
+		return blockIcon;
 		
 	}
 	
