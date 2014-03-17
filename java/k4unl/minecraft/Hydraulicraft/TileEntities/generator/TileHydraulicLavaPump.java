@@ -38,8 +38,8 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 	
 	private FluidTank tank = null;
 	private int tier = -1;
-	private int lavaUsage = 0;
 	private boolean isRunning = false;
+	private int lavaUsage = 0;
 	
 	private int fluidInNetwork;
 	private int networkCapacity;

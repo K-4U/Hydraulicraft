@@ -3,14 +3,19 @@ package k4unl.minecraft.Hydraulicraft.blocks.generators;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
 import k4unl.minecraft.Hydraulicraft.client.renderers.Renderers;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 public class BlockHydraulicPump extends MachineTieredBlock {
 
@@ -40,7 +45,34 @@ public class BlockHydraulicPump extends MachineTieredBlock {
         return false;
     }
 	
-	
+    @Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
+		int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
+		
+		int metaDataToSet = 0;
+		switch(sideToPlace){
+		case 0:
+			metaDataToSet = 2;
+			break;
+		case 1:
+			metaDataToSet = 5;
+			break;
+		case 2:
+			metaDataToSet = 3;
+			break;
+		case 3:
+			metaDataToSet = 4;
+			break;
+		}
+		ForgeDirection facing = ForgeDirection.getOrientation(metaDataToSet);
+		TileEntity entity = world.getBlockTileEntity(x, y, z);
+		if(entity != null && entity instanceof TileHydraulicPump){
+			((TileHydraulicPump)entity).setFacing(facing);
+		}
+		
+		//world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
+	}
+    
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
 		if(player.isSneaking())

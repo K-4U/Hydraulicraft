@@ -157,7 +157,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 	}
 	private void renderGaugesContents(float thickness, TileHydraulicLavaPump t){
 		thickness -= 0.025F;
-		//drawLavaTank(t, false, thickness);
+		drawLavaTank(t, false, thickness);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -173,11 +173,10 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		vectorPressure.setZMin(vectorPressure.getZMax() - (h * (t.getHandler().getPressure() / t.getMaxPressure(t.getHandler().isOilStored(), t.getFacing()))));
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex3f(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMax()); //BL
-		GL11.glVertex3f(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMax());	//BR
+		GL11.glVertex3f(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMax()); //BR
 		GL11.glVertex3f(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMin()); //TR
 		GL11.glVertex3f(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMin()); //TL
 		GL11.glEnd();
-		
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glPopMatrix();

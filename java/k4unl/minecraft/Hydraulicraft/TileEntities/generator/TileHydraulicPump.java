@@ -30,9 +30,11 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	private boolean isBurning = false;
 	private IBaseClass baseHandler;
 	
+	private int tier = -1;
+	
 	private PressureNetwork pNetwork;
 	private List<ForgeDirection> connectedSides;
-	
+	private ForgeDirection facing = ForgeDirection.UNKNOWN;
 	
 	private int fluidInNetwork;
 	private int networkCapacity;
@@ -226,7 +228,10 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	}
 	
     public int getTier(){
-        return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+    	if(tier == -1 && worldObj != null){
+			tier = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		}
+		return tier;
     }
 	
 	@Override
@@ -318,6 +323,9 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	public void readNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
 		
+		
+		setTier(tagCompound.getInteger("tier"));
+		
 		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inventory");
 		inventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
@@ -326,6 +334,12 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		
 		networkCapacity = tagCompound.getInteger("networkCapacity");
 		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
+		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+		
+	}
+
+	private void setTier(int newTier) {
+		tier = newTier;
 	}
 
 	@Override
@@ -339,6 +353,9 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		}
 		tagCompound.setInteger("currentBurnTime",currentBurnTime);
 		tagCompound.setInteger("maxBurnTime",maxBurnTime);
+		
+		tagCompound.setInteger("tier", getTier());
+		tagCompound.setInteger("facing", facing.ordinal());
 		
 		if(pNetwork != null){
 			tagCompound.setInteger("networkCapacity", getNetwork(ForgeDirection.UP).getFluidCapacity());
@@ -489,5 +506,13 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
+	}
+
+	public ForgeDirection getFacing(){
+		return facing;		
+	}
+	
+	public void setFacing(ForgeDirection newDir){
+		facing = newDir;
 	}
 }
