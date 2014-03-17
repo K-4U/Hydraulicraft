@@ -457,7 +457,8 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		}else{
 			cropLocation = getLocation(locationToHarvest, -2);
 		}
-		worldObj.setBlockToAir(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
+		worldObj.destroyBlock(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ(), false);
+		//worldObj.setBlockToAir(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
 		
 		
 		isHarvesting = false;
