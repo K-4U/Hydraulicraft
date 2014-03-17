@@ -3,12 +3,16 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.misc;
 import java.util.ArrayList;
 import java.util.List;
 
+import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -206,6 +210,14 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 				getTarget().setNetwork(ForgeDirection.UP, pNetwork);
 				pNetwork.addMachine(getTarget(), oldPressure, ForgeDirection.UP);
 			}
+			for(ForgeDirection dir:connectedSides){
+				Location hoseLocation = new Location(xCoord, yCoord, zCoord, dir);
+				TileEntity ent = getBlockTileEntity(hoseLocation);
+				if(ent instanceof TileMultipart && Multipart.hasPartHose((TileMultipart)ent)){
+					PartHose hose = Multipart.getHose((TileMultipart)ent);
+					hose.checkConnectedSides();
+				}
+			}
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
@@ -217,6 +229,10 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 		}
 	}
 	
+	private TileEntity getBlockTileEntity(Location l) {
+		return worldObj.getBlockTileEntity(l.getX(), l.getY(), l.getZ());
+	}
+
 	@Override
 	public void invalidate(){
 		super.invalidate();
