@@ -35,6 +35,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.FluidRegistry;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.microblock.FaceMicroblock;
 import codechicken.multipart.TMultiPart;
@@ -148,7 +149,11 @@ public class MachineEntity implements IBaseClass {
 		if(compare < 0 && getStored() > 0){
 			getWorld().createExplosion((Entity)null, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(),
 					0.6F + ((getMaxPressure(isOilStored(), null) / newPressure)), true);
-			getWorld().setBlock(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), Ids.blockFluidOil.act);
+			if(isOilStored()){
+				getWorld().setBlock(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), Ids.blockFluidOil.act);
+			}else{
+				getWorld().setBlock(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), FluidRegistry.WATER.getBlockID());
+			}
 		}
 	}
 	
