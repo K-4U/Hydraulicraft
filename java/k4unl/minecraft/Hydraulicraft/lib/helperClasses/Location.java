@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.lib.helperClasses;
 
+import net.minecraftforge.common.ForgeDirection;
+
 public class Location {
 	private int x;
 	private int y;
@@ -11,6 +13,13 @@ public class Location {
 		this.y = y;
 		this.z = z;
 	}
+	
+	public Location(int xCoord, int yCoord, int zCoord, ForgeDirection dir) {
+		this.x = xCoord + dir.offsetX;
+		this.y = yCoord + dir.offsetY;
+		this.z = zCoord + dir.offsetZ;
+	}
+	
 	
 	public Location(int[] coords) {
 		if(coords.length >= 2){

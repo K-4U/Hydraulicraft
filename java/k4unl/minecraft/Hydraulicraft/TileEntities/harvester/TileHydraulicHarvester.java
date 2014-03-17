@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.harvester;
 import java.util.ArrayList;
 import java.util.List;
 
+import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
@@ -17,6 +18,8 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -230,6 +233,8 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 					firstRun = false;
 					if(isMultiblock){
 						convertMultiblock();
+						pNetwork = null;
+						getHandler().updateNetworkOnNextTick(0);
 						getHandler().updateBlock();
 					}
 				}
@@ -242,6 +247,8 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 							Functions.showMessageInChat("Width of harvester("+dir+"): " + harvesterWidth);
 							Functions.showMessageInChat("Length of harvester("+dir+"): " + harvesterLength);
 							convertMultiblock();
+							pNetwork = null;
+							getHandler().updateNetworkOnNextTick(0);
 							break;
 						}
 					}
@@ -395,14 +402,14 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	}
 	
 	private Location _getLocationInHarvester(int h, int w, ForgeDirection dir){
-		//TODO: Rewrite this to fit with ForgeDirection!
+		
 		int nsToAdd = dir.offsetZ * h;
 		int ewToAdd = dir.offsetX * h;
 		int nsSide = dir.offsetX * w;
 		int ewSide = dir.offsetZ * w;
 		int x = xCoord + ewToAdd - ewSide;
 		int y = yCoord;
-		int z = zCoord + nsToAdd - nsSide;
+		int z = zCoord + nsToAdd + nsSide;
 		
 		return new Location(x, y, z);
 	}
@@ -628,7 +635,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			l = getLocationInHarvester(0, horiz, 3, dir);
 		}
 		
-		if(width > 9){
+		if(width > 9 || width == 1){
 			return false;
 		}
 		//Log.info(dir + " Width= " + width);
@@ -661,7 +668,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 				if(tile instanceof TileHarvesterFrame){
 					TileHarvesterFrame fr = (TileHarvesterFrame) tile;
 					//Log.info("(" + dir + ": " + x + ", " + y + ", " + z + "; " + f + ") = " + fr.getIsRotated());
-					if(dir.ordinal() == 3 || dir.ordinal() == 1){
+					if(dir.equals(ForgeDirection.EAST) || dir.equals(ForgeDirection.WEST)){
 						if(fr.getIsRotated()){
 							return false;
 						}
@@ -977,6 +984,14 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		if(endNetwork != null){
 			pNetwork = endNetwork;
 			pNetwork.addMachine(this, oldPressure, ForgeDirection.DOWN);
+			for(ForgeDirection dir:connectedSides){
+				Location hoseLocation = new Location(xCoord, yCoord, zCoord, dir);
+				TileEntity ent = getBlockTileEntity(hoseLocation);
+				if(ent instanceof TileMultipart && Multipart.hasPartHose((TileMultipart)ent)){
+					PartHose hose = Multipart.getHose((TileMultipart)ent);
+					hose.checkConnectedSides();
+				}
+			}
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.DOWN);
