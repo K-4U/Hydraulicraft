@@ -129,7 +129,7 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 			lavaUsage = tank.drain(Constants.MAX_LAVA_USAGE[getTier()], false).amount;
 			
 			float gen = lavaUsage * Constants.CONVERSION_RATIO_LAVA_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
-			gen = gen * (getFluidInNetwork(from) / getFluidCapacity(from));
+			gen = gen * ((float)getFluidInNetwork(from) / (float)getFluidCapacity(from));
 			
 			if(Float.compare(gen + getPressure(from), getMaxPressure(getHandler().isOilStored(), from)) > 0){
 				//This means the pressure we are generating is too much!
@@ -139,7 +139,7 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 				gen = getMaxGenerating(from);
 			}
 			
-			lavaUsage = (int)(gen * (getFluidInNetwork(from) / getFluidCapacity(from)) / Constants.CONVERSION_RATIO_LAVA_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
+			lavaUsage = (int)(gen * ((float)getFluidInNetwork(from) / (float)getFluidCapacity(from)) / Constants.CONVERSION_RATIO_LAVA_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
 			return gen; 
 		}else{
 			return 0;
@@ -229,7 +229,7 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 			tagCompound.setCompoundTag("tank", inventoryCompound);
 		}
 		
-		if(pNetwork != null){
+		if(pNetwork != null && !worldObj.isRemote){
 			tagCompound.setInteger("networkCapacity", getNetwork(ForgeDirection.UP).getFluidCapacity());
 			tagCompound.setInteger("fluidInNetwork", getNetwork(ForgeDirection.UP).getFluidInNetwork());
 		}
