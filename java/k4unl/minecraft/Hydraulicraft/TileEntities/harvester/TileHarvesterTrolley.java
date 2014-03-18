@@ -1,6 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.harvester;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
@@ -11,6 +13,7 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
@@ -21,11 +24,13 @@ import net.minecraftforge.common.IPlantable;
 
 public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolley {
 	private float extendedLength;
-	private float maxLength = 4F;
-	private float maxSide = 8F;
+	private float oldExtendedLength;
+	private final float maxLength = 4F;
+	private final float maxSide = 8F;
 	private float extendTarget = 0F;
 	private float sideTarget = 0F;
 	private float sideLength;
+	private float oldSideLength;
 	private float movingSpeedExtending = 0.05F;
 	private static final float movingSpeedSideways = 0.05F;
 	private static final float movingSpeedSidewaysBack = 0.1F;
@@ -41,13 +46,14 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	
 	
 	private ItemStack plantingItem = null;
-	private ArrayList<ItemStack> harvestedItems = null;
+	private ArrayList<ItemStack> harvestedItems = new ArrayList<ItemStack>();//starting without being null so the renderer won't NPE.
 	private int locationToPlant = -1;
 	private int locationToHarvest = -1;
 	private TileHydraulicHarvester harvester = null;
 	private TileHydraulicPiston piston = null;
 
 	public void extendTo(float blocksToExtend, float sideExtend){
+
 		if(blocksToExtend > maxLength){
 			blocksToExtend = maxLength;
 		}
@@ -101,32 +107,34 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		isMoving = true;
 		isMovingUpDown = true;
 		
-		
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
 		NBTTagCompound tagCompound = packet.data;
-		this.readFromNBT(tagCompound);
+		readFromNBT(tagCompound);
 	}
 	
 	@Override
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
-		this.writeToNBT(tagCompound);
+		writeToNBT(tagCompound);
 		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 4, tagCompound);
 	}
 	
 	@Override
 	public void doMove(){
+	    oldExtendedLength = extendedLength;
+	    oldSideLength = sideLength;
+	    
 		int compResult = Float.compare(extendTarget, extendedLength);
 		if(compResult > 0 && !isRetracting){
 			extendedLength += movingSpeedExtending;
 		}else if(compResult < 0 && isRetracting){
 			extendedLength -= movingSpeedExtending;
 		}else{
-			extendTarget = extendedLength;
+			extendedLength=extendTarget;
 			isMovingUpDown = false;
 		}
 		
@@ -140,7 +148,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 			sideLength = sideTarget;
 			isMoving = false;
 		}
-		if(!isMoving && !isMovingUpDown){
+		if(!worldObj.isRemote && harvester != null && !isMoving && !isMovingUpDown){
 			if(isPlanting){
 				actuallyPlant();
 			}else if(isHarvesting){
@@ -148,15 +156,13 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 			}else if(Config.get("shouldDolleyInHarvesterGoBack") && harvestedItems != null){
 				harvester.putInInventory(harvestedItems);
 			}
+		    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	@Override
 	public void updateEntity() {
-		if(harvester != null){
-			doMove();
-		}
+		doMove();
 	}
 	
 	@Override
@@ -167,9 +173,21 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		isMovingSideways = tagCompound.getBoolean("isMoving");
 		sideLength = tagCompound.getFloat("sideLength");
 		sideTarget = tagCompound.getFloat("sideTarget");
+		movingSpeedExtending = tagCompound.getFloat("movingSpeedExtending");
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
-		
 		harvesterPart = tagCompound.getBoolean("harvesterPart");
+		
+		harvestedItems.clear();
+		NBTTagList tagList = tagCompound.getTagList("HarvestedItems");
+		for(int i = 0; i < tagList.tagCount(); i++){
+		    harvestedItems.add(ItemStack.loadItemStackFromNBT((NBTTagCompound)tagList.tagAt(i)));
+		}
+		NBTTagCompound plantingTag = tagCompound.getCompoundTag("PlantingItem");
+		if(plantingTag != null){
+		    plantingItem = ItemStack.loadItemStackFromNBT(plantingTag);
+		}else{
+		    plantingItem = null;
+		}
 	}
 
 	@Override
@@ -181,7 +199,22 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		tagCompound.setFloat("sideLength", sideLength);
 		tagCompound.setFloat("sideTarget", sideTarget);
 		tagCompound.setInteger("facing", facing.ordinal());
+		tagCompound.setFloat("movingSpeedExtending", movingSpeedExtending);
 		tagCompound.setBoolean("harvesterPart", harvesterPart);
+		
+		NBTTagList tagList = new NBTTagList();
+        for(int currentIndex = 0; currentIndex < harvestedItems.size(); ++currentIndex) {
+            NBTTagCompound itemTag = new NBTTagCompound();
+            harvestedItems.get(currentIndex).writeToNBT(itemTag);
+            tagList.appendTag(itemTag);
+        }
+	    tagCompound.setTag("HarvestedItems", tagList);
+	    
+	    if(plantingItem != null){
+	        NBTTagCompound tag = new NBTTagCompound();
+	        plantingItem.writeToNBT(tag);
+	        tagCompound.setTag("PlantingItem", tag);
+	    }
 	}
 	
 	
@@ -191,6 +224,14 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	
 	public float getExtendedLength(){
 		return extendedLength;
+	}
+	
+	public float getOldSideLength(){
+	    return oldSideLength;
+	}
+	    
+	public float getOldExtendedLength(){
+	    return oldExtendedLength;
 	}
 	
 
@@ -365,8 +406,8 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 			Block soil = Block.blocksList[worldObj.getBlockId(x, y - 1, z)];
 		    return (worldObj.getFullBlockLightValue(x, y, z) >= 8 ||
 		            worldObj.canBlockSeeTheSky(x, y, z)) &&
-		            (soil != null && soil.canSustainPlant(worldObj, x, y - 1, z,
-		                  ForgeDirection.UP, (IPlantable)seed.getItem()));			
+		            soil != null && soil.canSustainPlant(worldObj, x, y - 1, z,
+		                  ForgeDirection.UP, (IPlantable)seed.getItem());			
 		}else{
 			return false;
 		}
@@ -383,6 +424,14 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		}else{
 			return null;
 		}
+	}
+	
+	public List<ItemStack> getRenderedItems(){
+	    if(plantingItem != null){
+	        return Arrays.asList(new ItemStack[]{plantingItem});
+	    }else{
+	        return harvestedItems;
+	    }
 	}
 	
 	@Override
