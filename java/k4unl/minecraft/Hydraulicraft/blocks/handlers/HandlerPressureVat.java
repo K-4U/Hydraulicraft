@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 
-import ic2.api.item.Items;
-
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlockHandler;

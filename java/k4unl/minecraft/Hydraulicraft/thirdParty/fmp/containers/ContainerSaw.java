@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp.containers;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities.TileHydraulicSaw;
 import net.minecraft.entity.player.EntityPlayer;

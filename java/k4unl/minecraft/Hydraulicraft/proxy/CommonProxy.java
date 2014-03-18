@@ -1,11 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.proxy;
 
-import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.multipart.ItemPartHose;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
-import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.MultiPartRegistry.IPartFactory;
 import codechicken.multipart.TMultiPart;
 

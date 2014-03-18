@@ -3,7 +3,6 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.misc;
 import java.util.ArrayList;
 import java.util.List;
 
-import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
@@ -19,6 +18,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import codechicken.multipart.TileMultipart;
 
 public class TileHydraulicValve extends TileEntity implements IHydraulicMachine {
 	private int targetX;

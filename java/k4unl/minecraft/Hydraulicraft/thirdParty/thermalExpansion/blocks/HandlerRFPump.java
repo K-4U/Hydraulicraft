@@ -1,9 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
 
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlockHandler;
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
 import net.minecraft.block.Block;
 import net.minecraft.util.Icon;

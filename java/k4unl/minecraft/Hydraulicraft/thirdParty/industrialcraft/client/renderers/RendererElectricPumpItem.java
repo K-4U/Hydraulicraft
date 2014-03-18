@@ -1,11 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
+
+import org.lwjgl.opengl.GL11;
 
 public class RendererElectricPumpItem implements IItemRenderer {
 	private static RendererElectricPump t = new RendererElectricPump();

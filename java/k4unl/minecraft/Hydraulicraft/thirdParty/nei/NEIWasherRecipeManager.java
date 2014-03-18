@@ -1,20 +1,17 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
-import codechicken.nei.NEIClientUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.ShapedRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler.CachedRecipe;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
 import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
-import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import codechicken.nei.NEIClientUtils;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.ShapedRecipeHandler;
 
 public class NEIWasherRecipeManager extends ShapedRecipeHandler{
     private ShapedRecipeHandler.CachedShapedRecipe getShape(WashingRecipes.WashingRecipe recipe) {

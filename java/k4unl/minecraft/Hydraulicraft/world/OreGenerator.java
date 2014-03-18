@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.world;
 
 import java.util.Random;
 
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;

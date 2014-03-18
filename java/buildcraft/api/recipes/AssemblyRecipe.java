@@ -2,6 +2,7 @@ package buildcraft.api.recipes;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 

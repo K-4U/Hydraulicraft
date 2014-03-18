@@ -18,11 +18,7 @@ package thirdParty.truetyper;
 *     	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
-
-import net.minecraft.util.EnumChatFormatting;
 
 public class Test {
 

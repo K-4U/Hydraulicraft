@@ -9,7 +9,6 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;

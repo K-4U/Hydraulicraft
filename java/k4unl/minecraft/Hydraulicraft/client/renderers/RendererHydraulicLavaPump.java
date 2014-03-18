@@ -1,11 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicLavaPump;
-import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
-import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;

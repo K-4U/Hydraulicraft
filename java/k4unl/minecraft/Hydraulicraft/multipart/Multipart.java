@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.multipart;
 
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;

@@ -20,15 +20,12 @@ package thirdParty.truetyper;
 
 import java.nio.FloatBuffer;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraftforge.client.GuiIngameForge;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.common.MinecraftForge;
 
 public class FontHelper {
 	

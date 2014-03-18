@@ -164,7 +164,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
         }
     }
 
-    private boolean canCrush(ItemStack inv){
+    private static boolean canCrush(ItemStack inv){
         return Config.canBeCrushed(inv);
     }
 

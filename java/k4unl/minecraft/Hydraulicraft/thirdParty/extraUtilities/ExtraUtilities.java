@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -11,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ExtraUtilities {
 	

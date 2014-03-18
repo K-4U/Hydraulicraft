@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.items;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;

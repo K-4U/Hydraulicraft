@@ -3,7 +3,6 @@ package k4unl.minecraft.Hydraulicraft.api;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import net.minecraft.tileentity.TileEntity;
 import codechicken.multipart.TMultiPart;
 

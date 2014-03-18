@@ -1,13 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.containers;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerPneumaticCompressor extends Container {
 

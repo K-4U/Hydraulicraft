@@ -1,17 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.events;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.items.Items;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;

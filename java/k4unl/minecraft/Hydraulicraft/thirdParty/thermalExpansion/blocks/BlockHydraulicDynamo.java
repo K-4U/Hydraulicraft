@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
 
-import buildcraft.api.tools.IToolWrench;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
@@ -11,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import buildcraft.api.tools.IToolWrench;
 
 public class BlockHydraulicDynamo extends MachineBlockContainer {
 

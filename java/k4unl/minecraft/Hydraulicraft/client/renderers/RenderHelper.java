@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3f;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -8,8 +7,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.Cylinder;
-import org.lwjgl.util.glu.Sphere;
 
 import cpw.mods.fml.client.FMLClientHandler;
 

@@ -4,7 +4,6 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvest
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerHarvester;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerPressureVat;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;

@@ -4,20 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import codechicken.multipart.TileMultipart;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
-import net.minecraft.block.BlockFarmland;
-import net.minecraft.block.BlockLockedChest;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import codechicken.multipart.TileMultipart;
 
 public class PressureNetwork {
 	public static class networkEntry{

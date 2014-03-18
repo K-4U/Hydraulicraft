@@ -5,7 +5,6 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockOre;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.util.Icon;

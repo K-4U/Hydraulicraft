@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;

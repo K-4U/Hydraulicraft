@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.misc;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;

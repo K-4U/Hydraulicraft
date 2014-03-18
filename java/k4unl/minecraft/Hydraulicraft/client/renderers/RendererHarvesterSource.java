@@ -2,9 +2,6 @@ package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 
 
-import java.awt.Color;
-
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;

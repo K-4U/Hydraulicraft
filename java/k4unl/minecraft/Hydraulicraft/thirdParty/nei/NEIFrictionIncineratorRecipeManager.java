@@ -4,10 +4,8 @@ import java.awt.Rectangle;
 import java.util.List;
 import java.util.Map;
 
-import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiIncinerator;
 import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
-import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -18,8 +16,6 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.ShapedRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
 
 public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
     private ShapedRecipeHandler.CachedShapedRecipe getShape(Map.Entry<List<Integer>, ItemStack> recipe) {

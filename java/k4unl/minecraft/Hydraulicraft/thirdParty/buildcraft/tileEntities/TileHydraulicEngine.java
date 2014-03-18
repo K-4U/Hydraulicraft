@@ -4,9 +4,6 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,7 +11,6 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -237,7 +233,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	}
 
 
-	public boolean isPoweredTile(TileEntity tile, ForgeDirection side) {
+	public static boolean isPoweredTile(TileEntity tile, ForgeDirection side) {
         if (tile instanceof IPowerReceptor)
                 return ((IPowerReceptor) tile).getPowerReceiver(side.getOpposite()) != null;
 

@@ -3,14 +3,11 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.harvester;
 import java.util.ArrayList;
 import java.util.List;
 
-import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -33,6 +30,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import codechicken.multipart.TileMultipart;
 
 public class TileHydraulicHarvester extends TileEntity implements IHydraulicConsumer, ISidedInventory {
 	private ItemStack[] seedsStorage;

@@ -144,7 +144,7 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 		}
 	}
 	
-	private boolean canSmelt(ItemStack inv){
+	private static boolean canSmelt(ItemStack inv){
 		//Get smelting result:
 		ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inv);
 		if(target == null) return false;

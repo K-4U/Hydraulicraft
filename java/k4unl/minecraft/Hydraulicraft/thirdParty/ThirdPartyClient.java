@@ -1,9 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
-import net.minecraftforge.client.MinecraftForgeClient;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.Buildcraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererHydraulicEngineItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererKineticPump;
@@ -11,7 +9,6 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.Rend
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
-import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.IndustrialCraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererElectricPumpItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererHydraulicGenerator;
@@ -19,13 +16,13 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamoItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererRFPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererRFPumpItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
+import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Loader;
 

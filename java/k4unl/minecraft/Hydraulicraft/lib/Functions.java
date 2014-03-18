@@ -3,19 +3,12 @@ package k4unl.minecraft.Hydraulicraft.lib;
 import java.util.ArrayList;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class Functions {
 	private static boolean isUpdateAvailable;

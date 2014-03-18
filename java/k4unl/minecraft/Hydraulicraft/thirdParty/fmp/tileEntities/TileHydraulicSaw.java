@@ -7,10 +7,7 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes.CrushingRecipe;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -616,10 +613,10 @@ public class TileHydraulicSaw extends TileEntity implements IHydraulicConsumer, 
         }
     }
 
-    private boolean canSplit(ItemStack inv){
+    private static boolean canSplit(ItemStack inv){
         return Config.canBeCrushed(inv);
     }
-    private boolean canThin(ItemStack inv){
+    private static boolean canThin(ItemStack inv){
         return Config.canBeCrushed(inv);
     }
     

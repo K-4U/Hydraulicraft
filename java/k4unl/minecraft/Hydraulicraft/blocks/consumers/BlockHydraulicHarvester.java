@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers;
 
 import java.util.List;
-import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
@@ -24,7 +23,6 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 
 public class BlockHydraulicHarvester extends MachineBlockContainer {
 	private Icon blockIcon;
@@ -106,9 +104,8 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	private String getTextureName(String side, int subId){
 		if(side != ""){
 			return ModInfo.LID + ":" + mName[subId].unlocalized + "_" + side;
-		}else{
-			return ModInfo.LID + ":" + mName[subId].unlocalized;
 		}
+		return ModInfo.LID + ":" + mName[subId].unlocalized;
 	}
 	
 	@Override
@@ -124,8 +121,9 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 		
 	}
 	
+	@SuppressWarnings("static-method")
 	public void checkRotation(TileHarvesterFrame frame, EntityLivingBase player){
-		int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
+		int sideToPlace = MathHelper.floor_double(player.rotationYaw / 90F + 0.5D) & 3;
 		
 		boolean isRotated = false;
 		switch(sideToPlace){

@@ -4,8 +4,6 @@ import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.item.ItemFood;
 
 public class ItemBacon extends ItemFood {

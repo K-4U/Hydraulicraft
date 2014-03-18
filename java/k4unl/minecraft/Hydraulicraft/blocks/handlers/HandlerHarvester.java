@@ -1,12 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlockHandler;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 
 public class HandlerHarvester extends MachineTieredBlockHandler {
 

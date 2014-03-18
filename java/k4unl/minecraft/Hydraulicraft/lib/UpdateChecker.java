@@ -8,7 +8,6 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 
 import com.google.gson.Gson;
-import com.jcraft.jogg.Page;
 
 public class UpdateChecker {
 	static class UpdateInfo {

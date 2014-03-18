@@ -2,15 +2,13 @@ package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ISpecialArmor.ArmorProperties;
 
 public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 	private static final ResourceLocation resLoc =
@@ -24,7 +22,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		doRender((TileHydraulicPiston) tileentity, x, y, z, f, metadata);
 	}
 	
-	public void doRender(TileHydraulicPiston tileentity , double x, double y,
+	public static void doRender(TileHydraulicPiston tileentity , double x, double y,
 			double z, float f, int metadata){
 		GL11.glPushMatrix();
 		
@@ -54,16 +52,16 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
-		drawBase((TileHydraulicPiston)tileentity);
+		drawBase(tileentity);
 		if(tileentity != null){
-			if(!((TileHydraulicPiston)tileentity).getIsHarvesterPart()){
-				drawPistonHead((TileHydraulicPiston)tileentity);
+			if(!tileentity.getIsHarvesterPart()){
+				drawPistonHead(tileentity);
 			}
 		}else{
 			drawPistonHead(null);
 		}
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		drawPistonArm((TileHydraulicPiston)tileentity);
+		drawPistonArm(tileentity);
 		
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);

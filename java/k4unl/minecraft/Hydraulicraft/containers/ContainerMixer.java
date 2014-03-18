@@ -1,14 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.containers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicMixer;
-import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerMixer extends Container {
 

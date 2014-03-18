@@ -1,10 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses;
 
-import java.awt.Menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TilePressureDisposal;
 import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
@@ -13,8 +11,6 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork.networkEntry;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
@@ -23,7 +19,6 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
-import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -32,17 +27,12 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import codechicken.lib.data.MCDataOutput;
-import codechicken.microblock.FaceMicroblock;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.common.LoadController;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class MachineEntity implements IBaseClass {
 	private boolean _isOilStored = false;

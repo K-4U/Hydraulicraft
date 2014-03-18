@@ -1,8 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 
 public class NEIHydraulicraftConfig implements IConfigureNEI{
     @Override

@@ -1,9 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
 
-import net.minecraft.item.ItemStack;
-
 import java.util.LinkedList;
+
+import net.minecraft.item.ItemStack;
 
 public class WashingRecipes {
 

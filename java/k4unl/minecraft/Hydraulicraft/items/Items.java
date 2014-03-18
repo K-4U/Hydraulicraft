@@ -1,23 +1,15 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.BucketHandler;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class Items {
 	public static Item gasket;

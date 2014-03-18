@@ -3,7 +3,6 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.rendere
 import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -193,7 +192,7 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), sideXe, 0.5F);
 	}
 	
-	private void drawAxle(){
+	private static void drawAxle(){
 		float c = 0.5F;
 		float w = 0.5F;
 		float b = c - (w/2);

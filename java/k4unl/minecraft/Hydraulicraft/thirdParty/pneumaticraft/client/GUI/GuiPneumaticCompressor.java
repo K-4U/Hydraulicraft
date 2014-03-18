@@ -1,31 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.client.GUI;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerPressureVat;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.containers.ContainerPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
-import net.minecraft.block.Block;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidTankInfo;
 
 import org.lwjgl.opengl.GL11;
 

@@ -1,20 +1,16 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
 
-import buildcraft.api.tools.IToolWrench;
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
+import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
+import buildcraft.api.tools.IToolWrench;
 
 public class BlockRFPump extends MachineTieredBlock {
 

@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.lib;
 
 import k4unl.minecraft.Hydraulicraft.items.Items;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class CustomTabs {

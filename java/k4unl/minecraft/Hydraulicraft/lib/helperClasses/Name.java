@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.lib.helperClasses;
 
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 
 public class Name {
 	public String localized = "LOCALIZED_UNKNOWN";

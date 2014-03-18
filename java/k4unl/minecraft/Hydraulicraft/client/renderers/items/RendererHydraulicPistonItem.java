@@ -1,13 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicPiston;
-
-import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
+
+import org.lwjgl.opengl.GL11;
 
 public class RendererHydraulicPistonItem implements IItemRenderer {
 

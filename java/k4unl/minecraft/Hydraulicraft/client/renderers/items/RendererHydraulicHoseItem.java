@@ -3,21 +3,13 @@ package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 import java.util.HashMap;
 import java.util.Map;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHarvesterFrame;
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHarvesterSource;
 import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicPiston;
-
-import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.ForgeDirection;
+
+import org.lwjgl.opengl.GL11;
 
 public class RendererHydraulicHoseItem implements IItemRenderer {
 

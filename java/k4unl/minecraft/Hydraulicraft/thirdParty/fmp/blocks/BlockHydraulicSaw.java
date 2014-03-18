@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;

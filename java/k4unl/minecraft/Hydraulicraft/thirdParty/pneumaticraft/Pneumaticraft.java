@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft;
 
-import pneumaticCraft.api.block.BlockSupplier;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -8,9 +7,8 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.blocks.BlockHydrau
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.Loader;
+import pneumaticCraft.api.block.BlockSupplier;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class Pneumaticraft {
 	public static Block hydraulicPneumaticCompressor;

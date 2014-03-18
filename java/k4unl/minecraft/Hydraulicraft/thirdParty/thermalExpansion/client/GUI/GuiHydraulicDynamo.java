@@ -1,19 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI;
 
-import org.lwjgl.opengl.GL11;
-
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerEmpty;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;

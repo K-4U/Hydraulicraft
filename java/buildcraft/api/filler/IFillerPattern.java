@@ -1,11 +1,11 @@
 package buildcraft.api.filler;
 
-import buildcraft.api.core.IBox;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraftforge.common.ForgeDirection;
+import buildcraft.api.core.IBox;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public interface IFillerPattern {
 

@@ -3,12 +3,6 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 import java.awt.Rectangle;
 import java.util.LinkedList;
 
-import org.lwjgl.opengl.GL11;
-
-import codechicken.nei.NEIClientUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.ShapedRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
@@ -16,9 +10,11 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import codechicken.nei.NEIClientUtils;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.ShapedRecipeHandler;
 
 public class NEICrusherRecipeManager extends ShapedRecipeHandler{
     private ShapedRecipeHandler.CachedShapedRecipe getShape(CrushingRecipes.CrushingRecipe recipe) {

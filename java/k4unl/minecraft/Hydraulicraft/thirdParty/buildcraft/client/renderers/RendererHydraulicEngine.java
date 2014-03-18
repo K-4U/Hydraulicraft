@@ -1,9 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
@@ -11,7 +7,10 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydr
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeDirection;
+
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class RendererHydraulicEngine extends TileEntitySpecialRenderer  {
 
@@ -30,7 +29,7 @@ public class RendererHydraulicEngine extends TileEntitySpecialRenderer  {
 		doRender(t, (float)x, (float)y, (float)z, f, rotation, metadata);
 	}
 	
-	public void itemRender(float x, float y,
+	public static void itemRender(float x, float y,
 			float z, float f){
 		GL11.glPushMatrix();
 		
@@ -54,7 +53,7 @@ public class RendererHydraulicEngine extends TileEntitySpecialRenderer  {
 		GL11.glPopMatrix();
 	}
 	
-	public void doRender(TileHydraulicEngine t, float x, float y,
+	public static void doRender(TileHydraulicEngine t, float x, float y,
 			float z, float f, int rotation, int metadata){
 		GL11.glPushMatrix();
 		
@@ -112,7 +111,7 @@ public class RendererHydraulicEngine extends TileEntitySpecialRenderer  {
 		GL11.glPopMatrix();
 	}
 	
-	private void drawBase(){
+	private static void drawBase(){
 		float sideXb = 0.125F;
 		float sideXe = 0.25F;
 		
@@ -154,7 +153,7 @@ public class RendererHydraulicEngine extends TileEntitySpecialRenderer  {
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), sideXe, 0.5F);
 	}
 	
-	private void drawAxle(){
+	private static void drawAxle(){
 		float c = 0.5F;
 		float w = 0.5F;
 		float b = c - (w/2);
@@ -196,7 +195,7 @@ public class RendererHydraulicEngine extends TileEntitySpecialRenderer  {
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 0.5F, ySidee);
 	}
 	
-	private void drawMovingPart(float p){
+	private static void drawMovingPart(float p){
 		float b = 0.25F + ((p-0.02F)/2);
 		float w = 0.25F;
 		

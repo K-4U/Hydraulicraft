@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.lib;
 
 
 import java.util.LinkedList;
-import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;

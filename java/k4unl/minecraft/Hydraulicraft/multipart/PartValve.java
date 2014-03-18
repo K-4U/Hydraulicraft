@@ -48,7 +48,7 @@ import codechicken.multipart.TileMultipart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter {
+public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter {
     public static Cuboid6[] boundingBoxes = new Cuboid6[14];
     private static int expandBounds = -1;
     
@@ -272,8 +272,8 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     		if(!((TileMultipart)entity).canAddPart(new NormallyOccludedPart(boundingBoxes[opposite]))) return false;
     		
     		for (TMultiPart p: t) {
-    			if(p instanceof PartHose && caller.equals(this)){
-    				((PartHose)p).checkConnectedSides(this);
+    			if(p instanceof PartValve && caller.equals(this)){
+    				((PartValve)p).checkConnectedSides(this);
     			}
 				if(p instanceof IHydraulicMachine){
 					return true;

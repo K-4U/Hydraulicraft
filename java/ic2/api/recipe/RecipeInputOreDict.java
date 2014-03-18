@@ -3,7 +3,6 @@ package ic2.api.recipe;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeInputOreDict implements IRecipeInput {

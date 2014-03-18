@@ -8,12 +8,9 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 public class SlotMachineInput extends Slot {
 	private IHydraulicMachine ent;

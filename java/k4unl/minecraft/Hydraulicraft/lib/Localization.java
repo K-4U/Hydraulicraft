@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
 import net.minecraft.util.StatCollector;
-import net.minecraft.util.StringTranslate;
 
 public class Localization {
 	public static final String CHUNK_ENTRY = "lang.chunk";

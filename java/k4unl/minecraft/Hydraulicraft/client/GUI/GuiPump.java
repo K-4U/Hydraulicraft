@@ -5,15 +5,12 @@ import java.text.DecimalFormat;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerPump;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
-
-import org.lwjgl.opengl.GL11;
 
 public class GuiPump extends MachineGUI {
 	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/pump.png");
