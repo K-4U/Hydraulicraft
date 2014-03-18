@@ -1,20 +1,20 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 
+import static net.minecraftforge.client.IItemRenderer.ItemRenderType.INVENTORY;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -30,6 +30,8 @@ public final class IconRenderer {
     private static ResourceLocation blockTexture = TextureMap.locationBlocksTexture; //  new ResourceLocation("textures/atlas/blocks.png");
 
     private static RenderBlocks renderBlocks = new RenderBlocks();
+    private static int curOnTime;
+    private static final int TIME_PERIOD = 10;
 
     /**
      * Renders a merged icon from the given items. By increasing the transformation from 0 to 1 this will make the first
@@ -69,14 +71,13 @@ public final class IconRenderer {
         float alpha2 = -0.25F + alphaOffset;
 
         //draw the icons, the size of the icons is alpha + 0.2F
-        Block recipeBlock = (recipeId < Block.blocksList.length ? Block.blocksList[recipeId] : null);
-        Block resultBlock = (resultId < Block.blocksList.length ? Block.blocksList[resultId] : null);
+        Block recipeBlock = recipeId < Block.blocksList.length ? Block.blocksList[recipeId] : null;
+        Block resultBlock = resultId < Block.blocksList.length ? Block.blocksList[resultId] : null;
         if(recipeBlock != null && recipeBlock.blockID == 0){
         	recipeBlock = null;
         }
         if(resultBlock != null && resultBlock.blockID == 0){
         	resultBlock = null;
-        	
         }
 
         
@@ -86,7 +87,7 @@ public final class IconRenderer {
         	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
         }
         
-        drawIcon(x, y, z, resultIcon, 16, 16, alpha2 + 0.2F, alpha2, wobble, resultBlock, resultItem.getItemDamage(), resultItem);
+        drawIcon(x, y, z, resultIcon, 16, 16, alpha2 + 0.2F, alpha2, wobble, resultBlock, resultItem.getItemDamage(), resultItem, false);
 
         
         if (recipeItem.getItemSpriteNumber() == 0 && recipeBlock != null && RenderBlocks.renderItemIn3d(Block.blocksList[recipeId].getRenderType())){
@@ -95,7 +96,7 @@ public final class IconRenderer {
         	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
         }
         
-        drawIcon(x, y, z, recipeIcon, 16, 16, alpha1 + 0.2F, alpha1, wobble, recipeBlock, recipeItem.getItemDamage(), recipeItem);
+        drawIcon(x, y, z, recipeIcon, 16, 16, alpha1 + 0.2F, alpha1, wobble, recipeBlock, recipeItem.getItemDamage(), recipeItem, true);
         
 
         GL11.glDisable(GL11.GL_BLEND);
@@ -119,79 +120,93 @@ public final class IconRenderer {
      * @param isBlock whether we need to render a block, or just an icon.
      * @param itemDamage TODO 
      */
-    public static void drawIcon(int x, int y, float z, Icon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock, int itemDamage, ItemStack item) {
+    public static void drawIcon(int x, int y, float z, Icon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock, int itemDamage, ItemStack item, boolean opposite) {
         //without an alpha size or an icon we have nothing to render
-        if (alpha <= 0 || size <= 0 || icon == null) {
+        if (alpha <= 0 || size <= 0) {
             return;
         }
-
-        //cap the alpha and size values
-        if (alpha > 1) {
-            alpha = 1;
+        
+        boolean hasCustomRenderer = MinecraftForgeClient.getItemRenderer(item, INVENTORY) != null;
+        if(hasCustomRenderer){
+            if(++curOnTime > TIME_PERIOD) curOnTime = 0;
+            int tempOnTime = opposite ? TIME_PERIOD - curOnTime : curOnTime; 
+            if(!opposite || (float)tempOnTime / TIME_PERIOD < alpha){
+                GL11.glColor4f(1F, 1F, 1F, alpha);
+                GL11.glEnable(GL11.GL_LIGHTING);
+                ForgeHooksClient.renderInventoryItem(renderBlocks,FMLClientHandler.instance().getClient().getTextureManager(), item, true, z, x, y);
+                GL11.glDisable(GL11.GL_LIGHTING);
+            }
         }
-        if (size > 1) {
-            size = 1;
-        }
+        else if(icon != null){
 
-        //set the alpha value for the rendering
-        GL11.glColor4f(1F, 1F, 1F, alpha);
+            //cap the alpha and size values
+            if (alpha > 1) {
+                alpha = 1;
+            }
+            if (size > 1) {
+                size = 1;
+            }
+    
+            //set the alpha value for the rendering
+            GL11.glColor4f(1F, 1F, 1F, alpha);
+    
+            //calculate the size of the target bounds
+            float targetWidthMargin = w * (1 - size) / 2;
+            float targetHeightMargin = h * (1 - size) / 2;
+    
+            //calculate teh target bounds
+            float targetLeft = x + targetWidthMargin;
+            float targetRight = x + w - targetWidthMargin;
+            float targetTop = y + targetHeightMargin;
+            float targetBot = y + h - targetHeightMargin;
+    
+            //if we want to make the animation wobble we turn the target bounds into integers. By doing this the inexact
+            //target values and the exact source values won't match completely. This makes it wobble since how exact the
+            //match is will differ. If the target bounds are close to integers already the match will still be fairly good
+            //while target bounds that are far from their integer representation will make the match fairly. By constantly
+            //moving between good and bad values will make it all wobble.
+            if (wobble) {
+                targetLeft = (float)Math.floor(targetLeft);
+                targetRight = (float)Math.floor(targetRight);
+                targetTop = (float)Math.floor(targetTop);
+                targetBot = (float)Math.floor(targetBot);
+            }
+    
+            //calculate the size of the source bounds
+            float sourceWidthMargin = (icon.getMaxU() - icon.getMinU()) * (1 - size) / 2;
+            float sourceHeightMargin = (icon.getMaxV() - icon.getMinV()) * (1 - size) / 2;
+    
+            //calculate the source bounds
+            float sourceLeft = icon.getMinU() + sourceWidthMargin;
+            float sourceRight = icon.getMaxU() - sourceWidthMargin;
+            float sourceTop = icon.getMinV() + sourceHeightMargin;
+            float sourceBot = icon.getMaxV() - sourceHeightMargin;
 
-        //calculate the size of the target bounds
-        float targetWidthMargin = w * (1 - size) / 2;
-        float targetHeightMargin = h * (1 - size) / 2;
-
-        //calculate teh target bounds
-        float targetLeft = x + targetWidthMargin;
-        float targetRight = x + w - targetWidthMargin;
-        float targetTop = y + targetHeightMargin;
-        float targetBot = y + h - targetHeightMargin;
-
-        //if we want to make the animation wobble we turn the target bounds into integers. By doing this the inexact
-        //target values and the exact source values won't match completely. This makes it wobble since how exact the
-        //match is will differ. If the target bounds are close to integers already the match will still be fairly good
-        //while target bounds that are far from their integer representation will make the match fairly. By constantly
-        //moving between good and bad values will make it all wobble.
-        if (wobble) {
-            targetLeft = (float)Math.floor(targetLeft);
-            targetRight = (float)Math.floor(targetRight);
-            targetTop = (float)Math.floor(targetTop);
-            targetBot = (float)Math.floor(targetBot);
-        }
-
-        //calculate the size of the source bounds
-        float sourceWidthMargin = (icon.getMaxU() - icon.getMinU()) * (1 - size) / 2;
-        float sourceHeightMargin = (icon.getMaxV() - icon.getMinV()) * (1 - size) / 2;
-
-        //calculate the source bounds
-        float sourceLeft = icon.getMinU() + sourceWidthMargin;
-        float sourceRight = icon.getMaxU() - sourceWidthMargin;
-        float sourceTop = icon.getMinV() + sourceHeightMargin;
-        float sourceBot = icon.getMaxV() - sourceHeightMargin;
-
-
-        if(isBlock == null){
-	        //render the icon with the given bounds. This is done in the same way an icon is normally being rendered by
-	        //the base gui. However, there's no method to be called that allows you to specify all these things.
-        	GL11.glPushMatrix();
-        	GL11.glTranslatef(0.0F, 0.0F, 1.0F);
-        	GL11.glBegin(GL11.GL_QUADS);
-        	GL11.glTexCoord2f(sourceLeft, sourceBot);
-        	GL11.glVertex3f(targetLeft, targetBot, z);
-        	
-        	GL11.glTexCoord2f(sourceRight, sourceBot);
-        	GL11.glVertex3f(targetRight, targetBot, z);
-        	
-        	GL11.glTexCoord2f(sourceRight, sourceTop);
-        	GL11.glVertex3f(targetRight, targetTop, z);
-        	
-        	GL11.glTexCoord2f(sourceLeft, sourceTop);
-        	GL11.glVertex3f(targetLeft, targetTop, z);
-        	GL11.glEnd();
-        	
-        	GL11.glTranslatef(0.0F, 0.0F, -1.0F);
-        	GL11.glPopMatrix();
-        }else if(isBlock != null){
-        	renderBlock(isBlock, x, y, z, itemDamage, alpha, targetWidthMargin);
+       
+            if(isBlock == null){
+    	        //render the icon with the given bounds. This is done in the same way an icon is normally being rendered by
+    	        //the base gui. However, there's no method to be called that allows you to specify all these things.
+            	GL11.glPushMatrix();
+            	GL11.glTranslatef(0.0F, 0.0F, 1.0F);
+            	GL11.glBegin(GL11.GL_QUADS);
+            	GL11.glTexCoord2f(sourceLeft, sourceBot);
+            	GL11.glVertex3f(targetLeft, targetBot, z);
+            	
+            	GL11.glTexCoord2f(sourceRight, sourceBot);
+            	GL11.glVertex3f(targetRight, targetBot, z);
+            	
+            	GL11.glTexCoord2f(sourceRight, sourceTop);
+            	GL11.glVertex3f(targetRight, targetTop, z);
+            	
+            	GL11.glTexCoord2f(sourceLeft, sourceTop);
+            	GL11.glVertex3f(targetLeft, targetTop, z);
+            	GL11.glEnd();
+            	
+            	GL11.glTranslatef(0.0F, 0.0F, -1.0F);
+            	GL11.glPopMatrix();
+            }else if(isBlock != null){
+            	renderBlock(isBlock, x, y, z, itemDamage, alpha, targetWidthMargin);
+            }
         }
         //restore the alpha  value
         GL11.glColor4f(1F, 1F, 1F, 1F);
@@ -202,7 +217,7 @@ public final class IconRenderer {
     	
     	GL11.glPushMatrix();
     	GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glTranslatef((float)(x - 2), (float)(y + 3), -4.0F + z);
+        GL11.glTranslatef(x - 2, y + 3, -4.0F + z);
         GL11.glScalef(10.0F, 10.0F, 10.0F);
         GL11.glTranslatef(1.0F, 0.5F, 1.0F);
         GL11.glScalef(1.0F, 1.0F, -1.0F);
