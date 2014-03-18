@@ -40,8 +40,8 @@ public class WailaProvider implements IWailaDataProvider {
 		if(accessor.getTileEntity() instanceof IHydraulicMachine|| ent instanceof TileMultipart){
 			IHydraulicMachine mEnt = null;
 			if(ent instanceof TileMultipart){
-				if(Multipart.hasPartHose((TileMultipart)ent)){
-					mEnt = (IHydraulicMachine) Multipart.getHose((TileMultipart)ent);
+				if(Multipart.hasTransporter((TileMultipart)ent)){
+					mEnt = Multipart.getTransporter((TileMultipart)ent);
 				}else{
 					return currenttip;
 				}

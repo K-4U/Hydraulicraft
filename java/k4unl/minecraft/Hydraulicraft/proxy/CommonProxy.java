@@ -32,7 +32,7 @@ public class CommonProxy implements IPartFactory {
 
 	@Override
 	public TMultiPart createPart(String id, boolean client) {
-		if(id.equals(Names.blockHydraulicHose[0].unlocalized)){
+		if(id.equals(Names.partHose[0].unlocalized)){
 			return new PartHose();
 		}
 		return null;

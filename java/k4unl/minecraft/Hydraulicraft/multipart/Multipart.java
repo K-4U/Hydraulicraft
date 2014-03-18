@@ -14,21 +14,31 @@ import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
 
 public class Multipart implements IPartFactory{
-	public static ItemPartHose itemPartHose; 
+	public static ItemPartHose itemPartHose;
+	public static ItemPartValve itemPartValve;
 	
 	public Multipart(){
 		MultiPartRegistry.registerParts(this, new String[] { 
-                "tile." + Names.blockHydraulicHose[0].unlocalized,
-                "tile." + Names.blockHydraulicHose[1].unlocalized,
-                "tile." + Names.blockHydraulicHose[2].unlocalized});
+                "tile." + Names.partHose[0].unlocalized,
+                "tile." + Names.partHose[1].unlocalized,
+                "tile." + Names.partHose[2].unlocalized});
 		
-		itemPartHose = new ItemPartHose(Ids.blockHydraulicHose.act);
+		MultiPartRegistry.registerParts(this, new String[] { 
+                "tile." + Names.partValve[0].unlocalized,
+                "tile." + Names.partValve[1].unlocalized,
+                "tile." + Names.partValve[2].unlocalized});
+		
+		
+		itemPartHose = new ItemPartHose(Ids.partHose.act);
+		itemPartValve= new ItemPartValve(Ids.partValve.act);
 	}
 
 	@Override
 	public TMultiPart createPart(String id, boolean client) {
-		if(id.equals("tile." + Names.blockHydraulicHose[0].unlocalized) || id.equals("tile." + Names.blockHydraulicHose[1].unlocalized) || id.equals("tile." + Names.blockHydraulicHose[2].unlocalized)){
+		if(id.equals("tile." + Names.partHose[0].unlocalized) || id.equals("tile." + Names.partHose[1].unlocalized) || id.equals("tile." + Names.partHose[2].unlocalized)){
 			return new PartHose();
+		}else if(id.equals("tile." + Names.partValve[0].unlocalized) || id.equals("tile." + Names.partValve[1].unlocalized) || id.equals("tile." + Names.partValve[2].unlocalized)){
+			return new PartValve();
 		}
 		return null;
 	}
@@ -84,6 +94,33 @@ public class Multipart implements IPartFactory{
 		}
 		return null;
     }
+    
+    public static boolean hasPartValve(TileMultipart mp){
+    	boolean ret = false;
+    	List<TMultiPart> t = mp.jPartList();
+		for (TMultiPart p: t) {
+			if(ret == false){
+				if(p instanceof PartValve){
+					ret = true;
+				}
+			}
+		}
+		return ret;
+    }
+    
+    public static PartValve getValve(TileMultipart mp){
+    	boolean ret = false;
+    	List<TMultiPart> t = mp.jPartList();
+		for (TMultiPart p: t) {
+			if(ret == false){
+				if(p instanceof PartValve){
+					return (PartValve)p;
+				}
+			}
+		}
+		return null;
+    }
+    
     
     public static IHydraulicTransporter getTransporter(TileMultipart mp){
     	boolean ret = false;

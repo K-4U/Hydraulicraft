@@ -119,7 +119,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     
 	@Override
 	public String getType() {
-		return "tile." + Names.blockHydraulicHose[0].unlocalized;
+		return "tile." + Names.partHose[0].unlocalized;
 	}
 
 	public void preparePlacement(int itemDamage) {
@@ -272,8 +272,8 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     		if(!((TileMultipart)entity).canAddPart(new NormallyOccludedPart(boundingBoxes[opposite]))) return false;
     		
     		for (TMultiPart p: t) {
-    			if(p instanceof PartHose && caller.equals(this)){
-    				((PartHose)p).checkConnectedSides(this);
+    			if(p instanceof IHydraulicTransporter && caller.equals(this)){
+    				((IHydraulicTransporter)p).checkConnectedSides(this);
     			}
 				if(p instanceof IHydraulicMachine){
 					return true;

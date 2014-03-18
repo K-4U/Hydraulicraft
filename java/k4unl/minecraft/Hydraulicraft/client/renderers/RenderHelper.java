@@ -78,19 +78,18 @@ public class RenderHelper {
 	}	
 	
 	public static void setARGBFromHex(int hexColor){
-		float a = (float)(hexColor >> 24 & 255) / 255.0F;
-        float r = (float)(hexColor >> 16 & 255) / 255.0F;
-        float g = (float)(hexColor >> 8 & 255) / 255.0F;
-        float b = (float)(hexColor & 255) / 255.0F;
+		float a = (hexColor >> 24 & 255) / 255.0F;
+        float r = (hexColor >> 16 & 255) / 255.0F;
+        float g = (hexColor >> 8 & 255) / 255.0F;
+        float b = (hexColor & 255) / 255.0F;
         
         GL11.glColor4f(r, g, b, a);
 	}
 	
 	public static void setRGBFromHex(int hexColor){
-		float a = (float)(hexColor >> 24 & 255) / 255.0F;
-        float r = (float)(hexColor >> 16 & 255) / 255.0F;
-        float g = (float)(hexColor >> 8 & 255) / 255.0F;
-        float b = (float)(hexColor & 255) / 255.0F;
+        float r = (hexColor >> 16 & 255) / 255.0F;
+        float g = (hexColor >> 8 & 255) / 255.0F;
+        float b = (hexColor & 255) / 255.0F;
         
         GL11.glColor3f(r, g, b);
 	}
@@ -235,9 +234,9 @@ public class RenderHelper {
 		//light = 1.0F;
 		
 		int l = t.blockType.colorMultiplier(t.worldObj, t.xCoord, t.yCoord, t.zCoord);
-        float f = (float)(l >> 16 & 255) / 255.0F;
-        float f1 = (float)(l >> 8 & 255) / 255.0F;
-        float f2 = (float)(l & 255) / 255.0F;
+        float f = (l >> 16 & 255) / 255.0F;
+        float f1 = (l >> 8 & 255) / 255.0F;
+        float f2 = (l & 255) / 255.0F;
 		//Tessellator tessellator = Tessellator.instance;
 		
 		//tessellator.startDrawingQuads();

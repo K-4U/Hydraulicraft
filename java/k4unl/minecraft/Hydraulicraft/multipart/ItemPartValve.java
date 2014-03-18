@@ -19,13 +19,13 @@ import codechicken.multipart.TMultiPart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemPartHose extends JItemMultiPart
+public class ItemPartValve extends JItemMultiPart
 {
-    public ItemPartHose(int id){
+    public ItemPartValve(int id){
         super(id);
         setHasSubtypes(true);
         setCreativeTab(CustomTabs.tabHydraulicraft);
-        setUnlocalizedName(Names.partHose[0].unlocalized);
+        setUnlocalizedName(Names.partValve[0].unlocalized);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ItemPartHose extends JItemMultiPart
     @Override
     public TMultiPart newPart(ItemStack item, EntityPlayer player, World world, BlockCoord pos, int side, Vector3 vhit)
     {
-        PartHose w = (PartHose) MultiPartRegistry.createPart("tile." + Names.partHose[item.getItemDamage()].unlocalized, false);
+    	PartValve w = (PartValve) MultiPartRegistry.createPart("tile." + Names.partValve[item.getItemDamage()].unlocalized, false);
         if (w != null)
             w.preparePlacement(item.getItemDamage());
         return w;
@@ -58,7 +58,7 @@ public class ItemPartHose extends JItemMultiPart
 
     @Override
     public String getUnlocalizedName(ItemStack stack){
-        return "tile." + Names.partHose[stack.getItemDamage()].unlocalized;
+        return "tile." + Names.partValve[stack.getItemDamage()].unlocalized;
     }
 
     @Override

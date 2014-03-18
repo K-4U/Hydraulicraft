@@ -6,11 +6,11 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineItem;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -36,8 +36,8 @@ public class ItemDebug extends MachineItem {
 				if(ent instanceof IHydraulicMachine || ent instanceof TileMultipart){
 					IHydraulicMachine mEnt = null;
 					if(ent instanceof TileMultipart){
-						if(Multipart.hasPartHose((TileMultipart)ent)){
-							mEnt = (IHydraulicMachine) Multipart.getHose((TileMultipart)ent);
+						if(Multipart.hasTransporter((TileMultipart)ent)){
+							mEnt = Multipart.getTransporter((TileMultipart)ent);
 						}else{
 							return false;
 						}
@@ -71,7 +71,7 @@ public class ItemDebug extends MachineItem {
 					
 					if(ent instanceof TileMultipart){
 						if(Multipart.hasTransporter((TileMultipart)ent)){
-							PartHose hose = Multipart.getHose((TileMultipart)ent);
+							IHydraulicTransporter hose = Multipart.getTransporter((TileMultipart)ent);
 							int tier = hose.getTier();
 							player.addChatMessage("Tier:          " + tier);							
 						}

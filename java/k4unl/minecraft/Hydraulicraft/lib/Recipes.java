@@ -133,13 +133,14 @@ public class Recipes {
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPiston, 1, 0), true ,
 				new Object[] {
-					"WRW",
+					"III",
 					"WCW",
 					"WKW",
 					'W', Blocks.hydraulicPressureWall,
 					'C', new ItemStack(Blocks.blockCore, 1, 1),
 					'K', Items.gasket,
-					'R', Item.redstone
+					'R', Item.redstone,
+					'I', "ingotIron"
 			})
 		);
 		
@@ -433,7 +434,6 @@ public class Recipes {
 			"S-S",
 			"SS-",
 			'S', Block.stone
-			
 		});
 	
 		

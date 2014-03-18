@@ -11,7 +11,8 @@ public class Ids {
 	public static final Id blockHydraulicCrusher = new Id(3519);
 	public static final Id blockHydraulicPressureGauge = new Id(3520);
 	public static final Id blockHydraulicPressureValve = new Id(3521);
-	public static final Id blockHydraulicHose = new Id(3522);
+	public static final Id partHose = new Id(3522);
+	public static final Id partValve = new Id(3543);
 	public static final Id blockHydraulicPiston = new Id(3523);
 	public static final Id blockHydraulicWasher = new Id(3524);
 	public static final Id blockHydraulicPressureWall = new Id(3525);
@@ -73,6 +74,7 @@ public class Ids {
 	public static final Id blockElectricPump = new Id(3539);
 	
 	public static final Id blockHydraulicSaw = new Id(3542);
+	
 	
 	
 	

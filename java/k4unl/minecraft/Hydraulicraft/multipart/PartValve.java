@@ -12,7 +12,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
+import k4unl.minecraft.Hydraulicraft.client.renderers.RendererPartValve;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -61,11 +61,12 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     private boolean connectedSidesHaveChanged = true;
     private boolean hasCheckedSinceStartup;
     private boolean hasFoundNetwork = false;
+    private ForgeDirection facing = ForgeDirection.NORTH;
     
     private int tier = 0;
 
     @SideOnly(Side.CLIENT)
-    private static RendererHydraulicHose renderer;
+    private static RendererPartValve renderer;
     
     @SideOnly(Side.CLIENT)
     private static Icon breakIcon;
@@ -77,8 +78,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     	//float offsetZ = 0.2F;
     	float centerFirst = center - offset;
     	float centerSecond = center + offset;
-    	Vector3 rotateCenterFirst = new Vector3(centerFirst, centerFirst, centerFirst);
-    	Vector3 rotateCenterSecond = new Vector3(centerSecond, centerSecond, centerSecond);
         double w = 0.2D / 2;
         boundingBoxes[6] = new Cuboid6(centerFirst - w, centerFirst - w, centerFirst - w, centerFirst + w, centerFirst + w, centerFirst + w);
         boundingBoxes[13] = new Cuboid6(centerSecond - w, centerSecond - w, centerSecond - w, centerSecond + w, centerSecond + w, centerSecond + w);
@@ -119,7 +118,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     
 	@Override
 	public String getType() {
-		return "tile." + Names.blockHydraulicHose[0].unlocalized;
+		return "tile." + Names.partValve[0].unlocalized;
 	}
 
 	public void preparePlacement(int itemDamage) {
@@ -256,7 +255,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     public void renderDynamic(Vector3 pos, float frame, int pass){
         if (pass == 0){
         	if(renderer == null){
-        		renderer = new RendererHydraulicHose();
+        		renderer = new RendererPartValve();
         	}
             GL11.glDisable(GL11.GL_LIGHTING);
             renderer.doRender(pos.x, pos.y, pos.z, 0, tier, connectedSides);
@@ -272,8 +271,8 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     		if(!((TileMultipart)entity).canAddPart(new NormallyOccludedPart(boundingBoxes[opposite]))) return false;
     		
     		for (TMultiPart p: t) {
-    			if(p instanceof PartValve && caller.equals(this)){
-    				((PartValve)p).checkConnectedSides(this);
+    			if(p instanceof IHydraulicTransporter && caller.equals(this)){
+    				((IHydraulicTransporter)p).checkConnectedSides(this);
     			}
 				if(p instanceof IHydraulicMachine){
 					return true;
@@ -339,7 +338,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     }
     
     public ItemStack getItem(){
-        return new ItemStack(Multipart.itemPartHose, 1, tier);
+        return new ItemStack(Multipart.itemPartValve, 1, tier);
     }
     
     @Override
@@ -467,7 +466,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     		//This should never happen that this is null! :|
     		getHandler().updateEntity();
     	}else{
-    		Log.error("PartHose does not have a handler!");
+    		Log.error("PartValve does not have a handler!");
     	}
     	if(world() != null){
 	    	if(world().getTotalWorldTime() % 10 == 0 && hasCheckedSinceStartup == false){
@@ -539,7 +538,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 			return getHandler().getPressure();
 		}
 		if(getNetwork(from) == null){
-			Log.error("PVAT at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
+			Log.error("Valve at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
 			return 0;
 		}
 		return getNetwork(from).getPressure();

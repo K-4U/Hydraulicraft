@@ -8,7 +8,6 @@ import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -208,7 +207,7 @@ public class PressureNetwork {
 			IHydraulicMachine mEnt;
 			boolean isMultipart = false;
 			if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
-				mEnt = (IHydraulicMachine) Multipart.getTransporter((TileMultipart)t);
+				mEnt = Multipart.getTransporter((TileMultipart)t);
 				isMultipart = true;
 			}else{
 				mEnt = (IHydraulicMachine) t;
@@ -217,7 +216,7 @@ public class PressureNetwork {
 			List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
 			PressureNetwork foundNetwork = null;
 			if(isMultipart){
-				if(((PartHose)mEnt).isConnectedTo(dir)){
+				if(((IHydraulicTransporter)mEnt).isConnectedTo(dir)){
 					int xn = x + dir.offsetX;
 					int yn = y + dir.offsetY;
 					int zn = z + dir.offsetZ;
@@ -268,7 +267,7 @@ public class PressureNetwork {
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 				
 				if(isMultipart){
-					if(((PartHose)mEnt).isConnectedTo(dir)){
+					if(((IHydraulicTransporter)mEnt).isConnectedTo(dir)){
 						int xn = x + dir.offsetX;
 						int yn = y + dir.offsetY;
 						int zn = z + dir.offsetZ;

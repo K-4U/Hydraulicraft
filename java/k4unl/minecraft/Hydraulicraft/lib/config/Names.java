@@ -58,7 +58,7 @@ public class Names {
 		new Name("HP Core", "HPBlockCore")
 	};
 	
-	public static final Name[] blockHydraulicHose = {
+	public static final Name[] partHose = {
 		new Name("LP Hydraulic Pressure Pipe", "LPHydraulicPipe"),
 		new Name("MP Hydraulic Pressure Pipe", "MPHydraulicPipe"),
 		new Name("HP Hydraulic Pressure Pipe", "HPHydraulicPipe")
@@ -81,6 +81,12 @@ public class Names {
 		new Name("HP Hydraulic Lava Pump", "HPHydraulicLavaPump")
 	};
 	
+	public static final Name[] partValve = {
+		new Name("LP Valve", "LPPartValve"),
+		new Name("MP Valve", "MPPartValve"),
+		new Name("HP Valve", "HPPartValve")
+	};
+	
 	
 	public static final Name oreCopper = new Name("Copper Ore", "oreCopper");
 	public static final Name oreLead = new Name("Lead Ore", "oreLead");
@@ -98,5 +104,6 @@ public class Names {
 	
 	
 	public static final Name fluidOil = new Name("Hydraulic Oil", "hydraulicOil");
+	
 	
 }
