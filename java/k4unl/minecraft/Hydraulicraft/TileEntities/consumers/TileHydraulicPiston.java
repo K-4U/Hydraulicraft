@@ -20,11 +20,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
-public class TileHydraulicPiston extends TileEntity implements
-		IHydraulicConsumer {
+public class TileHydraulicPiston extends TileEntity implements IHydraulicConsumer {
 
 	private IBaseClass baseHandler;
 	
+	private float oldExtendedLength;
 	private float extendedLength;
 	private float maxLength = 4F;
 	private float extendTarget = 0F;
@@ -69,6 +69,7 @@ public class TileHydraulicPiston extends TileEntity implements
 		extendTarget = tagCompound.getFloat("extendTarget");
 		harvesterPart = tagCompound.getBoolean("harvesterPart");
 		isRetracting = tagCompound.getBoolean("isMoving");
+		oldExtendedLength = tagCompound.getFloat("oldExtendedLength");
 		
 		harvesterLocation = new Location(tagCompound.getIntArray("harvesterLocation"));
 	}
@@ -80,6 +81,7 @@ public class TileHydraulicPiston extends TileEntity implements
 		tagCompound.setFloat("extendTarget", extendTarget);
 		tagCompound.setBoolean("harvesterPart", harvesterPart);
 		tagCompound.setBoolean("isMoving", isRetracting);
+		tagCompound.setFloat("oldExtendedLength", oldExtendedLength);
 		if(harvesterLocation != null){
 			tagCompound.setIntArray("harvesterLocation", harvesterLocation.getLocation());
 		}
@@ -130,6 +132,7 @@ public class TileHydraulicPiston extends TileEntity implements
 		}else if(compResult < 0){
 			isRetracting = true;
 		}
+		
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
@@ -137,6 +140,8 @@ public class TileHydraulicPiston extends TileEntity implements
 	
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
+		oldExtendedLength = extendedLength;
+		
 		int compResult = Float.compare(extendTarget, extendedLength);
 		if(simulate == false){
 			if(compResult > 0 && !isRetracting){
@@ -144,11 +149,12 @@ public class TileHydraulicPiston extends TileEntity implements
 			}else if(compResult < 0 && isRetracting){
 				extendedLength -= movingSpeedBack;
 			}else{
-				extendTarget = extendedLength;
+				extendedLength = extendTarget;
+				oldExtendedLength = extendedLength;
 			}
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			
 		}
+		
 		if(compResult >= 0){
 			return Constants.PRESSURE_USAGE_PISTON;
 		}
@@ -358,5 +364,9 @@ public class TileHydraulicPiston extends TileEntity implements
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
+	}
+	
+	public float getOldExtendedLength(){
+	    return oldExtendedLength;
 	}
 }

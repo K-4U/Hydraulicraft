@@ -61,7 +61,8 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 			drawPistonHead(null);
 		}
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		drawPistonArm(tileentity);
+		GL11.glColor3f(0.8F, 0.8F, 0.8F);
+		drawPistonArm(tileentity, f);
 		
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -177,12 +178,12 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		GL11.glEnd();
 	}
 	
-	public static void drawPistonArm(TileHydraulicPiston tileentity){
+	public static void drawPistonArm(TileHydraulicPiston tileentity, float f){
 		float half = 0.9F;
 		float totalLength = 0F;
 		float maxLength = 1F;
 		if(tileentity != null){
-			totalLength = tileentity.getExtendedLength();
+			totalLength = tileentity.getOldExtendedLength() + (tileentity.getExtendedLength() - tileentity.getOldExtendedLength()) * f;
 			maxLength = tileentity.getMaxLength();
 			if(tileentity.getIsHarvesterPart()){
 				half = 1F;

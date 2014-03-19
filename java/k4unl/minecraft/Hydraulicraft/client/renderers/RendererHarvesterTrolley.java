@@ -97,7 +97,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		}
 		drawBase(t);
 		drawHead(t, f);
-		drawPistonArm(t);
+		drawPistonArm(t, f);
 		
 		
 		
@@ -261,13 +261,14 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 	}
 	
-	private void drawPistonArm(TileHarvesterTrolley tileentity) {
+	private void drawPistonArm(TileHarvesterTrolley tileentity, float f) {
 		float half = 0.8F;
 		float begin = half;
 		float totalLength = 0f;
 		float maxLength = 1f;
 		if(tileentity != null){
-			totalLength = tileentity.getExtendedLength();
+			//totalLength = tileentity.getExtendedLength();
+			totalLength = tileentity.getOldExtendedLength() + (tileentity.getExtendedLength() - tileentity.getOldExtendedLength()) * f;
 			maxLength = tileentity.getMaxLength();
 		}
 		totalLength+=0.3F;
