@@ -55,8 +55,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     public static Cuboid6 boundingBoxUD;
     private static int expandBounds = -1;
     
-    private PressureNetwork pNetwork;
-    
     private IBaseClass baseHandler;
     private boolean needToCheckNeighbors;
     private boolean connectedSidesHaveChanged = true;
@@ -64,6 +62,10 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     private boolean hasFoundNetwork = false;
     private ForgeDirection facing = ForgeDirection.NORTH;
     private boolean hasDirection = false;
+    
+    private PressureNetwork pNetwork1;
+    private PressureNetwork pNetwork2; 
+    private boolean hasMerged = false;
     
     private int tier = 0;
 
@@ -338,6 +340,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     
     public void onNeighborChanged(){
         checkConnectedSides();
+        checkRedstone();
         if(!world().isRemote){
         	//getHandler().updateFluidOnNextTick();
         	/*float oldPressure = 0F;
@@ -355,14 +358,15 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     @Override
     public void onPartChanged(TMultiPart part){
         checkConnectedSides();
+        checkRedstone();
         //getHandler().updateFluidOnNextTick();
         if(!world().isRemote){
-	        float oldPressure = 0F;
+	        /*float oldPressure = 0F;
 	        if(pNetwork != null){
 	        	oldPressure = pNetwork.getPressure();
 	        	pNetwork.removeMachine(this);
 	        }
-			getHandler().updateNetworkOnNextTick(oldPressure);
+			getHandler().updateNetworkOnNextTick(oldPressure);*/
         }
         
         
@@ -473,6 +477,10 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 		//writeConnectedSidesToNBT(tagCompound);		
 	}
 	
+	private void checkRedstone(){
+		getHandler().checkRedstonePower();
+	}
+	
     @Override
     public void update(){
     	if(getHandler() != null){
@@ -499,6 +507,15 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	    	//}
     	}
     	
+    	if(getHandler().getRedstonePowered() && hasMerged == false && pNetwork1 != null && pNetwork2 != null){
+			pNetwork1.mergeNetwork(pNetwork2);
+			hasMerged = true;
+		}else if(hasMerged == true && !getHandler().getRedstonePowered() && pNetwork1 != null){
+			hasMerged = false;
+			getHandler().updateNetworkOnNextTick(pNetwork1.getPressure());
+			pNetwork1.removeMachine(this);
+			
+		}
         if(needToCheckNeighbors) {
             needToCheckNeighbors = false;
             
@@ -519,12 +536,23 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 
 	@Override
 	public PressureNetwork getNetwork(ForgeDirection side) {
-		return pNetwork;
+		if(side.equals(getFacing())){
+			return pNetwork1;			
+		}else if(side.equals(getFacing().getOpposite())){
+			return pNetwork2;
+		}else{
+			return null;
+		}
+		
 	}
 
 	@Override
 	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
-		pNetwork = toSet;
+		if(side.equals(getFacing())){
+			pNetwork1 = toSet;			
+		}else if(side.equals(getFacing().getOpposite())){
+			pNetwork2 = toSet;
+		}
 	}
 
 	@Override
@@ -551,6 +579,41 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 
 	@Override
 	public void updateNetwork(float oldPressure) {
+		if(!hasDirection){
+			pNetwork1 = new PressureNetwork(this, oldPressure, getFacing());
+			pNetwork2 = new PressureNetwork(this, oldPressure, getFacing().getOpposite());
+		}else{
+			PressureNetwork foundNetwork = null;
+			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), getFacing());
+			if(foundNetwork != null){
+				if(pNetwork1 != null){
+					pNetwork1.mergeNetwork(foundNetwork);
+				}else{
+					pNetwork1 = foundNetwork;
+					pNetwork1.addMachine(this, oldPressure, getFacing());
+				}
+			}else{
+				pNetwork1 = new PressureNetwork(this, oldPressure, getFacing());
+			}
+			foundNetwork = null;
+			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), getFacing().getOpposite());
+			if(foundNetwork != null){
+				if(pNetwork2 != null){
+					pNetwork2.mergeNetwork(foundNetwork);
+				}else{
+					pNetwork2 = foundNetwork;
+					pNetwork2.addMachine(this, oldPressure, getFacing());
+				}
+			}else{
+				pNetwork2 = new PressureNetwork(this, oldPressure, getFacing().getOpposite());
+			}
+		}
+		if(getHandler().getRedstonePowered()){
+			pNetwork1.mergeNetwork(pNetwork2);
+			hasMerged = true;
+		}
+		
+		/*
 		PressureNetwork newNetwork = null;
 		PressureNetwork foundNetwork = null;
 		PressureNetwork endNetwork = null;
@@ -588,14 +651,17 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}
-		hasFoundNetwork = true;
+		hasFoundNetwork = true;*/
 	}
 	
 	@Override
 	public void onRemoved(){
 		if(!world().isRemote){
-			if(pNetwork != null){
-				pNetwork.removeMachine(this);
+			if(pNetwork1 != null){
+				pNetwork1.removeMachine(this);
+			}
+			if(pNetwork2 != null){
+				pNetwork2.removeMachine(this);
 			}
 		}
 	}
@@ -652,5 +718,4 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	public float getStrength(MovingObjectPosition hit, EntityPlayer player){
 		return 8F;
 	}
-	
 }

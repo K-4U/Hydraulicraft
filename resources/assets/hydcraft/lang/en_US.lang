@@ -24,6 +24,10 @@ tile.LPHydraulicPipe.name=Low Pressure Pipe
 tile.MPHydraulicPipe.name=Medium Pressure Pipe
 tile.HPHydraulicPipe.name=High Pressure Pipe
 
+tile.LPPartValve.name=Low Pressure Valve
+tile.MPPartValve.name=Medium Pressure Valve
+tile.HPPartValve.name=High Pressure Valve
+
 tile.LPHydraulicPressureVat.name=Low Pressure Vat
 tile.MPHydraulicPressureVat.name=Medium Pressure Vat
 tile.HPHydraulicPressureVat.name=High Pressure Vat

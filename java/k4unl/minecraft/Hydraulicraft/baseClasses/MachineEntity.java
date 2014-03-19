@@ -427,6 +427,7 @@ public class MachineEntity implements IBaseClass {
 			firstUpdate = false;
 			shouldUpdateNetwork = true;
 			target.firstTick();
+			checkRedstonePower();
 		}
 		if(getWorld() != null){
 			if(!getWorld().isRemote){
