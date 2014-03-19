@@ -1,12 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.multipart.PartValve;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -25,20 +20,34 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		new ResourceLocation(ModInfo.LID,"textures/model/hydraulicHose_tmap_2.png")
 	};
 	
-	public void doRender(double x, double y, double z, float f, int tier, Map<ForgeDirection, TileEntity> connectedSides){
+	public void doRender(double x, double y, double z, float f, int tier, ForgeDirection facing, boolean hasDirection){
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef((float) x, (float) y, (float)z);
 		
-		
-		if(connectedSides == null){
-			connectedSides = new HashMap<ForgeDirection, TileEntity>();
-			//for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			//	connectedSides.put(dir, null);
-			//}
-		}
 		//Bind texture
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc[tier]);
+		
+		switch(facing){
+		case UP:
+		case DOWN:
+			GL11.glTranslatef(1.0F, 1.0F, 1.0F);
+			GL11.glRotatef(90F, -1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+			break;
+		case EAST:
+		case WEST:
+			GL11.glTranslatef(1.0F, 0.0F, 0.0F);
+			//GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(90F, 0.0F, -1.0F, 0.0F);
+			break;
+		case NORTH:
+		case SOUTH:
+		case UNKNOWN:
+		default:
+			break;
+		}
+		
 		
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		GL11.glPushMatrix();
@@ -46,7 +55,14 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
-		drawFirstCable(connectedSides);
+		float center = 0.5F;
+		float offset = 0.1F;
+		float centerOffset = 0.2F;
+		
+		drawCable(center, -offset, centerOffset);
+		drawCable(center, +offset, centerOffset);
+
+		drawCorner(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center+centerOffset));
 		
 		//GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
@@ -60,80 +76,29 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
 			double z, float f) {
 		if(!(tileentity instanceof TileMultipart)) return;
-		
+		/*
 		TileMultipart mp = (TileMultipart)tileentity;
 		if(Multipart.hasPartValve(mp)){
 			PartValve tp = Multipart.getValve(mp);
-			doRender(x, y, z, f, tp.getTier(), tp.getConnectedSides());
-		}
+			doRender(x, y, z, f, tp.getTier());
+		}*/
 	}
 	
 	
-	private void drawFirstCable(Map<ForgeDirection, TileEntity> connectedSides){
-		float center = 0.5F;
-		float offset = 0.1F;
-		drawCable(connectedSides, center-offset);
-		drawCable(connectedSides, center+offset);
+	private void drawFirstCable(){
+
 	}
 	
 	
-	private void drawCable(Map<ForgeDirection, TileEntity> connectedSides, float center){
+	private void drawCable(float center, float offset, float centerOffset){
 		float width = 0.2F;
-		float min = center - (width / 2);
-		float max = center + (width / 2);
-		Vector3fMax TBV = new Vector3fMax(min, min, min, max, max, max);
-		/*
-		if(connectedSides.containsKey(ForgeDirection.UP)){
-			drawCube(new Vector3fMax(min, max, min, max, 1.0F, max), ForgeDirection.UP);
-		}
-		
-		if(connectedSides.containsKey(ForgeDirection.DOWN)){
-			drawCube(new Vector3fMax(min, 0.0F, min, max, min, max), ForgeDirection.DOWN);
-		}*/
-		/*
-		if(connectedSides.containsKey(ForgeDirection.NORTH)){
-			drawCube(new Vector3fMax(min, min, 0.0F, max, max, min), ForgeDirection.NORTH);
-		}*/
-		/*
-		if(connectedSides.containsKey(ForgeDirection.SOUTH)){
-			
-		}*/
-		drawCube(new Vector3fMax(min, min, max, max, max, 1.0F), ForgeDirection.SOUTH);
-		drawCube(new Vector3fMax(min, min, 0.0F, max, max, min), ForgeDirection.SOUTH);
-		/*
-		if(connectedSides.containsKey(ForgeDirection.WEST)){
-			drawCube(new Vector3fMax(0.0F, min, min, min, max, max), ForgeDirection.WEST);
-		}
-		
-		if(connectedSides.containsKey(ForgeDirection.EAST)){
-			drawCube(new Vector3fMax(max, min, min, 1.0F, max, max), ForgeDirection.EAST);
-		}
-		*/
-		//boolean upAndDown = (connectedSides.containsKey(ForgeDirection.UP) && connectedSides.containsKey(ForgeDirection.DOWN)); 
-		//boolean northAndSouth = (connectedSides.containsKey(ForgeDirection.NORTH) && connectedSides.containsKey(ForgeDirection.SOUTH));
-		//boolean eastAndWest = (connectedSides.containsKey(ForgeDirection.EAST) && connectedSides.containsKey(ForgeDirection.WEST));
-		
-		//boolean upOrDown = (connectedSides.containsKey(ForgeDirection.UP) || connectedSides.containsKey(ForgeDirection.DOWN)); 
-		//boolean northOrSouth = (connectedSides.containsKey(ForgeDirection.NORTH) || connectedSides.containsKey(ForgeDirection.SOUTH));
-		//boolean eastOrWest = (connectedSides.containsKey(ForgeDirection.EAST) || connectedSides.containsKey(ForgeDirection.WEST));
-		
-		
-		drawCorner(new Vector3fMax(min, min, min, max, max, max));
-		//drawCube(new Vector3fMax(min, min, min, max, max, max), ForgeDirection.NORTH);
-		/*
-		boolean corner = (upOrDown && (northOrSouth || eastOrWest)) || (northOrSouth && eastOrWest); 
-		boolean end = (!upAndDown && !northAndSouth && !eastAndWest);
-		if(corner || end){
-			drawCorner(new Vector3fMax(min, min, min, max, max, max));
-		}else{
-			if(upAndDown){
-				drawCube(new Vector3fMax(min, min, min, max, max, max), ForgeDirection.DOWN);
-			}else if(northAndSouth){
-				drawCube(new Vector3fMax(min, min, min, max, max, max), ForgeDirection.NORTH);
-			}else if(eastAndWest){
-				drawCube(new Vector3fMax(min, min, min, max, max, max), ForgeDirection.EAST);
-			}
-		}*/
+		float min = (center + offset)- (width / 2);
+		float max = (center + offset)  + (width / 2);
+		float xMin = center - centerOffset;
+		float xMax = center + centerOffset;
+
+		drawCube(new Vector3fMax(min, min, xMax, max, max, 1.0F), ForgeDirection.SOUTH);
+		drawCube(new Vector3fMax(min, min, 0.0F, max, max, xMin), ForgeDirection.SOUTH);
 	}
 	
 	private void drawCube(Vector3fMax vector, ForgeDirection dirToDraw){

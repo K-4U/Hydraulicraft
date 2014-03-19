@@ -1,10 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
@@ -49,19 +47,23 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter {
-    public static Cuboid6[] boundingBoxes = new Cuboid6[14];
+	public static Cuboid6 boundingBox;
+	public static Cuboid6[] boundingBoxes = new Cuboid6[6];
+	public static Cuboid6 boundingBoxC;
+    public static Cuboid6 boundingBoxNS;
+    public static Cuboid6 boundingBoxEW;
+    public static Cuboid6 boundingBoxUD;
     private static int expandBounds = -1;
     
     private PressureNetwork pNetwork;
     
     private IBaseClass baseHandler;
-    private Map<ForgeDirection, TileEntity> connectedSides;
-    private final boolean[] connectedSideFlags = new boolean[6];
     private boolean needToCheckNeighbors;
     private boolean connectedSidesHaveChanged = true;
     private boolean hasCheckedSinceStartup;
     private boolean hasFoundNetwork = false;
     private ForgeDirection facing = ForgeDirection.NORTH;
+    private boolean hasDirection = false;
     
     private int tier = 0;
 
@@ -73,47 +75,23 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     
     static {
     	float center = 0.5F;
-    	float offset = 0.10F;
-    	//float offsetY = 0.2F;
-    	//float offsetZ = 0.2F;
-    	float centerFirst = center - offset;
-    	float centerSecond = center + offset;
-        double w = 0.2D / 2;
-        boundingBoxes[6] = new Cuboid6(centerFirst - w, centerFirst - w, centerFirst - w, centerFirst + w, centerFirst + w, centerFirst + w);
-        boundingBoxes[13] = new Cuboid6(centerSecond - w, centerSecond - w, centerSecond - w, centerSecond + w, centerSecond + w, centerSecond + w);
         
-        int i = 0;
-    	for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-    		double xMin1 = (dir.offsetX < 0 ? 0.0 : (dir.offsetX == 0 ? centerFirst - w : centerFirst + w));
-    		double xMax1 = (dir.offsetX > 0 ? 1.0 : (dir.offsetX == 0 ? centerFirst + w : centerFirst - w));
-    		
-    		double yMin1 = (dir.offsetY < 0 ? 0.0 : (dir.offsetY == 0 ? centerFirst - w : centerFirst + w));
-    		double yMax1 = (dir.offsetY > 0 ? 1.0 : (dir.offsetY == 0 ? centerFirst + w : centerFirst - w));
-    		
-    		double zMin1 = (dir.offsetZ < 0 ? 0.0 : (dir.offsetZ == 0 ? centerFirst - w : centerFirst + w));
-    		double zMax1 = (dir.offsetZ > 0 ? 1.0 : (dir.offsetZ == 0 ? centerFirst + w : centerFirst - w));
-    		
-    		double xMin2 = (dir.offsetX < 0 ? 0.0 : (dir.offsetX == 0 ? centerSecond - w : centerSecond + w));
-    		double xMax2 = (dir.offsetX > 0 ? 1.0 : (dir.offsetX == 0 ? centerSecond + w : centerSecond - w));
-    		
-    		double yMin2 = (dir.offsetY < 0 ? 0.0 : (dir.offsetY == 0 ? centerSecond - w : centerSecond + w));
-    		double yMax2 = (dir.offsetY > 0 ? 1.0 : (dir.offsetY == 0 ? centerSecond + w : centerSecond - w));
-    		
-    		double zMin2 = (dir.offsetZ < 0 ? 0.0 : (dir.offsetZ == 0 ? centerSecond - w : centerSecond + w));
-    		double zMax2 = (dir.offsetZ > 0 ? 1.0 : (dir.offsetZ == 0 ? centerSecond + w : centerSecond - w));
-    		
-    		Cuboid6 first = new Cuboid6(xMin1, yMin1, zMin1, xMax1, yMax1, zMax1);
-    		Cuboid6 second = new Cuboid6(xMin2, yMin2, zMin2, xMax2, yMax2, zMax2);
-    		boundingBoxes[i] = first;
-    		boundingBoxes[i+7] = new Cuboid6(xMin2, yMin2, zMin2, xMax2, yMax2, zMax2);
-    		i++;
-    	}
+        float width = 0.2F;
+        float min = (center - width);
+		float max = (center + width);
+        boundingBoxNS = new Cuboid6(min, min, 0.0F, max, max, 1.0F);
+        boundingBoxEW = new Cuboid6(0.0F, min, min, 1.0F, max, max);
+        boundingBoxUD = new Cuboid6(min, 0.0F, min, max, 1.0F, max);
+        boundingBoxC = new Cuboid6(min, min, min, max, max, max);
+        boundingBox = boundingBoxNS;
+        boundingBoxes[ForgeDirection.NORTH.ordinal()] = new Cuboid6(min, min, 0.0F, max, max, min);
+        boundingBoxes[ForgeDirection.SOUTH.ordinal()] = new Cuboid6(min, min, max, max, max, 1.0F);
         
-        //for (int s = 0; s < 6; s++)
-        //	boundingBoxes[s] = new Cuboid6(centerFirst - w, offset, centerFirst - w, centerFirst + w, centerFirst - w, centerFirst + w).apply(Rotation.sideRotations[s].at(rotateCenterFirst));
+        boundingBoxes[ForgeDirection.EAST.ordinal()] = new Cuboid6(max, min, min, 1.0F, max, max);
+        boundingBoxes[ForgeDirection.WEST.ordinal()] = new Cuboid6(0.0F, min, min, min, max, max);
         
-        //for (int s = 7; s < 12; s++)
-        //    boundingBoxes[s] = new Cuboid6(centerSecond - w, 0, centerSecond - w, centerSecond + w, centerSecond - w, centerSecond + w).apply(Rotation.sideRotations[s-7].at(rotateCenterSecond));
+        boundingBoxes[ForgeDirection.UP.ordinal()] = new Cuboid6(min, max, min, max, 1.0F, max);
+        boundingBoxes[ForgeDirection.DOWN.ordinal()] = new Cuboid6(min, 0.0F, min, max, min, max);
     }
     
 	@Override
@@ -131,22 +109,17 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 		if(getHandler() != null)
 			getHandler().readFromNBT(tagCompound);
 		tier = tagCompound.getInteger("tier");
-		/*
-		float oldPressure = 0F;
-        if(pNetwork != null){
-        	oldPressure = pNetwork.getPressure();
-        }*/
-		//getHandler().updateNetworkOnNextTick(oldPressure);
-		//checkConnectedSides();
-		readConnectedSidesFromNBT(tagCompound);
+		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+		hasDirection = tagCompound.getBoolean("hasDirection");
 	}
 	
 	@Override
 	public void save(NBTTagCompound tagCompound){
 		super.save(tagCompound);
 		getHandler().writeToNBT(tagCompound);
+		tagCompound.setInteger("facing", getFacing().ordinal());
+		tagCompound.setBoolean("hasDirection", hasDirection);
 		tagCompound.setInteger("tier", tier);
-		writeConnectedSidesToNBT(tagCompound);
 	}
 	
 	@Override
@@ -154,6 +127,8 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 		packet.writeInt(getTier());
 		
 		NBTTagCompound mainCompound = new NBTTagCompound();
+		mainCompound.setInteger("facing", getFacing().ordinal());
+		mainCompound.setBoolean("hasDirection", hasDirection);
 		NBTTagCompound handlerCompound = new NBTTagCompound();
 		if(connectedSidesHaveChanged && world() != null && !world().isRemote){
 			connectedSidesHaveChanged = false;
@@ -164,35 +139,14 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 		
 		packet.writeNBTTagCompound(mainCompound);
     }
-
-    private void readConnectedSidesFromNBT(NBTTagCompound tagCompound){
-    	
-        NBTTagCompound ourCompound = tagCompound.getCompoundTag("connectedSides");
-
-        for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            connectedSideFlags[dir.ordinal()] = ourCompound.getBoolean(dir.name());
-        }
-        needToCheckNeighbors = true;
-    }
-
-    private void writeConnectedSidesToNBT(NBTTagCompound tagCompound){
-    	
-        if(connectedSides == null) {
-            connectedSides = new HashMap<ForgeDirection, TileEntity>();
-        }
-
-        NBTTagCompound ourCompound = new NBTTagCompound();
-        for(Map.Entry<ForgeDirection, TileEntity> entry : connectedSides.entrySet()) {
-            ourCompound.setBoolean(entry.getKey().name(), true);
-        }
-        tagCompound.setCompoundTag("connectedSides", ourCompound);
-    }
 	
     @Override
     public void readDesc(MCDataInput packet){
         tier = packet.readInt();
         
         NBTTagCompound mainCompound = packet.readNBTTagCompound();
+        facing = ForgeDirection.getOrientation(mainCompound.getInteger("facing"));
+        hasDirection = mainCompound.getBoolean("hasDirection");
 		NBTTagCompound handlerCompound = mainCompound.getCompoundTag("handler");
 		if(mainCompound.getBoolean("connectedSidesHaveChanged")){
 			hasCheckedSinceStartup = false;
@@ -209,7 +163,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 
 	@Override
 	public int getSlotMask() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
@@ -229,25 +182,36 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 
     @Override
     public Iterable<Cuboid6> getOcclusionBoxes(){
-        if (expandBounds >= 0)
-            return Arrays.asList(boundingBoxes[expandBounds]);
-
-        return Arrays.asList(boundingBoxes[6], boundingBoxes[13]);
+    	LinkedList<Cuboid6> list = new LinkedList<Cuboid6>();
+    	list.add(boundingBoxC);
+    	list.add(boundingBoxes[getFacing().ordinal()]);
+    	list.add(boundingBoxes[getFacing().getOpposite().ordinal()]);
+    	return list;
+    }
+    
+    public Iterable<Cuboid6> getBoundingBox(ForgeDirection dir){
+    	return Arrays.asList(boundingBoxes[dir.ordinal()], boundingBoxes[dir.getOpposite().ordinal()]);
     }
 
     @Override
     public Iterable<Cuboid6> getCollisionBoxes(){
-        LinkedList<Cuboid6> list = new LinkedList<Cuboid6>();
-        list.add(boundingBoxes[6]);
-        list.add(boundingBoxes[13]);
-        if(connectedSides == null) return list;
-        for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-        	if(connectedSides.containsKey(dir)){
-        		list.add(boundingBoxes[Functions.getIntDirFromDirection(dir)]);
-        		list.add(boundingBoxes[Functions.getIntDirFromDirection(dir)+7]);
-        	}
-        }
-        return list;
+    	LinkedList<Cuboid6> list = new LinkedList<Cuboid6>();
+    	list.add(boundingBoxC);
+    	if(!getFacing().equals(ForgeDirection.UNKNOWN)){
+	    	list.add(boundingBoxes[getFacing().ordinal()]);
+	    	list.add(boundingBoxes[getFacing().getOpposite().ordinal()]);
+    	}
+    	return list;
+    	/*
+    	if(getFacing().equals(ForgeDirection.NORTH) || getFacing().equals(ForgeDirection.SOUTH)){
+    		return Arrays.asList(boundingBoxNS);
+    	}else if(getFacing().equals(ForgeDirection.EAST) || getFacing().equals(ForgeDirection.WEST)){
+    		return Arrays.asList(boundingBoxEW);
+    	}else if(getFacing().equals(ForgeDirection.UP) || getFacing().equals(ForgeDirection.DOWN)){
+    		return Arrays.asList(boundingBoxUD);
+    	}else{
+    		return Arrays.asList(boundingBoxNS);
+    	}*/
     }
 
     @Override
@@ -257,9 +221,12 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
         	if(renderer == null){
         		renderer = new RendererPartValve();
         	}
+        	GL11.glPushMatrix();
             GL11.glDisable(GL11.GL_LIGHTING);
-            renderer.doRender(pos.x, pos.y, pos.z, 0, tier, connectedSides);
+			
+            renderer.doRender(pos.x, pos.y, pos.z, frame, tier, facing, hasDirection);
             GL11.glEnable(GL11.GL_LIGHTING);
+            GL11.glPopMatrix();
         }
     }
 
@@ -268,14 +235,17 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     	if(entity instanceof TileMultipart){
     		List<TMultiPart> t = ((TileMultipart)entity).jPartList();
     		
-    		if(!((TileMultipart)entity).canAddPart(new NormallyOccludedPart(boundingBoxes[opposite]))) return false;
+    		/*
+    		if(Multipart.hasPartHose((TileMultipart)entity)){
+    			if(!((TileMultipart)entity).canAddPart(new NormallyOccludedPart(boundingBoxes[opposite]))) return false;
+    		}*/
     		
     		for (TMultiPart p: t) {
     			if(p instanceof IHydraulicTransporter && caller.equals(this)){
     				((IHydraulicTransporter)p).checkConnectedSides(this);
     			}
 				if(p instanceof IHydraulicMachine){
-					return true;
+					return ((IHydraulicMachine)p).canConnectTo(dir.getOpposite());
 				}
 			}
     		return false;
@@ -293,7 +263,12 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     	
     	if(world() != null && tile() != null){
 	    	TileEntity te = world().getBlockTileEntity(x() + side.offsetX, y() + side.offsetY, z() + side.offsetZ);
-	    	return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d])) && shouldConnectTo(te, side, this);
+	    	NormallyOccludedPart p = new NormallyOccludedPart(getBoundingBox(side));
+	    	boolean canAddPart = tile().canAddPart(p);
+	    	if(side.equals(getFacing()) || side.getOpposite().equals(getFacing())){
+	    		canAddPart = true;
+	    	}
+	    	return canAddPart && shouldConnectTo(te, side, this);
     	}else{
     		return false;
     	}
@@ -304,26 +279,62 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     }
     
     public void checkConnectedSides(Object caller){
+    	if(hasDirection){
+	    	if(isConnectedTo(getFacing()) || isConnectedTo(getFacing().getOpposite())){
+	    		
+	    	}else{
+	    		NormallyOccludedPart p = new NormallyOccludedPart(getBoundingBox(ForgeDirection.NORTH));
+		    	boolean canAddPart = tile().canAddPart(p);
+		    	if(canAddPart){
+		    		facing = ForgeDirection.NORTH;
+		    	}
+	    		hasDirection = false;
+	    	}
+    	}else{
+    		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+    			if(isConnectedTo(dir)){
+    				facing = dir;
+    				hasDirection = true;
+    				break;
+    			}
+    		}
+    	}
+    	/*
         connectedSides = new HashMap<ForgeDirection, TileEntity>();
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			int d = Functions.getIntDirFromDirection(dir);
 			
             TileEntity te = world().getBlockTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
             if(shouldConnectTo(te, dir, caller)) {
-            	if(tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]))){
+            	if(tile().canAddPart(new NormallyOccludedPart(boundingBox))){
             		connectedSides.put(dir, te);
             	}
             }
-        }
-		connectedSidesHaveChanged = true;
-		getHandler().updateBlock();
+        }*/
+		//connectedSidesHaveChanged = true;
+		//getHandler().updateBlock();
     }
     
     @Override
 	public boolean canConnectTo(ForgeDirection side) {
-    	int d = side.getOpposite().ordinal();
-    	return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]));
+    	//Do some ray tracing here as well..
+    	if(!hasDirection){
+    		NormallyOccludedPart p = new NormallyOccludedPart(getBoundingBox(side));
+    		if(tile().canAddPart(p)){
+	    		return true;
+    		}else{
+    			return false;
+    		}
+    	}else if(getFacing().equals(side) || getFacing().equals(side.getOpposite())){
+    		return true;
+    	}else{
+    		return false;
+    	}
 	}
+    
+    public ForgeDirection getFacing(){
+    	return facing;
+    }
     
     public void onNeighborChanged(){
         checkConnectedSides();
@@ -353,6 +364,8 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	        }
 			getHandler().updateNetworkOnNextTick(oldPressure);
         }
+        
+        
     }
     
     @Override
@@ -488,13 +501,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     	
         if(needToCheckNeighbors) {
             needToCheckNeighbors = false;
-            connectedSides = new HashMap<ForgeDirection, TileEntity>();
-            for(int i = 0; i < 6; i++) {
-                if(connectedSideFlags[i]) {
-                    ForgeDirection dir = ForgeDirection.getOrientation(i);
-                    connectedSides.put(dir, world().getBlockTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ));
-                }
-            }
+            
             if(!world().isRemote){
         		connectedSidesHaveChanged = true;
         		getHandler().updateBlock();
@@ -506,13 +513,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	public void updateEntity() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	public Map<ForgeDirection, TileEntity> getConnectedSides() {
-		if(connectedSides == null){
-			checkConnectedSides();
-		}
-		return connectedSides;
 	}
 	
 	

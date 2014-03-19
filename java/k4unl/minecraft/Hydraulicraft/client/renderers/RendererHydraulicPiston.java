@@ -60,8 +60,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		}else{
 			drawPistonHead(null);
 		}
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glColor3f(0.8F, 0.8F, 0.8F);
+		
 		drawPistonArm(tileentity, f);
 		
 		
@@ -210,6 +209,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		float armEndCoord = 0.5F + (thickness / 2);
 		float startCoord = begin;
 		float endCoord = end;
+		GL11.glPushMatrix();
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		
 		//Draw TOP side.
@@ -238,12 +238,14 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		GL11.glVertex3f(startCoord, armEndCoord, armEndCoord);
 		
 		//Draw front side:
-		GL11.glColor3f(0.5F, 0.5F, 0.5F);
+		//GL11.glColor3f(0.5F, 0.5F, 0.5F);
 		GL11.glVertex3f(endCoord, armBeginCoord, armBeginCoord);
 		GL11.glVertex3f(endCoord, armEndCoord, armBeginCoord);
 		GL11.glVertex3f(endCoord, armEndCoord, armEndCoord);
 		GL11.glVertex3f(endCoord, armBeginCoord, armEndCoord);
 		GL11.glEnd();
+		
+		GL11.glPopMatrix();
 	}
 
 }

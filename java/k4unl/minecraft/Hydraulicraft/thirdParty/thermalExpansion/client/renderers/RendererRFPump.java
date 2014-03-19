@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.rendere
 
 import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
@@ -339,10 +338,10 @@ public class RendererRFPump extends TileEntitySpecialRenderer {
 			Icon fluidIcon;
 			if(t.getHandler().isOilStored()){
 				//RenderHelper.setARGBFromHex(Constants.COLOR_OIL + 0xFE000000);
-				float a = 0.7F;
+				/*float a = 0.7F;
 		        float r = (float)(Constants.COLOR_OIL >> 16 & 255) / 255.0F;
 		        float g = (float)(Constants.COLOR_OIL >> 8 & 255) / 255.0F;
-		        float b = (float)(Constants.COLOR_OIL & 255) / 255.0F;
+		        float b = (float)(Constants.COLOR_OIL & 255) / 255.0F;*/
 		        fluidIcon = Fluids.fluidOil.getIcon();
 			}else{
 				fluidIcon = FluidRegistry.WATER.getIcon();

@@ -269,14 +269,16 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     	if(entity instanceof TileMultipart){
     		List<TMultiPart> t = ((TileMultipart)entity).jPartList();
     		
-    		if(!((TileMultipart)entity).canAddPart(new NormallyOccludedPart(boundingBoxes[opposite]))) return false;
+    		if(Multipart.hasPartHose((TileMultipart)entity)){
+    			if(!((TileMultipart)entity).canAddPart(new NormallyOccludedPart(boundingBoxes[opposite]))) return false;
+    		}
     		
     		for (TMultiPart p: t) {
     			if(p instanceof IHydraulicTransporter && caller.equals(this)){
     				((IHydraulicTransporter)p).checkConnectedSides(this);
     			}
 				if(p instanceof IHydraulicMachine){
-					return true;
+					return ((IHydraulicMachine)p).canConnectTo(dir.getOpposite());
 				}
 			}
     		return false;

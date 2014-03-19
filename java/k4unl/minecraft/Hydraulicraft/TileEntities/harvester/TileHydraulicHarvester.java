@@ -297,7 +297,10 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 				if(pistonMoving <= trolleyList.size()){
 					TileHarvesterTrolley t = getTrolleyFromList(pistonMoving);
 					TileHydraulicPiston p = getPistonFromList(pistonMoving);
-					
+					if(p == null || t == null) {
+						invalidateMultiblock();
+						return 10F;
+					}
 					if(simulate == false){
 						if(t.isWorking()){
 							updateTrolleys();

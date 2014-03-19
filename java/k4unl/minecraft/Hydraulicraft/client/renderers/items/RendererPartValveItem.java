@@ -1,11 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
+import k4unl.minecraft.Hydraulicraft.client.renderers.RendererPartValve;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -13,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RendererPartValveItem implements IItemRenderer {
 
-	private static RendererHydraulicHose f = new RendererHydraulicHose();
+	private static RendererPartValve f = new RendererPartValve();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -57,12 +53,12 @@ public class RendererPartValveItem implements IItemRenderer {
 	
 	private void render(float x, float y, float z, float scale, int metadata){
 		
-		GL11.glScalef(scale, scale, scale);
+		GL11.glScalef(scale, scale, scale);/*
 		Map<ForgeDirection, TileEntity> connectedSides = new HashMap<ForgeDirection, TileEntity>();
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			connectedSides.put(dir, null);
-		}
-		f.doRender(x, y, z, 0, metadata, connectedSides);
+		}*/
+		f.doRender(x, y, z, 0, metadata, ForgeDirection.NORTH, true);
 	}
 
 }
