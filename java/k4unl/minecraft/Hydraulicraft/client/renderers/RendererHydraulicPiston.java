@@ -60,6 +60,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		}else{
 			drawPistonHead(null);
 		}
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		drawPistonArm(tileentity, f);
 		

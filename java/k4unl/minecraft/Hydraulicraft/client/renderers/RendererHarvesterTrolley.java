@@ -97,6 +97,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		}
 		drawBase(t);
 		drawHead(t, f);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		drawPistonArm(t, f);
 		
 		
