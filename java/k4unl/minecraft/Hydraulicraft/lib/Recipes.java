@@ -424,6 +424,33 @@ public class Recipes {
                         'C', new ItemStack(Blocks.blockCore, 1, 2)
                 })
         );
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartValve, 2, 0), true,
+                new Object[]{
+                        "---",
+                        "HLH",
+                        "---",
+                        'H', new ItemStack(Multipart.itemPartHose, 1, 0),
+                        'L', Block.lever
+                }));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartValve, 2, 1), true,
+                new Object[]{
+					"---",
+		            "HLH",
+		            "---",
+		            'H', new ItemStack(Multipart.itemPartHose, 1, 1),
+		            'L', Block.lever
+                }));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartValve, 2, 2), true,
+				new Object [] {
+					"---",
+		            "HLH",
+		            "---",
+		            'H', new ItemStack(Multipart.itemPartHose, 1, 2),
+		            'L', Block.lever
+				}));
 
 	}
 	
