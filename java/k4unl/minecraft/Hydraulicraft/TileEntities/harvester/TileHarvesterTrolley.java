@@ -155,6 +155,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 				actuallyHarvest();
 			}else if(Config.get("shouldDolleyInHarvesterGoBack") && harvestedItems != null){
 				harvester.putInInventory(harvestedItems);
+				harvestedItems = new ArrayList<ItemStack>();
 			}
 		    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
