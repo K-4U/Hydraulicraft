@@ -31,7 +31,7 @@ public class Config {
 			val = nValue;
 		}
 		public void loadFromConfig(Configuration config){
-			config.get(config.CATEGORY_GENERAL, key, def).getBoolean(def);
+			val = config.get(config.CATEGORY_GENERAL, key, def).getBoolean(def);
 		}
 	}
 	private static final List<configOption> configOptions = new ArrayList<configOption>();
