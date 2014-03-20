@@ -112,7 +112,6 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		renderGaugesContents(thickness, t);
 		renderGauges(thickness);
 		
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_LIGHTING); 
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
@@ -129,6 +128,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 	private void renderGauges(float thickness){
 		thickness -= 0.025F;
 		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glBegin(GL11.GL_QUADS);
 		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - 0.1F - 0.2F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F, 1.0002F-thickness, 1.0F - thickness - 0.1F);
 		
@@ -184,7 +184,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		float txE = 248;
 		GL11.glBegin(GL11.GL_QUADS);
 		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);	
-		RenderHelper.drawTexturedCubeWithLight(insides, (TileEntity)t);
+		RenderHelper.drawTexturedCubeWithLight(insides, t);
 		
 		GL11.glEnd();
 	}	

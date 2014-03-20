@@ -108,6 +108,7 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 	
 	private void drawBase(){
 		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		float insetFirst = 0.09375F;
 		float baseHeight = 0.1953125F;
 		
@@ -247,7 +248,7 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 		float containerDepthEnd = containerDepthBegin + 0.04F;
 		
 		GL11.glEnable(GL11.GL_BLEND);
-		
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		Vector3fMax vectorFilled = new Vector3fMax(containerSpacing, containerBegin, containerDepthBegin, 1.0F-containerSpacing, containerEnd, containerDepthEnd);
 		if(!isItem){

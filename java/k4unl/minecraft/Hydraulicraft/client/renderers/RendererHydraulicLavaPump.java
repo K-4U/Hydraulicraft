@@ -52,7 +52,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		GL11.glRotatef(90F, 0.0F, 0.0F, -1.0F);
 		
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
-		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
+		//GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		//Do rendering
         
@@ -134,6 +134,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 	private void renderGauges(float thickness){
 		thickness -= 0.025F;
 		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glBegin(GL11.GL_QUADS);
 		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - 0.1F - 0.2F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F, 1.001F-thickness, 1.0F - thickness - 0.1F);
 		
@@ -159,6 +160,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		thickness -= 0.025F;
 		drawLavaTank(t, false, thickness);
 		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
@@ -191,7 +193,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		float txE = 248;
 		GL11.glBegin(GL11.GL_QUADS);
 		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);	
-		RenderHelper.drawTexturedCube(insides);
+		RenderHelper.drawTexturedCubeWithLight(insides, (TileEntity)t);
 		
 		GL11.glEnd();
 	}
@@ -206,6 +208,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		float containerDepthEnd = containerDepthBegin + 0.04F;
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		Vector3fMax vectorFilled = new Vector3fMax(thickness + 0.1F, 0.8F, thickness+0.1F, 1.0F - thickness - 0.1F - 0.3F, 1.0005F-thickness, 1.0F - thickness - 0.1F);
 		if(!isItem){

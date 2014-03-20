@@ -297,7 +297,7 @@ public class RendererElectricPump extends TileEntitySpecialRenderer {
 	
 	private void drawHydraulicsTank(TileElectricPump t, boolean isItem){
 		GL11.glEnable(GL11.GL_BLEND);
-		
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		Vector3fMax vectorFilled = new Vector3fMax(0.301F, 0.301F, 0.201F, 0.699F, 0.699F, 0.499F);
 		if(!isItem){
