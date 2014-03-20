@@ -131,6 +131,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 		NBTTagCompound mainCompound = new NBTTagCompound();
 		mainCompound.setInteger("facing", getFacing().ordinal());
 		mainCompound.setBoolean("hasDirection", hasDirection);
+		mainCompound.setBoolean("hasMerged", hasMerged);
 		NBTTagCompound handlerCompound = new NBTTagCompound();
 		if(connectedSidesHaveChanged && world() != null && !world().isRemote){
 			connectedSidesHaveChanged = false;
@@ -149,6 +150,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
         NBTTagCompound mainCompound = packet.readNBTTagCompound();
         facing = ForgeDirection.getOrientation(mainCompound.getInteger("facing"));
         hasDirection = mainCompound.getBoolean("hasDirection");
+        hasMerged = mainCompound.getBoolean("hasMerged");
 		NBTTagCompound handlerCompound = mainCompound.getCompoundTag("handler");
 		if(mainCompound.getBoolean("connectedSidesHaveChanged")){
 			hasCheckedSinceStartup = false;
@@ -226,7 +228,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
         	GL11.glPushMatrix();
             GL11.glDisable(GL11.GL_LIGHTING);
 			
-            renderer.doRender(pos.x, pos.y, pos.z, frame, tier, facing, hasDirection);
+            renderer.doRender(pos.x, pos.y, pos.z, frame, tier, this);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glPopMatrix();
         }
@@ -717,5 +719,9 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	@Override
 	public float getStrength(MovingObjectPosition hit, EntityPlayer player){
 		return 8F;
+	}
+
+	public boolean isActive() {
+		return hasMerged;
 	}
 }

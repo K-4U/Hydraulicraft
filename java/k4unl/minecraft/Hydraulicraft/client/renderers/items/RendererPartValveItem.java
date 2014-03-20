@@ -58,7 +58,7 @@ public class RendererPartValveItem implements IItemRenderer {
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			connectedSides.put(dir, null);
 		}*/
-		f.doRender(x, y, z, 0, metadata, ForgeDirection.NORTH, true);
+		f.doRender(x, y, z, 0, metadata, null);
 	}
 
 }

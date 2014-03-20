@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
+import k4unl.minecraft.Hydraulicraft.multipart.PartValve;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -20,7 +21,7 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		new ResourceLocation(ModInfo.LID,"textures/model/hydraulicHose_tmap_2.png")
 	};
 	
-	public void doRender(double x, double y, double z, float f, int tier, ForgeDirection facing, boolean hasDirection){
+	public void doRender(double x, double y, double z, float f, int tier, PartValve valve){
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef((float) x, (float) y, (float)z);
@@ -28,24 +29,26 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		//Bind texture
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc[tier]);
 		
-		switch(facing){
-		case UP:
-		case DOWN:
-			GL11.glTranslatef(1.0F, 1.0F, 1.0F);
-			GL11.glRotatef(90F, -1.0F, 0.0F, 0.0F);
-			GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
-			break;
-		case EAST:
-		case WEST:
-			GL11.glTranslatef(1.0F, 0.0F, 0.0F);
-			//GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
-			GL11.glRotatef(90F, 0.0F, -1.0F, 0.0F);
-			break;
-		case NORTH:
-		case SOUTH:
-		case UNKNOWN:
-		default:
-			break;
+		if(valve != null){
+			switch(valve.getFacing()){
+			case UP:
+			case DOWN:
+				GL11.glTranslatef(1.0F, 1.0F, 1.0F);
+				GL11.glRotatef(90F, -1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+				break;
+			case EAST:
+			case WEST:
+				GL11.glTranslatef(1.0F, 0.0F, 0.0F);
+				//GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(90F, 0.0F, -1.0F, 0.0F);
+				break;
+			case NORTH:
+			case SOUTH:
+			case UNKNOWN:
+			default:
+				break;
+			}
 		}
 		
 		
@@ -62,8 +65,15 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		drawCable(center, -offset, centerOffset);
 		drawCable(center, +offset, centerOffset);
 
-		drawCorner(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center+centerOffset));
-		
+		//
+		if(valve != null && valve.isActive()){
+			drawCorner(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center+centerOffset));
+			/*drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center), true);
+			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center, center+centerOffset, center+centerOffset, center+centerOffset), false);*/
+		}else{
+			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center-0.05F), true);
+			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center+0.05F, center+centerOffset, center+centerOffset, center+centerOffset), false);
+		}
 		//GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -194,6 +204,56 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), 0.5F, 1.0F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), 0.0F, 1.0F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), 0.0F, 0.5F);
+		
+		//Draw north side
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), 0.5F, 0.5F); 
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), 0.5F, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), 0.0F, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), 0.0F, 0.5F);
+
+		//Draw south side
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), 0.0F, 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), 0.5F, 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), 0.5F, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 0.0F, 1.0F);
+		
+		GL11.glEnd();
+	}
+	
+	private void drawHalfCube(Vector3fMax vector, boolean isLeft){
+		GL11.glBegin(GL11.GL_QUADS);
+
+		float txE = 0.25F;
+		float txB = 0.0F;
+		if(!isLeft){
+			txE = 0.5F;
+			txB = 0.25F;
+		}
+		
+		//Top side:
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), txE, 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), txE, 1.0F);		
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), txB, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), txB, 0.5F);
+		
+		//Bottom side:
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), txE, 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), txE, 1.0F);		
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), txB, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), txB, 0.5F);
+
+		//Draw west side:
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), txE, 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), txE, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), txB, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), txB, 0.5F);
+		
+		
+		//Draw east side:
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), txB, 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), txB, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), txE, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), txE, 0.5F);
 		
 		//Draw north side
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), 0.5F, 0.5F); 
