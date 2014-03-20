@@ -45,7 +45,7 @@ public class RendererElectricPump extends TileEntitySpecialRenderer {
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
-		
+		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		drawBase(tier);
 		drawElectricConnector();
 		drawHydraulicsConnector();
@@ -100,7 +100,7 @@ public class RendererElectricPump extends TileEntitySpecialRenderer {
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
-		GL11.glColor3f(0.9f, 0.9f, 0.9f);
+		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		
 		drawBase(t.getTier());
 		drawElectricConnector();

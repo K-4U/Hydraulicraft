@@ -48,6 +48,7 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
 		//GL11.glBegin(GL11.GL_QUADS);
+		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		drawFluidContainers();
 		drawBase();
 		
@@ -93,7 +94,7 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
-		
+		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		drawFluidContainers();
 		drawHydraulicsTank(t, false);
 		drawBase();

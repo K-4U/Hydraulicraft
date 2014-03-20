@@ -41,6 +41,7 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
+		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		GL11.glBegin(GL11.GL_QUADS);
 		drawBase();
 		drawAxle();
@@ -97,8 +98,11 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 		GL11.glPushMatrix();
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
+		
 		//Do rendering
+		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		GL11.glBegin(GL11.GL_QUADS);
+		
 		drawBase();
 		drawAxle();
 		
