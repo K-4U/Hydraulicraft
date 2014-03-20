@@ -40,6 +40,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	
 	private FluidTank tank = null;//
 	private int tier = -1;
+	private int prevRedstoneLevel = 0;
 	
 	private List<ForgeDirection> connectedSides;
 	
@@ -375,7 +376,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
 		setTier(tagCompound.getInteger("tier"));
-		
+		prevRedstoneLevel = tagCompound.getInteger("prevRedstoneLevel");
 		
 		NBTTagCompound tankCompound = tagCompound.getCompoundTag("tank");
 		if(tankCompound != null){
@@ -397,6 +398,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		}
 		
 		tagCompound.setInteger("tier", tier);
+		tagCompound.setInteger("prevRedstoneLevel", prevRedstoneLevel);
 		
 		NBTTagCompound tankCompound = new NBTTagCompound();
 		tank.writeToNBT(tankCompound);
@@ -406,6 +408,17 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	@Override
 	public void updateEntity() {
 		getHandler().updateEntity();
+		if(getNetwork(ForgeDirection.UP) != null && worldObj != null){
+			float curPressure = getPressure(ForgeDirection.UP);
+			float maxPressure = getMaxPressure(getHandler().isOilStored(), ForgeDirection.UP);
+			float percentage = curPressure / maxPressure;
+			int newRedstoneLevel = (int)(15 * percentage);
+			if(newRedstoneLevel != prevRedstoneLevel){
+				prevRedstoneLevel = newRedstoneLevel;
+				worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType().blockID);
+				getHandler().updateBlock();
+			}
+		}
 	}
 
 	@Override
@@ -561,5 +574,9 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
+	}
+	
+	public int getRedstoneLevel(){
+		return prevRedstoneLevel;
 	}
 }

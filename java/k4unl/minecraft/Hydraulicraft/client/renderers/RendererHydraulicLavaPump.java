@@ -52,7 +52,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		GL11.glRotatef(90F, 0.0F, 0.0F, -1.0F);
 		
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
-		//GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
+		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		//Do rendering
         

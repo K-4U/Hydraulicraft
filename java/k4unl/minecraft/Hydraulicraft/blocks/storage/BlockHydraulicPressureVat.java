@@ -11,7 +11,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 public class BlockHydraulicPressureVat extends MachineTieredBlock {
 	
@@ -70,7 +72,31 @@ public class BlockHydraulicPressureVat extends MachineTieredBlock {
 		//Don't drop anything please..
 		return ret;
 	}
+	/**
+     * Returns true if the block is emitting direct/strong redstone power on the specified side. Args: World, X, Y, Z,
+     * side. Note that the side is reversed - eg it is 1 (up) when checking the bottom of the block.
+     */
+    public int isProvidingStrongPower(IBlockAccess w, int x, int y, int z, int side){
+        return this.isProvidingWeakPower(w, x, y, z, side);
+    }
 
+    /**
+     * Returns true if the block is emitting indirect/weak redstone power on the specified side. If isBlockNormalCube
+     * returns true, standard redstone propagation rules will apply instead and this will not be called. Args: World, X,
+     * Y, Z, side. Note that the side is reversed - eg it is 1 (up) when checking the bottom of the block.
+     */
+    public int isProvidingWeakPower(IBlockAccess w, int x, int y, int z, int side){
+    	TileEntity ent = w.getBlockTileEntity(x, y, z);
+		if(ent instanceof TileHydraulicPressureVat){
+			TileHydraulicPressureVat p = (TileHydraulicPressureVat) ent;
+			return p.getRedstoneLevel();
+		}
+		return 0;
+    }
+
+    public boolean canProvidePower(){
+        return true;
+    }
 
 	
 }
