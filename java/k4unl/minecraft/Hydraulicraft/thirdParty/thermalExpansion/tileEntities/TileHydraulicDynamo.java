@@ -198,11 +198,13 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 			TileEntity receiver = worldObj.getBlockTileEntity(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ);
 			if(receiver != null && receiver instanceof IEnergyHandler){
 				IEnergyHandler recv = (IEnergyHandler) receiver;
-				int extracted = storage.extractEnergy(Constants.MAX_TRANSFER_RF, true);
-				int energyPushed = recv.receiveEnergy(facing.getOpposite(), extracted, true);
-				
-				if(energyPushed > 0){
-					recv.receiveEnergy(facing.getOpposite(), storage.extractEnergy(energyPushed, false), false);
+				if(recv.canInterface(getFacing().getOpposite())){
+					int extracted = storage.extractEnergy(Constants.MAX_TRANSFER_RF, true);
+					int energyPushed = recv.receiveEnergy(facing.getOpposite(), extracted, true);
+					
+					if(energyPushed > 0){
+						recv.receiveEnergy(facing.getOpposite(), storage.extractEnergy(energyPushed, false), false);
+					}
 				}
 			}
 		}
