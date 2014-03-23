@@ -6,24 +6,21 @@
  * License 1.0, or MMPL. Please check the contents of the license located in
  * http://www.mod-buildcraft.com/MMPL-1.0.txt
  */
-package buildcraft.api.gates;
+package buildcraft.api.transport;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 
-public interface IAction {
+public interface IPipeDefinition {
 
 	String getUniqueTag();
 
-	@SideOnly(Side.CLIENT)
-	IIcon getIcon();
-
-	@SideOnly(Side.CLIENT)
 	void registerIcons(IIconRegister iconRegister);
 
-	boolean hasParameter();
+	IIcon getIcon(int index);
 
-	String getDescription();
+	IIcon getItemIcon();
+
+	PipeBehavior makePipeBehavior(TileEntity tile);
 }

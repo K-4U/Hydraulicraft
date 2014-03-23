@@ -6,17 +6,16 @@
  * License 1.0, or MMPL. Please check the contents of the license located in
  * http://www.mod-buildcraft.com/MMPL-1.0.txt
  */
-package buildcraft.api.power;
+package buildcraft.api.gates;
 
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-/**
- * Essentially only used for Wooden Power Pipe connection rules.
- *
- * This Tile Entity interface allows you to indicate that a block can emit power
- * from a specific side.
- */
-public interface IPowerEmitter {
+public interface ITileTrigger extends ITrigger {
 
-	public boolean canEmitPowerFrom(ForgeDirection side);
+	/**
+	 * Return true if the tile given in parameter activates the trigger, given
+	 * the parameters.
+	 */
+	boolean isTriggerActive(ForgeDirection side, TileEntity tile, ITriggerParameter parameter);
 }

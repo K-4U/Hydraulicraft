@@ -8,22 +8,23 @@
  */
 package buildcraft.api.gates;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 
-public interface IAction {
+public interface IGateExpansion {
 
-	String getUniqueTag();
+	String getUniqueIdentifier();
 
-	@SideOnly(Side.CLIENT)
-	IIcon getIcon();
+	String getDisplayName();
 
-	@SideOnly(Side.CLIENT)
-	void registerIcons(IIconRegister iconRegister);
+	GateExpansionController makeController(TileEntity pipeTile);
 
-	boolean hasParameter();
+	void registerBlockOverlay(IIconRegister iconRegister);
 
-	String getDescription();
+	void registerItemOverlay(IIconRegister iconRegister);
+
+	IIcon getOverlayBlock();
+
+	IIcon getOverlayItem();
 }

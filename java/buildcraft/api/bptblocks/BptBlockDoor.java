@@ -1,20 +1,18 @@
 /**
- * Copyright (c) SpaceToad, 2011
+ * Copyright (c) 2011-2014, SpaceToad and the BuildCraft Team
  * http://www.mod-buildcraft.com
  *
  * BuildCraft is distributed under the terms of the Minecraft Mod Public
  * License 1.0, or MMPL. Please check the contents of the license located in
  * http://www.mod-buildcraft.com/MMPL-1.0.txt
  */
-
 package buildcraft.api.bptblocks;
 
-import java.util.LinkedList;
-
-import net.minecraft.item.ItemStack;
 import buildcraft.api.blueprints.BptBlock;
 import buildcraft.api.blueprints.BptSlotInfo;
 import buildcraft.api.blueprints.IBptContext;
+import java.util.LinkedList;
+import net.minecraft.item.ItemStack;
 
 @Deprecated
 public class BptBlockDoor extends BptBlock {
@@ -62,8 +60,8 @@ public class BptBlockDoor extends BptBlock {
 
 	@Override
 	public void buildBlock(BptSlotInfo slot, IBptContext context) {
-		context.world().setBlock(slot.x, slot.y, slot.z, slot.blockId, slot.meta,1);
-		context.world().setBlock(slot.x, slot.y + 1, slot.z, slot.blockId, slot.meta + 8,1);
+		//context.world().setBlock(slot.x, slot.y, slot.z, slot.blockId, slot.meta,1);
+		//context.world().setBlock(slot.x, slot.y + 1, slot.z, slot.blockId, slot.meta + 8,1);
 
 		context.world().setBlockMetadataWithNotify(slot.x, slot.y + 1, slot.z, slot.meta + 8,1);
 		context.world().setBlockMetadataWithNotify(slot.x, slot.y, slot.z, slot.meta,1);
