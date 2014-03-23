@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class ContainerEmpty extends Container {
 	
@@ -30,4 +31,9 @@ public class ContainerEmpty extends Container {
 			addSlotToContainer(new Slot(invPlayer, j, 8+(j * 18), 142));
 		}
 	}
+	
+	@Override
+    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2){
+        return null;
+    }
 }
