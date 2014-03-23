@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.containers;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicFrictionIncinerator;
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

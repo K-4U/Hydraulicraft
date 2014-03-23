@@ -1,15 +1,20 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
+import codechicken.multipart.TileMultipart;
 
 public class WailaProvider implements IWailaDataProvider {
 
@@ -31,31 +36,57 @@ public class WailaProvider implements IWailaDataProvider {
 			List<String> currenttip, IWailaDataAccessor accessor,
 			IWailaConfigHandler config) {
 		
-		if(accessor.getTileEntity() instanceof IHydraulicMachine){
-			IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
+		TileEntity ent = accessor.getTileEntity();
+		if(accessor.getTileEntity() instanceof IHydraulicMachine|| ent instanceof TileMultipart){
+			IHydraulicMachine mEnt = null;
+			if(ent instanceof TileMultipart){
+				if(Multipart.hasTransporter((TileMultipart)ent)){
+					mEnt = Multipart.getTransporter((TileMultipart)ent);
+				}else{
+					return currenttip;
+				}
+			}else{
+				mEnt = (IHydraulicMachine) ent;
+			}
+			//IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
 			
 			int stored = mEnt.getHandler().getStored();
 			int max = mEnt.getMaxStorage();
 			
-			float pressure = mEnt.getHandler().getPressure();
-			float maxPressure = mEnt.getMaxPressure();
+			float pressure = mEnt.getPressure(ForgeDirection.UNKNOWN);
+			int maxPressure = (int)mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), null);
 	
 			currenttip.add("Fl: " + stored + "/" + max + " mBuckets (" + (int)(((float)stored / (float)max) * 100) + "%)");
-			currenttip.add("Pr: " + pressure + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");
+			currenttip.add("Pr: " + (new DecimalFormat("#.##")).format(pressure) + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");
 			
-			if(mEnt instanceof TileHydraulicPump){
-				float gen = ((TileHydraulicPump) mEnt).getGenerating();
-				int maxGen = ((TileHydraulicPump) mEnt).getMaxGenerating();
-				int tier = ((TileHydraulicPump) mEnt).getTier();
-				currenttip.add("Gen: " + gen + "/" + maxGen);
-			}			
+			if(mEnt instanceof IHydraulicGenerator){
+				float gen = ((IHydraulicGenerator) mEnt).getGenerating(ForgeDirection.UP);
+				int maxGen = ((IHydraulicGenerator) mEnt).getMaxGenerating(ForgeDirection.UP);
+				currenttip.add("Gen: " + (new DecimalFormat("#.##")).format(gen) + "/" + maxGen);
+			}
+			if(mEnt instanceof TileElectricPump){
+				int storedEU = ((TileElectricPump)mEnt).getEUStored();
+				int maxEU = ((TileElectricPump)mEnt).getMaxEUStorage();
+				currenttip.add("EU: " + storedEU + "/" + maxEU);
+			}
 		}
 		return currenttip;
 	}
 	
 	public static void callbackRegister(IWailaRegistrar registrar){
-		registrar.registerHeadProvider(new WailaProvider(), MachineEntity.class);
-		registrar.registerBodyProvider(new WailaProvider(), MachineEntity.class);
+		registrar.registerHeadProvider(new WailaProvider(), IHydraulicMachine.class);
+		registrar.registerBodyProvider(new WailaProvider(), IHydraulicMachine.class);
+		registrar.registerTailProvider(new WailaProvider(), IHydraulicMachine.class);
+		registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
+		
+		//registrar.registerBodyProvider(new WailaProvider(), Ids.blockHydraulicPump.act);
+	}
+
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack,
+			List<String> currenttip, IWailaDataAccessor accessor,
+			IWailaConfigHandler config) {
+		return currenttip;
 	}
 
 }

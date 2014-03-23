@@ -3,15 +3,22 @@ package k4unl.minecraft.Hydraulicraft.lib;
 import java.util.ArrayList;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
-import k4unl.minecraft.Hydraulicraft.items.Items;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class Functions {
-
+	private static boolean isUpdateAvailable;
+	
+	public static void showMessageInChat(String message){
+		EntityClientPlayerMP pl = Minecraft.getMinecraft().thePlayer;
+		pl.addChatMessage(message);
+		
+	}
+	
 	public static List mergeList(List l1, List l2){
 		for (Object object : l1) {
 			if(!l2.contains(object)){
@@ -21,6 +28,27 @@ public class Functions {
 		return l2;
 	}
 	
+	public static int getIntDirFromDirection(ForgeDirection dir){
+		switch(dir){
+		case DOWN:
+			return 0;
+		case EAST:
+			return 5;
+		case NORTH:
+			return 2;
+		case SOUTH:
+			return 3;
+		case UNKNOWN:
+			return 0;
+		case UP:
+			return 1;
+		case WEST:
+			return 4;
+		default:
+			return 0;
+		}
+	}
+	
 	public static boolean isInString(String oreName, String[] list){
 		boolean ret = false;
 		for(int i = 0; i < list.length; i++){
@@ -28,6 +56,7 @@ public class Functions {
 		}
 		return ret;
 	}
+	
 
     public static String getPrefixName(String oreDictName){
         //TODO: Fix this function up. It looks ugly
@@ -66,164 +95,57 @@ public class Functions {
 		}
 	}
 	
-	public static int getIngotId(String ingotName){
-        if(ingotName.equals("ingotIron")){
-            return Item.ingotIron.itemID;
-        }else if(ingotName.equals("ingotCopper")){
-            return Items.ingotCopper.itemID;
-        }else if(ingotName.equals("ingotLead")){
-        	return Items.ingotLead.itemID;
-        }else if(ingotName.equals("ingotGold")){
-			return Item.ingotGold.itemID;
+	public static ItemStack getIngot(String ingotName){
+		ArrayList<ItemStack> targetStackL = OreDictionary.getOres(ingotName);
+		if(targetStackL.size() > 0){
+			return targetStackL.get(0);
 		}
-		return 1;
+		return null;
 	}
 	
-	public static void checkSidesSetPressure(World w, int x, int y, int z, float newPressure){
-		if(!w.isRemote){
-			TileEntity t = w.getBlockTileEntity(x, y, z);
-			if(t instanceof IHydraulicMachine){
-				List <IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
-				mainList.add((IHydraulicMachine) t);
-				mainList = ((IHydraulicMachine) t).getHandler().getConnectedBlocks(mainList);
-				
-				
-				float pressureInSystem = 0;
-				if(newPressure < 0){
-					newPressure = 0;
-				}
-				for (IHydraulicMachine machineEntity : mainList) {
-					machineEntity.getHandler().setPressure(newPressure);
-				}
+	public static int getMaxGenPerTier(int tier, boolean isOil){
+		if(!isOil){
+			switch(tier){
+			case 0:
+				return Constants.MAX_MBAR_GEN_WATER_TIER_1;
+			case 1:
+				return Constants.MAX_MBAR_GEN_WATER_TIER_2;
+			case 2:
+				return Constants.MAX_MBAR_GEN_WATER_TIER_3;
+			}			
+		}else{
+			switch(tier){
+			case 0:
+				return Constants.MAX_MBAR_GEN_OIL_TIER_1;
+			case 1:
+				return Constants.MAX_MBAR_GEN_OIL_TIER_2;
+			case 2:
+				return Constants.MAX_MBAR_GEN_OIL_TIER_3;
 			}
 		}
+		return 0;
 	}
 	
-	public static void setFluidInSystem(List<IHydraulicMachine> mainList, int fluidInSystem, boolean isOil){
-		List<IHydraulicMachine> remainingBlocks = new ArrayList<IHydraulicMachine>();
-		int newFluidInSystem = 0;
-		boolean firstIteration = true;
-		//Log.info("Before iteration: FIS = " + fluidInSystem + " M = " + mainList.size());
-		while(fluidInSystem > 0){
-			if(mainList.size() == 0){
-				//Error!
-				//Log.error("Too much fluid in the system!");
-				break;
-			}
-			int toSet = fluidInSystem / mainList.size();
-			while(fluidInSystem > toSet * mainList.size()){
-				fluidInSystem +=1;
-				toSet = fluidInSystem / mainList.size();
-			}
-			
-			for (IHydraulicMachine machineEntity : mainList) {
-				if(machineEntity.getMaxStorage() < (toSet + machineEntity.getHandler().getStored())){
-					newFluidInSystem = newFluidInSystem + ((toSet + machineEntity.getHandler().getStored()) - machineEntity.getMaxStorage());
-					machineEntity.getHandler().setStored(machineEntity.getMaxStorage(), isOil);
-				}else{
-					remainingBlocks.add(machineEntity);
-					machineEntity.getHandler().setStored(toSet + machineEntity.getHandler().getStored(), isOil);
-				}
-				
-				if(firstIteration){
-					machineEntity.getHandler().setFluidInSystem(fluidInSystem);
-				}
-				
-				//Log.info("Is this the original? " + machineEntity.equals(t));
-				
-			}
-
-			//Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
-			fluidInSystem = newFluidInSystem;
-			newFluidInSystem = 0;
-			
-			mainList.clear();
-			for (IHydraulicMachine machineEntity : remainingBlocks) {
-				mainList.add(machineEntity);
-			}
-			
-			remainingBlocks.clear();
-			firstIteration = false;
-		}
-	}
-	
-	public static void checkAndSetSideBlocks(World w, int x, int y, int z, int newFluidInSystem, boolean isOil){
-		if(!w.isRemote){
-			TileEntity t = w.getBlockTileEntity(x, y, z);
-			if(t instanceof IHydraulicMachine){
-				List <IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
-				mainList.add((IHydraulicMachine) t);
-				mainList = ((IHydraulicMachine) t).getHandler().getConnectedBlocks(mainList);
-				
-				for (IHydraulicMachine machineEntity : mainList) {
-					machineEntity.getHandler().setStored(0, isOil);
-				}
-				
-				setFluidInSystem(mainList, newFluidInSystem, isOil);
-				
-				//Log.info("Done iterating. Found " + mainList.size() + " blocks!");
+	public static int getMaxPressurePerTier(int tier, boolean isOil){
+		if(!isOil){
+			switch(tier){
+			case 0:
+				return Constants.MAX_MBAR_WATER_TIER_1;
+			case 1:
+				return Constants.MAX_MBAR_WATER_TIER_2;
+			case 2:
+				return Constants.MAX_MBAR_WATER_TIER_3;
+			}			
+		}else{
+			switch(tier){
+			case 0:
+				return Constants.MAX_MBAR_OIL_TIER_1;
+			case 1:
+				return Constants.MAX_MBAR_OIL_TIER_2;
+			case 2:
+				return Constants.MAX_MBAR_OIL_TIER_3;
 			}
 		}
+		return 0;
 	}
-	
-	public static void checkAndFillSideBlocks(World w, int x, int y, int z){
-		if(!w.isRemote){
-			TileEntity t = w.getBlockTileEntity(x, y, z);
-			if(t instanceof IHydraulicMachine){
-				List <IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
-				mainList.add((IHydraulicMachine) t);
-				mainList = ((IHydraulicMachine) t).getHandler().getConnectedBlocks(mainList);
-				
-				//Log.info("Iteration done. " + mainList.size() + " machines found");
-				boolean isOil = false;
-				int fluidInSystem = 0;
-				int totalFluidCapacity = 0;
-				float pressureInSystem = 0;
-				int oldMachineCount = 0;
-				for (IHydraulicMachine machineEntity : mainList) {
-					if(oldMachineCount == 0){
-						oldMachineCount = machineEntity.getHandler().getNetworkCount();
-					}
-					if(isOil == false && machineEntity.getHandler().isOilStored()){
-						isOil = true;
-					}
-					fluidInSystem = fluidInSystem + machineEntity.getHandler().getStored();
-					totalFluidCapacity = totalFluidCapacity + machineEntity.getMaxStorage();
-					machineEntity.getHandler().setStored(0, isOil);
-					
-					
-					//if(machineEntity.getPressure() > pressureInSystem){
-						pressureInSystem += machineEntity.getHandler().getPressure();
-					//}
-					machineEntity.getHandler().setPressure(0);
-				}
-				
-				
-				if(fluidInSystem < 100){
-					pressureInSystem = pressureInSystem * ((float)fluidInSystem / 100F);
-				}
-				pressureInSystem = pressureInSystem / mainList.size();
-				//Log.info("Fluid in system: " + fluidInSystem);
-				//Log.info("Pressure in system: " + pressureInSystem);
-				
-				if(oldMachineCount <= mainList.size()){
-					//pressureInSystem = pressureInSystem - (pressureInSystem / mainList.size());
-				}else if(oldMachineCount > mainList.size()){
-					//There were more machines a second ago!
-					//Well.. do nothing really..
-				}
-				for (IHydraulicMachine machineEntity : mainList) {
-					machineEntity.getHandler().setPressure(pressureInSystem);
-					machineEntity.getHandler().setNetworkCount(mainList.size());
-					machineEntity.getHandler().setTotalFluidCapacity(totalFluidCapacity);
-					//This will allow the machines themselves to explode when something goes wrong!
-				}
-				
-				setFluidInSystem(mainList, fluidInSystem, isOil);
-				
-				//Log.info("Done iterating. Found " + mainList.size() + " blocks!");
-			}
-		}
-	}
-	
 }

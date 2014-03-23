@@ -1,22 +1,21 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
+import java.awt.Rectangle;
 import java.util.List;
 import java.util.Map;
 
-import codechicken.nei.NEIClientUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.ShapedRecipeHandler;
-import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
-import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
+import k4unl.minecraft.Hydraulicraft.client.GUI.GuiIncinerator;
+import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import codechicken.nei.NEIClientUtils;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.ShapedRecipeHandler;
 
 public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
     private ShapedRecipeHandler.CachedShapedRecipe getShape(Map.Entry<List<Integer>, ItemStack> recipe) {
@@ -46,12 +45,12 @@ public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
 
     @Override
     public Class<? extends GuiContainer> getGuiClass(){
-        return GuiCrusher.class;
+        return GuiIncinerator.class;
     }
 
     @Override
     public String getRecipeName(){
-        return Names.blockHydraulicFrictionIncinerator.localized;
+        return Localization.getLocalizedName(Names.blockHydraulicFrictionIncinerator.unlocalized);
     }
 
     @Override
@@ -76,5 +75,43 @@ public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
                 break;
             }
         }
+    }
+    
+    @Override
+    public void loadCraftingRecipes(String outputId, Object... results) {
+        if(outputId.equals("incinerator") && getClass() ==
+                NEIFrictionIncineratorRecipeManager.class) {
+        	Map<List<Integer>, ItemStack> recipes = FurnaceRecipes.smelting().getMetaSmeltingList(); 
+        	
+            for(Map.Entry<List<Integer>, ItemStack> recipe: recipes.entrySet()) {
+            	this.arecipes.add(getShape(recipe));
+            }
+        }
+    }
+    
+    @Override
+    public void loadTransferRects(){
+        transferRects.add(new RecipeTransferRect(new Rectangle(53, 8, 60, 18), "incinerator"));
+        transferRects.add(new RecipeTransferRect(new Rectangle(28, 32, 112, 12), "incinerator"));
+    }
+    
+    @Override
+	public void drawExtras(int recipeIndex){
+    	int ticks = 48;
+    	float percentage = cycleticks % ticks / (float)ticks;
+    	
+    	CachedRecipe recipe = arecipes.get(recipeIndex); 
+    	
+    	
+    	ItemStack smeltingItem = recipe.getIngredients().get(0).item;
+		ItemStack targetItem = recipe.getResult().item;
+
+		int startX = 38;
+		int targetX = 114;
+		int travelPath = targetX - startX;
+		int xPos = startX + (int) (travelPath * percentage);
+        //TODO decide whether one should have a wobbling effect or not (the last parameter)
+        IconRenderer.drawMergedIcon(xPos, 8, 0, smeltingItem, targetItem, percentage, smeltingItem.stackSize % 2 == 0);
+		//drawProgressBar(80, 21, 207, 0, 34, 19, 48, 2 | (1 << 3));
     }
 }

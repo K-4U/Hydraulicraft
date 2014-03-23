@@ -18,13 +18,13 @@ public interface IAirHandler extends IManoMeasurable{
      * -----------Needs to be forwarded by the implementing TileEntity.
      * @param nbt
      */
-    public void readFromNBT(NBTTagCompound nbt);
+    public void readNBT(NBTTagCompound nbt);
 
     /**
      * -----------Needs to be forwarded by the implementing TileEntity.
      * @param nbt
      */
-    public void writeToNBT(NBTTagCompound nbt);
+    public void writeNBT(NBTTagCompound nbt);
 
     /**
      * -----------Needs to be forwarded by the implementing TileEntity with itself as parameter.

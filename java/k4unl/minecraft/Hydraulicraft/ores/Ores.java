@@ -1,11 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.ores;
 
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Ores {
 	public static Block oreCopper;
@@ -45,8 +44,8 @@ public class Ores {
 	 * Note: No localization yet. Maybe after Modjam!
 	 */
 	public static void addNames(){
-		LanguageRegistry.addName(oreCopper, Names.oreCopper.localized);
-		LanguageRegistry.addName(oreLead, Names.oreLead.localized);
+		//LanguageRegistry.addName(oreCopper, Names.oreCopper.localized);
+		//LanguageRegistry.addName(oreLead, Names.oreLead.localized);
 	}
 }
 

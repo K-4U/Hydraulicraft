@@ -1,14 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.containers;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicMixer;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicMixer;
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerMixer extends Container {
 
@@ -18,7 +16,7 @@ public class ContainerMixer extends Container {
 	public ContainerMixer(InventoryPlayer invPlayer, TileHydraulicMixer mixer){
 		tileMixer = mixer;
 		
-		addSlotToContainer(new SlotMachineInput(mixer, mixer, 0, 64, 15));
+		addSlotToContainer(new SlotMachineInput(mixer, mixer, 0, 64, 17));
 		
 		bindPlayerInventory(invPlayer);
 		

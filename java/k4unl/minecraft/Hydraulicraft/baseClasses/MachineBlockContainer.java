@@ -1,16 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.baseClasses.entities.TileTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
@@ -32,12 +25,16 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	private Icon bottomIcon;
 	private Icon frontIcon;
 	
+	
+	
 	private Id tBlockId;
 	public Name mName;
 	
 	protected boolean hasBottomIcon = false;
 	protected boolean hasTopIcon = false;
 	protected boolean hasFrontIcon = false;
+	
+	protected boolean hasTextures = true;
 	
 	@Override
 	public abstract TileEntity createNewTileEntity(World world);
@@ -60,7 +57,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	}
 	
 	
-	private String getTextureName(String side){
+	protected String getTextureName(String side){
 		if(side != null){
 			return ModInfo.LID + ":" + mName.unlocalized + "_" + side;
 		}else{
@@ -71,25 +68,32 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	
 	@Override
 	public void registerIcons(IconRegister iconRegistry){
-		if(hasTopIcon || hasBottomIcon || hasFrontIcon){
-			blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
-			if(hasTopIcon){
-				topIcon = iconRegistry.registerIcon(getTextureName("top"));
+		if(hasTextures){
+			if(hasTopIcon || hasBottomIcon || hasFrontIcon){
+				blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
+				if(hasTopIcon){
+					topIcon = iconRegistry.registerIcon(getTextureName("top"));
+				}else{
+					topIcon = blockIcon;
+				}
+				if(hasBottomIcon){
+					bottomIcon = iconRegistry.registerIcon(getTextureName("bottom"));
+				}else{
+					bottomIcon = blockIcon;
+				}
+				if(hasFrontIcon){
+					frontIcon = iconRegistry.registerIcon(getTextureName("front"));
+				}else{
+					frontIcon = blockIcon;
+				}
 			}else{
-				topIcon = blockIcon;
-			}
-			if(hasBottomIcon){
-				bottomIcon = iconRegistry.registerIcon(getTextureName("bottom"));
-			}else{
+				blockIcon = iconRegistry.registerIcon(getTextureName(null));
 				bottomIcon = blockIcon;
-			}
-			if(hasFrontIcon){
-				frontIcon = iconRegistry.registerIcon(getTextureName("front"));
-			}else{
+				topIcon = blockIcon;
 				frontIcon = blockIcon;
 			}
 		}else{
-			blockIcon = iconRegistry.registerIcon(getTextureName(null));
+			blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
 			bottomIcon = blockIcon;
 			topIcon = blockIcon;
 			frontIcon = blockIcon;
@@ -183,30 +187,12 @@ public abstract class MachineBlockContainer extends BlockContainer {
 			
 			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
-		
-		Functions.checkAndFillSideBlocks(world, x, y, z);
-	}
-	
-	
-	private void tellOtherBlockILeft(World w, int x, int y, int z){
-		if(!w.isRemote){
-			Functions.checkAndFillSideBlocks(w, x, y, z);
-		}
 	}
 	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y,
 				int z, int blockId) {
 		super.onNeighborBlockChange(world, x, y, z, blockId);
-		
-		callConnectedSideCheck(world, x, y, z);
-	}
-	
-	private void callConnectedSideCheck(World w, int x, int y, int z){
-		TileEntity tile = w.getBlockTileEntity(x, y, z);
-		if(tile instanceof TileHydraulicHose){
-			((TileHydraulicHose) tile).checkConnectedSides();
-		}
 	}
 	
 	@Override
@@ -218,21 +204,6 @@ public abstract class MachineBlockContainer extends BlockContainer {
 		}
 		
 		super.breakBlock(w, x, y, z, oldId, oldMetaData);
-		tellOtherBlockILeft(w, x, y, z);
-		//It actually needs to do this after a short while..
-		
-		//if(!w.isRemote){
-		callConnectedSideCheck(w, x+1, y, z);
-		callConnectedSideCheck(w, x-1, y, z);
-		
-		callConnectedSideCheck(w, x, y+1, z);
-		callConnectedSideCheck(w, x, y-1, z);
-		
-		callConnectedSideCheck(w, x, y, z+1);
-		callConnectedSideCheck(w, x, y, z-1);
-		//}
-			
-		
 	}
 	
 	

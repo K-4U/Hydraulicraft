@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.lib.helperClasses;
 
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 
 public class Name {
 	public String localized = "LOCALIZED_UNKNOWN";
@@ -8,7 +7,7 @@ public class Name {
 	
 	
 	public Name(String _localized, String _unlocalized){
-		localized = _localized;
+		//localized = _localized;
 		unlocalized = _unlocalized;
 	}
 	

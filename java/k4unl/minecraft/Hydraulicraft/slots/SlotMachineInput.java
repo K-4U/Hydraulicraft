@@ -1,18 +1,16 @@
 package k4unl.minecraft.Hydraulicraft.slots;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicCrusher;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicFrictionIncinerator;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicMixer;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicCrusher;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicFrictionIncinerator;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 public class SlotMachineInput extends Slot {
 	private IHydraulicMachine ent;
@@ -40,6 +38,8 @@ public class SlotMachineInput extends Slot {
 			return ((TileHydraulicWasher) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
 		}else if(ent instanceof TileHydraulicPressureVat){
 			return ((TileHydraulicPressureVat) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
+		}else if(ent instanceof TileHydraulicHarvester){
+			return ((TileHydraulicHarvester) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
 		}
 		return true;
     }

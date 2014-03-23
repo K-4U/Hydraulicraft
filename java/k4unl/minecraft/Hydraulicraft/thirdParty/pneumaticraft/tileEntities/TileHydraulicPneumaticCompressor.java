@@ -1,8 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -21,6 +26,13 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
     private IBaseClass baseHandler;
     private static float dangerPressure = 5;  
 
+    private PressureNetwork pNetwork;
+    private List<ForgeDirection> connectedSides;
+    
+    public TileHydraulicPneumaticCompressor(){
+    	connectedSides = new ArrayList<ForgeDirection>();
+    }
+    
     @Override
     public IAirHandler getAirHandler(){
         if(airHandler == null) airHandler = AirHandlerSupplier.getAirHandler(dangerPressure, 7, 50, 2000);
@@ -42,13 +54,13 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
     @Override
     public void writeToNBT(NBTTagCompound tag){
         super.writeToNBT(tag);
-        getAirHandler().writeToNBT(tag);
+        getHandler().writeToNBT(tag);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tag){
         super.readFromNBT(tag);
-        getAirHandler().readFromNBT(tag);
+        getHandler().readFromNBT(tag);
     }
 
     @Override
@@ -74,7 +86,7 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 	 * HYDRAULICRAFT
 	 */
 	@Override
-	public float workFunction(boolean simulate) {
+	public float workFunction(boolean simulate, ForgeDirection from) {
 		if(canRun()){
 			if(!simulate){
 				doCompress();
@@ -82,7 +94,7 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			float usage = (getHandler().getPressure() / 10000); 
+			float usage = (getPressure(ForgeDirection.UNKNOWN) / 10000); 
 			return usage;
 		}else{
 			return 0F;
@@ -91,8 +103,8 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 
 	private void doCompress() {
 		//Simplest function EVER!
-		float usage = (getHandler().getPressure() / 10000);
-		getAirHandler().addAir(usage * Constants.CONVERSION_RATIO_AIR_HYDRAULIC, ForgeDirection.UNKNOWN);
+		float usage = (getPressure(ForgeDirection.UNKNOWN) / 10000);
+		getAirHandler().addAir(usage * Constants.CONVERSION_RATIO_HYDRAULIC_AIR, ForgeDirection.UNKNOWN);
 	}
 
 	private boolean canRun() {
@@ -100,12 +112,16 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 			return false;
 		}
 		//Get minimal pressure
-		return (getHandler().getPressure() > Constants.MIN_PRESSURE_COMPRESSOR && getAirHandler().getPressure(ForgeDirection.UNKNOWN) < dangerPressure);
+		return (getPressure(ForgeDirection.UNKNOWN) > Constants.MIN_REQUIRED_PRESSURE_COMPRESSOR && getAirHandler().getPressure(ForgeDirection.UNKNOWN) < dangerPressure);
 	}
 
 	@Override
-	public float getMaxPressure() {
-		return Constants.MAX_MBAR_WATER_TIER_3;
+	public float getMaxPressure(boolean isOil, ForgeDirection from) {
+		if(isOil){
+			return Constants.MAX_MBAR_OIL_TIER_3;
+		}else{
+			return Constants.MAX_MBAR_WATER_TIER_3;
+		}
 	}
 
 	@Override
@@ -119,18 +135,18 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getConsumerClass(this);
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
         return baseHandler;
 	}
 
 	@Override
 	public void readNBT(NBTTagCompound tagCompound) {
-		
+		getAirHandler().readNBT(tagCompound);
 	}
 
 	@Override
 	public void writeNBT(NBTTagCompound tagCompound) {
-		
+		getAirHandler().writeNBT(tagCompound);
 	}
 
 	@Override
@@ -146,5 +162,128 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 
 	public void checkRedstonePower() {
 		getHandler().checkRedstonePower();
+	}
+
+	@Override
+	public void onPressureChanged(float old) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFluidLevelChanged(int old) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
+	}
+
+	@Override
+	public PressureNetwork getNetwork(ForgeDirection side) {
+		return pNetwork;
+	}
+
+	@Override
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+		pNetwork = toSet;
+	}
+
+	
+	
+	@Override
+	public void firstTick() {
+
+		
+	}
+	
+	@Override
+	public float getPressure(ForgeDirection from) {
+		if(worldObj.isRemote){
+			return getHandler().getPressure();
+		}
+		if(getNetwork(from) == null){
+			Log.error("Hydraulic Compressor at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
+			return 0;
+		}
+		return getNetwork(from).getPressure();
+	}
+
+	@Override
+	public void setPressure(float newPressure, ForgeDirection side) {
+		getNetwork(side).setPressure(newPressure);
+	}
+	
+	@Override
+	public boolean canWork(ForgeDirection dir) {
+		return dir.equals(ForgeDirection.UP);
+	}
+	
+	@Override
+	public void updateNetwork(float oldPressure) {
+		PressureNetwork newNetwork = null;
+		PressureNetwork foundNetwork = null;
+		PressureNetwork endNetwork = null;
+		//This block can merge networks!
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			foundNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, dir);
+			if(foundNetwork != null){
+				if(endNetwork == null){
+					endNetwork = foundNetwork;
+				}else{
+					newNetwork = foundNetwork;
+				}
+				connectedSides.add(dir);
+			}
+			
+			if(newNetwork != null && endNetwork != null){
+				//Hmm.. More networks!? What's this!?
+				endNetwork.mergeNetwork(newNetwork);
+				newNetwork = null;
+			}
+		}
+			
+		if(endNetwork != null){
+			pNetwork = endNetwork;
+			pNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
+			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
+			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}		
+	}
+	
+	@Override
+	public int getFluidInNetwork(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidInNetwork();
+		}
+	}
+
+	@Override
+	public int getFluidCapacity(ForgeDirection from) {
+		if(worldObj.isRemote){
+			//TODO: Store this in a variable locally. Mostly important for pumps though.
+			return 0;
+		}else{
+			return getNetwork(from).getFluidCapacity();
+		}
+	}
+	
+	@Override
+	public void invalidate(){
+		super.invalidate();
+		if(!worldObj.isRemote){
+			for(ForgeDirection dir: connectedSides){
+				if(getNetwork(dir) != null){
+					getNetwork(dir).removeMachine(this);
+				}
+			}
+		}
 	}
 }

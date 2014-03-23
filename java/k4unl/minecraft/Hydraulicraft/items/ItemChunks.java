@@ -2,10 +2,10 @@ package k4unl.minecraft.Hydraulicraft.items;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -68,8 +68,7 @@ public class ItemChunks extends Item {
                 new ItemStack(Items.itemChunk, 1, subId));
 
         String ingotName = "ingot" + metalName;
-        ItemStack ingotTarget = new ItemStack(Functions
-                .getIngotId(ingotName), 1, 0);
+        ItemStack ingotTarget = Functions.getIngot(ingotName);
         FurnaceRecipes.smelting().addSmelting(this.itemID, subId,
                 ingotTarget, 0);
 
@@ -79,6 +78,11 @@ public class ItemChunks extends Item {
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack){
 		return "chunk" + chunks.get(itemStack.getItemDamage()).getName();
+	}
+	
+	@Override	
+	public String getItemDisplayName(ItemStack itemStack){
+		return Localization.getString(Localization.CHUNK_ENTRY, chunks.get(itemStack.getItemDamage()).getName());
 	}
 	
 	@Override

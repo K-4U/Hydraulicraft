@@ -1,31 +1,49 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicCrusher;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicFrictionIncinerator;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockPressureDisposal;
+import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicLavaPump;
+import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerCoreBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvester;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureHoze;
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
+import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.blocks.BlockHydraulicPneumaticCompressor;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class Blocks {
+	
 	public static Block hydraulicPump;
+	public static Block hydraulicLavaPump;
 	public static Block hydraulicMixer;
 	public static Block hydraulicFrictionIncinerator;
 	public static Block hydraulicCrusher;
 	public static Block hydraulicPressureGauge;
 	public static Block hydraulicPressureValve;
 	public static Block hydraulicPressurevat;
-	public static Block hydraulicHose;
 	public static Block hydraulicPiston;
 	public static Block hydraulicWasher;
 	public static Block hydraulicPressureWall;
 	public static Block hydraulicHarvesterSource;
-	public static Block dummyWasher;
+	public static Block harvesterTrolley;
+	public static Block pressureDisposal;
+	public static Block blockCore;
+	public static Block blockValve;
+	public static Block blockInterfaceValve;
 	
 	
 	/*!
@@ -35,24 +53,34 @@ public class Blocks {
 	 */
 	public static void init(){
 		hydraulicPump = new BlockHydraulicPump();
+		hydraulicLavaPump = new BlockHydraulicLavaPump();
 		hydraulicPressurevat = new BlockHydraulicPressureVat();
 		hydraulicMixer = new BlockHydraulicMixer();
 		hydraulicFrictionIncinerator = new BlockHydraulicFrictionIncinerator();
 		hydraulicCrusher = new BlockHydraulicCrusher();
 		//hydraulicPressureGauge = new BlockHydraulicPressureGauge();
 		//hydraulicPressureValve = new BlockHydraulicPressureValve();
-		hydraulicHose = new BlockHydraulicHose();
-		//hydraulicPiston = new BlockHydraulicPiston();
+		hydraulicPiston = new BlockHydraulicPiston();
 		hydraulicWasher = new BlockHydraulicWasher();
 		hydraulicPressureWall = new BlockHydraulicPressureWall();
 		hydraulicHarvesterSource = new BlockHydraulicHarvester();
 		
-		dummyWasher = new BlockDummyWasher();
+		harvesterTrolley = new BlockHarvesterTrolley();
+		
+		pressureDisposal = new BlockPressureDisposal();
+		blockCore = new BlockHydraulicCore();
+		blockValve = new BlockHydraulicValve();
+		blockInterfaceValve = new BlockInterfaceValve();
+		
 		
 		registerBlocks();
 		addNames();
+		
+		registerMultiparts();
 	}
 	
+
+
 	/*!
 	 * @author Koen Beckers
 	 * @date 13-12-2013
@@ -64,18 +92,24 @@ public class Blocks {
 		GameRegistry.registerBlock(hydraulicCrusher, Names.blockHydraulicCrusher.unlocalized);
 		//GameRegistry.registerBlock(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.unlocalized);
 		//GameRegistry.registerBlock(hydraulicPressureValve, Names.blockHydraulicPressureValve.unlocalized);
-		//GameRegistry.registerBlock(hydraulicPiston, Names.blockHydraulicPiston.unlocalized);
+		GameRegistry.registerBlock(hydraulicPiston, Names.blockHydraulicPiston.unlocalized);
 		GameRegistry.registerBlock(hydraulicWasher, Names.blockHydraulicWasher.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureWall, Names.blockHydraulicPressureWall.unlocalized);
 		
-		GameRegistry.registerBlock(dummyWasher, Names.blockDummyWasher.unlocalized);
+		GameRegistry.registerBlock(pressureDisposal, Names.blockPressureDisposal.unlocalized);
+		GameRegistry.registerBlock(blockValve, Names.blockValve.unlocalized);
+		GameRegistry.registerBlock(blockInterfaceValve, Names.blockInterfaceValve.unlocalized);
 		
-				
-		GameRegistry.registerBlock(hydraulicHose, HandlerPressureHoze.class, Names.blockHydraulicHose[0].unlocalized);
+		
 		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicPump, HandlerPump.class, Names.blockHydraulicPump[0].unlocalized);
+		GameRegistry.registerBlock(hydraulicLavaPump, HandlerLavaPump.class, Names.blockHydraulicLavaPump[0].unlocalized);
 		
 		GameRegistry.registerBlock(hydraulicHarvesterSource, HandlerHarvester.class, Names.blockHydraulicHarvester[0].unlocalized);
+		GameRegistry.registerBlock(harvesterTrolley, HandlerHarvesterTrolley.class, Names.blockHarvesterTrolley[0].unlocalized);
+		
+		GameRegistry.registerBlock(blockCore, HandlerCoreBlock.class, Names.blockCore[0].unlocalized);
+		
 	}
 	
 	/*!
@@ -104,7 +138,10 @@ public class Blocks {
 			LanguageRegistry.addName(new ItemStack(hydraulicPressurevat,1,i), Names.blockHydraulicPressurevat[i].localized);
 			LanguageRegistry.addName(new ItemStack(hydraulicPump,1,i), Names.blockHydraulicPump[i].localized);
 		}*/
-		
-		
+				
+	}
+	
+	private static void registerMultiparts() {
+		//new RegisterBlockPart(hydraulicHose, PartHose.class).init();
 	}
 }

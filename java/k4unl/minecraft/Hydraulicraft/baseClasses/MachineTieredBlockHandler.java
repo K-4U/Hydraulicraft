@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses;
 
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -19,12 +18,17 @@ public class MachineTieredBlockHandler extends ItemBlock {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack){
-		return tNames[itemStack.getItemDamage()].unlocalized;
+		String unlocalizedName = tNames[itemStack.getItemDamage()].unlocalized;
+		if(!unlocalizedName.startsWith("tile.")){
+			unlocalizedName = "tile." + unlocalizedName;
+		}
+		return unlocalizedName;
 	}
 	
 	@Override
 	public int getMetadata(int damage){
 		return damage;
 	}
+	
 }
 

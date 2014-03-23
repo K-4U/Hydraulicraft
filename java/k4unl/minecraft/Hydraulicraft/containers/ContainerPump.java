@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.containers;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -17,7 +17,7 @@ public class ContainerPump extends Container {
 	public ContainerPump(InventoryPlayer invPlayer, TileHydraulicPump pump){
 		tilePump = pump;
 		
-		addSlotToContainer(new SlotMachineInput(pump, pump, 0, 67, 49));
+		addSlotToContainer(new SlotMachineInput(pump, pump, 0, 35, 49));
 		
 		bindPlayerInventory(invPlayer);
 		

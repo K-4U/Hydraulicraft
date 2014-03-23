@@ -1,23 +1,30 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPressureVat;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
+import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineItem;
 import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
+import codechicken.multipart.TileMultipart;
 
 public class ItemDebug extends MachineItem {
 
 	public ItemDebug() {
 		super(Ids.itemDebug, Names.itemDebugger);
+		
+		this.maxStackSize = 1;
 	}
 
 	
@@ -26,18 +33,27 @@ public class ItemDebug extends MachineItem {
 		if(!world.isRemote){
 			TileEntity ent = world.getBlockTileEntity(x, y, z);
 			if(ent != null){
-				if(ent instanceof IHydraulicMachine){
+				if(ent instanceof IHydraulicMachine || ent instanceof TileMultipart){
+					IHydraulicMachine mEnt = null;
+					if(ent instanceof TileMultipart){
+						if(Multipart.hasTransporter((TileMultipart)ent)){
+							mEnt = Multipart.getTransporter((TileMultipart)ent);
+						}else{
+							return false;
+						}
+					}else{
+						mEnt = (IHydraulicMachine) ent;
+					}
 					NBTTagCompound tagC = itemStack.getTagCompound();
 					if(tagC == null){
 						tagC = new NBTTagCompound();
 					}
-					IHydraulicMachine mEnt = (IHydraulicMachine) ent;
 					
 					int stored = mEnt.getHandler().getStored();
 					int max = mEnt.getMaxStorage();
 					
-					float pressure = mEnt.getHandler().getPressure();
-					float maxPressure = mEnt.getMaxPressure();
+					float pressure = mEnt.getPressure(ForgeDirection.UNKNOWN);
+					float maxPressure = mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), ForgeDirection.UNKNOWN);
 					
 					float prevPressure = tagC.getFloat("prevPressure");
 					int prevFluid = tagC.getInteger("prevFluid");
@@ -53,19 +69,39 @@ public class ItemDebug extends MachineItem {
 						player.addChatMessage("Tier:          " + tier);						
 					}
 					
-					if(ent instanceof TileHydraulicHose){
-						int tier = ((TileHydraulicHose)ent).getTier();
-						player.addChatMessage("Tier:          " + tier);						
+					if(ent instanceof TileMultipart){
+						if(Multipart.hasTransporter((TileMultipart)ent)){
+							IHydraulicTransporter hose = Multipart.getTransporter((TileMultipart)ent);
+							int tier = hose.getTier();
+							player.addChatMessage("Tier:          " + tier);							
+						}
+					}
+					
+					if(ent instanceof TileHydraulicValve){
+						TileHydraulicValve v = (TileHydraulicValve) ent;
+						if(v.getTarget() != null){
+							player.addChatMessage("Target: " + v.xCoord + "," + v.yCoord + "," + v.zCoord);
+						}
+					}
+					
+					if(ent instanceof TileHydraulicPiston){
+						TileHydraulicPiston p = ((TileHydraulicPiston)ent);
+						player.addChatMessage("Length: " + p.getExtendedLength());
+						player.addChatMessage("Target: " + p.getExtendTarget());
 					}
 					
 					if(ent instanceof IHydraulicGenerator){
-						float gen = ((IHydraulicGenerator) ent).getGenerating();
-						int maxGen = ((IHydraulicGenerator) ent).getMaxGenerating();
+						float gen = ((IHydraulicGenerator) ent).getGenerating(ForgeDirection.UP);
+						int maxGen = ((IHydraulicGenerator) ent).getMaxGenerating(ForgeDirection.UP);
 						player.addChatMessage("Generating:    " + gen + "/" + maxGen);
 						if(ent instanceof TileHydraulicPump){
 							int tier = ((TileHydraulicPump) ent).getTier();
 							player.addChatMessage("Tier:          " + tier);
 						}
+					}
+					
+					if(mEnt.getNetwork(ForgeDirection.UNKNOWN) != null){
+						player.addChatMessage("Network ID:    " + mEnt.getNetwork(ForgeDirection.UNKNOWN).getRandomNumber());
 					}
 					
 					itemStack.setTagCompound(tagC);

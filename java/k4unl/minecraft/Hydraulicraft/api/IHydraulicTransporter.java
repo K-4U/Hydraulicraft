@@ -1,9 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.ForgeDirection;
 
 public interface IHydraulicTransporter extends IHydraulicMachine {
-	public AxisAlignedBB getRenderBoundingBox();
+	public boolean isConnectedTo(ForgeDirection dir);
+
 	
-	public IBaseTransporter getHandler();
+	public void checkConnectedSides(Object caller);
+
+	public int getTier();
+	
 }

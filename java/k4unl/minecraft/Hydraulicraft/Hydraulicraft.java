@@ -3,17 +3,21 @@ package k4unl.minecraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
+import k4unl.minecraft.Hydraulicraft.events.EventHelper;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.Items;
 import k4unl.minecraft.Hydraulicraft.lib.ConfigHandler;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Recipes;
+import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdParty;
 import k4unl.minecraft.Hydraulicraft.world.OreGenerator;
+import thirdParty.truetyper.TrueTypeFont;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -47,6 +51,9 @@ public class Hydraulicraft {
 		serverSide = ModInfo.PROXY_LOCATION + ".CommonProxy"
 	)
 	public static CommonProxy proxy;
+	public static Multipart mp;
+	
+	public static TrueTypeFont smallGuiFont;
 	
 	/*!
 	 * @author Koen Beckers
@@ -59,8 +66,17 @@ public class Hydraulicraft {
 		
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		
-		proxy.initSounds();
 		CustomTabs.init();
+		
+		Blocks.init();
+		Ores.init();
+		TileEntities.init();
+		Fluids.init();
+		
+		Items.init();
+		EventHelper.init();
+		
+		mp = new Multipart();
 	}
 	
 	/*!
@@ -70,20 +86,12 @@ public class Hydraulicraft {
 	 */
 	@EventHandler
 	public void load(FMLInitializationEvent event){
-		Blocks.init();
-		Ores.init();
-		TileEntities.init();
-		Fluids.init();
-		
-		Items.init();
-		Recipes.init();
+		ThirdParty.init();
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator());
 		NetworkRegistry.instance().registerGuiHandler(this.instance, new GuiHandler());
 		
-		ThirdParty.init();
-		
-		proxy.initRenderers();
+		proxy.init();
 	}
 	
 	/*!
@@ -93,6 +101,11 @@ public class Hydraulicraft {
 	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event){
+		Recipes.init();
+		
+		ThirdParty.postInit();
+		
+		UpdateChecker.updateAvailable();
 		Log.info("Hydraulicraft ready for use!");
 	}
 	

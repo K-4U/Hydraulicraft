@@ -1,9 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicHose;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
@@ -11,9 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -171,8 +166,6 @@ public class MachineBlock extends Block {
 			
 			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
-		
-		Functions.checkAndFillSideBlocks(world, x, y, z);
 	}
 	
 
