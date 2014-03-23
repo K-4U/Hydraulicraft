@@ -1,17 +1,20 @@
 package ic2.api.energy.prefab;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.info.Info;
 import ic2.api.item.ElectricItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLCommonHandler;
 
 /**
  * BasicSink is a simple adapter to provide an ic2 energy sink.
@@ -124,7 +127,7 @@ public class BasicSink extends TileEntity implements IEnergySink {
 		if (!addedToEnet &&
 				!FMLCommonHandler.instance().getEffectiveSide().isClient() &&
 				Info.isIc2Available()) {
-			worldObj = parent.worldObj;
+			worldObj = parent.getWorldObj();
 			xCoord = parent.xCoord;
 			yCoord = parent.yCoord;
 			zCoord = parent.zCoord;

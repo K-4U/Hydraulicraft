@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
  *   Blocks: Block.blocksList[x.itemID]
  *   Items: x.getItem()
  */
-public final class Items {
+public final class IC2Items {
 	/**
 	 * Get an ItemStack for a specific item name, example: Items.getItem("resin")
 	 * See the list below for item names.
@@ -583,7 +583,7 @@ public final class Items {
 	 * @return IC2 package name, if unable to be determined defaults to ic2
 	 */
 	private static String getPackage() {
-		Package pkg = Items.class.getPackage();
+		Package pkg = IC2Items.class.getPackage();
 
 		if (pkg != null) {
 			String packageName = pkg.getName();
