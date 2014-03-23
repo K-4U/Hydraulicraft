@@ -32,7 +32,8 @@ public class BlockFluidOil extends BlockFluidClassic {
 		flowingIcon = icon.registerIcon(ModInfo.LID + ":"
 				+ Names.fluidOil.unlocalized + "_flowing");
 
-		this.getFluid().setIcons(stillIcon, flowingIcon);
+		//TODO: Fix me!
+		//getFluid().setIcons(stillIcon, flowingIcon);
 	}
 
 	@Override

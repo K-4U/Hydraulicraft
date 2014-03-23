@@ -10,8 +10,9 @@ public class Fluids {
 	
 	
 	public static void init(){
-		fluidOilBlock = new BlockFluidOil();
 		fluidOil = new FluidOil();
+		fluidOilBlock = new BlockFluidOil();
+		
 		
 		registerFluids();
 		addNames();

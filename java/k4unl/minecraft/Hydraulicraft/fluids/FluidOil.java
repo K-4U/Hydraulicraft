@@ -12,8 +12,8 @@ public class FluidOil extends Fluid {
 		setViscosity(3000); // How fast the fluid flows.
 		
 		setUnlocalizedName(Names.fluidOil.unlocalized);
-		
 		setBlock(Fluids.fluidOilBlock);
+		
 		FluidRegistry.registerFluid(this);
 	}
 }
