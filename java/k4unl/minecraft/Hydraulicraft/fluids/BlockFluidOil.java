@@ -9,6 +9,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -33,12 +35,15 @@ public class BlockFluidOil extends BlockFluidClassic {
 				+ Names.fluidOil.unlocalized + "_flowing");
 
 		//TODO: Fix me!
-		//getFluid().setIcons(stillIcon, flowingIcon);
+		getFluid().setIcons(stillIcon, flowingIcon);
 	}
 
 	@Override
 	public IIcon getIcon(int side, int meta) {
 		return (side == 0 || side == 1) ? stillIcon : flowingIcon;
+	}
+	@Override public Fluid getFluid(){ 
+		return FluidRegistry.getFluid(fluidName); 
 	}
 
 	@Override

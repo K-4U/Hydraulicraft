@@ -196,6 +196,7 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 	public int getTier() {
 		if(tier == -1 && worldObj != null){
 			tier = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
 		}
 		return tier;
 	}

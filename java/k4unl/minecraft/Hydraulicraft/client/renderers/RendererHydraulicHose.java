@@ -3,10 +3,9 @@ package k4unl.minecraft.Hydraulicraft.client.renderers;
 import java.util.HashMap;
 import java.util.Map;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.transporter.TilePressureHose;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -58,14 +57,14 @@ public class RendererHydraulicHose extends TileEntitySpecialRenderer {
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
 			double z, float f) {
-		/*
-		if(!(tileentity instanceof TileMultipart)) return;
 		
-		TileMultipart mp = (TileMultipart)tileentity;
-		if(Multipart.hasPartHose(mp)){
-			PartHose tp = Multipart.getHose(mp);
-			doRender(x, y, z, f, tp.getTier(), tp.getConnectedSides());
-		}*/
+		if(!(tileentity instanceof TilePressureHose)) return;
+		
+		TilePressureHose mp = (TilePressureHose)tileentity;
+		//if(Multipart.hasPartHose(mp)){
+		//	PartHose tp = Multipart.getHose(mp);
+		doRender(x, y, z, f, mp.getTier(), mp.getConnectedSides());
+		//}
 	}
 	
 	

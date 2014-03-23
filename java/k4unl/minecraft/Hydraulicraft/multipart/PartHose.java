@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
 
+
 public class PartHose/* FMP  extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter*/ {
 	/*
     public static Cuboid6[] boundingBoxes = new Cuboid6[14];

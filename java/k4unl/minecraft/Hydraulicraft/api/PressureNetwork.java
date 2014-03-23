@@ -215,7 +215,8 @@ public class PressureNetwork {
 			
 			List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
 			PressureNetwork foundNetwork = null;
-			if(isMultipart){
+			// FMP if(isMultipart){
+			if(mEnt instanceof IHydraulicTransporter){
 				if(((IHydraulicTransporter)mEnt).isConnectedTo(dir)){
 					int xn = x + dir.offsetX;
 					int yn = y + dir.offsetY;
@@ -237,18 +238,31 @@ public class PressureNetwork {
 				int yn = y + dir.offsetY;
 				int zn = z + dir.offsetZ;
 				TileEntity tn = iba.getTileEntity(xn, yn, zn);
-				/*FMP if(tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)tn)){
+				
+				if(tn instanceof IHydraulicTransporter){
+					if(((IHydraulicMachine)tn).canConnectTo(dir.getOpposite())){
+						foundNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());	
+					}
+				}
+			}
+			/* FMP }else{
+				int xn = x + dir.offsetX;
+				int yn = y + dir.offsetY;
+				int zn = z + dir.offsetZ;
+				TileEntity tn = iba.getTileEntity(xn, yn, zn);
+				if(tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)tn)){
 					if(Multipart.getTransporter((TileMultipart)tn).isConnectedTo(dir.getOpposite())){
 						foundNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
 					}
-				}*/
-			}
+				}
+			}*/
 			return foundNetwork;
 		}else{
 			return null;
 		}
 	}
 	
+	@Deprecated
 	public static PressureNetwork getNearestNetwork(IBlockAccess iba, int x, int y, int z){
 		TileEntity t = iba.getTileEntity(x, y, z);
 		if(t instanceof IHydraulicMachine/* FMP || t instanceof TileMultipart*/){
@@ -269,7 +283,7 @@ public class PressureNetwork {
 			PressureNetwork foundNetwork = null;
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 				
-				if(isMultipart){
+				// FMP if(isMultipart){
 					if(((IHydraulicTransporter)mEnt).isConnectedTo(dir)){
 						int xn = x + dir.offsetX;
 						int yn = y + dir.offsetY;
@@ -297,12 +311,15 @@ public class PressureNetwork {
 							}
 						} */		
 					}
-				}else{
+				/* FMP }else{
 					int xn = x + dir.offsetX;
 					int yn = y + dir.offsetY;
 					int zn = z + dir.offsetZ;
 					TileEntity tn = iba.getTileEntity(xn, yn, zn);
-					/* FMP
+					if(tn instanceof IHydraulicTransporter){
+						
+					}
+					
 					if(tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)tn)){
 						if(Multipart.getTransporter((TileMultipart)tn).isConnectedTo(dir.getOpposite())){
 							if(foundNetwork == null){
@@ -312,8 +329,8 @@ public class PressureNetwork {
 							}
 							//break;
 						}
-					}*/
-				}
+					}
+				}*/
 				if(newNetwork != null && foundNetwork != null){
 					//Hmm.. More networks!? What's this!?
 					foundNetwork.mergeNetwork(newNetwork);

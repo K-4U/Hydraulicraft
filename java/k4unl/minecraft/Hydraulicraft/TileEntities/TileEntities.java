@@ -14,6 +14,7 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvest
 import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.TileEntities.transporter.TilePressureHose;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TileEntities {
@@ -39,6 +40,8 @@ public class TileEntities {
 		GameRegistry.registerTileEntity(TileHarvesterFrame.class, "tileHarvesterFrame");
 		GameRegistry.registerTileEntity(TileHydraulicHarvester.class, "tileHydraulicHarvester");
 		GameRegistry.registerTileEntity(TileHarvesterTrolley.class, "tileHarvesterTrolley");
+		
+		GameRegistry.registerTileEntity(TilePressureHose.class, "tilePressureHose");
 		
 	}
 }
