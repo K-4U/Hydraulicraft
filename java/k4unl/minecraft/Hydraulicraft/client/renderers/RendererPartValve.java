@@ -6,11 +6,10 @@ import k4unl.minecraft.Hydraulicraft.multipart.PartValve;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
-import codechicken.multipart.TileMultipart;
 import cpw.mods.fml.client.FMLClientHandler;
 
 public class RendererPartValve extends TileEntitySpecialRenderer {
@@ -28,7 +27,7 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		
 		//Bind texture
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc[tier]);
-		
+		/*
 		if(valve != null){
 			switch(valve.getFacing()){
 			case UP:
@@ -50,7 +49,7 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 				break;
 			}
 		}
-		
+		*/
 		
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		GL11.glPushMatrix();
@@ -65,15 +64,14 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		drawCable(center, -offset, centerOffset);
 		drawCable(center, +offset, centerOffset);
 
-		//
+		/*
 		if(valve != null && valve.isActive()){
 			drawCorner(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center+centerOffset));
-			/*drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center), true);
-			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center, center+centerOffset, center+centerOffset, center+centerOffset), false);*/
 		}else{
 			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center-0.05F), true);
 			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center+0.05F, center+centerOffset, center+centerOffset, center+centerOffset), false);
 		}
+		*/
 		//GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -85,7 +83,7 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
 			double z, float f) {
-		if(!(tileentity instanceof TileMultipart)) return;
+		//if(!(tileentity instanceof TileMultipart)) return;
 		/*
 		TileMultipart mp = (TileMultipart)tileentity;
 		if(Multipart.hasPartValve(mp)){

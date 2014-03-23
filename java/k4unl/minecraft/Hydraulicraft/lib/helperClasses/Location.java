@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.lib.helperClasses;
 
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class Location {
 	private int x;

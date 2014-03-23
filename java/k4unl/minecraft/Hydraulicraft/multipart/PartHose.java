@@ -1,54 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import net.minecraft.client.particle.EffectRenderer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-
-import org.lwjgl.opengl.GL11;
-
-import codechicken.lib.data.MCDataInput;
-import codechicken.lib.data.MCDataOutput;
-import codechicken.lib.raytracer.IndexedCuboid6;
-import codechicken.lib.render.EntityDigIconFX;
-import codechicken.lib.vec.Cuboid6;
-import codechicken.lib.vec.Vector3;
-import codechicken.microblock.IHollowConnect;
-import codechicken.multipart.JNormalOcclusion;
-import codechicken.multipart.NormalOcclusionTest;
-import codechicken.multipart.NormallyOccludedPart;
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TSlottedPart;
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter {
+public class PartHose/* FMP  extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter*/ {
+	/*
     public static Cuboid6[] boundingBoxes = new Cuboid6[14];
     private static int expandBounds = -1;
     
@@ -132,11 +86,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(getHandler() != null)
 			getHandler().readFromNBT(tagCompound);
 		tier = tagCompound.getInteger("tier");
-		/*
-		float oldPressure = 0F;
-        if(pNetwork != null){
-        	oldPressure = pNetwork.getPressure();
-        }*/
 		//getHandler().updateNetworkOnNextTick(oldPressure);
 		//checkConnectedSides();
 		readConnectedSidesFromNBT(tagCompound);
@@ -295,7 +244,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     	int d = side.ordinal();
     	
     	if(world() != null && tile() != null){
-	    	TileEntity te = world().getBlockTileEntity(x() + side.offsetX, y() + side.offsetY, z() + side.offsetZ);
+	    	TileEntity te = world().getTileEntity(x() + side.offsetX, y() + side.offsetY, z() + side.offsetZ);
 	    	return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d])) && shouldConnectTo(te, side, this);
     	}else{
     		return false;
@@ -311,7 +260,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			int d = Functions.getIntDirFromDirection(dir);
 			
-            TileEntity te = world().getBlockTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
+            TileEntity te = world().getTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
             if(shouldConnectTo(te, dir, caller)) {
             	if(tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]))){
             		connectedSides.put(dir, te);
@@ -332,10 +281,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         checkConnectedSides();
         if(!world().isRemote){
         	//getHandler().updateFluidOnNextTick();
-        	/*float oldPressure = 0F;
-            if(pNetwork != null){
-            	oldPressure = pNetwork.getPressure();
-            }*/
         	//getHandler().updateNetworkOnNextTick(oldPressure);
         }
     }
@@ -495,7 +440,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
             for(int i = 0; i < 6; i++) {
                 if(connectedSideFlags[i]) {
                     ForgeDirection dir = ForgeDirection.getOrientation(i);
-                    connectedSides.put(dir, world().getBlockTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ));
+                    connectedSides.put(dir, world().getTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ));
                 }
             }
             if(!world().isRemote){
@@ -562,7 +507,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			if(!isConnectedTo(dir)){
 				continue;
 			}
-			TileEntity ent = world().getBlockTileEntity(x() + dir.offsetX, y()+dir.offsetY, z()+ dir.offsetZ);
+			TileEntity ent = world().getTileEntity(x() + dir.offsetX, y()+dir.offsetY, z()+ dir.offsetZ);
 			if(ent == null) continue;
 			if(!shouldConnectTo(ent, dir, this)) continue;
 			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), dir);
@@ -633,7 +578,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	@Override
     public void addDestroyEffects(EffectRenderer effectRenderer) {
 		if(breakIcon == null){
-			breakIcon = Blocks.hydraulicPressureWall.getIcon(0, 0);
+			breakIcon = HydraulicraftBlocks.hydraulicPressureWall.getIcon(0, 0);
 		}
         EntityDigIconFX.addBlockDestroyEffects(world(), Cuboid6.full.copy()
                 .add(Vector3.fromTileEntity(tile())), new Icon[] { breakIcon,
@@ -655,5 +600,5 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	public float getStrength(MovingObjectPosition hit, EntityPlayer player){
 		return 8F;
 	}
-	
+	*/
 }

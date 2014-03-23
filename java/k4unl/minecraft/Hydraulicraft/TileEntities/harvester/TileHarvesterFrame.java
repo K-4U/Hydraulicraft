@@ -1,9 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.harvester;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileHarvesterFrame extends TileEntity {
@@ -20,8 +20,8 @@ public class TileHarvesterFrame extends TileEntity {
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
-		NBTTagCompound tagCompound = packet.data;
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+		NBTTagCompound tagCompound = packet.func_148857_g();
 		this.readFromNBT(tagCompound);
 	}
 	
@@ -29,7 +29,7 @@ public class TileHarvesterFrame extends TileEntity {
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
-		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 4, tagCompound);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 4, tagCompound);
 	}
 	
 	

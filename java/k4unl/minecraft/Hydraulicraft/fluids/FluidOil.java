@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.fluids;
 
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -14,7 +13,7 @@ public class FluidOil extends Fluid {
 		
 		setUnlocalizedName(Names.fluidOil.unlocalized);
 		
-		setBlockID(Ids.blockFluidOil.act);
+		setBlock(Fluids.fluidOilBlock);
 		FluidRegistry.registerFluid(this);
 	}
 }

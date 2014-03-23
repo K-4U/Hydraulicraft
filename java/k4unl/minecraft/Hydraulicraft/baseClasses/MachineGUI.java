@@ -3,6 +3,8 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
+
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
@@ -12,10 +14,10 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.inventory.Container;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import org.lwjgl.opengl.GL11;
@@ -75,7 +77,7 @@ public class MachineGUI extends GuiContainer {
 		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 	}
 
-	
+	/* NEI 
 	@Override
     public List<String> handleTooltip(int mouseX, int mouseY, List<String> currenttip){
 		for (ToolTip tip : tooltipList) {
@@ -84,24 +86,24 @@ public class MachineGUI extends GuiContainer {
 			}
 		}
         return currenttip;
-    }
+    }*/
 	
 	private boolean shouldRenderToolTip(int mouseX, int mouseY, ToolTip theTip){
-		return isPointInRegion(theTip.x, theTip.y, theTip.w, theTip.h, mouseX, mouseY);
+		return func_146978_c(theTip.x, theTip.y, theTip.w, theTip.h, mouseX, mouseY);
 	}
 	
 	public void drawHorizontalAlignedString(int xOffset, int yOffset, int w, String text, boolean useShadow){
-		int stringWidth = fontRenderer.getStringWidth(text);
+		int stringWidth = fontRendererObj.getStringWidth(text);
 		int newX = xOffset;
 		if(stringWidth < w){
 			newX = (w / 2) - (stringWidth / 2) + xOffset;
 		}
 		
-		fontRenderer.drawString(text, newX, yOffset, Constants.COLOR_TEXT, useShadow);
+		fontRendererObj.drawString(text, newX, yOffset, Constants.COLOR_TEXT, useShadow);
 	}
 	
 	public void drawString(int xOffset, int yOffset, String text, boolean useShadow){
-		fontRenderer.drawString(text, xOffset, yOffset, Constants.COLOR_TEXT, useShadow);
+		fontRendererObj.drawString(text, xOffset, yOffset, Constants.COLOR_TEXT, useShadow);
 	}
 	
 	public void drawSmallerString(int xOffset, int yOffset, String text, boolean useShadow){
@@ -118,7 +120,7 @@ public class MachineGUI extends GuiContainer {
 	}
 	
 	public void drawVerticalProgressBar(int xOffset, int yOffset, int h, int w, float value, float max, int color, String toolTipTitle, String toolTipUnit){
-		float perc = (float)value / (float)max;
+		float perc = value / max;
 		int height = (int)(h * perc);
 		//drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
 		drawRect(xOffset, yOffset + (h-height), xOffset + w, yOffset + h, color);
@@ -126,8 +128,8 @@ public class MachineGUI extends GuiContainer {
         tooltipList.add(new ToolTip(xOffset, yOffset, w, h, toolTipTitle, toolTipUnit, value, max));
 	}
 	
-	public void drawVerticalProgressBarWithTexture(int xOffset, int yOffset, int h, int w, float value, float max, Icon icon, String toolTipTitle, String toolTipUnit){
-		float perc = (float)value / (float)max;
+	public void drawVerticalProgressBarWithTexture(int xOffset, int yOffset, int h, int w, float value, float max, IIcon icon, String toolTipTitle, String toolTipUnit){
+		float perc = value / max;
 		int height = (int)(h * perc);
 		float uMin = icon.getMinU();
 		float uMax = icon.getMaxU();
@@ -174,7 +176,7 @@ public class MachineGUI extends GuiContainer {
 	protected void drawFluidAndPressure(){
 		int color = 0xFFFFFFFF;
 		String fluidName = "";
-		Icon icon = null;
+		IIcon icon = null;
 		if(!mEnt.getHandler().isOilStored()){
 			color = Constants.COLOR_WATER;
 			icon = FluidRegistry.WATER.getIcon();
@@ -195,7 +197,7 @@ public class MachineGUI extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		tooltipList.clear();
-		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-94 + 2, Constants.COLOR_TEXT);
+		fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize-94 + 2, Constants.COLOR_TEXT);
 	}
 
 }

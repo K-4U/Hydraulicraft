@@ -6,10 +6,10 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 
 public class Config {
 	private static class configOption{
@@ -47,10 +47,10 @@ public class Config {
 		configOptions.add(new configOption("explosions", true));
 		configOptions.add(new configOption("canSawTwoMicroblocksAtOnce", true));
 		
-		addHarvestableItem(new Seed(0, 59, 7, 295));
-		addHarvestableItem(new Seed(0, 141, 7, 391));
-		addHarvestableItem(new Seed(0, 142, 7, 392));
-		addHarvestableItem(new Seed(Constants.HARVESTER_ID_SUGARCANE, Block.reed.blockID, 0, Item.reed.itemID));
+		addHarvestableItem(new Seed(0, Blocks.wheat, 7, Items.wheat_seeds));
+		addHarvestableItem(new Seed(0, Blocks.carrots, 7, Items.carrot));
+		addHarvestableItem(new Seed(0, Blocks.potatoes, 7, Items.potato));
+		addHarvestableItem(new Seed(Constants.HARVESTER_ID_SUGARCANE, Blocks.reeds, 0, Items.reeds));
 	}
 	
 	

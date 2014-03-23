@@ -8,19 +8,20 @@ import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -53,7 +54,7 @@ public class TileHydraulicMixer extends TileEntity implements
 	}
 	
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet){
 		getHandler().onDataPacket(net, packet);
 	}
 	
@@ -83,7 +84,7 @@ public class TileHydraulicMixer extends TileEntity implements
 			return false;
 		}else{
 			if(outputTank.getFluidAmount() + Constants.OIL_FOR_ONE_SEED < outputTank.getCapacity()){
-				if(inputInventory.itemID == Item.seeds.itemID){
+				if(inputInventory.getItem().equals(Items.wheat_seeds)){
 					if(inputTank.getFluid().isFluidEqual(new FluidStack(FluidRegistry.WATER.getID(),0)) && inputTank.getFluidAmount() > Constants.WATER_FOR_ONE_SEED){
 						return true;
 					}
@@ -191,42 +192,20 @@ public class TileHydraulicMixer extends TileEntity implements
 	}
 
 	@Override
-	public String getInvName() {
-		// TODO Localization
-		return Names.blockHydraulicMixer.localized;
-	}
-
-	@Override
-	public boolean isInvNameLocalized() {
-		// TODO Localization
-		return true;
-	}
-
-	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return ((worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this) && 
+		return ((worldObj.getTileEntity(xCoord, yCoord, zCoord) == this) && 
 				player.getDistanceSq(xCoord, yCoord, zCoord) < 64);
-	}
-
-	@Override
-	public void openChest() {
-		
-	}
-
-	@Override
-	public void closeChest() {
-		
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		if(i == 0){
-			if(itemStack.itemID == Item.seeds.itemID){
+			if(itemStack.getItem().equals(Items.wheat_seeds)){
 				return true;
 			}else{
 				return false;
@@ -243,7 +222,7 @@ public class TileHydraulicMixer extends TileEntity implements
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		if(i == 0 && itemStack.itemID == Item.seeds.itemID){
+		if(i == 0 && itemStack.getItem().equals(Items.wheat_seeds)){
 			return true;
 		}else{
 			return false;
@@ -317,12 +296,6 @@ public class TileHydraulicMixer extends TileEntity implements
 		getHandler().dropItemStackInWorld(inputInventory);
 	}
 
-
-	@Override
-	public void onInventoryChanged() {
-	}
-
-
 	@Override
 	public IBaseClass getHandler() {
 		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
@@ -363,7 +336,7 @@ public class TileHydraulicMixer extends TileEntity implements
 		if(inputInventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			inputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
+			tagCompound.setTag("inputInventory", inventoryCompound);
 		}
 		/*if(outputInventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
@@ -373,11 +346,11 @@ public class TileHydraulicMixer extends TileEntity implements
 		
 		NBTTagCompound tankCompound = new NBTTagCompound();
 		inputTank.writeToNBT(tankCompound);
-		tagCompound.setCompoundTag("inputTank", tankCompound);
+		tagCompound.setTag("inputTank", tankCompound);
 		
 		tankCompound = new NBTTagCompound();
 		outputTank.writeToNBT(tankCompound);
-		tagCompound.setCompoundTag("outputTank", tankCompound);
+		tagCompound.setTag("outputTank", tankCompound);
 		
 		tagCompound.setInteger("ticksDone", ticksDone);
 	}
@@ -517,5 +490,28 @@ public class TileHydraulicMixer extends TileEntity implements
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
+	}
+
+	@Override
+	public String getInventoryName() {
+		return Localization.getLocalizedName(Names.blockHydraulicMixer.unlocalized);
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void openInventory() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void closeInventory() {
+		// TODO Auto-generated method stub
+		
 	}
 }

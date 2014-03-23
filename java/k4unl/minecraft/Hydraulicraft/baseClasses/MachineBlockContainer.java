@@ -1,33 +1,30 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses;
 
+
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class MachineBlockContainer extends BlockContainer {
-	private Icon blockIcon;
-	private Icon topIcon;
-	private Icon bottomIcon;
-	private Icon frontIcon;
-	
-	
-	
-	private Id tBlockId;
+	private IIcon blockIcon;
+	private IIcon topIcon;
+	private IIcon bottomIcon;
+	private IIcon frontIcon;
+
 	public Name mName;
 	
 	protected boolean hasBottomIcon = false;
@@ -37,19 +34,18 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	protected boolean hasTextures = true;
 	
 	@Override
-	public abstract TileEntity createNewTileEntity(World world);
+	public abstract TileEntity createNewTileEntity(World world, int var2);
 	
 	@Override
 	public abstract boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9);
 	
-	protected MachineBlockContainer(Id blockId, Name machineName) {
-		super(blockId.act, Material.rock);
+	protected MachineBlockContainer(Name machineName) {
+		super(Material.rock);
 		
-		tBlockId = blockId;
 		mName = machineName;
 		
-		setUnlocalizedName(mName.unlocalized);
-		setStepSound(Block.soundStoneFootstep);
+		setBlockName(mName.unlocalized);
+		setStepSound(Block.soundTypeStone);
 		setHardness(3.5F);
 		setResistance(10F);
 		
@@ -67,7 +63,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	
 	
 	@Override
-	public void registerIcons(IconRegister iconRegistry){
+	public void registerBlockIcons(IIconRegister iconRegistry){
 		if(hasTextures){
 			if(hasTopIcon || hasBottomIcon || hasFrontIcon){
 				blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
@@ -111,28 +107,28 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	
 	private void setDefaultDirection(World world, int x, int y, int z){
 		if(!world.isRemote){ //Client, not server
-			int zm1 = world.getBlockId(x, y, z - 1);
-			int zp1 = world.getBlockId(x, y, z + 1);
-			int xm1 = world.getBlockId(x - 1, y, z);
-			int xp1 = world.getBlockId(x + 1, y, z);
+			Block zm1 = world.getBlock(x, y, z - 1);
+			Block zp1 = world.getBlock(x, y, z + 1);
+			Block xm1 = world.getBlock(x - 1, y, z);
+			Block xp1 = world.getBlock(x + 1, y, z);
 			
 			int metaDataToSet = 3;
 			
-			if(Block.opaqueCubeLookup[zm1] && !Block.opaqueCubeLookup[zp1]){
+			if (zm1.func_149730_j() && !zp1.func_149730_j()){
 				metaDataToSet = 3;
-			}
-			
-			if(!Block.opaqueCubeLookup[zm1] && Block.opaqueCubeLookup[zp1]){
-				metaDataToSet = 2;
-			}
-			
-			if(Block.opaqueCubeLookup[xm1] && !Block.opaqueCubeLookup[xp1]){
-				metaDataToSet = 5;
-			}
-			
-			if(!Block.opaqueCubeLookup[xm1] && Block.opaqueCubeLookup[xp1]){
-				metaDataToSet = 4;
-			}
+            }
+
+            if (zp1.func_149730_j() && !zm1.func_149730_j()){
+            	metaDataToSet = 2;
+            }
+
+            if (xm1.func_149730_j() && !xp1.func_149730_j()){
+            	metaDataToSet = 5;
+            }
+
+            if (xp1.func_149730_j() && !xm1.func_149730_j()){
+            	metaDataToSet = 4;
+            }
 			
 			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
@@ -141,7 +137,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	
 	
 	@Override
-	public Icon getIcon(int side, int metadata){
+	public IIcon getIcon(int side, int metadata){
 		ForgeDirection s = ForgeDirection.getOrientation(side);
 		if(s.equals(ForgeDirection.UP)){
 			return topIcon;
@@ -166,7 +162,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
 		if(hasFrontIcon){
-			int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
+			int sideToPlace = MathHelper.floor_double(player.rotationYaw / 90F + 0.5D) & 3;
 			
 			
 			int metaDataToSet = 0;
@@ -190,20 +186,19 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	}
 	
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y,
-				int z, int blockId) {
-		super.onNeighborBlockChange(world, x, y, z, blockId);
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		super.onNeighborBlockChange(world, x, y, z, block);
 	}
 	
 	@Override
-	public void breakBlock(World w, int x, int y, int z, int oldId, int oldMetaData){
+	public void breakBlock(World w, int x, int y, int z, Block oldBlock, int oldMetaData){
 		//Call TileEntity's onBlockBreaks function
-		TileEntity tile = w.getBlockTileEntity(x, y, z);
+		TileEntity tile = w.getTileEntity(x, y, z);
 		if(tile instanceof IHydraulicMachine){
 			((IHydraulicMachine)tile).onBlockBreaks();
 		}
 		
-		super.breakBlock(w, x, y, z, oldId, oldMetaData);
+		super.breakBlock(w, x, y, z, oldBlock, oldMetaData);
 	}
 	
 	

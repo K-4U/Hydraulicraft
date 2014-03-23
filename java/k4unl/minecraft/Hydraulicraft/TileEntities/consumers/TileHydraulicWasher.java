@@ -11,24 +11,29 @@ import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.baseClasses.IMachineMultiBlock;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes.WashingRecipe;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -295,34 +300,14 @@ public class TileHydraulicWasher extends TileEntity implements
 	}
 
 	@Override
-	public String getInvName() {
-		return Names.blockHydraulicWasher.unlocalized;
-	}
-
-	@Override
-	public boolean isInvNameLocalized() {
-		return false;
-	}
-
-	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return ((worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this) && 
+		return ((worldObj.getTileEntity(xCoord, yCoord, zCoord) == this) && 
 				player.getDistanceSq(xCoord, yCoord, zCoord) < 64);
-	}
-
-	@Override
-	public void openChest() {
-		
-	}
-
-	@Override
-	public void closeChest() {
-		
 	}
 
 	@Override
@@ -423,7 +408,7 @@ public class TileHydraulicWasher extends TileEntity implements
 		getHandler().dropItemStackInWorld(outputInventory);
 	}
 
-	@Override
+	//TODO: FIX ME
 	public void onInventoryChanged() {
 		if(fluidInputInventory != null){
 			FluidStack input = FluidContainerRegistry.getFluidForFilledItem(fluidInputInventory);
@@ -513,29 +498,29 @@ public class TileHydraulicWasher extends TileEntity implements
 		if(inputInventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			inputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
+			tagCompound.setTag("inputInventory", inventoryCompound);
 		}
 		if(outputInventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			outputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
+			tagCompound.setTag("outputInventory", inventoryCompound);
 		}
 		
 		if(washingItem != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			washingItem.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("washingItem", inventoryCompound);
+			tagCompound.setTag("washingItem", inventoryCompound);
 		}
 		
 		if(targetItem != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			targetItem.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("targetItem", inventoryCompound);
+			tagCompound.setTag("targetItem", inventoryCompound);
 		}
 		
 		NBTTagCompound tankCompound = new NBTTagCompound();
 		tank.writeToNBT(tankCompound);
-		tagCompound.setCompoundTag("tank", tankCompound);
+		tagCompound.setTag("tank", tankCompound);
 		
 		tagCompound.setInteger("washingTicks",washingTicks);
 		
@@ -544,7 +529,7 @@ public class TileHydraulicWasher extends TileEntity implements
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		getHandler().onDataPacket(net, packet);
 	}
 
@@ -583,13 +568,13 @@ public class TileHydraulicWasher extends TileEntity implements
 					int y = yCoord + vert;
 					int z = zCoord + (forwardZ ? (depth * depthMultiplier) : horiz);
 					
-					int blockId = worldObj.getBlockId(x, y, z);
+					Block block = worldObj.getBlock(x, y, z);
 					/*
 					if(horiz == 0 && vert == 0 && (depth == 0 || depth == 1))
 						continue;*/
 					
-					if(blockId == Ids.blockValve.act){
-						TileHydraulicValve temp = (TileHydraulicValve) worldObj.getBlockTileEntity(x, y, z);
+					if(block instanceof BlockHydraulicValve){
+						TileHydraulicValve temp = (TileHydraulicValve) worldObj.getTileEntity(x, y, z);
 						temp.resetTarget();
 					}
 					//if(blockId != Ids.blockDummyWasher.act)
@@ -626,7 +611,7 @@ public class TileHydraulicWasher extends TileEntity implements
 					int y = yCoord + vert;
 					int z = zCoord + (forwardZ ? (depth * depthMultiplier) : horiz);
 					
-					int blockId = worldObj.getBlockId(x, y, z);
+					Block block = worldObj.getBlock(x, y, z);
 					int meta = worldObj.getBlockMetadata(x, y, z);
 					
 					if(horiz == 0 && vert == 0){
@@ -635,7 +620,7 @@ public class TileHydraulicWasher extends TileEntity implements
 						}
 						
 						if(depth == 1)	{
-							if(blockId != Ids.blockCore.act){
+							if(!(block instanceof BlockHydraulicCore)){
 								return false;
 							}else{
 								tier = meta;
@@ -644,10 +629,10 @@ public class TileHydraulicWasher extends TileEntity implements
 						}
 					}
 					
-					if(blockId != Ids.blockHydraulicPressureWall.act){
-						if(blockId == Ids.blockValve.act){
+					if(!(block instanceof BlockHydraulicPressureWall)){
+						if(block instanceof BlockHydraulicValve){
 							hasAtLeastOneValve = true;
-						}else if(blockId == Ids.blockInterfaceValve.act){
+						}else if(block instanceof BlockInterfaceValve){
 							if(hasFluidValve = true){
 								hasItemValve = true;
 							}else{
@@ -660,7 +645,7 @@ public class TileHydraulicWasher extends TileEntity implements
 				}
 			}
 		}
-		return (hasAtLeastOneValve && hasFluidValve && hasItemValve);
+		return (hasAtLeastOneValve && (hasFluidValve || hasItemValve));
 	}
 	
 	public void convertMultiblock(){
@@ -678,19 +663,19 @@ public class TileHydraulicWasher extends TileEntity implements
 					int x = xCoord + (forwardZ ? horiz : (depth * depthMultiplier));
 					int y = yCoord + vert;
 					int z = zCoord + (forwardZ ? (depth * depthMultiplier) : horiz);
-					int blockId = worldObj.getBlockId(x, y, z);
+					Block block = worldObj.getBlock(x, y, z);
 					
 					if(horiz == 0 && vert == 0 && depth == 0)
 						continue;
 					
-					if(blockId == Ids.blockValve.act){
-						TileHydraulicValve dummyTE = (TileHydraulicValve)worldObj.getBlockTileEntity(x, y, z);
+					if(block instanceof BlockHydraulicValve){
+						TileHydraulicValve dummyTE = (TileHydraulicValve)worldObj.getTileEntity(x, y, z);
 						dummyTE.setTarget(xCoord, yCoord, zCoord);
 						valves.add(dummyTE);
 						dummyTE.getHandler().updateNetworkOnNextTick(0);
 					}
-					if(blockId == Ids.blockInterfaceValve.act){
-						TileInterfaceValve dummyTE = (TileInterfaceValve)worldObj.getBlockTileEntity(x, y, z);
+					if(block instanceof BlockInterfaceValve){
+						TileInterfaceValve dummyTE = (TileInterfaceValve)worldObj.getTileEntity(x, y, z);
 						dummyTE.setTarget(xCoord, yCoord, zCoord);
 						if(fluidValve == null){
 							fluidValve = dummyTE;
@@ -832,5 +817,23 @@ public class TileHydraulicWasher extends TileEntity implements
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
+	}
+
+	@Override
+	public String getInventoryName() {
+		return Localization.getLocalizedName(Names.blockHydraulicWasher.unlocalized);
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		return true;
+	}
+
+	@Override
+	public void openInventory() {
+	}
+
+	@Override
+	public void closeInventory() {
 	}
 }

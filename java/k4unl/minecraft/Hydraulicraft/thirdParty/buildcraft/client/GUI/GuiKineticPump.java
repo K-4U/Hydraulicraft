@@ -30,7 +30,7 @@ public class GuiKineticPump extends MachineGUI {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		
 		drawHorizontalAlignedString(7, 3, xSize - 14, Localization.getLocalizedName(Names.blockKineticPump[pump.getTier()].unlocalized), true);
-		drawVerticalProgressBar(124, 16, 54, 16, pump.getPowerReceiver(pump.getFacing().getOpposite()).getEnergyStored(), pump.getPowerReceiver(pump.getFacing().getOpposite()).getMaxEnergyStored(), Constants.COLOR_MJ, "Minecraft Joules", "MJ");
+		drawVerticalProgressBar(124, 16, 54, 16, (float)pump.getPowerReceiver(pump.getFacing().getOpposite()).getEnergyStored(), (float) pump.getPowerReceiver(pump.getFacing().getOpposite()).getMaxEnergyStored(), Constants.COLOR_MJ, "Minecraft Joules", "MJ");
 		
 
 		int startY = 17;

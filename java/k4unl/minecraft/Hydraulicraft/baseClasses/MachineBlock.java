@@ -2,25 +2,23 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineBlock extends Block {
-	private Icon blockIcon;
-	private Icon topIcon;
-	private Icon bottomIcon;
-	private Icon frontIcon;
+	private IIcon blockIcon;
+	private IIcon topIcon;
+	private IIcon bottomIcon;
+	private IIcon frontIcon;
 	
-	private Id tBlockId;
 	private Name mName;
 	
 	protected boolean hasBottomIcon = false;
@@ -28,14 +26,13 @@ public class MachineBlock extends Block {
 	protected boolean hasFrontIcon = false;
 	
 	
-	protected MachineBlock(Id blockId, Name machineName) {
-		super(blockId.act, Material.rock);
+	protected MachineBlock(Name machineName) {
+		super(Material.rock);
 		
-		tBlockId = blockId;
 		mName = machineName;
 		
-		setUnlocalizedName(mName.unlocalized);
-		setStepSound(Block.soundStoneFootstep);
+		setBlockName(mName.unlocalized);
+		setStepSound(Block.soundTypeStone);
 		setHardness(3.5F);
 		setResistance(10F);
 		
@@ -53,7 +50,7 @@ public class MachineBlock extends Block {
 	
 	
 	@Override
-	public void registerIcons(IconRegister iconRegistry){
+	public void registerBlockIcons(IIconRegister iconRegistry){
 		if(hasTopIcon || hasBottomIcon || hasFrontIcon){
 			blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
 			if(hasTopIcon){
@@ -91,28 +88,28 @@ public class MachineBlock extends Block {
 	
 	private void setDefaultDirection(World world, int x, int y, int z){
 		if(!world.isRemote){ //Client, not server
-			int zm1 = world.getBlockId(x, y, z - 1);
-			int zp1 = world.getBlockId(x, y, z + 1);
-			int xm1 = world.getBlockId(x - 1, y, z);
-			int xp1 = world.getBlockId(x + 1, y, z);
+			Block zm1 = world.getBlock(x, y, z - 1);
+			Block zp1 = world.getBlock(x, y, z + 1);
+			Block xm1 = world.getBlock(x - 1, y, z);
+			Block xp1 = world.getBlock(x + 1, y, z);
 			
 			int metaDataToSet = 3;
 			
-			if(Block.opaqueCubeLookup[zm1] && !Block.opaqueCubeLookup[zp1]){
+			if (zm1.func_149730_j() && !zp1.func_149730_j()){
 				metaDataToSet = 3;
-			}
-			
-			if(!Block.opaqueCubeLookup[zm1] && Block.opaqueCubeLookup[zp1]){
-				metaDataToSet = 2;
-			}
-			
-			if(Block.opaqueCubeLookup[xm1] && !Block.opaqueCubeLookup[xp1]){
-				metaDataToSet = 5;
-			}
-			
-			if(!Block.opaqueCubeLookup[xm1] && Block.opaqueCubeLookup[xp1]){
-				metaDataToSet = 4;
-			}
+            }
+
+            if (zp1.func_149730_j() && !zm1.func_149730_j()){
+            	metaDataToSet = 2;
+            }
+
+            if (xm1.func_149730_j() && !xp1.func_149730_j()){
+            	metaDataToSet = 5;
+            }
+
+            if (xp1.func_149730_j() && !xm1.func_149730_j()){
+            	metaDataToSet = 4;
+            }
 			
 			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
@@ -121,7 +118,7 @@ public class MachineBlock extends Block {
 	
 	
 	@Override
-	public Icon getIcon(int side, int metadata){
+	public IIcon getIcon(int side, int metadata){
 		ForgeDirection s = ForgeDirection.getOrientation(side);
 		if(s.equals(ForgeDirection.UP)){
 			return topIcon;

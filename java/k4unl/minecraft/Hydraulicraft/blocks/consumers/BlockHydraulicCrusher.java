@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.blocks.consumers;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -12,12 +12,12 @@ import net.minecraft.world.World;
 public class BlockHydraulicCrusher extends MachineBlockContainer {
 
 	public BlockHydraulicCrusher() {
-		super(Ids.blockHydraulicCrusher, Names.blockHydraulicCrusher);
+		super(Names.blockHydraulicCrusher);
 		this.hasFrontIcon = true;
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world) {
+	public TileEntity createNewTileEntity(World world, int var2) {
 		return new TileHydraulicCrusher();
 	}
 	
@@ -26,13 +26,13 @@ public class BlockHydraulicCrusher extends MachineBlockContainer {
 		if(player.isSneaking())
 			return false;
 		
-		TileEntity entity = world.getBlockTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileHydraulicCrusher)){
 			return false;
 			
 		}
 		TileHydraulicCrusher pump = (TileHydraulicCrusher) entity;
-		player.openGui(Hydraulicraft.instance, Ids.GUICrusher.act, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.GUICrusher, world, x, y, z);
 		
 		return true;
 	}

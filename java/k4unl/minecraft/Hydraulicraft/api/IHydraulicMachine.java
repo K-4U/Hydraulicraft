@@ -1,10 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public interface IHydraulicMachine {
 	/**
@@ -62,7 +62,7 @@ public interface IHydraulicMachine {
 	 * @param net
 	 * @param packet
 	 */
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet);
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet);
 	
 	/**
 	 * Forward this function to the Base class

@@ -7,7 +7,7 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -305,7 +305,7 @@ public class RendererElectricPump extends TileEntitySpecialRenderer {
 			vectorFilled.setYMax(vectorFilled.getYMin() + (h * ((float)t.getHandler().getStored() / (float)t.getMaxStorage())));
 		
 		
-			Icon fluidIcon;
+			IIcon fluidIcon;
 			if(t.getHandler().isOilStored()){
 				//RenderHelper.setARGBFromHex(Constants.COLOR_OIL + 0xFE000000);
 				/*float a = 0.7F;

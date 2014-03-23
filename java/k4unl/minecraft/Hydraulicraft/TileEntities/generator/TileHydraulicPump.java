@@ -15,12 +15,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileHydraulicPump extends TileEntity implements IInventory, IHydraulicGenerator {
@@ -84,7 +84,6 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 						if(inventory.stackSize <= 0){
 							inventory = null;
 						}
-						this.onInventoryChanged();
 						needsUpdate = true;
 					}
 				}
@@ -135,9 +134,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 
 	@Override
 	public float getGenerating(ForgeDirection from) {
-		float multiplier = 0;
 		if(getIsBurning()){
-			int maxFluid = getMaxStorage();
 			//We can only generate at the percentage the system is filled at.
 			float perc = (float)getHandler().getStored() / (float) getMaxStorage();
 			//Also.. we can only go to a max of which the system is filled at.
@@ -233,17 +230,6 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		}
 		return tier;
     }
-	
-	@Override
-	public String getInvName() {
-		return Localization.getLocalizedName(Names.blockHydraulicPump[getTier()].unlocalized);
-	}
-
-	@Override
-	public boolean isInvNameLocalized() {
-		// TODO Localization
-		return true;
-	}
 
 	@Override
 	public int getInventoryStackLimit() {
@@ -252,18 +238,8 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return ((worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this) && 
+		return ((worldObj.getTileEntity(xCoord, yCoord, zCoord) == this) && 
 				player.getDistanceSq(xCoord, yCoord, zCoord) < 64);
-	}
-
-	@Override
-	public void openChest() {
-		
-	}
-
-	@Override
-	public void closeChest() {
-		
 	}
 
 	@Override
@@ -349,7 +325,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		if(inventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			inventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("inventory", inventoryCompound);
+			tagCompound.setTag("inventory", inventoryCompound);
 		}
 		tagCompound.setInteger("currentBurnTime",currentBurnTime);
 		tagCompound.setInteger("maxBurnTime",maxBurnTime);
@@ -364,7 +340,7 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		getHandler().onDataPacket(net, packet);
 	}
 
@@ -373,11 +349,6 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 		return getHandler().getDescriptionPacket();
 	}
 
-	@Override
-	public void onInventoryChanged() {
-		
-	}
-	
 	@Override
 	public void validate(){
 		super.validate();
@@ -514,5 +485,23 @@ public class TileHydraulicPump extends TileEntity implements IInventory, IHydrau
 	
 	public void setFacing(ForgeDirection newDir){
 		facing = newDir;
+	}
+
+	@Override
+	public String getInventoryName() {
+		return Localization.getLocalizedName(Names.blockHydraulicPump[getTier()].unlocalized);
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		return true;
+	}
+
+	@Override
+	public void openInventory() {
+	}
+
+	@Override
+	public void closeInventory() {
 	}
 }

@@ -6,26 +6,27 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockHydraulicHarvester extends MachineBlockContainer {
-	private Icon blockIcon;
+	private IIcon blockIcon;
 	private Name[] mName;
 
 	public Vector3fMax blockBounds = new Vector3fMax(0.2f, 0.2f, 0.2f, 0.8F, 0.8F, 0.8F);
@@ -39,7 +40,7 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	
 	
 	public BlockHydraulicHarvester() {
-		super(Ids.blockHydraulicHarvester, Names.blockHydraulicHarvester[0]);
+		super(Names.blockHydraulicHarvester[0]);
 		
 		mName = Names.blockHydraulicHarvester;
 	}
@@ -60,7 +61,7 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
     }
 	
 	@Override
-	public TileEntity createTileEntity(World world, int metadata){
+	public TileEntity createNewTileEntity(World world, int metadata){
 		switch(metadata){
 		case 0:
 			return new TileHydraulicHarvester();
@@ -69,14 +70,9 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 		}
         return null;
     }
-	
-	@Override
-	public TileEntity createNewTileEntity(World world) {
-		return null;
-	}
 
 	@Override
-	public void getSubBlocks(int id, CreativeTabs tab, List list){
+	public void getSubBlocks(Item block, CreativeTabs tab, List list){
 		for(int i = 0; i < mName.length; i++){
 			list.add(new ItemStack(this, 1, i));
 		}
@@ -86,7 +82,7 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
 		
-		TileEntity entity = world.getBlockTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileHydraulicHarvester)){
 			return false;
 			
@@ -94,7 +90,7 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 		
 		TileHydraulicHarvester harvester = (TileHydraulicHarvester) entity;
 		if(harvester.getIsMultiblock()){
-			player.openGui(Hydraulicraft.instance, Ids.GUIHarvester.act, world, x, y, z);
+			player.openGui(Hydraulicraft.instance, GuiIDs.GUIHarvester, world, x, y, z);
 			return true;
 		}
 		
@@ -109,14 +105,14 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	}
 	
 	@Override
-	public void registerIcons(IconRegister iconRegistry){
+	public void registerBlockIcons(IIconRegister iconRegistry){
 		blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
 	}
 	
 	
 	
 	@Override
-	public Icon getIcon(int side, int metadata){
+	public IIcon getIcon(int side, int metadata){
 		return blockIcon;
 		
 	}
@@ -148,7 +144,7 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
 		super.onBlockPlacedBy(world, x, y, z, player, iStack);
-		TileEntity tile = world.getBlockTileEntity(x, y, z);
+		TileEntity tile = world.getTileEntity(x, y, z);
 		
 		if(tile instanceof TileHarvesterFrame){
 			checkRotation((TileHarvesterFrame)tile, player);
@@ -162,7 +158,7 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 	
 	@Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z){
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if(tileEntity instanceof TileHarvesterFrame) {
         	TileHarvesterFrame frame = (TileHarvesterFrame) tileEntity;
@@ -189,7 +185,7 @@ public class BlockHydraulicHarvester extends MachineBlockContainer {
 
     @Override
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity){
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if(tileEntity instanceof TileHarvesterFrame) {
         	TileHarvesterFrame frame = (TileHarvesterFrame) tileEntity;

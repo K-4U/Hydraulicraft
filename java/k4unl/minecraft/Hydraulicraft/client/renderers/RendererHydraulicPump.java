@@ -27,7 +27,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		int rotation = 0;//t.getDir();
 		int metadata = t.getBlockMetadata();
 		
-		renderer = new RenderBlocks(tileentity.worldObj);
+		renderer = new RenderBlocks(tileentity.getWorldObj());
 		
 		doRender(t, (float)x, (float)y, (float)z, f, rotation, metadata);
 	}

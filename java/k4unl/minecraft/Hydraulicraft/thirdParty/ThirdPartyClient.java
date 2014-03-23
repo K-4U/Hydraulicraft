@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
 import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.Buildcraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererHydraulicEngineItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.RendererKineticPump;
@@ -9,6 +9,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers.Rend
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.IndustrialCraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererElectricPumpItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererHydraulicGenerator;
@@ -16,12 +17,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamoItem;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererRFPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererRFPumpItem;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
+import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Loader;
@@ -43,26 +39,27 @@ public class ThirdPartyClient {
         	ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicEngine.class, new RendererHydraulicEngine());
     		ClientRegistry.bindTileEntitySpecialRenderer(TileKineticPump.class, new RendererKineticPump());
     		
-    		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicEngine.act, new RendererHydraulicEngineItem());
-    		MinecraftForgeClient.registerItemRenderer(Ids.blockKineticPump.act, new RendererKineticPumpItem());
+    		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Buildcraft.blockHydraulicEngine), new RendererHydraulicEngineItem());
+    		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Buildcraft.blockKineticPump), new RendererKineticPumpItem());
         }
         
+        /*
         if(Loader.isModLoaded("ThermalExpansion")){
         	Log.info("Thermal Expansion found! Initializing Thermal Expansion support!");
         	ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicDynamo.class, new RendererHydraulicDynamo());
     		ClientRegistry.bindTileEntitySpecialRenderer(TileRFPump.class, new RendererRFPump());
     		
-    		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicDynamo.act, new RendererHydraulicDynamoItem());
+    		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(p_150898_0_), new RendererHydraulicDynamoItem());
     		MinecraftForgeClient.registerItemRenderer(Ids.blockRFPump.act, new RendererRFPumpItem());
-        }
+        }*/
         
         if(Loader.isModLoaded("IC2")){
         	Log.info("Industrialcraft found! Initializing Industrialcraft support!");
         	ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicGenerator.class, new RendererHydraulicGenerator());
     		ClientRegistry.bindTileEntitySpecialRenderer(TileElectricPump.class, new RendererElectricPump());
     		
-    		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicGenerator.act, new RendererHydraulicGeneratorItem());
-    		MinecraftForgeClient.registerItemRenderer(Ids.blockElectricPump.act, new RendererElectricPumpItem());
+    		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(IndustrialCraft.blockHydraulicGenerator), new RendererHydraulicGeneratorItem());
+    		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(IndustrialCraft.blockElectricPump), new RendererElectricPumpItem());
         }
     }
 }

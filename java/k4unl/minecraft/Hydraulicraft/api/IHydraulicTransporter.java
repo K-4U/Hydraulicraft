@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public interface IHydraulicTransporter extends IHydraulicMachine {
 	public boolean isConnectedTo(ForgeDirection dir);

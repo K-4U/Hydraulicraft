@@ -1,52 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererPartValve;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import net.minecraft.client.particle.EffectRenderer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-
-import org.lwjgl.opengl.GL11;
-
-import codechicken.lib.data.MCDataInput;
-import codechicken.lib.data.MCDataOutput;
-import codechicken.lib.raytracer.IndexedCuboid6;
-import codechicken.lib.render.EntityDigIconFX;
-import codechicken.lib.vec.Cuboid6;
-import codechicken.lib.vec.Vector3;
-import codechicken.microblock.IHollowConnect;
-import codechicken.multipart.JNormalOcclusion;
-import codechicken.multipart.NormalOcclusionTest;
-import codechicken.multipart.NormallyOccludedPart;
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TSlottedPart;
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter {
+public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter*/ {
+	/*
 	public static Cuboid6 boundingBox;
 	public static Cuboid6[] boundingBoxes = new Cuboid6[6];
 	public static Cuboid6 boundingBoxC;
@@ -206,16 +162,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	    	list.add(boundingBoxes[getFacing().getOpposite().ordinal()]);
     	}
     	return list;
-    	/*
-    	if(getFacing().equals(ForgeDirection.NORTH) || getFacing().equals(ForgeDirection.SOUTH)){
-    		return Arrays.asList(boundingBoxNS);
-    	}else if(getFacing().equals(ForgeDirection.EAST) || getFacing().equals(ForgeDirection.WEST)){
-    		return Arrays.asList(boundingBoxEW);
-    	}else if(getFacing().equals(ForgeDirection.UP) || getFacing().equals(ForgeDirection.DOWN)){
-    		return Arrays.asList(boundingBoxUD);
-    	}else{
-    		return Arrays.asList(boundingBoxNS);
-    	}*/
     }
 
     @Override
@@ -239,11 +185,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     	if(entity instanceof TileMultipart){
     		List<TMultiPart> t = ((TileMultipart)entity).jPartList();
     		
-    		/*
-    		if(Multipart.hasPartHose((TileMultipart)entity)){
-    			if(!((TileMultipart)entity).canAddPart(new NormallyOccludedPart(boundingBoxes[opposite]))) return false;
-    		}*/
-    		
     		for (TMultiPart p: t) {
     			if(p instanceof IHydraulicTransporter && caller.equals(this)){
     				((IHydraulicTransporter)p).checkConnectedSides(this);
@@ -266,7 +207,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     	int d = side.ordinal();
     	
     	if(world() != null && tile() != null){
-	    	TileEntity te = world().getBlockTileEntity(x() + side.offsetX, y() + side.offsetY, z() + side.offsetZ);
+	    	TileEntity te = world().getTileEntity(x() + side.offsetX, y() + side.offsetY, z() + side.offsetZ);
 	    	NormallyOccludedPart p = new NormallyOccludedPart(getBoundingBox(side));
 	    	boolean canAddPart = tile().canAddPart(p);
 	    	if(side.equals(getFacing()) || side.getOpposite().equals(getFacing())){
@@ -303,18 +244,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     			}
     		}
     	}
-    	/*
-        connectedSides = new HashMap<ForgeDirection, TileEntity>();
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			int d = Functions.getIntDirFromDirection(dir);
-			
-            TileEntity te = world().getBlockTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
-            if(shouldConnectTo(te, dir, caller)) {
-            	if(tile().canAddPart(new NormallyOccludedPart(boundingBox))){
-            		connectedSides.put(dir, te);
-            	}
-            }
-        }*/
 		//connectedSidesHaveChanged = true;
 		//getHandler().updateBlock();
     }
@@ -345,10 +274,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
         checkRedstone();
         if(!world().isRemote){
         	//getHandler().updateFluidOnNextTick();
-        	/*float oldPressure = 0F;
-            if(pNetwork != null){
-            	oldPressure = pNetwork.getPressure();
-            }*/
         	//getHandler().updateNetworkOnNextTick(oldPressure);
         }
     }
@@ -363,12 +288,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
         checkRedstone();
         //getHandler().updateFluidOnNextTick();
         if(!world().isRemote){
-	        /*float oldPressure = 0F;
-	        if(pNetwork != null){
-	        	oldPressure = pNetwork.getPressure();
-	        	pNetwork.removeMachine(this);
-	        }
-			getHandler().updateNetworkOnNextTick(oldPressure);*/
         }
         
         
@@ -614,46 +533,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 			pNetwork1.mergeNetwork(pNetwork2);
 			hasMerged = true;
 		}
-		
-		/*
-		PressureNetwork newNetwork = null;
-		PressureNetwork foundNetwork = null;
-		PressureNetwork endNetwork = null;
-		//This block can merge networks!
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			if(!isConnectedTo(dir)){
-				continue;
-			}
-			TileEntity ent = world().getBlockTileEntity(x() + dir.offsetX, y()+dir.offsetY, z()+ dir.offsetZ);
-			if(ent == null) continue;
-			if(!shouldConnectTo(ent, dir, this)) continue;
-			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), dir);
-			if(foundNetwork != null){
-				if(endNetwork == null){
-					endNetwork = foundNetwork;
-				}else{
-					newNetwork = foundNetwork;
-				}
-			}
-			
-			if(newNetwork != null && endNetwork != null){
-				//Hmm.. More networks!? What's this!?
-				//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
-				endNetwork.mergeNetwork(newNetwork);
-				newNetwork = null;
-			}
-			
-		}
-			
-		if(endNetwork != null){
-			pNetwork = endNetwork;
-			pNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
-			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
-		}else{
-			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
-			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
-		}
-		hasFoundNetwork = true;*/
 	}
 	
 	@Override
@@ -698,7 +577,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	@Override
     public void addDestroyEffects(EffectRenderer effectRenderer) {
 		if(breakIcon == null){
-			breakIcon = Blocks.hydraulicPressureWall.getIcon(0, 0);
+			breakIcon = HydraulicraftBlocks.hydraulicPressureWall.getIcon(0, 0);
 		}
         EntityDigIconFX.addBlockDestroyEffects(world(), Cuboid6.full.copy()
                 .add(Vector3.fromTileEntity(tile())), new Icon[] { breakIcon,
@@ -724,4 +603,5 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	public boolean isActive() {
 		return hasMerged;
 	}
+	*/
 }

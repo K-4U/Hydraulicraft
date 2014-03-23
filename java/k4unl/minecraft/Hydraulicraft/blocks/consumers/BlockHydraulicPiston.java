@@ -2,26 +2,25 @@ package k4unl.minecraft.Hydraulicraft.blocks.consumers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockHydraulicPiston extends MachineBlockContainer {
 
 	public BlockHydraulicPiston() {
-		super(Ids.blockHydraulicPiston, Names.blockHydraulicPiston);
+		super(Names.blockHydraulicPiston);
 		hasFrontIcon = true;
 		hasTextures = false;
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world) {
+	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileHydraulicPiston();
 	}
 
@@ -49,7 +48,7 @@ public class BlockHydraulicPiston extends MachineBlockContainer {
 	
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z){
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if(tileEntity instanceof TileHydraulicPiston) {
             float extendedLength = ((TileHydraulicPiston)tileEntity).getExtendedLength();

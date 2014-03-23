@@ -8,6 +8,7 @@ import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -16,11 +17,11 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileHydraulicFrictionIncinerator extends TileEntity implements ISidedInventory, IHydraulicConsumer {
@@ -224,36 +225,14 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	}
 
 	@Override
-	public String getInvName() {
-		// TODO Localization
-		return Names.blockHydraulicFrictionIncinerator.localized;
-	}
-
-	@Override
-	public boolean isInvNameLocalized() {
-		// TODO Localization
-		return true;
-	}
-
-	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return ((worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this) && 
+		return ((worldObj.getTileEntity(xCoord, yCoord, zCoord) == this) && 
 				player.getDistanceSq(xCoord, yCoord, zCoord) < 64);
-	}
-
-	@Override
-	public void openChest() {
-		
-	}
-
-	@Override
-	public void closeChest() {
-		
 	}
 
 	@Override
@@ -269,10 +248,12 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 		}
 	}
 
+	/* TODO: Fix me
 	@Override
 	public void onInventoryChanged(){
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
+	*/
 	
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1) {
@@ -316,7 +297,7 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		getHandler().onDataPacket(net, packet);
 	}
 
@@ -353,22 +334,22 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 		if(inputInventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			inputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
+			tagCompound.setTag("inputInventory", inventoryCompound);
 		}
 		if(outputInventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			outputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
+			tagCompound.setTag("outputInventory", inventoryCompound);
 		}
 		if(smeltingItem != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			smeltingItem.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("smeltingItem", inventoryCompound);
+			tagCompound.setTag("smeltingItem", inventoryCompound);
 		}
 		if(targetItem != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			targetItem.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("targetItem", inventoryCompound);
+			tagCompound.setTag("targetItem", inventoryCompound);
 		}
 		
 		tagCompound.setInteger("smeltingTicks",smeltingTicks);
@@ -502,6 +483,25 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
+	}
+
+	@Override
+	public String getInventoryName() {
+		return Localization.getLocalizedName(Names.blockHydraulicFrictionIncinerator.unlocalized);
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public void openInventory() {
+	}
+
+	@Override
+	public void closeInventory() {
 	}	
 	
 }

@@ -5,11 +5,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -53,7 +53,7 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 	
 	public IHydraulicConsumer getTarget(){
 		if(targetHasChanged == true &&(targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
-			TileEntity t = worldObj.getBlockTileEntity(targetX, targetY, targetZ);
+			TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
 			if(t instanceof IHydraulicConsumer){
 				target = (IHydraulicConsumer) t;
 				targetHasChanged = false;
@@ -74,7 +74,7 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 	
 	public IFluidHandler getFluidTarget(){
 		if(targetHasChanged == true && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
-			TileEntity t = worldObj.getBlockTileEntity(targetX, targetY, targetZ);
+			TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
 			if(t instanceof IHydraulicConsumer){
 				target = (IHydraulicConsumer) t;
 				if(t instanceof IFluidHandler){
@@ -95,7 +95,7 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 	
 	public ISidedInventory getInventoryTarget(){
 		if(targetHasChanged == true && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
-			TileEntity t = worldObj.getBlockTileEntity(targetX, targetY, targetZ);
+			TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
 			if(t instanceof IHydraulicConsumer){
 				target = (IHydraulicConsumer) t;
 				if(t instanceof IFluidHandler){
@@ -137,8 +137,8 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 	
 	
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
-		NBTTagCompound tagCompound = packet.data;
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+		NBTTagCompound tagCompound = packet.func_148857_g();
 		this.readFromNBT(tagCompound);
 	}
 	
@@ -146,8 +146,9 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
-		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 4, tagCompound);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 4, tagCompound);
 	}
+	
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
@@ -263,22 +264,6 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 	}
 
 	@Override
-	public String getInvName() {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().getInvName();
-		}
-		return null;
-	}
-
-	@Override
-	public boolean isInvNameLocalized() {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().isInvNameLocalized();
-		}
-		return false;
-	}
-
-	@Override
 	public int getInventoryStackLimit() {
 		if(getInventoryTarget() != null){
 			return getInventoryTarget().getInventoryStackLimit();
@@ -292,20 +277,6 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 			return getInventoryTarget().isUseableByPlayer(entityplayer);
 		}
 		return false;
-	}
-
-	@Override
-	public void openChest() {
-		if(getInventoryTarget() != null){
-			getInventoryTarget().openChest();
-		}
-	}
-
-	@Override
-	public void closeChest() {
-		if(getInventoryTarget() != null){
-			getInventoryTarget().closeChest();
-		}
 	}
 
 	@Override
@@ -338,6 +309,36 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 			return getInventoryTarget().canExtractItem(i, itemstack, j);
 		}
 		return false;
+	}
+
+	@Override
+	public String getInventoryName() {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().getInventoryName();
+		}
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		if(getInventoryTarget() != null){
+			return getInventoryTarget().hasCustomInventoryName();
+		}
+		return false;
+	}
+
+	@Override
+	public void openInventory() {
+		if(getInventoryTarget() != null){
+			getInventoryTarget().openInventory();
+		}		
+	}
+
+	@Override
+	public void closeInventory() {
+		if(getInventoryTarget() != null){
+			getInventoryTarget().closeInventory();
+		}	
 	}
 
 }

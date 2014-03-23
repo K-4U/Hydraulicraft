@@ -11,28 +11,25 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork.networkEntry;
+import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
-import codechicken.lib.data.MCDataOutput;
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TileMultipart;
 
 public class MachineEntity implements IBaseClass {
 	private boolean _isOilStored = false;
@@ -41,10 +38,10 @@ public class MachineEntity implements IBaseClass {
 	
 	private float pressure = 0F;
 	
-	private boolean isMultipart;
+	/* FMP private boolean isMultipart; */
 	private World tWorld;
 	private Location blockLocation;
-	private TMultiPart tMp;
+	/* FMP private TMultiPart tMp; */
 	private TileEntity tTarget;
 	private IHydraulicMachine target;
 	
@@ -61,11 +58,11 @@ public class MachineEntity implements IBaseClass {
 		if(target instanceof TileHydraulicPressureVat){
 			hasOwnFluidTank = true;
 		}
-		tMp = null;
-		tWorld = _target.worldObj;
+		/* FMP tMp = null;*/
+		tWorld = _target.getWorldObj();
 		
 	}
-	
+	/* FMP 
 	public MachineEntity(TMultiPart _target) {
 		tMp = _target;
 		tTarget = null;
@@ -76,28 +73,28 @@ public class MachineEntity implements IBaseClass {
 		}
 		isMultipart = true;
 		
-	}
+	}*/
 	
 	public Location getBlockLocation(){
 		if(blockLocation == null){
-			if(isMultipart){
+			/* FMP if(isMultipart){
 				if(tMp.tile() != null){
 					blockLocation = new Location(tMp.x(), tMp.y(), tMp.z());
 				}
-			}else{
+			}else{ */
 				blockLocation = new Location(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
-			}
+			//}
 		}
 		return blockLocation;
 	}
 	
 	public World getWorld(){
 		if(tWorld == null){
-			if(isMultipart){
+			/* FMP if(isMultipart){
 				tWorld = tMp.world();
-			}else{
-				tWorld = tTarget.worldObj;
-			}
+			}else{ */
+				tWorld = tTarget.getWorldObj();
+			//}
 		}
 		return tWorld;
 	}
@@ -111,7 +108,7 @@ public class MachineEntity implements IBaseClass {
 			EntityItem ei = new EntityItem(getWorld());
 			ei.setEntityItemStack(itemStack);
 			ei.setPosition(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
-			tTarget.worldObj.spawnEntityInWorld(ei);
+			getWorld().spawnEntityInWorld(ei);
 		}
 	}
 	
@@ -121,12 +118,12 @@ public class MachineEntity implements IBaseClass {
 	
 	public void updateBlock(){
 		if(getWorld() != null && !getWorld().isRemote){
-			if(isMultipart && tMp.tile() != null){
+			/* FMP if(isMultipart && tMp.tile() != null){
 		    	MCDataOutput writeStream = tMp.tile().getWriteStream(tMp);
 		    	tMp.writeDesc(writeStream);
-			}else{
+			}else{*/
 				getWorld().markBlockForUpdate(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
-			}
+			//}
 		}
     }
 
@@ -140,19 +137,19 @@ public class MachineEntity implements IBaseClass {
 			getWorld().createExplosion((Entity)null, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(),
 					0.6F + ((getMaxPressure(isOilStored(), null) / newPressure)), true);
 			if(isOilStored()){
-				getWorld().setBlock(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), Ids.blockFluidOil.act);
+				getWorld().setBlock(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), Fluids.fluidOilBlock);
 			}else{
-				getWorld().setBlock(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), FluidRegistry.WATER.getBlockID());
+				getWorld().setBlock(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), FluidRegistry.WATER.getBlock());
 			}
 		}
 	}
 	
 	public float getMaxPressure(boolean isOil, ForgeDirection from){
-		if(isMultipart){
+		/* FMP if(isMultipart){
 			return ((IHydraulicMachine)tMp).getMaxPressure(isOil, from);
-		}else{
+		}else{*/
 			return ((IHydraulicMachine)tTarget).getMaxPressure(isOil, from);
-		}
+		//}
 	}
 	
 	/*!
@@ -163,11 +160,11 @@ public class MachineEntity implements IBaseClass {
 	 */
 	public int getStored(){
 		if(hasOwnFluidTank){
-			if(isMultipart){
+			/* FMP if(isMultipart){
 				return ((IHydraulicStorageWithTank)tMp).getStored();
-			}else{
+			}else{*/
 				return ((IHydraulicStorageWithTank)target).getStored();
-			}
+			//}
 		}else{
 			return fluidLevelStored;
 		}
@@ -180,11 +177,11 @@ public class MachineEntity implements IBaseClass {
 			i = 0;
 		_isOilStored = isOil;
 		if(hasOwnFluidTank){
-			if(isMultipart){
+			/* FMP if(isMultipart){
 				((IHydraulicStorageWithTank)tMp).setStored(i, isOil);
-			}else{
+			}else{ */
 				((IHydraulicStorageWithTank)target).setStored(i, isOil);
-			}
+			//}
 		}else{
 			target.onFluidLevelChanged(fluidLevelStored);
 			if(fluidLevelStored != i && doNotify == true){
@@ -201,8 +198,8 @@ public class MachineEntity implements IBaseClass {
 	}
 	
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
-		NBTTagCompound tagCompound = packet.data;
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet){
+		NBTTagCompound tagCompound = packet.func_148857_g();
 		this.readFromNBT(tagCompound);
 	}
 	
@@ -210,7 +207,7 @@ public class MachineEntity implements IBaseClass {
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
-		return new Packet132TileEntityData(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), 4, tagCompound);
+		return new S35PacketUpdateTileEntity(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), 4, tagCompound);
 	}
 
 	private IHydraulicMachine getMachine(ForgeDirection dir){
@@ -219,20 +216,20 @@ public class MachineEntity implements IBaseClass {
 		int x = getBlockLocation().getX() + dir.offsetX;
 		int y = getBlockLocation().getY() + dir.offsetY;
 		int z = getBlockLocation().getZ() + dir.offsetZ;
-		int blockId = getWorld().getBlockId(x, y, z);
-		if(blockId == 0){
+		Block block = getWorld().getBlock(x, y, z);
+		if(block.blockRegistry.getNameForObject(block).equals("air")){
 			return null;
 		}
 		
-		TileEntity t = getWorld().getBlockTileEntity(x, y, z);
+		TileEntity t = getWorld().getTileEntity(x, y, z);
 		if(t instanceof IHydraulicMachine){
 			if(((IHydraulicMachine)t).canConnectTo(dir.getOpposite()))
 				return (IHydraulicMachine)t;
-		}else if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
+		}/* FMP else if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
 			if(Multipart.getTransporter((TileMultipart)t).isConnectedTo(dir.getOpposite())){
 				return Multipart.getTransporter((TileMultipart)t);
 			}
-		}
+		}*/
 		return null;
 	}
 	
@@ -242,20 +239,20 @@ public class MachineEntity implements IBaseClass {
 		int x = getBlockLocation().getX() + dir.offsetX;
 		int y = getBlockLocation().getY() + dir.offsetY;
 		int z = getBlockLocation().getZ() + dir.offsetZ;
-		int blockId = getWorld().getBlockId(x, y, z);
-		if(blockId == 0){
-			return list;
+		Block block = getWorld().getBlock(x, y, z);
+		if(block.blockRegistry.getNameForObject(block).equals("air")){
+			return null;
 		}
 		
-		TileEntity t = getWorld().getBlockTileEntity(x, y, z);
+		TileEntity t = getWorld().getTileEntity(x, y, z);
 		if(t instanceof IHydraulicMachine){
 			if(((IHydraulicMachine)t).canConnectTo(dir.getOpposite()) && !list.contains(t))
 				list.add((IHydraulicMachine)t);
-		}else if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
+		}/* FMP else if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
 			if(Multipart.getTransporter((TileMultipart)t).isConnectedTo(dir.getOpposite()) && !list.contains(t)){
 				list.add(Multipart.getTransporter((TileMultipart)t));
 			}
-		}
+		}*/
 		return list;
 	}
 	
@@ -270,7 +267,7 @@ public class MachineEntity implements IBaseClass {
 		
 		for (networkEntry entry : entryList) {
 			Location loc = entry.getLocation();
-			TileEntity ent = getWorld().getBlockTileEntity(loc.getX(), loc.getY(), loc.getZ());
+			TileEntity ent = getWorld().getTileEntity(loc.getX(), loc.getY(), loc.getZ());
 			if(ent instanceof IHydraulicMachine){
 				IHydraulicMachine machine = (IHydraulicMachine) ent;
 				mainList.add(machine);
@@ -286,27 +283,27 @@ public class MachineEntity implements IBaseClass {
 		int z = getBlockLocation().getZ();
 		List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			if(isMultipart){
+			/* FMP if(isMultipart){
 				if(((PartHose)tMp).isConnectedTo(dir)){
 					machines = getMachineList(machines, dir);
 					
 				}
-			}else{
+			}else{*/
 				machines = getMachineList(machines, dir);				
-			}
+			//}
 		}
 
 		List<IHydraulicMachine> callList = new ArrayList<IHydraulicMachine>();
 		
 		for (IHydraulicMachine machineEntity : machines) {
 			if(!mainList.contains(machineEntity)){
-				if(isMultipart){
+				/* FMP if(isMultipart){
 					mainList.add(machineEntity);
 					//callList.add(machineEntity);
 					//chain = true;
-				}
-				if(machineEntity instanceof PartHose){
-					//mainList.add(machineEntity);
+				}*/
+				if(machineEntity instanceof IHydraulicTransporter){
+					mainList.add(machineEntity);
 					callList.add(machineEntity);	
 					chain = true;
 				}
@@ -318,7 +315,7 @@ public class MachineEntity implements IBaseClass {
 							List<TileHydraulicValve> valves = ((IMachineMultiBlock)target).getValves();
 							for(TileHydraulicValve valve : valves){
 								if(!valve.equals(machineEntity)){
-									callList.add((IHydraulicMachine) valve);
+									callList.add(valve);
 								}
 							}
 							chain = true;
@@ -367,11 +364,11 @@ public class MachineEntity implements IBaseClass {
 		}
 
 		isRedstonePowered = tagCompound.getBoolean("isRedstonePowered");
-		if(isMultipart){
+		/*if(isMultipart){
 			((IHydraulicMachine)tMp).readNBT(tagCompound);
-		}else{
+		}else{*/
 			target.readNBT(tagCompound);
-		}
+		//}
 	}
 	
 	@Override
@@ -393,21 +390,21 @@ public class MachineEntity implements IBaseClass {
 				if(target.getNetwork(dir) != null){
 					NBTTagCompound pNetworkCompound = new NBTTagCompound();
 					target.getNetwork(dir).writeToNBT(pNetworkCompound);
-					tagCompound.setCompoundTag("network" + dir.ordinal(), pNetworkCompound);
+					tagCompound.setTag("network" + dir.ordinal(), pNetworkCompound);
 				}
 			}
 			
 		}
 		
-		if(isMultipart){
+		/* FMP if(isMultipart){
 			((IHydraulicMachine)tMp).writeNBT(tagCompound);
-		}else{
+		}else{*/
 			target.writeNBT(tagCompound);
-		}
+		//}
 	}
 	
-	protected TileEntity getBlockTileEntity(int x, int y, int z){
-		return getWorld().getBlockTileEntity(x, y, z);
+	protected TileEntity getTileEntity(int x, int y, int z){
+		return getWorld().getTileEntity(x, y, z);
 	}
 
 	public void checkRedstonePower() {
@@ -492,36 +489,35 @@ public class MachineEntity implements IBaseClass {
 		int x = getBlockLocation().getX() + dir.offsetX;
 		int y = getBlockLocation().getY() + dir.offsetY;
 		int z = getBlockLocation().getZ() + dir.offsetZ;
-		int blockId = getWorld().getBlockId(x, y, z);
+		//Block block = getWorld().getBlock(x, y, z);
 		
-		TileEntity t = getWorld().getBlockTileEntity(x, y, z);
+		TileEntity t = getWorld().getTileEntity(x, y, z);
 		if(t instanceof IHydraulicMachine){
 			if(((IHydraulicMachine)t).canConnectTo(dir.getOpposite()))
 				return (IHydraulicMachine)t;
-		}else if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
+		} /* FMP else if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
 			if(Multipart.getTransporter((TileMultipart)t).isConnectedTo(dir.getOpposite())){
 				return Multipart.getTransporter((TileMultipart)t);
 			}
-		}
+		}*/
 		return null;
 	}
 	
 	
 	private List<IHydraulicMachine> getConnectedBlocks(){
-		int x = getBlockLocation().getX();
+		/*int x = getBlockLocation().getX();
 		int y = getBlockLocation().getY();
-		int z = getBlockLocation().getZ();
+		int z = getBlockLocation().getZ();*/
 		List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			IHydraulicMachine isValid = null;
-			if(isMultipart){
+			/* FMP if(isMultipart){
 				if(((PartHose)tMp).isConnectedTo(dir)){
 					isValid = isValidMachine(dir);					
 				}
-			}else{
+			}else{*/
 				isValid = isValidMachine(dir);
-								
-			}
+			//}
 			if(isValid != null){
 				if(isValid instanceof TileHydraulicValve){
 					machines.add(((TileHydraulicValve)isValid).getTarget());

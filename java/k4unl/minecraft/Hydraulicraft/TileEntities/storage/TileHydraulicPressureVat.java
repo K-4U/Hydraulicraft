@@ -7,7 +7,7 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -18,11 +18,11 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -65,7 +65,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet){
 		getHandler().onDataPacket(net, packet);
 	}
 	
@@ -156,34 +156,14 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	}
 
 	@Override
-	public String getInvName() {
-		return Localization.getLocalizedName(Names.blockHydraulicPressurevat[getTier()].unlocalized);
-	}
-
-	@Override
-	public boolean isInvNameLocalized() {
-		return true;
-	}
-
-	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return ((worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this) && 
+		return ((worldObj.getTileEntity(xCoord, yCoord, zCoord) == this) && 
 				player.getDistanceSq(xCoord, yCoord, zCoord) < 64);
-	}
-
-	@Override
-	public void openChest() {
-		
-	}
-
-	@Override
-	public void closeChest() {
-		
 	}
 
 	@Override
@@ -321,7 +301,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public void onBlockBreaks() {
-		ItemStack ourEnt = new ItemStack(Blocks.hydraulicPressurevat, 1, getTier());
+		ItemStack ourEnt = new ItemStack(HydraulicraftBlocks.hydraulicPressurevat, 1, getTier());
 		NBTTagCompound tCompound = new NBTTagCompound();
 		writeToNBT(tCompound);
 		tCompound.removeTag("x");
@@ -389,12 +369,12 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		if(inputInventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			inputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("inputInventory", inventoryCompound);
+			tagCompound.setTag("inputInventory", inventoryCompound);
 		}
 		if(outputInventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			outputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
+			tagCompound.setTag("outputInventory", inventoryCompound);
 		}
 		
 		tagCompound.setInteger("tier", tier);
@@ -402,7 +382,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 		
 		NBTTagCompound tankCompound = new NBTTagCompound();
 		tank.writeToNBT(tankCompound);
-		tagCompound.setCompoundTag("tank", tankCompound);
+		tagCompound.setTag("tank", tankCompound);
 	}
 
 	@Override
@@ -415,13 +395,13 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 			int newRedstoneLevel = (int)(15 * percentage);
 			if(newRedstoneLevel != prevRedstoneLevel){
 				prevRedstoneLevel = newRedstoneLevel;
-				worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType().blockID);
+				worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
 				getHandler().updateBlock();
 			}
 		}
 	}
 
-	@Override
+	
 	public void onInventoryChanged() {
 		if(inputInventory != null){
 			FluidStack input = FluidContainerRegistry.getFluidForFilledItem(inputInventory);
@@ -578,5 +558,23 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	
 	public int getRedstoneLevel(){
 		return prevRedstoneLevel;
+	}
+
+	@Override
+	public String getInventoryName() {
+		return Localization.getLocalizedName(Names.blockHydraulicPressurevat[getTier()].unlocalized);
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		return true;
+	}
+
+	@Override
+	public void openInventory() {
+	}
+
+	@Override
+	public void closeInventory() {
 	}
 }

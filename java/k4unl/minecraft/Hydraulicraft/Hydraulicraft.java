@@ -1,11 +1,11 @@
 package k4unl.minecraft.Hydraulicraft;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileEntities;
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
 import k4unl.minecraft.Hydraulicraft.events.EventHelper;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
-import k4unl.minecraft.Hydraulicraft.items.Items;
+import k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems;
 import k4unl.minecraft.Hydraulicraft.lib.ConfigHandler;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -25,7 +25,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -34,13 +33,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 	name = ModInfo.NAME,
 	version = ModInfo.VERSION
 )
-
-@NetworkMod (
-	channels = {ModInfo.CHANNEL},
-	clientSideRequired = true,
-	serverSideRequired = true
-)
-
 public class Hydraulicraft {
 	//This is the instance that Forge uses:
 	@Instance(value=ModInfo.ID)
@@ -68,12 +60,12 @@ public class Hydraulicraft {
 		
 		CustomTabs.init();
 		
-		Blocks.init();
+		HydraulicraftBlocks.init();
 		Ores.init();
 		TileEntities.init();
 		Fluids.init();
 		
-		Items.init();
+		HydraulicraftItems.init();
 		EventHelper.init();
 		
 		mp = new Multipart();
@@ -88,8 +80,8 @@ public class Hydraulicraft {
 	public void load(FMLInitializationEvent event){
 		ThirdParty.init();
 		
-		GameRegistry.registerWorldGenerator(new OreGenerator());
-		NetworkRegistry.instance().registerGuiHandler(this.instance, new GuiHandler());
+		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
+		NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new GuiHandler());
 		
 		proxy.init();
 	}

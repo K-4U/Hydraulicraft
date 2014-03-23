@@ -25,7 +25,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class Blocks {
+public class HydraulicraftBlocks {
 	
 	public static Block hydraulicPump;
 	public static Block hydraulicLavaPump;
@@ -75,8 +75,6 @@ public class Blocks {
 		
 		registerBlocks();
 		addNames();
-		
-		registerMultiparts();
 	}
 	
 
@@ -139,9 +137,5 @@ public class Blocks {
 			LanguageRegistry.addName(new ItemStack(hydraulicPump,1,i), Names.blockHydraulicPump[i].localized);
 		}*/
 				
-	}
-	
-	private static void registerMultiparts() {
-		//new RegisterBlockPart(hydraulicHose, PartHose.class).init();
 	}
 }

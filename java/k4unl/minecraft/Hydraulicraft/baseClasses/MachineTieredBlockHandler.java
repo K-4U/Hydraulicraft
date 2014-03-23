@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses;
 
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
@@ -8,8 +9,8 @@ public class MachineTieredBlockHandler extends ItemBlock {
 	private Name[] tNames;
 	
 	
-	public MachineTieredBlockHandler(int blockId, Name[] names) {
-		super(blockId);
+	public MachineTieredBlockHandler(Block block, Name[] names) {
+		super(block);
 		
 		tNames = names;
 		

@@ -13,17 +13,14 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import codechicken.microblock.MicroRecipe;
-import codechicken.nei.InventoryCraftingDummy;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TileHydraulicSaw extends TileEntity implements IHydraulicConsumer, ISidedInventory {
@@ -150,7 +147,7 @@ public class TileHydraulicSaw extends TileEntity implements IHydraulicConsumer, 
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		getHandler().onDataPacket(net, packet);
 	}
 
@@ -347,38 +344,13 @@ public class TileHydraulicSaw extends TileEntity implements IHydraulicConsumer, 
 	}
 
 	@Override
-	public String getInvName() {
-		return Localization.getLocalizedName(Names.blockHydraulicSaw.unlocalized);
-	}
-
-	@Override
-	public boolean isInvNameLocalized() {
-		return true;
-	}
-
-	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
 
 	@Override
-	public void onInventoryChanged() {
-		getHandler().updateBlock();
-	}
-
-	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this && entityplayer.getDistanceSq(xCoord, yCoord, zCoord) < 64;
-	}
-
-	@Override
-	public void openChest() {
-
-	}
-
-	@Override
-	public void closeChest() {
-
+		return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityplayer.getDistanceSq(xCoord, yCoord, zCoord) < 64;
 	}
 
 	@Override
@@ -449,6 +421,7 @@ public class TileHydraulicSaw extends TileEntity implements IHydraulicConsumer, 
 	}
 	
 	private ItemStack getThinningRecipe(ItemStack input){
+		/* FMP
 		InventoryCrafting ic = new InventoryCraftingDummy();
 
 		
@@ -457,10 +430,12 @@ public class TileHydraulicSaw extends TileEntity implements IHydraulicConsumer, 
 		ic.setInventorySlotContents(posOfSaw, saw);
 		ic.setInventorySlotContents(posOfBlock, input);
 		ItemStack thinResult = MicroRecipe.getThinningResult(ic);
-		return thinResult;
+		return thinResult;*/
+		return null;
 	}
 	
 	private ItemStack getSplittingRecipe(ItemStack input){
+		/* FMP
 		InventoryCrafting ic = new InventoryCraftingDummy();
 
 		
@@ -469,7 +444,8 @@ public class TileHydraulicSaw extends TileEntity implements IHydraulicConsumer, 
 		ic.setInventorySlotContents(posOfSaw, saw);
 		ic.setInventorySlotContents(posOfBlock, input);
 		ItemStack splitResult = MicroRecipe.getSplittingResult(ic);
-		return splitResult;
+		return splitResult;*/
+		return null;
 	}
 	
 	private void doSaw(){
@@ -649,6 +625,24 @@ public class TileHydraulicSaw extends TileEntity implements IHydraulicConsumer, 
 				}
 			}
 		}
+	}
+
+	@Override
+	public String getInventoryName() {
+		return Localization.getLocalizedName(Names.blockHydraulicSaw.unlocalized);
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		return true;
+	}
+
+	@Override
+	public void openInventory() {
+	}
+
+	@Override
+	public void closeInventory() {
 	}
 
 }

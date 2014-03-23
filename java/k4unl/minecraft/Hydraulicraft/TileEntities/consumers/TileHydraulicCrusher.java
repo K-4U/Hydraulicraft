@@ -19,11 +19,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileHydraulicCrusher extends TileEntity implements ISidedInventory, IHydraulicConsumer{
@@ -52,7 +52,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet){
         getHandler().onDataPacket(net, packet);
     }
 
@@ -241,16 +241,7 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
         }
     }
 
-    @Override
-    public String getInvName(){
-        return Localization.getLocalizedName(Names.blockHydraulicCrusher.unlocalized);
-    }
 
-    @Override
-    public boolean isInvNameLocalized(){
-        // TODO Localization
-        return true;
-    }
 
     @Override
     public int getInventoryStackLimit(){
@@ -259,18 +250,9 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player){
-        return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq(xCoord, yCoord, zCoord) < 64;
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq(xCoord, yCoord, zCoord) < 64;
     }
 
-    @Override
-    public void openChest(){
-
-    }
-
-    @Override
-    public void closeChest(){
-
-    }
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack){
@@ -285,10 +267,12 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
         }
     }
 
+    /* TODO: Fix me
     @Override
     public void onInventoryChanged(){
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
+    */
 
     @Override
     public int[] getAccessibleSlotsFromSide(int var1){
@@ -363,22 +347,22 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
         if(inputInventory != null) {
             NBTTagCompound inventoryCompound = new NBTTagCompound();
             inputInventory.writeToNBT(inventoryCompound);
-            tagCompound.setCompoundTag("inputInventory", inventoryCompound);
+            tagCompound.setTag("inputInventory", inventoryCompound);
         }
         if(outputInventory != null) {
             NBTTagCompound inventoryCompound = new NBTTagCompound();
             outputInventory.writeToNBT(inventoryCompound);
-            tagCompound.setCompoundTag("outputInventory", inventoryCompound);
+            tagCompound.setTag("outputInventory", inventoryCompound);
         }
         if(crushingItem != null) {
             NBTTagCompound inventoryCompound = new NBTTagCompound();
             crushingItem.writeToNBT(inventoryCompound);
-            tagCompound.setCompoundTag("crushingItem", inventoryCompound);
+            tagCompound.setTag("crushingItem", inventoryCompound);
         }
         if(targetItem != null) {
             NBTTagCompound inventoryCompound = new NBTTagCompound();
             targetItem.writeToNBT(inventoryCompound);
-            tagCompound.setCompoundTag("targetItem", inventoryCompound);
+            tagCompound.setTag("targetItem", inventoryCompound);
         }
         
         tagCompound.setInteger("crushingTicks", crushingTicks);
@@ -519,5 +503,27 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 		}else{
 			return getNetwork(from).getFluidCapacity();
 		}
+	}
+
+	@Override
+	public String getInventoryName() {
+		return Localization.getLocalizedName(Names.blockHydraulicCrusher.unlocalized);
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		return true;
+	}
+
+	@Override
+	public void openInventory() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void closeInventory() {
+		// TODO Auto-generated method stub
+		
 	}
 }

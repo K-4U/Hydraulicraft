@@ -7,9 +7,9 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
 
@@ -31,7 +31,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		int rotation = 0;//t.getDir();
 		int metadata = t.getBlockMetadata();
 		
-		renderer = new RenderBlocks(tileentity.worldObj);
+		renderer = new RenderBlocks(tileentity.getWorldObj());
 		
 		doRender(t, (float)x, (float)y, (float)z, f, rotation, metadata);
 	}
@@ -224,7 +224,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 				vectorFilled.setZMin(vectorFilled.getZMax() - (h * (fluidAmount / (float)tankInfo[0].capacity)));
 			
 			
-				Icon fluidIcon = FluidRegistry.LAVA.getIcon();
+				IIcon fluidIcon = FluidRegistry.LAVA.getIcon();
 				
 				if(fluidAmount > 0){
 					RenderHelper.drawTesselatedCubeWithTexture(vectorFilled, fluidIcon);

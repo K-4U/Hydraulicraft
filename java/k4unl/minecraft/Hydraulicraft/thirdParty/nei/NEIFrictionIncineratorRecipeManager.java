@@ -1,24 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
-import java.awt.Rectangle;
-import java.util.List;
-import java.util.Map;
-
-import k4unl.minecraft.Hydraulicraft.client.GUI.GuiIncinerator;
-import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
-import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import codechicken.nei.NEIClientUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.ShapedRecipeHandler;
 
 public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
-    private ShapedRecipeHandler.CachedShapedRecipe getShape(Map.Entry<List<Integer>, ItemStack> recipe) {
+    /*private ShapedRecipeHandler.CachedShapedRecipe getShape(Map.Entry<List<Integer>, ItemStack> recipe) {
         ShapedRecipeHandler.CachedShapedRecipe shape = new
                 ShapedRecipeHandler.CachedShapedRecipe(0, 0, null, recipe.getValue());
 
@@ -113,5 +97,5 @@ public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
         //TODO decide whether one should have a wobbling effect or not (the last parameter)
         IconRenderer.drawMergedIcon(xPos, 8, 0, smeltingItem, targetItem, percentage, smeltingItem.stackSize % 2 == 0);
 		//drawProgressBar(80, 21, 207, 0, 34, 19, 48, 2 | (1 << 3));
-    }
+    }*/
 }

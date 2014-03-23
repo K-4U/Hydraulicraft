@@ -2,20 +2,20 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import buildcraft.api.tools.IToolWrench;
 
 public class BlockKineticPump extends MachineTieredBlock {
 
 	public BlockKineticPump() {
-		super(Ids.blockKineticPump, Names.blockKineticPump);
+		super(Names.blockKineticPump);
 		
 		this.hasTopIcon = true;
 		hasTextures = false;
@@ -23,7 +23,7 @@ public class BlockKineticPump extends MachineTieredBlock {
 
 
 	@Override
-	public TileEntity createNewTileEntity(World world) {
+	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileKineticPump();
 	}
 
@@ -57,26 +57,26 @@ public class BlockKineticPump extends MachineTieredBlock {
 		}
 		
 		
-		TileEntity entity = world.getBlockTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileKineticPump)){
 			return false;
 		}
 
-		player.openGui(Hydraulicraft.instance, Ids.GUIKineticPump.act, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.GUIKineticPump, world, x, y, z);
 		
 		return true;
 	}
 	
 	@Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){
-		TileEntity te = world.getBlockTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
 		if(te instanceof TileKineticPump){
 			if(side.equals(ForgeDirection.UP) || side.equals(ForgeDirection.DOWN)){
 				TileKineticPump e = (TileKineticPump) te;
 				ForgeDirection facing = e.getFacing();
 				e.setFacing(facing.getRotation(side));
 				e.getHandler().updateBlock();
-				world.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
+				world.notifyBlocksOfNeighborChange(x, y, z, this);
 			}
 		}
 		
