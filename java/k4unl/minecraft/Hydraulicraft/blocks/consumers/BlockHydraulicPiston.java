@@ -3,8 +3,11 @@ package k4unl.minecraft.Hydraulicraft.blocks.consumers;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -75,6 +78,35 @@ public class BlockHydraulicPiston extends MachineBlockContainer {
             setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
         }
     }
+    @Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
+		if(hasFrontIcon){
+			int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
+			
+			
+			int metaDataToSet = 0;
+			switch(sideToPlace){
+			case 0:
+				metaDataToSet = 2;
+				break;
+			case 1:
+				metaDataToSet = 5;
+				break;
+			case 2:
+				metaDataToSet = 3;
+				break;
+			case 3:
+				metaDataToSet = 4;
+				break;
+			}
+			
+			TileEntity pEnt = world.getBlockTileEntity(x, y, z);
+			if(pEnt instanceof TileHydraulicPiston){
+				((TileHydraulicPiston)pEnt).setFacing(ForgeDirection.getOrientation(metaDataToSet));
+			}
+		}
+	}
+    
 /*
     @Override
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity){

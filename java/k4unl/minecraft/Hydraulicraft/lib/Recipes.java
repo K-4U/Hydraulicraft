@@ -35,6 +35,7 @@ public class Recipes {
     	OreDictionary.registerOre("oreGold", Blocks.gold_ore);
     	OreDictionary.registerOre("ingotGold", Items.gold_ingot);
     	OreDictionary.registerOre("oreNetherQuartz", Blocks.quartz_ore);
+    	OreDictionary.registerOre("gemDiamond", Items.diamond);
         //Get items from ore dictionary:
         List<String> crushableItems = new ArrayList<String>();
         crushableItems.add("Gold");
