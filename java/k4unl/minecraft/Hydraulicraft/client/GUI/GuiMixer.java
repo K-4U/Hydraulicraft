@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicMixer;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerMixer;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -49,7 +49,7 @@ public class GuiMixer extends MachineGUI {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRenderer.drawString(Names.blockHydraulicMixer.localized, 8, 6, 0xFFFFFF);
-		drawHorizontalAlignedString(7, 3, xSize-14, HydraulicraftBlocks.hydraulicMixer.getLocalizedName(), true);
+		drawHorizontalAlignedString(7, 3, xSize-14, HCBlocks.hydraulicMixer.getLocalizedName(), true);
 		
 		
 		FluidTankInfo[] tankInfo = mixer.getTankInfo(ForgeDirection.UP);

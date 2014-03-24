@@ -20,6 +20,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInfiniteSource;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.transporter.BlockHose;
@@ -27,7 +28,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class HydraulicraftBlocks {
+public class HCBlocks {
 	
 	public static Block hydraulicPump;
 	public static Block hydraulicLavaPump;
@@ -48,6 +49,8 @@ public class HydraulicraftBlocks {
 	public static Block blockInterfaceValve;
 	
 	public static Block blockHose;
+	
+	public static Block blockInfiniteSource;
 	
 	
 	/*!
@@ -75,6 +78,7 @@ public class HydraulicraftBlocks {
 		blockInterfaceValve = new BlockInterfaceValve();
 		
 		blockHose = new BlockHose();
+		blockInfiniteSource = new BlockInfiniteSource();
 		
 		
 		
@@ -102,6 +106,7 @@ public class HydraulicraftBlocks {
 		GameRegistry.registerBlock(pressureDisposal, Names.blockPressureDisposal.unlocalized);
 		GameRegistry.registerBlock(blockValve, Names.blockValve.unlocalized);
 		GameRegistry.registerBlock(blockInterfaceValve, Names.blockInterfaceValve.unlocalized);
+		GameRegistry.registerBlock(blockInfiniteSource, Names.blockInfiniteSource.unlocalized);
 		
 		
 		GameRegistry.registerBlock(blockHose, HandlerHose.class, Names.partHose[0].unlocalized);

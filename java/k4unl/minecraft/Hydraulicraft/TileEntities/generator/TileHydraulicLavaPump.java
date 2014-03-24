@@ -145,6 +145,7 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 			return 0;
 		}
 	}
+	
 	@Override
 	public int getMaxStorage() {
 		return FluidContainerRegistry.BUCKET_VOLUME * (2 * (getTier() + 1));

@@ -7,7 +7,7 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -149,6 +149,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 	public void setInventorySlotContents(int i, ItemStack itemStack) {
 		if(i == 0){
 			inputInventory = itemStack;
+			onInventoryChanged();
 		}else{
 			//Err...
 			
@@ -301,7 +302,7 @@ public class TileHydraulicPressureVat extends TileEntity implements IInventory, 
 
 	@Override
 	public void onBlockBreaks() {
-		ItemStack ourEnt = new ItemStack(HydraulicraftBlocks.hydraulicPressurevat, 1, getTier());
+		ItemStack ourEnt = new ItemStack(HCBlocks.hydraulicPressurevat, 1, getTier());
 		NBTTagCompound tCompound = new NBTTagCompound();
 		writeToNBT(tCompound);
 		tCompound.removeTag("x");

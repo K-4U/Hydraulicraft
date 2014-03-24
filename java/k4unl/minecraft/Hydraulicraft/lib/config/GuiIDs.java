@@ -21,6 +21,7 @@ public class GuiIDs {
 	public static final int GUIKineticPump = 14;
 	public static final int GUISaw = 15;
 	public static final int GUIPneumaticCompressor = 16;
+	public static final int GUIInfiniteSource = 17;
 	
 	
 	

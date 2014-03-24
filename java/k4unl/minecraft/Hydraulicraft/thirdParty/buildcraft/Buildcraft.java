@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft;
 
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockHydraulicEngine;
@@ -42,7 +42,7 @@ public class Buildcraft {
 					"WWW",
 					"-G-",
 					"FPK",
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'G', Blocks.glass,
 					'F', HydraulicraftItems.itemFrictionPlate,
 					'P', Blocks.piston,
@@ -56,7 +56,7 @@ public class Buildcraft {
 					"WWW",
 					'G', Blocks.glass,
 					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'P', Blocks.piston,
 					'L', "ingotLead"
 				}));
@@ -68,7 +68,7 @@ public class Buildcraft {
 					"WWW",
 					'G', Blocks.glass,
 					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'P', Blocks.piston,
 					'R', "ingotCopper"
 				}));
@@ -80,7 +80,7 @@ public class Buildcraft {
 					"WWW",
 					'G', Blocks.glass,
 					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'P', Blocks.piston,
 					'R', "ingotEnrichedCopper"
 				}));

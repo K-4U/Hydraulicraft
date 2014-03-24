@@ -100,7 +100,7 @@ public class BlockHydraulicPiston extends MachineBlockContainer {
 				break;
 			}
 			
-			TileEntity pEnt = world.getBlockTileEntity(x, y, z);
+			TileEntity pEnt = world.getTileEntity(x, y, z);
 			if(pEnt instanceof TileHydraulicPiston){
 				((TileHydraulicPiston)pEnt).setFacing(ForgeDirection.getOrientation(metaDataToSet));
 			}

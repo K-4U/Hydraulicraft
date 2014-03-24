@@ -8,7 +8,7 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
@@ -57,11 +57,11 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	private List<Location> trolleyList = new ArrayList<Location>();
 	
 	
-	private static final Block horizontalFrame = HydraulicraftBlocks.hydraulicHarvesterSource;
+	private static final Block horizontalFrame = HCBlocks.hydraulicHarvesterSource;
 	private static final Block verticalFrame = Blocks.fence;
-	private static final Block piston = HydraulicraftBlocks.hydraulicPiston;
-	private static final Block endBlock = HydraulicraftBlocks.hydraulicPressureWall;
-	private static final Block trolley = HydraulicraftBlocks.harvesterTrolley;
+	private static final Block piston = HCBlocks.hydraulicPiston;
+	private static final Block endBlock = HCBlocks.hydraulicPressureWall;
+	private static final Block trolley = HCBlocks.harvesterTrolley;
 	
 	private PressureNetwork pNetwork;
 	private List<ForgeDirection> connectedSides;

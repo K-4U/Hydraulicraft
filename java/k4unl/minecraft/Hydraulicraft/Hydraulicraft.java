@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.TileEntities;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
 import k4unl.minecraft.Hydraulicraft.events.EventHelper;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
@@ -60,7 +60,7 @@ public class Hydraulicraft {
 		
 		CustomTabs.init();
 		
-		HydraulicraftBlocks.init();
+		HCBlocks.init();
 		Ores.init();
 		TileEntities.init();
 		Fluids.init();

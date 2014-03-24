@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp;
 
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.blocks.BlockHydraulicSaw;
@@ -26,7 +26,7 @@ public class FMP {
 		GameRegistry.registerBlock(hydraulicSaw, Names.blockHydraulicSaw.unlocalized);
 		GameRegistry.registerTileEntity(TileHydraulicSaw.class, "tileHydraulicSaw");
 		
-		FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(HydraulicraftBlocks.hydraulicPressureWall, 1));
+		FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(HCBlocks.hydraulicPressureWall, 1));
 	}
 	
 	public static void initRecipes(){

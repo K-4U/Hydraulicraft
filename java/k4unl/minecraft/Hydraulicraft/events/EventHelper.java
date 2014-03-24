@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.events;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems;
 import net.minecraft.block.Block;
@@ -21,7 +21,7 @@ public class EventHelper {
 	
 	@SubscribeEvent
 	public void onBlockBreak(BreakEvent event){
-		if(event.block == HydraulicraftBlocks.hydraulicPressureWall || event.block == HydraulicraftBlocks.blockValve){
+		if(event.block == HCBlocks.hydraulicPressureWall || event.block == HCBlocks.blockValve){
 			//check all directions for a hydraulic washer
 			boolean breakAll = false;
 			for(int horiz = -2; horiz <= 2; horiz++) {

@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerWasher;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -30,7 +30,7 @@ public class GuiWasher extends MachineGUI {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRenderer.drawString(Names.blockHydraulicWasher.localized, 8, 6, 0xFFFFFF);
-		drawHorizontalAlignedString(7, 3, xSize-14, HydraulicraftBlocks.hydraulicWasher.getLocalizedName(), true);
+		drawHorizontalAlignedString(7, 3, xSize-14, HCBlocks.hydraulicWasher.getLocalizedName(), true);
 		
 		drawFluidAndPressure();
 		

@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft;
 
 import ic2.api.item.IC2Items;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.BlockElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.BlockHydraulicGenerator;
@@ -48,7 +48,7 @@ public class IndustrialCraft {
 					'P', Blocks.glass_pane,
 					'G', generator,
 					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'B', battery
 				}));
 		
@@ -60,7 +60,7 @@ public class IndustrialCraft {
 					"WWW",
 					'G', Blocks.glass,
 					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'C', coil,
 					'L', "ingotLead"
 				}));
@@ -71,7 +71,7 @@ public class IndustrialCraft {
 					"WWW",
 					'G', Blocks.glass,
 					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'C', coil,
 					'R', "ingotCopper"
 				}));
@@ -82,7 +82,7 @@ public class IndustrialCraft {
 					"WWW",
 					'G', Blocks.glass,
 					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'C', coil,
 					'R', "ingotEnrichedCopper"
 				}));

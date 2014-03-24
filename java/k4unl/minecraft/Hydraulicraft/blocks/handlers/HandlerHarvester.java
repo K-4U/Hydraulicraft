@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlockHandler;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -15,7 +15,7 @@ public class HandlerHarvester extends MachineTieredBlockHandler {
 	
 	@Override
 	public IIcon getIconFromDamage(int metadata) {
-		return HydraulicraftBlocks.hydraulicHarvesterSource.getIcon(0, metadata);
+		return HCBlocks.hydraulicHarvesterSource.getIcon(0, metadata);
 	}
 	
 	@Override

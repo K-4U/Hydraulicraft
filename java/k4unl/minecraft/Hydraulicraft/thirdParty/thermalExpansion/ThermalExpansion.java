@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion;
 
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicraftBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockHydraulicDynamo;
@@ -60,7 +60,7 @@ public class ThermalExpansion {
 					"WWW",
 					'G', Blocks.glass,
 					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'C', powerReceptionCoil,
 					'L', "ingotLead"
 				}));
@@ -72,7 +72,7 @@ public class ThermalExpansion {
 					"WWW",
 					'G', Blocks.glass,
 					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'C', powerReceptionCoil,
 					'R', "ingotCopper"
 				}));
@@ -84,7 +84,7 @@ public class ThermalExpansion {
 					"WWW",
 					'G', Blocks.glass,
 					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'C', powerReceptionCoil,
 					'R', "ingotEnrichedCopper"
 				}));
