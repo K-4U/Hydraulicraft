@@ -29,20 +29,23 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		GL11.glTranslatef((float) x, (float) y, (float)z);
 		
 		//Get metadata for rotation:
-		
-		switch(metadata){
-		case 2:
-			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
-			GL11.glTranslatef(-1.0F, 0.0F, 0.0F);
-			break;
-		case 3:
-			GL11.glRotatef(-90F, 0.0F, 1.0F, 0F);
-			GL11.glTranslatef(0.0F, 0.0F, -1.0F);
-			break;
-		case 4:
-			GL11.glRotatef(180F, 0.0F, 1.0F, 0F);
-			GL11.glTranslatef(-1.0F, 0.0F, -1.0F);
-			break;
+		if(tileentity != null){
+			switch(tileentity.getFacing()){
+			case WEST:
+				GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+				GL11.glTranslatef(-1.0F, 0.0F, -1.0F);
+				break;
+			case SOUTH:
+				GL11.glRotatef(-90F, 0.0F, 1.0F, 0F);
+				GL11.glTranslatef(0.0F, 0.0F, -1.0F);
+				break;
+			case NORTH:
+				GL11.glRotatef(90F, 0.0F, 1.0F, 0F);
+				GL11.glTranslatef(-1.0F, 0.0F, 0.0F);
+				break;
+			default:
+				break;
+			}
 		}
 		
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);

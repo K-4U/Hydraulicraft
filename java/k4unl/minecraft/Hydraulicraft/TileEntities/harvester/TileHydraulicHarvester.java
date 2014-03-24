@@ -545,6 +545,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 				TileHydraulicPiston p = (TileHydraulicPiston)tilePiston;
 				p.setIsHarvesterPart(true);
 				p.setMaxLength((float)harvesterLength-1);
+				p.setFacing(getFacing());
 				//Location l = new Location(p.xCoord, p.yCoord, p.zCoord);
 				pistonList.add(l);
 				

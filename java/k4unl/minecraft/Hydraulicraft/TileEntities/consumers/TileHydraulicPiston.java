@@ -34,6 +34,7 @@ public class TileHydraulicPiston extends TileEntity implements IHydraulicConsume
 	private Location harvesterLocation;
 	
 	private boolean isRetracting;
+	private ForgeDirection facing = ForgeDirection.NORTH;
 
 	private PressureNetwork pNetwork;
 	private List<ForgeDirection> connectedSides;
@@ -72,6 +73,7 @@ public class TileHydraulicPiston extends TileEntity implements IHydraulicConsume
 		oldExtendedLength = tagCompound.getFloat("oldExtendedLength");
 		
 		harvesterLocation = new Location(tagCompound.getIntArray("harvesterLocation"));
+		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 	}
 
 	@Override
@@ -85,6 +87,7 @@ public class TileHydraulicPiston extends TileEntity implements IHydraulicConsume
 		if(harvesterLocation != null){
 			tagCompound.setIntArray("harvesterLocation", harvesterLocation.getLocation());
 		}
+		tagCompound.setInteger("facing", facing.ordinal());
 	}
 
 	public float getExtendedLength(){
@@ -368,5 +371,13 @@ public class TileHydraulicPiston extends TileEntity implements IHydraulicConsume
 	
 	public float getOldExtendedLength(){
 	    return oldExtendedLength;
+	}
+	
+	public ForgeDirection getFacing(){
+		return facing;
+	}
+	
+	public void setFacing(ForgeDirection nFacing){
+		facing = nFacing;
 	}
 }
