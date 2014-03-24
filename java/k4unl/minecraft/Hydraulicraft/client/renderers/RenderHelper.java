@@ -137,9 +137,10 @@ public class RenderHelper {
 		
 		boolean wasTesselating = true;
 		/*if(!tessellator.isDrawing){
-			tessellator.startDrawingQuads();
+			
 			wasTesselating = false;
 		}*/
+		tessellator.startDrawingQuads();
 		
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 		
@@ -185,9 +186,9 @@ public class RenderHelper {
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMax(), vector.getZMax(), U, V);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMax(), vector.getZMax(), U, v);
 		
-		if(!wasTesselating){
+		//if(!wasTesselating){
 			tessellator.draw();
-		}
+		//}
 	}	
 		
 	public static void drawTexturedCube(Vector3fMax vector){

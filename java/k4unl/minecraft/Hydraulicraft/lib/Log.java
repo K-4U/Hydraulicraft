@@ -6,8 +6,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.common.FMLLog;
-
 /*!
  * @author Koen Beckers
  * @date 13-12-2013
