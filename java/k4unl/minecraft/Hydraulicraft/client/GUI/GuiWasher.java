@@ -91,5 +91,6 @@ public class GuiWasher extends MachineGUI {
 			}*/
 			GL11.glDisable(GL11.GL_BLEND);
 		}
+		checkTooltips(mouseX, mouseY);
 	}
 }

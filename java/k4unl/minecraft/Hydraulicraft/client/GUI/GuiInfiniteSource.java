@@ -37,6 +37,6 @@ public class GuiInfiniteSource extends MachineGUI {
 		*/
 		
 		drawFluidAndPressure();
-		
+		checkTooltips(mouseX, mouseY);
 	}
 }

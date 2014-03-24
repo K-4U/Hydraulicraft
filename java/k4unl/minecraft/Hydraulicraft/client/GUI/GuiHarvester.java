@@ -27,6 +27,7 @@ public class GuiHarvester extends MachineGUI {
 		drawHorizontalAlignedString(7, 3, xSize-14, HCBlocks.hydraulicHarvesterSource.getLocalizedName(), true);
 		
 		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 	}
 
 }

@@ -46,5 +46,6 @@ public class GuiKineticPump extends MachineGUI {
 		
 		
 		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 	}
 }

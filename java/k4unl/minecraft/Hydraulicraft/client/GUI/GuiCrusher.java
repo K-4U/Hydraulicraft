@@ -37,5 +37,6 @@ public class GuiCrusher extends MachineGUI{
         //fontRenderer.drawString(Names.blockHydraulicCrusher.localized, 8, 6, 0xFFFFFF);
         drawHorizontalAlignedString(7, 3, xSize-14, HCBlocks.hydraulicCrusher.getLocalizedName(), true);
         drawFluidAndPressure();
+        checkTooltips(mouseX, mouseY);
     }
 }

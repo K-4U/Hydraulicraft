@@ -42,5 +42,6 @@ public class GuiIncinerator extends MachineGUI {
             //TODO decide whether one should have a wobbling effect or not (the last parameter)
             IconRenderer.drawMergedIcon(xPos, 19, zLevel, smeltingItem, targetItem, percentage, smeltingItem.stackSize % 2 == 0);
 		}
+		checkTooltips(mouseX, mouseY);
 	}
 }

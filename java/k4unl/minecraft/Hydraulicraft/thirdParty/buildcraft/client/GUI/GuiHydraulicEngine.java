@@ -42,5 +42,6 @@ public class GuiHydraulicEngine extends MachineGUI {
 		
 		
 		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 	}
 }

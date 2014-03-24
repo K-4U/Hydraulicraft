@@ -27,6 +27,7 @@ public class GuiPressureVat extends MachineGUI {
 		drawHorizontalAlignedString(7, 3, xSize-14, pvat.getInventoryName(), true);
 		
 		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 	}
 
 }

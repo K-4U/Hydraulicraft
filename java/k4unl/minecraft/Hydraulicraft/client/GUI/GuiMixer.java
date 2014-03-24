@@ -71,5 +71,6 @@ public class GuiMixer extends MachineGUI {
 		}
 		
 		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 	}
 }

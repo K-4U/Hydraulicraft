@@ -52,6 +52,7 @@ public class GuiLavaPump extends MachineGUI {
 		
 		
 		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 		
 	}
 }
