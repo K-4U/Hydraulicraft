@@ -32,7 +32,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @Mod(
 	modid = ModInfo.ID,
 	name = ModInfo.NAME,
-	version = ModInfo.VERSION
+	version = ModInfo.VERSION,
+	dependencies = "required-after:ForgeMultipart@1.0.0.250"
 )
 
 @NetworkMod (
