@@ -1,0 +1,88 @@
+### Main Mod
+#Items
+item.gasket.name=Dichtung
+item.frictionPlate.name=Reibungsplatte
+item.ingotCopper.name=Kupferbarren
+item.ingotLead.name=Bleibarren
+item.ingotEnrichedCopper=Angereicherter Kupferbarren
+item.bucketHydraulicOil.name=Eimer mit Hydrauliköl
+item.bacon.name=Speck
+
+#Ores
+tile.oreCopper.name=Kupfererz
+tile.oreLead.name=Bleierz
+
+#Blocks
+tile.hydraulicOil.name=Hydrauliköl
+tile.hydraulicMixer.name=Mixer
+tile.hydraulicFrictionIncinerator.name=Reibungsbrennofen
+tile.hydraulicCrusher.name=Zerstoßer
+tile.hydraulicWasher.name=Waschanlage
+tile.hydraulicPressureWall.name=Wand
+
+tile.LPHydraulicPipe.name=Niederdruckrohr
+tile.MPHydraulicPipe.name=Mitteldruckrohr
+tile.HPHydraulicPipe.name=Hochdruckrohr
+
+tile.LPPartValve.name=Niederdruckventil
+tile.MPPartValve.name=Mitteldruckventil
+tile.HPPartValve.name=Hochdruckventil
+
+tile.LPHydraulicPressureVat.name=Niederdruckbottich
+tile.MPHydraulicPressureVat.name=Mitteldruckbottich
+tile.HPHydraulicPressureVat.name=Hochdruckbottich
+
+tile.LPHydraulicPump.name=Niederdruckpumpe
+tile.MPHydraulicPump.name=Mitteldruckpumpe
+tile.HPHydraulicPump.name=Hochdruckpumpe
+
+tile.LPHydraulicLavaPump.name=Niederdruck-Lavapumpe
+tile.MPHydraulicLavaPump.name=Mitteldruck-Lavapumpe
+tile.HPHydraulicLavaPump.name=Hochdruck-Lavapumpe
+
+tile.hydraulicHarvesterSource.name=Hydraulische Erntemaschine
+tile.hydraulicHarvesterFrame.name=Erntemaschinengerüst
+tile.wheatHarvester.name=Weizen-Erntekran
+tile.enderLilyHarvester.name=Enderlilien-Erntekran
+tile.sugarCaneHarvester.name=Zuckerrohr-Erntekran
+
+tile.hydraulicPiston.name=Hydraulischer Kolben
+tile.interfaceValve.name=Schnittstellenventil
+tile.valve.name=Hydraulikblockventil
+
+tile.LPBlockCore.name=Niederdruckkern
+tile.MPBlockCore.name=Mitteldruckkern
+tile.HPBlockCore.name=Hochdruckkern
+
+####MISC
+itemGroup.tabHydraulicraft=HydrauliCraft
+lang.pressure=Druck
+lang.dust=%sstaub
+lang.chunk=%sklumpen
+
+####Third party
+#PneumaticCraft
+tile.hydraulicPneumaticCompressor.name=Pneumatik-Kompressor
+
+
+#Buildcraft
+tile.hydraulicEngine.name=Hydraulikmotor
+tile.LPKineticPump.name=Niederdruck-Kinetikpumpe
+tile.MPKineticPump.name=Mitteldruck-Kinetikpumpe
+tile.HPKineticPump.name=Hochdruck-Kinetikpumpe
+
+#Industrialcraft
+tile.hydraulicGenerator.name=Hydraulikgenerator
+tile.LPElectricPump.name=Elektrische Niederdruckpumpe
+tile.MPElectricPump.name=Elektrische Mitteldruckpumpe
+tile.HPElectricPump.name=Elektrische Hochdruckpumpe
+
+#Thermal Expansion
+tile.hydraulicDynamo.name=Hydraulikdynamo
+tile.LPRFPump.name=Niederdruck-Redstone-Pumpe
+tile.MPRFPump.name=Mitteldruck-Redstone-Pumpe
+tile.HPRFPump.name=Hochdruck-Redstone-Pumpe
+
+#FMP
+tile.hydraulicSaw.name=Hydrauliksägewerk
+
