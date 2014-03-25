@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.events;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicWasher;
-import k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems;
+import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityPig;
@@ -55,7 +55,7 @@ public class EventHelper {
 		if(event.entity instanceof EntityPig){
 			if(!event.entity.worldObj.isRemote){
 				EntityItem ei = new EntityItem(event.entityLiving.worldObj);
-				ei.setEntityItemStack(new ItemStack(HydraulicraftItems.itemBacon, 1));
+				ei.setEntityItemStack(new ItemStack(HCItems.itemBacon, 1));
 				ei.setPosition(event.entityLiving.posX,event.entityLiving.posY,event.entityLiving.posZ);
 				event.entityLiving.worldObj.spawnEntityInWorld(ei);
 			}

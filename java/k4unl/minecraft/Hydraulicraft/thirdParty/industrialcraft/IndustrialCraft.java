@@ -47,7 +47,7 @@ public class IndustrialCraft {
 					"WKW",
 					'P', Blocks.glass_pane,
 					'G', generator,
-					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
 					'W', HCBlocks.hydraulicPressureWall,
 					'B', battery
 				}));
@@ -59,7 +59,7 @@ public class IndustrialCraft {
 					"KGC",
 					"WWW",
 					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
 					'W', HCBlocks.hydraulicPressureWall,
 					'C', coil,
 					'L', "ingotLead"
@@ -70,7 +70,7 @@ public class IndustrialCraft {
 					"KGC",
 					"WWW",
 					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
 					'W', HCBlocks.hydraulicPressureWall,
 					'C', coil,
 					'R', "ingotCopper"
@@ -81,7 +81,7 @@ public class IndustrialCraft {
 					"KGC",
 					"WWW",
 					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
 					'W', HCBlocks.hydraulicPressureWall,
 					'C', coil,
 					'R', "ingotEnrichedCopper"

@@ -63,7 +63,7 @@ public class ItemChunks extends Item {
 		chunks.add(new chunk(metalName));
         int subId = chunks.size() - 1;
         OreDictionary.registerOre("chunk" + metalName,
-                new ItemStack(HydraulicraftItems.itemChunk, 1, subId));
+                new ItemStack(HCItems.itemChunk, 1, subId));
 
         String ingotName = "ingot" + metalName;
         ItemStack ingotTarget = Functions.getIngot(ingotName);

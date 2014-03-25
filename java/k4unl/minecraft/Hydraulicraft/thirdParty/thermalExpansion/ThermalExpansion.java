@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems;
+import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockRFPump;
@@ -45,9 +45,9 @@ public class ThermalExpansion {
 					"-C-",
 					"FIK",
 					"IRI",
-					'F', HydraulicraftItems.itemFrictionPlate,
+					'F', HCItems.itemFrictionPlate,
 					'C', powerTransmissionCoil,
-					'K', HydraulicraftItems.gasket,
+					'K', HCItems.gasket,
 					'I', "ingotCopper",
 					'R', Items.redstone
 				}));
@@ -59,7 +59,7 @@ public class ThermalExpansion {
 					"KGC",
 					"WWW",
 					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
 					'W', HCBlocks.hydraulicPressureWall,
 					'C', powerReceptionCoil,
 					'L', "ingotLead"
@@ -71,7 +71,7 @@ public class ThermalExpansion {
 					"KGC",
 					"WWW",
 					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
 					'W', HCBlocks.hydraulicPressureWall,
 					'C', powerReceptionCoil,
 					'R', "ingotCopper"
@@ -83,7 +83,7 @@ public class ThermalExpansion {
 					"KGC",
 					"WWW",
 					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
 					'W', HCBlocks.hydraulicPressureWall,
 					'C', powerReceptionCoil,
 					'R', "ingotEnrichedCopper"

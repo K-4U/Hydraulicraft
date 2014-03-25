@@ -5,7 +5,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
 import k4unl.minecraft.Hydraulicraft.events.EventHelper;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
-import k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems;
+import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.ConfigHandler;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -65,7 +65,7 @@ public class Hydraulicraft {
 		TileEntities.init();
 		Fluids.init();
 		
-		HydraulicraftItems.init();
+		HCItems.init();
 		EventHelper.init();
 		
 		mp = new Multipart();

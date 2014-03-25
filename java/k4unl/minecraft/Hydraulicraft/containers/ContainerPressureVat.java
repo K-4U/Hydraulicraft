@@ -2,11 +2,11 @@ package k4unl.minecraft.Hydraulicraft.containers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
+import k4unl.minecraft.Hydraulicraft.slots.SlotMachineOutput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 
 public class ContainerPressureVat extends Container {
@@ -18,7 +18,7 @@ public class ContainerPressureVat extends Container {
 		tileVat = vat;
 		
 		addSlotToContainer(new SlotMachineInput(vat, vat, 0, 31, 16));
-		addSlotToContainer(new SlotFurnace(invPlayer.player, vat, 1, 31, 54));
+		addSlotToContainer(new SlotMachineOutput(vat, 1, 31, 54));
 		
 		bindPlayerInventory(invPlayer);
 		

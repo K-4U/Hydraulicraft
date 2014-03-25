@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems;
+import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.blocks.BlockHydraulicPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
@@ -33,7 +33,7 @@ public class Pneumaticraft {
 					"WWW",
 					"KCT",
 					"WWW",
-					'K', HydraulicraftItems.gasket,
+					'K', HCItems.gasket,
 					'T', new ItemStack(BlockSupplier.getBlock("pressureTube"), 1, 0),
 					'W', HCBlocks.hydraulicPressureWall,
 					'C', BlockSupplier.getBlock("airCompressor")

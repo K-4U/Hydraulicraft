@@ -57,7 +57,7 @@ public class ItemDusts extends Item {
 		dusts.add(meta, new dust(oreDictName));
 
         OreDictionary.registerOre("dust" + oreDictName,
-                new ItemStack(HydraulicraftItems.itemDust, 1, meta));
+                new ItemStack(HCItems.itemDust, 1, meta));
 
         String ingotName = "ingot" + oreDictName;
         ItemStack ingotTarget = Functions.getIngot(ingotName);

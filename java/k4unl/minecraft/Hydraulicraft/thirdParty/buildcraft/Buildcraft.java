@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems;
+import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockKineticPump;
@@ -44,9 +44,9 @@ public class Buildcraft {
 					"FPK",
 					'W', HCBlocks.hydraulicPressureWall,
 					'G', Blocks.glass,
-					'F', HydraulicraftItems.itemFrictionPlate,
+					'F', HCItems.itemFrictionPlate,
 					'P', Blocks.piston,
-					'K', HydraulicraftItems.gasket
+					'K', HCItems.gasket
 				});
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockKineticPump, 1, 0), true,
@@ -55,7 +55,7 @@ public class Buildcraft {
 					"KGP",
 					"WWW",
 					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
 					'W', HCBlocks.hydraulicPressureWall,
 					'P', Blocks.piston,
 					'L', "ingotLead"
@@ -67,7 +67,7 @@ public class Buildcraft {
 					"KGP",
 					"WWW",
 					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
 					'W', HCBlocks.hydraulicPressureWall,
 					'P', Blocks.piston,
 					'R', "ingotCopper"
@@ -79,7 +79,7 @@ public class Buildcraft {
 					"KGP",
 					"WWW",
 					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HydraulicraftItems.gasket,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
 					'W', HCBlocks.hydraulicPressureWall,
 					'P', Blocks.piston,
 					'R', "ingotEnrichedCopper"

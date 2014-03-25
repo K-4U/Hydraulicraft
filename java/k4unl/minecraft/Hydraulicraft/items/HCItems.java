@@ -11,7 +11,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class HydraulicraftItems {
+public class HCItems {
 	public static Item gasket;
 	public static Item ingotCopper;
 	public static Item ingotEnrichedCopper;
@@ -61,6 +61,9 @@ public class HydraulicraftItems {
 		GameRegistry.registerItem(itemDebugger, Names.itemDebugger.unlocalized);
 		GameRegistry.registerItem(itemBucketOil, Names.itemBucketOil.unlocalized);
 		GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);
+		
+		GameRegistry.registerItem(itemDust, Names.itemDust.unlocalized);
+		GameRegistry.registerItem(itemChunk, Names.itemChunk.unlocalized);
 		
 		
 		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));
