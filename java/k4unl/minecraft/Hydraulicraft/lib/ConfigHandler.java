@@ -50,11 +50,14 @@ public class ConfigHandler{
         Ids.blockHydraulicMixer.loadBlock(config, Names.blockHydraulicMixer);
         Ids.blockHydraulicPressureWall.loadBlock(config, Names.blockHydraulicPressureWall);
         Ids.blockHydraulicHarvester.loadBlock(config, Names.blockHydraulicHarvester);
+        Ids.blockHarvesterTrolley.loadBlock(config, Names.blockHarvesterTrolley);
         Ids.blockPressureDisposal.loadBlock(config, Names.blockPressureDisposal);
         Ids.blockCore.loadBlock(config, Names.blockCore);
         Ids.blockValve.loadBlock(config, Names.blockValve);
         Ids.blockInterfaceValve.loadBlock(config, Names.blockInterfaceValve);
         
+        Ids.partHose.loadItem(config, Names.partHose[0]);
+        Ids.partValve.loadItem(config, Names.partValve[0]);
         
         Ids.blockFluidOil.loadBlock(config, Names.fluidOil);
 
@@ -85,6 +88,8 @@ public class ConfigHandler{
         Ids.blockRFPump.loadBlock(config, Names.blockRFPump);
         Ids.blockElectricPump.loadBlock(config, Names.blockElectricPump);
         Ids.blockKineticPump.loadBlock(config, Names.blockKineticPump);
+        
+        Ids.blockHydraulicSaw.loadBlock(config, Names.blockHydraulicSaw);
         
     }
 }
