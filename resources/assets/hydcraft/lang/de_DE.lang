@@ -4,8 +4,8 @@ item.gasket.name=Dichtung
 item.frictionPlate.name=Reibungsplatte
 item.ingotCopper.name=Kupferbarren
 item.ingotLead.name=Bleibarren
-item.ingotEnrichedCopper=Angereicherter Kupferbarren
-item.bucketHydraulicOil.name=Eimer mit HydraulikÃ¶l
+item.ingotEnrichedCopper.name=Angereicherter Kupferbarren
+item.bucketHydraulicOil.name=Eimer mit Hydrauliköl
 item.bacon.name=Speck
 
 #Ores
@@ -13,10 +13,10 @@ tile.oreCopper.name=Kupfererz
 tile.oreLead.name=Bleierz
 
 #Blocks
-tile.hydraulicOil.name=HydraulikÃ¶l
+tile.hydraulicOil.name=Hydrauliköl
 tile.hydraulicMixer.name=Mixer
 tile.hydraulicFrictionIncinerator.name=Reibungsbrennofen
-tile.hydraulicCrusher.name=ZerstoÃŸer
+tile.hydraulicCrusher.name=Zerstoßer
 tile.hydraulicWasher.name=Waschanlage
 tile.hydraulicPressureWall.name=Wand
 
@@ -41,7 +41,7 @@ tile.MPHydraulicLavaPump.name=Mitteldruck-Lavapumpe
 tile.HPHydraulicLavaPump.name=Hochdruck-Lavapumpe
 
 tile.hydraulicHarvesterSource.name=Hydraulische Erntemaschine
-tile.hydraulicHarvesterFrame.name=ErntemaschinengerÃ¼st
+tile.hydraulicHarvesterFrame.name=Erntemaschinengerüst
 tile.wheatHarvester.name=Weizen-Erntekran
 tile.enderLilyHarvester.name=Enderlilien-Erntekran
 tile.sugarCaneHarvester.name=Zuckerrohr-Erntekran
@@ -59,6 +59,13 @@ itemGroup.tabHydraulicraft=HydrauliCraft
 lang.pressure=Druck
 lang.dust=%sstaub
 lang.chunk=%sklumpen
+fluid.hydraulicOil=Hydrauliköl
+lang.gui.generating=Generiert
+lang.gui.max=Maximal
+lang.gui.using=Verbraucht
+lang.gui.output=Ausgabe
+lang.gui.burnLeft=Brenndauer
+
 
 ####Third party
 #PneumaticCraft
@@ -84,5 +91,5 @@ tile.MPRFPump.name=Mitteldruck-Redstone-Pumpe
 tile.HPRFPump.name=Hochdruck-Redstone-Pumpe
 
 #FMP
-tile.hydraulicSaw.name=HydrauliksÃ¤gewerk
+tile.hydraulicSaw.name=Hydrauliksägewerk
 
