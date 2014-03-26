@@ -60,6 +60,11 @@ lang.pressure=Pressure
 lang.dust=%s dust
 lang.chunk=%s chunk
 fluid.hydraulicOil=Hydraulic Oil
+lang.gui.generating=Generating
+lang.gui.max=Max
+lang.gui.using=Using
+lang.gui.output=Output
+lang.gui.burnLeft=Burn left
 
 ####Third party
 #PneumaticCraft

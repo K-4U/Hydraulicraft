@@ -1,0 +1,94 @@
+### Main Mod
+#Items
+item.gasket.name=Pakking
+item.frictionPlate.name=Wrijving Plaat
+item.ingotCopper.name=Koperstaaf
+item.ingotLead.name=Loodstaaf
+item.ingotEnrichedCopper.name=Verrijkte Koperstaaf
+item.bucketHydraulicOil.name=Emmer Hydraulische Olie
+item.bacon.name=Bacon
+
+#Ores
+tile.oreCopper.name=Kopererts
+tile.oreLead.name=Looderts
+
+#Blocks
+tile.hydraulicOil.name=Hydraulische Olie
+tile.hydraulicMixer.name=Mixer
+tile.hydraulicFrictionIncinerator.name=Wrijving Verbrander
+tile.hydraulicCrusher.name=Breker
+tile.hydraulicWasher.name=Wasser
+tile.hydraulicPressureWall.name=Muur
+
+tile.LPHydraulicPipe.name=Lagedruk Pijp
+tile.MPHydraulicPipe.name=Middeldruk Pijp
+tile.HPHydraulicPipe.name=Hogedruk Pijp
+
+tile.LPPartValve.name=Lagedruk Ventiel
+tile.MPPartValve.name=Middeldruk Ventiel
+tile.HPPartValve.name=Hogedruk Ventiel
+
+tile.LPHydraulicPressureVat.name=Lagedruk vat
+tile.MPHydraulicPressureVat.name=Middeldruk vat
+tile.HPHydraulicPressureVat.name=Hogedruk Vat
+
+tile.LPHydraulicPump.name=Lagedruk Pomp
+tile.MPHydraulicPump.name=Middeldruk Pomp
+tile.HPHydraulicPump.name=Hogedruk Pomp
+
+tile.LPHydraulicLavaPump.name=Lagedruk Lava Pomp
+tile.MPHydraulicLavaPump.name=Middeldruk Lava Pomp
+tile.HPHydraulicLavaPump.name=Hogedruk Lava Pomp
+
+tile.hydraulicHarvesterSource.name=Hydraulische Oogster
+tile.hydraulicHarvesterFrame.name=Oogster Geraamte
+tile.wheatHarvester.name=Tarwe Oogster Dolley
+tile.enderLilyHarvester.name=Enderlily Oogster Dolley
+tile.sugarCaneHarvester.name=Suikerriet Oogster Dolley
+
+tile.hydraulicPiston.name=Hydraulische Zuiger
+tile.interfaceValve.name=Interface Klep
+tile.valve.name=Hydraulisch Block Ventiel
+
+tile.LPBlockCore.name=Lagedruk Kern
+tile.MPBlockCore.name=Middeldruk Kern
+tile.HPBlockCore.name=Hogedruk Kern
+
+####MISC
+itemGroup.tabHydraulicraft=HydrauliCraft
+lang.pressure=Druk
+lang.dust=%s stof
+lang.chunk=%s klomp
+fluid.hydraulicOil=Hydraulische Olie
+lang.gui.generating=Genererende
+lang.gui.max=Max
+lang.gui.using=Gebruikend
+lang.gui.output=Uitsturend
+lang.gui.burnLeft=Brandtijd over
+
+####Third party
+#PneumaticCraft
+tile.hydraulicPneumaticCompressor.name=Pneumatische Compressor
+
+
+#Buildcraft
+tile.hydraulicEngine.name=Hydraulische Motor
+tile.LPKineticPump.name=Lagedruk Kinetische Pomp
+tile.MPKineticPump.name=Middeldruk Kinetische Pomp
+tile.HPKineticPump.name=Hogedruk Kinetische Pomp
+
+#Industrialcraft
+tile.hydraulicGenerator.name=Hydraulische Generator
+tile.LPElectricPump.name=Lagedruk Electrische Pomp
+tile.MPElectricPump.name=Middeldruk Electrische Pomp
+tile.HPElectricPump.name=Hogedruk Electrische Pomp
+
+#Thermal Expansion
+tile.hydraulicDynamo.name=Hydraulische Dynamo
+tile.LPRFPump.name=Lagedruk Redstone Pomp
+tile.MPRFPump.name=Middeldruk Redstone Pomp
+tile.HPRFPump.name=Hogedruk Redstone Pomp
+
+#FMP
+tile.hydraulicSaw.name=Hydraulische Zaag
+
