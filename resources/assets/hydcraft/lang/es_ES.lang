@@ -1,0 +1,94 @@
+### Main Mod
+#Items
+item.gasket.name=Junta
+item.frictionPlate.name=Placa de fricción
+item.ingotCopper.name=Lingote de cobre
+item.ingotLead.name=Lingote de plomo
+item.ingotEnrichedCopper.name=Lingote de cobre enriquecido
+item.bucketHydraulicOil.name=Cubo de aceite hidráulico
+item.bacon.name=Bacon
+
+#Ores
+tile.oreCopper.name=Mena de cobre
+tile.oreLead.name=Mena de plomo
+
+#Blocks
+tile.hydraulicOil.name=Aceite hidráulico
+tile.hydraulicMixer.name=Mezcladora
+tile.hydraulicFrictionIncinerator.name=Incinerador de fricción
+tile.hydraulicCrusher.name=Trituradora
+tile.hydraulicWasher.name=Lavadora
+tile.hydraulicPressureWall.name=Pared
+
+tile.LPHydraulicPipe.name=Tubería de baja presión
+tile.MPHydraulicPipe.name=Tubería de presión media
+tile.HPHydraulicPipe.name=Tubería de alta presión
+
+tile.LPPartValve.name=Válvula de baja presión
+tile.MPPartValve.name=Válvula de presión media
+tile.HPPartValve.name=Válvula de alta presión
+
+tile.LPHydraulicPressureVat.name=Tanque de baja presión
+tile.MPHydraulicPressureVat.name=Tanque de presión media
+tile.HPHydraulicPressureVat.name=Tanque de alta presión
+
+tile.LPHydraulicPump.name=Bomba de baja presión
+tile.MPHydraulicPump.name=Bomba de presión media
+tile.HPHydraulicPump.name=Bomba de alta presión
+
+tile.LPHydraulicLavaPump.name=Bomba de lava de baja presión
+tile.MPHydraulicLavaPump.name=Bomba de lava de presión media
+tile.HPHydraulicLavaPump.name=Bomba de lava de alta presión
+
+tile.hydraulicHarvesterSource.name=Cosechadora hidráulica
+tile.hydraulicHarvesterFrame.name=Marco de cosechadora
+tile.wheatHarvester.name=Dolley de cosechadora para trigo
+tile.enderLilyHarvester.name=Dolley de cosechadora para enderlily
+tile.sugarCaneHarvester.name=Dolley de cosechadora para cañas de azúcar
+
+tile.hydraulicPiston.name=Pistón hidráulico
+tile.interfaceValve.name=Válvula de interfaz
+tile.valve.name=Bloque de válvula hidráulica
+
+tile.LPBlockCore.name=Núcleo de baja presión
+tile.MPBlockCore.name=Núcleo de presión media
+tile.HPBlockCore.name=Núcleo de alta presión
+
+####MISC
+itemGroup.tabHydraulicraft=HydrauliCraft
+lang.pressure=Presión
+lang.dust=Polvo de %s
+lang.chunk=Trozo de %s
+fluid.hydraulicOil=Aceite hidráulico
+lang.gui.generating=Generando
+lang.gui.max=Max
+lang.gui.using=Usando
+lang.gui.output=Salida
+lang.gui.burnLeft=Quema restante
+
+####Third party
+#PneumaticCraft
+tile.hydraulicPneumaticCompressor.name=Compresor neumático
+
+
+#Buildcraft
+tile.hydraulicEngine.name=Motor hidráulico
+tile.LPKineticPump.name=Bomba cinética de baja presión
+tile.MPKineticPump.name=Bomba cinética de presión media
+tile.HPKineticPump.name=Bomba cinética de alta presión
+
+#Industrialcraft
+tile.hydraulicGenerator.name=Generador hidráulico
+tile.LPElectricPump.name=Bomba eléctrica de baja presión
+tile.MPElectricPump.name=Bomba eléctrica de presión media
+tile.HPElectricPump.name=Bomba eléctrica de alta presión
+
+#Thermal Expansion
+tile.hydraulicDynamo.name=Dinamo hidráulica
+tile.LPRFPump.name=Bomba de redstone de baja presión
+tile.MPRFPump.name=Bomba de redstone de presión media
+tile.HPRFPump.name=Bomba de redstone de alta presión
+
+#FMP
+tile.hydraulicSaw.name=Sierra hidráulica
+
