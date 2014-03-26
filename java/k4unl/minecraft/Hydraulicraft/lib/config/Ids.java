@@ -65,7 +65,7 @@ public class Ids {
 	
 	
 	//Third party!
-	public static final Id blockHydraulicPneumaticCompressor = new Id(3533);
+	public static final Id blockHydraulicPneumaticCompressor = new Id(3513);
 	public static final Id blockHydraulicEngine = new Id(3534);
 	public static final Id blockKineticPump = new Id(3535);
 	public static final Id blockHydraulicDynamo = new Id(3536);
