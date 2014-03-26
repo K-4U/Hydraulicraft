@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.consumers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
@@ -115,6 +116,9 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
             if(canRun()) {
             	CrushingRecipe currentRecipe = CrushingRecipes.getCrushingRecipe(inputInventory); 
                 targetItem = currentRecipe.output.copy();
+                if(new Random().nextFloat() > 0.80F) {
+                	targetItem.stackSize+=1;
+                }
                 crushingItem = inputInventory.copy();
                 inputInventory.stackSize--;
                 if(inputInventory.stackSize <= 0) {

@@ -10,17 +10,21 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import com.google.gson.Gson;
 
 public class UpdateChecker {
-	static class UpdateInfo {
-	    List<Integer> latestVersion;
-	    String dateOfRelease;
-	    List<String> changelog;
+	public static class UpdateInfo {
+	    public String latestVersion;
+	    public String buildNumber;
+	    public String dateOfRelease;
+	    public List<String> changelog;
 	}
 	
+	public static boolean isUpdateAvailable;
+	public static UpdateInfo infoAboutUpdate;
 	
-	public static boolean updateAvailable(){
+	
+	public static boolean checkUpdateAvailable(){
 		String json = "";
 		try {
-			json = readUrl("http://hydraulicraft.k-4u.nl/update.json");
+			json = readUrl("http://hydraulicraft.eu/update_1.6.4.json");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -30,9 +34,11 @@ public class UpdateChecker {
 				Gson gson = new Gson();        
 				UpdateInfo info = gson.fromJson(json, UpdateInfo.class);
 				
-				if(!info.latestVersion.equals(ModInfo.VERSION)){
+				if(!info.latestVersion.equals(ModInfo.VERSION) || !info.buildNumber.equals(ModInfo.buildNumber)){
 					Log.info("New version available!");
 					Log.info("Latest version released at: " + info.dateOfRelease);
+					isUpdateAvailable = true;
+					infoAboutUpdate = info;
 					return true;
 				}else{
 					return false;

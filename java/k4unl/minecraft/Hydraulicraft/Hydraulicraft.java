@@ -77,6 +77,8 @@ public class Hydraulicraft {
 		Items.init();
 		EventHelper.init();
 		
+		
+		
 		mp = new Multipart();
 	}
 	
@@ -92,6 +94,7 @@ public class Hydraulicraft {
 		GameRegistry.registerWorldGenerator(new OreGenerator());
 		NetworkRegistry.instance().registerGuiHandler(this.instance, new GuiHandler());
 		
+		
 		proxy.init();
 	}
 	
@@ -106,7 +109,7 @@ public class Hydraulicraft {
 		
 		ThirdParty.postInit();
 		
-		UpdateChecker.updateAvailable();
+		UpdateChecker.checkUpdateAvailable();
 		Log.info("Hydraulicraft ready for use!");
 	}
 	

@@ -47,7 +47,7 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
     @Override
     public void updateEntity(){
     	super.updateEntity();
-        getAirHandler().update();
+        getAirHandler().updateEntity();
         getHandler().updateEntity();
     }
 
@@ -141,12 +141,12 @@ public class TileHydraulicPneumaticCompressor extends TileEntity implements
 
 	@Override
 	public void readNBT(NBTTagCompound tagCompound) {
-		getAirHandler().readNBT(tagCompound);
+		getAirHandler().readFromNBT(tagCompound);
 	}
 
 	@Override
 	public void writeNBT(NBTTagCompound tagCompound) {
-		getAirHandler().writeNBT(tagCompound);
+		getAirHandler().writeToNBT(tagCompound);
 	}
 
 	@Override
