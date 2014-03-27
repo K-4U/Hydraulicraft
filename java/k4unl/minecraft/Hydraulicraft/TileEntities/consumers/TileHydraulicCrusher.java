@@ -382,14 +382,10 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
 	@Override
 	public void onPressureChanged(float old) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onFluidLevelChanged(int old) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -517,13 +513,9 @@ public class TileHydraulicCrusher extends TileEntity implements ISidedInventory,
 
 	@Override
 	public void openInventory() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void closeInventory() {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -158,6 +158,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
         float r = (float)(Constants.COLOR_PRESSURE >> 16 & 255) / 255.0F;
         float g = (float)(Constants.COLOR_PRESSURE >> 8 & 255) / 255.0F;
         float b = (float)(Constants.COLOR_PRESSURE & 255) / 255.0F;
+        GL11.glAlphaFunc(GL11.GL_EQUAL, a);
         GL11.glColor4f(r, g, b, a);
 		
 		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - 0.1F - 0.2F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F, 1.0001F-thickness, 1.0F - thickness - 0.1F);
@@ -174,6 +175,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glPopMatrix();
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 	}
 	
 	private void renderInsides(float thickness, TileHydraulicPump t){

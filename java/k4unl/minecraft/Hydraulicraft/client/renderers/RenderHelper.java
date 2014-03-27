@@ -15,10 +15,23 @@ public class RenderHelper {
 	static float lightTop = 1.0F;
 	static float lightEastWest = 0.8F;
 	static float lightNorthSouth = 0.6F;
+	private static Tessellator tess = Tessellator.instance;
 	
 	public static void vertexWithTexture(float x, float y, float z, float tL, float tT){
 		GL11.glTexCoord2f(tL, tT);
 		GL11.glVertex3f(x, y, z);
+	}
+	
+	public static void tesselatedTexture(float x, float y, float z, float tL, float tT){
+		tess.addVertexWithUV(x, y, z, tL, tT);
+	}
+	
+	public static void startTesselating(){
+		tess.startDrawingQuads();
+	}
+	
+	public static void tesselatorDraw(){
+		tess.draw();
 	}
 	
 	public static void drawCube(Vector3fMax vector){
