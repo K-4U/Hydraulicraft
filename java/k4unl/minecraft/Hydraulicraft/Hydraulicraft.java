@@ -33,7 +33,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @Mod(
 	modid = ModInfo.ID,
 	name = ModInfo.NAME,
-	version = ModInfo.VERSION
+	version = ModInfo.VERSION,
+	dependencies = "required-after:ForgeMultipart@1.0.0.250"
 )
 public class Hydraulicraft {
 	//This is the instance that Forge uses:
@@ -70,6 +71,8 @@ public class Hydraulicraft {
 		HCItems.init();
 		EventHelper.init();
 		
+		
+		
 		mp = new Multipart();
 	}
 	
@@ -85,6 +88,7 @@ public class Hydraulicraft {
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new GuiHandler());
 		
+		
 		proxy.init();
 	}
 	
@@ -99,7 +103,7 @@ public class Hydraulicraft {
 		
 		ThirdParty.postInit();
 		
-		UpdateChecker.updateAvailable();
+		UpdateChecker.checkUpdateAvailable();
 		Log.info("Hydraulicraft ready for use!");
 	}
 	

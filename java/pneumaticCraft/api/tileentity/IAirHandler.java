@@ -9,22 +9,22 @@ import net.minecraftforge.common.util.ForgeDirection;
 public interface IAirHandler extends IManoMeasurable{
 
     /**
-     * -----------Needs to be forwarded by the implementing TileEntity's onUpdate() method.
+     * -----------Needs to be forwarded by the implementing TileEntity's updateEntity() method.
      * Updates the pneumatic machine's logic like air dispersion and checking if it needs to explode.
      */
-    public void update();
+    public void updateEntity();
 
     /**
      * -----------Needs to be forwarded by the implementing TileEntity.
      * @param nbt
      */
-    public void readNBT(NBTTagCompound nbt);
+    public void readFromNBT(NBTTagCompound nbt);
 
     /**
      * -----------Needs to be forwarded by the implementing TileEntity.
      * @param nbt
      */
-    public void writeNBT(NBTTagCompound nbt);
+    public void writeToNBT(NBTTagCompound nbt);
 
     /**
      * -----------Needs to be forwarded by the implementing TileEntity with itself as parameter.

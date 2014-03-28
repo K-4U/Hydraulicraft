@@ -1,18 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.events;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
-import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicWasher;
-import k4unl.minecraft.Hydraulicraft.items.HCItems;
-import net.minecraft.block.Block;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-
 public class EventHelper {
 
 	public static void init(){
@@ -58,6 +45,30 @@ public class EventHelper {
 				ei.setEntityItemStack(new ItemStack(HCItems.itemBacon, 1));
 				ei.setPosition(event.entityLiving.posX,event.entityLiving.posY,event.entityLiving.posZ);
 				event.entityLiving.worldObj.spawnEntityInWorld(ei);
+			}
+		}
+	}
+	
+	@ForgeSubscribe
+	public void onEntityJoinEvent(EntityJoinWorldEvent event){
+		if(event.entity instanceof EntityPlayer){
+			Log.info("Player joined");
+			if(event.world.isRemote){
+				//If update available, tell em!
+				if(UpdateChecker.isUpdateAvailable){
+					UpdateInfo info = UpdateChecker.infoAboutUpdate;
+					((EntityPlayer)event.entity).addChatMessage("Hydraulicraft version " + info.latestVersion + "-" + info.buildNumber + " available!");
+					((EntityPlayer)event.entity).addChatMessage("Released on " + info.dateOfRelease);
+					int i = 0;
+					for(String cl : info.changelog){
+						((EntityPlayer)event.entity).addChatMessage(cl);						
+						
+						i++;
+						if(i >= 3){
+							break;
+						}
+					}
+				}
 			}
 		}
 	}
