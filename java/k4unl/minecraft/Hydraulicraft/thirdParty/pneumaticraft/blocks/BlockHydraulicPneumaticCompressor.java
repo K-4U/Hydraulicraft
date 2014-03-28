@@ -2,9 +2,10 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -13,12 +14,12 @@ import net.minecraft.world.World;
 public class BlockHydraulicPneumaticCompressor extends MachineBlockContainer {
 
 	public BlockHydraulicPneumaticCompressor() {
-		super(Ids.blockHydraulicPneumaticCompressor, Names.blockHydraulicPneumaticCompressor);
+		super(Names.blockHydraulicPneumaticCompressor);
 		this.hasFrontIcon = true;
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world) {
+	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileHydraulicPneumaticCompressor();
 	}
 
@@ -33,23 +34,23 @@ public class BlockHydraulicPneumaticCompressor extends MachineBlockContainer {
 		if(player.isSneaking())
 			return false;
 		
-		TileEntity entity = world.getBlockTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileHydraulicPneumaticCompressor)){
 			return false;
 			
 		}
 		//TileHydraulicPneumaticCompressor compressor = (TileHydraulicPneumaticCompressor) entity;
-		player.openGui(Hydraulicraft.instance, Ids.GUIPneumaticCompressor.act, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.GUIPneumaticCompressor, world, x, y, z);
 		
 		return true;
 	}
 	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y,
-				int z, int blockId) {
+				int z, Block blockId) {
 		super.onNeighborBlockChange(world, x, y, z, blockId);
 		
-		TileEntity tile = world.getBlockTileEntity(x, y, z);
+		TileEntity tile = world.getTileEntity(x, y, z);
 		if(tile instanceof TileHydraulicPneumaticCompressor){
 			((TileHydraulicPneumaticCompressor)tile).checkRedstonePower();			
 		}

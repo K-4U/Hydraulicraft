@@ -4,7 +4,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import net.minecraft.tileentity.TileEntity;
-import codechicken.multipart.TMultiPart;
 
 /**
  * 
@@ -28,7 +27,7 @@ public class HydraulicBaseClassSupplier {
     	
         return baseClassEntity;
     }
-
+/* **** COMMENTED OUT FOR FORGE MULTIPART (FMP) ****
     public static IBaseClass getBaseClass(TMultiPart target){
     	IBaseClass baseClassEntity = null;
         try {
@@ -44,5 +43,6 @@ public class HydraulicBaseClassSupplier {
         }
         return baseClassEntity;
     }
+    */
 
 }

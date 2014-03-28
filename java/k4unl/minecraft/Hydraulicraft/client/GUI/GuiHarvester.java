@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerHarvester;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -24,9 +24,10 @@ public class GuiHarvester extends MachineGUI {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		drawHorizontalAlignedString(7, 3, xSize-14, Blocks.hydraulicHarvesterSource.getLocalizedName(), true);
+		drawHorizontalAlignedString(7, 3, xSize-14, HCBlocks.hydraulicHarvesterSource.getLocalizedName(), true);
 		
 		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 	}
 
 }

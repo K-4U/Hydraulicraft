@@ -3,25 +3,25 @@ package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlockHandler;
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.FluidRegistry;
 
 public class HandlerPressureVat extends MachineTieredBlockHandler {
 
-	public HandlerPressureVat(int blockId, Block block) {
-		super(blockId, Names.blockHydraulicPressurevat);
+	public HandlerPressureVat(Block block) {
+		super(block, Names.blockHydraulicPressurevat);
 	}
 	
 	@Override
-	public Icon getIconFromDamage(int metadata) {
-		return Blocks.hydraulicPressurevat.getIcon(0, metadata);
+	public IIcon getIconFromDamage(int metadata) {
+		return HCBlocks.hydraulicPressurevat.getIcon(0, metadata);
 	}
 
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4){

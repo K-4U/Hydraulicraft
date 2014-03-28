@@ -2,11 +2,11 @@ package k4unl.minecraft.Hydraulicraft.containers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
+import k4unl.minecraft.Hydraulicraft.slots.SlotMachineOutput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 
 public class ContainerCrusher extends Container {
@@ -17,7 +17,7 @@ public class ContainerCrusher extends Container {
 		tileCrusher = crusher;
 		
 		addSlotToContainer(new SlotMachineInput(crusher, crusher, 0, 47, 35));
-		addSlotToContainer(new SlotFurnace(invPlayer.player, crusher, 1, 121, 35));
+		addSlotToContainer(new SlotMachineOutput(crusher, 1, 121, 35));
 		
 		bindPlayerInventory(invPlayer);
 		

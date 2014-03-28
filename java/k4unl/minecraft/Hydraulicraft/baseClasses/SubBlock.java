@@ -3,39 +3,39 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
+
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class SubBlock extends MachineBlock {
-	private List<Icon> icons;
+	private List<IIcon> icons;
 	/*private List<Icon> topIcons;
 	private List<Icon> bottomIcons;
 	*/
-	private Id tBlockId;
 	private Name[] mName;
 	
 	
-	protected SubBlock(Id blockId, Name[] machineName) {
-		super(blockId, machineName[0]);
+	protected SubBlock(Name[] machineName) {
+		super(machineName[0]);
 		
-		tBlockId = blockId;
 		mName = machineName;
 		
-		icons = new ArrayList<Icon>();
+		icons = new ArrayList<IIcon>();
 		//topIcons = new ArrayList<Icon>();
 		//bottomIcons = new ArrayList<Icon>();
 		
 		
-		setUnlocalizedName(mName[0].unlocalized);
-		setStepSound(Block.soundStoneFootstep);
+		setBlockName(mName[0].unlocalized);
+		setStepSound(Block.soundTypeStone);
 		setHardness(3.5F);
 		
 		setCreativeTab(CustomTabs.tabHydraulicraft);
@@ -46,7 +46,7 @@ public class SubBlock extends MachineBlock {
 	}
 	
 	@Override
-	public void getSubBlocks(int id, CreativeTabs tab, List list){
+	public void getSubBlocks(Item block, CreativeTabs tab, List list){
 		for(int i = 0; i < 3; i++){
 			list.add(new ItemStack(this, 1, i));
 		}
@@ -62,7 +62,7 @@ public class SubBlock extends MachineBlock {
 	}
 	
 	@Override
-	public void registerIcons(IconRegister iconRegistry){
+	public void registerBlockIcons(IIconRegister iconRegistry){
 		for(int i = 0; i < mName.length; i++){
 			icons.add(i, iconRegistry.registerIcon(getTextureName("",i)));
 			/*if(hasTopIcon[i]){
@@ -81,7 +81,7 @@ public class SubBlock extends MachineBlock {
 	
 	
 	@Override
-	public Icon getIcon(int side, int metadata){
+	public IIcon getIcon(int side, int metadata){
 		ForgeDirection s = ForgeDirection.getOrientation(side);
 		if(metadata >= icons.size()){
 			metadata = 0;

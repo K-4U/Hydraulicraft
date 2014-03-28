@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp;
 
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
-import k4unl.minecraft.Hydraulicraft.items.Items;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.blocks.BlockHydraulicSaw;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities.TileHydraulicSaw;
@@ -26,10 +26,11 @@ public class FMP {
 		GameRegistry.registerBlock(hydraulicSaw, Names.blockHydraulicSaw.unlocalized);
 		GameRegistry.registerTileEntity(TileHydraulicSaw.class, "tileHydraulicSaw");
 		
-		FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(Blocks.hydraulicPressureWall, 1));
+		FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(HCBlocks.hydraulicPressureWall, 1));
 	}
 	
 	public static void initRecipes(){
+		/* FMP
 		ItemStack saw = GameRegistry.findItemStack("ForgeMicroblock","sawIron", 1);
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(hydraulicSaw, 1, 0), true,
 				new Object [] {
@@ -37,11 +38,12 @@ public class FMP {
 					"KCI",
 					"WWW",
 					'G', Block.glass,
-					'K', Items.gasket,
-					'W', Blocks.hydraulicPressureWall,
-					'C', new ItemStack(Blocks.blockCore,1,1),
-					'I', Blocks.blockInterfaceValve,
+					'K', HydraulicraftItems.gasket,
+					'W', HydraulicraftBlocks.hydraulicPressureWall,
+					'C', new ItemStack(HydraulicraftBlocks.blockCore,1,1),
+					'I', HydraulicraftBlocks.blockInterfaceValve,
 					'S', saw
 				}));
+		*/
 	}
 }

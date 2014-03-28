@@ -1,11 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.proxy;
 
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
-import codechicken.multipart.MultiPartRegistry.IPartFactory;
-import codechicken.multipart.TMultiPart;
 
-public class CommonProxy implements IPartFactory {
+public class CommonProxy /* FMP implements IPartFactory */{
 	
 	public void init(){
 		
@@ -29,7 +25,7 @@ public class CommonProxy implements IPartFactory {
 	public void initSounds(){
 		
 	}
-
+/*FMP
 	@Override
 	public TMultiPart createPart(String id, boolean client) {
 		if(id.equals(Names.partHose[0].unlocalized)){
@@ -37,4 +33,5 @@ public class CommonProxy implements IPartFactory {
 		}
 		return null;
 	}
+	*/
 }

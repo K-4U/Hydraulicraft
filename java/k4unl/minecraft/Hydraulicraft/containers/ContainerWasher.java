@@ -2,11 +2,11 @@ package k4unl.minecraft.Hydraulicraft.containers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
+import k4unl.minecraft.Hydraulicraft.slots.SlotMachineOutput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 
 public class ContainerWasher extends Container {
@@ -17,10 +17,10 @@ public class ContainerWasher extends Container {
 		tileWasher = _tileWasher;
 		
 		addSlotToContainer(new SlotMachineInput(tileWasher, tileWasher, 0, 56, 16));
-		addSlotToContainer(new SlotFurnace(invPlayer.player, tileWasher, 1, 106, 56));
+		addSlotToContainer(new SlotMachineOutput(tileWasher, 1, 106, 56));
 		
 		addSlotToContainer(new SlotMachineInput(tileWasher, tileWasher, 2, 31, 16));
-		addSlotToContainer(new SlotFurnace(invPlayer.player, tileWasher, 3, 31, 56));
+		addSlotToContainer(new SlotMachineOutput(tileWasher, 3, 31, 56));
 		
 		bindPlayerInventory(invPlayer);
 		

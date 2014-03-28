@@ -2,20 +2,20 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import buildcraft.api.tools.IToolWrench;
 
 public class BlockRFPump extends MachineTieredBlock {
 
 	public BlockRFPump() {
-		super(Ids.blockRFPump, Names.blockRFPump);
+		super(Names.blockRFPump);
 		
 		this.hasTopIcon = true;
 		hasTextures = false;
@@ -23,7 +23,7 @@ public class BlockRFPump extends MachineTieredBlock {
 
 
 	@Override
-	public TileEntity createNewTileEntity(World world) {
+	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileRFPump();
 	}
 
@@ -53,12 +53,12 @@ public class BlockRFPump extends MachineTieredBlock {
 			return false;
 		}
 		
-		TileEntity entity = world.getBlockTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileRFPump)){
 			return false;
 		}
 		//TileRFPump compressor = (TileRFPump) entity;
-		player.openGui(Hydraulicraft.instance, Ids.GUIRFPump.act, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.GUIRFPump, world, x, y, z);
 		
 		return true;
 	}
@@ -69,14 +69,14 @@ public class BlockRFPump extends MachineTieredBlock {
 	
 	@Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){
-		TileEntity te = world.getBlockTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
 		if(te instanceof TileRFPump){
 			if(side.equals(ForgeDirection.UP) || side.equals(ForgeDirection.DOWN)){
 				TileRFPump e = (TileRFPump) te;
 				ForgeDirection facing = e.getFacing();
 				e.setFacing(facing.getRotation(side));
 				e.getHandler().updateBlock();
-				world.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
+				world.notifyBlocksOfNeighborChange(x, y, z, this);
 			}
 		}
 		

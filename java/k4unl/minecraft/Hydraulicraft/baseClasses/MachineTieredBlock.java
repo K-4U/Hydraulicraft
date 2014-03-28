@@ -2,29 +2,30 @@ package k4unl.minecraft.Hydraulicraft.baseClasses;
 
 import java.util.List;
 
+import javax.swing.Icon;
+
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class MachineTieredBlock extends MachineBlockContainer {
-		private Icon[] tieredIcon;
-		private Icon[] tieredTopIcon;
-		private Icon[] tieredBottomIcon;
+		private IIcon[] tieredIcon;
+		private IIcon[] tieredTopIcon;
+		private IIcon[] tieredBottomIcon;
 		
-		private Id tBlockId;
 		private Name[] mName;
 		
 		protected boolean hasTopIcon = false;
@@ -33,22 +34,21 @@ public abstract class MachineTieredBlock extends MachineBlockContainer {
 		
 		
 		@Override
-		public abstract TileEntity createNewTileEntity(World world);
+		public abstract TileEntity createNewTileEntity(World world, int var2);
 
 		
-		protected MachineTieredBlock(Id blockId, Name[] machineName) {
-			super(blockId, machineName[0]);
+		protected MachineTieredBlock(Name[] machineName) {
+			super(machineName[0]);
 			
-			tBlockId = blockId;
 			mName = machineName;
 			
-			tieredIcon = new Icon[3];
-			tieredTopIcon = new Icon[3];
-			tieredBottomIcon = new Icon[3];
+			tieredIcon = new IIcon[3];
+			tieredTopIcon = new IIcon[3];
+			tieredBottomIcon = new IIcon[3];
 			
 			
-			setUnlocalizedName(mName[0].unlocalized);
-			setStepSound(Block.soundStoneFootstep);
+			setBlockName(mName[0].unlocalized);
+			setStepSound(Block.soundTypeStone);
 			setHardness(3.5F);
 			
 			setCreativeTab(CustomTabs.tabHydraulicraft);
@@ -56,7 +56,7 @@ public abstract class MachineTieredBlock extends MachineBlockContainer {
 		
 		
 		@Override
-		public void getSubBlocks(int id, CreativeTabs tab, List list){
+		public void getSubBlocks(Item item, CreativeTabs tab, List list){
 			for(int i = 0; i < 3; i++){
 				list.add(new ItemStack(this, 1, i));
 			}
@@ -71,7 +71,7 @@ public abstract class MachineTieredBlock extends MachineBlockContainer {
 		}
 		
 		@Override
-		public void registerIcons(IconRegister iconRegistry){
+		public void registerBlockIcons(IIconRegister iconRegistry){
 			if(hasTextures){
 				if(hasTopIcon || hasBottomIcon){
 					for(int i = 0; i < 3; i++){
@@ -105,7 +105,7 @@ public abstract class MachineTieredBlock extends MachineBlockContainer {
 		
 		
 		@Override
-		public Icon getIcon(int side, int metadata){
+		public IIcon getIcon(int side, int metadata){
 			ForgeDirection s = ForgeDirection.getOrientation(side);
 			if(s.equals(ForgeDirection.UP)){
 				return tieredTopIcon[metadata];
@@ -134,12 +134,11 @@ public abstract class MachineTieredBlock extends MachineBlockContainer {
 		
 		@Override
 		public void onNeighborBlockChange(World world, int x, int y,
-					int z, int blockId) {
-			super.onNeighborBlockChange(world, x, y, z, blockId);
-			TileEntity t = world.getBlockTileEntity(x, y, z);
+					int z, Block block) {
+			super.onNeighborBlockChange(world, x, y, z, block);
+			TileEntity t = world.getTileEntity(x, y, z);
 			if(t instanceof IHydraulicMachine){
 				((IHydraulicMachine)t).getHandler().checkRedstonePower();
 			}
-			
 		}
 }

@@ -47,5 +47,6 @@ public class GuiElectricPump extends MachineGUI {
 		
 		
 		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 	}
 }

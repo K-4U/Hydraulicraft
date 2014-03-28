@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft;
 
-import ic2.api.item.Items;
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
+import ic2.api.item.IC2Items;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.BlockElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.BlockHydraulicGenerator;
@@ -9,6 +9,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.HandlerEl
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -37,29 +38,29 @@ public class IndustrialCraft {
 	}
 	
 	public static void initRecipes(){
-		ItemStack generator = Items.getItem("generator");
-		ItemStack battery = Items.getItem("reBattery");
+		ItemStack generator = IC2Items.getItem("generator");
+		ItemStack battery = IC2Items.getItem("reBattery");
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockHydraulicGenerator, 1), true,
 				new Object [] {
 					"PBP",
 					"PGP",
 					"WKW",
-					'P', Block.thinGlass,
+					'P', Blocks.glass_pane,
 					'G', generator,
-					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
-					'W', Blocks.hydraulicPressureWall,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
+					'W', HCBlocks.hydraulicPressureWall,
 					'B', battery
 				}));
 		
-		ItemStack coil = Items.getItem("coil");
+		ItemStack coil = IC2Items.getItem("coil");
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectricPump, 1, 0), true,
 				new Object [] {
 					"L-L",
 					"KGC",
 					"WWW",
-					'G', Block.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
-					'W', Blocks.hydraulicPressureWall,
+					'G', Blocks.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
+					'W', HCBlocks.hydraulicPressureWall,
 					'C', coil,
 					'L', "ingotLead"
 				}));
@@ -68,9 +69,9 @@ public class IndustrialCraft {
 					"R-R",
 					"KGC",
 					"WWW",
-					'G', Block.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
-					'W', Blocks.hydraulicPressureWall,
+					'G', Blocks.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
+					'W', HCBlocks.hydraulicPressureWall,
 					'C', coil,
 					'R', "ingotCopper"
 				}));
@@ -79,9 +80,9 @@ public class IndustrialCraft {
 					"R-R",
 					"KGC",
 					"WWW",
-					'G', Block.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.Items.gasket,
-					'W', Blocks.hydraulicPressureWall,
+					'G', Blocks.glass,
+					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
+					'W', HCBlocks.hydraulicPressureWall,
 					'C', coil,
 					'R', "ingotEnrichedCopper"
 				}));

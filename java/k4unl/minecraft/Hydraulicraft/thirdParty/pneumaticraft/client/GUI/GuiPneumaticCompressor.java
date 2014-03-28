@@ -36,7 +36,7 @@ public class GuiPneumaticCompressor extends MachineGUI {
 		GL11.glTranslatef(gaugeX, gaugeY, 0); 
 	    GL11.glScaled(0.85D, 0.85D, 0); 
 	    
-		GuiElementRenderer.drawPressureGauge(fontRenderer, 0, compressor.getPneumaticMaxPressure(), compressor.getPneumaticDangerPressure(),
+		GuiElementRenderer.drawPressureGauge(fontRendererObj, 0, compressor.getPneumaticMaxPressure(), compressor.getPneumaticDangerPressure(),
 				0, compressor.getPneumaticPressure(), (int)gaugeX, (int)gaugeY, 0);
 		GL11.glPopMatrix();
 		drawFluidAndPressure();

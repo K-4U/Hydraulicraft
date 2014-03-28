@@ -1,12 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp.containers;
 
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
+import k4unl.minecraft.Hydraulicraft.slots.SlotMachineOutput;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities.TileHydraulicSaw;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 
 public class ContainerSaw extends Container {
@@ -18,8 +18,8 @@ public class ContainerSaw extends Container {
 		
 		addSlotToContainer(new SlotMachineInput(saw, saw, 0, 80, 16));
 		addSlotToContainer(new SlotMachineInput(saw, saw, 1, 62, 34));
-		addSlotToContainer(new SlotFurnace(invPlayer.player, saw, 2, 80, 52));
-		addSlotToContainer(new SlotFurnace(invPlayer.player, saw, 3, 98, 34));
+		addSlotToContainer(new SlotMachineOutput(saw, 2, 80, 52));
+		addSlotToContainer(new SlotMachineOutput(saw, 3, 98, 34));
 		
 		bindPlayerInventory(invPlayer);
 		

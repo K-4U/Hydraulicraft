@@ -5,22 +5,20 @@ import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemChunks extends Item {
 	class chunk{
 		private String _name;
-		private Icon _icon;
+		private IIcon _icon;
 		
 		public chunk(String targetName){
 			_name = targetName;
@@ -29,13 +27,13 @@ public class ItemChunks extends Item {
 		public void setName(String n){
 			_name = n;
 		}
-		public void setIcon(Icon i){
+		public void setIcon(IIcon i){
 			_icon = i;
 		}
 		public String getName(){
 			return _name;
 		}
-		public Icon getIcon(){
+		public IIcon getIcon(){
 			return _icon;
 		}
 	}
@@ -44,7 +42,7 @@ public class ItemChunks extends Item {
 	private List<chunk> chunks = new ArrayList<chunk>();
 	
 	public ItemChunks() {
-		super(Ids.itemChunks.act);
+		super();
 		
 		setMaxStackSize(64);
 		setUnlocalizedName(Names.itemChunk.unlocalized);
@@ -65,12 +63,12 @@ public class ItemChunks extends Item {
 		chunks.add(new chunk(metalName));
         int subId = chunks.size() - 1;
         OreDictionary.registerOre("chunk" + metalName,
-                new ItemStack(Items.itemChunk, 1, subId));
+                new ItemStack(HCItems.itemChunk, 1, subId));
 
         String ingotName = "ingot" + metalName;
         ItemStack ingotTarget = Functions.getIngot(ingotName);
-        FurnaceRecipes.smelting().addSmelting(this.itemID, subId,
-                ingotTarget, 0);
+        FurnaceRecipes.smelting().func_151394_a(new ItemStack(this, 1, subId),
+                ingotTarget, 0.0F);
 
 		return subId;
 	}
@@ -80,20 +78,22 @@ public class ItemChunks extends Item {
 		return "chunk" + chunks.get(itemStack.getItemDamage()).getName();
 	}
 	
+	/* TODO: Fix me
 	@Override	
 	public String getItemDisplayName(ItemStack itemStack){
 		return Localization.getString(Localization.CHUNK_ENTRY, chunks.get(itemStack.getItemDamage()).getName());
 	}
+	*/
 	
 	@Override
-	public void registerIcons(IconRegister icon){
+	public void registerIcons(IIconRegister icon){
 		for (chunk c : chunks) {
 			c.setIcon(icon.registerIcon(ModInfo.LID + ":" + "chunk" + c.getName()));
 		}
 	}
 	
 	@Override
-	public Icon getIconFromDamage(int damage){
+	public IIcon getIconFromDamage(int damage){
 		if(chunks.get(damage) != null){
 			return chunks.get(damage).getIcon();
 		}
@@ -101,7 +101,7 @@ public class ItemChunks extends Item {
 	}
 	
 	@Override
-	public void getSubItems(int id, CreativeTabs tab, List list){
+	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(int i = 0; i < chunks.size(); i++){
 			list.add(new ItemStack(this,1,i));
 		}

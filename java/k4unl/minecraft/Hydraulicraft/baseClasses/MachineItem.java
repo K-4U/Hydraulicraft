@@ -4,23 +4,20 @@ import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Id;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class MachineItem extends Item {
-	private Id tItemId;
 	private Name mName;
 	private boolean _hasEffect = false;
 	private String defaultInfo = "";
 	
 	
-	public MachineItem(Id itemId, Name itemName) {
-		super(itemId.act);
+	public MachineItem(Name itemName) {
+		super();
 		
-		tItemId = itemId;
 		mName = itemName;
 		
 		setMaxStackSize(64);

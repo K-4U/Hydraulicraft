@@ -3,7 +3,6 @@ package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 import k4unl.minecraft.Hydraulicraft.client.renderers.RendererPartValve;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 

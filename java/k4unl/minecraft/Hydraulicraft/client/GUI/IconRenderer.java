@@ -3,11 +3,12 @@ package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import static net.minecraftforge.client.IItemRenderer.ItemRenderType.INVENTORY;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -57,31 +58,29 @@ public final class IconRenderer {
 
         //Fetch the icons from the items, or null if we don't have any items.
         //Null icons will be prevented from being rendered
-        Icon recipeIcon = recipeItem == null ? null : recipeItem.getIconIndex();
-        Icon resultIcon = resultItem == null ? null : resultItem.getIconIndex();
+        IIcon recipeIcon = recipeItem == null ? null : recipeItem.getIconIndex();
+        IIcon resultIcon = resultItem == null ? null : resultItem.getIconIndex();
 
-        int recipeId = recipeItem == null ? 0 : recipeItem.itemID;
-        int resultId = resultItem == null ? 0 : resultItem.itemID;
-        
         //calculate the alpha values, the first one decreases with the transformation and the other increases
         //these alpha values will end respectively star below 0. This is to prevent them from being rendered in the
         //very edges of the transformation
         float alphaOffset = transformation * 1.5F;
         float alpha1 = 1.25F - alphaOffset;
         float alpha2 = -0.25F + alphaOffset;
-
-        //draw the icons, the size of the icons is alpha + 0.2F
-        Block recipeBlock = recipeId < Block.blocksList.length ? Block.blocksList[recipeId] : null;
-        Block resultBlock = resultId < Block.blocksList.length ? Block.blocksList[resultId] : null;
-        if(recipeBlock != null && recipeBlock.blockID == 0){
+        //TODO: FIX ME
+        //TODO: OH MY GOD FUCKING FIX ME
+        Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);
+        Block recipeBlock = Block.getBlockFromItem(recipeItem.getItem());
+        Block resultBlock = Block.getBlockFromItem(resultItem.getItem());
+        if(recipeBlock != null && recipeBlock instanceof BlockAir){
         	recipeBlock = null;
         }
-        if(resultBlock != null && resultBlock.blockID == 0){
+        if(resultBlock != null && resultBlock instanceof BlockAir){
         	resultBlock = null;
         }
 
         
-        if (resultItem.getItemSpriteNumber() == 0 && resultBlock != null && RenderBlocks.renderItemIn3d(Block.blocksList[resultId].getRenderType())){
+        if (resultBlock != null){
         	Minecraft.getMinecraft().getTextureManager().bindTexture(blockTexture);
         }else{
         	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
@@ -90,11 +89,13 @@ public final class IconRenderer {
         drawIcon(x, y, z, resultIcon, 16, 16, alpha2 + 0.2F, alpha2, wobble, resultBlock, resultItem.getItemDamage(), resultItem, false);
 
         
-        if (recipeItem.getItemSpriteNumber() == 0 && recipeBlock != null && RenderBlocks.renderItemIn3d(Block.blocksList[recipeId].getRenderType())){
+        if (recipeBlock != null){
         	Minecraft.getMinecraft().getTextureManager().bindTexture(blockTexture);
         }else{
         	Minecraft.getMinecraft().getTextureManager().bindTexture(iconTexture);        	
         }
+        
+        
         
         drawIcon(x, y, z, recipeIcon, 16, 16, alpha1 + 0.2F, alpha1, wobble, recipeBlock, recipeItem.getItemDamage(), recipeItem, true);
         
@@ -120,7 +121,7 @@ public final class IconRenderer {
      * @param isBlock whether we need to render a block, or just an icon.
      * @param itemDamage TODO 
      */
-    public static void drawIcon(int x, int y, float z, Icon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock, int itemDamage, ItemStack item, boolean opposite) {
+    public static void drawIcon(int x, int y, float z, IIcon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock, int itemDamage, ItemStack item, boolean opposite) {
         //without an alpha size or an icon we have nothing to render
         if (alpha <= 0 || size <= 0) {
             return;
@@ -183,7 +184,7 @@ public final class IconRenderer {
             float sourceBot = icon.getMaxV() - sourceHeightMargin;
 
        
-            if(isBlock == null){
+            if(isBlock == null || isBlock instanceof BlockAir){
     	        //render the icon with the given bounds. This is done in the same way an icon is normally being rendered by
     	        //the base gui. However, there's no method to be called that allows you to specify all these things.
             	GL11.glPushMatrix();

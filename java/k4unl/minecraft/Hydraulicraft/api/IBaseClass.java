@@ -5,9 +5,9 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.world.IBlockAccess;
 
 /**
@@ -32,7 +32,7 @@ public interface IBaseClass {
 	 * @param net
 	 * @param packet
 	 */
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet);
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet);
 	
 	/**
 	 * Forward this function to the Base class

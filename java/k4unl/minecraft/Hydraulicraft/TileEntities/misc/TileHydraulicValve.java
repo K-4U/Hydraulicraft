@@ -13,12 +13,11 @@ import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
-import codechicken.multipart.TileMultipart;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileHydraulicValve extends TileEntity implements IHydraulicMachine {
 	private int targetX;
@@ -69,7 +68,7 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 	
 	public IHydraulicConsumer getTarget(){
 		if(targetHasChanged == true && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
-			TileEntity t = worldObj.getBlockTileEntity(targetX, targetY, targetZ);
+			TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
 			if(t instanceof IHydraulicConsumer){
 				target = (IHydraulicConsumer) t;
 				targetHasChanged = false;
@@ -213,10 +212,11 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 			for(ForgeDirection dir:connectedSides){
 				Location hoseLocation = new Location(xCoord, yCoord, zCoord, dir);
 				TileEntity ent = getBlockTileEntity(hoseLocation);
+				/*
 				if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
 					IHydraulicTransporter hose = Multipart.getTransporter((TileMultipart)ent);
 					hose.checkConnectedSides(this);
-				}
+				}*/
 			}
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
@@ -230,7 +230,7 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 	}
 	
 	private TileEntity getBlockTileEntity(Location l) {
-		return worldObj.getBlockTileEntity(l.getX(), l.getY(), l.getZ());
+		return worldObj.getTileEntity(l.getX(), l.getY(), l.getZ());
 	}
 
 	@Override
@@ -270,7 +270,7 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		getHandler().onDataPacket(net, packet);
 	}
 

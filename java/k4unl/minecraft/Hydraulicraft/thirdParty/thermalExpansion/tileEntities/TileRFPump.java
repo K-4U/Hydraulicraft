@@ -7,21 +7,19 @@ import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
 
-public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEnergyHandler {
+public class TileRFPump extends TileEntity implements IHydraulicGenerator /* TE , IEnergyHandler*/ {
 	private int currentBurnTime;
 	private int maxBurnTime;
 	private boolean isRunning = false;
 	private IBaseClass baseHandler;
-	private EnergyStorage energyStorage;
+// TE 	private EnergyStorage energyStorage;
 	private ForgeDirection facing = ForgeDirection.NORTH;
 	private int RFUsage = 0;
 	
@@ -31,11 +29,15 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	private int tier = -1;
 	
 	private PressureNetwork pNetwork;
-	
+	/* TE
 	private EnergyStorage getEnergyStorage(){
 		if(this.energyStorage == null) 
 			this.energyStorage = new EnergyStorage((getTier() + 1) * 400000);
 		return this.energyStorage;
+	}*/
+	
+	private Object getEnergyStorage(){
+		return null;
 	}
 	
 	public TileRFPump(){
@@ -69,7 +71,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			needsUpdate = true;
 			if(Float.compare(getGenerating(ForgeDirection.UP), 0.0F) > 0){
 				setPressure(getPressure(getFacing()) + getGenerating(ForgeDirection.UP), getFacing());
-				getEnergyStorage().extractEnergy(RFUsage, false);
+				// TE getEnergyStorage().extractEnergy(RFUsage, false);
 				isRunning = true;
 			}else{
 				/*
@@ -115,6 +117,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			RFUsage = 0;
 			return 0f;
 		}
+		/* TE 
 		RFUsage = getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], true);
 		
 		if(getEnergyStorage().getEnergyStored() > Constants.MIN_REQUIRED_RF){
@@ -133,7 +136,8 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 			return gen; 
 		}else{
 			return 0;
-		}
+		}*/
+		return 0f;
 	}
 
 
@@ -197,9 +201,9 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		isRunning = tagCompound.getBoolean("isRunning");
 		
 		if(tier != -1){
-			energyStorage = null;
+			// TE energyStorage = null;
 		}
-		getEnergyStorage().readFromNBT(tagCompound);
+		// TE getEnergyStorage().readFromNBT(tagCompound);
 	}
 
 	@Override
@@ -216,22 +220,17 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		}
 		tagCompound.setInteger("RFUsage", RFUsage);
 		
-		getEnergyStorage().writeToNBT(tagCompound);
+		// TE getEnergyStorage().writeToNBT(tagCompound);
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		getHandler().onDataPacket(net, packet);
 	}
 
 	@Override
 	public Packet getDescriptionPacket() {
 		return getHandler().getDescriptionPacket();
-	}
-
-	@Override
-	public void onInventoryChanged() {
-		
 	}
 	
 	@Override
@@ -251,7 +250,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 		// TODO Auto-generated method stub
 		
 	}
-
+/* TE 
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive,
 			boolean simulate) {
@@ -282,7 +281,7 @@ public class TileRFPump extends TileEntity implements IHydraulicGenerator, IEner
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return getEnergyStorage().getMaxEnergyStored();
 	}
-
+*/
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
 		return side.equals(facing);

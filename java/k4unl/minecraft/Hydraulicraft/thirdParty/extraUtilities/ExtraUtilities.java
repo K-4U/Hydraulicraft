@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities;
 
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
@@ -22,6 +22,7 @@ public class ExtraUtilities {
 	
 	public static void initBlocks(){
 		int enderLilyBlockId = 0;
+		/*
 		for(int i=0; i < Block.blocksList.length; i++){
 			Block current = Block.blocksList[i];
 			if(current != null){
@@ -35,23 +36,26 @@ public class ExtraUtilities {
 		if(enderLilyBlockId != 0){
 			Config.addHarvestableItem(new Seed(Constants.HARVESTER_ID_ENDERLILY, enderLilyBlockId, 7));
 			
-			((BlockHarvesterTrolley)Blocks.harvesterTrolley).enableHarvester(Constants.HARVESTER_ID_ENDERLILY);
+			((BlockHarvesterTrolley)HydraulicraftBlocks.harvesterTrolley).enableHarvester(Constants.HARVESTER_ID_ENDERLILY);
 		}
+		*/
 	}
 	
 	public static void initRecipes(){
+		/*
 		//TODO: Think of a better recipe. Drop the ender pearl.
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.harvesterTrolley, 2, Constants.HARVESTER_ID_ENDERLILY), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HydraulicraftBlocks.harvesterTrolley, 2, Constants.HARVESTER_ID_ENDERLILY), true ,
 				new Object[] {
 					"-P-",
 					"WCW",
 					"-H-",
-					'C', new ItemStack(Blocks.blockCore, 1, 1),
-					'W', Blocks.hydraulicPressureWall,
+					'C', new ItemStack(HydraulicraftBlocks.blockCore, 1, 1),
+					'W', HydraulicraftBlocks.hydraulicPressureWall,
 					'H', Item.enderPearl,
-					'P', Blocks.hydraulicPiston
+					'P', HydraulicraftBlocks.hydraulicPiston
 			})
 		);
+		*/
 	}
 
 	public static void initRenderers() {

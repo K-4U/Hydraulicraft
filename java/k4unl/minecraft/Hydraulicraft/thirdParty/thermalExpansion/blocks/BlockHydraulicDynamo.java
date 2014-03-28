@@ -2,25 +2,26 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import buildcraft.api.tools.IToolWrench;
 
 public class BlockHydraulicDynamo extends MachineBlockContainer {
 
 	public BlockHydraulicDynamo() {
-		super(Ids.blockHydraulicDynamo, Names.blockHydraulicDynamo);
+		super(Names.blockHydraulicDynamo);
 		hasTextures = false;
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world) {
+	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileHydraulicDynamo();
 	}
 
@@ -56,23 +57,23 @@ public class BlockHydraulicDynamo extends MachineBlockContainer {
 			return false;
 		}
 		
-		TileEntity entity = world.getBlockTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileHydraulicDynamo)){
 			return false;
 			
 		}
 		//TileHydraulicDynamo dyn = (TileHydraulicDynamo) entity;
-		player.openGui(Hydraulicraft.instance, Ids.GUIHydraulicDynamo.act, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.GUIHydraulicDynamo, world, x, y, z);
 		
 		return true;
 	}
 	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y,
-				int z, int blockId) {
+				int z, Block blockId) {
 		super.onNeighborBlockChange(world, x, y, z, blockId);
 		
-		TileEntity tile = world.getBlockTileEntity(x, y, z);
+		TileEntity tile = world.getTileEntity(x, y, z);
 		if(tile instanceof TileHydraulicDynamo){
 			((TileHydraulicDynamo)tile).checkRedstonePower();			
 		}
@@ -81,13 +82,13 @@ public class BlockHydraulicDynamo extends MachineBlockContainer {
 	
 	@Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){
-		TileEntity te = world.getBlockTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
 		if(te instanceof TileHydraulicDynamo){
 			TileHydraulicDynamo e = (TileHydraulicDynamo) te;
 			ForgeDirection facing = e.getFacing();
 			e.setFacing(facing.getRotation(side));
 			e.getHandler().updateBlock();
-			world.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
+			world.notifyBlocksOfNeighborChange(x, y, z, this);
 			return true;
 		}
 		

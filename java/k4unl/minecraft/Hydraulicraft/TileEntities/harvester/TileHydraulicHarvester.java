@@ -7,30 +7,29 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import codechicken.multipart.TileMultipart;
 
 public class TileHydraulicHarvester extends TileEntity implements IHydraulicConsumer, ISidedInventory {
 	private ItemStack[] seedsStorage;
@@ -58,11 +57,11 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	private List<Location> trolleyList = new ArrayList<Location>();
 	
 	
-	private static final int idHorizontalFrame = Ids.blockHydraulicHarvester.act;
-	private static final int idVerticalFrame = Block.fence.blockID; //TODO: replace this
-	private static final int idPiston = Ids.blockHydraulicPiston.act;
-	private static final int idEndBlock = Ids.blockHydraulicPressureWall.act;
-	private static final int idTrolley = Ids.blockHarvesterTrolley.act;
+	private static final Block horizontalFrame = HCBlocks.hydraulicHarvesterSource;
+	private static final Block verticalFrame = Blocks.fence;
+	private static final Block piston = HCBlocks.hydraulicPiston;
+	private static final Block endBlock = HCBlocks.hydraulicPressureWall;
+	private static final Block trolley = HCBlocks.harvesterTrolley;
 	
 	private PressureNetwork pNetwork;
 	private List<ForgeDirection> connectedSides;
@@ -145,12 +144,12 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			if(seedsStorage[i] != null){
 				NBTTagCompound tc = new NBTTagCompound();
 				seedsStorage[i].writeToNBT(tc);
-				tagCompound.setCompoundTag("seedsStorage"+i, tc);
+				tagCompound.setTag("seedsStorage"+i, tc);
 			}
 			if(outputStorage[i] != null){
 				NBTTagCompound tc = new NBTTagCompound();
 				outputStorage[i].writeToNBT(tc);
-				tagCompound.setCompoundTag("outputStorage"+i, tc);
+				tagCompound.setTag("outputStorage"+i, tc);
 			}
 		}
 		
@@ -173,7 +172,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			tagList.setIntArray(index + "", l.getLocation());
 			index++;
 		}
-		tagCompound.setCompoundTag("pistonList", tagList);
+		tagCompound.setTag("pistonList", tagList);
 	}
 	
 	public void writeTrolleyListToNBT(NBTTagCompound tagCompound){
@@ -185,7 +184,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			tagList.setIntArray(index + "", l.getLocation());
 			index++;
 		}
-		tagCompound.setCompoundTag("trolleyList", tagList);
+		tagCompound.setTag("trolleyList", tagList);
 	}
 	
 	public void readTrolleyListFromNBT(NBTTagCompound tagCompound){
@@ -213,7 +212,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		getHandler().onDataPacket(net, packet);
 	}
 
@@ -270,24 +269,24 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	
 	private TileHydraulicPiston getPistonFromList(int index){
 		Location v = pistonList.get(index);
-		return (TileHydraulicPiston) worldObj.getBlockTileEntity(v.getX(), v.getY(), v.getZ());
+		return (TileHydraulicPiston) worldObj.getTileEntity(v.getX(), v.getY(), v.getZ());
 	}
 	
 	private TileHydraulicPiston getPistonFromCoords(Location v){
-		return (TileHydraulicPiston) worldObj.getBlockTileEntity(v.getX(), v.getY(), v.getZ());
+		return (TileHydraulicPiston) worldObj.getTileEntity(v.getX(), v.getY(), v.getZ());
 	}
 
 	private TileHarvesterTrolley getTrolleyFromList(int index){
 		if(index < trolleyList.size()){
 			Location v = trolleyList.get(index);
-			return (TileHarvesterTrolley) worldObj.getBlockTileEntity(v.getX(), v.getY(), v.getZ());
+			return (TileHarvesterTrolley) worldObj.getTileEntity(v.getX(), v.getY(), v.getZ());
 		}else{
 			return null;
 		}
 	}
 	
 	private TileHarvesterTrolley getTrolleyFromCoords(Location v){
-		return (TileHarvesterTrolley) worldObj.getBlockTileEntity(v.getX(), v.getY(), v.getZ());
+		return (TileHarvesterTrolley) worldObj.getTileEntity(v.getX(), v.getY(), v.getZ());
 	}
 	
 	@Override
@@ -525,18 +524,14 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	
 	public void convertMultiblock(){
 		//Build piston list.
-		int x = xCoord;
-		int y = yCoord + 3;
-		int z = zCoord;
 		Location l = new Location(xCoord, yCoord + 3, zCoord);
 		Location l2 = new Location(xCoord + getFacing().offsetX, yCoord + 2, zCoord + getFacing().offsetZ);
 		int horiz = 0;
 		
 		//Check width:
-		int width = 0;
 		pistonList.clear();
 		trolleyList.clear();
-		while(getBlockId(l) == idPiston){
+		while(getBlock(l).equals(piston)){
 			l = getLocationInHarvester(0, horiz, 3);
 			l2 = getLocationInHarvester(1, horiz, 2);
 			
@@ -593,12 +588,12 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		getHandler().updateBlock();
 	}
 	
-	private int getBlockId(Location l){
-		return worldObj.getBlockId(l.getX(), l.getY(), l.getZ());
+	private Block getBlock(Location l){
+		return worldObj.getBlock(l.getX(), l.getY(), l.getZ());
 	}
 	
-	private int getBlockId(int x, int y, int z){
-		return worldObj.getBlockId(x, y, z);
+	private Block getBlock(int x, int y, int z){
+		return worldObj.getBlock(x, y, z);
 	}
 	
 	private int getBlockMetaFromCoord(Location l){
@@ -608,7 +603,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		return worldObj.getBlockMetadata(x, y, z);
 	}
 	private TileEntity getBlockTileEntity(Location l){
-		return worldObj.getBlockTileEntity(l.getX(), l.getY(), l.getZ());
+		return worldObj.getTileEntity(l.getX(), l.getY(), l.getZ());
 	}
 
 	
@@ -616,9 +611,9 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	private boolean checkMultiblock(ForgeDirection dir){
 		//Log.info("------------ Now checking "+ dir + "-------------");
 		//Go up, check for pistons etc
-		if(getBlockId(xCoord, yCoord + 1, zCoord) != idVerticalFrame) return false;
-		if(getBlockId(xCoord, yCoord + 2, zCoord) != idVerticalFrame) return false;
-		if(getBlockId(xCoord, yCoord + 3, zCoord) != idPiston) return false;
+		if(!getBlock(xCoord, yCoord + 1, zCoord).equals(verticalFrame)) return false;
+		if(!getBlock(xCoord, yCoord + 2, zCoord).equals(verticalFrame)) return false;
+		if(!getBlock(xCoord, yCoord + 3, zCoord).equals(piston)) return false;
 		Location l = new Location(xCoord, yCoord+3, zCoord);
 		
 		int x = xCoord;
@@ -628,7 +623,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		
 		//Check width:
 		int width = 0;
-		while(getBlockId(l) == idPiston && width < 11){
+		while(getBlock(l).equals(piston) && width < 11){
 			width+=1;
 			horiz+=1;
 			l = getLocationInHarvester(0, horiz, 3, dir);
@@ -652,12 +647,12 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			length = 0;
 			l = getLocationInHarvester(horiz, f, 3, dir);
 			//Log.info("(" + dir + ": " + l.printCoords() + "; " + f + ") = " + getBlockId(l) + " W: " + width + " F");
-			while(getBlockId(l) == idHorizontalFrame && getBlockMetaFromCoord(l) == 1){
+			while(getBlock(l).equals(horizontalFrame) && getBlockMetaFromCoord(l) == 1){
 				if(horiz == 1){
 					//Check if there's a trolley right there!
 					Location trolleyLocation = getLocationInHarvester(horiz, f, 2, dir);
 					//Log.info("(" + dir + ": " + trolleyLocation.printCoords() + "; " + f + ") = " + getBlockId(trolleyLocation) + " W: " + width + " T");
-					if(getBlockId(trolleyLocation) != idTrolley){
+					if(!getBlock(trolleyLocation).equals(trolley)){
 						return false;
 					}
 				}
@@ -688,7 +683,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			//So.. This should actually be the endBlock!
 			//Log.info("(" + dir + ": " + l.printCoords() + "; " + f + ") = " + getBlockId(l) + " W: " + width);
 			
-			if(getBlockId(l) != idEndBlock){
+			if(!getBlock(l).equals(endBlock)){
 				return false;
 			}
 			
@@ -709,11 +704,10 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			//Farmost left first.
 			l = getLocationInHarvester(length+1, 0, vert, dir);
 			//Log.info("(" + dir + ": " + l.printCoords() + ") = " + getBlockId(l) + " W: " + width);
-			int blockId = getBlockId(l);
 			if(l.compare(xCoord, yCoord, zCoord)){
 				
 			}else{
-				if(blockId != idVerticalFrame){
+				if(!getBlock(l).equals(verticalFrame)){
 					return false;
 				}
 				
@@ -722,24 +716,21 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			//Farmost right!
 			l = getLocationInHarvester(length+1, width-1, vert, dir);
 			//Log.info("(" + dir + ": " + l.printCoords() + ") = " + getBlockId(l) + " W: " + width);
-			blockId = getBlockId(l);
 			if(l.compare(xCoord, yCoord, zCoord)){
 				
 			}else{
-				if(blockId != idVerticalFrame){
+				if(!getBlock(l).equals(verticalFrame)){
 					return false;
 				}
-				
 			}
 			
 			//Base right
 			l = getLocationInHarvester(0, width-1, vert, dir);
 			//Log.info("(" + dir + ": " + l.printCoords() + ") = " + getBlockId(l) + " W: " + width);
-			blockId = getBlockId(l);
 			if(l.compare(xCoord, yCoord, zCoord)){
 				
 			}else{
-				if(blockId != idVerticalFrame){
+				if(!getBlock(l).equals(verticalFrame)){
 					return false;
 				}
 			}
@@ -816,35 +807,13 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
     }
 
     @Override
-    public String getInvName(){
-        // TODO Localization
-        return Names.blockHydraulicHarvester[0].localized;
-    }
-
-    @Override
-    public boolean isInvNameLocalized(){
-        // TODO Localization
-        return true;
-    }
-
-    @Override
     public int getInventoryStackLimit(){
         return 64;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player){
-        return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq(xCoord, yCoord, zCoord) < 64;
-    }
-
-    @Override
-    public void openChest(){
-
-    }
-
-    @Override
-    public void closeChest(){
-
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq(xCoord, yCoord, zCoord) < 64;
     }
 
     @Override
@@ -852,12 +821,12 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
         if(i < 9) {
         	if(seedsStorage[i] == null){
 	        	for(Seed s: Config.harvestableItems){
-	        		if(s.getSeedId() == itemStack.itemID){
+	        		if(s.getSeedId().equals(itemStack.getItem())){
 	        			return true;
 	        		}
 	        	}
         	}else{
-        		return (seedsStorage[i].getItem().itemID == itemStack.itemID && seedsStorage[i].getItemDamage() == itemStack.getItemDamage());
+        		return (seedsStorage[i].getItem().equals(itemStack.getItem()) && seedsStorage[i].getItemDamage() == itemStack.getItemDamage());
         	}
             return itemStack.getItem() instanceof IPlantable;
         } else {
@@ -865,7 +834,6 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
         }
     }
 
-    @Override
     public void onInventoryChanged(){
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
@@ -986,10 +954,11 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			for(ForgeDirection dir:connectedSides){
 				Location hoseLocation = new Location(xCoord, yCoord, zCoord, dir);
 				TileEntity ent = getBlockTileEntity(hoseLocation);
+				/*
 				if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
 					IHydraulicTransporter hose = Multipart.getTransporter((TileMultipart)ent);
 					hose.checkConnectedSides(this);
-				}
+				}*/
 			}
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
@@ -1085,6 +1054,24 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			}
 		}
 		return;
+	}
+
+	@Override
+	public String getInventoryName() {
+		return Localization.getLocalizedName(Names.blockHydraulicHarvester[0].unlocalized);
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		return true;
+	}
+
+	@Override
+	public void openInventory() {
+	}
+
+	@Override
+	public void closeInventory() {
 	}
 	
 }

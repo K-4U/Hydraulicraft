@@ -11,7 +11,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -252,7 +252,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
     
                  boolean fancySetting = RenderManager.instance.options.fancyGraphics;
                  RenderManager.instance.options.fancyGraphics = true;
-                 customRenderItem.doRenderItem(renderedItem, 0, 0, 0, 0, 0);
+                 customRenderItem.doRender(renderedItem, 0, 0, 0, 0, 0);
                  RenderManager.instance.options.fancyGraphics = fancySetting;
                  
                  GL11.glPopMatrix();

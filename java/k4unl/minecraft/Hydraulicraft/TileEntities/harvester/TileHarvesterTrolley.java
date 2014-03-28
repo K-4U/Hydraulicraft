@@ -11,16 +11,17 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolley {
 	private float extendedLength;
@@ -111,8 +112,8 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	}
 	
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet){
-		NBTTagCompound tagCompound = packet.data;
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+		NBTTagCompound tagCompound = packet.func_148857_g();
 		readFromNBT(tagCompound);
 	}
 	
@@ -120,7 +121,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		writeToNBT(tagCompound);
-		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 4, tagCompound);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 4, tagCompound);
 	}
 	
 	@Override
@@ -179,9 +180,9 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		harvesterPart = tagCompound.getBoolean("harvesterPart");
 		
 		harvestedItems.clear();
-		NBTTagList tagList = tagCompound.getTagList("HarvestedItems");
+		NBTTagList tagList = tagCompound.getTagList("HarvestedItems", 9);
 		for(int i = 0; i < tagList.tagCount(); i++){
-		    harvestedItems.add(ItemStack.loadItemStackFromNBT((NBTTagCompound)tagList.tagAt(i)));
+		    harvestedItems.add(ItemStack.loadItemStackFromNBT(tagList.getCompoundTagAt(i)));
 		}
 		NBTTagCompound plantingTag = tagCompound.getCompoundTag("PlantingItem");
 		if(plantingTag != null){
@@ -293,7 +294,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	public boolean canHandleSeed(ItemStack seed){
 		int metadata = getBlockMetadata();
 		for(Seed s : Config.harvestableItems){
-			if(s.getSeedId() == seed.itemID){
+			if(s.getSeedId().equals(seed.getItem())){
 				if(s.getHarvesterMeta() == metadata){
 					return true;
 				}
@@ -308,8 +309,8 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		return l;
 	}
 	
-	private int getBlockId(Location l){
-		return worldObj.getBlockId(l.getX(), l.getY(), l.getZ());
+	private Block getBlock(Location l){
+		return worldObj.getBlock(l.getX(), l.getY(), l.getZ());
 	}
 	
 	@Override
@@ -330,24 +331,24 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		}
 		
 		for(int horiz = 0; horiz <= maxLength; horiz++){
-			int blockId = getBlockId(getLocation(horiz, -2));
-			int soilId = getBlockId(getLocation(horiz, -3));
+			Block block = getBlock(getLocation(horiz, -2));
+			Block soil = getBlock(getLocation(horiz, -3));
 			boolean canIPlantHere = false;
 			if(getBlockMetadata() == 0){
 				//For "vanilla" plants:
 				canIPlantHere = canPlantSeed(getLocation(horiz, -2), firstSeed);
 			}else if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
 				Location toPlaceLocation = getLocation(horiz, -2);
-				canIPlantHere = Block.reed.canPlaceBlockAt(worldObj, toPlaceLocation.getX(), toPlaceLocation.getY(), toPlaceLocation.getZ());
+				canIPlantHere = Blocks.reeds.canPlaceBlockAt(worldObj, toPlaceLocation.getX(), toPlaceLocation.getY(), toPlaceLocation.getZ());
 			}else if(getBlockMetadata() == Constants.HARVESTER_ID_ENDERLILY){
-				if(soilId == Block.dirt.blockID || soilId == Block.grass.blockID || soilId == Block.whiteStone.blockID){
+				if(soil.equals(Blocks.dirt) || soil.equals(Blocks.grass) || soil.equals(Blocks.end_stone)){
 					canIPlantHere = true;
 				}else{
 					canIPlantHere = false;
 				}
 			}
 			
-			if(blockId == 0 && canIPlantHere){
+			if(block.equals(Blocks.air) && canIPlantHere){
 				locationToPlant = horiz;
 				return seedLocation;
 			}
@@ -371,23 +372,24 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	
 	private void actuallyPlant(){
 		//The trolley has arrived at the location and should plant.
-		int plantId = 0;
+		Block plant = null;
 		int plantMeta = 0;
 		Location l = getLocation(locationToPlant, -2);
 		if(plantingItem.getItem() instanceof IPlantable && getBlockMetadata() != Constants.HARVESTER_ID_ENDERLILY){
 			IPlantable seed = (IPlantable)plantingItem.getItem();
-			plantId = seed.getPlantID(worldObj, l.getX(), l.getY(), l.getZ());
+			plant = seed.getPlant(worldObj, l.getX(), l.getY(), l.getZ());
 			plantMeta = seed.getPlantMetadata(worldObj, l.getX(), l.getY(), l.getZ());
 		}else if(getBlockMetadata() == Constants.HARVESTER_ID_ENDERLILY){
 			//It probably is a ender lilly we want to plant..
-			plantId = plantingItem.itemID;
+			//TODO: FIX ME
+			//plant = plantingItem.get;
 			plantMeta = 0;
 		}else if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
-			plantId = Block.reed.blockID;
+			plant = Blocks.reeds;
 			plantMeta = 0;
 		}
 		
-		worldObj.setBlock(l.getX(), l.getY(), l.getZ(), plantId, plantMeta, 2);
+		worldObj.setBlock(l.getX(), l.getY(), l.getZ(), plant, plantMeta, 2);
 		
 		plantingItem = null;
 		isHarvesting = false;
@@ -404,7 +406,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 			int x = l.getX();
 			int y = l.getY();
 			int z = l.getZ();
-			Block soil = Block.blocksList[worldObj.getBlockId(x, y - 1, z)];
+			Block soil = getWorldObj().getBlock(x, y-1, z);
 		    return (worldObj.getFullBlockLightValue(x, y, z) >= 8 ||
 		            worldObj.canBlockSeeTheSky(x, y, z)) &&
 		            soil != null && soil.canSustainPlant(worldObj, x, y - 1, z,
@@ -417,11 +419,10 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	
 	private ArrayList<ItemStack> getDroppedItems(int h){
 		Location cropLocation = getLocation(h, -2);
-		int id = worldObj.getBlockId(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
+		Block toHarvest = worldObj.getBlock(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
 		int metaData = worldObj.getBlockMetadata(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
-		if(id > 0){
-			Block toHarvest = Block.blocksList[id];
-			return toHarvest.getBlockDropped(worldObj, cropLocation.getX(), cropLocation.getY(), cropLocation.getZ(), metaData, 0);
+		if(toHarvest != null){
+			return toHarvest.getDrops(worldObj, cropLocation.getX(), cropLocation.getY(), cropLocation.getZ(), metaData, 0);
 		}else{
 			return null;
 		}
@@ -448,11 +449,11 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 			int y = l.getY();
 			int z = l.getZ();
 			
-			int blockId = worldObj.getBlockId(x, y, z);
+			Block block = worldObj.getBlock(x, y, z);
 			int metaData = worldObj.getBlockMetadata(x, y, z);
 			
 			for(Seed harvestable : Config.harvestableItems){
-				boolean idCorrect = harvestable.getItemId() == blockId;
+				boolean idCorrect = harvestable.getItemId().equals(block);
 				boolean fullGrown = harvestable.getFullGrown() == metaData || getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE;
 				boolean correctDolley = harvestable.getHarvesterMeta() == getBlockMetadata();
 				if(idCorrect && fullGrown && correctDolley){
@@ -506,7 +507,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		}else{
 			cropLocation = getLocation(locationToHarvest, -2);
 		}
-		worldObj.destroyBlock(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ(), false);
+		worldObj.func_147480_a(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ(), false);
 		//worldObj.setBlockToAir(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
 		
 		

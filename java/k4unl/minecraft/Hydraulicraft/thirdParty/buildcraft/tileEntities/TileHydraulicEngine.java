@@ -7,12 +7,12 @@ import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import buildcraft.api.power.IPowerEmitter;
 import buildcraft.api.power.IPowerReceptor;
@@ -89,7 +89,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		getHandler().onDataPacket(net, packet);
 		
 	}
@@ -143,9 +143,9 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	public float createPower(boolean simulate){
 		boolean rp = getHandler().getRedstonePowered();
 		int pressureReq = Float.compare(getPressure(getFacing().getOpposite()), Constants.MIN_REQUIRED_PRESSURE_ENGINE);
-		float energyStored = getPowerReceiver(getFacing()).getEnergyStored();
-		float energyMax = getPowerReceiver(getFacing()).getMaxEnergyStored();
-		int MJReq = Float.compare(getPowerReceiver(getFacing()).getEnergyStored(), getPowerReceiver(getFacing()).getMaxEnergyStored());
+		float energyStored = (float) getPowerReceiver(getFacing()).getEnergyStored();
+		float energyMax = (float) getPowerReceiver(getFacing()).getMaxEnergyStored();
+		int MJReq = Float.compare(energyStored, energyMax);
 		
 		if(!rp || pressureReq < 0 || MJReq >= 0){
 			isRunning = false;
@@ -156,7 +156,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		
 		energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), getFacing())) * Constants.CONVERSION_RATIO_HYDRAULIC_MJ) * Constants.MAX_TRANSFER_MJ;
 		if(!simulate){
-			energyToAdd = powerHandler.addEnergy(energyToAdd);
+			energyToAdd = (float) powerHandler.addEnergy(energyToAdd);
 		}
 		
         int efficiency = 20;
@@ -189,13 +189,13 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	
     private void sendPower() {
     	ForgeDirection o = facing;
-    	TileEntity tile = worldObj.getBlockTileEntity(xCoord + o.offsetX, yCoord + o.offsetY, zCoord + o.offsetZ);
+    	TileEntity tile = worldObj.getTileEntity(xCoord + o.offsetX, yCoord + o.offsetY, zCoord + o.offsetZ);
         if(isPoweredTile(tile, o)) {
             PowerReceiver receptor = ((IPowerReceptor)tile).getPowerReceiver(o.getOpposite());
 
             float extracted = getPowerToExtract();
             if(extracted > 0) {
-                float needed = receptor.receiveEnergy(PowerHandler.Type.ENGINE, extracted, o.getOpposite());
+                float needed = (float) receptor.receiveEnergy(PowerHandler.Type.ENGINE, extracted, o.getOpposite());
                 extractEnergy(receptor.getMinEnergyReceived(), needed, true);
             }
         }
@@ -203,7 +203,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 
 	public float getPowerToExtract() {
 		ForgeDirection o = facing;
-        TileEntity tile = worldObj.getBlockTileEntity(xCoord + o.offsetX, yCoord + o.offsetY, zCoord + o.offsetZ);
+        TileEntity tile = worldObj.getTileEntity(xCoord + o.offsetX, yCoord + o.offsetY, zCoord + o.offsetZ);
         if(tile instanceof IPowerReceptor){
         	PowerReceiver receptor = ((IPowerReceptor)tile).getPowerReceiver(o.getOpposite());
         	return extractEnergy(receptor.getMinEnergyReceived(), receptor.getMaxEnergyReceived(), false);
@@ -212,8 +212,8 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
         }
 	}
 	
-	public float extractEnergy(float min, float max, boolean doExtract){
-        return powerHandler.useEnergy(min, max, doExtract);
+	public float extractEnergy(double d, double e, boolean doExtract){
+        return (float) powerHandler.useEnergy(d, e, doExtract);
     }
 	
     private float maxEnergyExtracted(){

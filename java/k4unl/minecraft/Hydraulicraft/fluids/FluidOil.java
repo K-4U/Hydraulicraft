@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.fluids;
 
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -13,8 +12,8 @@ public class FluidOil extends Fluid {
 		setViscosity(3000); // How fast the fluid flows.
 		
 		setUnlocalizedName(Names.fluidOil.unlocalized);
+		setBlock(Fluids.fluidOilBlock);
 		
-		setBlockID(Ids.blockFluidOil.act);
 		FluidRegistry.registerFluid(this);
 	}
 }

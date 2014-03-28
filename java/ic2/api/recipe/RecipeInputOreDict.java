@@ -3,6 +3,7 @@ package ic2.api.recipe;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeInputOreDict implements IRecipeInput {
@@ -11,8 +12,13 @@ public class RecipeInputOreDict implements IRecipeInput {
 	}
 
 	public RecipeInputOreDict(String input1, int amount1) {
+		this(input1, amount1, null);
+	}
+
+	public RecipeInputOreDict(String input1, int amount1, Integer meta) {
 		this.input = input1;
 		this.amount = amount1;
+		this.meta = meta;
 	}
 
 	@Override
@@ -20,8 +26,10 @@ public class RecipeInputOreDict implements IRecipeInput {
 		List<ItemStack> inputs = OreDictionary.getOres(input);
 
 		for (ItemStack input1 : inputs) {
-			if (subject.itemID == input1.itemID &&
-					(subject.getItemDamage() == input1.getItemDamage() || input1.getItemDamage() == OreDictionary.WILDCARD_VALUE)) {
+			int metaRequired = meta == null ? input1.getItemDamage() : meta;
+
+			if (subject.getItem() == input1.getItem() &&
+					(subject.getItemDamage() == metaRequired || metaRequired == OreDictionary.WILDCARD_VALUE)) {
 				return true;
 			}
 		}
@@ -41,4 +49,5 @@ public class RecipeInputOreDict implements IRecipeInput {
 
 	public final String input;
 	public final int amount;
+	public final Integer meta;
 }

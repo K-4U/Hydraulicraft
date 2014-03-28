@@ -6,14 +6,15 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.TileEntities.transporter.TilePressureHose;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHarvesterItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHarvesterTrolleyItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicHoseItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicLavaPumpItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicPistonItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicPumpItem;
-import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererPartValveItem;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 
@@ -28,14 +29,17 @@ public class Renderers {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicLavaPump.class, new RendererHydraulicLavaPump());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicPump.class, new RendererHydraulicPump());
 		
+		ClientRegistry.bindTileEntitySpecialRenderer(TilePressureHose.class, new RendererHydraulicHose());
 		
-		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicPiston.act, new RendererHydraulicPistonItem());
-		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicHarvester.act, new RendererHarvesterItem());
-		MinecraftForgeClient.registerItemRenderer(Ids.blockHarvesterTrolley.act, new RendererHarvesterTrolleyItem());
-		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicPump.act,  new RendererHydraulicPumpItem());
-		MinecraftForgeClient.registerItemRenderer(Ids.blockHydraulicLavaPump.act,  new RendererHydraulicLavaPumpItem());
 		
-		MinecraftForgeClient.registerItemRenderer(Ids.partHose.act+256,  new RendererHydraulicHoseItem());
-		MinecraftForgeClient.registerItemRenderer(Ids.partValve.act+256,  new RendererPartValveItem());
+		
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.hydraulicPiston), new RendererHydraulicPistonItem());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.hydraulicHarvesterSource), new RendererHarvesterItem());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.harvesterTrolley), new RendererHarvesterTrolleyItem());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.hydraulicPump),  new RendererHydraulicPumpItem());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.hydraulicLavaPump),  new RendererHydraulicLavaPumpItem());
+		
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.blockHose),  new RendererHydraulicHoseItem());
+		//MinecraftForgeClient.registerItemRenderer(Ids.partValve.act+256,  new RendererPartValveItem());*/
 	}
 }

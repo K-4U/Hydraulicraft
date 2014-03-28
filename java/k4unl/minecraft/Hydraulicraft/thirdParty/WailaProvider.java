@@ -5,7 +5,6 @@ import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -13,8 +12,7 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
-import codechicken.multipart.TileMultipart;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class WailaProvider implements IWailaDataProvider {
 
@@ -37,9 +35,9 @@ public class WailaProvider implements IWailaDataProvider {
 			IWailaConfigHandler config) {
 		
 		TileEntity ent = accessor.getTileEntity();
-		if(accessor.getTileEntity() instanceof IHydraulicMachine|| ent instanceof TileMultipart){
+		if(accessor.getTileEntity() instanceof IHydraulicMachine /* FMP || ent instanceof TileMultipart*/){
 			IHydraulicMachine mEnt = null;
-			if(ent instanceof TileMultipart){
+			/* FMP if(ent instanceof TileMultipart){
 				if(Multipart.hasTransporter((TileMultipart)ent)){
 					mEnt = Multipart.getTransporter((TileMultipart)ent);
 				}else{
@@ -47,7 +45,8 @@ public class WailaProvider implements IWailaDataProvider {
 				}
 			}else{
 				mEnt = (IHydraulicMachine) ent;
-			}
+			}*/
+			mEnt = (IHydraulicMachine) ent;
 			//IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
 			
 			int stored = mEnt.getHandler().getStored();
@@ -77,7 +76,7 @@ public class WailaProvider implements IWailaDataProvider {
 		registrar.registerHeadProvider(new WailaProvider(), IHydraulicMachine.class);
 		registrar.registerBodyProvider(new WailaProvider(), IHydraulicMachine.class);
 		registrar.registerTailProvider(new WailaProvider(), IHydraulicMachine.class);
-		registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
+		//registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
 		
 		//registrar.registerBodyProvider(new WailaProvider(), Ids.blockHydraulicPump.act);
 	}

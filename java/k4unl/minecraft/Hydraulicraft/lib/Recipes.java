@@ -3,13 +3,12 @@ package k4unl.minecraft.Hydraulicraft.lib;
 import java.util.ArrayList;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.blocks.Blocks;
-import k4unl.minecraft.Hydraulicraft.items.Items;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import k4unl.minecraft.Hydraulicraft.ores.Ores;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -19,7 +18,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Recipes {
 	public static void init(){
-		GameRegistry.registerCraftingHandler(new CraftingHandler());
+//		GameRegistry.registerCraftingHandler(new CraftingHandler());
 
 		initializeBlockRecipes();
 		initializeItemRecipes();
@@ -31,12 +30,12 @@ public class Recipes {
 
     private static void initializeCrushingRecipes() {
     	//Yeah, just put them in, right there, yeahhhhhh
-    	OreDictionary.registerOre("oreIron", Block.oreIron);
-    	OreDictionary.registerOre("ingotIron", Item.ingotIron);
-    	OreDictionary.registerOre("oreGold", Block.oreGold);
-    	OreDictionary.registerOre("ingotGold", Item.ingotGold);
-    	OreDictionary.registerOre("oreNetherQuartz", Block.oreNetherQuartz);
-    	OreDictionary.registerOre("gemDiamond", Item.diamond);
+    	OreDictionary.registerOre("oreIron", Blocks.iron_ore);
+    	OreDictionary.registerOre("ingotIron", Items.iron_ingot);
+    	OreDictionary.registerOre("oreGold", Blocks.gold_ore);
+    	OreDictionary.registerOre("ingotGold", Items.gold_ingot);
+    	OreDictionary.registerOre("oreNetherQuartz", Blocks.quartz_ore);
+    	OreDictionary.registerOre("gemDiamond", Items.diamond);
         //Get items from ore dictionary:
         List<String> crushableItems = new ArrayList<String>();
         crushableItems.add("Gold");
@@ -61,23 +60,22 @@ public class Recipes {
             Log.info("Found " + oreStack.size() + " ores and " + ingotStack.size() + " ingots for " + item);
             
             if(oreStack.size() > 0 && ingotStack.size() > 0){
-            	int metaId = Items.itemChunk.addChunk(item);
-                Items.itemDust.addDust(item, metaId);
+            	int metaId = HCItems.itemChunk.addChunk(item);
+                HCItems.itemDust.addDust(item, metaId);
                 
 		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes
 		                .CrushingRecipe
-		                (oreName, 1.0F, new ItemStack(Items.itemChunk
-		                .itemID, 2, metaId)));
+		                (oreName, 1.0F, new ItemStack(HCItems.itemChunk, 2, metaId)));
 		        
 		        
 		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe
 		                (ingotName, 0.5F,
-		                        new ItemStack(Items.itemDust.itemID, 1, metaId)));
+		                        new ItemStack(HCItems.itemDust, 1, metaId)));
 		
 		        
 		        WashingRecipes.addWashingRecipe(new WashingRecipes.WashingRecipe(
-		               new ItemStack(Items.itemChunk.itemID, 1, metaId), 400F,
-		                new ItemStack(Items.itemDust.itemID, 1, metaId)));
+		               new ItemStack(HCItems.itemChunk, 1, metaId), 400F,
+		                new ItemStack(HCItems.itemDust, 1, metaId)));
             }
         }
         
@@ -89,10 +87,10 @@ public class Recipes {
         	registerNonStandardCrushRecipe("oreUranium", "crushedUranium", 2);
         }
         
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe("oreNetherQuartz", 1.0F, new ItemStack(Item.netherQuartz, 3)));
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Block.cobblestone, 1), 0.9F, new ItemStack(Block.sand, 2)));
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Item.bone, 1), 0.5F, new ItemStack(Item.dyePowder, 5, 15)));
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Item.blazeRod, 1), 0.5F, new ItemStack(Item.blazePowder, 5)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe("oreNetherQuartz", 1.0F, new ItemStack(Items.quartz, 3)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Blocks.cobblestone, 1), 0.9F, new ItemStack(Blocks.sand, 2)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Items.bone, 1), 0.5F, new ItemStack(Items.dye, 5, 15)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Items.blaze_rod, 1), 0.5F, new ItemStack(Items.blaze_powder, 5)));
     }
     
     private static void registerNonStandardCrushRecipe(String sourceName, String targetName, int number){
@@ -106,190 +104,190 @@ public class Recipes {
     }
 
     private static void initializeSmeltingRecipes(){
-		GameRegistry.addSmelting(Ids.oreCopper.act, new ItemStack(Items.ingotCopper), 0);
-		GameRegistry.addSmelting(Ids.oreLead.act, new ItemStack(Items.ingotLead), 0);
+		GameRegistry.addSmelting(Ores.oreCopper, new ItemStack(HCItems.ingotCopper), 0);
+		GameRegistry.addSmelting(Ores.oreLead, new ItemStack(HCItems.ingotLead), 0);
 	}
 	
 	private static void initializeBlockRecipes(){
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockValve, 4, 0), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockValve, 4, 0), true ,
 				new Object[] {
 					"WKW",
 					"K K",
 					"WKW",
-					'W', Blocks.hydraulicPressureWall,
-					'K', Items.gasket
+					'W', HCBlocks.hydraulicPressureWall,
+					'K', HCItems.gasket
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockInterfaceValve, 4, 0), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockInterfaceValve, 4, 0), true ,
 				new Object[] {
 					"WHW",
 					"K K",
 					"WHW",
-					'W', Blocks.hydraulicPressureWall,
-					'K', Items.gasket,
-					'H', Block.hopperBlock
+					'W', HCBlocks.hydraulicPressureWall,
+					'K', HCItems.gasket,
+					'H', Blocks.hopper
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPiston, 1, 0), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPiston, 1, 0), true ,
 				new Object[] {
 					"III",
 					"WCW",
 					"WKW",
-					'W', Blocks.hydraulicPressureWall,
-					'C', new ItemStack(Blocks.blockCore, 1, 1),
-					'K', Items.gasket,
-					'R', Item.redstone,
+					'W', HCBlocks.hydraulicPressureWall,
+					'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+					'K', HCItems.gasket,
+					'R', Items.redstone,
 					'I', "ingotIron"
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHarvesterSource, 18, 1), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicHarvesterSource, 18, 1), true ,
 				new Object[] {
 					"SSS",
 					"-S-",
 					"SSS",
-					'S', Item.stick
+					'S', Items.stick
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicHarvesterSource, 1, 0), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicHarvesterSource, 1, 0), true ,
 				new Object[] {
 					"WWW",
 					"ICK",
 					"WWW",
-					'C', new ItemStack(Blocks.blockCore, 1, 1),
-					'W', Blocks.hydraulicPressureWall,
-					'K', Items.gasket,
-					'I', Blocks.blockInterfaceValve
+					'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+					'W', HCBlocks.hydraulicPressureWall,
+					'K', HCItems.gasket,
+					'I', HCBlocks.blockInterfaceValve
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.harvesterTrolley, 4, 0), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.harvesterTrolley, 4, 0), true ,
 				new Object[] {
 					"-P-",
 					"WCW",
 					"-H-",
-					'C', new ItemStack(Blocks.blockCore, 1, 1),
-					'W', Blocks.hydraulicPressureWall,
-					'H', Item.hoeGold,
-					'P', Blocks.hydraulicPiston
+					'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+					'W', HCBlocks.hydraulicPressureWall,
+					'H', Items.golden_hoe,
+					'P', HCBlocks.hydraulicPiston
 			})
 		);
 		
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.harvesterTrolley, 4, Constants.HARVESTER_ID_SUGARCANE), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.harvesterTrolley, 4, Constants.HARVESTER_ID_SUGARCANE), true ,
 				new Object[] {
 					"-P-",
 					"WCW",
 					"-S-",
-					'C', new ItemStack(Blocks.blockCore, 1, 1),
-					'W', Blocks.hydraulicPressureWall,
-					'S', Item.shears,
-					'P', Blocks.hydraulicPiston
+					'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+					'W', HCBlocks.hydraulicPressureWall,
+					'S', Items.shears,
+					'P', HCBlocks.hydraulicPiston
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockCore, 2, 0), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockCore, 2, 0), true ,
 				new Object[] {
 					"LSL",
 					"SWS",
 					"LSL",
-					'S' , Block.stone,
-					'W', Blocks.hydraulicPressureWall,
+					'S' , Blocks.stone,
+					'W', HCBlocks.hydraulicPressureWall,
 					'L', "ingotLead"
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockCore, 1, 1), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockCore, 1, 1), true ,
 				new Object[] {
 					"CWC",
 					"WBW",
 					"CWC",
-					'W', Blocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'C', "ingotCopper",
-					'B', new ItemStack(Blocks.blockCore, 1, 0)
+					'B', new ItemStack(HCBlocks.blockCore, 1, 0)
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.blockCore, 1, 2), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockCore, 1, 2), true ,
 				new Object[] {
 					"EWE",
 					"WBW",
 					"EWE",
-					'W', Blocks.hydraulicPressureWall,
+					'W', HCBlocks.hydraulicPressureWall,
 					'E', "ingotEnrichedCopper",
-					'B', new ItemStack(Blocks.blockCore, 1, 1)
+					'B', new ItemStack(HCBlocks.blockCore, 1, 1)
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressureWall, 8),true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPressureWall, 8),true,
 				new Object [] {
 					"SSS",
 					"SLS",
 					"SSS",
-					'S', Block.stone,
+					'S', Blocks.stone,
 					'L', "ingotLead"
 				}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPump, 1, 0), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPump, 1, 0), true,
 			new Object [] {
 				"PKP",
 				"GCG",
 				"PWP",
-				'P', Block.pistonBase,
-				'K', Items.gasket,
-				'G', Block.glass,
-				'W', Blocks.hydraulicPressureWall,
-				'C', new ItemStack(Blocks.blockCore, 1, 0)
+				'P', Blocks.piston,
+				'K', HCItems.gasket,
+				'G', Blocks.glass,
+				'W', HCBlocks.hydraulicPressureWall,
+				'C', new ItemStack(HCBlocks.blockCore, 1, 0)
 			})
 		);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPump,1,1), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPump,1,1), true,
 				new Object [] {
 					"PKP",
 					"GCG",
 					"PUP",
-					'P', Block.pistonBase,
-					'K', Items.gasket,
-					'G', Block.glass,
-					'U', new ItemStack(Blocks.hydraulicPump, 1,0),
-					'C', new ItemStack(Blocks.blockCore, 1, 1)
+					'P', Blocks.piston,
+					'K', HCItems.gasket,
+					'G', Blocks.glass,
+					'U', new ItemStack(HCBlocks.hydraulicPump, 1,0),
+					'C', new ItemStack(HCBlocks.blockCore, 1, 1)
 				})
 			);
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPump, 1, 2), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPump, 1, 2), true,
                 new Object[]{
                         "PKP",
                         "GCG",
                         "PUP",
-                        'P', Block.pistonBase,
-                        'K', Items.gasket,
-                        'G', Block.glass,
-                        'U', new ItemStack(Blocks.hydraulicPump, 1, 1),
-                        'C', new ItemStack(Blocks.blockCore, 1, 2)
+                        'P', Blocks.piston,
+                        'K', HCItems.gasket,
+                        'G', Blocks.glass,
+                        'U', new ItemStack(HCBlocks.hydraulicPump, 1, 1),
+                        'C', new ItemStack(HCBlocks.blockCore, 1, 2)
                 })
         );
 
 		
-		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicMixer, 1),
+		GameRegistry.addRecipe(new ItemStack(HCBlocks.hydraulicMixer, 1),
                 new Object[]{
                         "GKG",
                         "KCK",
                         "WIW",
-                        'K', Items.gasket,
-                        'G', Block.glass,
-                        'W', Blocks.hydraulicPressureWall,
-                        'C', new ItemStack(Blocks.blockCore, 1, 2),
-                        'I', Blocks.blockInterfaceValve
+                        'K', HCItems.gasket,
+                        'G', Blocks.glass,
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'C', new ItemStack(HCBlocks.blockCore, 1, 2),
+                        'I', HCBlocks.blockInterfaceValve
                 });
-		
+		/* FMP 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 4, 0), true,
                 new Object[]{
                         "LLL",
                         "K-K",
                         "LLL",
-                        'K', Items.gasket,
+                        'K', HydraulicraftItems.gasket,
                         'L', "ingotLead"
                 }));
 		
@@ -298,7 +296,7 @@ public class Recipes {
                         "C-C",
                         "KHK",
                         "C-C",
-                        'K', Items.gasket,
+                        'K', HydraulicraftItems.gasket,
                         'C', "ingotCopper",
                         'H', new ItemStack(Multipart.itemPartHose, 1, 0)
                 }));
@@ -308,124 +306,125 @@ public class Recipes {
 					"C-K",
 					"-H-",
 					"K-C",
-					'K', Items.gasket,
+					'K', HydraulicraftItems.gasket,
 					'C', "ingotEnrichedCopper",
 					'H', new ItemStack(Multipart.itemPartHose,1,1)
 			}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 0), true,
+		*/
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPressurevat, 1, 0), true,
 				new Object [] {
 					"LWL",
 					"KCK",
 					"LWL",
-					'W', Blocks.hydraulicPressureWall,
-					'K', Items.gasket,
+					'W', HCBlocks.hydraulicPressureWall,
+					'K', HCItems.gasket,
 					'L', "ingotLead",
-					'C', new ItemStack(Blocks.blockCore, 1, 0)
+					'C', new ItemStack(HCBlocks.blockCore, 1, 0)
 			}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 1), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPressurevat, 1, 1), true,
 				new Object [] {
 					"CWC",
 					"KBK",
 					"CVC",
-					'W', Blocks.hydraulicPressureWall,
-					'K', Items.gasket,
+					'W', HCBlocks.hydraulicPressureWall,
+					'K', HCItems.gasket,
 					'C', "ingotCopper",
-					'V', new ItemStack(Blocks.hydraulicPressurevat, 1,0),
-					'B', new ItemStack(Blocks.blockCore, 1, 1)
+					'V', new ItemStack(HCBlocks.hydraulicPressurevat, 1,0),
+					'B', new ItemStack(HCBlocks.blockCore, 1, 1)
 			}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicPressurevat, 1, 2), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPressurevat, 1, 2), true,
 				new Object [] {
 					"WWW",
 					"KBK",
 					"WVW",
-					'W', Blocks.hydraulicPressureWall,
-					'K', Items.gasket,
+					'W', HCBlocks.hydraulicPressureWall,
+					'K', HCItems.gasket,
 					'C', "ingotEnrichedCopper",
-					'V', new ItemStack(Blocks.hydraulicPressurevat, 1, 1),
-					'B', new ItemStack(Blocks.blockCore, 1, 2)
+					'V', new ItemStack(HCBlocks.hydraulicPressurevat, 1, 1),
+					'B', new ItemStack(HCBlocks.blockCore, 1, 2)
 			}));
 		
-		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicFrictionIncinerator, 1),
+		GameRegistry.addRecipe(new ItemStack(HCBlocks.hydraulicFrictionIncinerator, 1),
 			new Object [] {
 				"GKG",
 				"FCF",
 				"WIW",
-				'W', Blocks.hydraulicPressureWall,
-				'G', Block.glass,
-				'F', Items.itemFrictionPlate,
-				'K', Items.gasket,
-				'C', new ItemStack(Blocks.blockCore, 1, 1),
-				'I', Blocks.blockInterfaceValve
+				'W', HCBlocks.hydraulicPressureWall,
+				'G', Blocks.glass,
+				'F', HCItems.itemFrictionPlate,
+				'K', HCItems.gasket,
+				'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+				'I', HCBlocks.blockInterfaceValve
 				
 			});
 		
-		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicCrusher, 1),
+		GameRegistry.addRecipe(new ItemStack(HCBlocks.hydraulicCrusher, 1),
 				new Object [] {
 					"-K-",
 					"PCP",
 					"WIW",
-					'K', Items.gasket,
-					'P', Block.pistonBase,
-					'W', Blocks.hydraulicPressureWall,
-					'C', new ItemStack(Blocks.blockCore, 1, 1),
-					'I', Blocks.blockInterfaceValve
+					'K', HCItems.gasket,
+					'P', Blocks.piston,
+					'W', HCBlocks.hydraulicPressureWall,
+					'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+					'I', HCBlocks.blockInterfaceValve
 				});
 		
-		GameRegistry.addRecipe(new ItemStack(Blocks.hydraulicWasher, 1),
+		GameRegistry.addRecipe(new ItemStack(HCBlocks.hydraulicWasher, 1),
 				new Object [] {
 					"GKG",
 					"KCG",
 					"WWW",
-					'K', Items.gasket,
-					'G', Block.glass,
-					'W', Blocks.hydraulicPressureWall,
-					'C', new ItemStack(Blocks.blockCore, 1, 2)
+					'K', HCItems.gasket,
+					'G', Blocks.glass,
+					'W', HCBlocks.hydraulicPressureWall,
+					'C', new ItemStack(HCBlocks.blockCore, 1, 2)
 				});
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicLavaPump, 1, 0), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicLavaPump, 1, 0), true,
 				new Object [] {
 					"GKG",
 					"ICG",
 					"PWP",
-					'P', Block.pistonBase,
-					'K', Items.gasket,
-					'G', Block.glass,
-					'W', Blocks.hydraulicPressureWall,
-					'I', Blocks.blockInterfaceValve,
-					'C', new ItemStack(Blocks.blockCore, 1, 0)
+					'P', Blocks.piston,
+					'K', HCItems.gasket,
+					'G', Blocks.glass,
+					'W', HCBlocks.hydraulicPressureWall,
+					'I', HCBlocks.blockInterfaceValve,
+					'C', new ItemStack(HCBlocks.blockCore, 1, 0)
 				})
 			);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicLavaPump,1,1), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicLavaPump,1,1), true,
 				new Object [] {
 					"GKG",
 					"ICG",
 					"PUP",
-					'P', Block.pistonBase,
-					'K', Items.gasket,
-					'G', Block.glass,
-					'I', Blocks.blockInterfaceValve,
-					'U', new ItemStack(Blocks.hydraulicLavaPump, 1,0),
-					'C', new ItemStack(Blocks.blockCore, 1, 1)
+					'P', Blocks.piston,
+					'K', HCItems.gasket,
+					'G', Blocks.glass,
+					'I', HCBlocks.blockInterfaceValve,
+					'U', new ItemStack(HCBlocks.hydraulicLavaPump, 1,0),
+					'C', new ItemStack(HCBlocks.blockCore, 1, 1)
 				})
 			);
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.hydraulicLavaPump, 1, 2), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicLavaPump, 1, 2), true,
                 new Object[]{
                         "GKG",
                         "ICG",
                         "PUP",
-                        'P', Block.pistonBase,
-                        'K', Items.gasket,
-                        'G', Block.glass,
-                        'I', Blocks.blockInterfaceValve,
-                        'U', new ItemStack(Blocks.hydraulicLavaPump, 1, 1),
-                        'C', new ItemStack(Blocks.blockCore, 1, 2)
+                        'P', Blocks.piston,
+                        'K', HCItems.gasket,
+                        'G', Blocks.glass,
+                        'I', HCBlocks.blockInterfaceValve,
+                        'U', new ItemStack(HCBlocks.hydraulicLavaPump, 1, 1),
+                        'C', new ItemStack(HCBlocks.blockCore, 1, 2)
                 })
         );
-		
+		/* FMP 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartValve, 2, 0), true,
                 new Object[]{
                         "---",
@@ -452,30 +451,30 @@ public class Recipes {
 		            'H', new ItemStack(Multipart.itemPartHose, 1, 2),
 		            'L', Block.lever
 				}));
-
+*/
 	}
 	
 	private static void initializeItemRecipes(){
-		GameRegistry.addRecipe(new ItemStack(Items.itemFrictionPlate, 1),
+		GameRegistry.addRecipe(new ItemStack(HCItems.itemFrictionPlate, 1),
 		new Object [] {
 			"-SS",
 			"S-S",
 			"SS-",
-			'S', Block.stone
+			'S', Blocks.stone
 		});
 	
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.ingotEnrichedCopper, 1), "gemDiamond", "ingotCopper"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotEnrichedCopper, 1), "gemDiamond", "ingotCopper"));
 
 		
 		
-		GameRegistry.addRecipe(new ItemStack(Items.gasket, 4),
+		GameRegistry.addRecipe(new ItemStack(HCItems.gasket, 4),
 			new Object [] {
 				"P-P",
 				"-B-",
 				"P-P",
-				'P', Item.paper,
-				'B', Block.fenceIron
+				'P', Items.paper,
+				'B', Blocks.iron_bars
 			}
 		);
 		

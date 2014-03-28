@@ -1,19 +1,22 @@
 package k4unl.minecraft.Hydraulicraft.lib.helperClasses;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+
 public class Seed {
 	private final int harvesterMeta;
-	private final int seedId;
-	private final int itemId;
+	private final Item seedId;
+	private final Block itemId;
 	private final int fullGrown;
-	
-	public Seed(int harvester, int iid, int grown){
+	/*
+	public Seed(int harvester, Item iSeed, Item iGrown){
 		harvesterMeta = harvester;
-		itemId = iid;
-		fullGrown = grown;
-		seedId = iid;
+		itemId = iSeed;
+		fullGrown = iGrown;
+		seedId = iSeed;
 	}
-	
-	public Seed(int harvester, int iid, int grown, int sId){
+	*/
+	public Seed(int harvester, Block iid, int grown, Item sId){
 		harvesterMeta = harvester;
 		itemId = iid;
 		fullGrown = grown;
@@ -24,7 +27,7 @@ public class Seed {
 		return harvesterMeta;
 	}
 	
-	public int getItemId(){
+	public Block getItemId(){
 		return itemId;
 	}
 	
@@ -32,7 +35,7 @@ public class Seed {
 		return fullGrown;
 	}
 	
-	public int getSeedId(){
+	public Item getSeedId(){
 		return seedId;
 	}
 }

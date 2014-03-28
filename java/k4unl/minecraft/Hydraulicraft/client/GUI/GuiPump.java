@@ -11,7 +11,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class GuiPump extends MachineGUI {
 	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/pump.png");
@@ -27,7 +27,7 @@ public class GuiPump extends MachineGUI {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRenderer.drawString(pump.getInvName(), 8, 6, 0xFFFFFF);
-		drawHorizontalAlignedString(7, 3, xSize-14, pump.getInvName(), true);
+		drawHorizontalAlignedString(7, 3, xSize-14, pump.getInventoryName(), true);
 		
 		if(pump.getIsBurning()){
 			int color = 0xFFB25900;
@@ -60,6 +60,7 @@ public class GuiPump extends MachineGUI {
 		
 		
 		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 		
 	}
 }

@@ -6,16 +6,17 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class Functions {
 	private static boolean isUpdateAvailable;
 	
-	public static void showMessageInChat(String message){
-		EntityClientPlayerMP pl = Minecraft.getMinecraft().thePlayer;
-		pl.addChatMessage(message);
+	public static void showMessageInChat(EntityPlayer player, String message){
+		player.addChatMessage(new ChatComponentText(message));
 		
 	}
 	

@@ -1,7 +1,9 @@
 package ic2.api.event;
 
 import net.minecraft.world.World;
-import net.minecraftforge.event.Cancelable;
+
+import cpw.mods.fml.common.eventhandler.Cancelable;
+
 import net.minecraftforge.event.world.WorldEvent;
 
 @Cancelable

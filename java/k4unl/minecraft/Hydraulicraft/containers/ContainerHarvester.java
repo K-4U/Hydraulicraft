@@ -2,11 +2,11 @@ package k4unl.minecraft.Hydraulicraft.containers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
+import k4unl.minecraft.Hydraulicraft.slots.SlotMachineOutput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 
 public class ContainerHarvester extends Container {
@@ -25,7 +25,7 @@ public class ContainerHarvester extends Container {
 		
 		for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 3; j++){
-				addSlotToContainer(new SlotFurnace(invPlayer.player, harvester, 9 + (i*3) + j, 96 + (i * 18), 17 + (j*18)));
+				addSlotToContainer(new SlotMachineOutput(invPlayer, 9 + (i*3) + j, 96 + (i * 18), 17 + (j*18)));
 			}
 		}
 		

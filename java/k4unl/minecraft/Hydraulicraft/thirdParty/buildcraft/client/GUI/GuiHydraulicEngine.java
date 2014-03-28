@@ -30,7 +30,7 @@ public class GuiHydraulicEngine extends MachineGUI {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		
 		drawHorizontalAlignedString(7, 3, xSize - 14, Buildcraft.blockHydraulicEngine.getLocalizedName(), true);
-		drawVerticalProgressBar(40, 16, 54, 16, engine.getPowerReceiver(engine.getFacing()).getEnergyStored(), engine.getPowerReceiver(engine.getFacing()).getMaxEnergyStored(), Constants.COLOR_MJ, "Minecraft Joules", "MJ");
+		drawVerticalProgressBar(40, 16, 54, 16, (float)engine.getPowerReceiver(engine.getFacing()).getEnergyStored(), (float)engine.getPowerReceiver(engine.getFacing()).getMaxEnergyStored(), Constants.COLOR_MJ, "Minecraft Joules", "MJ");
 	
 		int startY = 17;
 		int step = (int)(Hydraulicraft.smallGuiFont.getLineHeight() / 3.2F);
@@ -43,5 +43,6 @@ public class GuiHydraulicEngine extends MachineGUI {
 		
 		
 		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 	}
 }

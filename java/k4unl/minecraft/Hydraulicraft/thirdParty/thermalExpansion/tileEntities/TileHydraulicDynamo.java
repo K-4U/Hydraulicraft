@@ -7,24 +7,21 @@ import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
-import cofh.api.tileentity.IEnergyInfo;
 
-public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsumer, IEnergyHandler, IEnergyInfo {
+public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsumer /* TE , IEnergyHandler, IEnergyInfo*/ {
 	private IBaseClass baseHandler;
 	private ForgeDirection facing = ForgeDirection.UP;
 	
 	private boolean isRunning = true;
 	private float percentageRun = 0.0F;
 	private float direction = 0.005F;
-	protected EnergyStorage storage = new EnergyStorage(32000, Constants.MAX_TRANSFER_RF);
+	// TE protected EnergyStorage storage = new EnergyStorage(32000, Constants.MAX_TRANSFER_RF);
 	private int energyGen = 0;
 	private float pressureRequired = 0.0F;
 	
@@ -74,7 +71,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	public void readNBT(NBTTagCompound tagCompound) {
 		isRunning = tagCompound.getBoolean("isRunning");
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
-		storage.readFromNBT(tagCompound);
+		//storage.readFromNBT(tagCompound);
 		energyGen = tagCompound.getInteger("energyGen");
 		pressureRequired = tagCompound.getFloat("pressureRequired");
 	}
@@ -85,11 +82,11 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setInteger("energyGen", energyGen);
 		tagCompound.setFloat("pressureRequired", pressureRequired);
-		storage.writeToNBT(tagCompound);
+		//storage.writeToNBT(tagCompound);
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		getHandler().onDataPacket(net, packet);
 		
 	}
@@ -132,9 +129,9 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	public float workFunction(boolean simulate, ForgeDirection from) {
 		pressureRequired = createPower(simulate);
 
-		if(simulate == true && storage.getEnergyStored() > 0 && Float.compare(pressureRequired, 0.0F) == 0){
+		/*if(simulate == true && storage.getEnergyStored() > 0 && Float.compare(pressureRequired, 0.0F) == 0){
 			pressureRequired += 0.1F;
-		}
+		}*/
 		
 		return pressureRequired;
 	}
@@ -149,7 +146,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 		
 		float energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), null)) * Constants.CONVERSION_RATIO_HYDRAULIC_RF) * Constants.MAX_TRANSFER_RF;
 		//energyToAdd *= Constants.CONVERSION_RATIO_HYDRAULIC_RF;
-		energyToAdd = storage.receiveEnergy((int)energyToAdd, simulate);
+		//energyToAdd = storage.receiveEnergy((int)energyToAdd, simulate);
 		
 		if(!simulate){
 			energyGen = (int) energyToAdd;
@@ -194,8 +191,9 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 		
 		//PUSH pressure
 		//This had me busy for two days.
+		/* TE
 		if(!worldObj.isRemote){
-			TileEntity receiver = worldObj.getBlockTileEntity(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ);
+			TileEntity receiver = worldObj.getTileEntity(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ);
 			if(receiver != null && receiver instanceof IEnergyHandler){
 				IEnergyHandler recv = (IEnergyHandler) receiver;
 				if(recv.canInterface(getFacing().getOpposite())){
@@ -207,7 +205,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	@Override
@@ -217,7 +215,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	}
 
 	
-	
+	/* TE
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive,
 			boolean simulate) {
@@ -252,12 +250,13 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 			return 0;
 		}
 	}
-	
+	*/
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
 		return side.equals(facing.getOpposite());
 	}
-
+/* TE
+	
 	@Override
 	public int getEnergyPerTick() {
 		float energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), null)) * Constants.CONVERSION_RATIO_HYDRAULIC_RF) * (getPressure(ForgeDirection.UNKNOWN) / 1000);
@@ -267,9 +266,6 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 
 	@Override
 	public int getMaxEnergyPerTick() {
-		/*float energyToAdd = getMaxPressure(getHandler().isOilStored(), null) * Constants.CONVERSION_RATIO_HYDRAULIC_RF;
-		energyToAdd = storage.receiveEnergy((int)energyToAdd, true);
-		return (int)energyToAdd;*/
 		return storage.getMaxExtract();
 	}
 
@@ -282,7 +278,7 @@ public class TileHydraulicDynamo extends TileEntity implements IHydraulicConsume
 	public int getMaxEnergy() {
 		return this.storage.getMaxEnergyStored();
 	}
-
+*/
 	@Override
 	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;

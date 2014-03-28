@@ -2,20 +2,20 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import buildcraft.api.tools.IToolWrench;
 
 public class BlockElectricPump extends MachineTieredBlock {
 
 	public BlockElectricPump() {
-		super(Ids.blockElectricPump, Names.blockElectricPump);
+		super(Names.blockElectricPump);
 		
 		this.hasTopIcon = true;
 		hasTextures = false;
@@ -23,7 +23,7 @@ public class BlockElectricPump extends MachineTieredBlock {
 
 
 	@Override
-	public TileEntity createNewTileEntity(World world) {
+	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileElectricPump();
 	}
 	
@@ -53,7 +53,7 @@ public class BlockElectricPump extends MachineTieredBlock {
 		if(player.isSneaking())
 			return false;
 		
-		TileEntity entity = world.getBlockTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileElectricPump)){
 			return false;
 		}
@@ -61,21 +61,21 @@ public class BlockElectricPump extends MachineTieredBlock {
 			return false;
 		}
 
-		player.openGui(Hydraulicraft.instance, Ids.GUIElecticPump.act, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.GUIElecticPump, world, x, y, z);
 		
 		return true;
 	}
 	
 	@Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){
-		TileEntity te = world.getBlockTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
 		if(te instanceof TileElectricPump){
 			if(side.equals(ForgeDirection.UP) || side.equals(ForgeDirection.DOWN)){
 				TileElectricPump e = (TileElectricPump) te;
 				ForgeDirection facing = e.getFacing();
 				e.setFacing(facing.getRotation(side));
 				e.getHandler().updateBlock();
-				world.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
+				world.notifyBlocksOfNeighborChange(x, y, z, this);
 			}
 		}
 		

@@ -4,7 +4,7 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 
 import org.lwjgl.opengl.GL11;
 
@@ -15,10 +15,23 @@ public class RenderHelper {
 	static float lightTop = 1.0F;
 	static float lightEastWest = 0.8F;
 	static float lightNorthSouth = 0.6F;
+	private static Tessellator tess = Tessellator.instance;
 	
 	public static void vertexWithTexture(float x, float y, float z, float tL, float tT){
 		GL11.glTexCoord2f(tL, tT);
 		GL11.glVertex3f(x, y, z);
+	}
+	
+	public static void tesselatedTexture(float x, float y, float z, float tL, float tT){
+		tess.addVertexWithUV(x, y, z, tL, tT);
+	}
+	
+	public static void startTesselating(){
+		tess.startDrawingQuads();
+	}
+	
+	public static void tesselatorDraw(){
+		tess.draw();
 	}
 	
 	public static void drawCube(Vector3fMax vector){
@@ -132,14 +145,15 @@ public class RenderHelper {
 		GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMax());
 	}	
 	
-	public static void drawTesselatedCubeWithTexture(Vector3fMax vector, Icon icon){
+	public static void drawTesselatedCubeWithTexture(Vector3fMax vector, IIcon icon){
 		Tessellator tessellator = Tessellator.instance;
 		
 		boolean wasTesselating = true;
-		if(!tessellator.isDrawing){
-			tessellator.startDrawingQuads();
+		/*if(!tessellator.isDrawing){
+			
 			wasTesselating = false;
-		}
+		}*/
+		tessellator.startDrawingQuads();
 		
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 		
@@ -185,9 +199,9 @@ public class RenderHelper {
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMax(), vector.getZMax(), U, V);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMax(), vector.getZMax(), U, v);
 		
-		if(!wasTesselating){
+		//if(!wasTesselating){
 			tessellator.draw();
-		}
+		//}
 	}	
 		
 	public static void drawTexturedCube(Vector3fMax vector){
@@ -229,11 +243,13 @@ public class RenderHelper {
 	}
 	
 	public static void drawTexturedCubeWithLight(Vector3fMax vector, TileEntity t){
-		float light = t.blockType.getBlockBrightness(t.worldObj, t.xCoord, t.yCoord, t.zCoord);
+		//TODO: FIX ME
+		drawTexturedCube(vector);
+		/*float light = t.blockType.getBlockBrightness(t.getWorldObj(), t.xCoord, t.yCoord, t.zCoord);
 		light = (light + ((0.8f - light) * 0.4f)) * 0.9F;
 		//light = 1.0F;
 		
-		int l = t.blockType.colorMultiplier(t.worldObj, t.xCoord, t.yCoord, t.zCoord);
+		int l = t.blockType.colorMultiplier(t.getWorldObj(), t.xCoord, t.yCoord, t.zCoord);
         float f = (l >> 16 & 255) / 255.0F;
         float f1 = (l >> 8 & 255) / 255.0F;
         float f2 = (l & 255) / 255.0F;
@@ -286,6 +302,7 @@ public class RenderHelper {
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 0.0F, 0.5F);
 		
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
+		*/
 	}
 	
 	public static void draw2DCircle(float xCenter, float yCenter, float r){

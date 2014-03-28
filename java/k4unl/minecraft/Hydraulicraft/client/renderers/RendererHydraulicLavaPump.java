@@ -4,12 +4,12 @@ import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicLavaPum
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
-import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
 
@@ -22,7 +22,6 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 			new ResourceLocation(ModInfo.LID,"textures/model/hydraulicLavaPump.png");
 	
 
-	private RenderBlocks renderer;
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
 			double z, float f) {
@@ -31,15 +30,12 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		int rotation = 0;//t.getDir();
 		int metadata = t.getBlockMetadata();
 		
-		renderer = new RenderBlocks(tileentity.worldObj);
-		
 		doRender(t, (float)x, (float)y, (float)z, f, rotation, metadata);
 	}
 	
 	public void itemRender(float x, float y,
 			float z, float f, int tier){
 		
-		renderer = new RenderBlocks();
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef(x, y, z);
@@ -69,12 +65,12 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 	
 	public void doRender(TileHydraulicLavaPump t, float x, float y,
 			float z, float f, int rotation, int metadata){
+		
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef(x, y, z);
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
 		
-		GL11.glPushMatrix();
 		
 		switch(t.getFacing()){
 		case EAST:
@@ -120,7 +116,6 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_LIGHTING); 
 		GL11.glPopMatrix();
-		GL11.glPopMatrix();
 	}
 	
 	private void renderInsidesWithoutLighting(float thickness){
@@ -133,9 +128,13 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 	
 	private void renderGauges(float thickness){
 		thickness -= 0.025F;
+		//net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 		GL11.glEnable(GL11.GL_BLEND);
+		
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		//GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 		GL11.glBegin(GL11.GL_QUADS);
+		//RenderHelper.startTesselating();
 		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - 0.1F - 0.2F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F, 1.001F-thickness, 1.0F - thickness - 0.1F);
 		
 		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMax(), 189F/256F, 0.39F); //BL
@@ -150,24 +149,29 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMax(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMin(), 248F/256F, 104F/256F);  //TR
 		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMin(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMin(), 188F/256F, 104F/256F);  //TL
 		
+		//RenderHelper.tesselatorDraw();
 		GL11.glEnd();
 		GL11.glDisable(GL11.GL_BLEND);
-		
+		//GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 	}
+	
 	@SuppressWarnings("cast")
 	private void renderGaugesContents(float thickness, TileHydraulicLavaPump t){
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
-		thickness -= 0.025F;
-		drawLavaTank(t, false, thickness);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glPushMatrix();
+		thickness -= 0.025F;
+		drawLavaTank(t, false, thickness);
+		
+		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		
 		
 		float a = (float)(Constants.COLOR_PRESSURE >> 24 & 255) / 255.0F;
         float r = (float)(Constants.COLOR_PRESSURE >> 16 & 255) / 255.0F;
         float g = (float)(Constants.COLOR_PRESSURE >> 8 & 255) / 255.0F;
         float b = (float)(Constants.COLOR_PRESSURE & 255) / 255.0F;
+        GL11.glAlphaFunc(GL11.GL_EQUAL, a);
         GL11.glColor4f(r, g, b, a);
 		
 		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - 0.1F - 0.2F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F, 1.0005F-thickness, 1.0F - thickness - 0.1F);
@@ -181,8 +185,9 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		GL11.glEnd();
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glPopMatrix();
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 	}
 	
 	private void renderInsides(float thickness, TileHydraulicLavaPump t){
@@ -206,10 +211,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		float containerEnd = containerHeight + containerBegin;
 		float containerDepthBegin = 0.09475F;
 		float containerDepthEnd = containerDepthBegin + 0.04F;
-		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		Vector3fMax vectorFilled = new Vector3fMax(thickness + 0.1F, 0.8F, thickness+0.1F, 1.0F - thickness - 0.1F - 0.3F, 1.0005F-thickness, 1.0F - thickness - 0.1F);
 		if(!isItem){
 			float h = vectorFilled.getZMax() - vectorFilled.getZMin();
@@ -224,7 +226,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 				vectorFilled.setZMin(vectorFilled.getZMax() - (h * (fluidAmount / (float)tankInfo[0].capacity)));
 			
 			
-				Icon fluidIcon = FluidRegistry.LAVA.getIcon();
+				IIcon fluidIcon = FluidRegistry.LAVA.getIcon();
 				
 				if(fluidAmount > 0){
 					RenderHelper.drawTesselatedCubeWithTexture(vectorFilled, fluidIcon);
@@ -233,9 +235,6 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 			//Reset texture after using tesselators.
 			FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
 		}
-		
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glPopMatrix();
 	}
 	
 	private void renderTieredBars(int tier, float thickness){

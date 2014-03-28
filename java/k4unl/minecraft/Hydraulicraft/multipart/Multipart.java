@@ -1,20 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
-import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.lib.config.Ids;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
-import codechicken.multipart.MultiPartRegistry;
-import codechicken.multipart.MultiPartRegistry.IPartFactory;
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TileMultipart;
-
-public class Multipart implements IPartFactory{
-	public static ItemPartHose itemPartHose;
+public class Multipart /* FMP  implements IPartFactory*/{
+	/*public static ItemPartHose itemPartHose;
 	public static ItemPartValve itemPartValve;
 	
 	public Multipart(){
@@ -44,7 +32,7 @@ public class Multipart implements IPartFactory{
 	}
 	
 	public static TileMultipart getMultipartTile(IBlockAccess access, Location pos){
-        TileEntity te = access.getBlockTileEntity(pos.getX(), pos.getY(), pos.getZ());
+        TileEntity te = access.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
         return te instanceof TileMultipart ? (TileMultipart) te : null;
     }
 
@@ -133,5 +121,5 @@ public class Multipart implements IPartFactory{
 			}
 		}
 		return null;
-    }
+    }*/
 }

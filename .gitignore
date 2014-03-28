@@ -1,3 +1,5 @@
+/bin
+
 *.class
 
 # Package Files #
@@ -9,3 +11,11 @@
 
 environment.properties
 *.db
+
+.classpath
+.project
+/build
+/eclipse
+.gradle/
+.settings/
+

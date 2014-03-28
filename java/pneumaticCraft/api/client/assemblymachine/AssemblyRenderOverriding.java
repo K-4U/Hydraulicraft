@@ -10,11 +10,11 @@ public class AssemblyRenderOverriding{
     public static final HashMap<Integer, IAssemblyRenderOverriding> renderOverrides = new HashMap<Integer, IAssemblyRenderOverriding>();
 
     public static void addRenderOverride(Block block, IAssemblyRenderOverriding renderOverride){
-        renderOverrides.put(block.blockID, renderOverride);
+        //renderOverrides.put(block.blockID, renderOverride);
     }
 
     public static void addRenderOverride(Item item, IAssemblyRenderOverriding renderOverride){
-        renderOverrides.put(item.itemID, renderOverride);
+        //renderOverrides.put(item.itemID, renderOverride);
     }
 
     public static interface IAssemblyRenderOverriding{

@@ -4,7 +4,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.event.Cancelable;
+
+import cpw.mods.fml.common.eventhandler.Cancelable;
+
 import net.minecraftforge.event.world.WorldEvent;
 
 /**
