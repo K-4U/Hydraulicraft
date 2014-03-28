@@ -1,9 +1,10 @@
-package k4unl.minecraft.Hydraulicraft.client.renderers;
+package k4unl.minecraft.Hydraulicraft.client.renderers.transportation;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.transporter.TilePressureHose;
+import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -15,7 +16,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
-public class RendererHydraulicHose extends TileEntitySpecialRenderer {
+public class RendererPartHose extends TileEntitySpecialRenderer {
 
 	private static final ResourceLocation resLoc[] = {
 		new ResourceLocation(ModInfo.LID,"textures/model/hydraulicHose_tmap_0.png"),

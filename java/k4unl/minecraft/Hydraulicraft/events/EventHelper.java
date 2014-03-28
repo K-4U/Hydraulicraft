@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.events;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;

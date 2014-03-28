@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks.consumers;
+package k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;

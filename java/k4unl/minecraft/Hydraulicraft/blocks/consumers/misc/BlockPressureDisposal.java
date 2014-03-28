@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks.consumers;
+package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TilePressureDisposal;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
