@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.items;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineItem;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,31 +28,47 @@ public class ItemMovingPane extends MachineItem {
 		if (!player.capabilities.isCreativeMode) {
 			--item.stackSize;
 		}
+		
 		// Prevents from making changes in inactive world
 		if (!world.isRemote) {
 			// Increases y coordinate, so our block will be placed on top of the
 			// block you clicked, just as it should be
-			y++;
+			x += ForgeDirection.getOrientation(side).offsetX;
+			y += ForgeDirection.getOrientation(side).offsetY;
+			z += ForgeDirection.getOrientation(side).offsetZ;
+			
+			//y++;
 			int sideToPlace = MathHelper.floor_double(player.rotationYaw / 90F + 0.5D) & 3;
+			ForgeDirection s = Functions.getDirectionFromInt(sideToPlace);
+			
 			boolean canPlace = true;
 			//ForgeDirection dir = ForgeDirection.getOrientation(sideToPlace);
 			ForgeDirection dir = ForgeDirection.UP;
-			canPlace = (world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).equals(Blocks.air));
+			int i = 0;
+			while(!world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).equals(Blocks.air)){
+				dir = dir.getRotation(s);
+				i++;
+				if(i == 4){
+					return false;
+				}
+			}
+			//canPlace = (world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).equals(Blocks.air));
+			
 			
 			// If the check was successful
-			if (canPlace) {
-				world.setBlock(x, y, z, HCBlocks.movingPane);
-				TileMovingPane tilePane = (TileMovingPane) world.getTileEntity(x, y, z);
-				if(tilePane != null){
-					tilePane.setChildLocation(new Location(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ));
-				}
-				
-				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, HCBlocks.movingPane);
-				tilePane = (TileMovingPane) world.getTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-				if(tilePane != null){
-					tilePane.setParentLocation(new Location(x,y,z));
-					tilePane.setIsPane(true);
-				}
+			world.setBlock(x, y, z, HCBlocks.movingPane);
+			TileMovingPane tilePane = (TileMovingPane) world.getTileEntity(x, y, z);
+			if(tilePane != null){
+				tilePane.setChildLocation(new Location(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ));
+				tilePane.setPaneFacing(s);
+			}
+			
+			world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, HCBlocks.movingPane);
+			tilePane = (TileMovingPane) world.getTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+			if(tilePane != null){
+				tilePane.setParentLocation(new Location(x,y,z));
+				tilePane.setPaneFacing(s);
+				tilePane.setIsPane(true);
 			}
 			return true;
 		}

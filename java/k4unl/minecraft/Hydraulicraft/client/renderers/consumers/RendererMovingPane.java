@@ -34,16 +34,17 @@ public class RendererMovingPane extends TileEntitySpecialRenderer {
 				GL11.glTranslatef(0.0F, -1.0F, 0.0F);
 				break;
 			case SOUTH:
-				GL11.glRotatef(-90F, 0.0F, 1.0F, 0F);
+				GL11.glRotatef(90F, 1.0F, 0.0F, 0F);
 				GL11.glTranslatef(0.0F, 0.0F, -1.0F);
 				break;
 			case NORTH:
-				GL11.glRotatef(90F, 0.0F, 1.0F, 0F);
-				GL11.glTranslatef(-1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(90F, -1.0F, 0.0F, 0F);
+				GL11.glTranslatef(0.0F, -1.0F, 0.0F);
 				break;
 			case DOWN:
 				GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-1.0F,-1.0F, 0.0F);
+				break;
 			case EAST:
 				GL11.glRotatef(90F, 0.0F, 0.0F, -1.0F);
 				GL11.glTranslatef(-1.0F, 0.0F, 0.0F);

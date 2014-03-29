@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -31,7 +32,8 @@ public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
     
     private float movedPercentage = 0.0F;
     private float prevMovedPercentage = 0.0F;
-    private static final float movingSpeed = 0.01F;
+    private float movingSpeed = 0.01F;
+    private float target = 1.0F;
     
     public TileMovingPane(){
     	connectedSides = new ArrayList<ForgeDirection>();
@@ -77,6 +79,13 @@ public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
 		}
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 		paneFacing = ForgeDirection.getOrientation(tagCompound.getInteger("paneFacing"));
+		
+		if(isPane){
+			isRotating = tagCompound.getBoolean("isRotating");
+			movedPercentage = tagCompound.getFloat("movedPercentage");
+			movingSpeed = tagCompound.getFloat("movingSpeed");
+			target = tagCompound.getFloat("target");
+		}
 	}
 
 	@Override
@@ -89,6 +98,11 @@ public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
 		tagCompound.setBoolean("isPane", isPane);
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setInteger("paneFacing", paneFacing.ordinal());
+		
+		tagCompound.setBoolean("isRotating", isRotating);
+		tagCompound.setFloat("movedPercentage", movedPercentage);
+		tagCompound.setFloat("movingSpeed", movingSpeed);
+		tagCompound.setFloat("target", target);
 	}
 
 	@Override
@@ -105,11 +119,44 @@ public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		prevMovedPercentage = movedPercentage;
-		movedPercentage += movingSpeed;
-		if(movedPercentage > 1.0F){
-			movedPercentage = 0.0F;
-			prevMovedPercentage = 0.0F;
+		
+		
+		if(isRotating && isPane){
+			prevMovedPercentage = movedPercentage;
+			movedPercentage += movingSpeed;
+			if(Float.compare(movedPercentage, target) >= 0 && movingSpeed > 0.0F){
+				isRotating = false;
+				prevMovedPercentage = target;
+				movedPercentage = target;
+				getHandler().updateBlock();
+			}else if(Float.compare(movedPercentage, target) <= 0 && movingSpeed <= 0.0F){
+				isRotating = false;
+				movingSpeed = 0.0F;
+				prevMovedPercentage = target;
+				movedPercentage = target;
+				getHandler().updateBlock();
+			}
+		}
+		if(!worldObj.isRemote && isPane == false){
+			int targetIsNul = Float.compare(target, 0.0F);
+			int movingSpeedIsNul = Float.compare(movingSpeed, 0.0F);
+			if(getHandler().getRedstonePowered()){
+				if(Float.compare(target, 0.0F) != 0 && Float.compare(movingSpeed, 0.0F) >= 0){
+					movingSpeed = -0.01F;
+					target = 0.0F;
+					isRotating = true;
+					getChild().setSpeed(movingSpeed);
+					getChild().setTarget(target);
+					getHandler().updateBlock();
+				}
+			}else if(Float.compare(target, 1.0F) != 0 && Float.compare(movingSpeed, 0.0F) < 0){
+				movingSpeed = 0.01F;
+				target = 1.0F;
+				isRotating = true;
+				getChild().setSpeed(movingSpeed);
+				getChild().setTarget(target);
+				getHandler().updateBlock();
+			}
 		}
 	}
 
@@ -249,4 +296,21 @@ public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
 		return paneFacing;
 	}
 	
+	public void setTarget(float nTarget){
+		target = nTarget;
+		isRotating = true;
+		getHandler().updateBlock();
+	}
+	public void setSpeed(float nSpeed){
+		movingSpeed = nSpeed;
+		getHandler().updateBlock();
+	}
+	
+	public TileMovingPane getChild(){
+		return (TileMovingPane)worldObj.getTileEntity(child.getX(), child.getY(), child.getZ());
+	}
+	
+	public TileMovingPane getParent(){
+		return (TileMovingPane)worldObj.getTileEntity(parent.getX(), parent.getY(), parent.getZ());
+	}
 }

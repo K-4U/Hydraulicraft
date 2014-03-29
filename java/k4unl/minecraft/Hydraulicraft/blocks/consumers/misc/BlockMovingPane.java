@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import buildcraft.api.tools.IToolWrench;
@@ -54,6 +55,11 @@ public class BlockMovingPane extends MachineBlockContainer {
 	public void onNeighborBlockChange(World world, int x, int y, int z,
 			Block block) {
 		super.onNeighborBlockChange(world, x, y, z, block);
+		TileMovingPane tileEntity = (TileMovingPane) world.getTileEntity(x, y,
+				z);
+		if (tileEntity != null) {
+			tileEntity.getHandler().checkRedstonePower();
+		}
 
 	}
     @Override
@@ -90,6 +96,10 @@ public class BlockMovingPane extends MachineBlockContainer {
 		
 		return true;
 	}
+    
+	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
+		return true;
+    }
     
 	@Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){

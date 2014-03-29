@@ -61,4 +61,29 @@ public class EventHelper {
 			}
 		}
 	}
+/*	
+	@ForgeSubscribe
+	public void onEntityJoinEvent(EntityJoinWorldEvent event){
+		if(event.entity instanceof EntityPlayer){
+			Log.info("Player joined");
+			if(event.world.isRemote){
+				//If update available, tell em!
+				if(UpdateChecker.isUpdateAvailable){
+					UpdateInfo info = UpdateChecker.infoAboutUpdate;
+					((EntityPlayer)event.entity).addChatMessage("Hydraulicraft version " + info.latestVersion + "-" + info.buildNumber + " available!");
+					((EntityPlayer)event.entity).addChatMessage("Released on " + info.dateOfRelease);
+					int i = 0;
+					for(String cl : info.changelog){
+						((EntityPlayer)event.entity).addChatMessage(cl);						
+						
+						i++;
+						if(i >= 3){
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+    */
 }

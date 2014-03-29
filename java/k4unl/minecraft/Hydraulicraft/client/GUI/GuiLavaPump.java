@@ -43,11 +43,11 @@ public class GuiLavaPump extends MachineGUI {
 		int step = (int)(Hydraulicraft.smallGuiFont.getLineHeight() / 3.2F);
 		
 		String generating = (new DecimalFormat("#.##")).format(pump.getGenerating(ForgeDirection.UP));
-		drawSmallerString(61, startY + (step * 0), EnumChatFormatting.GREEN + "Generating:", false);
+		drawSmallerString(61, startY + (step * 0), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_GENERATING_ENTRY) + ":", false);
 		drawSmallerString(65, startY + (step * 1), EnumChatFormatting.GREEN + "" + generating + " mBar/t", false);
-		drawSmallerString(61, startY + (step * 2), EnumChatFormatting.GREEN + "Max:", false);
+		drawSmallerString(61, startY + (step * 2), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_MAX_ENTRY) + ":", false);
 		drawSmallerString(65, startY + (step * 3), EnumChatFormatting.GREEN + "" + pump.getMaxGenerating(ForgeDirection.UP) + " mBar/t", false);
-		drawSmallerString(61, startY + (step * 4), EnumChatFormatting.GREEN + "Using:", false);
+		drawSmallerString(61, startY + (step * 4), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_USING_ENTRY) + ":", false);
 		drawSmallerString(65, startY + (step * 5), EnumChatFormatting.GREEN + "" + (int)(pump.getLavaUsage()) + " mB/t", false);
 		
 		
