@@ -1,7 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
+import java.util.List;
+import java.util.Map;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileMovingPane;
+import k4unl.minecraft.Hydraulicraft.TileEntities.transporter.TilePressureHose;
 import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
@@ -9,9 +15,11 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -153,4 +161,72 @@ public class BlockMovingPane extends MachineBlockContainer {
 		
 		return true;
     }
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y,
+			int z) {
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
+
+		if (tileEntity instanceof TileMovingPane) {
+			TileMovingPane pane = ((TileMovingPane) tileEntity);
+			if(!pane.getIsPane()){
+				setBlockBounds(0.0F,0.0F,0.0F,1.0F,1.0F,1.0F);
+				return;
+			}
+			float movedPercentage = pane.getMovedPercentage();
+			float angle = 90.0F;
+			float eSin = 1.0F-(float)Math.cos(Math.toRadians(angle * movedPercentage));
+			ForgeDirection facing = pane.getFacing();
+			int xPlus = (facing.offsetX > 0 ? 1 : 0);
+			int xMin = (facing.offsetX < 0 ? 1 : 0);
+			int yPlus = (facing.offsetY > 0 ? 1 : 0);
+			int yMin = (facing.offsetY < 0 ? 1 : 0);
+			int zPlus = (facing.offsetZ > 0 ? 1 : 0);
+			int zMin = (facing.offsetZ < 0 ? 1 : 0);
+			
+			float minX = 0.0F + (xMin * eSin);
+			float minY = 0.0F + (yMin * eSin);
+			float minZ = 0.0F + (zMin * eSin);
+			float maxX = 1.0F - (xPlus * eSin);
+			float maxY = 1.0F - (yPlus * eSin);
+			float maxZ = 1.0F - (zPlus * eSin);
+					
+			this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+		}
+	}
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity){
+    	TileEntity tileEntity = world.getTileEntity(x, y, z);
+
+		if (tileEntity instanceof TileMovingPane) {
+			TileMovingPane pane = ((TileMovingPane) tileEntity);
+			if(!pane.getIsPane()){
+				setBlockBounds(0.0F,0.0F,0.0F,1.0F,1.0F,1.0F);
+				return;
+			}
+			float movedPercentage = pane.getMovedPercentage();
+			ForgeDirection facing = pane.getFacing();
+			int xPlus = (facing.offsetX > 0 ? 1 : 0);
+			int xMin = (facing.offsetX < 0 ? 1 : 0);
+			int yPlus = (facing.offsetY > 0 ? 1 : 0);
+			int yMin = (facing.offsetY < 0 ? 1 : 0);
+			int zPlus = (facing.offsetZ > 0 ? 1 : 0);
+			int zMin = (facing.offsetZ < 0 ? 1 : 0);
+			
+			float minX = 0.0F + (xMin * movedPercentage);
+			float minY = 0.0F + (yMin * movedPercentage);
+			float minZ = 0.0F + (zMin * movedPercentage);
+			float maxX = 1.0F - (xPlus * movedPercentage);
+			float maxY = 1.0F - (yPlus * movedPercentage);
+			float maxZ = 1.0F - (zPlus * movedPercentage);
+			
+			this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+			super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
+		}
+    }
+    
+    
 }
