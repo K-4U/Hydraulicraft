@@ -25,7 +25,7 @@ public class ContainerHarvester extends Container {
 		
 		for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 3; j++){
-				addSlotToContainer(new SlotMachineOutput(invPlayer, 9 + (i*3) + j, 96 + (i * 18), 17 + (j*18)));
+				addSlotToContainer(new SlotMachineOutput(harvester, 9 + (i*3) + j, 96 + (i * 18), 17 + (j*18)));
 			}
 		}
 		
