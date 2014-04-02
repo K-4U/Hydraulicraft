@@ -56,8 +56,8 @@ public class ConfigHandler{
         Ids.blockValve.loadBlock(config, Names.blockValve);
         Ids.blockInterfaceValve.loadBlock(config, Names.blockInterfaceValve);
         
-        Ids.partHose.loadBlock(config, Names.partHose);
-        Ids.partValve.loadBlock(config, Names.partValve);
+        Ids.partHose.loadItem(config, Names.partHose[0]);
+        Ids.partValve.loadItem(config, Names.partValve[0]);
         
         Ids.blockFluidOil.loadBlock(config, Names.fluidOil);
 

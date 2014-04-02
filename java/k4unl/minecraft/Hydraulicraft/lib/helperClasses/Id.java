@@ -43,6 +43,9 @@ public class Id {
 	 */
 	public void loadItem(Configuration config, Name n){
 		this.act = config.getItem(n.unlocalized, def).getInt();
+		if(this.act != this.def){
+			this.act = this.act - 256;
+		}
 	}
 	
 }
