@@ -324,7 +324,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     
     @Override
 	public boolean canConnectTo(ForgeDirection side) {
-    	int d = side.getOpposite().ordinal();
+    	int d = side.ordinal();
     	return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]));
 	}
     
