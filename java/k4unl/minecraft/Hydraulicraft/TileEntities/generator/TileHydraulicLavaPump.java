@@ -119,7 +119,7 @@ public class TileHydraulicLavaPump extends TileEntity implements IHydraulicGener
 	
 	@Override
 	public float getGenerating(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0){
+		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0 || tank == null || tank.getFluid() == null){
 			lavaUsage = 0;
 			return 0f;
 		}

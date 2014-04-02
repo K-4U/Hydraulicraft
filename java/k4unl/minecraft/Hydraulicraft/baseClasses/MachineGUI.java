@@ -43,7 +43,7 @@ public class MachineGUI extends GuiContainer {
 			h = _h;
 			
 			title = _title;
-			unit = _unit;;
+			unit = _unit;
 			
 			value = _value;
 			max = _max;
