@@ -57,7 +57,7 @@ public class ContainerPump extends Container {
 			if(TileEntityFurnace.isItemFuel(stackInSlot)){
 				//Places from entity to player
 				if(slot < 1){
-					if(!mergeItemStack(stackInSlot,  0, 37, false)){
+					if(!mergeItemStack(stackInSlot,  1, 36, false)){
 						return null;
 					}
 				}else if(!mergeItemStack(stackInSlot, 0, 1, false)){ // Places from player to tile

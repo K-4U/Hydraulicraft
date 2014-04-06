@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.BucketHandler;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -66,7 +67,7 @@ public class Items {
 		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));
 		OreDictionary.registerOre(Names.ingotLead.unlocalized, new ItemStack(ingotLead));
 		OreDictionary.registerOre(Names.ingotEnrichedCopper.unlocalized, new ItemStack(ingotEnrichedCopper));
-		OreDictionary.registerOre(Names.itemBacon.unlocalized, new ItemStack(itemBacon));
+		OreDictionary.registerOre(ModInfo.ID + ":" + Names.itemBacon.unlocalized, new ItemStack(itemBacon));
 		
 		FluidStack st = FluidRegistry.getFluidStack(Names.fluidOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
 		FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketOil), new ItemStack(Item.bucketEmpty));
