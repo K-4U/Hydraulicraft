@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 import java.util.HashMap;
 import java.util.Map;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicHose;
+import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RendererHydraulicHoseItem implements IItemRenderer {
 
-	private static RendererHydraulicHose f = new RendererHydraulicHose();
+	private static RendererPartHose f = new RendererPartHose();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {

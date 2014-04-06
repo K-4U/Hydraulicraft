@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.lib.helperClasses;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class Location {

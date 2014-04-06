@@ -20,6 +20,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemReed;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -334,7 +335,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	private boolean isPlaceForItems(ItemStack itemStack){
 		//First of all:
 		
-		if(itemStack.getItem() instanceof ItemSeeds){
+		if(itemStack.getItem() instanceof ItemSeeds || itemStack.getItem() instanceof ItemReed){
 			//Check all the locations!
 			for(ItemStack st : seedsStorage){
 				if(itemStack.stackSize > 0){

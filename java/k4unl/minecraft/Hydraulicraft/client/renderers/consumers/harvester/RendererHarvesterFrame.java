@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.client.renderers;
+package k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.client.models.ModelHarvesterFrame;

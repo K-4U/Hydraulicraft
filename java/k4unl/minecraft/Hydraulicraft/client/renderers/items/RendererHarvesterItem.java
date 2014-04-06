@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHarvesterFrame;
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHarvesterSource;
+import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.RendererHarvesterFrame;
+import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.RendererHarvesterSource;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 

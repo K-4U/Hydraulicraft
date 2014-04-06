@@ -1,5 +1,6 @@
-package k4unl.minecraft.Hydraulicraft.client.renderers;
+package k4unl.minecraft.Hydraulicraft.client.renderers.transportation;
 
+import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.multipart.PartValve;

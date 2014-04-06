@@ -105,6 +105,7 @@ public class Names {
 	
 	public static final Name fluidOil = new Name("Hydraulic Oil", "hydraulicOil");
 	public static final Name blockInfiniteSource = new Name("Infinite Source", "blockInfiniteSource");
+	public static final Name blockMovingPane = new Name("Moving pane", "movingPane");
 	
 	
 }

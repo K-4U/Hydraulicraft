@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.RendererHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.RendererHydraulicPiston;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 

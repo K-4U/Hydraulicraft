@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks.consumers;
+package k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicFrictionIncinerator;

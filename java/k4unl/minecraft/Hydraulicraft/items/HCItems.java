@@ -22,6 +22,7 @@ public class HCItems {
 	public static ItemDusts itemDust;
 	public static Item itemBucketOil;
 	public static Item itemBacon;
+	public static Item itemMovingPane;
 	
 	/*!
 	 * @author Koen Beckers
@@ -42,9 +43,9 @@ public class HCItems {
 		itemChunk = new ItemChunks();
 		itemDust = new ItemDusts();
 		
+		itemMovingPane = new ItemMovingPane();
 		
 		registerItems();
-		addNames();
 	}
 	
 	/*!
@@ -65,6 +66,7 @@ public class HCItems {
 		GameRegistry.registerItem(itemDust, Names.itemDust.unlocalized);
 		GameRegistry.registerItem(itemChunk, Names.itemChunk.unlocalized);
 		
+		GameRegistry.registerItem(itemMovingPane, Names.blockMovingPane.unlocalized);
 		
 		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));
 		OreDictionary.registerOre(Names.ingotLead.unlocalized, new ItemStack(ingotLead));
@@ -74,22 +76,5 @@ public class HCItems {
 		FluidStack st = FluidRegistry.getFluidStack(Names.fluidOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
 		FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketOil), new ItemStack((Item)Item.itemRegistry.getObject("bucket")));
 		BucketHandler.INSTANCE.buckets.put(Fluids.fluidOilBlock, itemBucketOil);
-	}
-	
-	/*!
-	 * @author Koen Beckers
-	 * @date 13-12-2013
-	 * Adds the name to the LanguageRegistry.
-	 * Note: No localization yet. Maybe after Modjam!
-	 */
-	public static void addNames(){
-		/*
-		LanguageRegistry.addName(gasket, Names.itemGasket.localized);
-		LanguageRegistry.addName(ingotCopper, Names.ingotCopper.localized);
-		LanguageRegistry.addName(ingotEnrichedCopper, Names.ingotEnrichedCopper.localized);
-		LanguageRegistry.addName(ingotLead, Names.ingotLead.localized);
-		LanguageRegistry.addName(itemFrictionPlate, Names.itemFrictionPlate.localized);
-		LanguageRegistry.addName(itemDebugger, Names.itemDebugger.localized);
-		LanguageRegistry.addName(itemBucketOil, Names.itemBucketOil.localized);*/
 	}
 }

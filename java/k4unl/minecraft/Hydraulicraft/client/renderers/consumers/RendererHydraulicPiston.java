@@ -1,6 +1,7 @@
-package k4unl.minecraft.Hydraulicraft.client.renderers;
+package k4unl.minecraft.Hydraulicraft.client.renderers.consumers;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;

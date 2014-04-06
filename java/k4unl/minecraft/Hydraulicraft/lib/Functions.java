@@ -50,6 +50,25 @@ public class Functions {
 		}
 	}
 	
+	public static ForgeDirection getDirectionFromInt(int dir){
+		int metaDataToSet = 0;
+		switch(dir){
+		case 0:
+			metaDataToSet = 2;
+			break;
+		case 1:
+			metaDataToSet = 4;
+			break;
+		case 2:
+			metaDataToSet = 3;
+			break;
+		case 3:
+			metaDataToSet = 5;
+			break;
+		}
+		return ForgeDirection.getOrientation(metaDataToSet);
+	}
+	
 	public static boolean isInString(String oreName, String[] list){
 		boolean ret = false;
 		for(int i = 0; i < list.length; i++){

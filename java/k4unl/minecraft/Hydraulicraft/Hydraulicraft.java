@@ -33,8 +33,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @Mod(
 	modid = ModInfo.ID,
 	name = ModInfo.NAME,
-	version = ModInfo.VERSION,
-	dependencies = "required-after:ForgeMultipart@1.0.0.250"
+	version = ModInfo.VERSION
+	//dependencies = "required-after:ForgeMultipart@1.0.0.250"
 )
 public class Hydraulicraft {
 	//This is the instance that Forge uses:

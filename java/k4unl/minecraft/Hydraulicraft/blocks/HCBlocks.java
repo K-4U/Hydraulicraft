@@ -1,13 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicCrusher;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicFrictionIncinerator;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicHarvester;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicMixer;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicWasher;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockPressureDisposal;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockMovingPane;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockPressureDisposal;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicCrusher;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicFrictionIncinerator;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerCoreBlock;
@@ -51,6 +52,7 @@ public class HCBlocks {
 	public static Block blockHose;
 	
 	public static Block blockInfiniteSource;
+	public static Block movingPane;
 	
 	
 	/*!
@@ -79,6 +81,7 @@ public class HCBlocks {
 		
 		blockHose = new BlockHose();
 		blockInfiniteSource = new BlockInfiniteSource();
+		movingPane = new BlockMovingPane();
 		
 		
 		
@@ -107,7 +110,7 @@ public class HCBlocks {
 		GameRegistry.registerBlock(blockValve, Names.blockValve.unlocalized);
 		GameRegistry.registerBlock(blockInterfaceValve, Names.blockInterfaceValve.unlocalized);
 		GameRegistry.registerBlock(blockInfiniteSource, Names.blockInfiniteSource.unlocalized);
-		
+		GameRegistry.registerBlock(movingPane, Names.blockMovingPane.unlocalized);
 		
 		GameRegistry.registerBlock(blockHose, HandlerHose.class, Names.partHose[0].unlocalized);
 		
