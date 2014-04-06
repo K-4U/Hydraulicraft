@@ -17,7 +17,7 @@ public class ContainerPump extends Container {
 	public ContainerPump(InventoryPlayer invPlayer, TileHydraulicPump pump){
 		tilePump = pump;
 		
-		addSlotToContainer(new SlotMachineInput(pump, pump, 0, 35, 49));
+		addSlotToContainer(new Slot(pump, 0, 35, 49));
 		
 		bindPlayerInventory(invPlayer);
 		
@@ -57,10 +57,10 @@ public class ContainerPump extends Container {
 			if(TileEntityFurnace.isItemFuel(stackInSlot)){
 				//Places from entity to player
 				if(slot < 1){
-					if(!mergeItemStack(stackInSlot,  0, 35, true)){
+					if(!mergeItemStack(stackInSlot,  0, 37, false)){
 						return null;
 					}
-				}else if(!mergeItemStack(stackInSlot, 0, 1, false)){
+				}else if(!mergeItemStack(stackInSlot, 0, 1, false)){ // Places from player to tile
 					return null;
 				}
 			}
