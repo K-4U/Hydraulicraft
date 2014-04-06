@@ -274,7 +274,7 @@ public class PartHose/* FMP  extends TMultiPart implements TSlottedPart, JNormal
     
     @Override
 	public boolean canConnectTo(ForgeDirection side) {
-    	int d = side.getOpposite().ordinal();
+    	int d = side.ordinal();
     	return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]));
 	}
     

@@ -13,6 +13,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
+//TODO: Make this an interface
+//Create a function in there: getNewPressureNetwork() which does return new this;
+
+
 public class PressureNetwork {
 	public static class networkEntry{
 		private Location blockLocation;
@@ -40,7 +44,6 @@ public class PressureNetwork {
 	private int fluidCapacity = 0;
 	private boolean isOilStored = false;
 	private int lowestTier = -1;
-	
 	
 	public PressureNetwork(IHydraulicMachine machine, float beginPressure, ForgeDirection from){
 		randomNumber = new Random().nextInt();
