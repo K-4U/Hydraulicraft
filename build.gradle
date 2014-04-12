@@ -18,7 +18,7 @@ buildscript {
 apply plugin: 'forge'
 
 
-
+def isDev = false
 version = "2.0"
 group= "k4unl.minecraft.Hydraulicraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HydCraft"
@@ -26,20 +26,29 @@ archivesBaseName = "HydCraft"
 
 task release << {
     println("Building release of ${project.archivesBaseName} with buildNumber ${project.ext.buildNum}")
+    isDev = false
 }
 
 task dev << {
-    println("Building dev version of ${project.archivesBaseName} with buildNumber ${project.ext.buildNum}")
-    project.ext.buildNum_old = project.ext.buildNum
-    project.ext.buildNum = "DEV-${project.ext.buildNum}"
+    println("Building dev version of ${project.archivesBaseName} with buildNumber DEV-${project.ext.buildNum}")
+    isDev = true
 }
 
-release.finalizedBy build
-dev.finalizedBy build
+task whatIsDev << {
+    if(isDev){
+        println("FUCKING YAY")
+    }else{
+        println("NOPE YOU BASTARD")
+    }
+}
+
+release.finalizedBy whatIsDev
+dev.finalizedBy whatIsDev
+
+whatIsDev.finalizedBy build
 
 //This ups our build number by one!
 task updateBuildNum << {
-    println(project.ext.buildNum)
     ant.propertyfile(file:"gradle.properties"){
         entry(key : "buildNum", value: project.ext.buildNum.toInteger() + 1)
     }
@@ -54,7 +63,12 @@ minecraft {
         // replacing stuff in the source
         replace '@VERSION@', project.version
         replace '@MC_VERSION@', version
-        replace '@BUILD_NUMBER@', project.ext.buildNum
+        if(isDev){
+            replace '@BUILD_NUMBER@', "DEV-${project.ext.buildNum}"
+        }else{
+            replace '@BUILD_NUMBER@', project.ext.buildNum
+            println("ALERT")
+        }
 }
 
 
@@ -82,17 +96,29 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
 
-            // replace version and mcversion
+        // replace version and mcversion
+        if(isDev){
+            expand 'version':project.version, 'mcversion':project.minecraft.version, 'buildNum':"DEV-${project.ext.buildNum}"
+        }else{
             expand 'version':project.version, 'mcversion':project.minecraft.version, 'buildNum':project.ext.buildNum
+            println("ALERT")
+        }
     }
 
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+    //This makes sure that it gets run EVERY time
+    outputs.upToDateWhen {false}
 }
 
 
 jar {
-    classifier = project.ext.buildNum
+    if(isDev){
+        classifier = "DEV-${project.ext.buildNum}"
+    }else{
+        classifier = project.ext.buildNum
+        println("ALERT")
+    }
 }
