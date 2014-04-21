@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockRFPump;
@@ -11,6 +12,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.Ti
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -31,7 +33,7 @@ public class ThermalExpansion {
 		blockHydraulicDynamo = new BlockHydraulicDynamo();
 		blockRFPump = new BlockRFPump();
 		
-		GameRegistry.registerBlock(blockHydraulicDynamo, Names.blockHydraulicDynamo.unlocalized);
+		GameRegistry.registerBlock(blockHydraulicDynamo, ItemBlock.class, Names.blockHydraulicDynamo.unlocalized, ModInfo.ID);
 		GameRegistry.registerBlock(blockRFPump, HandlerRFPump.class, Names.blockRFPump[0].unlocalized);
 		
 		GameRegistry.registerTileEntity(TileHydraulicDynamo.class, "tileHydraulicDynamo");

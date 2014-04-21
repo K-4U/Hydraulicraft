@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft;
 
 import ic2.api.item.IC2Items;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.BlockElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.BlockHydraulicGenerator;
@@ -10,6 +11,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.Til
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -28,7 +30,7 @@ public class IndustrialCraft {
 		blockElectricPump = new BlockElectricPump();
 		
 		
-		GameRegistry.registerBlock(blockHydraulicGenerator, Names.blockHydraulicGenerator.unlocalized);
+		GameRegistry.registerBlock(blockHydraulicGenerator, ItemBlock.class, Names.blockHydraulicGenerator.unlocalized, ModInfo.ID);
 		GameRegistry.registerBlock(blockElectricPump, HandlerElectricPump.class, Names.blockElectricPump[0].unlocalized);
 		
 		GameRegistry.registerTileEntity(TileHydraulicGenerator.class, "tileHydraulicGenerator");

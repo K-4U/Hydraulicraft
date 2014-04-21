@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockHydraulicEngine;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.blocks.BlockKineticPump;
@@ -10,6 +11,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydr
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -28,8 +30,8 @@ public class Buildcraft {
 		blockKineticPump = new BlockKineticPump();
 		
 		
-		GameRegistry.registerBlock(blockHydraulicEngine, Names.blockHydraulicEngine.unlocalized);
-		GameRegistry.registerBlock(blockKineticPump, HandlerKineticPump.class, Names.blockKineticPump[0].unlocalized);
+		GameRegistry.registerBlock(blockHydraulicEngine, ItemBlock.class, Names.blockHydraulicEngine.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(blockKineticPump, HandlerKineticPump.class, Names.blockKineticPump[0].unlocalized, ModInfo.ID);
 		
 		GameRegistry.registerTileEntity(TileHydraulicEngine.class, "tileHydraulicEngine");
 		GameRegistry.registerTileEntity(TileKineticPump.class, "tileKineticPump");

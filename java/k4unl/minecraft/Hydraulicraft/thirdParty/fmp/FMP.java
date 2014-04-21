@@ -8,6 +8,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.blocks.BlockHydraulicSaw;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities.TileHydraulicSaw;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.event.FMLInterModComms;
@@ -25,7 +26,7 @@ public class FMP {
 	public static void initBlocks(){
 		hydraulicSaw = new BlockHydraulicSaw();
 		
-		GameRegistry.registerBlock(hydraulicSaw, Names.blockHydraulicSaw.unlocalized);
+		GameRegistry.registerBlock(hydraulicSaw, ItemBlock.class, Names.blockHydraulicSaw.unlocalized, ModInfo.ID);
 		GameRegistry.registerTileEntity(TileHydraulicSaw.class, "tileHydraulicSaw");
 		
 		FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(HCBlocks.hydraulicPressureWall, 1));
