@@ -85,8 +85,17 @@ public class Hydraulicraft {
 	 */
 	@EventHandler
 	public void load(FMLInitializationEvent event){
-		//REMOVE ME WHEN RELEASING!
-		FMLClientHandler.instance().setDefaultMissingAction(FMLMissingMappingsEvent.Action.IGNORE);
+		boolean debugMode = false;
+		try{
+			Class.forName("net.minecraft.block.Block");
+			debugMode = true;
+		}catch(Exception e){
+			//not in debug
+		}
+		if(debugMode){
+			//REMOVE ME WHEN RELEASING!
+			FMLClientHandler.instance().setDefaultMissingAction(FMLMissingMappingsEvent.Action.IGNORE);
+		}
 		
 		
 		ThirdParty.init();
