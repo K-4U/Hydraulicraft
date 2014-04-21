@@ -2,12 +2,13 @@ package k4unl.minecraft.Hydraulicraft.api;
 
 import java.util.ArrayList;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
 import net.minecraft.item.ItemStack;
 
 public interface IHarvesterTrolley {
 
+	/**
+	 * Use this function to update position
+	 */
 	void doMove();
 
 	boolean canHandleSeed(ItemStack seed);
@@ -20,10 +21,13 @@ public interface IHarvesterTrolley {
 	 */
 	int canPlantSeed(ItemStack[] seeds, int maxLength);
 
+	/**
+	 * Actually do the planting
+	 * @param seed The seed to plant.
+	 */
 	void doPlant(ItemStack seed);
-	
-	void setPiston(TileHydraulicPiston nPiston);
 
+	
 	boolean isMoving();
 
 	boolean isWorking();
@@ -35,8 +39,27 @@ public interface IHarvesterTrolley {
 	 */
 	ArrayList<ItemStack> checkHarvest(int maxLen);
 
+	/**
+	 * Call to actually harvest the block.
+	 */
 	void doHarvest();
 
-	void setHarvester(TileHydraulicHarvester nHarvester);
+	/**
+	 * Used to set the harvester main object.
+	 * @param nHarvester
+	 */
+	void setHarvester(IHarvester nHarvester, int harvesterIndex);
+
+	/**
+	 * Returns how far the trolley is extended sideways
+	 * @return
+	 */
+	float getSideLength();
+
+	/**
+	 * If the harvester is fully formed, this function gets called to indicate it's part of a harvester.
+	 * @param b
+	 */
+	void setIsHarvesterPart(boolean b);
 
 }

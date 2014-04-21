@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.api.IHarvester;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -50,8 +51,8 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	private ArrayList<ItemStack> harvestedItems = new ArrayList<ItemStack>();//starting without being null so the renderer won't NPE.
 	private int locationToPlant = -1;
 	private int locationToHarvest = -1;
-	private TileHydraulicHarvester harvester = null;
-	private TileHydraulicPiston piston = null;
+	private int harvesterIndex;
+	private IHarvester harvester = null;
 
 	public void extendTo(float blocksToExtend, float sideExtend){
 
@@ -102,9 +103,10 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 				movingSpeedExtending = movingSpeedSideways;
 			}
 		}
-		if(piston != null){
-			piston.extendTo(sideExtend);
+		if(harvester != null){
+			harvester.extendPistonTo(harvesterIndex, sideExtend);
 		}
+		
 		isMoving = true;
 		isMovingUpDown = true;
 		
@@ -164,7 +166,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	
 	@Override
 	public void updateEntity() {
-		doMove();
+		//doMove();
 	}
 	
 	@Override
@@ -465,16 +467,11 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		}
 		return null;
 	}
-
-
-	@Override
-	public void setPiston(TileHydraulicPiston nPiston) {
-		piston = nPiston;
-	}
 	
 	@Override
-	public void setHarvester(TileHydraulicHarvester nHarvester){
+	public void setHarvester(IHarvester nHarvester, int harvesterIndex){
 		harvester = nHarvester;
+		this.harvesterIndex = harvesterIndex;
 	}
 
 	@Override
@@ -508,8 +505,6 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 			cropLocation = getLocation(locationToHarvest, -2);
 		}
 		worldObj.func_147480_a(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ(), false);
-		//worldObj.setBlockToAir(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
-		
 		
 		isHarvesting = false;
 		isPlanting = false;
