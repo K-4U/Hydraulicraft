@@ -94,7 +94,7 @@ public class Hydraulicraft {
 		}
 		if(debugMode){
 			//REMOVE ME WHEN RELEASING!
-			FMLClientHandler.instance().setDefaultMissingAction(FMLMissingMappingsEvent.Action.IGNORE);
+			//FMLClientHandler.instance().setDefaultMissingAction(FMLMissingMappingsEvent.Action.IGNORE);
 		}
 		
 		
