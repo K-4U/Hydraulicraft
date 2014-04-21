@@ -13,6 +13,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -421,29 +422,29 @@ public class TileHydraulicSaw extends TileEntity implements IHydraulicConsumer, 
 	}
 	
 	private ItemStack getThinningRecipe(ItemStack input){
-		/* FMP
-		InventoryCrafting ic = new InventoryCraftingDummy();
+		//FMP
+		InventoryCrafting ic = new InventoryCrafting(null, 3, 3);
 
 		
 		int posOfSaw = 0 + 0 * 3;
 		int posOfBlock = 0 + 1 * 3;
 		ic.setInventorySlotContents(posOfSaw, saw);
 		ic.setInventorySlotContents(posOfBlock, input);
-		ItemStack thinResult = MicroRecipe.getThinningResult(ic);
+		/*ItemStack thinResult = MicroRecipe.getThinningResult(ic);
 		return thinResult;*/
 		return null;
 	}
 	
 	private ItemStack getSplittingRecipe(ItemStack input){
-		/* FMP
-		InventoryCrafting ic = new InventoryCraftingDummy();
+		// FMP
+		InventoryCrafting ic = new InventoryCrafting(null, 3, 3);
 
 		
 		int posOfSaw = 0 + 0 * 3;
 		int posOfBlock = 1 + 0 * 3;
 		ic.setInventorySlotContents(posOfSaw, saw);
 		ic.setInventorySlotContents(posOfBlock, input);
-		ItemStack splitResult = MicroRecipe.getSplittingResult(ic);
+		/*ItemStack splitResult = MicroRecipe.getSplittingResult(ic);
 		return splitResult;*/
 		return null;
 	}

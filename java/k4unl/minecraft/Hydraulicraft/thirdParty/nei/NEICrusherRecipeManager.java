@@ -1,8 +1,24 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
+import java.awt.Rectangle;
+import java.util.LinkedList;
 
-public class NEICrusherRecipeManager extends ShapedRecipeHandler{
-	/*
+import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
+import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+import codechicken.nei.NEIClientUtils;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.ShapedRecipeHandler;
+
+
+public class NEICrusherRecipeManager extends ShapedRecipeHandler {
+	
     private ShapedRecipeHandler.CachedShapedRecipe getShape(CrushingRecipes.CrushingRecipe recipe) {
         ShapedRecipeHandler.CachedShapedRecipe shape = new
                 ShapedRecipeHandler.CachedShapedRecipe(0, 0, null, recipe.output);
@@ -93,5 +109,5 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler{
 	public void drawExtras(int recipe){
 		drawProgressBar(80, 22, 207, 0, 34, 19, 48, 2 | (1 << 3));
     }
-    */
+    
 }

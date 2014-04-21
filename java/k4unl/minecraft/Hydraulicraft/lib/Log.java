@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
  * @brief Class to log.
  */
 public class Log {
-	private static Logger logger = LogManager.getLogger("FML");
+	private static Logger logger = LogManager.getLogger(ModInfo.ID);
 	
 	/*!
 	 * @author Koen Beckers

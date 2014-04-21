@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
 
-public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler{
+public class NEIFrictionIncineratorRecipeManager /*extends ShapedRecipeHandler*/{
     /*private ShapedRecipeHandler.CachedShapedRecipe getShape(Map.Entry<List<Integer>, ItemStack> recipe) {
         ShapedRecipeHandler.CachedShapedRecipe shape = new
                 ShapedRecipeHandler.CachedShapedRecipe(0, 0, null, recipe.getValue());

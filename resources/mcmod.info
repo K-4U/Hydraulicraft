@@ -3,7 +3,7 @@
         "modid":        "HydCraft",
         "name":         "Hydraulicraft",
         "description":  "K-4Unl's entry for Modjam #3",
-        "version":      "$version-$buildNum",
+        "version":      "${version}-${buildNum}",
         "mcversion":    "$mcversion",
         "url":          "https://github.com/K-4U/Hydraulicraft",
         "updateUrl":    "https://github.com/K-4U/Hydraulicraft",

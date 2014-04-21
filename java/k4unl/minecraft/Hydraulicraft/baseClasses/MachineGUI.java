@@ -79,14 +79,18 @@ public class MachineGUI extends GuiContainer {
 		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 	}
 
-	/*
-	 * NEI
-	 * 
-	 * @Override public List<String> handleTooltip(int mouseX, int mouseY,
-	 * List<String> currenttip){ for (ToolTip tip : tooltipList) {
-	 * if(shouldRenderToolTip(mouseX, mouseY, tip)){
-	 * currenttip.addAll(tip.getText()); } } return currenttip; }
-	 */
+
+	/* NEI
+	@Override 
+	public List<String> handleTooltip(int mouseX, int mouseY, List<String> currenttip){ 
+		for (ToolTip tip : tooltipList) {
+			if(shouldRenderToolTip(mouseX, mouseY, tip)){
+				currenttip.addAll(tip.getText()); 
+			} 
+		} 
+		return currenttip; 
+	}
+	*/
 
 	public void checkTooltips(int mouseX, int mouseY) {
 		for (ToolTip tip : tooltipList) {
