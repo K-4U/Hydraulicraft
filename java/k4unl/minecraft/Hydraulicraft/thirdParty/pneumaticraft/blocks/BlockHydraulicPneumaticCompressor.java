@@ -55,5 +55,12 @@ public class BlockHydraulicPneumaticCompressor extends MachineBlockContainer {
 			((TileHydraulicPneumaticCompressor)tile).checkRedstonePower();			
 		}
 	}
+	
+	public void onNeighborChange(IBlockAccess world, int x, int y, int z, int tileX, int tileY, int tileZ){
+	    TileEntity tile = world.getTileEntity(x, y, z);
+        if(tile instanceof TileHydraulicPneumaticCompressor){
+            ((TileHydraulicPneumaticCompressor)tile).getAirHandler().onNeighborChange();          
+        }
+	}
 
 }
