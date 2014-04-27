@@ -4,27 +4,56 @@ import ic2.api.item.IC2Items;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.BlockElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.BlockHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.HandlerElectricPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererElectricPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererElectricPumpItem;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererHydraulicGenerator;
+import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererHydraulicGeneratorItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class IndustrialCraft {
+public class IndustrialCraft implements IThirdParty{
 	public static Block blockHydraulicGenerator;
 	public static Block blockElectricPump;
 	
-	public static void init(){
-		initBlocks();
-		initRecipes();
-	}
-	
+	@Override
+    public String getModId(){
+        return "IC2";
+    }
+
+    @Override
+    public void preInit(){
+        initBlocks();
+        initRecipes();
+    }
+
+    @Override
+    public void init(){}
+
+    @Override
+    public void postInit(){}
+
+    @Override
+    public void clientSide(){
+        ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicGenerator.class, new RendererHydraulicGenerator());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileElectricPump.class, new RendererElectricPump());
+        
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(blockHydraulicGenerator), new RendererHydraulicGeneratorItem());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(blockElectricPump), new RendererElectricPumpItem());
+    }
+
 	public static void initBlocks(){
 		blockHydraulicGenerator = new BlockHydraulicGenerator();
 		blockElectricPump = new BlockElectricPump();
@@ -90,7 +119,4 @@ public class IndustrialCraft {
 				}));
 	}
 
-	public static void initRenderers() {
-				
-	}
 }

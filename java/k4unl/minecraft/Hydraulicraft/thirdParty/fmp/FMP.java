@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.blocks.BlockHydraulicSaw;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities.TileHydraulicSaw;
 import net.minecraft.block.Block;
@@ -15,13 +16,29 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 
-public class FMP {
+public class FMP implements IThirdParty{
 	public static Block hydraulicSaw;
 	
-	
-	public static void init(){
-		initBlocks();
-	}
+	@Override
+    public String getModId(){
+        return "ForgeMicroblock";
+    }
+
+    @Override
+    public void preInit(){
+        initBlocks();
+    }
+
+    @Override
+    public void init(){}
+
+    @Override
+    public void postInit(){
+        initRecipes();
+    }
+
+    @Override
+    public void clientSide(){}
 	
 	public static void initBlocks(){
 		hydraulicSaw = new BlockHydraulicSaw();
@@ -49,4 +66,5 @@ public class FMP {
 				}));
 		
 	}
+	
 }

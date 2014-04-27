@@ -6,19 +6,33 @@ import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
+import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ExtraUtilities {
-	
-	
-	public static void init(){
-		initBlocks();
-		initRecipes();
-	}
+public class ExtraUtilities implements IThirdParty{
+	@Override
+    public String getModId(){
+        return "ExtraUtilities";
+    }
+
+    @Override
+    public void preInit(){}
+
+    @Override
+    public void init(){}
+
+    @Override
+    public void postInit(){
+        initBlocks();
+        initRecipes();
+    }
+
+    @Override
+    public void clientSide(){}
 	
 	public static void initBlocks(){
 		int enderLilyBlockId = 0;
@@ -56,9 +70,5 @@ public class ExtraUtilities {
 			})
 		);
 		*/
-	}
-
-	public static void initRenderers() {
-		
 	}
 }

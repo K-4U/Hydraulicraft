@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.proxy;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.client.renderers.Renderers;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyClient;
+import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
 import net.minecraft.util.ResourceLocation;
 import thirdParty.truetyper.FontLoader;
 
@@ -18,7 +18,7 @@ public class ClientProxy extends CommonProxy {
 	
 	public void initRenderers(){
 		Renderers.init();
-		ThirdPartyClient.initRenderers();
+		ThirdPartyManager.instance().clientSide();
 	}
 	
 	public void initFonts(){

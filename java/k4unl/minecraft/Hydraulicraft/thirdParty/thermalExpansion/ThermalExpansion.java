@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockRFPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.HandlerRFPump;
@@ -17,17 +18,30 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ThermalExpansion {
+public class ThermalExpansion implements IThirdParty {
 	public static Block blockHydraulicDynamo;
 	public static Block blockRFPump;
 	
-	public static void init(){
-		initBlocks();
-	}
-	
-	public static void postInit(){
-		initRecipes();
-	}
+    @Override
+    public String getModId(){
+        return "ThermalExpansion";
+    }
+
+    @Override
+    public void preInit(){
+        initBlocks();
+    }
+
+    @Override
+    public void init(){}
+
+    @Override
+    public void postInit(){
+        initRecipes();
+    }
+
+    @Override
+    public void clientSide(){}
 	
 	public static void initBlocks(){
 		blockHydraulicDynamo = new BlockHydraulicDynamo();
