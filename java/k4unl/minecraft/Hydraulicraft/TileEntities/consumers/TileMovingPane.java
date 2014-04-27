@@ -8,6 +8,7 @@ import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -15,6 +16,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
     private Location parent;
@@ -41,14 +43,17 @@ public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
 
 	@Override
 	public int getMaxStorage() {
-		// TODO Auto-generated method stub
-		return 0;
+		return FluidContainerRegistry.BUCKET_VOLUME * 5;
 	}
 
 	@Override
 	public float getMaxPressure(boolean isOil, ForgeDirection from) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(isOil){
+			return Constants.MAX_MBAR_OIL_TIER_2;
+			
+		}else{
+			return Constants.MAX_MBAR_WATER_TIER_2;
+		}
 	}
 
 	@Override
@@ -119,6 +124,7 @@ public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
+		getHandler().updateEntity();
 		
 		
 		if(isRotating && isPane){
@@ -199,44 +205,75 @@ public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
 
 	@Override
 	public void updateNetwork(float oldPressure) {
-		// TODO Auto-generated method stub
-
+		PressureNetwork newNetwork = null;
+		PressureNetwork foundNetwork = null;
+		PressureNetwork endNetwork = null;
+		//This block can merge networks!
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			foundNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, dir);
+			if(foundNetwork != null){
+				if(endNetwork == null){
+					endNetwork = foundNetwork;
+				}else{
+					newNetwork = foundNetwork;
+				}
+				connectedSides.add(dir);
+			}
+			
+			if(newNetwork != null && endNetwork != null){
+				//Hmm.. More networks!? What's this!?
+				endNetwork.mergeNetwork(newNetwork);
+				newNetwork = null;
+			}
+		}
+			
+		if(endNetwork != null){
+			pNetwork = endNetwork;
+			pNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
+			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
+			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}
 	}
 
 	@Override
 	public PressureNetwork getNetwork(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return null;
+		return pNetwork;
 	}
 
 	@Override
 	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
-		// TODO Auto-generated method stub
-
+		pNetwork = toSet;
 	}
 
 	@Override
 	public float getPressure(ForgeDirection from) {
-		// TODO Auto-generated method stub
-		return 0;
+		return getNetwork(from).getPressure();
 	}
 
 	@Override
 	public void setPressure(float newPressure, ForgeDirection side) {
-		// TODO Auto-generated method stub
+		getNetwork(side).setPressure(newPressure);
 
 	}
 
 	@Override
 	public int getFluidInNetwork(ForgeDirection from) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(worldObj.isRemote){
+			return 0;
+		}else{
+			return getNetwork(from).getFluidInNetwork();
+		}
 	}
 
 	@Override
 	public int getFluidCapacity(ForgeDirection from) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(worldObj.isRemote){
+			return 0;
+		}else{
+			return getNetwork(from).getFluidCapacity();
+		}
 	}
 
 	@Override
@@ -252,8 +289,7 @@ public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
 
 	@Override
 	public boolean canWork(ForgeDirection dir) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	
 	public void setIsPane(boolean isIt){
