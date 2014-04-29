@@ -321,8 +321,12 @@ public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
 		return movedPercentage;
 	}
 
-	public float getMovedPercentageForRender(float f) { 
-		return getMovedPercentage() + (getMovedPercentage() - prevMovedPercentage) * f;
+	public float getMovedPercentageForRender(float f) {
+		if(isRotating){
+			return getMovedPercentage() + (getMovedPercentage() - prevMovedPercentage) * f;
+		}else{
+			return getMovedPercentage();
+		}
 	}
 	
 	public void setPaneFacing(ForgeDirection n){

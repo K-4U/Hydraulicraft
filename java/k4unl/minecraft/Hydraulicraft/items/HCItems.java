@@ -66,7 +66,7 @@ public class HCItems {
 		GameRegistry.registerItem(itemDust, Names.itemDust.unlocalized);
 		GameRegistry.registerItem(itemChunk, Names.itemChunk.unlocalized);
 		
-		GameRegistry.registerItem(itemMovingPane, Names.blockMovingPane.unlocalized);
+		GameRegistry.registerItem(itemMovingPane, "item"+Names.blockMovingPane.unlocalized);
 		
 		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));
 		OreDictionary.registerOre(Names.ingotLead.unlocalized, new ItemStack(ingotLead));

@@ -23,15 +23,17 @@ public class Pneumaticraft implements IThirdParty {
 
     @Override
     public void preInit(){
-        initBlocks();
-        initRecipes();
     }
 
     @Override
-    public void init(){}
+    public void init(){
+    	initBlocks();
+    }
 
     @Override
-    public void postInit(){}
+    public void postInit(){
+    	initRecipes();
+    }
 
     @Override
     public void clientSide(){}
