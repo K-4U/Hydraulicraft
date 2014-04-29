@@ -96,9 +96,13 @@ public class TileMovingPane extends TileEntity implements IHydraulicConsumer {
 	@Override
 	public void writeNBT(NBTTagCompound tagCompound) {
 		if(isPane){
-			tagCompound.setIntArray("parent", parent.getLocation());;
+			if(parent != null){
+				tagCompound.setIntArray("parent", parent.getLocation());;
+			}
 		}else{
-			tagCompound.setIntArray("child", child.getLocation());;
+			if(child != null){
+				tagCompound.setIntArray("child", child.getLocation());;
+			}
 		}
 		tagCompound.setBoolean("isPane", isPane);
 		tagCompound.setInteger("facing", facing.ordinal());
