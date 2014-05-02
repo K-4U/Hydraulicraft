@@ -61,8 +61,8 @@ public class Constants {
 	
 	//Buildcraft
 	public static final int[] MJ_USAGE_PER_TICK = {30, 90, 180};
-	public static final float CONVERSION_RATIO_MJ_HYDRAULIC = 0.8F;
-	public static final float CONVERSION_RATIO_HYDRAULIC_MJ = 0.8F;
+	public static final float CONVERSION_RATIO_MJ_HYDRAULIC = 0.08F;
+	public static final float CONVERSION_RATIO_HYDRAULIC_MJ = 0.08F;
 	public static final float MIN_REQUIRED_PRESSURE_ENGINE = 10000F;
 	public static final int ACTIVATION_MJ	= 20;
 	public static final float MAX_TRANSFER_MJ = 50;

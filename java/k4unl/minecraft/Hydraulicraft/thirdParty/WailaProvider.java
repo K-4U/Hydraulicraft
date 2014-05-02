@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
@@ -10,6 +12,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.SpecialChars;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -37,6 +40,8 @@ public class WailaProvider implements IWailaDataProvider {
 		TileEntity ent = accessor.getTileEntity();
 		if(accessor.getTileEntity() instanceof IHydraulicMachine /* FMP || ent instanceof TileMultipart*/){
 			IHydraulicMachine mEnt = null;
+			Map<String, String> values = new HashMap<String, String>();
+			
 			/* FMP if(ent instanceof TileMultipart){
 				if(Multipart.hasTransporter((TileMultipart)ent)){
 					mEnt = Multipart.getTransporter((TileMultipart)ent);
@@ -54,20 +59,24 @@ public class WailaProvider implements IWailaDataProvider {
 			
 			float pressure = mEnt.getHandler().getPressure(ForgeDirection.UNKNOWN);
 			int maxPressure = (int)mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), null);
-	
-			currenttip.add("Fl: " + stored + "/" + max + " mBuckets (" + (int)(((float)stored / (float)max) * 100) + "%)");
-			currenttip.add("Pr: " + (new DecimalFormat("#.##")).format(pressure) + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");
+			
+			values.put("Fl", stored + "/" + max + " mBuckets (" + (int)(((float)stored / (float)max) * 100) + "%)");
+			values.put("Pr", (new DecimalFormat("#.##")).format(pressure) + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");
 			
 			if(mEnt instanceof IHydraulicGenerator){
 				float gen = ((IHydraulicGenerator) mEnt).getGenerating(ForgeDirection.UP);
 				int maxGen = ((IHydraulicGenerator) mEnt).getMaxGenerating(ForgeDirection.UP);
-				currenttip.add("Gen: " + (new DecimalFormat("#.##")).format(gen) + "/" + maxGen);
+				values.put("Gen", (new DecimalFormat("#.##")).format(gen) + "/" + maxGen);
 			}
 			if(mEnt instanceof TileElectricPump){
 				int storedEU = ((TileElectricPump)mEnt).getEUStored();
 				int maxEU = ((TileElectricPump)mEnt).getMaxEUStorage();
-				currenttip.add("EU: " + storedEU + "/" + maxEU);
+				values.put("EU", storedEU + "/" + maxEU);
 			}
+			for(Map.Entry<String, String> entry : values.entrySet()) {
+				currenttip.add(entry.getKey() + ": " + SpecialChars.ALIGNRIGHT + SpecialChars.WHITE + entry.getValue());
+			}
+			
 		}
 		return currenttip;
 	}
