@@ -1,8 +1,20 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
+import java.util.List;
 
-public class Multipart /* FMP  implements IPartFactory*/{
-	/*public static ItemPartHose itemPartHose;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
+import codechicken.multipart.MultiPartRegistry;
+import codechicken.multipart.MultiPartRegistry.IPartFactory;
+import codechicken.multipart.TMultiPart;
+import codechicken.multipart.TileMultipart;
+
+
+public class Multipart implements IPartFactory{
+	public static ItemPartHose itemPartHose;
 	public static ItemPartValve itemPartValve;
 	
 	public Multipart(){
@@ -17,8 +29,8 @@ public class Multipart /* FMP  implements IPartFactory*/{
                 "tile." + Names.partValve[2].unlocalized});
 		
 		
-		itemPartHose = new ItemPartHose(Ids.partHose.act);
-		itemPartValve= new ItemPartValve(Ids.partValve.act);
+		itemPartHose = new ItemPartHose();
+		//itemPartValve= new ItemPartValve();
 	}
 
 	@Override
@@ -26,7 +38,7 @@ public class Multipart /* FMP  implements IPartFactory*/{
 		if(id.equals("tile." + Names.partHose[0].unlocalized) || id.equals("tile." + Names.partHose[1].unlocalized) || id.equals("tile." + Names.partHose[2].unlocalized)){
 			return new PartHose();
 		}else if(id.equals("tile." + Names.partValve[0].unlocalized) || id.equals("tile." + Names.partValve[1].unlocalized) || id.equals("tile." + Names.partValve[2].unlocalized)){
-			return new PartValve();
+			//return new PartValve();
 		}
 		return null;
 	}
@@ -88,9 +100,9 @@ public class Multipart /* FMP  implements IPartFactory*/{
     	List<TMultiPart> t = mp.jPartList();
 		for (TMultiPart p: t) {
 			if(ret == false){
-				if(p instanceof PartValve){
-					ret = true;
-				}
+				//if(p instanceof PartValve){
+				//	ret = true;
+				//}
 			}
 		}
 		return ret;
@@ -101,9 +113,9 @@ public class Multipart /* FMP  implements IPartFactory*/{
     	List<TMultiPart> t = mp.jPartList();
 		for (TMultiPart p: t) {
 			if(ret == false){
-				if(p instanceof PartValve){
+				/*f(p instanceof PartValve){
 					return (PartValve)p;
-				}
+				}*/
 			}
 		}
 		return null;
@@ -121,5 +133,5 @@ public class Multipart /* FMP  implements IPartFactory*/{
 			}
 		}
 		return null;
-    }*/
+    }
 }

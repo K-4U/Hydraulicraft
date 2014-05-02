@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.api;
 import java.lang.reflect.Constructor;
 
 import net.minecraft.tileentity.TileEntity;
+import codechicken.multipart.TMultiPart;
 
 /**
  * 
@@ -27,22 +28,19 @@ public class HydraulicBaseClassSupplier {
     	
         return baseClassEntity;
     }
-/* **** COMMENTED OUT FOR FORGE MULTIPART (FMP) ****
+
     public static IBaseClass getBaseClass(TMultiPart target){
     	IBaseClass baseClassEntity = null;
         try {
-            if(multipartConstructor == null) multipartConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.baseClasses.MachineEntity").getConstructor(TMultiPart.class);
+            if(multipartConstructor == null) multipartConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase").getConstructor(PressureTier.class, int.class);
             baseClassEntity = (IBaseClass)multipartConstructor.newInstance(target);
-        } catch(InvocationTargetException e) {
-            System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a base class. Here's a stacktrace:");
-            e.printStackTrace();
-            e.getCause().printStackTrace(); 
+            baseClassEntity.init(target);
         } catch(Exception e){
         	System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a base class. Here's a stacktrace:");
             e.printStackTrace();
         }
         return baseClassEntity;
     }
-    */
+    
 
 }

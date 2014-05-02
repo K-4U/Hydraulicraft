@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
+import codechicken.multipart.TMultiPart;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -136,7 +137,7 @@ public interface IBaseClass {
 	 * @param target
 	 */
 	public void init(TileEntity target);
-	
+	public void init(TMultiPart target);
 	
 	/**
 	 * Takes the pressure to add and checks if there is oil in the system.
@@ -144,5 +145,7 @@ public interface IBaseClass {
 	 * @param pressureToAdd
 	 */
 	public void addPressureWithRatio(float pressureToAdd, ForgeDirection from);
+
+	
 	
 }

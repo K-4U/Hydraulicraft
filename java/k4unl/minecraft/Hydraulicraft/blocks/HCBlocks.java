@@ -81,7 +81,7 @@ public class HCBlocks {
 		blockValve = new BlockHydraulicValve();
 		blockInterfaceValve = new BlockInterfaceValve();
 		
-		blockHose = new BlockHose();
+		//blockHose = new BlockHose();
 		blockInfiniteSource = new BlockInfiniteSource();
 		movingPane = new BlockMovingPane();
 		
@@ -114,7 +114,7 @@ public class HCBlocks {
 		GameRegistry.registerBlock(blockInfiniteSource, ItemBlock.class, Names.blockInfiniteSource.unlocalized, ModInfo.ID);
 		GameRegistry.registerBlock(movingPane, ItemBlock.class, Names.blockMovingPane.unlocalized, ModInfo.ID);
 		
-		GameRegistry.registerBlock(blockHose, HandlerHose.class, Names.partHose[0].unlocalized, ModInfo.ID);
+		//GameRegistry.registerBlock(blockHose, HandlerHose.class, Names.partHose[0].unlocalized, ModInfo.ID);
 		
 		
 		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized, ModInfo.ID);

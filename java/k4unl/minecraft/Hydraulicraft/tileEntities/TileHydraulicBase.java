@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities;
 import java.util.ArrayList;
 import java.util.List;
 
+import codechicken.multipart.TMultiPart;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
@@ -43,10 +44,10 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	
 	private float pressure = 0F;
 	
-	/* FMP private boolean isMultipart; */
+	private boolean isMultipart;
 	private World tWorld;
 	private Location blockLocation;
-	/* FMP private TMultiPart tMp; */
+	private TMultiPart tMp;
 	private TileEntity tTarget;
 	private IHydraulicMachine target;
 	
@@ -765,5 +766,17 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		}
 		
 		setPressure(getPressure(from)+gen, from);
+	}
+
+	@Override
+	public void init(TMultiPart _target) {
+		tMp = _target;
+		tTarget = null;
+		target = (IHydraulicMachine) _target;
+		tWorld = _target.world();
+		if(target instanceof TileHydraulicPressureVat){
+			hasOwnFluidTank = true;
+		}
+		isMultipart = true;		
 	}
 }

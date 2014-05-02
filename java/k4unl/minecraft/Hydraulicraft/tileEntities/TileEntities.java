@@ -43,7 +43,7 @@ public class TileEntities {
 		GameRegistry.registerTileEntity(TileHydraulicHarvester.class, "tileHydraulicHarvester");
 		GameRegistry.registerTileEntity(TileHarvesterTrolley.class, "tileHarvesterTrolley");
 		
-		GameRegistry.registerTileEntity(TilePressureHose.class, "tilePressureHose");
+		//GameRegistry.registerTileEntity(TilePressureHose.class, "tilePressureHose");
 		GameRegistry.registerTileEntity(TileInfiniteSource.class, "tileInfiniteSource");
 		GameRegistry.registerTileEntity(TileMovingPane.class, "tileMovingPane");
 		
