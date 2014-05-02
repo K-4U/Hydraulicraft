@@ -25,9 +25,19 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 	
 	private ForgeDirection facing = ForgeDirection.UNKNOWN;
 	
+	public TileHydraulicLavaPump(){
+		super(PressureTier.HIGHPRESSURE, 1);
+		super.validateI(this);
+	}
+	
 	public TileHydraulicLavaPump(int tier){
 		super(PressureTier.fromOrdinal(tier), 2 * (tier + 1));
 		super.validateI(this);
+	}
+	
+	@Override
+	public void validate(){
+		super.validate();
 	}
 	
 	@Override	
@@ -247,6 +257,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 	
 	public void setFacing(ForgeDirection newDir){
 		facing = newDir;
+		markDirty();
 	}
 	
 }

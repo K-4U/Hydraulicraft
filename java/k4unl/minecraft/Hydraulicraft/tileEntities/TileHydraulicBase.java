@@ -236,12 +236,14 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 			//}
 		}else{
 			target.onFluidLevelChanged(fluidLevelStored);
+			
 			if(fluidLevelStored != i && doNotify == true){
 				//if new = 0 that probably means me setting it like that..
 				//shouldUpdateFluid = true;
 			}
 			fluidLevelStored = i;
 		}
+		markDirty();
 		updateBlock();
 	}
 	
@@ -485,7 +487,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 				}
 				
 				if(getWorld().getTotalWorldTime() % 2 == 0){
-					//updateBlock();
+					updateBlock();
 				}
 				
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
@@ -535,6 +537,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	@Override
 	public void setIsOilStored(boolean b) {
 		_isOilStored = b;
+		markDirty();
 	}
 	
 	private IHydraulicMachine isValidMachine(ForgeDirection dir){
@@ -591,6 +594,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		if(getWorld() != null && !getWorld().isRemote){
 			shouldUpdateNetwork = true;
 			this.oldPressure = oldPressure;
+			markDirty();
 			updateBlock();
 		}
 	}
@@ -705,11 +709,13 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	@Override
 	public void setPressureTier(PressureTier newTier) {
 		pressureTier = newTier;		
+		markDirty();
 	}
 
 	@Override
 	public void setMaxStorage(int maxFluid) {
 		maxStorage = maxFluid;
+		markDirty();
 	}
 
 	@Override
@@ -742,4 +748,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	public void invalidateI() {
 		invalidate();
 	}
+	
+	@Override
+	public void onChunkUnload(){
+		markDirty();
+    }
 }

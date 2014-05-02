@@ -26,6 +26,11 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 	private int fluidInNetwork;
 	private int networkCapacity;
 	
+	public TileHydraulicPump(){
+		super(PressureTier.HIGHPRESSURE, 1);
+		super.validateI(this);
+	}
+	
 	public TileHydraulicPump(int _tier){
 		super(PressureTier.fromOrdinal(_tier), 2 * (_tier + 1));
 		tier = _tier;
@@ -270,11 +275,6 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 		
 		tagCompound.setInteger("tier", getTier());
 		tagCompound.setInteger("facing", facing.ordinal());
-		
-		if(pNetwork != null){
-			tagCompound.setInteger("networkCapacity", getNetwork(ForgeDirection.UP).getFluidCapacity());
-			tagCompound.setInteger("fluidInNetwork", getNetwork(ForgeDirection.UP).getFluidInNetwork());
-		}
 	}
 
 	@Override
