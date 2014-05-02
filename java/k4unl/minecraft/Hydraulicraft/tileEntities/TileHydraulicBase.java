@@ -292,7 +292,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		int y = getBlockLocation().getY() + dir.offsetY;
 		int z = getBlockLocation().getZ() + dir.offsetZ;
 		Block block = getWorld().getBlock(x, y, z);
-		if(block.blockRegistry.getNameForObject(block).equals("air")){
+		if(block instanceof BlockAir){
 			return null;
 		}
 		
@@ -485,7 +485,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 				}
 				
 				if(getWorld().getTotalWorldTime() % 2 == 0){
-					updateBlock();
+					//updateBlock();
 				}
 				
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){

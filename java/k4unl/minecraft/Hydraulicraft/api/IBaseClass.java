@@ -4,6 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -128,4 +129,11 @@ public interface IBaseClass {
 	 * @param facing
 	 */
 	public void setPressure(float f, ForgeDirection facing);
+
+	/**
+	 * Use this to tell the base class to tell its target.
+	 * Just use validateI(this);
+	 * @param target
+	 */
+	public void validateI(TileEntity target);
 }
