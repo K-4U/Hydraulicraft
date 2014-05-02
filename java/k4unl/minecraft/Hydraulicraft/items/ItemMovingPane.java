@@ -1,11 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileMovingPane;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineItem;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -13,7 +12,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ItemMovingPane extends MachineItem {
+public class ItemMovingPane extends HydraulicItemBase {
 
 	public ItemMovingPane() {
 		super(Names.blockMovingPane);

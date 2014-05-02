@@ -1,46 +1,32 @@
-package k4unl.minecraft.Hydraulicraft.baseClasses;
+package k4unl.minecraft.Hydraulicraft.blocks;
 
-
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class MachineBlockContainer extends BlockContainer {
+public class HydraulicBlockBase extends Block {
 	private IIcon blockIcon;
 	private IIcon topIcon;
 	private IIcon bottomIcon;
 	private IIcon frontIcon;
-
-	public Name mName;
+	
+	private Name mName;
 	
 	protected boolean hasBottomIcon = false;
 	protected boolean hasTopIcon = false;
 	protected boolean hasFrontIcon = false;
 	
-	protected boolean hasTextures = true;
 	
-	@Override
-	public abstract TileEntity createNewTileEntity(World world, int var2);
-	
-	@Override
-	public abstract boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9);
-	
-	protected MachineBlockContainer(Name machineName) {
+	protected HydraulicBlockBase(Name machineName) {
 		super(Material.rock);
 		
 		mName = machineName;
@@ -54,7 +40,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	}
 	
 	
-	protected String getTextureName(String side){
+	private String getTextureName(String side){
 		if(side != null){
 			return ModInfo.LID + ":" + mName.unlocalized + "_" + side;
 		}else{
@@ -65,32 +51,25 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegistry){
-		if(hasTextures){
-			if(hasTopIcon || hasBottomIcon || hasFrontIcon){
-				blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
-				if(hasTopIcon){
-					topIcon = iconRegistry.registerIcon(getTextureName("top"));
-				}else{
-					topIcon = blockIcon;
-				}
-				if(hasBottomIcon){
-					bottomIcon = iconRegistry.registerIcon(getTextureName("bottom"));
-				}else{
-					bottomIcon = blockIcon;
-				}
-				if(hasFrontIcon){
-					frontIcon = iconRegistry.registerIcon(getTextureName("front"));
-				}else{
-					frontIcon = blockIcon;
-				}
+		if(hasTopIcon || hasBottomIcon || hasFrontIcon){
+			blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
+			if(hasTopIcon){
+				topIcon = iconRegistry.registerIcon(getTextureName("top"));
 			}else{
-				blockIcon = iconRegistry.registerIcon(getTextureName(null));
-				bottomIcon = blockIcon;
 				topIcon = blockIcon;
+			}
+			if(hasBottomIcon){
+				bottomIcon = iconRegistry.registerIcon(getTextureName("bottom"));
+			}else{
+				bottomIcon = blockIcon;
+			}
+			if(hasFrontIcon){
+				frontIcon = iconRegistry.registerIcon(getTextureName("front"));
+			}else{
 				frontIcon = blockIcon;
 			}
 		}else{
-			blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
+			blockIcon = iconRegistry.registerIcon(getTextureName(null));
 			bottomIcon = blockIcon;
 			topIcon = blockIcon;
 			frontIcon = blockIcon;
@@ -104,6 +83,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 		if(hasFrontIcon){
 			setDefaultDirection(world, x, y, z);
 		}
+		//checkSideBlocks(world, x, y, z);
 	}
 	
 	private void setDefaultDirection(World world, int x, int y, int z){
@@ -163,8 +143,7 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
 		if(hasFrontIcon){
-			int sideToPlace = MathHelper.floor_double(player.rotationYaw / 90F + 0.5D) & 3;
-			
+			int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
 			
 			int metaDataToSet = 0;
 			switch(sideToPlace){
@@ -186,21 +165,5 @@ public abstract class MachineBlockContainer extends BlockContainer {
 		}
 	}
 	
-	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-		super.onNeighborBlockChange(world, x, y, z, block);
-	}
-	
-	@Override
-	public void breakBlock(World w, int x, int y, int z, Block oldBlock, int oldMetaData){
-		//Call TileEntity's onBlockBreaks function
-		TileEntity tile = w.getTileEntity(x, y, z);
-		if(tile instanceof TileHydraulicBase){
-			((TileHydraulicBase)tile).onBlockBreaks();
-		}
-		
-		super.breakBlock(w, x, y, z, oldBlock, oldMetaData);
-	}
-	
-	
+
 }

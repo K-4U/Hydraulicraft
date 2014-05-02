@@ -1,19 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
 import java.util.List;
-import java.util.Map;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileMovingPane;
-import k4unl.minecraft.Hydraulicraft.TileEntities.transporter.TilePressureHose;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,8 +18,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import buildcraft.api.tools.IToolWrench;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMovingPane extends MachineBlockContainer {
+public class BlockMovingPane extends HydraulicBlockContainerBase {
 
 	public BlockMovingPane() {
 		super(Names.blockMovingPane);
@@ -66,7 +62,7 @@ public class BlockMovingPane extends MachineBlockContainer {
 		TileMovingPane tileEntity = (TileMovingPane) world.getTileEntity(x, y,
 				z);
 		if (tileEntity != null) {
-			tileEntity.getHandler().checkRedstonePower();
+			tileEntity.checkRedstonePower();
 		}
 
 	}

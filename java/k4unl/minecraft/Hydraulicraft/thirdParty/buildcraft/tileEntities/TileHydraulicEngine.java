@@ -1,21 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import buildcraft.api.power.IPowerEmitter;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
@@ -105,7 +98,7 @@ public class TileHydraulicEngine extends TileHydraulicBase implements IHydraulic
 	}
 	
 	public float createPower(boolean simulate){
-		boolean rp = getHandler().getRedstonePowered();
+		boolean rp = getRedstonePowered();
 		int pressureReq = Float.compare(getPressure(getFacing().getOpposite()), Constants.MIN_REQUIRED_PRESSURE_ENGINE);
 		float energyStored = (float) getPowerReceiver(getFacing()).getEnergyStored();
 		float energyMax = (float) getPowerReceiver(getFacing()).getMaxEnergyStored();
@@ -136,10 +129,6 @@ public class TileHydraulicEngine extends TileHydraulicBase implements IHydraulic
 	
 	public float getEnergyToAdd(){
 		return energyToAdd;
-	}
-
-	public void checkRedstonePower() {
-		getHandler().checkRedstonePower();
 	}
 
 	@Override

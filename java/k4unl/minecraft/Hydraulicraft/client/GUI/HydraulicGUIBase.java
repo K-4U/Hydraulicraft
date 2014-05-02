@@ -1,9 +1,7 @@
-package k4unl.minecraft.Hydraulicraft.baseClasses;
+package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.Icon;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
@@ -24,7 +22,7 @@ import org.lwjgl.opengl.GL11;
 
 import thirdParty.truetyper.FontHelper;
 
-public class MachineGUI extends GuiContainer {
+public class HydraulicGUIBase extends GuiContainer {
 	private ResourceLocation resLoc;
 	IHydraulicMachine mEnt;
 
@@ -61,7 +59,7 @@ public class MachineGUI extends GuiContainer {
 
 	protected List<ToolTip> tooltipList = new ArrayList<ToolTip>();
 
-	public MachineGUI(IHydraulicMachine Entity, Container mainContainer,
+	public HydraulicGUIBase(IHydraulicMachine Entity, Container mainContainer,
 			ResourceLocation _resLoc) {
 		super(mainContainer);
 		mEnt = Entity;

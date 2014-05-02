@@ -3,14 +3,14 @@ package k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterFrame;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -25,7 +25,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHydraulicHarvester extends MachineBlockContainer {
+public class BlockHydraulicHarvester extends HydraulicBlockContainerBase {
 	private IIcon blockIcon;
 	private Name[] mName;
 

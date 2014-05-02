@@ -1,11 +1,11 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.misc;
+package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -180,7 +180,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 			pNetwork = endNetwork;
 			pNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
 			if(getTarget() != null){
-				getTarget().getHandler().setNetwork(ForgeDirection.UP, pNetwork);
+				((TileHydraulicBase)getTarget().getHandler()).setNetwork(ForgeDirection.UP, pNetwork);
 				pNetwork.addMachine(getTarget(), oldPressure, ForgeDirection.UP);
 			}
 			for(ForgeDirection dir:connectedSides){
@@ -196,7 +196,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
 			if(getTarget() != null){
-				getTarget().getHandler().setNetwork(ForgeDirection.UP, pNetwork);
+				((TileHydraulicBase)getTarget().getHandler()).setNetwork(ForgeDirection.UP, pNetwork);
 				pNetwork.addMachine(getTarget(), oldPressure, ForgeDirection.UP);
 			}
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);

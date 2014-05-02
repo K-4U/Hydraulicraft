@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.harvester;
+package k4unl.minecraft.Hydraulicraft.tileEntities.harvester;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;

@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.baseClasses;
+package k4unl.minecraft.Hydraulicraft.ores;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -8,10 +8,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 
-public class Ore extends Block {
+public class OreBase extends Block {
 	private Name oName;
 	
-	public Ore(Name oreName) {
+	public OreBase(Name oreName) {
 		super(Material.rock);
 		
 		oName = oreName;

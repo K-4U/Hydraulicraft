@@ -1,10 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.blocks.storage;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHydraulicPressureVat extends MachineTieredBlock {
+public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase {
 	
 	
 	public BlockHydraulicPressureVat() {

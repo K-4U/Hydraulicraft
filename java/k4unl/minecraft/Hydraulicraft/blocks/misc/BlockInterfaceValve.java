@@ -1,13 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.blocks.misc;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileInterfaceValve;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockInterfaceValve extends MachineBlockContainer {
+public class BlockInterfaceValve extends HydraulicBlockContainerBase {
 
 	public BlockInterfaceValve() {
 		super(Names.blockInterfaceValve);

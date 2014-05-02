@@ -1,13 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileInfiniteSource;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerInfiniteSource;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInfiniteSource;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiInfiniteSource extends MachineGUI {
+public class GuiInfiniteSource extends HydraulicGUIBase {
 	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/infiniteSource.png");
 	TileInfiniteSource tileSource;
 	

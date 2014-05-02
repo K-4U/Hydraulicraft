@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.containers;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileInfiniteSource;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInfiniteSource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

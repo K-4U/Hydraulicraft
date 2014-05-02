@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
 import k4unl.minecraft.Hydraulicraft.events.EventHelper;
@@ -16,6 +15,7 @@ import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.world.OreGenerator;
 import thirdParty.truetyper.TrueTypeFont;
 import cpw.mods.fml.common.Mod;

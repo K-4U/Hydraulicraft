@@ -1,10 +1,9 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.harvester;
+package k4unl.minecraft.Hydraulicraft.tileEntities.harvester;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.api.IHarvester;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;

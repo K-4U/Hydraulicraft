@@ -1,16 +1,11 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.harvester;
+package k4unl.minecraft.Hydraulicraft.tileEntities.harvester;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHarvester;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
@@ -20,6 +15,8 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -28,13 +25,9 @@ import net.minecraft.item.ItemReed;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileHydraulicHarvester extends TileHydraulicBase implements IHydraulicConsumer, ISidedInventory, IHarvester {
 	private ItemStack[] seedsStorage;
@@ -429,8 +422,8 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 		}
 		//Drop seeds.. duh
 		for(int i = 0; i < seedsStorage.length; i++){
-			getHandler().dropItemStackInWorld(seedsStorage[i]);
-			getHandler().dropItemStackInWorld(outputStorage[i]);
+			dropItemStackInWorld(seedsStorage[i]);
+			dropItemStackInWorld(outputStorage[i]);
 		}
 	}
 	

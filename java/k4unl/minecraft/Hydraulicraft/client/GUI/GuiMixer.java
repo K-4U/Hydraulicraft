@@ -1,12 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicMixer;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerMixer;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -16,7 +15,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiMixer extends MachineGUI {
+public class GuiMixer extends HydraulicGUIBase {
 	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/mixer.png");
 	TileHydraulicMixer mixer;
 	

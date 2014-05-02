@@ -1,10 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -39,7 +39,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 	
 	@Override
 	public void workFunction(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered()){
+		if(!getRedstonePowered()){
 			isRunning = false;
 			getHandler().updateBlock();
 			return;
@@ -92,7 +92,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
 	@Override
 	public float getGenerating(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0){
+		if(!getRedstonePowered() || getFluidInNetwork(from) == 0){
 			RFUsage = 0;
 			return 0f;
 		}

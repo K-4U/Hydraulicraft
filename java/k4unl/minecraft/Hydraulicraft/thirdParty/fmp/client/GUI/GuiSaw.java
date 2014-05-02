@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp.client.GUI;
 
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
 import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
+import k4unl.minecraft.Hydraulicraft.client.GUI.HydraulicGUIBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.FMP;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.containers.ContainerSaw;
@@ -10,7 +10,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiSaw extends MachineGUI{
+public class GuiSaw extends HydraulicGUIBase{
     private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/saw.png");
     TileHydraulicSaw saw;
 

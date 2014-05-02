@@ -1,15 +1,15 @@
-package k4unl.minecraft.Hydraulicraft.baseClasses;
+package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class MachineTieredBlockHandler extends ItemBlock {
+public class HydraulicTieredBlockHandler extends ItemBlock {
 	private Name[] tNames;
 	
 	
-	public MachineTieredBlockHandler(Block block, Name[] names) {
+	public HydraulicTieredBlockHandler(Block block, Name[] names) {
 		super(block);
 		
 		tNames = names;

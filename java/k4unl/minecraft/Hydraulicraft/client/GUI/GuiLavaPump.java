@@ -3,12 +3,11 @@ package k4unl.minecraft.Hydraulicraft.client.GUI;
 import java.text.DecimalFormat;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicLavaPump;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerEmpty;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
@@ -16,7 +15,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public class GuiLavaPump extends MachineGUI {
+public class GuiLavaPump extends HydraulicGUIBase {
 	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/lavapump.png");
 	TileHydraulicLavaPump pump;
 	

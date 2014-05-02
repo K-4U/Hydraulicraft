@@ -1,11 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerWasher;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -16,7 +15,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiWasher extends MachineGUI {
+public class GuiWasher extends HydraulicGUIBase {
 	private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/washer.png");
 	TileHydraulicWasher washer;
 	

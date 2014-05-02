@@ -1,9 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import pneumaticCraft.api.tileentity.AirHandlerSupplier;
@@ -83,7 +83,7 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
 	}
 
 	private boolean canRun() {
-		if(!getHandler().getRedstonePowered()){
+		if(!getRedstonePowered()){
 			return false;
 		}
 		//Get minimal pressure
@@ -101,10 +101,6 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
 		getAirHandler().writeToNBTI(tagCompound);
-	}
-
-	public void checkRedstonePower() {
-		getHandler().checkRedstonePower();
 	}
 
 	@Override

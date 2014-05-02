@@ -1,14 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicCrusher;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicFrictionIncinerator;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicMixer;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
-import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicLavaPump;
-import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileInfiniteSource;
-import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerCrusher;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerEmpty;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerHarvester;
@@ -37,6 +28,15 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiH
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiRFPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCrusher;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFrictionIncinerator;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
+import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInfiniteSource;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

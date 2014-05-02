@@ -1,9 +1,7 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.consumers;
+package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import java.util.Random;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
@@ -12,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -256,8 +255,8 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
 
     @Override
     public void onBlockBreaks(){
-        getHandler().dropItemStackInWorld(inputInventory);
-        getHandler().dropItemStackInWorld(outputInventory);
+        dropItemStackInWorld(inputInventory);
+        dropItemStackInWorld(outputInventory);
     }
 
     @Override

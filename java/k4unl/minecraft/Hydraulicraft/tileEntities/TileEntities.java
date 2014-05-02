@@ -1,22 +1,22 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities;
+package k4unl.minecraft.Hydraulicraft.tileEntities;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicCrusher;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicFrictionIncinerator;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicMixer;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicWasher;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileMovingPane;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TilePressureDisposal;
-import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicLavaPump;
-import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileInfiniteSource;
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileInterfaceValve;
-import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
-import k4unl.minecraft.Hydraulicraft.TileEntities.transporter.TilePressureHose;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCrusher;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFrictionIncinerator;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TilePressureDisposal;
+import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
+import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterFrame;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInfiniteSource;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.tileEntities.transporter.TilePressureHose;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TileEntities {

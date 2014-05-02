@@ -14,8 +14,6 @@ public interface IHydraulicConsumer extends IHydraulicMachine {
 	
 	public float workFunction(boolean simulate, ForgeDirection from);
 	
-	public void onBlockBreaks();
-	
 	/**
 	 * Returns whether or not this block can do work on this side.
 	 * DO NOT JUST RETURN TRUE!

@@ -1,13 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileMovingPane;
-import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicLavaPump;
-import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterFrame;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.TileEntities.harvester.TileHydraulicHarvester;
-import k4unl.minecraft.Hydraulicraft.TileEntities.transporter.TilePressureHose;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.RendererHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.RendererMovingPane;
@@ -23,6 +15,14 @@ import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicLav
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicPistonItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicPumpItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
+import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
+import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterFrame;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.tileEntities.transporter.TilePressureHose;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;

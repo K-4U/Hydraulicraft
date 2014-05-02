@@ -1,10 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -89,7 +89,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 	}
 	
 	private float createPower(boolean simulate){
-		if(getPressure(getFacing().getOpposite()) < Constants.MIN_REQUIRED_PRESSURE_DYNAMO || !getHandler().getRedstonePowered()){
+		if(getPressure(getFacing().getOpposite()) < Constants.MIN_REQUIRED_PRESSURE_DYNAMO || !getRedstonePowered()){
 			isRunning = false;
 			energyGen = 0;
 			getHandler().updateBlock();
@@ -118,16 +118,11 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 	public float getPressureRequired(){
 		return pressureRequired;
 	}
-	
-	public void checkRedstonePower() {
-		getHandler().checkRedstonePower();
-	}
 
 
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		getHandler().updateEntity();
 		
 		//PUSH pressure
 		//This had me busy for two days.

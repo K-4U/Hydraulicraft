@@ -1,27 +1,26 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities;
+package k4unl.minecraft.Hydraulicraft.tileEntities;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.interfaces.IHydraulicStorage;
-import k4unl.minecraft.Hydraulicraft.TileEntities.interfaces.IHydraulicStorageWithTank;
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
-import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork.networkEntry;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.baseClasses.IMachineMultiBlock;
+import k4unl.minecraft.Hydraulicraft.blocks.IHydraulicMultiBlock;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork.networkEntry;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorage;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorageWithTank;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -308,7 +307,6 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		return list;
 	}
 	
-	@Override
 	public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList){
 		if(getNetwork(ForgeDirection.UP) == null){
 			return mainList;
@@ -360,8 +358,8 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 					IHydraulicMachine target =((TileHydraulicValve)machineEntity).getTarget(); 
 					if(target != null){
 						mainList.add(target);
-						if(target instanceof IMachineMultiBlock){
-							List<TileHydraulicValve> valves = ((IMachineMultiBlock)target).getValves();
+						if(target instanceof IHydraulicMultiBlock){
+							List<TileHydraulicValve> valves = ((IHydraulicMultiBlock)target).getValves();
 							for(TileHydraulicValve valve : valves){
 								if(!valve.equals(machineEntity)){
 									callList.add(valve);
@@ -378,7 +376,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 			for (IHydraulicMachine machineEntity : callList) {
 				//if(machineEntity instanceof TileTransporter){
 					List<IHydraulicMachine> tempList = new ArrayList<IHydraulicMachine>();
-					tempList = machineEntity.getHandler().getConnectedBlocks(mainList);
+					tempList = ((TileHydraulicBase)machineEntity.getHandler()).getConnectedBlocks(mainList);
 					mainList = Functions.mergeList(tempList, mainList);
 				//}
 			}
@@ -622,7 +620,6 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		
 	}
 	
-	@Override
 	public int getFluidInNetwork(ForgeDirection from) {
 		if(worldObj.isRemote){
 			return fluidInNetwork;
@@ -631,7 +628,6 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		}
 	}
 
-	@Override
 	public int getFluidCapacity(ForgeDirection from) {
 		if(worldObj.isRemote){
 			if(networkCapacity > 0){
@@ -644,7 +640,6 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		}
 	}
 
-	@Override
 	public void updateNetwork(float oldPressure) {
 		PressureNetwork newNetwork = null;
 		PressureNetwork foundNetwork = null;
@@ -680,12 +675,10 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		}		
 	}
 
-	@Override
 	public PressureNetwork getNetwork(ForgeDirection side) {
 		return pNetwork;
 	}
 
-	@Override
 	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
 		pNetwork = toSet;
 	}

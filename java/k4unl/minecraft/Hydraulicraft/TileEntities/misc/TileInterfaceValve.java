@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.misc;
+package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import net.minecraft.entity.player.EntityPlayer;

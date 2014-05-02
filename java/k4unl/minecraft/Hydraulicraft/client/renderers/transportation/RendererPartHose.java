@@ -3,10 +3,10 @@ package k4unl.minecraft.Hydraulicraft.client.renderers.transportation;
 import java.util.HashMap;
 import java.util.Map;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.transporter.TilePressureHose;
 import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
+import k4unl.minecraft.Hydraulicraft.tileEntities.transporter.TilePressureHose;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;

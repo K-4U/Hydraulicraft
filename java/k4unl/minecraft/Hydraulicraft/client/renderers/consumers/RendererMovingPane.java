@@ -1,9 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.consumers;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;

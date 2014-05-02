@@ -1,9 +1,11 @@
-package k4unl.minecraft.Hydraulicraft.api;
+package k4unl.minecraft.Hydraulicraft.tileEntities;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
@@ -44,9 +46,9 @@ public class PressureNetwork {
 	public PressureNetwork(IHydraulicMachine machine, float beginPressure, ForgeDirection from){
 		randomNumber = new Random().nextInt();
 		machines = new ArrayList<networkEntry>();
-		machines.add(new networkEntry(machine.getHandler().getBlockLocation(), from));
+		machines.add(new networkEntry(((TileHydraulicBase)machine.getHandler()).getBlockLocation(), from));
 		pressure = beginPressure;
-		world = machine.getHandler().getWorld();
+		world = ((TileHydraulicBase)machine.getHandler()).getWorld();
 		isOilStored = machine.getHandler().isOilStored();
 		
 		//TODO: make me based on the enum
@@ -81,7 +83,7 @@ public class PressureNetwork {
 	private int contains(IHydraulicMachine machine){
 		int i = 0;
 		for(i=0; i< machines.size(); i++){
-			if(machines.get(i).getLocation().equals(machine.getHandler().getBlockLocation())){
+			if(machines.get(i).getLocation().equals(((TileHydraulicBase)machine.getHandler()).getBlockLocation())){
 				return i;
 			}
 		}
@@ -92,11 +94,11 @@ public class PressureNetwork {
 		if(contains(machine) == -1){
 			float oPressure = pressure * machines.size();
 			oPressure += pressureToAdd;
-			machines.add(new networkEntry(machine.getHandler().getBlockLocation(), from));
+			machines.add(new networkEntry(((TileHydraulicBase)machine.getHandler()).getBlockLocation(), from));
 			pressure = oPressure / machines.size();
 			machine.getHandler().updateFluidOnNextTick();
 			if(world == null){
-				world = machine.getHandler().getWorld();
+				world = ((TileHydraulicBase)machine.getHandler()).getWorld();
 			}
 			
 			//TODO: make me based on the enum
@@ -130,7 +132,7 @@ public class PressureNetwork {
 	public void removeMachine(IHydraulicMachine machineToRemove){
 		int machineIndex = contains(machineToRemove);
 		if(machineIndex != -1){
-			machineToRemove.getHandler().setNetwork(machines.get(machineIndex).getFrom(), null);
+			((TileHydraulicBase)machineToRemove.getHandler()).setNetwork(machines.get(machineIndex).getFrom(), null);
 			machines.remove(machineIndex);
 		}
 		//And tell every machine in the block to recheck it's network! :D
@@ -141,7 +143,7 @@ public class PressureNetwork {
 			TileEntity ent = world.getTileEntity(loc.getX(), loc.getY(), loc.getZ());
 			if(ent instanceof IHydraulicMachine){
 				IHydraulicMachine machine = (IHydraulicMachine) ent;
-				machine.getHandler().setNetwork(entry.getFrom(), null);
+				((TileHydraulicBase)machineToRemove.getHandler()).setNetwork(entry.getFrom(), null);
 				machine.getHandler().updateNetworkOnNextTick(getPressure());
 			}/* FMP else if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
 				IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
@@ -182,7 +184,7 @@ public class PressureNetwork {
 			TileEntity ent = world.getTileEntity(loc.getX(), loc.getY(), loc.getZ());
 			if(ent instanceof IHydraulicMachine){
 				IHydraulicMachine machine = (IHydraulicMachine) ent;
-				machine.getHandler().setNetwork(entry.getFrom(), this);
+				((TileHydraulicBase)machine.getHandler()).setNetwork(entry.getFrom(), this);
 				this.addMachine(machine, newPressure, entry.getFrom());
 			}/* FMP else if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
 				IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
@@ -227,7 +229,7 @@ public class PressureNetwork {
 					
 					if(tn instanceof IHydraulicMachine){
 						if(((IHydraulicMachine)tn).canConnectTo(dir.getOpposite())){
-							foundNetwork = ((IHydraulicMachine)tn).getHandler().getNetwork(dir.getOpposite());	
+							foundNetwork = ((TileHydraulicBase)((IHydraulicMachine)tn).getHandler()).getNetwork(dir.getOpposite());	
 						}
 					}/* FMP else if(tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)tn)){
 						if(Multipart.getTransporter((TileMultipart)tn).isConnectedTo(dir.getOpposite())){
@@ -243,7 +245,7 @@ public class PressureNetwork {
 				
 				if(tn instanceof IHydraulicTransporter){
 					if(((IHydraulicMachine)tn).canConnectTo(dir.getOpposite())){
-						foundNetwork = ((IHydraulicMachine)tn).getHandler().getNetwork(dir.getOpposite());	
+						foundNetwork = ((TileHydraulicBase)((IHydraulicMachine)tn).getHandler()).getNetwork(dir.getOpposite());	
 					}
 				}
 			}

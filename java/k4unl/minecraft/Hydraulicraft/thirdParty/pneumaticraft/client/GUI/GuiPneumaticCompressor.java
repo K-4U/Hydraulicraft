@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.client.GUI;
 
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineGUI;
+import k4unl.minecraft.Hydraulicraft.client.GUI.HydraulicGUIBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.containers.ContainerPneumaticCompressor;
@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import pneumaticCraft.api.client.GuiElementRenderer;
 
-public class GuiPneumaticCompressor extends MachineGUI {
+public class GuiPneumaticCompressor extends HydraulicGUIBase {
 	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/compressor.png");
 
 	private TileHydraulicPneumaticCompressor compressor;

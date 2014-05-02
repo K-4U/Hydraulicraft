@@ -3,10 +3,10 @@ package k4unl.minecraft.Hydraulicraft.blocks.transporter;
 import java.util.List;
 import java.util.Map;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.transporter.TilePressureHose;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineTieredBlock;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
+import k4unl.minecraft.Hydraulicraft.tileEntities.transporter.TilePressureHose;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -17,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockHose extends MachineTieredBlock {
+public class BlockHose extends HydraulicTieredBlockBase {
 
 	private static Vector3fMax blockBounds = new Vector3fMax(0.3f, 0.3f, 0.3f, 0.7f, 0.7f, 0.7f);
 	

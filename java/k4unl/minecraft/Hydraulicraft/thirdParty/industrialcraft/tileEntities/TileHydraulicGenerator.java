@@ -3,22 +3,14 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySource;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileHydraulicGenerator extends TileHydraulicBase implements IHydraulicConsumer, IEnergySource {
 	private ForgeDirection facing = ForgeDirection.UP;
@@ -71,7 +63,7 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 	}
 	
 	public float createPower(boolean simulate){
-		boolean rp = getHandler().getRedstonePowered();
+		boolean rp = getRedstonePowered();
 		int pressureReq = Float.compare(getPressure(getFacing().getOpposite()), Constants.MIN_REQUIRED_PRESSURE_ENGINE);
 		float energyStored = getEUStored();
 		float energyMax = getMaxEUStorage();
@@ -94,10 +86,6 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
         pressureRequired = pressureUsage;
         return pressureUsage;
     }
-
-	public void checkRedstonePower() {
-		getHandler().checkRedstonePower();
-	}
 
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {

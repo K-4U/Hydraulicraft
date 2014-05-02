@@ -11,10 +11,16 @@ public interface IHarvesterTrolley {
 	 */
 	void doMove();
 
+	/**
+	 * Check if this harvester trolley can actually handle the seed
+	 * @param seed
+	 * @return
+	 */
 	boolean canHandleSeed(ItemStack seed);
 
 	/**
 	 * Checks whether or not this trolley can plant any of the seeds in his row
+	 * This should check for a suitable soil.
 	 * @param seeds
 	 * @param maxLength
 	 * @return the index of the itemstack to be used. -1 if not
@@ -27,9 +33,16 @@ public interface IHarvesterTrolley {
 	 */
 	void doPlant(ItemStack seed);
 
-	
+	/**
+	 * Returns if the trolley is moving yes or no.
+	 * @return
+	 */
 	boolean isMoving();
 
+	/**
+	 * Returns if the trolley is working.
+	 * @return
+	 */
 	boolean isWorking();
 	
 	/**

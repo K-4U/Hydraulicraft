@@ -1,14 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import java.util.List;
-
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -79,28 +74,11 @@ public interface IBaseClass {
 	 * @param b
 	 */
 	public void setIsOilStored(boolean b);
-	
-	/**
-	 * 
-	 * @return if the block has a redstone signal powering it.
-	 */
-	public boolean getRedstonePowered();
 
-	/**
-	 * Function to drop an item stack into the world.
-	 * @param inputInventory
-	 */
-	public void dropItemStackInWorld(ItemStack inputInventory);
-	
 	/**
 	 * Forward this function the the Base class
 	 */
 	public void updateEntity();
-	
-	/**
-	 * Checks if the block is redstone powered. Does not return anything.
-	 */
-	public void checkRedstonePower();
 	
 	/**
 	 * Triggers a world.markBlockForUpdate()
@@ -108,38 +86,46 @@ public interface IBaseClass {
 	public void updateBlock();
 	
 	/**
-	 * When the TE is validated.
+	 * Forward this to the base class
 	 */
-	public void validate();
-	
 	public void invalidate();
 
+	/**
+	 * Call this function if you want the network to be updated
+	 * @param oldPressure
+	 */
 	public void updateNetworkOnNextTick(float oldPressure);
 
-	public List<IHydraulicMachine> getConnectedBlocks(
-			List<IHydraulicMachine> mainList);
-
+	/**
+	 * Call this function if you want the fluids to be equalized troughout the network
+	 */
 	public void updateFluidOnNextTick();
-	
-	public Location getBlockLocation();
 
-	public IBlockAccess getWorld();
-
+	/**
+	 * Returns the current pressure
+	 * @param dir
+	 * @return
+	 */
 	public float getPressure(ForgeDirection dir);
 
+	/**
+	 * Returns the max ammount of pressure this machine can handle
+	 * @param isOilStored
+	 * @param from
+	 * @return
+	 */
 	public float getMaxPressure(boolean isOilStored, ForgeDirection from);
 
+	/**
+	 * Returns the max amount of fluid storage for this block
+	 * @return
+	 */
 	public int getMaxStorage();
 
-	int getFluidInNetwork(ForgeDirection from);
-
-	int getFluidCapacity(ForgeDirection from);
-
-	public void updateNetwork(float oldPressure);
-	
-	public PressureNetwork getNetwork(ForgeDirection side);
-	
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet);
-
+	/**
+	 * Sets the pressure in the network
+	 * @param f
+	 * @param facing
+	 */
 	public void setPressure(float f, ForgeDirection facing);
 }

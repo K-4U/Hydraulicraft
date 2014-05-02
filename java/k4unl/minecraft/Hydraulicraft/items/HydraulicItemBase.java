@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.baseClasses;
+package k4unl.minecraft.Hydraulicraft.items;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class MachineItem extends Item {
+public class HydraulicItemBase extends Item {
 	private Name mName;
 	private boolean _hasEffect = false;
 	private String defaultInfo = "";
 	
 	
-	public MachineItem(Name itemName) {
+	public HydraulicItemBase(Name itemName) {
 		super();
 		
 		mName = itemName;

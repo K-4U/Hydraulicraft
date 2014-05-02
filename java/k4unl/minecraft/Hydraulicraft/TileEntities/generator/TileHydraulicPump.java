@@ -1,25 +1,17 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.generator;
+package k4unl.minecraft.Hydraulicraft.tileEntities.generator;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileHydraulicPump extends TileHydraulicBase implements IInventory, IHydraulicGenerator {
 	private ItemStack inventory;
@@ -236,7 +228,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 	
 	@Override
 	public void onBlockBreaks() {
-		getHandler().dropItemStackInWorld(inventory);
+		dropItemStackInWorld(inventory);
 	}
 
 	@Override

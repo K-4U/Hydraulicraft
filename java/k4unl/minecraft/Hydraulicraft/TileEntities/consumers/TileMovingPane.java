@@ -1,24 +1,11 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.consumers;
+package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsumer {
     private Location parent;
@@ -104,7 +91,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 		if(!worldObj.isRemote && isPane == false){
 			int targetIsNul = Float.compare(target, 0.0F);
 			int movingSpeedIsNul = Float.compare(movingSpeed, 0.0F);
-			if(getHandler().getRedstonePowered()){
+			if(getRedstonePowered()){
 				if(Float.compare(target, 0.0F) != 0 && Float.compare(movingSpeed, 0.0F) >= 0){
 					movingSpeed = -0.01F;
 					target = 0.0F;

@@ -1,15 +1,15 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TilePressureDisposal;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TilePressureDisposal;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockPressureDisposal extends MachineBlockContainer {
+public class BlockPressureDisposal extends HydraulicBlockContainerBase {
 
 	public BlockPressureDisposal() {
 		super(Names.blockPressureDisposal);

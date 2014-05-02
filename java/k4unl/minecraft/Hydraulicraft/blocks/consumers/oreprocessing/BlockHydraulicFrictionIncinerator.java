@@ -1,15 +1,15 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicFrictionIncinerator;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFrictionIncinerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicFrictionIncinerator extends MachineBlockContainer {
+public class BlockHydraulicFrictionIncinerator extends HydraulicBlockContainerBase {
 
 	public BlockHydraulicFrictionIncinerator() {
 		super(Names.blockHydraulicFrictionIncinerator);

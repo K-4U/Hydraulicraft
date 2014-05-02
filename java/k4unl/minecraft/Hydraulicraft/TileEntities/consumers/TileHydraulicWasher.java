@@ -1,40 +1,32 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.consumers;
+package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileInterfaceValve;
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.baseClasses.IMachineMultiBlock;
+import k4unl.minecraft.Hydraulicraft.blocks.IHydraulicMultiBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes.WashingRecipe;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -45,7 +37,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
 public class TileHydraulicWasher extends TileHydraulicBase implements
-		ISidedInventory, IFluidHandler, IHydraulicConsumer, IMachineMultiBlock {
+		ISidedInventory, IFluidHandler, IHydraulicConsumer, IHydraulicMultiBlock {
 	private ItemStack inputInventory;
 	private ItemStack washingItem;
 	private ItemStack targetItem;
@@ -387,8 +379,8 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
 	@Override
 	public void onBlockBreaks() {
-		getHandler().dropItemStackInWorld(inputInventory);
-		getHandler().dropItemStackInWorld(outputInventory);
+		dropItemStackInWorld(inputInventory);
+		dropItemStackInWorld(outputInventory);
 	}
 
 	//TODO: FIX ME

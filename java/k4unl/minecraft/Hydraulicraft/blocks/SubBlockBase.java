@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.baseClasses;
+package k4unl.minecraft.Hydraulicraft.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class SubBlock extends MachineBlock {
+public class SubBlockBase extends HydraulicBlockBase {
 	private List<IIcon> icons;
 	/*private List<Icon> topIcons;
 	private List<Icon> bottomIcons;
@@ -24,7 +24,7 @@ public class SubBlock extends MachineBlock {
 	private Name[] mName;
 	
 	
-	protected SubBlock(Name[] machineName) {
+	protected SubBlockBase(Name[] machineName) {
 		super(machineName[0]);
 		
 		mName = machineName;

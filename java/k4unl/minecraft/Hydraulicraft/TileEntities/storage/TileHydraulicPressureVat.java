@@ -1,12 +1,12 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.storage;
+package k4unl.minecraft.Hydraulicraft.tileEntities.storage;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
-import k4unl.minecraft.Hydraulicraft.TileEntities.interfaces.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorageWithTank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -279,7 +279,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 		tCompound.setFloat("maxPressure", getMaxPressure(getHandler().isOilStored(), ForgeDirection.UP));
 		tCompound.setFloat("oldPressure", getPressure(ForgeDirection.UP));
 		ourEnt.setTagCompound(tCompound);
-		getHandler().dropItemStackInWorld(ourEnt);
+		dropItemStackInWorld(ourEnt);
 	}
 
 	@Override

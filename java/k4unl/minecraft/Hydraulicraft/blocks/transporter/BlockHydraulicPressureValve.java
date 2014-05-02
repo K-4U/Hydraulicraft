@@ -1,12 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.blocks.transporter;
 
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicPressureValve extends MachineBlockContainer {
+public class BlockHydraulicPressureValve extends HydraulicBlockContainerBase {
 
 	protected BlockHydraulicPressureValve() {
 		super(Names.blockHydraulicPressureValve);

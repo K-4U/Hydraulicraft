@@ -1,9 +1,9 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.generator;
+package k4unl.minecraft.Hydraulicraft.tileEntities.generator;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -34,7 +34,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 	public void workFunction(ForgeDirection from) {
 		if(!from.equals(ForgeDirection.UP)) return;
 		
-		if(!getHandler().getRedstonePowered()){
+		if(!getRedstonePowered()){
 			isRunning = false;
 			getHandler().updateBlock();
 			return;
@@ -91,7 +91,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 	
 	@Override
 	public float getGenerating(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0 || tank == null || tank.getFluid() == null){
+		if(!getRedstonePowered() || getFluidInNetwork(from) == 0 || tank == null || tank.getFluid() == null){
 			lavaUsage = 0;
 			return 0f;
 		}

@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities.TileHydraulicSaw;
@@ -9,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicSaw extends MachineBlockContainer {
+public class BlockHydraulicSaw extends HydraulicBlockContainerBase {
 
 	public BlockHydraulicSaw() {
 		super(Names.blockHydraulicSaw);

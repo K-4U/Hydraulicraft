@@ -1,14 +1,12 @@
-package k4unl.minecraft.Hydraulicraft.baseClasses;
+package k4unl.minecraft.Hydraulicraft.blocks;
 
 import java.util.List;
 
-import javax.swing.Icon;
-
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -21,7 +19,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class MachineTieredBlock extends MachineBlockContainer {
+public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBase {
 		private IIcon[] tieredIcon;
 		private IIcon[] tieredTopIcon;
 		private IIcon[] tieredBottomIcon;
@@ -37,7 +35,7 @@ public abstract class MachineTieredBlock extends MachineBlockContainer {
 		public abstract TileEntity createNewTileEntity(World world, int var2);
 
 		
-		protected MachineTieredBlock(Name[] machineName) {
+		protected HydraulicTieredBlockBase(Name[] machineName) {
 			super(machineName[0]);
 			
 			mName = machineName;
@@ -137,8 +135,8 @@ public abstract class MachineTieredBlock extends MachineBlockContainer {
 					int z, Block block) {
 			super.onNeighborBlockChange(world, x, y, z, block);
 			TileEntity t = world.getTileEntity(x, y, z);
-			if(t instanceof IHydraulicMachine){
-				((IHydraulicMachine)t).getHandler().checkRedstonePower();
+			if(t instanceof TileHydraulicBase){
+				((TileHydraulicBase)t).checkRedstonePower();
 			}
 		}
 }

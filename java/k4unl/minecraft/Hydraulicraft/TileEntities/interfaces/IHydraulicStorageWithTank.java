@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.TileEntities.interfaces;
+package k4unl.minecraft.Hydraulicraft.tileEntities.interfaces;
 
 
 public interface IHydraulicStorageWithTank extends IHydraulicStorage {

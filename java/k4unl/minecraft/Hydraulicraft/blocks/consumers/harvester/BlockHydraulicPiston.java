@@ -1,8 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockHydraulicPiston extends MachineBlockContainer {
+public class BlockHydraulicPiston extends HydraulicBlockContainerBase {
 
 	public BlockHydraulicPiston() {
 		super(Names.blockHydraulicPiston);

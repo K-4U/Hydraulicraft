@@ -1,14 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.TileEntities.generator.TileHydraulicPump;
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
-import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineItem;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,7 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ItemDebug extends MachineItem {
+public class ItemDebug extends HydraulicItemBase {
 
 	public ItemDebug() {
 		super(Names.itemDebugger);
@@ -99,8 +99,8 @@ public class ItemDebug extends MachineItem {
 						}
 					}
 					
-					if(mEnt.getHandler().getNetwork(ForgeDirection.UNKNOWN) != null){
-						Functions.showMessageInChat(player, "Network ID:    " + mEnt.getHandler().getNetwork(ForgeDirection.UNKNOWN).getRandomNumber());
+					if(((TileHydraulicBase)mEnt.getHandler()).getNetwork(ForgeDirection.UNKNOWN) != null){
+						Functions.showMessageInChat(player, "Network ID:    " + ((TileHydraulicBase)mEnt.getHandler()).getNetwork(ForgeDirection.UNKNOWN).getRandomNumber());
 					}
 					
 					itemStack.setTagCompound(tagC);

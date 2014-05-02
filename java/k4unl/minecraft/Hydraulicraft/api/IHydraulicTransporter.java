@@ -16,9 +16,5 @@ public interface IHydraulicTransporter extends IHydraulicMachine {
 	 * @param caller
 	 */
 	public void checkConnectedSides(Object caller);
-
-	
-	@Deprecated
-	public int getTier();
 	
 }

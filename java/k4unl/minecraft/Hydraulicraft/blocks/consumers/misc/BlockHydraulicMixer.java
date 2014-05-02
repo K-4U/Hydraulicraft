@@ -1,15 +1,15 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicMixer;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicMixer extends MachineBlockContainer {
+public class BlockHydraulicMixer extends HydraulicBlockContainerBase {
 
 	public BlockHydraulicMixer() {
 		super(Names.blockHydraulicMixer);

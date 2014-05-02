@@ -1,13 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -48,7 +48,7 @@ public class TileKineticPump extends TileHydraulicBase implements IHydraulicGene
 	
 	@Override
 	public void workFunction(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered()){
+		if(!getRedstonePowered()){
 			isRunning = false;
 			getHandler().updateBlock();
 			return;
@@ -97,7 +97,7 @@ public class TileKineticPump extends TileHydraulicBase implements IHydraulicGene
 
 	@Override
 	public float getGenerating(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0){
+		if(!getRedstonePowered() || getFluidInNetwork(from) == 0){
 			MJUsage = 0; 
 			return 0f;
 		}

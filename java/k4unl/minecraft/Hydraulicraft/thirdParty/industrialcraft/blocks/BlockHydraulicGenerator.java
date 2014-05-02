@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import buildcraft.api.tools.IToolWrench;
 
-public class BlockHydraulicGenerator extends MachineBlockContainer {
+public class BlockHydraulicGenerator extends HydraulicBlockContainerBase {
 
 	public BlockHydraulicGenerator() {
 		super(Names.blockHydraulicGenerator);

@@ -1,8 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.blocks.misc;
 
-import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
-import k4unl.minecraft.Hydraulicraft.baseClasses.MachineBlockContainer;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -10,7 +10,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockHydraulicValve extends MachineBlockContainer {
+public class BlockHydraulicValve extends HydraulicBlockContainerBase {
 	private IIcon rotatedIcon;
 	private IIcon blockIcon;
 	

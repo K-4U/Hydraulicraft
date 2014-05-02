@@ -3,14 +3,14 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
-import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -47,7 +47,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 	
 	@Override
 	public void workFunction(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered()){
+		if(!getRedstonePowered()){
 			isRunning = false;
 			EUUsage = 0;
 			getHandler().updateBlock();
@@ -87,7 +87,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 
 	@Override
 	public float getGenerating(ForgeDirection from) {
-		if(!getHandler().getRedstonePowered() || getFluidInNetwork(from) == 0 ){
+		if(!getRedstonePowered() || getFluidInNetwork(from) == 0 ){
 			EUUsage = 0;
 			return 0f;
 		}
