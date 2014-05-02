@@ -753,4 +753,17 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	public void onChunkUnload(){
 		markDirty();
     }
+
+	@Override
+	public void addPressureWithRatio(float pressureToAdd, ForgeDirection from) {
+		float gen = pressureToAdd * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
+		gen = gen * ((float)getFluidInNetwork(from) / (float)getFluidCapacity(from));
+		
+		if(Float.compare(gen + getPressure(from), getMaxPressure(getHandler().isOilStored(), from)) > 0){
+			//This means the pressure we are generating is too much!
+			gen = getMaxPressure(getHandler().isOilStored(), from) - getPressure(from);
+		}
+		
+		setPressure(getPressure(from)+gen, from);
+	}
 }

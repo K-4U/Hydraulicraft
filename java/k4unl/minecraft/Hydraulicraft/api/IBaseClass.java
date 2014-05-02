@@ -132,8 +132,17 @@ public interface IBaseClass {
 
 	/**
 	 * Use this to tell the base class to tell its target.
-	 * Just use validateI(this);
+	 * Just use init(this);
 	 * @param target
 	 */
 	public void init(TileEntity target);
+	
+	
+	/**
+	 * Takes the pressure to add and checks if there is oil in the system.
+	 * Use this function to add pressure from a generator
+	 * @param pressureToAdd
+	 */
+	public void addPressureWithRatio(float pressureToAdd, ForgeDirection from);
+	
 }
