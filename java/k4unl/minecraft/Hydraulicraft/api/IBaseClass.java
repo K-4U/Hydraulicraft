@@ -28,26 +28,26 @@ public interface IBaseClass {
 	 * Forward this function to the Base class
 	 * @param tagCompound
 	 */
-	public void readFromNBT(NBTTagCompound tagCompound);
+	public void readFromNBTI(NBTTagCompound tagCompound);
 	
 	/**
 	 * Forward this function to the Base class
 	 * @param tagCompound
 	 */
-	public void writeToNBT(NBTTagCompound tagCompound);
+	public void writeToNBTI(NBTTagCompound tagCompound);
 	
 	/**
 	 * Forward this function to the Base class
 	 * @param net
 	 * @param packet
 	 */
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet);
+	public void onDataPacketI(NetworkManager net, S35PacketUpdateTileEntity packet);
 	
 	/**
 	 * Forward this function to the Base class
 	 * @return
 	 */
-	public Packet getDescriptionPacket();
+	public Packet getDescriptionPacketI();
 
 	/**
 	 * Gets the ammount of fluid stored
@@ -78,7 +78,7 @@ public interface IBaseClass {
 	/**
 	 * Forward this function the the Base class
 	 */
-	public void updateEntity();
+	public void updateEntityI();
 	
 	/**
 	 * Triggers a world.markBlockForUpdate()
@@ -88,7 +88,7 @@ public interface IBaseClass {
 	/**
 	 * Forward this to the base class
 	 */
-	public void invalidate();
+	public void invalidateI();
 
 	/**
 	 * Call this function if you want the network to be updated

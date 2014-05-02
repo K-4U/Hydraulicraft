@@ -148,8 +148,6 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 		}
 		
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
-		networkCapacity = tagCompound.getInteger("networkCapacity");
-		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
 		
 		lavaUsage = tagCompound.getInteger("lavaUsage");
 		isRunning = tagCompound.getBoolean("isRunning");
@@ -166,10 +164,6 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 			tagCompound.setTag("tank", inventoryCompound);
 		}
 		
-		if(pNetwork != null && !worldObj.isRemote){
-			tagCompound.setInteger("networkCapacity", getNetwork(ForgeDirection.UP).getFluidCapacity());
-			tagCompound.setInteger("fluidInNetwork", getNetwork(ForgeDirection.UP).getFluidInNetwork());
-		}
 		tagCompound.setInteger("facing", facing.ordinal());
 		
 		tagCompound.setInteger("lavaUsage", lavaUsage);

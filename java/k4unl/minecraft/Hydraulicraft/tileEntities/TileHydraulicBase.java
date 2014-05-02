@@ -22,6 +22,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorageWi
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -268,7 +269,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		int y = getBlockLocation().getY() + dir.offsetY;
 		int z = getBlockLocation().getZ() + dir.offsetZ;
 		Block block = getWorld().getBlock(x, y, z);
-		if(block.blockRegistry.getNameForObject(block).equals("air")){
+		if(block instanceof BlockAir){
 			return null;
 		}
 		
@@ -388,6 +389,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
+		super.readFromNBT(tagCompound);
 		fluidLevelStored = tagCompound.getInteger("fluidLevelStored");
 		_isOilStored = tagCompound.getBoolean("isOilStored");
 		oldPressure = tagCompound.getFloat("oldPressure");
@@ -417,6 +419,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
+		super.writeToNBT(tagCompound);
 		tagCompound.setInteger("fluidLevelStored",fluidLevelStored);
 		tagCompound.setBoolean("isOilStored", _isOilStored);
 		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
@@ -707,5 +710,36 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	@Override
 	public void setMaxStorage(int maxFluid) {
 		maxStorage = maxFluid;
+	}
+
+	@Override
+	public void readFromNBTI(NBTTagCompound tagCompound) {
+		readFromNBT(tagCompound);
+	}
+
+	@Override
+	public void writeToNBTI(NBTTagCompound tagCompound) {
+		writeToNBT(tagCompound);
+	}
+
+	@Override
+	public void onDataPacketI(NetworkManager net,
+			S35PacketUpdateTileEntity packet) {
+		onDataPacket(net, packet);
+	}
+
+	@Override
+	public Packet getDescriptionPacketI() {
+		return getDescriptionPacket();
+	}
+
+	@Override
+	public void updateEntityI() {
+		updateEntity();
+	}
+
+	@Override
+	public void invalidateI() {
+		invalidate();
 	}
 }

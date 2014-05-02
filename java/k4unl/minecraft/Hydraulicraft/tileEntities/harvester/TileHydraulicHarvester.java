@@ -174,6 +174,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 
 	@Override
 	public void updateEntity() {
+		super.updateEntity();
 		//Every half second.. Or it should be..
 		if(!worldObj.isRemote){
 			if(worldObj.getTotalWorldTime() % 60 == 0){
@@ -215,7 +216,6 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 				}
 			}
 		}
-		getHandler().updateEntity();
 	}
 	
 	private TileHydraulicPiston getPistonFromList(int index){
