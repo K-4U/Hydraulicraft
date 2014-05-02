@@ -18,7 +18,7 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
     
     public TileHydraulicPneumaticCompressor(){
     	super(PressureTier.HIGHPRESSURE, 20);
-    	super.validateI(this);
+    	super.init(this);
     }
     
     @Override

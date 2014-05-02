@@ -26,7 +26,7 @@ public class TileHydraulicPiston extends TileHydraulicBase implements IHydraulic
 
 	public TileHydraulicPiston(){
 		super(PressureTier.HIGHPRESSURE, 5);
-		super.validateI(this);
+		super.init(this);
 	}
 	
 	public float getExtendTarget(){

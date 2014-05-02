@@ -25,12 +25,12 @@ public class TilePressureHose extends TileHydraulicBase implements IHydraulicTra
     
     public TilePressureHose(){
     	super(PressureTier.HIGHPRESSURE, 1);
-    	super.validateI(this);
+    	super.init(this);
     }
     
     public TilePressureHose(int _tier){
     	super(PressureTier.fromOrdinal(_tier), 2*(_tier+1));
-    	super.validateI(this);
+    	super.init(this);
     	tier = _tier;
     }
     

@@ -59,7 +59,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 	
 	public TileHydraulicWasher(){
 		super(PressureTier.LOWPRESSURE, 10);
-		super.validateI(this);
+		super.init(this);
 		valves = new ArrayList<TileHydraulicValve>();
 	}
 	

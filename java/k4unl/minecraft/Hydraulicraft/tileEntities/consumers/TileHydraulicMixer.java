@@ -37,7 +37,7 @@ public class TileHydraulicMixer extends TileHydraulicBase implements
 
 	public TileHydraulicMixer(){
 		super(PressureTier.HIGHPRESSURE, 6);
-		super.validateI(this);
+		super.init(this);
 	}
 
 	/*!

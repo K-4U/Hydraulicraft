@@ -135,5 +135,5 @@ public interface IBaseClass {
 	 * Just use validateI(this);
 	 * @param target
 	 */
-	public void validateI(TileEntity target);
+	public void init(TileEntity target);
 }

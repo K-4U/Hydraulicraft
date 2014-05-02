@@ -75,7 +75,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     	connectedSides = new ArrayList<ForgeDirection>();
 	}
 	
-	public void validateI(TileEntity _target){
+	public void init(TileEntity _target){
 		tTarget = _target;
 		target = (IHydraulicMachine) _target;
 		if(target instanceof TileHydraulicPressureVat){

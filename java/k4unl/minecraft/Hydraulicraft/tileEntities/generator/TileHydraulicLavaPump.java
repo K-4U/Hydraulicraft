@@ -27,12 +27,12 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 	
 	public TileHydraulicLavaPump(){
 		super(PressureTier.HIGHPRESSURE, 1);
-		super.validateI(this);
+		super.init(this);
 	}
 	
 	public TileHydraulicLavaPump(int tier){
 		super(PressureTier.fromOrdinal(tier), 2 * (tier + 1));
-		super.validateI(this);
+		super.init(this);
 	}
 	
 	@Override

@@ -23,7 +23,7 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
 
 	public TileInfiniteSource(){
 		super(PressureTier.HIGHPRESSURE, 1);
-		super.validateI(this);
+		super.init(this);
 	}
 	
 	

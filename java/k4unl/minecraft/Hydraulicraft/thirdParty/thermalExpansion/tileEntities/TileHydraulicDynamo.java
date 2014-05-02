@@ -20,7 +20,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 	
 	public TileHydraulicDynamo(){
 		super(PressureTier.HIGHPRESSURE, 20);
-		super.validateI(this);
+		super.init(this);
 	}
 	
 	public int getGenerating(){

@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.transporter.TilePressureHose;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -22,7 +23,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 	
 	public TileHydraulicValve(){
 		super(PressureTier.HIGHPRESSURE, 1);
-		super.validateI(this);
+		super.init(this);
 	}
 	
 	public void resetTarget(){
@@ -186,6 +187,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 			for(ForgeDirection dir:connectedSides){
 				Location hoseLocation = new Location(xCoord, yCoord, zCoord, dir);
 				TileEntity ent = getBlockTileEntity(hoseLocation);
+				((TilePressureHose)ent).checkConnectedSides(this);
 				/*
 				if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
 					IHydraulicTransporter hose = Multipart.getTransporter((TileMultipart)ent);

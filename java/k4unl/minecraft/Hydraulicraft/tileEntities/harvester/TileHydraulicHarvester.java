@@ -61,7 +61,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 	
 	public TileHydraulicHarvester(){
 		super(PressureTier.HIGHPRESSURE, 16);
-		super.validateI(this);
+		super.init(this);
 		seedsStorage = new ItemStack[9];
 		outputStorage = new ItemStack[9];
 	}

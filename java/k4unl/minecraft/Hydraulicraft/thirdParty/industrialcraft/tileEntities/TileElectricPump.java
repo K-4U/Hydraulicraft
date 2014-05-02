@@ -38,7 +38,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 	
 	public TileElectricPump(int _tier){
 		super(PressureTier.fromOrdinal(_tier), 2 * (_tier+1));
-		super.validateI(this);
+		super.init(this);
 	}
 	
 	public float getRenderingPercentage(){

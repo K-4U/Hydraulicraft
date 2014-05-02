@@ -11,7 +11,7 @@ public class TilePressureDisposal extends TileHydraulicBase implements
 
 	public TilePressureDisposal(){
 		super(PressureTier.HIGHPRESSURE, 1);
-		super.validateI(this);
+		super.init(this);
 	}
 
 	@Override

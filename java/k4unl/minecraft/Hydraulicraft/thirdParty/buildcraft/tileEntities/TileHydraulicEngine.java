@@ -28,7 +28,7 @@ public class TileHydraulicEngine extends TileHydraulicBase implements IHydraulic
 	
 	public TileHydraulicEngine(){
 		super(PressureTier.HIGHPRESSURE, 20);
-		super.validateI(this);
+		super.init(this);
 		powerHandler = new PowerHandler(this, Type.ENGINE);
 		powerHandler.configure(Constants.MJ_USAGE_PER_TICK[2]*2, Constants.MJ_USAGE_PER_TICK[2] * 3, Constants.ACTIVATION_MJ, 3000);
 	}

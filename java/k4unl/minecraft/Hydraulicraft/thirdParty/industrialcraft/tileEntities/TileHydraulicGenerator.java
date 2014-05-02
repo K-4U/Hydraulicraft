@@ -20,7 +20,7 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 	
 	public TileHydraulicGenerator(){
 		super(PressureTier.HIGHPRESSURE, 20);
-		super.validateI(this);
+		super.init(this);
 	}
 
 	public ForgeDirection getFacing(){

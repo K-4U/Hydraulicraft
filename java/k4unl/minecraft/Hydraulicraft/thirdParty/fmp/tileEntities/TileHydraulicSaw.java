@@ -51,7 +51,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
     
     public TileHydraulicSaw(){
     	super(PressureTier.HIGHPRESSURE, 10);
-    	super.validateI(this);
+    	super.init(this);
     }
 	
 	public ForgeDirection getFacing(){

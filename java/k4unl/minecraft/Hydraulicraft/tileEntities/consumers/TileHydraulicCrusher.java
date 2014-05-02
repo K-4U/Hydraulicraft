@@ -31,7 +31,7 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
     
     public TileHydraulicCrusher(){
     	super(PressureTier.HIGHPRESSURE, 5);
-    	super.validateI(this);
+    	super.init(this);
     }
 
     public int getCrushingTicks(){

@@ -32,7 +32,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	
 	public TileHydraulicPressureVat(){
 		super(PressureTier.HIGHPRESSURE, 1);
-		super.validateI(this);
+		super.init(this);
 		if(tank == null){
 			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME);
 		}
@@ -40,7 +40,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	
 	public TileHydraulicPressureVat(int _tier){
 		super(PressureTier.fromOrdinal(_tier), 16 * (_tier+1));
-		super.validateI(this);
+		super.init(this);
 		tier = _tier;
 		if(tank == null){
 			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));

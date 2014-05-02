@@ -28,13 +28,13 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 	
 	public TileHydraulicPump(){
 		super(PressureTier.HIGHPRESSURE, 1);
-		super.validateI(this);
+		super.init(this);
 	}
 	
 	public TileHydraulicPump(int _tier){
 		super(PressureTier.fromOrdinal(_tier), 2 * (_tier + 1));
 		tier = _tier;
-		super.validateI(this);
+		super.init(this);
 	}
 	
 	@Override	

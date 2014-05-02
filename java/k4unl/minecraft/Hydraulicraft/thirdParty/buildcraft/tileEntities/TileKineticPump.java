@@ -33,7 +33,7 @@ public class TileKineticPump extends TileHydraulicBase implements IHydraulicGene
 	
 	public TileKineticPump(int _tier){
 		super(PressureTier.fromOrdinal(_tier), 2 * (_tier + 1));
-		super.validateI(this);
+		super.init(this);
 		tier = _tier;
 		
 	}

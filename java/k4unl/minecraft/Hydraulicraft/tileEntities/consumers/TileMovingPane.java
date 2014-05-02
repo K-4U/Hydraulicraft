@@ -23,7 +23,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
     
     public TileMovingPane(){
     	super(PressureTier.HIGHPRESSURE, 5);
-    	super.validateI(this);
+    	super.init(this);
     }
 
 	@Override
