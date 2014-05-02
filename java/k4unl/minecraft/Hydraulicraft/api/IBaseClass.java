@@ -9,12 +9,26 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * DO NOT IMPLEMENT THIS INTERFACE!
  * @author K-4U
  */
 public interface IBaseClass {
+	/**
+	 * Used for setting a new tier during runtime.
+	 * @param newTier
+	 */
+	public void setPressureTier(PressureTier newTier);
+	
+	/**
+	 * Set the max ammount of fluid this block can handle during runtime
+	 * @param maxFluid The ammount of BUCKETS this block can handle
+	 */
+	public void setMaxStorage(int maxFluid);
+	
+	
 	/**
 	 * Forward this function to the Base class
 	 * @param tagCompound
@@ -97,6 +111,8 @@ public interface IBaseClass {
 	 * When the TE is validated.
 	 */
 	public void validate();
+	
+	public void invalidate();
 
 	public void updateNetworkOnNextTick(float oldPressure);
 
@@ -109,5 +125,21 @@ public interface IBaseClass {
 
 	public IBlockAccess getWorld();
 
-	public float getPressure();
+	public float getPressure(ForgeDirection dir);
+
+	public float getMaxPressure(boolean isOilStored, ForgeDirection from);
+
+	public int getMaxStorage();
+
+	int getFluidInNetwork(ForgeDirection from);
+
+	int getFluidCapacity(ForgeDirection from);
+
+	public void updateNetwork(float oldPressure);
+	
+	public PressureNetwork getNetwork(ForgeDirection side);
+	
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet);
+
+	public void setPressure(float f, ForgeDirection facing);
 }

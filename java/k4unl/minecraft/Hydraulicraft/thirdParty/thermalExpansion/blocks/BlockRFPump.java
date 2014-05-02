@@ -24,7 +24,7 @@ public class BlockRFPump extends MachineTieredBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileRFPump();
+		return new TileRFPump(metadata);
 	}
 
 	

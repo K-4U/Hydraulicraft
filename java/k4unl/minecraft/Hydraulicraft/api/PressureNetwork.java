@@ -7,14 +7,10 @@ import java.util.Random;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
-
-//TODO: Make this an interface
-//Create a function in there: getNewPressureNetwork() which does return new this;
 
 
 public class PressureNetwork {
@@ -52,7 +48,9 @@ public class PressureNetwork {
 		pressure = beginPressure;
 		world = machine.getHandler().getWorld();
 		isOilStored = machine.getHandler().isOilStored();
-		float maxPressure = machine.getMaxPressure(isOilStored, from);
+		
+		//TODO: make me based on the enum
+		float maxPressure = machine.getHandler().getMaxPressure(isOilStored, from);
 		if(isOilStored){
 			if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_1) == 0){
 				lowestTier = 0;
@@ -101,9 +99,10 @@ public class PressureNetwork {
 				world = machine.getHandler().getWorld();
 			}
 			
+			//TODO: make me based on the enum
 			int newestTier = 4;
 			isOilStored = machine.getHandler().isOilStored();
-			float maxPressure = machine.getMaxPressure(isOilStored, from);
+			float maxPressure = machine.getHandler().getMaxPressure(isOilStored, from);
 			if(isOilStored){
 				if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_1) == 0){
 					newestTier = 0;
@@ -131,7 +130,7 @@ public class PressureNetwork {
 	public void removeMachine(IHydraulicMachine machineToRemove){
 		int machineIndex = contains(machineToRemove);
 		if(machineIndex != -1){
-			machineToRemove.setNetwork(machines.get(machineIndex).getFrom(), null);
+			machineToRemove.getHandler().setNetwork(machines.get(machineIndex).getFrom(), null);
 			machines.remove(machineIndex);
 		}
 		//And tell every machine in the block to recheck it's network! :D
@@ -142,7 +141,7 @@ public class PressureNetwork {
 			TileEntity ent = world.getTileEntity(loc.getX(), loc.getY(), loc.getZ());
 			if(ent instanceof IHydraulicMachine){
 				IHydraulicMachine machine = (IHydraulicMachine) ent;
-				machine.setNetwork(entry.getFrom(), null);
+				machine.getHandler().setNetwork(entry.getFrom(), null);
 				machine.getHandler().updateNetworkOnNextTick(getPressure());
 			}/* FMP else if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
 				IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
@@ -183,7 +182,7 @@ public class PressureNetwork {
 			TileEntity ent = world.getTileEntity(loc.getX(), loc.getY(), loc.getZ());
 			if(ent instanceof IHydraulicMachine){
 				IHydraulicMachine machine = (IHydraulicMachine) ent;
-				machine.setNetwork(entry.getFrom(), this);
+				machine.getHandler().setNetwork(entry.getFrom(), this);
 				this.addMachine(machine, newPressure, entry.getFrom());
 			}/* FMP else if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
 				IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
@@ -228,7 +227,7 @@ public class PressureNetwork {
 					
 					if(tn instanceof IHydraulicMachine){
 						if(((IHydraulicMachine)tn).canConnectTo(dir.getOpposite())){
-							foundNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());	
+							foundNetwork = ((IHydraulicMachine)tn).getHandler().getNetwork(dir.getOpposite());	
 						}
 					}/* FMP else if(tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)tn)){
 						if(Multipart.getTransporter((TileMultipart)tn).isConnectedTo(dir.getOpposite())){
@@ -244,7 +243,7 @@ public class PressureNetwork {
 				
 				if(tn instanceof IHydraulicTransporter){
 					if(((IHydraulicMachine)tn).canConnectTo(dir.getOpposite())){
-						foundNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());	
+						foundNetwork = ((IHydraulicMachine)tn).getHandler().getNetwork(dir.getOpposite());	
 					}
 				}
 			}
@@ -259,87 +258,6 @@ public class PressureNetwork {
 					}
 				}
 			}*/
-			return foundNetwork;
-		}else{
-			return null;
-		}
-	}
-	
-	@Deprecated
-	public static PressureNetwork getNearestNetwork(IBlockAccess iba, int x, int y, int z){
-		TileEntity t = iba.getTileEntity(x, y, z);
-		if(t instanceof IHydraulicMachine/* FMP || t instanceof TileMultipart*/){
-			IHydraulicMachine mEnt;
-			boolean isMultipart = false;
-			
-			/* FMP if(t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)t)){
-				mEnt = (IHydraulicMachine) Multipart.getTransporter((TileMultipart)t);
-				isMultipart = true;
-			}else{
-				mEnt = (IHydraulicMachine) t;
-			}*/
-			
-			mEnt = (IHydraulicMachine) t;
-			
-			List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
-			PressureNetwork newNetwork = null;
-			PressureNetwork foundNetwork = null;
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-				
-				// FMP if(isMultipart){
-					if(((IHydraulicTransporter)mEnt).isConnectedTo(dir)){
-						int xn = x + dir.offsetX;
-						int yn = y + dir.offsetY;
-						int zn = z + dir.offsetZ;
-						TileEntity tn = iba.getTileEntity(xn, yn, zn);
-						
-						if(tn instanceof IHydraulicMachine){
-							if(((IHydraulicMachine)tn).canConnectTo(dir.getOpposite())){
-								if(foundNetwork == null){
-									foundNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());	
-								}else{
-									newNetwork = ((IHydraulicMachine)tn).getNetwork(dir.getOpposite());
-								}
-								
-								//break;
-							}
-						}/* FMP else if(tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)tn)){
-							if(Multipart.getTransporter((TileMultipart)tn).isConnectedTo(dir.getOpposite())){
-								if(foundNetwork == null){
-									foundNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
-								}else{
-									newNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
-								}
-								//break;
-							}
-						} */		
-					}
-				/* FMP }else{
-					int xn = x + dir.offsetX;
-					int yn = y + dir.offsetY;
-					int zn = z + dir.offsetZ;
-					TileEntity tn = iba.getTileEntity(xn, yn, zn);
-					if(tn instanceof IHydraulicTransporter){
-						
-					}
-					
-					if(tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)tn)){
-						if(Multipart.getTransporter((TileMultipart)tn).isConnectedTo(dir.getOpposite())){
-							if(foundNetwork == null){
-								foundNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
-							}else{
-								newNetwork = ((IHydraulicMachine)Multipart.getTransporter((TileMultipart)tn)).getNetwork(dir.getOpposite());
-							}
-							//break;
-						}
-					}
-				}*/
-				if(newNetwork != null && foundNetwork != null){
-					//Hmm.. More networks!? What's this!?
-					foundNetwork.mergeNetwork(newNetwork);
-					newNetwork = null;
-				}
-			}
 			return foundNetwork;
 		}else{
 			return null;
@@ -378,7 +296,7 @@ public class PressureNetwork {
 			if(machine != null){
 				if((getIsOilStored() && machine.getHandler().isOilStored()) || (!getIsOilStored() && !machine.getHandler().isOilStored() ) || machine.getHandler().getStored() == 0){ //Otherwise we would be turning water into oil
 					fluidInNetwork = fluidInNetwork + machine.getHandler().getStored();
-					fluidCapacity = fluidCapacity + machine.getMaxStorage();
+					fluidCapacity = fluidCapacity + machine.getHandler().getMaxStorage();
 					machine.getHandler().setStored(0, isOilStored, false);
 					mainList.add(machine);
 				}
@@ -402,10 +320,10 @@ public class PressureNetwork {
 			float toSet = (float)fluidInSystem / (float)mainList.size();
 			
 			for (IHydraulicMachine machineEntity : mainList) {
-				if(machineEntity.getMaxStorage() < (toSet + machineEntity.getHandler().getStored())){
+				if(machineEntity.getHandler().getMaxStorage() < (toSet + machineEntity.getHandler().getStored())){
 					//This machine can't store this much!
-					newFluidInSystem = newFluidInSystem + ((toSet + machineEntity.getHandler().getStored()) - machineEntity.getMaxStorage());
-					machineEntity.getHandler().setStored(machineEntity.getMaxStorage(), isOilStored, false);
+					newFluidInSystem = newFluidInSystem + ((toSet + machineEntity.getHandler().getStored()) - machineEntity.getHandler().getMaxStorage());
+					machineEntity.getHandler().setStored(machineEntity.getHandler().getMaxStorage(), isOilStored, false);
 				}else{
 					remainingBlocks.add(machineEntity);
 					machineEntity.getHandler().setStored((int)toSet + machineEntity.getHandler().getStored(), isOilStored, false);

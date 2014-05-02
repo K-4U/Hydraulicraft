@@ -1,20 +1,24 @@
-package k4unl.minecraft.Hydraulicraft.baseClasses;
+package k4unl.minecraft.Hydraulicraft.TileEntities;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.interfaces.IHydraulicStorage;
+import k4unl.minecraft.Hydraulicraft.TileEntities.interfaces.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.TileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorage;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
+import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork.networkEntry;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import k4unl.minecraft.Hydraulicraft.baseClasses.IMachineMultiBlock;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
@@ -29,9 +33,10 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class MachineEntity implements IBaseClass {
+public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	private boolean _isOilStored = false;
 	private int fluidLevelStored = 0;
 	private boolean isRedstonePowered = false;
@@ -52,16 +57,34 @@ public class MachineEntity implements IBaseClass {
 	private boolean shouldUpdateNetwork = true;
 	private boolean shouldUpdateFluid = false;
 	
-	public MachineEntity(TileEntity _target) {
+	private PressureTier pressureTier;
+	private int maxStorage = 0;
+	protected List<ForgeDirection> connectedSides;
+    protected PressureNetwork pNetwork;
+    private int fluidInNetwork;
+	private int networkCapacity;
+	
+	
+	/**
+	 * @param _pressureTier The tier of pressure.
+	 * @param _maxStorage The max ammount of BUCKETS this machine can store.
+	 */
+	public TileHydraulicBase(PressureTier _pressureTier, int _maxStorage) {
+		pressureTier = _pressureTier;
+		maxStorage = _maxStorage;
+    	connectedSides = new ArrayList<ForgeDirection>();
+	}
+	
+	public void validateI(TileEntity _target){
 		tTarget = _target;
 		target = (IHydraulicMachine) _target;
 		if(target instanceof TileHydraulicPressureVat){
 			hasOwnFluidTank = true;
 		}
-		/* FMP tMp = null;*/
 		tWorld = _target.getWorldObj();
-		
 	}
+	
+	
 	/* FMP 
 	public MachineEntity(TMultiPart _target) {
 		tMp = _target;
@@ -74,6 +97,10 @@ public class MachineEntity implements IBaseClass {
 		isMultipart = true;
 		
 	}*/
+	
+	public IBaseClass getHandler(){
+		return this;
+	}
 	
 	public Location getBlockLocation(){
 		if(blockLocation == null){
@@ -131,7 +158,7 @@ public class MachineEntity implements IBaseClass {
 		if(getWorld() == null) return;
 		if(getWorld().isRemote) return;
 		
-		float newPressure = target.getPressure(dir);
+		float newPressure = getPressure(dir);
 		int compare = Float.compare(getMaxPressure(isOilStored(), dir), newPressure);
 		if(compare < 0 && getStored() > 0){
 			getWorld().createExplosion((Entity)null, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(),
@@ -145,10 +172,35 @@ public class MachineEntity implements IBaseClass {
 	}
 	
 	public float getMaxPressure(boolean isOil, ForgeDirection from){
+		if(isOil){
+			switch(pressureTier){
+			case LOWPRESSURE:
+				return Constants.MAX_MBAR_OIL_TIER_1;
+			case MEDIUMPRESSURE:
+				return Constants.MAX_MBAR_OIL_TIER_2;
+			case HIGHPRESSURE:
+				return Constants.MAX_MBAR_OIL_TIER_3;
+			case INVALID:
+				return 0; //BOOM! hehehe
+			}			
+		}else{
+			switch(pressureTier){
+			case LOWPRESSURE:
+				return Constants.MAX_MBAR_WATER_TIER_1;
+			case MEDIUMPRESSURE:
+				return Constants.MAX_MBAR_WATER_TIER_2;
+			case HIGHPRESSURE:
+				return Constants.MAX_MBAR_WATER_TIER_3;
+			case INVALID:
+				return 0; //BOOM! hehehe
+			}	
+		}
+		return 0;
+		
 		/* FMP if(isMultipart){
 			return ((IHydraulicMachine)tMp).getMaxPressure(isOil, from);
 		}else{*/
-			return ((IHydraulicMachine)tTarget).getMaxPressure(isOil, from);
+			//return ((IHydraulicMachine)tTarget).getMaxPressure(isOil, from);
 		//}
 	}
 	
@@ -258,12 +310,12 @@ public class MachineEntity implements IBaseClass {
 	
 	@Override
 	public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList){
-		if(target.getNetwork(ForgeDirection.UP) == null){
+		if(getNetwork(ForgeDirection.UP) == null){
 			return mainList;
 		}
 		
 		List<networkEntry> entryList = new ArrayList<networkEntry>();
-		entryList = target.getNetwork(ForgeDirection.UP).getMachines();
+		entryList = getNetwork(ForgeDirection.UP).getMachines();
 		
 		for (networkEntry entry : entryList) {
 			Location loc = entry.getLocation();
@@ -278,9 +330,6 @@ public class MachineEntity implements IBaseClass {
 	}
 	
 	public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList, boolean chain){
-		int x = getBlockLocation().getX();
-		int y = getBlockLocation().getY();
-		int z = getBlockLocation().getZ();
 		List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			/* FMP if(isMultipart){
@@ -342,10 +391,12 @@ public class MachineEntity implements IBaseClass {
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		fluidLevelStored = tagCompound.getInteger("fluidLevelStored");
-		
 		_isOilStored = tagCompound.getBoolean("isOilStored");
-		
 		oldPressure = tagCompound.getFloat("oldPressure");
+		pressureTier = PressureTier.fromOrdinal(tagCompound.getInteger("pressureTier"));
+		maxStorage = tagCompound.getInteger("maxStorage");
+		networkCapacity = tagCompound.getInteger("networkCapacity");
+		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
 		
 		if(getWorld() != null && !getWorld().isRemote){
 			shouldUpdateNetwork = tagCompound.getBoolean("shouldUpdateNetwork");
@@ -353,8 +404,8 @@ public class MachineEntity implements IBaseClass {
 				updateNetworkOnNextTick(oldPressure);
 			}
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-				if(target.getNetwork(dir) != null){
-					target.getNetwork(dir).readFromNBT(tagCompound.getCompoundTag("network" + dir.ordinal()));
+				if(getNetwork(dir) != null){
+					getNetwork(dir).readFromNBT(tagCompound.getCompoundTag("network" + dir.ordinal()));
 				}else{
 					//updateNetworkOnNextTick(oldPressure);
 				}
@@ -364,43 +415,38 @@ public class MachineEntity implements IBaseClass {
 		}
 
 		isRedstonePowered = tagCompound.getBoolean("isRedstonePowered");
-		/*if(isMultipart){
-			((IHydraulicMachine)tMp).readNBT(tagCompound);
-		}else{*/
-			target.readNBT(tagCompound);
-		//}
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
 		tagCompound.setInteger("fluidLevelStored",fluidLevelStored);
-		
 		tagCompound.setBoolean("isOilStored", _isOilStored);
-		
 		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
+		tagCompound.setInteger("pressureTier", pressureTier.ordinal());
+		tagCompound.setInteger("maxStorage", maxStorage);
+		
 		
 		if(getWorld() != null && !getWorld().isRemote){
 			tagCompound.setBoolean("shouldUpdateNetwork", shouldUpdateNetwork);
 		
-			if(target.getNetwork(ForgeDirection.UP) != null){
-				tagCompound.setFloat("oldPressure", target.getNetwork(ForgeDirection.UP).getPressure());
-				tagCompound.setFloat("pressure", target.getNetwork(ForgeDirection.UP).getPressure());
+			if(getNetwork(ForgeDirection.UP) != null){
+				tagCompound.setFloat("oldPressure", getNetwork(ForgeDirection.UP).getPressure());
+				tagCompound.setFloat("pressure", getNetwork(ForgeDirection.UP).getPressure());
 			}
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-				if(target.getNetwork(dir) != null){
+				if(getNetwork(dir) != null){
 					NBTTagCompound pNetworkCompound = new NBTTagCompound();
-					target.getNetwork(dir).writeToNBT(pNetworkCompound);
+					getNetwork(dir).writeToNBT(pNetworkCompound);
 					tagCompound.setTag("network" + dir.ordinal(), pNetworkCompound);
 				}
 			}
-			
+			if(pNetwork != null){
+				tagCompound.setInteger("networkCapacity", getNetwork(ForgeDirection.UP).getFluidCapacity());
+				tagCompound.setInteger("fluidInNetwork", getNetwork(ForgeDirection.UP).getFluidInNetwork());
+			}			
 		}
 		
-		/* FMP if(isMultipart){
-			((IHydraulicMachine)tMp).writeNBT(tagCompound);
-		}else{*/
-			target.writeNBT(tagCompound);
-		//}
+		
 	}
 	
 	protected TileEntity getTileEntity(int x, int y, int z){
@@ -423,18 +469,18 @@ public class MachineEntity implements IBaseClass {
 		if(firstUpdate && tWorld!= null && !tWorld.isRemote){
 			firstUpdate = false;
 			shouldUpdateNetwork = true;
-			target.firstTick();
+			firstTick();
 			checkRedstonePower();
 		}
 		if(getWorld() != null){
 			if(!getWorld().isRemote){
 				if(shouldUpdateNetwork){
 					shouldUpdateNetwork = false;
-					target.updateNetwork(oldPressure);
+					updateNetwork(oldPressure);
 				}
-				if(shouldUpdateFluid && getWorld().getTotalWorldTime() % 5 == 0 && target.getNetwork(ForgeDirection.UNKNOWN) != null){
+				if(shouldUpdateFluid && getWorld().getTotalWorldTime() % 5 == 0 && getNetwork(ForgeDirection.UNKNOWN) != null){
 					shouldUpdateFluid = false;
-					target.getNetwork(ForgeDirection.UNKNOWN).updateFluid(target);
+					getNetwork(ForgeDirection.UNKNOWN).updateFluid(target);
 				}
 				
 				if(getWorld().getTotalWorldTime() % 2 == 0){
@@ -442,7 +488,7 @@ public class MachineEntity implements IBaseClass {
 				}
 				
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-					if(target.getNetwork(dir) != null){
+					if(getNetwork(dir) != null){
 						if(getWorld().getTotalWorldTime() % 2 == 0 && Config.get("explosions")){
 							checkPressure(dir);
 						}
@@ -451,11 +497,11 @@ public class MachineEntity implements IBaseClass {
 							IHydraulicConsumer consumer = (IHydraulicConsumer)tTarget;
 							if(consumer.canWork(dir)){
 						        float less = consumer.workFunction(true, dir);
-						        if(target.getPressure(dir) >= less && less > 0){
+						        if(getPressure(dir) >= less && less > 0){
 					                less = consumer.workFunction(false, dir);
-					                float newPressure = target.getPressure(dir) - less;
+					                float newPressure = getPressure(dir) - less;
 					                updateBlock();
-					                target.setPressure(newPressure, dir);
+					                setPressure(newPressure, dir);
 					                
 					                //So.. the water in this block should be going down a bit.
 					                if(!isOilStored()){
@@ -478,6 +524,11 @@ public class MachineEntity implements IBaseClass {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void setPressure(float newPressure, ForgeDirection dir) {
+		getNetwork(dir).setPressure(newPressure);
 	}
 
 	@Override
@@ -531,7 +582,7 @@ public class MachineEntity implements IBaseClass {
 
 	@Override
 	public void validate(){
-		
+		super.validate();
 	}
 
 	@Override
@@ -551,7 +602,117 @@ public class MachineEntity implements IBaseClass {
 	}
 
 	@Override
-	public float getPressure() {
-		return pressure;
+	public float getPressure(ForgeDirection dir) {
+		if(worldObj.isRemote){
+			return pressure;
+		}
+		if(getNetwork(dir) == null){
+			Log.error("Machine at " + getBlockLocation().printCoords() + " has no pressure network!");
+			return 0;
+		}
+		return getNetwork(dir).getPressure();
+	}
+
+	@Override
+	public int getMaxStorage() {
+		return FluidContainerRegistry.BUCKET_VOLUME * maxStorage;
+	}
+	
+	public void firstTick(){
+		
+	}
+	
+	@Override
+	public int getFluidInNetwork(ForgeDirection from) {
+		if(worldObj.isRemote){
+			return fluidInNetwork;
+		}else{
+			return getNetwork(from).getFluidInNetwork();
+		}
+	}
+
+	@Override
+	public int getFluidCapacity(ForgeDirection from) {
+		if(worldObj.isRemote){
+			if(networkCapacity > 0){
+				return networkCapacity;
+			}else{
+				return getMaxStorage();
+			}
+		}else{
+			return getNetwork(from).getFluidCapacity();
+		}
+	}
+
+	@Override
+	public void updateNetwork(float oldPressure) {
+		PressureNetwork newNetwork = null;
+		PressureNetwork foundNetwork = null;
+		PressureNetwork endNetwork = null;
+		//This block can merge networks!
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			if(target.canConnectTo(dir)){
+				foundNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, dir);
+				if(foundNetwork != null){
+					if(endNetwork == null){
+						endNetwork = foundNetwork;
+					}else{
+						newNetwork = foundNetwork;
+					}
+					connectedSides.add(dir);
+				}
+				
+				if(newNetwork != null && endNetwork != null){
+					//Hmm.. More networks!? What's this!?
+					endNetwork.mergeNetwork(newNetwork);
+					newNetwork = null;
+				}
+			}
+		}
+			
+		if(endNetwork != null){
+			pNetwork = endNetwork;
+			pNetwork.addMachine(target, oldPressure, ForgeDirection.UP);
+			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}else{
+			pNetwork = new PressureNetwork(target, oldPressure, ForgeDirection.UP);
+			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+		}		
+	}
+
+	@Override
+	public PressureNetwork getNetwork(ForgeDirection side) {
+		return pNetwork;
+	}
+
+	@Override
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+		pNetwork = toSet;
+	}
+	
+	@Override
+	public void invalidate(){
+		super.invalidate();
+		if(!worldObj.isRemote){
+			for(ForgeDirection dir: connectedSides){
+				if(getNetwork(dir) != null){
+					getNetwork(dir).removeMachine(target);
+				}
+			}
+		}
+	}
+
+	public void onBlockBreaks() {
+		
+	}
+
+	@Override
+	public void setPressureTier(PressureTier newTier) {
+		pressureTier = newTier;		
+	}
+
+	@Override
+	public void setMaxStorage(int maxFluid) {
+		maxStorage = maxFluid;
 	}
 }

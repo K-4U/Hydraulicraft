@@ -48,10 +48,10 @@ public class ItemDebug extends MachineItem {
 					}
 					
 					int stored = mEnt.getHandler().getStored();
-					int max = mEnt.getMaxStorage();
+					int max = mEnt.getHandler().getMaxStorage();
 					
-					float pressure = mEnt.getPressure(ForgeDirection.UNKNOWN);
-					float maxPressure = mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), ForgeDirection.UNKNOWN);
+					float pressure = mEnt.getHandler().getPressure(ForgeDirection.UNKNOWN);
+					float maxPressure = mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), ForgeDirection.UNKNOWN);
 					
 					float prevPressure = tagC.getFloat("prevPressure");
 					int prevFluid = tagC.getInteger("prevFluid");
@@ -99,8 +99,8 @@ public class ItemDebug extends MachineItem {
 						}
 					}
 					
-					if(mEnt.getNetwork(ForgeDirection.UNKNOWN) != null){
-						Functions.showMessageInChat(player, "Network ID:    " + mEnt.getNetwork(ForgeDirection.UNKNOWN).getRandomNumber());
+					if(mEnt.getHandler().getNetwork(ForgeDirection.UNKNOWN) != null){
+						Functions.showMessageInChat(player, "Network ID:    " + mEnt.getHandler().getNetwork(ForgeDirection.UNKNOWN).getRandomNumber());
 					}
 					
 					itemStack.setTagCompound(tagC);

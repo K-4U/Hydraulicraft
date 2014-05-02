@@ -1,15 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.consumers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,14 +13,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 
-public class TileHydraulicFrictionIncinerator extends TileEntity implements ISidedInventory, IHydraulicConsumer {
+public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implements ISidedInventory, IHydraulicConsumer {
 
 	private ItemStack inputInventory;
 	private ItemStack smeltingItem;
@@ -33,31 +24,17 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	private float requiredPressure = 0F;
 	private int smeltingTicks = 0;
 	private int maxSmeltingTicks = 0;
-	private IBaseClass baseHandler;
 
-	private PressureNetwork pNetwork;
-	private List<ForgeDirection> connectedSides;
 	
 	public TileHydraulicFrictionIncinerator(){
-		connectedSides = new ArrayList<ForgeDirection>();
+		super(PressureTier.HIGHPRESSURE, 5);
+		super.validateI(this);
 	}
 	
 	public int getSmeltingTicks(){
 		return smeltingTicks;
 	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound){
-		super.readFromNBT(tagCompound);
-		getHandler().readFromNBT(tagCompound);
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound){
-		super.writeToNBT(tagCompound);
-		getHandler().writeToNBT(tagCompound);
-	}
-	
+
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
 		if(canRun() || isSmelting()){
@@ -279,40 +256,14 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	}
 
 	@Override
-	public int getMaxStorage() {
-		return FluidContainerRegistry.BUCKET_VOLUME * 5;
-	}
-
-	@Override
 	public void onBlockBreaks() {
 		getHandler().dropItemStackInWorld(inputInventory);
 		getHandler().dropItemStackInWorld(outputInventory);
 	}
-
-
+	
 	@Override
-	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
-        return baseHandler;
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		getHandler().onDataPacket(net, packet);
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		return getHandler().getDescriptionPacket();
-	}
-
-	@Override
-	public void updateEntity() {
-		getHandler().updateEntity();
-	}
-
-	@Override
-	public void readNBT(NBTTagCompound tagCompound) {
+	public void readFromNBT(NBTTagCompound tagCompound) {
+		super.readFromNBT(tagCompound);
 		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
 		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
@@ -330,7 +281,8 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	}
 
 	@Override
-	public void writeNBT(NBTTagCompound tagCompound) {
+	public void writeToNBT(NBTTagCompound tagCompound) {
+		super.writeToNBT(tagCompound);
 		if(inputInventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			inputInventory.writeToNBT(inventoryCompound);
@@ -358,18 +310,10 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	@Override
 	public void validate(){
 		super.validate();
-		getHandler().validate();
-	}
-
-	@Override
-	public void onPressureChanged(float old) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onFluidLevelChanged(int old) {
-		// TODO Auto-generated method stub
 	}
 	
 	@Override
@@ -378,111 +322,11 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	}
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
-		return pNetwork;
-	}
-
-	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
-		pNetwork = toSet;
-	}
-
-	
-	
-	@Override
-	public void firstTick() {
-
-	}
-	
-	@Override
-	public float getPressure(ForgeDirection from) {
-		if(worldObj.isRemote){
-			return getHandler().getPressure();
-		}
-		if(getNetwork(from) == null){
-			Log.error("Incinerator at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
-			return 0;
-		}
-		return getNetwork(from).getPressure();
-	}
-
-	@Override
-	public void setPressure(float newPressure, ForgeDirection side) {
-		getNetwork(side).setPressure(newPressure);
-	}
-
-	@Override
 	public boolean canWork(ForgeDirection dir) {
 		if(getNetwork(dir) == null){
 			return false;
 		}
 		return dir.equals(ForgeDirection.UP);
-	}
-	
-	@Override
-	public void updateNetwork(float oldPressure) {
-		PressureNetwork newNetwork = null;
-		PressureNetwork foundNetwork = null;
-		PressureNetwork endNetwork = null;
-		//This block can merge networks!
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			foundNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, dir);
-			if(foundNetwork != null){
-				if(endNetwork == null){
-					endNetwork = foundNetwork;
-				}else{
-					newNetwork = foundNetwork;
-				}
-				connectedSides.add(dir);
-			}
-			
-			if(newNetwork != null && endNetwork != null){
-				//Hmm.. More networks!? What's this!?
-				endNetwork.mergeNetwork(newNetwork);
-				newNetwork = null;
-			}
-		}
-			
-		if(endNetwork != null){
-			pNetwork = endNetwork;
-			pNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
-			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
-		}else{
-			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
-			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
-		}		
-	}
-	
-	@Override
-	public void invalidate(){
-		super.invalidate();
-		if(!worldObj.isRemote){
-			for(ForgeDirection dir: connectedSides){
-				if(getNetwork(dir) != null){
-					getNetwork(dir).removeMachine(this);
-				}
-			}
-		}
-	}
-	
-	@Override
-	public int getFluidInNetwork(ForgeDirection from) {
-		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidInNetwork();
-		}
-	}
-
-	@Override
-	public int getFluidCapacity(ForgeDirection from) {
-		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidCapacity();
-		}
 	}
 
 	@Override
@@ -503,5 +347,4 @@ public class TileHydraulicFrictionIncinerator extends TileEntity implements ISid
 	@Override
 	public void closeInventory() {
 	}	
-	
 }

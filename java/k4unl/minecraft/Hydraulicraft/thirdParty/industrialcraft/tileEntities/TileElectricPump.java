@@ -3,10 +3,12 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,15 +20,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
-public class TileElectricPump extends TileEntity implements IHydraulicGenerator, IEnergySink {
+public class TileElectricPump extends TileHydraulicBase implements IHydraulicGenerator, IEnergySink {
 	private boolean isRunning = false;
-	private IBaseClass baseHandler;
 	private ForgeDirection facing = ForgeDirection.NORTH;
 	private boolean isFirst = true;
 	private int ic2EnergyStored;
 	private float renderingPercentage = 0.0F;
 	private float renderingDir = 0.05F;
-	private PressureNetwork pNetwork;
 	
 	private int EUUsage = 0;
 	
@@ -36,27 +36,13 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	private int tier = -1;
 
 	
-	public TileElectricPump(){
-		
+	public TileElectricPump(int _tier){
+		super(PressureTier.fromOrdinal(_tier), 2 * (_tier+1));
+		super.validateI(this);
 	}
 	
 	public float getRenderingPercentage(){
 		return renderingPercentage;
-	}
-	
-	@Override
-	public void updateEntity(){
-		getHandler().updateEntity();
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound){
-		getHandler().readFromNBT(tagCompound);
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound){
-		getHandler().writeToNBT(tagCompound);
 	}
 	
 	@Override
@@ -138,48 +124,9 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
     }
 	
 
+	
 	@Override
-	public int getMaxStorage() {
-		return FluidContainerRegistry.BUCKET_VOLUME * (2 * (getTier() + 1));
-	}
-
-	@Override
-	public void onBlockBreaks() {
-		
-	}
-
-	@Override
-	public float getMaxPressure(boolean isOil, ForgeDirection from) {
-		if(isOil){
-			switch(getTier()){
-			case 0:
-				return Constants.MAX_MBAR_OIL_TIER_1;
-			case 1:
-				return Constants.MAX_MBAR_OIL_TIER_2;
-			case 2:
-				return Constants.MAX_MBAR_OIL_TIER_3;
-			}			
-		}else{
-			switch(getTier()){
-			case 0:
-				return Constants.MAX_MBAR_WATER_TIER_1;
-			case 1:
-				return Constants.MAX_MBAR_WATER_TIER_2;
-			case 2:
-				return Constants.MAX_MBAR_WATER_TIER_3;
-			}	
-		}
-		return 0;
-	}
-
-	@Override
-	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
-        return baseHandler;
-	}
-
-	@Override
-	public void readNBT(NBTTagCompound tagCompound) {
+	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 
@@ -195,7 +142,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	}
 
 	@Override
-	public void writeNBT(NBTTagCompound tagCompound) {
+	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
 
 		tagCompound.setInteger("facing", facing.ordinal());
@@ -211,29 +158,7 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		getHandler().onDataPacket(net, packet);
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		return getHandler().getDescriptionPacket();
-	}
-	
-	@Override
-	public void validate(){
-		super.validate();
-		getHandler().validate();
-	}
-
-	@Override
-	public void onPressureChanged(float old) {
-		
-	}
-
-	@Override
-	public void onFluidLevelChanged(int old) {
-	}
+	public void onFluidLevelChanged(int old) { }
 
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
@@ -316,11 +241,6 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
         }
         super.invalidate();
-		if(!worldObj.isRemote){
-			if(pNetwork != null){
-				pNetwork.removeMachine(this);
-			}
-		}
     }
 
     @Override
@@ -336,48 +256,12 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 	}
 
 
-	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
-		if(pNetwork == null && worldObj != null){
-			updateNetwork(0);
-		}
-		return pNetwork;
-	}
-
-	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
-		pNetwork = toSet;
-	}
-
-	
 	
 	@Override
 	public void firstTick() {
 		MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 	}
 	
-	@Override
-	public float getPressure(ForgeDirection from) {
-		if(worldObj.isRemote){
-			return getHandler().getPressure();
-		}
-		if(getNetwork(from) == null){
-			Log.error("Electric pump at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
-			return 0;
-		}
-		return getNetwork(from).getPressure();
-		
-	}
-
-	@Override
-	public void setPressure(float newPressure, ForgeDirection side) {
-		if(getNetwork(side) != null){
-			getNetwork(side).setPressure(newPressure);
-		}else{
-			Log.error("TileEntity TileElectricPump at " + xCoord + "," + yCoord + "," + zCoord + " has no network!");
-		}
-	}
-
 	@Override
 	public boolean canWork(ForgeDirection dir) {
 		return dir.equals(getFacing());
@@ -404,23 +288,5 @@ public class TileElectricPump extends TileEntity implements IHydraulicGenerator,
 			//EUUsage = Constants.MAX_EU[getTier()];
 		}
 		return EUUsage;
-	}
-	
-	@Override
-	public int getFluidInNetwork(ForgeDirection from) {
-		if(worldObj.isRemote){
-			return fluidInNetwork;
-		}else{
-			return getNetwork(from).getFluidInNetwork();
-		}
-	}
-
-	@Override
-	public int getFluidCapacity(ForgeDirection from) {
-		if(worldObj.isRemote){
-			return networkCapacity;
-		}else{
-			return getNetwork(from).getFluidCapacity();
-		}
 	}
 }

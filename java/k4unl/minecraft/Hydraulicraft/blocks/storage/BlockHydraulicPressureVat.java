@@ -24,8 +24,7 @@ public class BlockHydraulicPressureVat extends MachineTieredBlock {
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata){
-		TileHydraulicPressureVat pVat = new TileHydraulicPressureVat();
-		pVat.setTier(metadata);
+		TileHydraulicPressureVat pVat = new TileHydraulicPressureVat(metadata);
 		return pVat;
     }
 	

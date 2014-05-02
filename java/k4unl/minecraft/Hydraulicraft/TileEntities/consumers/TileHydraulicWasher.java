@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.TileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.baseClasses.IMachineMultiBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
@@ -42,7 +44,7 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileHydraulicWasher extends TileEntity implements
+public class TileHydraulicWasher extends TileHydraulicBase implements
 		ISidedInventory, IFluidHandler, IHydraulicConsumer, IMachineMultiBlock {
 	private ItemStack inputInventory;
 	private ItemStack washingItem;
@@ -53,13 +55,10 @@ public class TileHydraulicWasher extends TileEntity implements
 	private int washingTicks = 0;
 	private int maxWashingTicks = 0;
 	private float requiredPressure = 5F;
-	private IBaseClass baseHandler;
 	
 	private boolean isValidMultiblock;
 	
-	private PressureNetwork pNetwork;
 	private List<TileHydraulicValve> valves;
-	private List<ForgeDirection> connectedSides;
 	private TileInterfaceValve fluidValve;
 	private TileInterfaceValve itemValve;
 	private int tier = 0;
@@ -67,7 +66,8 @@ public class TileHydraulicWasher extends TileEntity implements
 	
 	
 	public TileHydraulicWasher(){
-		connectedSides = new ArrayList<ForgeDirection>();
+		super(PressureTier.LOWPRESSURE, 10);
+		super.validateI(this);
 		valves = new ArrayList<TileHydraulicValve>();
 	}
 	
@@ -84,20 +84,7 @@ public class TileHydraulicWasher extends TileEntity implements
 
 	public boolean isWashing() {
 		return (washingItem != null && targetItem != null);
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound){
-		super.readFromNBT(tagCompound);
-		getHandler().readFromNBT(tagCompound);
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound){
-		super.writeToNBT(tagCompound);
-		getHandler().writeToNBT(tagCompound);
-	}
-	
+	}	
 	
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
@@ -351,10 +338,6 @@ public class TileHydraulicWasher extends TileEntity implements
 		}
 	}
 
-	@Override
-	public int getMaxStorage() {
-		return FluidContainerRegistry.BUCKET_VOLUME * 10;
-	}
 	
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
@@ -440,41 +423,8 @@ public class TileHydraulicWasher extends TileEntity implements
 	}
 
 	@Override
-	public float getMaxPressure(boolean isOil, ForgeDirection from) {
-		if(isOil){
-			switch(tier){
-			case 0:
-				return Constants.MAX_MBAR_OIL_TIER_1;
-			case 1:
-				return Constants.MAX_MBAR_OIL_TIER_2;
-			case 2:
-				return Constants.MAX_MBAR_OIL_TIER_3;
-			default:
-				return 0F;
-			}
-			
-		}else{
-			switch(tier){
-			case 0:
-				return Constants.MAX_MBAR_WATER_TIER_1;
-			case 1:
-				return Constants.MAX_MBAR_WATER_TIER_2;
-			case 2:
-				return Constants.MAX_MBAR_WATER_TIER_3;
-			default:
-				return 0F;
-			}
-		}
-	}
-
-	@Override
-	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
-        return baseHandler;
-	}
-
-	@Override
-	public void readNBT(NBTTagCompound tagCompound) {
+	public void readFromNBT(NBTTagCompound tagCompound) {
+		super.readFromNBT(tagCompound);
 		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
 		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 		
@@ -491,10 +441,12 @@ public class TileHydraulicWasher extends TileEntity implements
 		isValidMultiblock = tagCompound.getBoolean("isValidMultiblock");
 		
 		tier = tagCompound.getInteger("tier");
+		super.setPressureTier(PressureTier.fromOrdinal(tier));
 	}
 
 	@Override
-	public void writeNBT(NBTTagCompound tagCompound) {
+	public void writeToNBT(NBTTagCompound tagCompound) {
+		super.writeToNBT(tagCompound);
 		if(inputInventory != null){
 			NBTTagCompound inventoryCompound = new NBTTagCompound();
 			inputInventory.writeToNBT(inventoryCompound);
@@ -529,18 +481,8 @@ public class TileHydraulicWasher extends TileEntity implements
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		getHandler().onDataPacket(net, packet);
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		return getHandler().getDescriptionPacket();
-	}
-
-	@Override
 	public void updateEntity() {
-		getHandler().updateEntity();
+		super.updateEntity();
 		if(!worldObj.isRemote){
 			if(worldObj.getTotalWorldTime() % 10 == 0 && !getIsValidMultiblock()){
 				if(checkMultiblock()){
@@ -624,6 +566,7 @@ public class TileHydraulicWasher extends TileEntity implements
 								return false;
 							}else{
 								tier = meta;
+								super.setPressureTier(PressureTier.fromOrdinal(tier));
 								continue;
 							}
 						}
@@ -701,23 +644,9 @@ public class TileHydraulicWasher extends TileEntity implements
 		}
 		getHandler().updateNetworkOnNextTick(p);
 	}
-	
-	@Override
-	public void validate(){
-		super.validate();
-		getHandler().validate();
-	}
 
 	@Override
-	public void onPressureChanged(float old) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onFluidLevelChanged(int old) {
-		
-	}
+	public void onFluidLevelChanged(int old) { }
 	
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
@@ -725,38 +654,13 @@ public class TileHydraulicWasher extends TileEntity implements
 	}
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
-		return pNetwork;
-	}
-
-	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
-		pNetwork = toSet;
-	}
-	
-	@Override
 	public void firstTick() {
+		super.firstTick();
 		if(isValidMultiblock){
 			convertMultiblock();
 		}
 	}
 	
-	@Override
-	public float getPressure(ForgeDirection from) {
-		if(worldObj.isRemote){
-			return getHandler().getPressure();
-		}
-		if(getNetwork(from) == null){
-			Log.error("Harvester at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
-			return 0;
-		}
-		return getNetwork(from).getPressure();
-	}
-
-	@Override
-	public void setPressure(float newPressure, ForgeDirection side) {
-		getNetwork(side).setPressure(newPressure);
-	}
 	
 	@Override
 	public boolean canWork(ForgeDirection dir) {
@@ -777,8 +681,6 @@ public class TileHydraulicWasher extends TileEntity implements
 			}else{
 				getHandler().updateNetworkOnNextTick(oldPressure);	
 			}
-			
-			
 		}
 	}
 	
@@ -786,38 +688,13 @@ public class TileHydraulicWasher extends TileEntity implements
 	public void invalidate(){
 		super.invalidate();
 		this.invalidateMultiblock();
-		if(!worldObj.isRemote){
-			for(ForgeDirection dir: connectedSides){
-				if(getNetwork(dir) != null){
-					getNetwork(dir).removeMachine(this);
-				}
-			}
-		}
 	}
 
 	@Override
 	public List<TileHydraulicValve> getValves() {
 		return valves;
 	}
-	@Override
-	public int getFluidInNetwork(ForgeDirection from) {
-		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidInNetwork();
-		}
-	}
 
-	@Override
-	public int getFluidCapacity(ForgeDirection from) {
-		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidCapacity();
-		}
-	}
 
 	@Override
 	public String getInventoryName() {

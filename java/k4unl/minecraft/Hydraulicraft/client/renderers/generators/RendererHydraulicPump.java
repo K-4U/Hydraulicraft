@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -164,7 +165,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		
 		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - 0.1F - 0.2F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F, 1.0001F-thickness, 1.0F - thickness - 0.1F);
 		float h = vectorPressure.getZMax() - vectorPressure.getZMin();
-		vectorPressure.setZMin(vectorPressure.getZMax() - (h * (t.getHandler().getPressure() / t.getMaxPressure(t.getHandler().isOilStored(), t.getFacing()))));
+		vectorPressure.setZMin(vectorPressure.getZMax() - (h * (t.getHandler().getPressure(ForgeDirection.UNKNOWN) / t.getMaxPressure(t.getHandler().isOilStored(), t.getFacing()))));
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex3f(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMax()); //BL
 		GL11.glVertex3f(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMax());	//BR

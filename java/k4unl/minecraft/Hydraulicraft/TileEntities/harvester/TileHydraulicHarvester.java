@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.TileEntities.harvester;
 import java.util.ArrayList;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.TileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
@@ -10,6 +11,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHarvester;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -34,11 +36,10 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
-public class TileHydraulicHarvester extends TileEntity implements IHydraulicConsumer, ISidedInventory, IHarvester {
+public class TileHydraulicHarvester extends TileHydraulicBase implements IHydraulicConsumer, ISidedInventory, IHarvester {
 	private ItemStack[] seedsStorage;
 	private ItemStack[] outputStorage;
 	
-	private IBaseClass baseHandler;
 	private boolean isMultiblock;
 	private int harvesterLength;
 	private int harvesterWidth;
@@ -65,50 +66,15 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	private static final Block piston = HCBlocks.hydraulicPiston;
 	private static final Block endBlock = HCBlocks.hydraulicPressureWall;
 	
-	private PressureNetwork pNetwork;
-	private List<ForgeDirection> connectedSides;
-	
-	
 	public TileHydraulicHarvester(){
+		super(PressureTier.HIGHPRESSURE, 16);
+		super.validateI(this);
 		seedsStorage = new ItemStack[9];
 		outputStorage = new ItemStack[9];
-		connectedSides = new ArrayList<ForgeDirection>();
-	}
-	
-	@Override
-	public int getMaxStorage() {
-		int maxStorage = FluidContainerRegistry.BUCKET_VOLUME * 16;
-		return maxStorage;
-	}
-
-	@Override
-	public float getMaxPressure(boolean isOil, ForgeDirection from) {
-		if(isOil){
-			return Constants.MAX_MBAR_OIL_TIER_3;
-		}else{
-			return Constants.MAX_MBAR_WATER_TIER_3;
-		}
-	}
-
-	@Override
-	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
-        return baseHandler;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
-		getHandler().readFromNBT(tagCompound);
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound) {
-		getHandler().writeToNBT(tagCompound);
-
-	}
-
-	@Override
-	public void readNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
 		isMultiblock = tagCompound.getBoolean("isMultiblock");
 		harvesterLength = tagCompound.getInteger("harvesterLength");
@@ -134,7 +100,7 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 	}
 
 	@Override
-	public void writeNBT(NBTTagCompound tagCompound) {
+	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
 		tagCompound.setBoolean("isMultiblock", isMultiblock);
 		tagCompound.setInteger("harvesterLength", harvesterLength);
@@ -211,16 +177,6 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 				pistonList.add(l);
 			}
 		}
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		getHandler().onDataPacket(net, packet);
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		return getHandler().getDescriptionPacket();
 	}
 
 	@Override
@@ -334,7 +290,6 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 			t.doMove();
 		}
 	}
-	
 	
 	
 	private boolean isPlaceForItems(ItemStack itemStack){
@@ -825,141 +780,21 @@ public class TileHydraulicHarvester extends TileEntity implements IHydraulicCons
 		}
 		return false;
 	}
-	
-	@Override
-	public void validate(){
-		super.validate();
-		getHandler().validate();
-	}
 
 	@Override
-	public void onPressureChanged(float old) {
-		
-	}
-
-	@Override
-	public void onFluidLevelChanged(int old) {
-		
-	}
+	public void onFluidLevelChanged(int old) {	}
 	
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
 		return isMultiblock;
 	}
 
-	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
-		return pNetwork;
-	}
-
-	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
-		pNetwork = toSet;
-	}
-	
-	@Override
-	public void firstTick() {
-
-	}
-	
-	@Override
-	public float getPressure(ForgeDirection from) {
-		if(worldObj.isRemote){
-			return getHandler().getPressure();
-		}
-		if(getNetwork(from) == null){
-			Log.error("Harvester at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
-			return 0;
-		}
-		return getNetwork(from).getPressure();
-	}
-
-	@Override
-	public void setPressure(float newPressure, ForgeDirection side) {
-		getNetwork(side).setPressure(newPressure);
-	}
 
 	@Override
 	public boolean canWork(ForgeDirection dir) {
 		return dir.equals(ForgeDirection.UP);
 	}
 	
-	@Override
-	public void updateNetwork(float oldPressure) {
-		PressureNetwork newNetwork = null;
-		PressureNetwork foundNetwork = null;
-		PressureNetwork endNetwork = null;
-		//This block can merge networks!
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			foundNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, dir);
-			if(foundNetwork != null){
-				if(endNetwork == null){
-					endNetwork = foundNetwork;
-				}else{
-					newNetwork = foundNetwork;
-				}
-				connectedSides.add(dir);
-			}
-			
-			if(newNetwork != null && endNetwork != null){
-				//Hmm.. More networks!? What's this!?
-				endNetwork.mergeNetwork(newNetwork);
-				newNetwork = null;
-			}
-		}
-			
-		if(endNetwork != null){
-			pNetwork = endNetwork;
-			pNetwork.addMachine(this, oldPressure, ForgeDirection.DOWN);
-			for(ForgeDirection dir:connectedSides){
-				Location hoseLocation = new Location(xCoord, yCoord, zCoord, dir);
-				TileEntity ent = getBlockTileEntity(hoseLocation);
-				/*
-				if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
-					IHydraulicTransporter hose = Multipart.getTransporter((TileMultipart)ent);
-					hose.checkConnectedSides(this);
-				}*/
-			}
-			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
-		}else{
-			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.DOWN);
-			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
-		}		
-	}
-	
-	@Override
-	public void invalidate(){
-		super.invalidate();
-		if(!worldObj.isRemote){
-			invalidateMultiblock();
-			for(ForgeDirection dir: connectedSides){
-				if(getNetwork(dir) != null){
-					getNetwork(dir).removeMachine(this);
-				}
-			}
-		}
-	}
-	
-	@Override
-	public int getFluidInNetwork(ForgeDirection from) {
-		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidInNetwork();
-		}
-	}
-
-	@Override
-	public int getFluidCapacity(ForgeDirection from) {
-		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidCapacity();
-		}
-	}
-
 	public boolean getIsMultiblock() {
 		return isMultiblock;
 	}

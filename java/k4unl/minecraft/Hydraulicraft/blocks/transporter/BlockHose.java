@@ -27,8 +27,7 @@ public class BlockHose extends MachineTieredBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		TilePressureHose pHose = new TilePressureHose();
-		pHose.setTier(metadata);
+		TilePressureHose pHose = new TilePressureHose(metadata);
 		return pHose;
 	}
 

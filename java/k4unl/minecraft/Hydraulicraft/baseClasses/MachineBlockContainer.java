@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.baseClasses;
 
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -194,8 +195,8 @@ public abstract class MachineBlockContainer extends BlockContainer {
 	public void breakBlock(World w, int x, int y, int z, Block oldBlock, int oldMetaData){
 		//Call TileEntity's onBlockBreaks function
 		TileEntity tile = w.getTileEntity(x, y, z);
-		if(tile instanceof IHydraulicMachine){
-			((IHydraulicMachine)tile).onBlockBreaks();
+		if(tile instanceof TileHydraulicBase){
+			((TileHydraulicBase)tile).onBlockBreaks();
 		}
 		
 		super.breakBlock(w, x, y, z, oldBlock, oldMetaData);

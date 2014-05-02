@@ -24,7 +24,7 @@ public class BlockElectricPump extends MachineTieredBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileElectricPump();
+		return new TileElectricPump(metadata);
 	}
 	
 	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){

@@ -1,9 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,8 +22,7 @@ import buildcraft.api.power.PowerHandler;
 import buildcraft.api.power.PowerHandler.PowerReceiver;
 import buildcraft.api.power.PowerHandler.Type;
 
-public class TileHydraulicEngine extends TileEntity implements IHydraulicConsumer, IPowerEmitter, IPowerReceptor {
-	private IBaseClass baseHandler;
+public class TileHydraulicEngine extends TileHydraulicBase implements IHydraulicConsumer, IPowerEmitter, IPowerReceptor {
 	private final PowerHandler powerHandler;
 	private ForgeDirection facing = ForgeDirection.UP;
 	public float energy;
@@ -30,22 +31,15 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	private float direction = 0.005F;
 	private float pressureRequired;
 	private float energyToAdd = 0F;
-	private PressureNetwork pNetwork;
+
 	
 	public TileHydraulicEngine(){
+		super(PressureTier.HIGHPRESSURE, 20);
+		super.validateI(this);
 		powerHandler = new PowerHandler(this, Type.ENGINE);
 		powerHandler.configure(Constants.MJ_USAGE_PER_TICK[2]*2, Constants.MJ_USAGE_PER_TICK[2] * 3, Constants.ACTIVATION_MJ, 3000);
 	}
 	
-	@Override
-	public float getMaxPressure(boolean isOil, ForgeDirection from) {
-		if(isOil){
-			return Constants.MAX_MBAR_OIL_TIER_3;
-		}else{
-			return Constants.MAX_MBAR_WATER_TIER_3;
-		}
-	}
-
 	public ForgeDirection getFacing(){
 		return facing;		
 	}
@@ -54,24 +48,10 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		getHandler().updateNetworkOnNextTick(getPressure(getFacing()));
 		facing = newDir;
 	}
-	
-	@Override
-	public int getMaxStorage() {
-		return FluidContainerRegistry.BUCKET_VOLUME * 20;
-	}
 
 	@Override
-	public void onBlockBreaks() {
-	}
-
-	@Override
-	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
-        return baseHandler;
-	}
-
-	@Override
-	public void readNBT(NBTTagCompound tagCompound) {
+	public void readFromNBT(NBTTagCompound tagCompound) {
+		super.readFromNBT(tagCompound);
 		powerHandler.readFromNBT(tagCompound);
 		isRunning = tagCompound.getBoolean("isRunning");
 		pressureRequired = tagCompound.getFloat("pressureRequired");
@@ -80,7 +60,8 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	}
 
 	@Override
-	public void writeNBT(NBTTagCompound tagCompound) {
+	public void writeToNBT(NBTTagCompound tagCompound) {
+		super.writeToNBT(tagCompound);
 		powerHandler.writeToNBT(tagCompound);
 		tagCompound.setBoolean("isRunning", isRunning);
 		tagCompound.setInteger("facing", facing.ordinal());
@@ -88,23 +69,6 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		tagCompound.setFloat("energyToAdd", energyToAdd);
 	}
 
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		getHandler().onDataPacket(net, packet);
-		
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		return getHandler().getDescriptionPacket();
-	}
-
-	@Override
-	public void onPressureChanged(float old) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	public float getPercentageOfRender(){
 		if(isRunning){
 			percentageRun += direction;
@@ -241,69 +205,16 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tagCompound) {
-		super.readFromNBT(tagCompound);
-		getHandler().readFromNBT(tagCompound);
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound) {
-		super.writeToNBT(tagCompound);
-		getHandler().writeToNBT(tagCompound);
-	}
-
-	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		getHandler().updateEntity();
 		sendPower();
 	}
 
-	@Override
-	public void validate() {
-		super.validate();
-		getHandler().validate();
-	}
-	
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
 		return side.equals(facing.getOpposite());
 	}
 
-	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
-		return pNetwork;
-	}
-
-	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
-		pNetwork = toSet;
-	}
-
-	
-	
-	@Override
-	public void firstTick() {
-
-	}
-
-	@Override
-	public float getPressure(ForgeDirection from) {
-		if(worldObj.isRemote){
-			return getHandler().getPressure();
-		}
-		if(getNetwork(from) == null){
-			Log.error("Hydraulic engine at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
-			return 0;
-		}
-		return getNetwork(from).getPressure();
-	}
-
-	@Override
-	public void setPressure(float newPressure, ForgeDirection side) {
-		getNetwork(side).setPressure(newPressure);
-	}
-	
 	@Override
 	public boolean canWork(ForgeDirection dir) {
 		return dir.equals(facing.getOpposite());
@@ -325,37 +236,7 @@ public class TileHydraulicEngine extends TileEntity implements IHydraulicConsume
 		}		
 	}
 	
-	@Override
-	public int getFluidInNetwork(ForgeDirection from) {
-		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidInNetwork();
-		}
-	}
-
-	@Override
-	public int getFluidCapacity(ForgeDirection from) {
-		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidCapacity();
-		}
-	}
-
 	public float getPressureRequired() {
 		return pressureRequired;
-	}
-
-	@Override
-	public void invalidate(){
-		super.invalidate();
-		if(!worldObj.isRemote){
-			if(getNetwork(getFacing().getOpposite()) != null){
-				getNetwork(getFacing().getOpposite()).removeMachine(this);
-			}
-		}
 	}
 }

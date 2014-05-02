@@ -50,10 +50,10 @@ public class WailaProvider implements IWailaDataProvider {
 			//IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
 			
 			int stored = mEnt.getHandler().getStored();
-			int max = mEnt.getMaxStorage();
+			int max = mEnt.getHandler().getMaxStorage();
 			
-			float pressure = mEnt.getPressure(ForgeDirection.UNKNOWN);
-			int maxPressure = (int)mEnt.getMaxPressure(mEnt.getHandler().isOilStored(), null);
+			float pressure = mEnt.getHandler().getPressure(ForgeDirection.UNKNOWN);
+			int maxPressure = (int)mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), null);
 	
 			currenttip.add("Fl: " + stored + "/" + max + " mBuckets (" + (int)(((float)stored / (float)max) * 100) + "%)");
 			currenttip.add("Pr: " + (new DecimalFormat("#.##")).format(pressure) + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");

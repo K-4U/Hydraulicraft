@@ -1,18 +1,18 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.transporter;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -21,88 +21,43 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
-public class TilePressureHose extends TileEntity implements IHydraulicTransporter {
-    private PressureNetwork pNetwork;
-    
-    private IBaseClass baseHandler;
-    private Map<ForgeDirection, TileEntity> connectedSides;
-    private final boolean[] connectedSideFlags = new boolean[6];
+public class TilePressureHose extends TileHydraulicBase implements IHydraulicTransporter {
+	private Map<ForgeDirection, TileEntity> connectedSides = new HashMap<ForgeDirection, TileEntity>();
+	private final boolean[] connectedSideFlags = new boolean[6];
     private boolean needToCheckNeighbors;
     private boolean connectedSidesHaveChanged = true;
     private boolean hasCheckedSinceStartup;
     private boolean hasFoundNetwork = false;
-    
     private int tier = -1;
-	
-	
-	@Override
-	public int getMaxStorage() {
-		return FluidContainerRegistry.BUCKET_VOLUME * (2 * (getTier()+1));
-	}
-
-	@Override
-	public float getMaxPressure(boolean isOil, ForgeDirection from) {
-		if(isOil) {
-            switch(getTier()){
-                case 0:
-                    return Constants.MAX_MBAR_OIL_TIER_1;
-                case 1:
-                    return Constants.MAX_MBAR_OIL_TIER_2;
-                case 2:
-                    return Constants.MAX_MBAR_OIL_TIER_3;
-            }
-        } else {
-            switch(getTier()){
-                case 0:
-                    return Constants.MAX_MBAR_WATER_TIER_1;
-                case 1:
-                    return Constants.MAX_MBAR_WATER_TIER_2;
-                case 2:
-                    return Constants.MAX_MBAR_WATER_TIER_3;
-            }
-        }
-        return 0;
-	}
-
-	@Override
-	public void onBlockBreaks() {
-	}
-
-	@Override
-	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
-        return baseHandler;
-	}
+    
+    public TilePressureHose(int _tier){
+    	super(PressureTier.fromOrdinal(_tier), 2*(_tier+1));
+    	super.validateI(this);
+    	tier = _tier;
+    }
+    
 
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
-		getHandler().readFromNBT(tagCompound);
+		super.readFromNBT(tagCompound);
+		setTier(tagCompound.getInteger("tier"));
+		
+		if(tagCompound.getBoolean("connectedSidesHaveChanged")){
+			hasCheckedSinceStartup = false;
+		}
 		readConnectedSidesFromNBT(tagCompound);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
-		getHandler().writeToNBT(tagCompound);
-		writeConnectedSidesToNBT(tagCompound);
-	}
-
-	@Override
-	public void readNBT(NBTTagCompound tagCompound) {
-		tier = tagCompound.getInteger("tier");
-		
-		if(tagCompound.getBoolean("connectedSidesHaveChanged")){
-			hasCheckedSinceStartup = false;
-		}
-	}
-
-	@Override
-	public void writeNBT(NBTTagCompound tagCompound) {
-		tagCompound.setInteger("tier", tier);
+		super.writeToNBT(tagCompound);
+		tagCompound.setInteger("tier", getTier());
 		
 		if(connectedSidesHaveChanged && worldObj != null && !worldObj.isRemote){
 			connectedSidesHaveChanged = false;
 			tagCompound.setBoolean("connectedSidesHaveChanged", true);
 		}
+		writeConnectedSidesToNBT(tagCompound);
 	}
 	
 	private void readConnectedSidesFromNBT(NBTTagCompound tagCompound){
@@ -129,22 +84,11 @@ public class TilePressureHose extends TileEntity implements IHydraulicTransporte
     }
 
 	@Override
-	public void onDataPacket(NetworkManager net,
-			S35PacketUpdateTileEntity packet) {
-		getHandler().onDataPacket(net, packet);
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		return getHandler().getDescriptionPacket();
-	}
-
-	@Override
 	public void updateEntity() {
 		super.updateEntity();
 		if(getHandler() != null){
     		//This should never happen that this is null! :|
-    		getHandler().updateEntity();
+    		//getHandler().updateEntity();
     	}else{
     		Log.error("PartHose does not have a handler!");
     	}
@@ -183,19 +127,7 @@ public class TilePressureHose extends TileEntity implements IHydraulicTransporte
 	}
 
 	@Override
-	public void validate() {
-		super.validate();
-	}
-
-	@Override
-	public void onPressureChanged(float old) {
-
-	}
-
-	@Override
-	public void onFluidLevelChanged(int old) {
-		
-	}
+	public void onFluidLevelChanged(int old) { }
 
 	private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir, Object caller){
     	int opposite = Functions.getIntDirFromDirection(dir.getOpposite());
@@ -269,38 +201,6 @@ public class TilePressureHose extends TileEntity implements IHydraulicTransporte
 		}
 		return connectedSides;
 	}
-    
-    @Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
-		return pNetwork;
-	}
-
-	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
-		pNetwork = toSet;
-	}
-
-	@Override
-	public void firstTick() {
-				
-	}
-
-	@Override
-	public float getPressure(ForgeDirection from) {
-		if(getWorldObj().isRemote){
-			return getHandler().getPressure();
-		}
-		if(getNetwork(from) == null){
-			Log.error("PVAT at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
-			return 0;
-		}
-		return getNetwork(from).getPressure();
-	}
-
-	@Override
-	public void setPressure(float newPressure, ForgeDirection side) {
-		getNetwork(side).setPressure(newPressure);
-	}
 
 	@Override
 	public void updateNetwork(float oldPressure) {
@@ -343,29 +243,8 @@ public class TilePressureHose extends TileEntity implements IHydraulicTransporte
 		}
 		hasFoundNetwork = true;
 	}
-    
+   
 	
-	@Override
-	public int getFluidInNetwork(ForgeDirection from) {
-		if(getWorldObj().isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidInNetwork();
-		}
-	}
-
-	@Override
-	public int getFluidCapacity(ForgeDirection from) {
-		if(getWorldObj().isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidCapacity();
-		}
-	}
-
-	@Override
 	public int getTier() {
 		if(tier == -1){
 			tier = getWorldObj().getBlockMetadata(xCoord, yCoord, zCoord);
@@ -375,6 +254,8 @@ public class TilePressureHose extends TileEntity implements IHydraulicTransporte
 
 	public void setTier(int metadata) {
 		tier = metadata;
+		super.setMaxStorage(2*(tier+1));
+		super.setPressureTier(PressureTier.fromOrdinal(metadata));
 	}
 
 	public void refreshConnectedSides() {

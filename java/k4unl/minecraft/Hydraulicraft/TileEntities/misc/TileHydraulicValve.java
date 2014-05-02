@@ -1,39 +1,28 @@
 package k4unl.minecraft.Hydraulicraft.TileEntities.misc;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.TileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureNetwork;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileHydraulicValve extends TileEntity implements IHydraulicMachine {
+public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicMachine {
 	private int targetX;
 	private int targetY;
 	private int targetZ;
 	private boolean targetHasChanged = true;
 	private IHydraulicConsumer target;
-	private IBaseClass baseHandler;
 	private boolean clientNeedsToResetTarget = false;
 	private boolean clientNeedsToSetTarget = false;
-	
-	private PressureNetwork pNetwork;
-	private List<ForgeDirection> connectedSides;
+
 	
 	public TileHydraulicValve(){
-		connectedSides = new ArrayList<ForgeDirection>();
+		super(PressureTier.HIGHPRESSURE, 1);
+		super.validateI(this);
 	}
 	
 	public void resetTarget(){
@@ -85,7 +74,7 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 		if(getTarget() == null){
 			return 0;
 		}else{
-			return getTarget().getMaxStorage();
+			return getTarget().getHandler().getMaxStorage();
 		}
 	}
 
@@ -94,7 +83,7 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 		if(getTarget() == null){
 			return 0F;
 		}else{
-			return getTarget().getMaxPressure(isOil, from);
+			return getTarget().getHandler().getMaxPressure(isOil, from);
 		}
 	}
 
@@ -104,13 +93,8 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 	}
 
 	@Override
-	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
-        return baseHandler;
-	}
-	
-	@Override
-	public void readNBT(NBTTagCompound tagCompound) {
+	public void readFromNBT(NBTTagCompound tagCompound) {
+		super.readFromNBT(tagCompound);
 		targetX = tagCompound.getInteger("targetX");
 		targetY = tagCompound.getInteger("targetY");
 		targetZ = tagCompound.getInteger("targetZ");
@@ -129,7 +113,8 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 	}
 
 	@Override
-	public void writeNBT(NBTTagCompound tagCompound) {
+	public void writeToNBT(NBTTagCompound tagCompound) {
+		super.writeToNBT(tagCompound);
 		tagCompound.setInteger("targetX", targetX);
 		tagCompound.setInteger("targetY", targetY);
 		tagCompound.setInteger("targetZ", targetZ);
@@ -147,12 +132,6 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 	}
 
 	@Override
-	public void onPressureChanged(float old) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void onFluidLevelChanged(int old) {
 		if(getTarget() != null){
 			getTarget().getHandler().setStored(getHandler().getStored(), getHandler().isOilStored(), false);
@@ -166,11 +145,6 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 		}else{
 			return false;
 		}
-	}
-
-	@Override
-	public void firstTick() {
-
 	}
 
 	@Override
@@ -206,7 +180,7 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 			pNetwork = endNetwork;
 			pNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
 			if(getTarget() != null){
-				getTarget().setNetwork(ForgeDirection.UP, pNetwork);
+				getTarget().getHandler().setNetwork(ForgeDirection.UP, pNetwork);
 				pNetwork.addMachine(getTarget(), oldPressure, ForgeDirection.UP);
 			}
 			for(ForgeDirection dir:connectedSides){
@@ -222,7 +196,7 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
 			if(getTarget() != null){
-				getTarget().setNetwork(ForgeDirection.UP, pNetwork);
+				getTarget().getHandler().setNetwork(ForgeDirection.UP, pNetwork);
 				pNetwork.addMachine(getTarget(), oldPressure, ForgeDirection.UP);
 			}
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
@@ -232,93 +206,4 @@ public class TileHydraulicValve extends TileEntity implements IHydraulicMachine 
 	private TileEntity getBlockTileEntity(Location l) {
 		return worldObj.getTileEntity(l.getX(), l.getY(), l.getZ());
 	}
-
-	@Override
-	public void invalidate(){
-		super.invalidate();
-		if(pNetwork != null){
-			pNetwork.removeMachine(this);
-		}
-	}
-
-	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
-		return pNetwork;
-	}
-
-	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
-		pNetwork = toSet;
-	}
-
-	@Override
-	public float getPressure(ForgeDirection from) {
-		if(worldObj.isRemote){
-			return getHandler().getPressure();
-		}
-		if(getNetwork(from) == null){
-			Log.error("Valve at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
-			return 0;
-		}
-		return getNetwork(from).getPressure();
-	}
-
-	@Override
-	public void setPressure(float newPressure, ForgeDirection side) {
-		getNetwork(side).setPressure(newPressure);
-	}
-
-
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		getHandler().onDataPacket(net, packet);
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		return getHandler().getDescriptionPacket();
-	}
-
-	@Override
-	public void updateEntity() {
-		getHandler().updateEntity();
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound) {
-		super.readFromNBT(tagCompound);
-		getHandler().readFromNBT(tagCompound);
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound) {
-		super.writeToNBT(tagCompound);
-		getHandler().writeToNBT(tagCompound);
-	}
-
-	@Override
-	public void validate() {
-		super.validate();
-	}
-	
-	@Override
-	public int getFluidInNetwork(ForgeDirection from) {
-		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidInNetwork();
-		}
-	}
-
-	@Override
-	public int getFluidCapacity(ForgeDirection from) {
-		if(worldObj.isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidCapacity();
-		}
-	}
-	
 }

@@ -24,7 +24,7 @@ public class BlockHydraulicPump extends MachineTieredBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicPump();
+		return new TileHydraulicPump(metadata);
 	}
 	
 	@Override
