@@ -40,7 +40,7 @@ public class WailaProvider implements IWailaDataProvider {
 			IWailaConfigHandler config) {
 		
 		TileEntity ent = accessor.getTileEntity();
-		if(accessor.getTileEntity() instanceof IHydraulicMachine /* FMP || ent instanceof TileMultipart*/){
+		if(accessor.getTileEntity() instanceof IHydraulicMachine || ent instanceof TileMultipart){
 			IHydraulicMachine mEnt = null;
 			Map<String, String> values = new HashMap<String, String>();
 			
@@ -75,8 +75,10 @@ public class WailaProvider implements IWailaDataProvider {
 				int maxEU = ((TileElectricPump)mEnt).getMaxEUStorage();
 				values.put("EU", storedEU + "/" + maxEU);
 			}
+			
+			//Put it up there.
 			for(Map.Entry<String, String> entry : values.entrySet()) {
-				currenttip.add(entry.getKey() + ": " + SpecialChars.ALIGNRIGHT + SpecialChars.WHITE + entry.getValue());
+				currenttip.add(entry.getKey() + ": " + /*SpecialChars.ALIGNRIGHT +*/ SpecialChars.WHITE + entry.getValue());
 			}
 			
 		}
@@ -87,7 +89,7 @@ public class WailaProvider implements IWailaDataProvider {
 		registrar.registerHeadProvider(new WailaProvider(), IHydraulicMachine.class);
 		registrar.registerBodyProvider(new WailaProvider(), IHydraulicMachine.class);
 		registrar.registerTailProvider(new WailaProvider(), IHydraulicMachine.class);
-		//registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
+		registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
 		
 		//registrar.registerBodyProvider(new WailaProvider(), Ids.blockHydraulicPump.act);
 	}

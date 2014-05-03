@@ -62,5 +62,6 @@ public class GuiSaw extends HydraulicGUIBase{
 		}
         
         drawFluidAndPressure();
+        checkTooltips(mouseX, mouseY);
     }
 }

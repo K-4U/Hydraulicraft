@@ -2,8 +2,11 @@ package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
@@ -15,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import codechicken.multipart.TileMultipart;
 
 public class ItemDebug extends HydraulicItemBase {
 
@@ -30,18 +34,17 @@ public class ItemDebug extends HydraulicItemBase {
 		if(!world.isRemote){
 			TileEntity ent = world.getTileEntity(x, y, z);
 			if(ent != null){
-				if(ent instanceof IHydraulicMachine/* FMP || ent instanceof TileMultipart*/){
+				if(ent instanceof IHydraulicMachine || ent instanceof TileMultipart){
 					IHydraulicMachine mEnt = null;
-					/* FMP
 					if(ent instanceof TileMultipart){
 						if(Multipart.hasTransporter((TileMultipart)ent)){
 							mEnt = Multipart.getTransporter((TileMultipart)ent);
 						}else{
 							return false;
 						}
-					}else{*/
+					}else{
 						mEnt = (IHydraulicMachine) ent;
-					//}
+					}
 					NBTTagCompound tagC = itemStack.getTagCompound();
 					if(tagC == null){
 						tagC = new NBTTagCompound();
@@ -67,15 +70,15 @@ public class ItemDebug extends HydraulicItemBase {
 						Functions.showMessageInChat(player, "Tier:          " + tier);						
 					}
 					
-					/* FMP
+					
 					if(ent instanceof TileMultipart){
-						if(Multipart.hasTransporter((TileMultipart)ent)){
-							IHydraulicTransporter hose = Multipart.getTransporter((TileMultipart)ent);
+						if(Multipart.hasPartHose((TileMultipart)ent)){
+							PartHose hose = Multipart.getHose((TileMultipart)ent);
 							int tier = hose.getTier();
-							player.addChatMessage("Tier:          " + tier);							
+							Functions.showMessageInChat(player, "Tier:          " + tier);							
 						}
 					}
-					*/
+					
 					if(ent instanceof TileHydraulicValve){
 						TileHydraulicValve v = (TileHydraulicValve) ent;
 						if(v.getTarget() != null){

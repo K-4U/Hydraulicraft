@@ -2,14 +2,17 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.transporter.TilePressureHose;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import codechicken.multipart.TileMultipart;
 
 public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicMachine {
 	private int targetX;
@@ -187,12 +190,14 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 			for(ForgeDirection dir:connectedSides){
 				Location hoseLocation = new Location(xCoord, yCoord, zCoord, dir);
 				TileEntity ent = getBlockTileEntity(hoseLocation);
-				((TilePressureHose)ent).checkConnectedSides(this);
-				/*
+				//((TilePressureHose)ent).checkConnectedSides(this);
+				
 				if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
 					IHydraulicTransporter hose = Multipart.getTransporter((TileMultipart)ent);
 					hose.checkConnectedSides(this);
-				}*/
+				}else if(ent instanceof IHydraulicTransporter){
+					((IHydraulicTransporter)ent).checkConnectedSides(this);
+				}
 			}
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
