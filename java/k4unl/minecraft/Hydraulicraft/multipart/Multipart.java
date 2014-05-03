@@ -22,8 +22,8 @@ public class Multipart implements IPartFactory, IPartConverter{
 	public static ItemPartHose itemPartHose;
 	public static ItemPartValve itemPartValve;
 	
-	public Multipart(){
-		MultiPartRegistry.registerParts(this, new String[] { 
+	public static void init(){
+		MultiPartRegistry.registerParts(new Multipart(), new String[] { 
                 "tile." + Names.partHose[0].unlocalized,
                 "tile." + Names.partHose[1].unlocalized,
                 "tile." + Names.partHose[2].unlocalized});
