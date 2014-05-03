@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
 import k4unl.minecraft.Hydraulicraft.events.EventHelper;
+import k4unl.minecraft.Hydraulicraft.events.KeyHandler;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.ConfigHandler;
@@ -75,6 +76,7 @@ public class Hydraulicraft {
 		ThirdPartyManager.instance().preInit();
 		
 		Multipart.init();
+		KeyHandler.init();
 	}
 	
 	/*!

@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.client.renderers.Renderers;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.util.ResourceLocation;
 import thirdParty.truetyper.FontLoader;
 
@@ -24,4 +25,9 @@ public class ClientProxy extends CommonProxy {
 	public void initFonts(){
 		Hydraulicraft.smallGuiFont = FontLoader.createFont(new ResourceLocation(ModInfo.LID,"fonts/Ubuntu.ttf"), 15, true);
 	}
+	
+	public ModelBiped getArmorModel(int id){
+		return null;
+	}
+
 }

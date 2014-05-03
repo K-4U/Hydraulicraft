@@ -23,6 +23,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInfiniteSource;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockLight;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.transporter.BlockHose;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -55,6 +56,7 @@ public class HCBlocks {
 	
 	public static Block blockInfiniteSource;
 	public static Block movingPane;
+	public static Block blockLight;
 	
 	
 	/*!
@@ -85,6 +87,7 @@ public class HCBlocks {
 		blockInfiniteSource = new BlockInfiniteSource();
 		movingPane = new BlockMovingPane();
 		
+		blockLight = new BlockLight();
 		
 		
 		registerBlocks();
@@ -125,7 +128,8 @@ public class HCBlocks {
 		GameRegistry.registerBlock(harvesterTrolley, HandlerHarvesterTrolley.class, Names.blockHarvesterTrolley[0].unlocalized, ModInfo.ID);
 		
 		GameRegistry.registerBlock(blockCore, HandlerCoreBlock.class, Names.blockCore[0].unlocalized, ModInfo.ID);
-		
+	
+		GameRegistry.registerBlock(blockLight, Names.blockLight.unlocalized);
 	}
 	
 	/*!

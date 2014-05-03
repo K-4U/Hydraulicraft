@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.BucketHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -23,6 +24,8 @@ public class HCItems {
 	public static Item itemBucketOil;
 	public static Item itemBacon;
 	public static Item itemMovingPane;
+	
+	public static Item itemMiningHelmet;
 	
 	/*!
 	 * @author Koen Beckers
@@ -44,6 +47,7 @@ public class HCItems {
 		itemDust = new ItemDusts();
 		
 		itemMovingPane = new ItemMovingPane();
+		itemMiningHelmet = new ItemMiningHelmet();
 		
 		registerItems();
 	}
@@ -65,6 +69,7 @@ public class HCItems {
 		
 		GameRegistry.registerItem(itemDust, Names.itemDust.unlocalized);
 		GameRegistry.registerItem(itemChunk, Names.itemChunk.unlocalized);
+		GameRegistry.registerItem(itemMiningHelmet, Names.itemMiningHelmet.unlocalized);
 		
 		GameRegistry.registerItem(itemMovingPane, "item"+Names.blockMovingPane.unlocalized);
 		

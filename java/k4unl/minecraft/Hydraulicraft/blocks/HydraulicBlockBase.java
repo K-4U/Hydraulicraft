@@ -40,6 +40,20 @@ public class HydraulicBlockBase extends Block {
 	}
 	
 	
+	public HydraulicBlockBase(Name machineName, Material material) {
+		super(material);
+		
+		mName = machineName;
+		
+		setBlockName(mName.unlocalized);
+		setStepSound(Block.soundTypeStone);
+		setHardness(3.5F);
+		setResistance(10F);
+		
+		setCreativeTab(CustomTabs.tabHydraulicraft);
+	}
+
+
 	private String getTextureName(String side){
 		if(side != null){
 			return ModInfo.LID + ":" + mName.unlocalized + "_" + side;

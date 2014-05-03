@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.proxy;
 
+import net.minecraft.client.model.ModelBiped;
+
 
 public class CommonProxy /* FMP implements IPartFactory */{
 	
@@ -34,4 +36,9 @@ public class CommonProxy /* FMP implements IPartFactory */{
 		return null;
 	}
 	*/
+	
+	public ModelBiped getArmorModel(int id){
+		return null;
+	}
+
 }
