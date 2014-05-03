@@ -8,14 +8,17 @@ import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.ICustomNetwork;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -45,12 +48,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 
 
-public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusion, ISidedHollowConnect, IHydraulicTransporter {
-	
+public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusion, ISidedHollowConnect, IHydraulicTransporter, ICustomNetwork {
     public static Cuboid6[] boundingBoxes = new Cuboid6[14];
     private static int expandBounds = -1;
-    
-    private PressureNetwork pNetwork;
     
     private IBaseClass baseHandler;
     private Map<ForgeDirection, TileEntity> connectedSides;
@@ -75,8 +75,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     	//float offsetZ = 0.2F;
     	float centerFirst = center - offset;
     	float centerSecond = center + offset;
-    	Vector3 rotateCenterFirst = new Vector3(centerFirst, centerFirst, centerFirst);
-    	Vector3 rotateCenterSecond = new Vector3(centerSecond, centerSecond, centerSecond);
         double w = 0.2D / 2;
         boundingBoxes[6] = new Cuboid6(centerFirst - w, centerFirst - w, centerFirst - w, centerFirst + w, centerFirst + w, centerFirst + w);
         boundingBoxes[13] = new Cuboid6(centerSecond - w, centerSecond - w, centerSecond - w, centerSecond + w, centerSecond + w, centerSecond + w);
@@ -101,18 +99,10 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     		double zMin2 = (dir.offsetZ < 0 ? 0.0 : (dir.offsetZ == 0 ? centerSecond - w : centerSecond + w));
     		double zMax2 = (dir.offsetZ > 0 ? 1.0 : (dir.offsetZ == 0 ? centerSecond + w : centerSecond - w));
     		
-    		Cuboid6 first = new Cuboid6(xMin1, yMin1, zMin1, xMax1, yMax1, zMax1);
-    		Cuboid6 second = new Cuboid6(xMin2, yMin2, zMin2, xMax2, yMax2, zMax2);
-    		boundingBoxes[i] = first;
+    		boundingBoxes[i] = new Cuboid6(xMin1, yMin1, zMin1, xMax1, yMax1, zMax1);
     		boundingBoxes[i+7] = new Cuboid6(xMin2, yMin2, zMin2, xMax2, yMax2, zMax2);
     		i++;
     	}
-        
-        //for (int s = 0; s < 6; s++)
-        //	boundingBoxes[s] = new Cuboid6(centerFirst - w, offset, centerFirst - w, centerFirst + w, centerFirst - w, centerFirst + w).apply(Rotation.sideRotations[s].at(rotateCenterFirst));
-        
-        //for (int s = 7; s < 12; s++)
-        //    boundingBoxes[s] = new Cuboid6(centerSecond - w, 0, centerSecond - w, centerSecond + w, centerSecond - w, centerSecond + w).apply(Rotation.sideRotations[s-7].at(rotateCenterSecond));
     }
     
 	@Override
@@ -127,8 +117,10 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	@Override
 	public void load(NBTTagCompound tagCompound){
 		super.load(tagCompound);
-		if(getHandler() != null)
+		if(getHandler() != null){
+			getHandler().validateI();
 			getHandler().readFromNBTI(tagCompound);
+		}
 		tier = tagCompound.getInteger("tier");
 		//getHandler().updateNetworkOnNextTick(oldPressure);
 		//checkConnectedSides();
@@ -333,14 +325,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     public void onPartChanged(TMultiPart part){
         checkConnectedSides();
         //getHandler().updateFluidOnNextTick();
-        if(!world().isRemote){
-	        float oldPressure = 0F;
-	        if(pNetwork != null){
-	        	oldPressure = pNetwork.getPressure();
-	        	pNetwork.removeMachine(this);
-	        }
-			getHandler().updateNetworkOnNextTick(oldPressure);
-        }
+        getHandler().invalidateI();
     }
     
     @Override
@@ -366,7 +351,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this, PressureTier.fromOrdinal(getTier()), 2 * (getTier()+1));
         return baseHandler;
 	}
 	
@@ -420,7 +405,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	}
 	
 	
-	/*
 	@Override
 	public void updateNetwork(float oldPressure) {
 		PressureNetwork newNetwork = null;
@@ -453,16 +437,17 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		}
 			
 		if(endNetwork != null){
-			pNetwork = endNetwork;
-			pNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
+			((TileHydraulicBase)getHandler()).setNetwork(ForgeDirection.UP, endNetwork);
+			endNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}else{
-			pNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
+			endNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
+			((TileHydraulicBase)getHandler()).setNetwork(ForgeDirection.UP, endNetwork);
 			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}
 		hasFoundNetwork = true;
 	}
-	*/
+	
 	@Override
 	public void onRemoved(){
 		getHandler().invalidateI();

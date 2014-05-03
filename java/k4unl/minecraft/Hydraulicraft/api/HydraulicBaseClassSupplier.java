@@ -29,11 +29,11 @@ public class HydraulicBaseClassSupplier {
         return baseClassEntity;
     }
 
-    public static IBaseClass getBaseClass(TMultiPart target){
+    public static IBaseClass getBaseClass(TMultiPart target, PressureTier pTier, int maxStorage){
     	IBaseClass baseClassEntity = null;
         try {
             if(multipartConstructor == null) multipartConstructor = Class.forName("k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase").getConstructor(PressureTier.class, int.class);
-            baseClassEntity = (IBaseClass)multipartConstructor.newInstance(target);
+            baseClassEntity = (IBaseClass)multipartConstructor.newInstance(pTier, maxStorage);
             baseClassEntity.init(target);
         } catch(Exception e){
         	System.err.println("[Hydraulicraft API] An error has occured whilst trying to get a base class. Here's a stacktrace:");

@@ -49,7 +49,6 @@ public class ItemPartHose extends JItemMultiPart{
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List list){
     	for(int i = 0; i < 3; i++){
 			list.add(new ItemStack(this, 1, i));

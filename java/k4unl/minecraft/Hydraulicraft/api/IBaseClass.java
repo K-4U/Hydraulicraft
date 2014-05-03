@@ -146,6 +146,11 @@ public interface IBaseClass {
 	 */
 	public void addPressureWithRatio(float pressureToAdd, ForgeDirection from);
 
+	/**
+	 * Forward this to the handler.
+	 */
+	void validateI();
+
 	
 	
 }

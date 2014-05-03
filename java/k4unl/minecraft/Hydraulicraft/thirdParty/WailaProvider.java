@@ -7,6 +7,7 @@ import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -16,6 +17,7 @@ import mcp.mobius.waila.api.SpecialChars;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import codechicken.multipart.TileMultipart;
 
 public class WailaProvider implements IWailaDataProvider {
 
@@ -42,7 +44,7 @@ public class WailaProvider implements IWailaDataProvider {
 			IHydraulicMachine mEnt = null;
 			Map<String, String> values = new HashMap<String, String>();
 			
-			/* FMP if(ent instanceof TileMultipart){
+			if(ent instanceof TileMultipart){
 				if(Multipart.hasTransporter((TileMultipart)ent)){
 					mEnt = Multipart.getTransporter((TileMultipart)ent);
 				}else{
@@ -50,8 +52,8 @@ public class WailaProvider implements IWailaDataProvider {
 				}
 			}else{
 				mEnt = (IHydraulicMachine) ent;
-			}*/
-			mEnt = (IHydraulicMachine) ent;
+			}
+			//mEnt = (IHydraulicMachine) ent;
 			//IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
 			
 			int stored = mEnt.getHandler().getStored();

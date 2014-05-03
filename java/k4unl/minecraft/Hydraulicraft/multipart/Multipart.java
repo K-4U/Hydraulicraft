@@ -5,15 +5,20 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import codechicken.lib.vec.BlockCoord;
 import codechicken.multipart.MultiPartRegistry;
+import codechicken.multipart.MultiPartRegistry.IPartConverter;
 import codechicken.multipart.MultiPartRegistry.IPartFactory;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 
-public class Multipart implements IPartFactory{
+public class Multipart implements IPartFactory, IPartConverter{
 	public static ItemPartHose itemPartHose;
 	public static ItemPartValve itemPartValve;
 	
@@ -23,14 +28,15 @@ public class Multipart implements IPartFactory{
                 "tile." + Names.partHose[1].unlocalized,
                 "tile." + Names.partHose[2].unlocalized});
 		
-		MultiPartRegistry.registerParts(this, new String[] { 
+		/*MultiPartRegistry.registerParts(this, new String[] { 
                 "tile." + Names.partValve[0].unlocalized,
                 "tile." + Names.partValve[1].unlocalized,
                 "tile." + Names.partValve[2].unlocalized});
-		
+		*/
 		
 		itemPartHose = new ItemPartHose();
 		//itemPartValve= new ItemPartValve();
+		GameRegistry.registerItem(itemPartHose, Names.partHose[0].unlocalized);
 	}
 
 	@Override
@@ -42,6 +48,8 @@ public class Multipart implements IPartFactory{
 		}
 		return null;
 	}
+	
+	
 	
 	public static TileMultipart getMultipartTile(IBlockAccess access, Location pos){
         TileEntity te = access.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
@@ -134,4 +142,17 @@ public class Multipart implements IPartFactory{
 		}
 		return null;
     }
+
+    
+	@Override
+	public Iterable<Block> blockTypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TMultiPart convert(World arg0, BlockCoord arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
