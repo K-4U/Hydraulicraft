@@ -1,8 +1,54 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
-public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormalOcclusion, IHollowConnect, IHydraulicTransporter*/ {
-	/*
+import javax.swing.Icon;
+
+import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartValve;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
+import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import org.lwjgl.opengl.GL11;
+
+import codechicken.lib.data.MCDataInput;
+import codechicken.lib.data.MCDataOutput;
+import codechicken.lib.raytracer.IndexedCuboid6;
+import codechicken.lib.render.EntityDigIconFX;
+import codechicken.lib.vec.Cuboid6;
+import codechicken.lib.vec.Vector3;
+import codechicken.microblock.ISidedHollowConnect;
+import codechicken.multipart.JNormalOcclusion;
+import codechicken.multipart.NormalOcclusionTest;
+import codechicken.multipart.NormallyOccludedPart;
+import codechicken.multipart.TMultiPart;
+import codechicken.multipart.TSlottedPart;
+import codechicken.multipart.TileMultipart;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+
+public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclusion, ISidedHollowConnect, IHydraulicTransporter, ICustomNetwork {
+	
 	public static Cuboid6 boundingBox;
 	public static Cuboid6[] boundingBoxes = new Cuboid6[6];
 	public static Cuboid6 boundingBoxC;
@@ -29,7 +75,7 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
     private static RendererPartValve renderer;
     
     @SideOnly(Side.CLIENT)
-    private static Icon breakIcon;
+    private static IIcon breakIcon;
     
     static {
     	float center = 0.5F;
@@ -65,7 +111,7 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
 	public void load(NBTTagCompound tagCompound){
 		super.load(tagCompound);
 		if(getHandler() != null)
-			getHandler().readFromNBT(tagCompound);
+			getHandler().readFromNBTI(tagCompound);
 		tier = tagCompound.getInteger("tier");
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 		hasDirection = tagCompound.getBoolean("hasDirection");
@@ -74,7 +120,7 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
 	@Override
 	public void save(NBTTagCompound tagCompound){
 		super.save(tagCompound);
-		getHandler().writeToNBT(tagCompound);
+		getHandler().writeToNBTI(tagCompound);
 		tagCompound.setInteger("facing", getFacing().ordinal());
 		tagCompound.setBoolean("hasDirection", hasDirection);
 		tagCompound.setInteger("tier", tier);
@@ -93,8 +139,8 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
 			connectedSidesHaveChanged = false;
 			mainCompound.setBoolean("connectedSidesHaveChanged", true);
 		}
-		getHandler().writeToNBT(handlerCompound);
-		mainCompound.setCompoundTag("handler", handlerCompound);
+		getHandler().writeToNBTI(handlerCompound);
+		mainCompound.setTag("handler", handlerCompound);
 		
 		packet.writeNBTTagCompound(mainCompound);
     }
@@ -112,14 +158,8 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
 			hasCheckedSinceStartup = false;
 		}
         
-        getHandler().readFromNBT(handlerCompound);
+        getHandler().readFromNBTI(handlerCompound);
     }
-
-	
-	@Override
-	public int getHollowSize() {
-		return 6;
-	}
 
 	@Override
 	public int getSlotMask() {
@@ -306,107 +346,25 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
         return getItem();
     }
 
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void validate() {
-		
-	}
-
-	@Override
-	public void onPressureChanged(float old) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onFluidLevelChanged(int old) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getMaxStorage() {
-		return FluidContainerRegistry.BUCKET_VOLUME * (2 * (getTier()+1));
-	}
-
 	public int getTier() {
 		return tier;
 	}
 	
 	@Override
-	public void onBlockBreaks() {
-	}
-
-    @Override
-    public float getMaxPressure(boolean isOil, ForgeDirection from){
-        if(isOil) {
-            switch(getTier()){
-                case 0:
-                    return Constants.MAX_MBAR_OIL_TIER_1;
-                case 1:
-                    return Constants.MAX_MBAR_OIL_TIER_2;
-                case 2:
-                    return Constants.MAX_MBAR_OIL_TIER_3;
-            }
-        } else {
-            switch(getTier()){
-                case 0:
-                    return Constants.MAX_MBAR_WATER_TIER_1;
-                case 1:
-                    return Constants.MAX_MBAR_WATER_TIER_2;
-                case 2:
-                    return Constants.MAX_MBAR_WATER_TIER_3;
-            }
-        }
-        return 0;
-    }
-
-	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this, PressureTier.fromOrdinal(getTier()),2 * (getTier()+1));
         return baseHandler;
 	}
 
-	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
-		getHandler().onDataPacket(net, packet); 
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		return getHandler().getDescriptionPacket();
-	}
-
-	@Override
-	public void readNBT(NBTTagCompound tagCompound) {
-		//readConnectedSidesFromNBT(tagCompound);
-	}
-
-	@Override
-	public void writeNBT(NBTTagCompound tagCompound) {
-		//writeConnectedSidesToNBT(tagCompound);		
-	}
-	
 	private void checkRedstone(){
-		getHandler().checkRedstonePower();
+		((TileHydraulicBase) getHandler()).checkRedstonePower();
 	}
 	
     @Override
     public void update(){
     	if(getHandler() != null){
     		//This should never happen that this is null! :|
-    		getHandler().updateEntity();
+    		getHandler().updateEntityI();
     	}else{
     		Log.error("PartValve does not have a handler!");
     	}
@@ -428,10 +386,10 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
 	    	//}
     	}
     	
-    	if(getHandler().getRedstonePowered() && hasMerged == false && pNetwork1 != null && pNetwork2 != null){
+    	if(((TileHydraulicBase) getHandler()).getRedstonePowered() && hasMerged == false && pNetwork1 != null && pNetwork2 != null){
 			pNetwork1.mergeNetwork(pNetwork2);
 			hasMerged = true;
-		}else if(hasMerged == true && !getHandler().getRedstonePowered() && pNetwork1 != null){
+		}else if(hasMerged == true && !((TileHydraulicBase) getHandler()).getRedstonePowered() && pNetwork1 != null){
 			hasMerged = false;
 			getHandler().updateNetworkOnNextTick(pNetwork1.getPressure());
 			pNetwork1.removeMachine(this);
@@ -446,14 +404,6 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
         	}
         }
     }
-
-	@Override
-	public void updateEntity() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
 
 	@Override
 	public PressureNetwork getNetwork(ForgeDirection side) {
@@ -474,28 +424,6 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
 		}else if(side.equals(getFacing().getOpposite())){
 			pNetwork2 = toSet;
 		}
-	}
-
-	@Override
-	public void firstTick() {
-				
-	}
-
-	@Override
-	public float getPressure(ForgeDirection from) {
-		if(world().isRemote){
-			return getHandler().getPressure();
-		}
-		if(getNetwork(from) == null){
-			Log.error("Valve at " + getHandler().getBlockLocation().printCoords() + " has no pressure network!");
-			return 0;
-		}
-		return getNetwork(from).getPressure();
-	}
-
-	@Override
-	public void setPressure(float newPressure, ForgeDirection side) {
-		getNetwork(side).setPressure(newPressure);
 	}
 
 	@Override
@@ -529,7 +457,7 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
 				pNetwork2 = new PressureNetwork(this, oldPressure, getFacing().getOpposite());
 			}
 		}
-		if(getHandler().getRedstonePowered()){
+		if(((TileHydraulicBase) getHandler()).getRedstonePowered()){
 			pNetwork1.mergeNetwork(pNetwork2);
 			hasMerged = true;
 		}
@@ -546,26 +474,6 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
 			}
 		}
 	}
-
-	@Override
-	public int getFluidInNetwork(ForgeDirection from) {
-		if(world().isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidInNetwork();
-		}
-	}
-
-	@Override
-	public int getFluidCapacity(ForgeDirection from) {
-		if(world().isRemote){
-			//TODO: Store this in a variable locally. Mostly important for pumps though.
-			return 0;
-		}else{
-			return getNetwork(from).getFluidCapacity();
-		}
-	}
 	
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -577,10 +485,10 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
 	@Override
     public void addDestroyEffects(EffectRenderer effectRenderer) {
 		if(breakIcon == null){
-			breakIcon = HydraulicraftBlocks.hydraulicPressureWall.getIcon(0, 0);
+			breakIcon = HCBlocks.hydraulicPressureWall.getIcon(0, 0);
 		}
         EntityDigIconFX.addBlockDestroyEffects(world(), Cuboid6.full.copy()
-                .add(Vector3.fromTileEntity(tile())), new Icon[] { breakIcon,
+                .add(Vector3.fromTileEntity(tile())), new IIcon[] { breakIcon,
                 breakIcon, breakIcon, breakIcon, breakIcon, breakIcon },
                 effectRenderer);
     }
@@ -603,5 +511,15 @@ public class PartValve/* FMP extends TMultiPart implements TSlottedPart, JNormal
 	public boolean isActive() {
 		return hasMerged;
 	}
-	*/
+
+	@Override
+	public int getHollowSize(int arg0) {
+		return 6;
+	}
+
+	@Override
+	public void onFluidLevelChanged(int old) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
-import k4unl.minecraft.Hydraulicraft.api.ICustomNetwork;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
@@ -20,6 +19,7 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork.networkEntry;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;

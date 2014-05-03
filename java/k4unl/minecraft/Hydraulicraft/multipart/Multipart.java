@@ -26,17 +26,17 @@ public class Multipart implements IPartFactory, IPartConverter{
 		MultiPartRegistry.registerParts(new Multipart(), new String[] { 
                 "tile." + Names.partHose[0].unlocalized,
                 "tile." + Names.partHose[1].unlocalized,
-                "tile." + Names.partHose[2].unlocalized});
-		
-		/*MultiPartRegistry.registerParts(this, new String[] { 
+                "tile." + Names.partHose[2].unlocalized, 
                 "tile." + Names.partValve[0].unlocalized,
                 "tile." + Names.partValve[1].unlocalized,
                 "tile." + Names.partValve[2].unlocalized});
-		*/
+		
 		
 		itemPartHose = new ItemPartHose();
-		//itemPartValve= new ItemPartValve();
+		itemPartValve= new ItemPartValve();
+		
 		GameRegistry.registerItem(itemPartHose, Names.partHose[0].unlocalized);
+		GameRegistry.registerItem(itemPartValve, Names.partValve[0].unlocalized);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class Multipart implements IPartFactory, IPartConverter{
 		if(id.equals("tile." + Names.partHose[0].unlocalized) || id.equals("tile." + Names.partHose[1].unlocalized) || id.equals("tile." + Names.partHose[2].unlocalized)){
 			return new PartHose();
 		}else if(id.equals("tile." + Names.partValve[0].unlocalized) || id.equals("tile." + Names.partValve[1].unlocalized) || id.equals("tile." + Names.partValve[2].unlocalized)){
-			//return new PartValve();
+			return new PartValve();
 		}
 		return null;
 	}
@@ -108,9 +108,9 @@ public class Multipart implements IPartFactory, IPartConverter{
     	List<TMultiPart> t = mp.jPartList();
 		for (TMultiPart p: t) {
 			if(ret == false){
-				//if(p instanceof PartValve){
-				//	ret = true;
-				//}
+				if(p instanceof PartValve){
+					ret = true;
+				}
 			}
 		}
 		return ret;
@@ -121,9 +121,9 @@ public class Multipart implements IPartFactory, IPartConverter{
     	List<TMultiPart> t = mp.jPartList();
 		for (TMultiPart p: t) {
 			if(ret == false){
-				/*f(p instanceof PartValve){
+				if(p instanceof PartValve){
 					return (PartValve)p;
-				}*/
+				}
 			}
 		}
 		return null;

@@ -17,8 +17,6 @@ import codechicken.lib.vec.Vector3;
 import codechicken.multipart.JItemMultiPart;
 import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.TMultiPart;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemPartHose extends JItemMultiPart{
     public ItemPartHose(){
@@ -62,11 +60,5 @@ public class ItemPartHose extends JItemMultiPart{
 
     @Override
     public void registerIcons(IIconRegister reg){
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getSpriteNumber(){
-        return 1;
     }
 }

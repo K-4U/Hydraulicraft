@@ -14,6 +14,7 @@ import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicHos
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicLavaPumpItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicPistonItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicPumpItem;
+import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererPartValveItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
@@ -52,6 +53,7 @@ public class Renderers {
 		
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.blockHose),  new RendererHydraulicHoseItem());
 		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartHose,  new RendererHydraulicHoseItem());
+		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartValve,  new RendererPartValveItem());
 		//MinecraftForgeClient.registerItemRenderer(Ids.partValve.act+256,  new RendererPartValveItem());*/
 	}
 }

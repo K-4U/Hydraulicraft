@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import codechicken.lib.vec.BlockCoord;
 import codechicken.lib.vec.Vector3;
 import codechicken.multipart.JItemMultiPart;
+import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.TMultiPart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,11 +43,10 @@ public class ItemPartValve extends JItemMultiPart
     @Override
     public TMultiPart newPart(ItemStack item, EntityPlayer player, World world, BlockCoord pos, int side, Vector3 vhit)
     {
-    	/*PartValve w = (PartValve) MultiPartRegistry.createPart("tile." + Names.partValve[item.getItemDamage()].unlocalized, false);
+    	PartValve w = (PartValve) MultiPartRegistry.createPart("tile." + Names.partValve[item.getItemDamage()].unlocalized, false);
         if (w != null)
             w.preparePlacement(item.getItemDamage());
-        return w;*/
-    	return null;
+        return w;
     }
 
     @Override

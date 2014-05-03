@@ -8,7 +8,6 @@ import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
-import k4unl.minecraft.Hydraulicraft.api.ICustomNetwork;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
@@ -19,6 +18,7 @@ import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -489,5 +489,15 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	@Override
 	public int getHollowSize(int arg0) {
 		return 6;
+	}
+
+	@Override
+	public PressureNetwork getNetwork(ForgeDirection dir) {
+		return ((TileHydraulicBase)getHandler()).getNetwork(dir);
+	}
+
+	@Override
+	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+		((TileHydraulicBase)getHandler()).setNetwork(side, toSet);
 	}
 }
