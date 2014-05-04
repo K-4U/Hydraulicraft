@@ -31,7 +31,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	private int prevRedstoneLevel = 0;
 	
 	public TileHydraulicPressureVat(){
-		super(PressureTier.HIGHPRESSURE, 1);
+		super(PressureTier.HIGHPRESSURE, 48);
 		super.init(this);
 		if(tank == null){
 			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME);

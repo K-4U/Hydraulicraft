@@ -12,6 +12,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import pneumaticCraft.api.block.BlockSupplier;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class Pneumaticraft implements IThirdParty {
 	public static Block hydraulicPneumaticCompressor;
@@ -35,6 +37,7 @@ public class Pneumaticraft implements IThirdParty {
     	initRecipes();
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void clientSide(){}
 	

@@ -6,7 +6,6 @@ import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class PacketKeyPressed extends AbstractPacket{
@@ -36,10 +35,10 @@ public class PacketKeyPressed extends AbstractPacket{
 		switch(keyIndex){
 		case Constants.KEYS_MINING_HELMET:
 			Log.info("Key pressed!");
-			if(Minecraft.getMinecraft().thePlayer.getCurrentArmor(3) != null){
-				if(Minecraft.getMinecraft().thePlayer.getCurrentArmor(3).getItem() instanceof ItemMiningHelmet){
-					ItemMiningHelmet.togglePower(Minecraft.getMinecraft().thePlayer.getCurrentArmor(3));
-					Functions.showMessageInChat(Minecraft.getMinecraft().thePlayer, "Helmet is now " + (ItemMiningHelmet.isPoweredOn(Minecraft.getMinecraft().thePlayer.getCurrentArmor(3)) ? "on" : "off"));
+			if(player.getCurrentArmor(3) != null){
+				if(player.getCurrentArmor(3).getItem() instanceof ItemMiningHelmet){
+					ItemMiningHelmet.togglePower(player.getCurrentArmor(3));
+					Functions.showMessageInChat(player, "Helmet is now " + (ItemMiningHelmet.isPoweredOn(player.getCurrentArmor(3)) ? "on" : "off"));
 				}
 			}
 			break;

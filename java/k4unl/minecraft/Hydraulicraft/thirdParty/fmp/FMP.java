@@ -14,6 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 
 public class FMP implements IThirdParty{
@@ -37,6 +39,7 @@ public class FMP implements IThirdParty{
         initRecipes();
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void clientSide(){}
 	

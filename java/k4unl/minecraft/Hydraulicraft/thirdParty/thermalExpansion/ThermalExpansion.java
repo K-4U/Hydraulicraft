@@ -17,6 +17,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ThermalExpansion implements IThirdParty {
 	public static Block blockHydraulicDynamo;
@@ -40,6 +42,7 @@ public class ThermalExpansion implements IThirdParty {
         initRecipes();
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void clientSide(){}
 	

@@ -23,6 +23,8 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class IndustrialCraft implements IThirdParty{
 	public static Block blockHydraulicGenerator;
@@ -45,6 +47,7 @@ public class IndustrialCraft implements IThirdParty{
     @Override
     public void postInit(){}
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void clientSide(){
         ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicGenerator.class, new RendererHydraulicGenerator());
