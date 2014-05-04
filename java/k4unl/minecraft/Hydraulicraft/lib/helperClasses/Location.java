@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.lib.helperClasses;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.ChunkPosition;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class Location {
@@ -30,6 +31,22 @@ public class Location {
 		}
 	}
 	
+	public Location(ChunkPosition pos){
+		if(pos != null){
+			this.x = pos.chunkPosX;
+			this.y = pos.chunkPosY;
+			this.z = pos.chunkPosZ;
+		}
+	}
+	
+	public Location(MovingObjectPosition blockLookedAt) {
+		if(blockLookedAt != null){
+			this.x = blockLookedAt.blockX;
+			this.y = blockLookedAt.blockY;
+			this.z = blockLookedAt.blockZ;
+		}
+	}
+
 	public boolean equals(Location toTest){
 		if(this.x == toTest.x && this.y == toTest.y && this.z == toTest.z){
 			return true;
@@ -79,6 +96,10 @@ public class Location {
 		ret[1] = this.y;
 		ret[2] = this.z;
 		return ret;
+	}
+	
+	public int getDifference(Location otherLoc){
+		return (int)Math.sqrt(Math.pow(this.x - otherLoc.x, 2) + Math.pow(this.y - otherLoc.y, 2) + Math.pow(this.z - otherLoc.z, 2));
 	}
 	
 	public String printLocation(){

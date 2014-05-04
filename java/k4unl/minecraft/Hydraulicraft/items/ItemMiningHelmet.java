@@ -5,6 +5,7 @@ import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
@@ -15,7 +16,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemMiningHelmet extends ItemArmor {
 	private final String textureLocation;
@@ -52,16 +55,29 @@ public class ItemMiningHelmet extends ItemArmor {
 		}
 		if(itemStack.getTagCompound().getBoolean("powered")){
 			if(world.getTotalWorldTime() % 10 == 0 && world.isRemote == true){
+				MovingObjectPosition blockLookedAt = Functions.getEntityLookedObject(player, 12);
+				Location blockLocation = null;
 				Location playerLocation = new Location((int)Math.floor(player.posX), (int)Math.floor(player.posY)+1, (int)Math.floor(player.posZ));
-				//if(!prevPlayerLocation.equals(playerLocation)){
-					if(world.getBlock(playerLocation.getX(), playerLocation.getY(), playerLocation.getZ()).equals(Blocks.air)){
-						world.setBlock(playerLocation.getX(), playerLocation.getY(), playerLocation.getZ(), HCBlocks.blockLight);
-						world.scheduleBlockUpdate(playerLocation.getX(), playerLocation.getY(), playerLocation.getZ(), HCBlocks.blockLight, 1);
-						world.markBlockForUpdate(playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
-						prevPlacedBlocks.add(playerLocation);
+				if(blockLookedAt != null){
+					ForgeDirection dir = ForgeDirection.getOrientation(blockLookedAt.sideHit);
+					int x = blockLookedAt.blockX + dir.offsetX;
+					int y = blockLookedAt.blockY + dir.offsetY;
+					int z = blockLookedAt.blockZ + dir.offsetZ;
+					blockLocation = new Location(x, y, z);
+				}else{
+					blockLocation = new Location((int)Math.floor(player.posX), (int)Math.floor(player.posY)+1, (int)Math.floor(player.posZ));
+				}
+				
+				
+				if(!prevPlayerLocation.equals(blockLocation)){
+					if(world.getBlock(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ()).equals(Blocks.air)){
+						world.setBlock(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ(), HCBlocks.blockLight, playerLocation.getDifference(blockLocation) + 2, 2);
+						world.scheduleBlockUpdate(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ(), HCBlocks.blockLight, 1);
+						world.markBlockForUpdate(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ());
+						prevPlacedBlocks.add(blockLocation);
 					}
-					prevPlayerLocation = playerLocation;
-				//}
+					prevPlayerLocation = blockLocation;
+				}
 			}
 			if(world.getTotalWorldTime() % 20 == 0){
 				cleanBlocks(world);

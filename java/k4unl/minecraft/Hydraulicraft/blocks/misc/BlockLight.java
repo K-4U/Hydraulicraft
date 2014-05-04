@@ -9,15 +9,17 @@ import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockLight extends HydraulicBlockBase {
-
+	public static final int maxLightLevel = (int)(0.9F * 15);
+	
+	
 	public BlockLight(){
-		super(Names.blockLight, Material.air);
-		setLightLevel(0.9F);
+		super(Names.blockLight, Material.rock);
 		setLightOpacity(15);
-		setTickRandomly(true);
+		setTickRandomly(false);
 	}
 	
 	@Override
@@ -26,7 +28,7 @@ public class BlockLight extends HydraulicBlockBase {
 	}
 	
 	public int getRenderType(){
-        return 0;
+        return -1;
     }
 
     /**
@@ -65,7 +67,6 @@ public class BlockLight extends HydraulicBlockBase {
     	//if(world.getBlock(x, y, z) instanceof BlockLight){
 	    	//Seach within 3 blocks for a player.
 	    	//If no player found. Remove the block
-    		world.setBlockToAir(x, y, z);
 	    	if(world.getClosestPlayer(x, y, z, 3) == null){
 	    		world.setBlockToAir(x, y, z);
 	    	}else{
@@ -82,6 +83,11 @@ public class BlockLight extends HydraulicBlockBase {
 	    		}
 	    	}
     	//}
-	    world.scheduleBlockUpdate(x, y, z, HCBlocks.blockLight, 20);
+	    world.scheduleBlockUpdate(x, y, z, HCBlocks.blockLight, 1);
+    }
+    
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z){
+    	return world.getBlockMetadata(x, y, z);
     }
 }

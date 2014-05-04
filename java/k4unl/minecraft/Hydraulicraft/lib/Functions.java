@@ -6,9 +6,13 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkPosition;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -168,4 +172,19 @@ public class Functions {
 		}
 		return 0;
 	}
+	
+    public static MovingObjectPosition getEntityLookedObject(EntityLivingBase entity, float maxDistance){
+        Vec3 entityVec = Vec3.createVectorHelper(entity.posX, entity.posY + entity.getEyeHeight() - entity.yOffset - (entity.isSneaking() ? 0.08 : 0), entity.posZ);
+        Vec3 entityLookVec = entity.getLook(1.0F);
+        Vec3 maxDistVec = entityVec.addVector(entityLookVec.xCoord * maxDistance, entityLookVec.yCoord * maxDistance, entityLookVec.zCoord * maxDistance);
+        return entity.worldObj.rayTraceBlocks(entityVec, maxDistVec);
+    }
+
+    public static ChunkPosition getEntityLookedBlock(EntityLivingBase entity, float maxDistance){
+        MovingObjectPosition hit = getEntityLookedObject(entity, maxDistance);
+        if(hit == null || hit.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
+            return null;
+        }
+        return new ChunkPosition(hit.blockX, hit.blockY, hit.blockZ);
+    }
 }
