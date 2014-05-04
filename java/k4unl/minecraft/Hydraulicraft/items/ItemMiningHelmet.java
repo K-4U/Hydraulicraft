@@ -76,7 +76,7 @@ public class ItemMiningHelmet extends ItemArmor {
 				
 				if(!prevPlayerLocation.equals(blockLocation)){
 					if(world.getBlock(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ()).equals(Blocks.air)){
-						world.setBlock(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ(), HCBlocks.blockLight, playerLocation.getDifference(blockLocation) + 3, 3);
+						world.setBlock(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ(), HCBlocks.blockLight, playerLocation.getDifference(blockLocation) + 4, 3);
 						world.scheduleBlockUpdate(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ(), HCBlocks.blockLight, 1);
 						world.markBlockForUpdate(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ());
 						prevPlacedBlocks.add(blockLocation);

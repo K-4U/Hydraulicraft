@@ -26,6 +26,7 @@ public class HCItems {
 	public static Item itemMovingPane;
 	
 	public static Item itemMiningHelmet;
+	public static Item itemLamp;
 	
 	/*!
 	 * @author Koen Beckers
@@ -48,6 +49,7 @@ public class HCItems {
 		
 		itemMovingPane = new ItemMovingPane();
 		itemMiningHelmet = new ItemMiningHelmet();
+		itemLamp = new ItemLamp();
 		
 		registerItems();
 	}
@@ -70,8 +72,10 @@ public class HCItems {
 		GameRegistry.registerItem(itemDust, Names.itemDust.unlocalized);
 		GameRegistry.registerItem(itemChunk, Names.itemChunk.unlocalized);
 		GameRegistry.registerItem(itemMiningHelmet, Names.itemMiningHelmet.unlocalized);
+		GameRegistry.registerItem(itemLamp, Names.itemLamp.unlocalized);
 		
 		GameRegistry.registerItem(itemMovingPane, "item"+Names.blockMovingPane.unlocalized);
+		
 		
 		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));
 		OreDictionary.registerOre(Names.ingotLead.unlocalized, new ItemStack(ingotLead));
@@ -83,3 +87,4 @@ public class HCItems {
 		BucketHandler.INSTANCE.buckets.put(Fluids.fluidOilBlock, itemBucketOil);
 	}
 }
+

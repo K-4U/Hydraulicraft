@@ -33,9 +33,6 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	public TileHydraulicPressureVat(){
 		super(PressureTier.HIGHPRESSURE, 48);
 		super.init(this);
-		if(tank == null){
-			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME);
-		}
 	}
 	
 	public TileHydraulicPressureVat(int _tier){
@@ -48,14 +45,21 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	}
 	
 	public void setTier(int newTier){
-		super.setMaxStorage(16 * (tier + 1));
-		super.setPressureTier(PressureTier.fromOrdinal(newTier));
-		if(tank == null){
+		if(tier == -1 && newTier != -1){
+			tier = newTier;
+			super.setMaxStorage(16 * (tier + 1));
+			super.setPressureTier(PressureTier.fromOrdinal(newTier));
 			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
 		}
 	}
 	
 	public int getTier() {
+		if(tier == -1 && worldObj != null){
+			tier = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
+			super.setMaxStorage(2 * (tier + 1));
+			super.setPressureTier(PressureTier.fromOrdinal(tier));
+		}
 		return tier;
 	}
 
@@ -229,8 +233,12 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
-		return tankInfo;
+		if(tank != null){
+			FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
+			return tankInfo;
+		}else{
+			return null;
+		}
 		
 	}
 
@@ -252,24 +260,26 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	
 	@Override
 	public void setStored(int i, boolean isOil) {
-		if(isOil){
-			if(i == 0){
-				tank.setFluid(null);
+		if(tank != null){
+			if(isOil){
+				if(i == 0){
+					tank.setFluid(null);
+				}else{
+					tank.setFluid(new FluidStack(Fluids.fluidOil, i));
+				}
 			}else{
-				tank.setFluid(new FluidStack(Fluids.fluidOil, i));
+				if(i == 0){
+					tank.setFluid(null);
+				}else{
+					tank.setFluid(new FluidStack(FluidRegistry.WATER, i));
+				}
+				//Log.info("Fluid in tank: " + tank.getFluidAmount() + "x" + FluidRegistry.getFluidName(tank.getFluid().fluidID));
+				//if(!worldObj.isRemote){
+				
+				//}
 			}
-		}else{
-			if(i == 0){
-				tank.setFluid(null);
-			}else{
-				tank.setFluid(new FluidStack(FluidRegistry.WATER, i));
-			}
-			//Log.info("Fluid in tank: " + tank.getFluidAmount() + "x" + FluidRegistry.getFluidName(tank.getFluid().fluidID));
-			//if(!worldObj.isRemote){
-			
-			//}
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
 	@Override
@@ -304,7 +314,9 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 		
 		NBTTagCompound tankCompound = tagCompound.getCompoundTag("tank");
 		if(tankCompound != null){
-			tank.readFromNBT(tankCompound);
+			if(tank != null){
+				tank.readFromNBT(tankCompound);
+			}
 		}
 	}
 

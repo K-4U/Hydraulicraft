@@ -6,6 +6,7 @@ import java.util.List;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -281,13 +282,13 @@ public class Recipes {
                         'C', new ItemStack(HCBlocks.blockCore, 1, 2),
                         'I', HCBlocks.blockInterfaceValve
                 });
-		/* FMP 
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 4, 0), true,
                 new Object[]{
                         "LLL",
                         "K-K",
                         "LLL",
-                        'K', HydraulicraftItems.gasket,
+                        'K', HCItems.gasket,
                         'L', "ingotLead"
                 }));
 		
@@ -296,7 +297,7 @@ public class Recipes {
                         "C-C",
                         "KHK",
                         "C-C",
-                        'K', HydraulicraftItems.gasket,
+                        'K', HCItems.gasket,
                         'C', "ingotCopper",
                         'H', new ItemStack(Multipart.itemPartHose, 1, 0)
                 }));
@@ -306,12 +307,12 @@ public class Recipes {
 					"C-K",
 					"-H-",
 					"K-C",
-					'K', HydraulicraftItems.gasket,
+					'K', HCItems.gasket,
 					'C', "ingotEnrichedCopper",
 					'H', new ItemStack(Multipart.itemPartHose,1,1)
 			}));
 		
-		*/
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPressurevat, 1, 0), true,
 				new Object [] {
 					"LWL",
@@ -424,14 +425,14 @@ public class Recipes {
                         'C', new ItemStack(HCBlocks.blockCore, 1, 2)
                 })
         );
-		/* FMP 
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartValve, 2, 0), true,
                 new Object[]{
                         "---",
                         "HLH",
                         "---",
                         'H', new ItemStack(Multipart.itemPartHose, 1, 0),
-                        'L', Block.lever
+                        'L', Blocks.lever
                 }));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartValve, 2, 1), true,
@@ -440,7 +441,7 @@ public class Recipes {
 		            "HLH",
 		            "---",
 		            'H', new ItemStack(Multipart.itemPartHose, 1, 1),
-		            'L', Block.lever
+		            'L', Blocks.lever
                 }));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartValve, 2, 2), true,
@@ -449,9 +450,9 @@ public class Recipes {
 		            "HLH",
 		            "---",
 		            'H', new ItemStack(Multipart.itemPartHose, 1, 2),
-		            'L', Block.lever
+		            'L', Blocks.lever
 				}));
-*/
+
 	}
 	
 	private static void initializeItemRecipes(){
@@ -478,6 +479,16 @@ public class Recipes {
 			}
 		);
 		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.itemLamp, 1), true,
+				new Object [] {
+					"-G-",
+					"GTG",
+					"-G-",
+					'G', Blocks.glass,
+					'T', Blocks.torch
+			}));
+
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.itemMiningHelmet, 1), HCItems.itemLamp, Items.iron_helmet));
 		
 	}
 	
