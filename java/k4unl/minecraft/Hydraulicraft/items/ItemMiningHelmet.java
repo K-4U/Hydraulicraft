@@ -3,6 +3,8 @@ package k4unl.minecraft.Hydraulicraft.items;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
@@ -50,11 +52,14 @@ public class ItemMiningHelmet extends ItemArmor {
 	
 	@Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack){
+		if(!world.isRemote){
+			return;
+		}
 		if(itemStack.getTagCompound() == null){
 			itemStack.setTagCompound(new NBTTagCompound());
 		}
 		if(itemStack.getTagCompound().getBoolean("powered")){
-			if(world.getTotalWorldTime() % 10 == 0 && world.isRemote == true){
+			if(world.getTotalWorldTime() % 10 == 0){
 				MovingObjectPosition blockLookedAt = Functions.getEntityLookedObject(player, 12);
 				Location blockLocation = null;
 				Location playerLocation = new Location((int)Math.floor(player.posX), (int)Math.floor(player.posY)+1, (int)Math.floor(player.posZ));
@@ -71,7 +76,7 @@ public class ItemMiningHelmet extends ItemArmor {
 				
 				if(!prevPlayerLocation.equals(blockLocation)){
 					if(world.getBlock(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ()).equals(Blocks.air)){
-						world.setBlock(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ(), HCBlocks.blockLight, playerLocation.getDifference(blockLocation) + 2, 2);
+						world.setBlock(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ(), HCBlocks.blockLight, playerLocation.getDifference(blockLocation) + 2, 3);
 						world.scheduleBlockUpdate(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ(), HCBlocks.blockLight, 1);
 						world.markBlockForUpdate(blockLocation.getX(), blockLocation.getY(), blockLocation.getZ());
 						prevPlacedBlocks.add(blockLocation);
@@ -82,7 +87,7 @@ public class ItemMiningHelmet extends ItemArmor {
 			if(world.getTotalWorldTime() % 20 == 0){
 				cleanBlocks(world);
 			}
-		}else if(world.isRemote){
+		}else{
 			while(prevPlacedBlocks.size() > 0){
 				if(world.getBlock(prevPlacedBlocks.get(0).getX(), prevPlacedBlocks.get(0).getY(), prevPlacedBlocks.get(0).getZ()).equals(HCBlocks.blockLight)){
 					world.setBlockToAir(prevPlacedBlocks.get(0).getX(), prevPlacedBlocks.get(0).getY(), prevPlacedBlocks.get(0).getZ());

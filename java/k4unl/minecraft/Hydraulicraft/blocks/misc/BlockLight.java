@@ -8,6 +8,7 @@ import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -67,12 +68,13 @@ public class BlockLight extends HydraulicBlockBase {
     	//if(world.getBlock(x, y, z) instanceof BlockLight){
 	    	//Seach within 3 blocks for a player.
 	    	//If no player found. Remove the block
-	    	if(world.getClosestPlayer(x, y, z, 3) == null){
+    		EntityPlayer closestPlayer = world.getClosestPlayer(x, y, z, 15); 
+	    	if(closestPlayer == null){
 	    		world.setBlockToAir(x, y, z);
 	    	}else{
-	    		if(world.getClosestPlayer(x, y, z, 3).getCurrentArmor(3) != null){
-		    		if(world.getClosestPlayer(x, y, z, 3).getCurrentArmor(3).getItem() == HCItems.itemMiningHelmet){
-		    			if(!ItemMiningHelmet.isPoweredOn(world.getClosestPlayer(x, y, z, 3).getCurrentArmor(3))){
+	    		if(closestPlayer.getCurrentArmor(3) != null){
+		    		if(closestPlayer.getCurrentArmor(3).getItem() == HCItems.itemMiningHelmet){
+		    			if(!ItemMiningHelmet.isPoweredOn(closestPlayer.getCurrentArmor(3))){
 		    				world.setBlockToAir(x, y, z);
 		    			}
 		    		}else{
@@ -83,7 +85,12 @@ public class BlockLight extends HydraulicBlockBase {
 	    		}
 	    	}
     	//}
-	    world.scheduleBlockUpdate(x, y, z, HCBlocks.blockLight, 1);
+	    //world.scheduleBlockUpdate(x, y, z, HCBlocks.blockLight, 10);
+    }
+    
+    @Override
+    public void onBlockAdded(World world, int x, int y, int z){
+    	world.scheduleBlockUpdate(x, y, z, HCBlocks.blockLight, 10);
     }
     
     @Override

@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
 import k4unl.minecraft.Hydraulicraft.events.EventHelper;
-import k4unl.minecraft.Hydraulicraft.events.KeyHandler;
+import k4unl.minecraft.Hydraulicraft.events.TickHandler;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.ConfigHandler;
@@ -13,6 +13,7 @@ import k4unl.minecraft.Hydraulicraft.lib.Recipes;
 import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
@@ -76,7 +77,7 @@ public class Hydraulicraft {
 		ThirdPartyManager.instance().preInit();
 		
 		Multipart.init();
-		KeyHandler.init();
+		TickHandler.init();
 	}
 	
 	/*!
@@ -103,7 +104,7 @@ public class Hydraulicraft {
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new GuiHandler());
-		
+		PacketPipeline.init();
 		
 		proxy.init();
 	}

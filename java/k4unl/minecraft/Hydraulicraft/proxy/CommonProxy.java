@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.proxy;
 import net.minecraft.client.model.ModelBiped;
 
 
-public class CommonProxy /* FMP implements IPartFactory */{
+public class CommonProxy {
 	
 	public void init(){
 		

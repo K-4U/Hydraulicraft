@@ -89,7 +89,9 @@ public class Constants {
 	
 	
 	
+	public static final int PACKET_UPDATE_DISTANCE = 64;
 	
+	public static final int KEYS_MINING_HELMET = 0;
 	
 	
 	
