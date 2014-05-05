@@ -3,18 +3,28 @@ package k4unl.minecraft.Hydraulicraft.events;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
+import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker.UpdateInfo;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHelper {
-
+	private static boolean hasShownUpdateInfo = false;
+	
+	
 	public static void init(){
 		MinecraftForge.EVENT_BUS.register(new EventHelper());
 	}
@@ -61,29 +71,30 @@ public class EventHelper {
 			}
 		}
 	}
-/*	
-	@ForgeSubscribe
+
+	@SubscribeEvent
 	public void onEntityJoinEvent(EntityJoinWorldEvent event){
+		if(hasShownUpdateInfo || !Config.get("checkForUpdates")) return;
 		if(event.entity instanceof EntityPlayer){
-			Log.info("Player joined");
 			if(event.world.isRemote){
 				//If update available, tell em!
 				if(UpdateChecker.isUpdateAvailable){
 					UpdateInfo info = UpdateChecker.infoAboutUpdate;
-					((EntityPlayer)event.entity).addChatMessage("Hydraulicraft version " + info.latestVersion + "-" + info.buildNumber + " available!");
-					((EntityPlayer)event.entity).addChatMessage("Released on " + info.dateOfRelease);
+					Functions.showMessageInChat(((EntityPlayer)event.entity), "Hydraulicraft version " + info.latestVersion + "-" + info.buildNumber + " available!");
+					Functions.showMessageInChat(((EntityPlayer)event.entity),"Released on " + info.dateOfRelease);
 					int i = 0;
 					for(String cl : info.changelog){
-						((EntityPlayer)event.entity).addChatMessage(cl);						
+						Functions.showMessageInChat(((EntityPlayer)event.entity), cl);						
 						
 						i++;
 						if(i >= 3){
 							break;
 						}
 					}
+				}else{
+					Functions.showMessageInChat(((EntityPlayer) event.entity), "Hydraulicraft up to date (" + ModInfo.VERSION + "-" + ModInfo.buildNumber + ")");
 				}
 			}
 		}
 	}
-    */
 }

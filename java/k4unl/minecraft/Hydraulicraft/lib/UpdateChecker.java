@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 
 import com.google.gson.Gson;
@@ -22,33 +23,37 @@ public class UpdateChecker {
 	
 	
 	public static boolean checkUpdateAvailable(){
-		String json = "";
-		try {
-			json = readUrl("http://hydraulicraft.eu/update_1.6.4.json");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		if(json != ""){
-			try{
-				Gson gson = new Gson();        
-				UpdateInfo info = gson.fromJson(json, UpdateInfo.class);
-				
-				if(!info.latestVersion.equals(ModInfo.VERSION) || !info.buildNumber.equals(ModInfo.buildNumber)){
-					Log.info("New version available!");
-					Log.info("Latest version released at: " + info.dateOfRelease);
-					isUpdateAvailable = true;
-					infoAboutUpdate = info;
-					return true;
-				}else{
+		if(Config.get("checkForUpdates")){
+			String json = "";
+			try {
+				json = readUrl("http://hydraulicraft.eu/update_1.7.2.json");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			if(json != ""){
+				try{
+					Gson gson = new Gson();        
+					UpdateInfo info = gson.fromJson(json, UpdateInfo.class);
+					
+					if(!info.latestVersion.equals(ModInfo.VERSION) || !info.buildNumber.equals(ModInfo.buildNumber)){
+						Log.info("New version available!");
+						Log.info("Latest version released at: " + info.dateOfRelease);
+						isUpdateAvailable = true;
+						infoAboutUpdate = info;
+						return true;
+					}else{
+						return false;
+					}
+				}catch (Exception e){
+					e.printStackTrace();
 					return false;
 				}
-			}catch (Exception e){
-				e.printStackTrace();
+			}else{
+				Log.warning("Got empty message from update. Either not connected to internet or something fishy is going on!");
 				return false;
 			}
 		}else{
-			Log.warning("Got empty message from update. Either not connected to internet or something fishy is going on!");
 			return false;
 		}
 	}

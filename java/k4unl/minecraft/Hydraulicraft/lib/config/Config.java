@@ -42,10 +42,12 @@ public class Config {
 	
 	
 	static {
-		configOptions.add(new configOption("shouldGenOres", true));
+		configOptions.add(new configOption("shouldGenCopperOre", true));
+		configOptions.add(new configOption("shouldGenLeadOre", true));
 		configOptions.add(new configOption("shouldDolleyInHarvesterGoBack", true));
 		configOptions.add(new configOption("explosions", true));
 		configOptions.add(new configOption("canSawTwoMicroblocksAtOnce", true));
+		configOptions.add(new configOption("checkForUpdates", true));
 		
 		addHarvestableItem(new Seed(0, Blocks.wheat, 7, Items.wheat_seeds));
 		addHarvestableItem(new Seed(0, Blocks.carrots, 7, Items.carrot));
