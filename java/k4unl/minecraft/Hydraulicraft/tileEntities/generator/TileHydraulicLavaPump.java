@@ -107,8 +107,9 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 		}
 		
 		if(tank.getFluidAmount() > Constants.MAX_LAVA_USAGE[getTier()] * 2){
-			
-			lavaUsage = tank.drain(Constants.MAX_LAVA_USAGE[getTier()], false).amount;
+			FluidStack drained =tank.drain(Constants.MAX_LAVA_USAGE[getTier()], false);
+			if(drained == null) return 0F;
+			lavaUsage = drained.amount;
 			
 			float gen = lavaUsage * Constants.CONVERSION_RATIO_LAVA_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
 			gen = gen * ((float)getFluidInNetwork(from) / (float)getFluidCapacity(from));

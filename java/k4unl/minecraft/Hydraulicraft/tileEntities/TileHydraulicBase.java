@@ -710,6 +710,11 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		pressureTier = newTier;		
 		markDirty();
 	}
+	
+	@Override
+	public PressureTier getPressureTier() {
+		return pressureTier;		
+	}
 
 	@Override
 	public void setMaxStorage(int maxFluid) {

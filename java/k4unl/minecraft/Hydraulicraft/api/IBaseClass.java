@@ -151,6 +151,8 @@ public interface IBaseClass {
 	 */
 	void validateI();
 
+	PressureTier getPressureTier();
+
 	
 	
 }

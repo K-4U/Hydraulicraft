@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTr
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicWaterPump;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockMovingPane;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockPressureDisposal;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicCrusher;
@@ -58,6 +59,7 @@ public class HCBlocks {
 	public static Block movingPane;
 	public static Block blockLight;
 	
+	public static Block blockHydraulicWaterPump;
 	
 	/*!
 	 * @author Koen Beckers
@@ -88,6 +90,7 @@ public class HCBlocks {
 		movingPane = new BlockMovingPane();
 		
 		blockLight = new BlockLight();
+		blockHydraulicWaterPump = new BlockHydraulicWaterPump();
 		
 		
 		registerBlocks();
@@ -130,6 +133,7 @@ public class HCBlocks {
 		GameRegistry.registerBlock(blockCore, HandlerCoreBlock.class, Names.blockCore[0].unlocalized, ModInfo.ID);
 	
 		GameRegistry.registerBlock(blockLight, Names.blockLight.unlocalized);
+		GameRegistry.registerBlock(blockHydraulicWaterPump, Names.blockHydraulicWaterPump.unlocalized);
 	}
 	
 	/*!

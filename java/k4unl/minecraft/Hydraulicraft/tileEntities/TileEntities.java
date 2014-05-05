@@ -5,6 +5,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFrictio
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWaterPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TilePressureDisposal;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
@@ -46,6 +47,7 @@ public class TileEntities {
 		//GameRegistry.registerTileEntity(TilePressureHose.class, "tilePressureHose");
 		GameRegistry.registerTileEntity(TileInfiniteSource.class, "tileInfiniteSource");
 		GameRegistry.registerTileEntity(TileMovingPane.class, "tileMovingPane");
+		GameRegistry.registerTileEntity(TileHydraulicWaterPump.class, "tileWaterPump");
 		
 	}
 }
