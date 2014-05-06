@@ -8,12 +8,15 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
 import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ExtraUtilities implements IThirdParty{
+	public static Block enderLily;
+	
 	@Override
     public String getModId(){
         return "ExtraUtilities";
@@ -35,40 +38,26 @@ public class ExtraUtilities implements IThirdParty{
     public void clientSide(){}
 	
 	public static void initBlocks(){
-		int enderLilyBlockId = 0;
-		/*
-		for(int i=0; i < Block.blocksList.length; i++){
-			Block current = Block.blocksList[i];
-			if(current != null){
-				if("tile.extrautils:plant/ender_lilly".equals(current.getUnlocalizedName())){
-					Log.info("Found ender lily!");
-					enderLilyBlockId = current.blockID;
-				}
-			}
-		}
+		enderLily = GameRegistry.findBlock("ExtraUtilities", "plant/ender_lilly");
+		Config.addHarvestableItem(new Seed(Constants.HARVESTER_ID_ENDERLILY, enderLily, 7, Item.getItemFromBlock(enderLily)));
 		
-		if(enderLilyBlockId != 0){
-			Config.addHarvestableItem(new Seed(Constants.HARVESTER_ID_ENDERLILY, enderLilyBlockId, 7));
-			
-			((BlockHarvesterTrolley)HydraulicraftBlocks.harvesterTrolley).enableHarvester(Constants.HARVESTER_ID_ENDERLILY);
-		}
-		*/
+		((BlockHarvesterTrolley)HCBlocks.harvesterTrolley).enableHarvester(Constants.HARVESTER_ID_ENDERLILY);
 	}
 	
 	public static void initRecipes(){
-		/*
+		
 		//TODO: Think of a better recipe. Drop the ender pearl.
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HydraulicraftBlocks.harvesterTrolley, 2, Constants.HARVESTER_ID_ENDERLILY), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.harvesterTrolley, 2, Constants.HARVESTER_ID_ENDERLILY), true ,
 				new Object[] {
 					"-P-",
 					"WCW",
 					"-H-",
-					'C', new ItemStack(HydraulicraftBlocks.blockCore, 1, 1),
-					'W', HydraulicraftBlocks.hydraulicPressureWall,
-					'H', Item.enderPearl,
-					'P', HydraulicraftBlocks.hydraulicPiston
+					'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+					'W', HCBlocks.hydraulicPressureWall,
+					'H', Items.ender_pearl,
+					'P', HCBlocks.hydraulicPiston
 			})
 		);
-		*/
+		
 	}
 }

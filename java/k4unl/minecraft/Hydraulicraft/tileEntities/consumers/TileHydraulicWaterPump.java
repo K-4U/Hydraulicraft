@@ -12,6 +12,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
@@ -19,10 +20,12 @@ public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydrau
 
 	private float requiredPressure = 5.0F;
 	private int fluidHandlersNear = 0;
+	private FluidTank tank;
 
 	public TileHydraulicWaterPump(){
 		super(PressureTier.LOWPRESSURE, 2);
 		super.init(this);
+		tank = new FluidTank(new FluidStack(FluidRegistry.WATER, 10), 10);
 	}
 
 	/*!
@@ -135,11 +138,12 @@ public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydrau
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		return false;
+		return fluid.equals(FluidRegistry.WATER);
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		return null;
+		FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
+		return tankInfo;
 	}
 }

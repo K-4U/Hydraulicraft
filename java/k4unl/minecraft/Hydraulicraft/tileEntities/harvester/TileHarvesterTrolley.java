@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
+import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -165,7 +166,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	
 	@Override
 	public void updateEntity() {
-		//doMove();
+		doMove();
 	}
 	
 	@Override
@@ -383,7 +384,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		}else if(getBlockMetadata() == Constants.HARVESTER_ID_ENDERLILY){
 			//It probably is a ender lilly we want to plant..
 			//TODO: FIX ME
-			//plant = plantingItem.get;
+			plant = ExtraUtilities.enderLily;
 			plantMeta = 0;
 		}else if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
 			plant = Blocks.reeds;
