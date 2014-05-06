@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -186,5 +187,13 @@ public class Functions {
             return null;
         }
         return new ChunkPosition(hit.blockX, hit.blockY, hit.blockZ);
+    }
+    
+    public static Block getBlockInDir(IBlockAccess w, int x, int y, int z, ForgeDirection dir){
+    	return w.getBlock(x+dir.offsetX, y+dir.offsetY, z + dir.offsetZ);
+    }
+    
+    public static TileEntity getTEInDir(IBlockAccess w, int x, int y, int z, ForgeDirection dir){
+    	return w.getTileEntity(x+dir.offsetX, y+dir.offsetY, z + dir.offsetZ);
     }
 }

@@ -14,24 +14,46 @@ import net.minecraftforge.common.config.Configuration;
 public class Config {
 	private static class configOption{
 		private String key;
+		private boolean isBool;
 		private boolean val;
 		private boolean def;
+		private int valInt;
+		private int defInt;
 		public configOption(String nKey, boolean def){
 			key = nKey;
 			val = def;
 			this.def = def;
+			isBool = true;
 		}
+		
+		public configOption(String nKey, int _def){
+			key = nKey;
+			valInt = _def;
+			defInt = _def;
+			isBool = false;
+		}
+		
 		public String getKey(){
 			return key;
 		}
 		public boolean getValue(){
 			return val;
 		}
+		public int getInt(){
+			return valInt;
+		}
 		public void setValue(boolean nValue){
 			val = nValue;
 		}
+		public void setValue(int nValue){
+			valInt = nValue;
+		}
 		public void loadFromConfig(Configuration config){
-			val = config.get(config.CATEGORY_GENERAL, key, def).getBoolean(def);
+			if(isBool){
+				val = config.get(config.CATEGORY_GENERAL, key, def).getBoolean(def);
+			}else{
+				valInt = config.get(config.CATEGORY_GENERAL, key, def).getInt(defInt);
+			}
 		}
 	}
 	private static final List<configOption> configOptions = new ArrayList<configOption>();
@@ -48,6 +70,7 @@ public class Config {
 		configOptions.add(new configOption("explosions", true));
 		configOptions.add(new configOption("canSawTwoMicroblocksAtOnce", true));
 		configOptions.add(new configOption("checkForUpdates", true));
+		configOptions.add(new configOption("waterPumpPerTick", 100));
 		
 		addHarvestableItem(new Seed(0, Blocks.wheat, 7, Items.wheat_seeds));
 		addHarvestableItem(new Seed(0, Blocks.carrots, 7, Items.carrot));
@@ -63,11 +86,6 @@ public class Config {
 	public static boolean canBeCrushed(ItemStack toCrush){
 		return (CrushingRecipes.getCrushingRecipeOutput(toCrush) != null);
 	}
-	
-	/*
-	public static boolean canBeCrushed(String oreName){
-		return (CrushingRecipes.getCrushingRecipe(oreName) != null);
-	}*/
 	
 	public static boolean canBeWashed(ItemStack itemStack){
         return (WashingRecipes.getWashingRecipeOutput(itemStack) != null);
@@ -86,6 +104,15 @@ public class Config {
 			}
 		}
 		return false;
+	}
+	
+	public static int getInt(String key) {
+		for(configOption config : configOptions){
+			if(config.getKey().equals(key)){
+				return config.getInt();
+			}
+		}
+		return 0;
 	}
 	
 }

@@ -15,7 +15,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerCoreBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHose;
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
@@ -26,11 +26,9 @@ import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInfiniteSource;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockLight;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
-import k4unl.minecraft.Hydraulicraft.blocks.transporter.BlockHose;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class HCBlocks {
@@ -105,20 +103,20 @@ public class HCBlocks {
 	 * Registers the blocks to the GameRegistry
 	 */
 	public static void registerBlocks(){
-		GameRegistry.registerBlock(hydraulicMixer, ItemBlock.class, Names.blockHydraulicMixer.unlocalized, ModInfo.ID);
-		GameRegistry.registerBlock(hydraulicFrictionIncinerator, ItemBlock.class, Names.blockHydraulicFrictionIncinerator.unlocalized, ModInfo.ID);
-		GameRegistry.registerBlock(hydraulicCrusher, ItemBlock.class, Names.blockHydraulicCrusher.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(hydraulicMixer, HandlerHydraulicBlock.class, Names.blockHydraulicMixer.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(hydraulicFrictionIncinerator, HandlerHydraulicBlock.class, Names.blockHydraulicFrictionIncinerator.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(hydraulicCrusher, HandlerHydraulicBlock.class, Names.blockHydraulicCrusher.unlocalized, ModInfo.ID);
 		//GameRegistry.registerBlock(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.unlocalized);
 		//GameRegistry.registerBlock(hydraulicPressureValve, Names.blockHydraulicPressureValve.unlocalized);
-		GameRegistry.registerBlock(hydraulicPiston, ItemBlock.class, Names.blockHydraulicPiston.unlocalized, ModInfo.ID);
-		GameRegistry.registerBlock(hydraulicWasher, ItemBlock.class, Names.blockHydraulicWasher.unlocalized, ModInfo.ID);
-		GameRegistry.registerBlock(hydraulicPressureWall, ItemBlock.class, Names.blockHydraulicPressureWall.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(hydraulicPiston, HandlerHydraulicBlock.class, Names.blockHydraulicPiston.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(hydraulicWasher, HandlerHydraulicBlock.class, Names.blockHydraulicWasher.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(hydraulicPressureWall, HandlerHydraulicBlock.class, Names.blockHydraulicPressureWall.unlocalized, ModInfo.ID);
 		
-		GameRegistry.registerBlock(pressureDisposal, ItemBlock.class, Names.blockPressureDisposal.unlocalized, ModInfo.ID);
-		GameRegistry.registerBlock(blockValve, ItemBlock.class, Names.blockValve.unlocalized, ModInfo.ID);
-		GameRegistry.registerBlock(blockInterfaceValve, ItemBlock.class, Names.blockInterfaceValve.unlocalized, ModInfo.ID);
-		GameRegistry.registerBlock(blockInfiniteSource, ItemBlock.class, Names.blockInfiniteSource.unlocalized, ModInfo.ID);
-		GameRegistry.registerBlock(movingPane, ItemBlock.class, Names.blockMovingPane.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(pressureDisposal, HandlerHydraulicBlock.class, Names.blockPressureDisposal.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(blockValve, HandlerHydraulicBlock.class, Names.blockValve.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(blockInterfaceValve, HandlerHydraulicBlock.class, Names.blockInterfaceValve.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(blockInfiniteSource, HandlerHydraulicBlock.class, Names.blockInfiniteSource.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(movingPane, HandlerHydraulicBlock.class, Names.blockMovingPane.unlocalized, ModInfo.ID);
 		
 		//GameRegistry.registerBlock(blockHose, HandlerHose.class, Names.partHose[0].unlocalized, ModInfo.ID);
 		
@@ -132,8 +130,8 @@ public class HCBlocks {
 		
 		GameRegistry.registerBlock(blockCore, HandlerCoreBlock.class, Names.blockCore[0].unlocalized, ModInfo.ID);
 	
-		GameRegistry.registerBlock(blockLight, Names.blockLight.unlocalized);
-		GameRegistry.registerBlock(blockHydraulicWaterPump, Names.blockHydraulicWaterPump.unlocalized);
+		GameRegistry.registerBlock(blockLight, HandlerHydraulicBlock.class, Names.blockLight.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(blockHydraulicWaterPump, HandlerHydraulicBlock.class, Names.blockHydraulicWaterPump.unlocalized, ModInfo.ID);
 	}
 	
 	/*!

@@ -2,32 +2,26 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
-import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydraulicConsumer {
+public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydraulicConsumer, IFluidHandler {
 
 	private float requiredPressure = 5.0F;
+	private int fluidHandlersNear = 0;
 
 	public TileHydraulicWaterPump(){
-		super(PressureTier.HIGHPRESSURE, 6);
+		super(PressureTier.LOWPRESSURE, 2);
 		super.init(this);
 	}
 
@@ -37,17 +31,24 @@ public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydrau
 	 */
 	private boolean canRun(){
 		//See if it's inside the water.
-		if(isOilStored() == true) return false;
-		int fluidCapacity = getFluidCapacity(ForgeDirection.UNKNOWN);
-		int fluidInNetwork = getFluidInNetwork(ForgeDirection.UNKNOWN);
-		if(getFluidCapacity(ForgeDirection.UNKNOWN) <= getFluidInNetwork(ForgeDirection.UNKNOWN)) return false;
 		int waterBlocksAround = 0;
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			if(getWorldObj().getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == Blocks.water){
+			if(Functions.getBlockInDir(getWorldObj(), xCoord, yCoord, zCoord, dir) == Blocks.water){
 				waterBlocksAround+=1;
 			}
 		}
-		return getPressure(ForgeDirection.UNKNOWN) > requiredPressure && waterBlocksAround > 2;
+		fluidHandlersNear = 0;
+		boolean hasFluidHandlerNear = false;
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			TileEntity shouldIFillThis = Functions.getTEInDir(getWorldObj(), xCoord, yCoord, zCoord, dir);
+			if(shouldIFillThis instanceof IFluidHandler){
+				if(((IFluidHandler)shouldIFillThis).canFill(dir.getOpposite(), FluidRegistry.WATER)){
+					hasFluidHandlerNear = true;
+					fluidHandlersNear++;
+				}
+			}
+		}
+		return getPressure(ForgeDirection.UNKNOWN) > requiredPressure && waterBlocksAround >= 2 && hasFluidHandlerNear;
 	}
 	
 	@Override
@@ -59,22 +60,25 @@ public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydrau
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			return 5F + (getPressure(ForgeDirection.UNKNOWN) * 0.0005F);
+			return 5F + (getPressure(ForgeDirection.UNKNOWN) * 0.00005F);
 		}else{
 			return 0F;
 		}
 	}
 
 	private void doPump() {
-		int currentlyStored = getStored();
-		currentlyStored += 10;
-		if(getPressureTier().equals(PressureTier.MEDIUMPRESSURE)){
-			currentlyStored+=50;
+		int toFill = Config.getInt("waterPumpPerTick");
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			TileEntity shouldIFillThis = Functions.getTEInDir(getWorldObj(), xCoord, yCoord, zCoord, dir);
+			if(shouldIFillThis instanceof IFluidHandler){
+				if(((IFluidHandler)shouldIFillThis).canFill(dir.getOpposite(), FluidRegistry.WATER)){
+					if(((IFluidHandler)shouldIFillThis).fill(dir.getOpposite(), new FluidStack(FluidRegistry.WATER, toFill), false) > 0){
+						((IFluidHandler)shouldIFillThis).fill(dir.getOpposite(), new FluidStack(FluidRegistry.WATER, toFill), true);
+					}
+				}
+			}
 		}
-		if(getPressureTier().equals(PressureTier.HIGHPRESSURE)){
-			currentlyStored+=25;
-		}
-		setStored(currentlyStored, false, false);
 	}
 
 	@Override
@@ -106,5 +110,36 @@ public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydrau
 			return false;
 		}
 		return dir.equals(ForgeDirection.UP);
+	}
+
+	@Override
+	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+		return 0;
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, FluidStack resource,
+			boolean doDrain) {
+		return null;
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+		return null;
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, Fluid fluid) {
+		return false;
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+		return false;
+	}
+
+	@Override
+	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+		return null;
 	}
 }
