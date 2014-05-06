@@ -166,7 +166,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	
 	@Override
 	public void updateEntity() {
-		doMove();
+		//doMove();
 	}
 	
 	@Override

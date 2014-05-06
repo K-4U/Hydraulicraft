@@ -13,6 +13,7 @@ public class Names {
 	public static final Name blockHydraulicWasher = new Name("Washer", "hydraulicWasher");
 	public static final Name blockHydraulicPneumaticCompressor = new Name("Pneumatic Compressor", "hydraulicPneumaticCompressor");
 	public static final Name blockHydraulicPressureWall = new Name("Wall", "hydraulicPressureWall");
+	public static final Name blockHydraulicPressureGlass = new Name("Glass", "hydraulicPressureGlass");
 	public static final Name blockPressureDisposal = new Name("Pressure Disposal", "pressureDisposal");
 	public static final Name blockValve = new Name("Valve", "valve");
 	public static final Name blockInterfaceValve = new Name("Interface Valve", "interfaceValve");
@@ -110,6 +111,7 @@ public class Names {
 	public static final Name itemMiningHelmet = new Name("Mining helmet", "miningHelmet");
 	public static final Name blockLight = new Name("Light Block","blockTransparentLight");
 	public static final Name itemLamp = new Name("Lamp", "itemLamp");
+	
 	
 	
 }

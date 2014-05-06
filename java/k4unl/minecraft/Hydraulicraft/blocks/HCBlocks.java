@@ -20,6 +20,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureGlass;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInfiniteSource;
@@ -45,6 +46,7 @@ public class HCBlocks {
 	public static Block hydraulicPiston;
 	public static Block hydraulicWasher;
 	public static Block hydraulicPressureWall;
+	public static Block hydraulicPressureGlass;
 	public static Block hydraulicHarvesterSource;
 	public static Block harvesterTrolley;
 	public static Block pressureDisposal;
@@ -75,6 +77,7 @@ public class HCBlocks {
 		hydraulicPiston = new BlockHydraulicPiston();
 		hydraulicWasher = new BlockHydraulicWasher();
 		hydraulicPressureWall = new BlockHydraulicPressureWall();
+		hydraulicPressureGlass = new BlockHydraulicPressureGlass();
 		hydraulicHarvesterSource = new BlockHydraulicHarvester();
 		
 		harvesterTrolley = new BlockHarvesterTrolley();
@@ -112,6 +115,7 @@ public class HCBlocks {
 		GameRegistry.registerBlock(hydraulicPiston, HandlerHydraulicBlock.class, Names.blockHydraulicPiston.unlocalized, ModInfo.ID);
 		GameRegistry.registerBlock(hydraulicWasher, HandlerHydraulicBlock.class, Names.blockHydraulicWasher.unlocalized, ModInfo.ID);
 		GameRegistry.registerBlock(hydraulicPressureWall, ItemBlock.class, Names.blockHydraulicPressureWall.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(hydraulicPressureGlass, ItemBlock.class, Names.blockHydraulicPressureGlass.unlocalized, ModInfo.ID);
 		
 		GameRegistry.registerBlock(pressureDisposal, HandlerHydraulicBlock.class, Names.blockPressureDisposal.unlocalized, ModInfo.ID);
 		GameRegistry.registerBlock(blockValve, HandlerHydraulicBlock.class, Names.blockValve.unlocalized, ModInfo.ID);
