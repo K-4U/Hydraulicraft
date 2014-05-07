@@ -137,7 +137,7 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		}else if(compResult < 0 && isRetracting){
 			extendedLength -= movingSpeedExtending;
 		}else{
-			extendedLength=extendTarget;
+			extendedLength = extendTarget;
 			isMovingUpDown = false;
 		}
 		
@@ -162,21 +162,27 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 			}
 		    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
+		//worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	@Override
 	public void updateEntity() {
-		//doMove();
+		if(getWorldObj().isRemote){
+			doMove();
+		}
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		extendedLength = tagCompound.getFloat("extendedLength");
-		extendTarget = tagCompound.getFloat("extendTarget");
+		if(getWorldObj().isRemote){
+			extendTarget = tagCompound.getFloat("extendTarget");
+			sideTarget = tagCompound.getFloat("sideTarget");
+		}
 		isRetracting = tagCompound.getBoolean("isRetracting");
 		isMovingSideways = tagCompound.getBoolean("isMoving");
 		sideLength = tagCompound.getFloat("sideLength");
-		sideTarget = tagCompound.getFloat("sideTarget");
+		
 		movingSpeedExtending = tagCompound.getFloat("movingSpeedExtending");
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 		harvesterPart = tagCompound.getBoolean("harvesterPart");
