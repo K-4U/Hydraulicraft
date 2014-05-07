@@ -28,6 +28,7 @@ public class HandlerHydraulicBlock extends ItemBlock {
 			Block btH = ((HandlerHydraulicBlock)theItem).blockToHandle;
 			if(btH instanceof BlockHydraulicWaterPump){
 				list.add("Max: Low pressure");
+				list.add("Note: This blocks works but is going to replaced in the future!");
 			}else{
 				list.add("Max: High pressure");
 			}

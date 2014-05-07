@@ -452,6 +452,27 @@ public class Recipes {
 		            'H', new ItemStack(Multipart.itemPartHose, 1, 2),
 		            'L', Blocks.lever
 				}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockHydraulicWaterPump, 1), true,
+				new Object [] {
+					"-P-",
+		            "GCG",
+		            "WWW",
+		            'W', HCBlocks.hydraulicPressureWall,
+		            'C', new ItemStack(HCBlocks.blockCore, 1, 0),
+		            'P', Blocks.piston,
+		            'G', HCItems.gasket
+				}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPressureGlass, 8), true,
+				new Object [] {
+					"GWG",
+		            "GLG",
+		            "GWG",
+		            'W', HCBlocks.hydraulicPressureWall,
+		            'L', "ingotLead",
+		            'G', Blocks.glass
+				}));
 
 	}
 	

@@ -7,6 +7,8 @@ item.ingotLead.name=Lead Ingot
 item.ingotEnrichedCopper.name=Enriched Copper Ingot
 item.bucketHydraulicOil.name=Hydraulic Oil Bucket
 item.bacon.name=Bacon
+item.miningHelmet.name=Miners Helmet
+item.itemLamp.name=Miners Helmet Lamp
 
 #Ores
 tile.oreCopper.name=Copper Ore
@@ -18,7 +20,8 @@ tile.hydraulicMixer.name=Mixer
 tile.hydraulicFrictionIncinerator.name=Friction Incinerator
 tile.hydraulicCrusher.name=Crusher
 tile.hydraulicWasher.name=Washer
-tile.hydraulicPressureWall.name=Wall
+tile.hydraulicPressureWall.name=Pressure Wall
+tile.hydraulicPressureGlass.name=Pressure Glass
 
 tile.LPHydraulicPipe.name=Low Pressure Pipe
 tile.MPHydraulicPipe.name=Medium Pressure Pipe
@@ -53,6 +56,13 @@ tile.valve.name=Hydraulic Block Valve
 tile.LPBlockCore.name=Low Pressure Core
 tile.MPBlockCore.name=Medium Pressure Core
 tile.HPBlockCore.name=High Pressure Core
+
+tile.blockInfiniteSource.name=Infinite Source
+tile.hydraulicWaterPump.name=Hydraulic Archimedes' Screw (WIP)
+
+key.hydcraft.category=Hydraulicraft
+key.mining_helmet.desc=Mining helmet on/off
+
 
 ####MISC
 itemGroup.tabHydraulicraft=HydrauliCraft
