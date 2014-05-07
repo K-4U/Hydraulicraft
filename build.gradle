@@ -57,7 +57,7 @@ dependencies {
 
 
 def isDev = false
-version = "2.0"
+version = "2.0.1"
 group= "k4unl.minecraft.Hydraulicraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HydCraft"
 

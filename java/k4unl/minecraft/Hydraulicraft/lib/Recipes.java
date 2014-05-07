@@ -473,6 +473,24 @@ public class Recipes {
 		            'L', "ingotLead",
 		            'G', Blocks.glass
 				}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockCopper, 1), true,
+				new Object [] {
+					"CCC",
+		            "CCC",
+		            "CCC",
+		            'C', "ingotCopper"
+				}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockLead, 1), true,
+				new Object [] {
+					"LLL",
+		            "LLL",
+		            "LLL",
+		            'L', "ingotLead"
+				}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotCopper, 9), "copperBlock"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotLead, 9), "leadBlock"));
+		
 
 	}
 	

@@ -111,6 +111,8 @@ public class Names {
 	public static final Name itemMiningHelmet = new Name("Mining helmet", "miningHelmet");
 	public static final Name blockLight = new Name("Light Block","blockTransparentLight");
 	public static final Name itemLamp = new Name("Lamp", "itemLamp");
+	public static final Name blockLead = new Name("Lead Block", "blockLead");
+	public static final Name blockCopper = new Name("Copper Block", "blockCopper");
 	
 	
 	

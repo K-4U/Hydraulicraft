@@ -19,18 +19,21 @@ import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockCopper;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureGlass;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInfiniteSource;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockLead;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockLight;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class HCBlocks {
@@ -61,6 +64,8 @@ public class HCBlocks {
 	public static Block blockLight;
 	
 	public static Block blockHydraulicWaterPump;
+	public static Block blockCopper;
+	public static Block blockLead;
 	
 	/*!
 	 * @author Koen Beckers
@@ -93,6 +98,9 @@ public class HCBlocks {
 		
 		blockLight = new BlockLight();
 		blockHydraulicWaterPump = new BlockHydraulicWaterPump();
+		
+		blockLead = new BlockLead();
+		blockCopper = new BlockCopper();
 		
 		
 		registerBlocks();
@@ -137,6 +145,12 @@ public class HCBlocks {
 	
 		GameRegistry.registerBlock(blockLight, HandlerHydraulicBlock.class, Names.blockLight.unlocalized, ModInfo.ID);
 		GameRegistry.registerBlock(blockHydraulicWaterPump, HandlerHydraulicBlock.class, Names.blockHydraulicWaterPump.unlocalized, ModInfo.ID);
+		
+		GameRegistry.registerBlock(blockCopper, ItemBlock.class, Names.blockCopper.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(blockLead, ItemBlock.class, Names.blockLead.unlocalized, ModInfo.ID);
+		
+		OreDictionary.registerOre(Names.blockCopper.unlocalized, blockCopper);
+		OreDictionary.registerOre(Names.blockLead.unlocalized, blockLead);
 	}
 	
 	/*!
