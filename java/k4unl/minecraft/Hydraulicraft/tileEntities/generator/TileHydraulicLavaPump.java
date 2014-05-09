@@ -140,7 +140,9 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 	public int getTier() {
 		if(tier == -1 && worldObj != null){
 			tier = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
+			if(tank == null){
+				tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
+			}
 			super.setMaxStorage(2 * (tier + 1));
 			super.setPressureTier(PressureTier.fromOrdinal(tier));
 		}
@@ -155,7 +157,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 		setTier(tagCompound.getInteger("tier"));
 		NBTTagCompound tankCompound = tagCompound.getCompoundTag("tank");
 		if(tankCompound != null){
-			tank.readFromNBT(tankCompound);
+			tank = tank.readFromNBT(tankCompound);
 		}
 		
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
