@@ -11,6 +11,10 @@ public class Localization {
 	public static final String GUI_USING_ENTRY = "lang.gui.using";
 	public static final String GUI_OUTPUT_ENTRY = "lang.gui.output";
 	public static final String GUI_BURNLEFT_ENTRY = "lang.gui.burnLeft";
+	public static final String NOTE_WIP_REPLACED = "lang.warn.wip";
+	public static final String MAXPRESSURE_HIGH = "lang.gui.maxHighPressure";
+	public static final String MAXPRESSURE_MEDIUM= "lang.gui.maxMediumPressure";
+	public static final String MAXPRESSURE_LOW = "lang.gui.maxLowPressure";
 	
 	
 	public static String getLocalizedName(String unlocalizedName){
@@ -29,4 +33,5 @@ public class Localization {
 		return StatCollector.translateToLocalFormatted(unlocalized, args);
 	}
 }
+
 

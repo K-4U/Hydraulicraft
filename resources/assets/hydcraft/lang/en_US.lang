@@ -64,7 +64,7 @@ tile.blockCopper.name=Copper Block
 tile.blockLead.name=Lead Block
 
 key.hydcraft.category=Hydraulicraft
-key.mining_helmet.desc=Mining helmet on/off
+key.mining_helmet.desc=Miners helmet on/off
 
 
 
@@ -79,6 +79,11 @@ lang.gui.max=Max
 lang.gui.using=Using
 lang.gui.output=Output
 lang.gui.burnLeft=Burn left
+#NEW
+lang.gui.maxHighPressure=Max: High pressure
+lang.gui.maxMediumPressure=Max: Medium pressure
+lang.gui.maxLowPressure=Max: Low pressure
+lang.warn.wip=Note: This blocks works but is going to replaced in the future!
 
 ####Third party
 #PneumaticCraft

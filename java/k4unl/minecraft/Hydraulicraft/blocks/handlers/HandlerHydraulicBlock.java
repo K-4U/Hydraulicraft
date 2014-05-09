@@ -2,7 +2,9 @@ package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 
 import java.util.List;
 
+import scala.tools.nsc.backend.icode.Members.Local;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicWaterPump;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -27,10 +29,10 @@ public class HandlerHydraulicBlock extends ItemBlock {
 			Item theItem  = itemstack.getItem();
 			Block btH = ((HandlerHydraulicBlock)theItem).blockToHandle;
 			if(btH instanceof BlockHydraulicWaterPump){
-				list.add("Max: Low pressure");
-				list.add("Note: This blocks works but is going to replaced in the future!");
+				list.add(Localization.getLocalizedName(Localization.MAXPRESSURE_LOW));
+				list.add(Localization.getLocalizedName(Localization.NOTE_WIP_REPLACED));
 			}else{
-				list.add("Max: High pressure");
+				list.add(Localization.getLocalizedName(Localization.MAXPRESSURE_HIGH));
 			}
 		}
 	}
