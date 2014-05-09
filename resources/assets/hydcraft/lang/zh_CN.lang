@@ -2,11 +2,13 @@
 #Items
 item.gasket.name=垫圈
 item.frictionPlate.name=摩擦板
-item.ingotCopper.name=铜矿
+item.ingotCopper.name=铜锭
 item.ingotLead.name=铅锭
 item.ingotEnrichedCopper.name=浓缩铜锭
 item.bucketHydraulicOil.name=液压油桶
 item.bacon.name=培根
+item.miningHelmet.name=矿工头盔
+item.itemLamp.name=矿工头盔灯
 
 #Ores
 tile.oreCopper.name=铜矿
@@ -18,7 +20,8 @@ tile.hydraulicMixer.name=混合机
 tile.hydraulicFrictionIncinerator.name=摩擦焚烧炉
 tile.hydraulicCrusher.name=磨粉机
 tile.hydraulicWasher.name=洗矿机
-tile.hydraulicPressureWall.name=墙
+tile.hydraulicPressureWall.name=压力墙
+tile.hydraulicPressureGlass.name=压力玻璃
 
 tile.LPHydraulicPipe.name=低压管道
 tile.MPHydraulicPipe.name=中压管道
@@ -42,9 +45,9 @@ tile.HPHydraulicLavaPump.name=高压岩浆泵
 
 tile.hydraulicHarvesterSource.name=液压收割机
 tile.hydraulicHarvesterFrame.name=收割框架
-tile.wheatHarvester.name=小麦收割机多莉
-tile.enderLilyHarvester.name=末影百合收割机多莉
-tile.sugarCaneHarvester.name=甘蔗收割机多莉
+tile.wheatHarvester.name=小麦收割机
+tile.enderLilyHarvester.name=末影百合收割机
+tile.sugarCaneHarvester.name=甘蔗收割机
 
 tile.hydraulicPiston.name=液压活塞
 tile.interfaceValve.name=接口阀门
@@ -53,6 +56,17 @@ tile.valve.name=液压方块阀门
 tile.LPBlockCore.name=低压核心
 tile.MPBlockCore.name=中压核心
 tile.HPBlockCore.name=高压核心
+
+tile.blockInfiniteSource.name=无线能源
+tile.hydraulicWaterPump.name=阿基米德螺旋泵 (WIP)
+
+tile.blockCopper.name=铜块
+tile.blockLead.name=铅块
+
+key.hydcraft.category=液压工业
+key.mining_helmet.desc=挖矿头盔 开/关
+
+
 
 ####MISC
 itemGroup.tabHydraulicraft=液压工艺
