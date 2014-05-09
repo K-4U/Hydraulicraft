@@ -2,9 +2,11 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsumer {
@@ -206,7 +208,34 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 	
 	@Override
 	public boolean getRedstonePowered(){
-		
 		return super.getRedstonePowered();
 	}
+	
+	public boolean getRedstonePowered(Object caller){
+		boolean allFalse = true;
+		boolean oneTrue = false;
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			TileEntity te = Functions.getTEInDir(getWorldObj(), xCoord, yCoord, zCoord, dir);
+			if(te instanceof TileMovingPane){
+				if(te != caller){
+					if(((TileMovingPane) te).getRedstonePowered(this) == true){
+						oneTrue = true;
+						allFalse = false;
+					}
+				}
+			}
+		}
+		if(oneTrue){
+			return true;
+		}
+		if(allFalse){
+			return super.getRedstonePowered();
+		}
+		return super.getRedstonePowered();
+	}
+	
+	@Override
+	public boolean shouldRenderInPass(int pass){
+        return true;
+    }
 }

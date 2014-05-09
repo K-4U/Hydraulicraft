@@ -31,6 +31,16 @@ public class BlockMovingPane extends HydraulicBlockContainerBase {
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileMovingPane();
 	}
+	
+	@Override
+    public boolean canRenderInPass(int pass){
+        return true;
+    }
+	
+	@Override
+	public int getRenderBlockPass(){
+		return 1;
+	}
 
 	// This block is called when block is broken and destroys the primary block.
 	@Override
