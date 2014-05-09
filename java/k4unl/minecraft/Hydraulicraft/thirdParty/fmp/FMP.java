@@ -50,6 +50,7 @@ public class FMP implements IThirdParty{
 		GameRegistry.registerTileEntity(TileHydraulicSaw.class, "tileHydraulicSaw");
 		
 		FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(HCBlocks.hydraulicPressureWall, 1));
+		FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(HCBlocks.hydraulicPressureGlass, 1));
 	}
 	
 	public static void initRecipes(){

@@ -66,6 +66,8 @@ tile.blockLead.name=Lead Block
 key.hydcraft.category=Hydraulicraft
 key.mining_helmet.desc=Miners helmet on/off
 
+tile.movingPane.name=Moving Pane
+item.movingPane.name=Moving Pane
 
 
 ####MISC

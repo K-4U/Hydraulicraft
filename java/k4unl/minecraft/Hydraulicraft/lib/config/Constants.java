@@ -24,6 +24,9 @@ public class Constants {
 	
 	public final static float USING_WATER_PENALTY = 0.5F;
 	
+	public final static float MIN_PRESSURE_PANE = 10.0F;
+	public final static float PRESSURE_PANE_PER_TICK = 5.0F;
+	
 	//GUI
 	public final static int COLOR_WATER = 0x4F006DD9;
 	public final static int COLOR_PRESSURE = 0x3FFFFFFF;

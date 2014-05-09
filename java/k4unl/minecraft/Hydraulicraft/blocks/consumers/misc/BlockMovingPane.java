@@ -168,7 +168,6 @@ public class BlockMovingPane extends HydraulicBlockContainerBase {
 		return true;
     }
 	
-	@SideOnly(Side.CLIENT)
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y,
 			int z) {
@@ -203,7 +202,6 @@ public class BlockMovingPane extends HydraulicBlockContainerBase {
 	}
 
     @Override
-    @SideOnly(Side.CLIENT)
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity){
     	TileEntity tileEntity = world.getTileEntity(x, y, z);
 

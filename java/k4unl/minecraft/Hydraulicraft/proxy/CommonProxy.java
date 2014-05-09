@@ -27,15 +27,6 @@ public class CommonProxy {
 	public void initSounds(){
 		
 	}
-/*FMP
-	@Override
-	public TMultiPart createPart(String id, boolean client) {
-		if(id.equals(Names.partHose[0].unlocalized)){
-			return new PartHose();
-		}
-		return null;
-	}
-	*/
 	
 	public ModelBiped getArmorModel(int id){
 		return null;

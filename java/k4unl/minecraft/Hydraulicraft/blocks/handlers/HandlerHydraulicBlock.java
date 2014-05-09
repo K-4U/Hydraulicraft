@@ -10,6 +10,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentStyle;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -29,10 +32,10 @@ public class HandlerHydraulicBlock extends ItemBlock {
 			Item theItem  = itemstack.getItem();
 			Block btH = ((HandlerHydraulicBlock)theItem).blockToHandle;
 			if(btH instanceof BlockHydraulicWaterPump){
-				list.add(Localization.getLocalizedName(Localization.MAXPRESSURE_LOW));
-				list.add(Localization.getLocalizedName(Localization.NOTE_WIP_REPLACED));
+				list.add(EnumChatFormatting.RED + Localization.getString(Localization.MAXPRESSURE_LOW));
+				list.add(EnumChatFormatting.RESET + Localization.getString(Localization.NOTE_WIP_REPLACED));
 			}else{
-				list.add(Localization.getLocalizedName(Localization.MAXPRESSURE_HIGH));
+				list.add(EnumChatFormatting.GREEN + Localization.getString(Localization.MAXPRESSURE_HIGH));
 			}
 		}
 	}

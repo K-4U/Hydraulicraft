@@ -79,6 +79,8 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         boundingBoxes[6] = new Cuboid6(centerFirst - w, centerFirst - w, centerFirst - w, centerFirst + w, centerFirst + w, centerFirst + w);
         boundingBoxes[13] = new Cuboid6(centerSecond - w, centerSecond - w, centerSecond - w, centerSecond + w, centerSecond + w, centerSecond + w);
         
+        
+        
         int i = 0;
     	for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
     		double xMin1 = (dir.offsetX < 0 ? 0.0 : (dir.offsetX == 0 ? centerFirst - w : centerFirst + w));
@@ -112,11 +114,13 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
 	public void preparePlacement(int itemDamage) {
 		tier = itemDamage;
+		
 	}
 	
 	@Override
 	public void load(NBTTagCompound tagCompound){
 		super.load(tagCompound);
+		connectedSides = new HashMap<ForgeDirection, TileEntity>();
 		if(getHandler() != null){
 			getHandler().validateI();
 			getHandler().readFromNBTI(tagCompound);
@@ -419,7 +423,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			if(ent == null) continue;
 			if(!shouldConnectTo(ent, dir, this)) continue;
 			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), dir);
+			
 			if(foundNetwork != null){
+				if(connectedSides == null){
+					connectedSides = new HashMap<ForgeDirection, TileEntity>();
+				}
+				connectedSides.put(dir, ent);
 				if(endNetwork == null){
 					endNetwork = foundNetwork;
 				}else{
@@ -450,7 +459,14 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	
 	@Override
 	public void onRemoved(){
-		getHandler().invalidateI();
+		super.onRemoved();
+		if(!world().isRemote){
+			for(Map.Entry<ForgeDirection, TileEntity> entry : connectedSides.entrySet()) {
+				if(getNetwork(entry.getKey()) != null){
+					getNetwork(entry.getKey()).removeMachine(this);
+				}
+	        }
+		}
 	}
 	
 	@SideOnly(Side.CLIENT)

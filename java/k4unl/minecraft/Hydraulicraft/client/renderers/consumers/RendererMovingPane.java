@@ -106,6 +106,7 @@ public class RendererMovingPane extends TileEntitySpecialRenderer {
 	
 	public static void drawBase(){
 		if(MinecraftForgeClient.getRenderPass() == 0){
+			GL11.glColor3f(0.9F, 0.9F, 0.9F);
 			GL11.glBegin(GL11.GL_QUADS);
 			RenderHelper.drawTexturedCube(new Vector3fMax(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F));
 			GL11.glEnd();

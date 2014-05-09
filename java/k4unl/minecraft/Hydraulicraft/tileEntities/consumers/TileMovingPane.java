@@ -1,8 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,6 +32,10 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
     	super.init(this);
     }
 
+    public boolean getIsRotating(){
+    	return isRotating;
+    }
+    
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
@@ -75,27 +83,29 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 		super.updateEntity();
 		
 		if(isRotating && isPane){
-			prevMovedPercentage = movedPercentage;
-			movedPercentage += movingSpeed;
-			if(Float.compare(movedPercentage, target) >= 0 && movingSpeed > 0.0F){
-				isRotating = false;
-				prevMovedPercentage = target;
-				movedPercentage = target;
-				getHandler().updateBlock();
-			}else if(Float.compare(movedPercentage, target) <= 0 && movingSpeed <= 0.0F){
-				isRotating = false;
-				movingSpeed = 0.0F;
-				prevMovedPercentage = target;
-				movedPercentage = target;
-				getHandler().updateBlock();
+			if(getParent().hasEnoughPressure()){
+				prevMovedPercentage = movedPercentage;
+				movedPercentage += (movingSpeed * getParent().getPressureFactor());
+				if(Float.compare(movedPercentage, target) >= 0 && movingSpeed > 0.0F){
+					isRotating = false;
+					prevMovedPercentage = target;
+					movedPercentage = target;
+					getHandler().updateBlock();
+				}else if(Float.compare(movedPercentage, target) <= 0 && movingSpeed <= 0.0F){
+					isRotating = false;
+					movingSpeed = 0.0F;
+					prevMovedPercentage = target;
+					movedPercentage = target;
+					getHandler().updateBlock();
+				}
 			}
 		}
 		if(!worldObj.isRemote && isPane == false){
 			int targetIsNul = Float.compare(target, 0.0F);
 			int movingSpeedIsNul = Float.compare(movingSpeed, 0.0F);
-			if(getRedstonePowered()){
+			if(getRedstonePowered(this)){
 				if(Float.compare(target, 1.0F) != 0 && Float.compare(movingSpeed, 0.0F) < 0){
-					movingSpeed = 0.01F;
+					movingSpeed = 0.1F;
 					target = 1.0F;
 					isRotating = true;
 					getChild().setSpeed(movingSpeed);
@@ -103,7 +113,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 					getHandler().updateBlock();
 				}
 			}else if(Float.compare(target, 0.0F) != 0 && Float.compare(movingSpeed, 0.0F) >= 0){
-				movingSpeed = -0.01F;
+				movingSpeed = -0.1F;
 				target = 0.0F;
 				isRotating = true;
 				getChild().setSpeed(movingSpeed);
@@ -111,6 +121,14 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 				getHandler().updateBlock();
 			}
 		}
+	}
+
+	private boolean hasEnoughPressure() {
+		return getPressure(ForgeDirection.UNKNOWN) > Constants.MIN_PRESSURE_PANE;
+	}
+	
+	private float getPressureFactor(){
+		return getPressure(ForgeDirection.UNKNOWN) / getMaxPressure(isOilStored(), ForgeDirection.UNKNOWN);
 	}
 
 	@Override
@@ -135,8 +153,12 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(!isPane){
+			if(getChild().getIsRotating()){
+				return Constants.PRESSURE_PANE_PER_TICK * (10 * getPressureFactor());
+			}
+		}
+		return 0f;
 	}
 
 	@Override
@@ -212,13 +234,20 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 	}
 	
 	public boolean getRedstonePowered(Object caller){
+		List<Object> called = new ArrayList<Object>();
+		return getRedstonePowered(called);
+	}
+	
+	public boolean getRedstonePowered(List<Object> called){
+		called.add(this);
+		
 		boolean allFalse = true;
 		boolean oneTrue = false;
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			TileEntity te = Functions.getTEInDir(getWorldObj(), xCoord, yCoord, zCoord, dir);
 			if(te instanceof TileMovingPane){
-				if(te != caller){
-					if(((TileMovingPane) te).getRedstonePowered(this) == true){
+				if(!called.contains(te)){
+					if(((TileMovingPane) te).getRedstonePowered(called) == true){
 						oneTrue = true;
 						allFalse = false;
 					}

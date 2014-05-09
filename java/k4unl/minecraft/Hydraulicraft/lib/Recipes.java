@@ -490,7 +490,17 @@ public class Recipes {
 				}));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotCopper, 9), "copperBlock"));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotLead, 9), "leadBlock"));
-		
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.itemMovingPane, 2), true,
+				new Object [] {
+					"GGG",
+		            "GCG",
+		            "WKW",
+		            'W', HCBlocks.hydraulicPressureWall,
+		            'C', new ItemStack(HCBlocks.blockCore, 1, 2),
+		            'K', HCItems.gasket,
+		            'G', Blocks.glass_pane
+				}));
 
 	}
 	

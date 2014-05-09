@@ -674,10 +674,10 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		if(endNetwork != null){
 			pNetwork = endNetwork;
 			pNetwork.addMachine(target, oldPressure, ForgeDirection.UP);
-			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(target, oldPressure, ForgeDirection.UP);
-			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+			Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}		
 	}
 
