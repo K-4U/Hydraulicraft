@@ -92,17 +92,17 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 			int targetIsNul = Float.compare(target, 0.0F);
 			int movingSpeedIsNul = Float.compare(movingSpeed, 0.0F);
 			if(getRedstonePowered()){
-				if(Float.compare(target, 0.0F) != 0 && Float.compare(movingSpeed, 0.0F) >= 0){
-					movingSpeed = -0.01F;
-					target = 0.0F;
+				if(Float.compare(target, 1.0F) != 0 && Float.compare(movingSpeed, 0.0F) < 0){
+					movingSpeed = 0.01F;
+					target = 1.0F;
 					isRotating = true;
 					getChild().setSpeed(movingSpeed);
 					getChild().setTarget(target);
 					getHandler().updateBlock();
 				}
-			}else if(Float.compare(target, 1.0F) != 0 && Float.compare(movingSpeed, 0.0F) < 0){
-				movingSpeed = 0.01F;
-				target = 1.0F;
+			}else if(Float.compare(target, 0.0F) != 0 && Float.compare(movingSpeed, 0.0F) >= 0){
+				movingSpeed = -0.01F;
+				target = 0.0F;
 				isRotating = true;
 				getChild().setSpeed(movingSpeed);
 				getChild().setTarget(target);
@@ -202,5 +202,11 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 	
 	public TileMovingPane getParent(){
 		return (TileMovingPane)worldObj.getTileEntity(parent.getX(), parent.getY(), parent.getZ());
+	}
+	
+	@Override
+	public boolean getRedstonePowered(){
+		
+		return super.getRedstonePowered();
 	}
 }

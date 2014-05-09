@@ -188,7 +188,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase {
 			float maxY = 1.0F - (yPlus * eSin);
 			float maxZ = 1.0F - (zPlus * eSin);
 					
-			this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+			this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);	
 		}
 	}
 
@@ -201,6 +201,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase {
 			TileMovingPane pane = ((TileMovingPane) tileEntity);
 			if(!pane.getIsPane()){
 				setBlockBounds(0.0F,0.0F,0.0F,1.0F,1.0F,1.0F);
+				super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
 				return;
 			}
 			float movedPercentage = pane.getMovedPercentage();

@@ -60,6 +60,7 @@ public class ItemMovingPane extends HydraulicItemBase {
 			if(tilePane != null){
 				tilePane.setChildLocation(new Location(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ));
 				tilePane.setPaneFacing(s);
+				tilePane.setFacing(dir);
 			}
 			
 			world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, HCBlocks.movingPane);
@@ -67,6 +68,7 @@ public class ItemMovingPane extends HydraulicItemBase {
 			if(tilePane != null){
 				tilePane.setParentLocation(new Location(x,y,z));
 				tilePane.setPaneFacing(s);
+				tilePane.setFacing(dir);
 				tilePane.setIsPane(true);
 			}
 			return true;

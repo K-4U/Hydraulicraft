@@ -111,15 +111,18 @@ public class RendererMovingPane extends TileEntitySpecialRenderer {
 	
 	
 	public static void drawPane(TileMovingPane pane, float f){
-		GL11.glTranslatef(0.0F, 0.005F, 0.005f);
+		GL11.glBegin(GL11.GL_QUADS);
+		RenderHelper.drawTexturedCube(new Vector3fMax(-0.001F, 0.0F, -0.001F, 1.0001F, 0.051F, 0.051F));
+		GL11.glEnd();
+		GL11.glTranslatef(0.0F, 0.025F, 0.025f);
 		
-		GL11.glAlphaFunc(GL11.GL_GREATER, 0.5F); //TODO: Fix me for transparency
+		//
 		GL11.glRotatef(90.0F * pane.getMovedPercentageForRender(f), 1.0F, 0.0F, 0.0f);
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glBegin(GL11.GL_QUADS);
-		Vector3fMax vector = new Vector3fMax(0.0F, -0.005F, -0.005F, 1.0F, 0.995F, 0.005F);
+		Vector3fMax vector = new Vector3fMax(0.0F, -0.005F, -0.025F, 1.0F, 0.975F, 0.025F);
 		//Top side:
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 0.5F, 0.0F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), 1.0F, 0.0F);		
@@ -158,6 +161,7 @@ public class RendererMovingPane extends TileEntitySpecialRenderer {
 		
 		GL11.glEnd();
 		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F); //TODO: Fix me for transparency
 		
 		GL11.glPopMatrix();
 	}
