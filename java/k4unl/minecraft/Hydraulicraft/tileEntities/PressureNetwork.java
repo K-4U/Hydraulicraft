@@ -159,7 +159,7 @@ public class PressureNetwork {
 			}
 		}
 		
-		Log.info("Merged network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
+		//Log.info("Merged network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
 	}
 
 	public void writeToNBT(NBTTagCompound tagCompound) {
