@@ -468,9 +468,11 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 		if(!world().isRemote){
 			if(pNetwork1 != null){
 				pNetwork1.removeMachine(this);
+				pNetwork1 = null;
 			}
 			if(pNetwork2 != null){
 				pNetwork2.removeMachine(this);
+				pNetwork2 = null;
 			}
 		}
 	}

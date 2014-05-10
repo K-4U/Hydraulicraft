@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -20,6 +21,15 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 	private int targetY;
 	private int targetZ;
 	private boolean targetHasChanged = true;
+	
+	private boolean isTank = false;
+	private int tankSizeX = 0;
+	private int tankSizeY = 0;
+	private int tankSizeZ = 0;
+	private Location tankCorner1;
+	private Location tankCorner2;
+	
+	
 	private IHydraulicConsumer target;
 	private IFluidHandler fluidTarget;
 	private ISidedInventory inventoryTarget;

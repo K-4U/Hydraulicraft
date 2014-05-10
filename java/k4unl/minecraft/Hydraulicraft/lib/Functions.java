@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.lib;
 import java.util.ArrayList;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
@@ -128,47 +129,55 @@ public class Functions {
 		return null;
 	}
 	
-	public static int getMaxGenPerTier(int tier, boolean isOil){
+	public static int getMaxGenPerTier(PressureTier tier, boolean isOil){
 		if(!isOil){
 			switch(tier){
-			case 0:
+			case LOWPRESSURE:
 				return Constants.MAX_MBAR_GEN_WATER_TIER_1;
-			case 1:
+			case MEDIUMPRESSURE:
 				return Constants.MAX_MBAR_GEN_WATER_TIER_2;
-			case 2:
+			case HIGHPRESSURE:
 				return Constants.MAX_MBAR_GEN_WATER_TIER_3;
+			default:
+				break;
 			}			
 		}else{
 			switch(tier){
-			case 0:
+			case LOWPRESSURE:
 				return Constants.MAX_MBAR_GEN_OIL_TIER_1;
-			case 1:
+			case MEDIUMPRESSURE:
 				return Constants.MAX_MBAR_GEN_OIL_TIER_2;
-			case 2:
+			case HIGHPRESSURE:
 				return Constants.MAX_MBAR_GEN_OIL_TIER_3;
+			default:
+				break;
 			}
 		}
 		return 0;
 	}
 	
-	public static int getMaxPressurePerTier(int tier, boolean isOil){
+	public static int getMaxPressurePerTier(PressureTier tier, boolean isOil){
 		if(!isOil){
 			switch(tier){
-			case 0:
+			case LOWPRESSURE:
 				return Constants.MAX_MBAR_WATER_TIER_1;
-			case 1:
+			case MEDIUMPRESSURE:
 				return Constants.MAX_MBAR_WATER_TIER_2;
-			case 2:
+			case HIGHPRESSURE:
 				return Constants.MAX_MBAR_WATER_TIER_3;
+			default:
+				break;
 			}			
 		}else{
 			switch(tier){
-			case 0:
+			case LOWPRESSURE:
 				return Constants.MAX_MBAR_OIL_TIER_1;
-			case 1:
+			case MEDIUMPRESSURE:
 				return Constants.MAX_MBAR_OIL_TIER_2;
-			case 2:
+			case HIGHPRESSURE:
 				return Constants.MAX_MBAR_OIL_TIER_3;
+			default:
+				break;
 			}
 		}
 		return 0;

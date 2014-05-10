@@ -54,7 +54,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 			//The higher the speed!
 			float maxPressureThisTier = Functions.getMaxPressurePerTier(pNetwork.getLowestTier(), true);
 			float ratio = getPressure(ForgeDirection.UP) / maxPressureThisTier;
-			smeltingTicks = smeltingTicks + 1 + (int)((pNetwork.getLowestTier() * 4) * ratio);
+			smeltingTicks = smeltingTicks + 1 + (int)((pNetwork.getLowestTier().ordinal() * 4) * ratio);
 			if(smeltingTicks < 0){
 				smeltingTicks = 0;
 			}

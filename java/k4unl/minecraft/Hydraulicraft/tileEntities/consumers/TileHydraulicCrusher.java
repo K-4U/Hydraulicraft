@@ -58,7 +58,7 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
         if(isCrushing()) {
         	float maxPressureThisTier = Functions.getMaxPressurePerTier(pNetwork.getLowestTier(), true);
 			float ratio = getPressure(ForgeDirection.UP) / maxPressureThisTier;
-            crushingTicks = crushingTicks + 1 + (int)((pNetwork.getLowestTier() * 4) * ratio);// + (int)(getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F);
+            crushingTicks = crushingTicks + 1 + (int)((pNetwork.getLowestTier().ordinal() * 4) * ratio);// + (int)(getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F);
             //Log.info(crushingTicks+ "");
             if(crushingTicks >= maxCrushingTicks) {
                 //Crushing done!

@@ -329,7 +329,8 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     public void onPartChanged(TMultiPart part){
         checkConnectedSides();
         //getHandler().updateFluidOnNextTick();
-        getHandler().invalidateI();
+        //getHandler().invalidateI();
+        onRemoved();
     }
     
     @Override
@@ -448,11 +449,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(endNetwork != null){
 			((TileHydraulicBase)getHandler()).setNetwork(ForgeDirection.UP, endNetwork);
 			endNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
-			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+			Log.info("Found an existing network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}else{
 			endNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
 			((TileHydraulicBase)getHandler()).setNetwork(ForgeDirection.UP, endNetwork);
-			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+			Log.info("Created a new network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}
 		hasFoundNetwork = true;
 	}

@@ -6,8 +6,8 @@ import java.util.Random;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,7 +43,7 @@ public class PressureNetwork {
 	private int fluidInNetwork = 0;
 	private int fluidCapacity = 0;
 	private boolean isOilStored = false;
-	private int lowestTier = -1;
+	private PressureTier lowestTier = PressureTier.INVALID;
 	
 	public PressureNetwork(IHydraulicMachine machine, float beginPressure, ForgeDirection from){
 		randomNumber = new Random().nextInt();
@@ -53,32 +53,14 @@ public class PressureNetwork {
 		world = ((TileHydraulicBase)machine.getHandler()).getWorld();
 		isOilStored = machine.getHandler().isOilStored();
 		
-		//TODO: make me based on the enum
-		float maxPressure = machine.getHandler().getMaxPressure(isOilStored, from);
-		if(isOilStored){
-			if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_1) == 0){
-				lowestTier = 0;
-			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_2) == 0){
-				lowestTier = 1;
-			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_3) == 0){
-				lowestTier = 2;
-			} 
-		}else{
-			if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
-				lowestTier = 0;
-			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_2) == 0){
-				lowestTier = 1;
-			}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_3) == 0){
-				lowestTier = 2;
-			} 
-		}
+		lowestTier = machine.getHandler().getPressureTier();
 	}
 	
 	public int getRandomNumber(){
 		return randomNumber;
 	}
 	
-	public int getLowestTier(){
+	public PressureTier getLowestTier(){
 		return lowestTier;
 	}
 	
@@ -103,28 +85,10 @@ public class PressureNetwork {
 				world = ((TileHydraulicBase)machine.getHandler()).getWorld();
 			}
 			
-			//TODO: make me based on the enum
-			int newestTier = 4;
+			PressureTier newestTier = machine.getHandler().getPressureTier();
 			isOilStored = machine.getHandler().isOilStored();
-			float maxPressure = machine.getHandler().getMaxPressure(isOilStored, from);
-			if(isOilStored){
-				if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_1) == 0){
-					newestTier = 0;
-				}else if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_2) == 0){
-					newestTier = 1;
-				}else if(Float.compare(maxPressure, Constants.MAX_MBAR_OIL_TIER_3) == 0){
-					newestTier = 2;
-				} 
-			}else{
-				if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
-					newestTier = 0;
-				}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
-					newestTier = 1;
-				}else if(Float.compare(maxPressure, Constants.MAX_MBAR_WATER_TIER_1) == 0){
-					newestTier = 2;
-				} 
-			}
-			if(newestTier < lowestTier){
+			
+			if(newestTier.ordinal() < lowestTier.ordinal()){
 				lowestTier = newestTier;
 			}
 			

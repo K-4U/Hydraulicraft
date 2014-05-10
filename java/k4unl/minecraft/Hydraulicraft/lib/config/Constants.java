@@ -59,7 +59,7 @@ public class Constants {
 	public final static float WATER_CONVERSION_RATIO = 0.4F;
 	
 	//PneumaticCraft
-	public static final float CONVERSION_RATIO_HYDRAULIC_AIR = 0.95F;
+	public static final float CONVERSION_RATIO_HYDRAULIC_AIR = 0.98F;
 	public static final float MIN_REQUIRED_PRESSURE_COMPRESSOR = 100F;
 	
 	//Buildcraft
@@ -85,8 +85,8 @@ public class Constants {
 	public static final int[] EU_USAGE_PER_TICK = {16, 64, 128};
 	public static final int[] INTERNAL_EU_STORAGE = {4000, 8000, 16000};
 	public static final int[] MAX_EU = {32, 128, 512};
-	public static final float CONVERSION_RATIO_EU_HYDRAULIC = 0.8F;
-	public static final float CONVERSION_RATIO_HYDRAULIC_EU = 0.8F;
+	public static final float CONVERSION_RATIO_EU_HYDRAULIC = 0.02F;
+	public static final float CONVERSION_RATIO_HYDRAULIC_EU = 0.02F;
 	public static final int MIN_REQUIRED_EU = 128;
 	public static final int MAX_TRANSFER_EU = 128;
 	

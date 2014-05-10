@@ -592,8 +592,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	public void updateNetworkOnNextTick(float oldPressure) {
 		if(getWorld() != null && !getWorld().isRemote){
 			shouldUpdateNetwork = true;
+			this.pNetwork = null;
 			this.oldPressure = oldPressure;
-			markDirty();
+			//markDirty();
 			updateBlock();
 		}
 	}

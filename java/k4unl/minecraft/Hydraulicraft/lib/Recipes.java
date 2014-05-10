@@ -488,8 +488,8 @@ public class Recipes {
 		            "LLL",
 		            'L', "ingotLead"
 				}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotCopper, 9), "copperBlock"));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotLead, 9), "leadBlock"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotCopper, 9), "blockCopper"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotLead, 9), "blockLead"));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.itemMovingPane, 2), true,
 				new Object [] {
