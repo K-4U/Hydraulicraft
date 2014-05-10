@@ -43,8 +43,8 @@ dependencies {
     println(" Done")
 
     print(" - FMP")
-    ant.get(src: "http://files.minecraftforge.net/maven/codechicken/ForgeMultipart/1.7.2-1.1.0.275/ForgeMultipart-1.7.2-1.1.0.275-dev.jar", dest: "dep")
-    file("dep/ForgeMultipart-1.7.2-1.1.0.275-dev.jar").renameTo(file("dep/fmp.jar"))
+    ant.get(src: "http://files.minecraftforge.net/maven/codechicken/ForgeMultipart/1.7.2-1.1.0.279/ForgeMultipart-1.7.2-1.1.0.279-dev.jar", dest: "dep")
+    file("dep/ForgeMultipart-1.7.2-1.1.0.279-dev.jar").renameTo(file("dep/fmp.jar"))
     println(" Done")
 
     println(" Adding dependencies!")
@@ -57,7 +57,7 @@ dependencies {
 
 
 def isDev = false
-version = "2.0.1"
+version = "2.0.2"
 group= "k4unl.minecraft.Hydraulicraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HydCraft"
 
@@ -95,7 +95,7 @@ task updateBuildNum << {
 build.finalizedBy updateBuildNum
 
 minecraft {
-    version = "1.7.2-10.12.1.1060"
+    version = "1.7.2-10.12.1.1065"
         assetDir = "../Minecraft/assets"
 
         // replacing stuff in the source
