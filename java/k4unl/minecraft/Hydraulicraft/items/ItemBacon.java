@@ -7,7 +7,7 @@ import net.minecraft.item.ItemFood;
 
 public class ItemBacon extends ItemFood {
 	public ItemBacon() {
-		super(8, false);
+		super(4, false);
 		
 		setMaxStackSize(64);
 		setUnlocalizedName(Names.itemBacon.unlocalized);
