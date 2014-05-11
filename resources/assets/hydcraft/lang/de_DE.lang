@@ -66,6 +66,8 @@ tile.blockLead.name=Bleiblock
 key.hydcraft.category=Hydraulicraft
 key.mining_helmet.desc=Grubenhelm an/aus
 
+tile.movingPane.name=Fuhrscheibe
+item.movingPane.name=Fuhrscheibe
 
 
 ####MISC
@@ -79,6 +81,11 @@ lang.gui.max=Maximal
 lang.gui.using=Verbraucht
 lang.gui.output=Ausgabe
 lang.gui.burnLeft=Brenndauer
+#NEW
+lang.gui.maxHighPressure=Max: Hochdruck
+lang.gui.maxMediumPressure=Max: Mitteldruck
+lang.gui.maxLowPressure=Max: Niederdruck
+lang.warn.wip=Anmerkung: Dieser Block funktioniert, wird aber in Zukunft ersetzt!
 
 ####Third party
 #PneumaticCraft
