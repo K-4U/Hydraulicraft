@@ -1,5 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.blocks.storage;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
@@ -59,14 +62,10 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase {
 		}
 	}
 	
-	//TODO: FIX ME!
-	/* 
 	@Override
-	public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune){
-		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		//Don't drop anything please..
-		return ret;
-	} */
+	public int quantityDropped(Random p_149745_1_){
+        return 0;
+    }
 	/**
      * Returns true if the block is emitting direct/strong redstone power on the specified side. Args: World, X, Y, Z,
      * side. Note that the side is reversed - eg it is 1 (up) when checking the bottom of the block.
