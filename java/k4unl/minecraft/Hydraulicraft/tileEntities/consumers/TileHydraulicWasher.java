@@ -97,7 +97,9 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 	private void doWash(){
 		if(isWashing()){
 			washingTicks = washingTicks + 1 + (int)((getPressure(ForgeDirection.UNKNOWN)/100) * 0.0005F);
-			tank.drain(Constants.MIN_REQUIRED_WATER_FOR_WASHER / maxWashingTicks, true);
+			if(maxWashingTicks != 0){
+				tank.drain(Constants.MIN_REQUIRED_WATER_FOR_WASHER / maxWashingTicks, true);
+			}
 			if(washingTicks >= maxWashingTicks){
 				//washing done!
 				if(outputInventory == null){
@@ -491,7 +493,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 	}
 
 	public void invalidateMultiblock() {
-		int dir = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		int dir = getWorldObj().getBlockMetadata(xCoord, yCoord, zCoord);
 		
 		int depthMultiplier = ((dir == 2 || dir == 4) ? 1 : -1);
 		boolean forwardZ = ((dir == 2) || (dir == 3));
@@ -503,25 +505,25 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 					int y = yCoord + vert;
 					int z = zCoord + (forwardZ ? (depth * depthMultiplier) : horiz);
 					
-					Block block = worldObj.getBlock(x, y, z);
+					Block block = getWorldObj().getBlock(x, y, z);
 					/*
 					if(horiz == 0 && vert == 0 && (depth == 0 || depth == 1))
 						continue;*/
 					
 					if(block instanceof BlockHydraulicValve){
-						TileHydraulicValve temp = (TileHydraulicValve) worldObj.getTileEntity(x, y, z);
+						TileHydraulicValve temp = (TileHydraulicValve) getWorldObj().getTileEntity(x, y, z);
 						temp.resetTarget();
 					}
 					//if(blockId != Ids.blockDummyWasher.act)
 					//	continue;
 					
 					//worldObj.setBlock(x, y, z, Ids.blockHydraulicPressureWall.act);
-					worldObj.markBlockForUpdate(x, y, z);
+					getWorldObj().markBlockForUpdate(x, y, z);
 				}
 			}
 		}
 		isValidMultiblock = false;
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public boolean checkMultiblock(){
@@ -531,7 +533,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 		//W W W  W F W  W W W
 		//W W W  W C W  W W W
 		
-		int dir = worldObj.getBlockMetadata(xCoord, yCoord,zCoord);
+		int dir = getWorldObj().getBlockMetadata(xCoord, yCoord,zCoord);
 		
 		int depthMultiplier = ((dir == 2 || dir == 4) ? 1 : -1);
 		boolean forwardZ = ((dir == 2) || (dir == 3));
@@ -546,8 +548,8 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 					int y = yCoord + vert;
 					int z = zCoord + (forwardZ ? (depth * depthMultiplier) : horiz);
 					
-					Block block = worldObj.getBlock(x, y, z);
-					int meta = worldObj.getBlockMetadata(x, y, z);
+					Block block = getWorldObj().getBlock(x, y, z);
+					int meta = getWorldObj().getBlockMetadata(x, y, z);
 					
 					if(horiz == 0 && vert == 0){
 						if(depth == 0){ //Looking at self.
@@ -587,7 +589,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 	public void convertMultiblock(){
 		isValidMultiblock = true;
 		
-		int dir = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		int dir = getWorldObj().getBlockMetadata(xCoord, yCoord, zCoord);
 		
 		int depthMultiplier = ((dir == 2 || dir == 4) ? 1 : -1);
 		boolean forwardZ = ((dir == 2) || (dir == 3));
@@ -599,19 +601,19 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 					int x = xCoord + (forwardZ ? horiz : (depth * depthMultiplier));
 					int y = yCoord + vert;
 					int z = zCoord + (forwardZ ? (depth * depthMultiplier) : horiz);
-					Block block = worldObj.getBlock(x, y, z);
+					Block block = getWorldObj().getBlock(x, y, z);
 					
 					if(horiz == 0 && vert == 0 && depth == 0)
 						continue;
 					
 					if(block instanceof BlockHydraulicValve){
-						TileHydraulicValve dummyTE = (TileHydraulicValve)worldObj.getTileEntity(x, y, z);
+						TileHydraulicValve dummyTE = (TileHydraulicValve)getWorldObj().getTileEntity(x, y, z);
 						dummyTE.setTarget(xCoord, yCoord, zCoord);
 						valves.add(dummyTE);
 						dummyTE.getHandler().updateNetworkOnNextTick(0);
 					}
 					if(block instanceof BlockInterfaceValve){
-						TileInterfaceValve dummyTE = (TileInterfaceValve)worldObj.getTileEntity(x, y, z);
+						TileInterfaceValve dummyTE = (TileInterfaceValve)getWorldObj().getTileEntity(x, y, z);
 						dummyTE.setTarget(xCoord, yCoord, zCoord);
 						if(fluidValve == null){
 							fluidValve = dummyTE;
@@ -626,7 +628,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 					//dummyTE.setCore(xCoord, yCoord, zCoord);
 					
 					//dummyTE.setLocationInMultiBlock(dir, horiz, vert, depth);
-					worldObj.markBlockForUpdate(x, y, z);
+					getWorldObj().markBlockForUpdate(x, y, z);
 					
 				}
 			}
