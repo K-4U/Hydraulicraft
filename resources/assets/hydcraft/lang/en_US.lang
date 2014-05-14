@@ -22,6 +22,8 @@ tile.hydraulicCrusher.name=Crusher
 tile.hydraulicWasher.name=Washer
 tile.hydraulicPressureWall.name=Pressure Wall
 tile.hydraulicPressureGlass.name=Pressure Glass
+tile.pressureDisposal.name=Pressure Disposal
+tile.blockTransparentLight.name=Transparent Light
 
 tile.LPHydraulicPipe.name=Low Pressure Pipe
 tile.MPHydraulicPipe.name=Medium Pressure Pipe
@@ -63,6 +65,17 @@ tile.hydraulicWaterPump.name=Hydraulic Archimedes' Screw (WIP)
 tile.blockCopper.name=Copper Block
 tile.blockLead.name=Lead Block
 
+Gold.name=Gold Dust
+Iron.name=Iron Dust
+Copper.name=Copper Dust
+Lead.name=Lead Dust
+chunkGold.name=Gold Chunk
+chunkIron.name=Iron Chunk
+chunkCopper.name=Copper Chunk
+chunkLead.name=Lead Chunk
+
+item.itemDebug.name=Debug Item
+
 key.hydcraft.category=Hydraulicraft
 key.mining_helmet.desc=Miners helmet on/off
 
@@ -73,8 +86,6 @@ item.movingPane.name=Moving Pane
 ####MISC
 itemGroup.tabHydraulicraft=HydrauliCraft
 lang.pressure=Pressure
-lang.dust=%s dust
-lang.chunk=%s chunk
 fluid.hydraulicOil=Hydraulic Oil
 lang.gui.generating=Generating
 lang.gui.max=Max
@@ -112,4 +123,3 @@ tile.HPRFPump.name=High Pressure Redstone Pump
 
 #FMP
 tile.hydraulicSaw.name=Hydraulic Saw
-
