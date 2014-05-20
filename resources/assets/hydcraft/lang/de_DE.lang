@@ -5,20 +5,23 @@ item.frictionPlate.name=Reibungsplatte
 item.ingotCopper.name=Kupferbarren
 item.ingotLead.name=Bleibarren
 item.ingotEnrichedCopper.name=Angereicherter Kupferbarren
-item.bucketHydraulicOil.name=Eimer mit Hydrauliköl
+item.bucketHydraulicOil.name=Eimer mit HydraulikÃ¶l
 item.bacon.name=Speck
+item.miningHelmet.name=Grubenhelm
+item.itemLamp.name=Grubenlampe
 
 #Ores
 tile.oreCopper.name=Kupfererz
 tile.oreLead.name=Bleierz
 
 #Blocks
-tile.hydraulicOil.name=Hydrauliköl
+tile.hydraulicOil.name=HydraulikÃ¶l
 tile.hydraulicMixer.name=Mixer
 tile.hydraulicFrictionIncinerator.name=Reibungsbrennofen
-tile.hydraulicCrusher.name=Zerstoßer
+tile.hydraulicCrusher.name=ZerstoÃŸer
 tile.hydraulicWasher.name=Waschanlage
-tile.hydraulicPressureWall.name=Wand
+tile.hydraulicPressureWall.name=Druckwand
+tile.hydraulicPressureGlass.name=Druckglas
 
 tile.LPHydraulicPipe.name=Niederdruckrohr
 tile.MPHydraulicPipe.name=Mitteldruckrohr
@@ -41,7 +44,7 @@ tile.MPHydraulicLavaPump.name=Mitteldruck-Lavapumpe
 tile.HPHydraulicLavaPump.name=Hochdruck-Lavapumpe
 
 tile.hydraulicHarvesterSource.name=Hydraulische Erntemaschine
-tile.hydraulicHarvesterFrame.name=Erntemaschinengerüst
+tile.hydraulicHarvesterFrame.name=ErntemaschinengerÃ¼st
 tile.wheatHarvester.name=Weizen-Erntekran
 tile.enderLilyHarvester.name=Enderlilien-Erntekran
 tile.sugarCaneHarvester.name=Zuckerrohr-Erntekran
@@ -54,18 +57,35 @@ tile.LPBlockCore.name=Niederdruckkern
 tile.MPBlockCore.name=Mitteldruckkern
 tile.HPBlockCore.name=Hochdruckkern
 
+tile.blockInfiniteSource.name=Unendliche Quelle
+tile.hydraulicWaterPump.name=Hydraulische archimedische Schraube(WIP)
+
+tile.blockCopper.name=Kupferblock
+tile.blockLead.name=Bleiblock
+
+key.hydcraft.category=Hydraulicraft
+key.mining_helmet.desc=Grubenhelm an/aus
+
+tile.movingPane.name=Fuhrscheibe
+item.movingPane.name=Fuhrscheibe
+
+
 ####MISC
 itemGroup.tabHydraulicraft=HydrauliCraft
 lang.pressure=Druck
 lang.dust=%sstaub
 lang.chunk=%sklumpen
-fluid.hydraulicOil=Hydrauliköl
+fluid.hydraulicOil=HydraulikÃ¶l
 lang.gui.generating=Generiert
 lang.gui.max=Maximal
 lang.gui.using=Verbraucht
 lang.gui.output=Ausgabe
 lang.gui.burnLeft=Brenndauer
-
+#NEW
+lang.gui.maxHighPressure=Max: Hochdruck
+lang.gui.maxMediumPressure=Max: Mitteldruck
+lang.gui.maxLowPressure=Max: Niederdruck
+lang.warn.wip=Anmerkung: Dieser Block funktioniert, wird aber in Zukunft ersetzt!
 
 ####Third party
 #PneumaticCraft
@@ -91,5 +111,4 @@ tile.MPRFPump.name=Mitteldruck-Redstone-Pumpe
 tile.HPRFPump.name=Hochdruck-Redstone-Pumpe
 
 #FMP
-tile.hydraulicSaw.name=Hydrauliksägewerk
-
+tile.hydraulicSaw.name=HydrauliksÃ¤gewerk
