@@ -71,6 +71,14 @@ public class Config {
 		configOptions.add(new configOption("canSawTwoMicroblocksAtOnce", true));
 		configOptions.add(new configOption("checkForUpdates", true));
 		configOptions.add(new configOption("waterPumpPerTick", 100));
+		configOptions.add(new configOption("maxMBarGenWaterT1", 250));
+		configOptions.add(new configOption("maxMBarGenWaterT2", 750));
+		configOptions.add(new configOption("maxMBarGenWaterT3", 1000));
+		
+		configOptions.add(new configOption("maxMBarGenOilT1", 500));
+		configOptions.add(new configOption("maxMBarGenOilT2", 1500));
+		configOptions.add(new configOption("maxMBarGenOilT3", 2000));
+		configOptions.add(new configOption("conversionRatioLavaHydraulic", 100));
 		
 		addHarvestableItem(new Seed(0, Blocks.wheat, 7, Items.wheat_seeds));
 		addHarvestableItem(new Seed(0, Blocks.carrots, 7, Items.carrot));

@@ -64,7 +64,21 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	}
 
 	public void newFromNBT(NBTTagCompound tagCompound){
-		readFromNBT(tagCompound);
+		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
+		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
+		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
+		
+		setTier(tagCompound.getInteger("tier"));
+		prevRedstoneLevel = tagCompound.getInteger("prevRedstoneLevel");
+		
+		NBTTagCompound tankCompound = tagCompound.getCompoundTag("tank");
+		if(tankCompound != null){
+			if(tank != null){
+				tank.readFromNBT(tankCompound);
+			}
+		}
 	}
 
 

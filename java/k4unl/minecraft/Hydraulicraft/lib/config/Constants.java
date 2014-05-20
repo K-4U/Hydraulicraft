@@ -11,16 +11,16 @@ public class Constants {
 	
 	
 	//Generators
-	public final static int MAX_MBAR_GEN_WATER_TIER_1 = 25;
-	public final static int MAX_MBAR_GEN_WATER_TIER_2 = 75;
-	public final static int MAX_MBAR_GEN_WATER_TIER_3 = 100;
+	/*
+	public final static int MAX_MBAR_GEN_WATER_TIER_1 = 250;
+	public final static int MAX_MBAR_GEN_WATER_TIER_2 = 750;
+	public final static int MAX_MBAR_GEN_WATER_TIER_3 = 1000;
 	
-	public final static int MAX_MBAR_GEN_OIL_TIER_1 = 50;
-	public final static int MAX_MBAR_GEN_OIL_TIER_2 = 150;
-	public final static int MAX_MBAR_GEN_OIL_TIER_3 = 200;
+	public final static int MAX_MBAR_GEN_OIL_TIER_1 = 500;
+	public final static int MAX_MBAR_GEN_OIL_TIER_2 = 1500;
+	public final static int MAX_MBAR_GEN_OIL_TIER_3 = 2000;*/
 	
 	public final static int[] MAX_LAVA_USAGE = {5, 15, 20};
-	public final static float CONVERSION_RATIO_LAVA_HYDRAULIC = 10F;
 	
 	public final static float USING_WATER_PENALTY = 0.5F;
 	

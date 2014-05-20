@@ -611,12 +611,17 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 						dummyTE.getHandler().updateNetworkOnNextTick(0);
 					}
 					if(block instanceof BlockInterfaceValve){
-						TileInterfaceValve dummyTE = (TileInterfaceValve)worldObj.getTileEntity(x, y, z);
-						dummyTE.setTarget(xCoord, yCoord, zCoord);
-						if(fluidValve == null){
-							fluidValve = dummyTE;
+						if(worldObj.getTileEntity(x, y, z) instanceof TileInterfaceValve){
+							TileInterfaceValve dummyTE = (TileInterfaceValve)worldObj.getTileEntity(x, y, z);
+							dummyTE.setTarget(xCoord, yCoord, zCoord);
+							if(fluidValve == null){
+								fluidValve = dummyTE;
+							}else{
+								itemValve = dummyTE;
+							}
 						}else{
-							itemValve = dummyTE;
+							isValidMultiblock = false;
+							break;
 						}
 					}
 					

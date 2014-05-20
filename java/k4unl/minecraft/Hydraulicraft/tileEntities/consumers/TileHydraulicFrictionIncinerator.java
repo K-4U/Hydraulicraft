@@ -80,7 +80,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 			}
 			//We need to check on what kind of network we are though..
 			//This pressure requirement is only for HP oil.
-			requiredPressure = Functions.getMaxGenPerTier(pNetwork.getLowestTier(), true) / 4.0F;
+			requiredPressure = Functions.getMaxGenPerTier(pNetwork.getLowestTier(), true) / 40.0F;
 			
 			//Start smelting
 			maxSmeltingTicks = 200;

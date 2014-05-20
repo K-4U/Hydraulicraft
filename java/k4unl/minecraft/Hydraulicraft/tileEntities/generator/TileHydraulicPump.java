@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.generator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -78,25 +78,10 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 	@Override
 	public int getMaxGenerating(ForgeDirection from) {
 		if(!getHandler().isOilStored()){
-			switch(getTier()){
-			case 0:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_1;
-			case 1:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_2;
-			case 2:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_3;
-			}			
+			return Config.getInt("maxMBarGenWaterT" + (getTier()+1));
 		}else{
-			switch(getTier()){
-			case 0:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_1;
-			case 1:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_2;
-			case 2:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_3;
-			}
+			return Config.getInt("maxMBarGenOilT" + (getTier()+1));
 		}
-		return 0;
 	}
 
 	public float getBurningPercentage() {

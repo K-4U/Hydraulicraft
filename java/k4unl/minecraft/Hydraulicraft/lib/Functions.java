@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
@@ -131,29 +132,10 @@ public class Functions {
 	
 	public static int getMaxGenPerTier(PressureTier tier, boolean isOil){
 		if(!isOil){
-			switch(tier){
-			case LOWPRESSURE:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_1;
-			case MEDIUMPRESSURE:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_2;
-			case HIGHPRESSURE:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_3;
-			default:
-				break;
-			}			
+			return Config.getInt("maxMBarGenWaterT" + (tier.ordinal()+1));
 		}else{
-			switch(tier){
-			case LOWPRESSURE:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_1;
-			case MEDIUMPRESSURE:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_2;
-			case HIGHPRESSURE:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_3;
-			default:
-				break;
-			}
+			return Config.getInt("maxMBarGenOilT" + (tier.ordinal()+1));
 		}
-		return 0;
 	}
 	
 	public static int getMaxPressurePerTier(PressureTier tier, boolean isOil){

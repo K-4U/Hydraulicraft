@@ -1,20 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
 
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import buildcraft.api.power.PowerHandler.PowerReceiver;
@@ -74,25 +68,10 @@ public class TileKineticPump extends TileHydraulicBase implements IHydraulicGene
 	@Override
 	public int getMaxGenerating(ForgeDirection from) {
 		if(!getHandler().isOilStored()){
-			switch(getTier()){
-			case 0:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_1;
-			case 1:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_2;
-			case 2:
-				return Constants.MAX_MBAR_GEN_WATER_TIER_3;
-			}			
+			return Config.getInt("maxMBarGenWaterT" + (getTier()+1));
 		}else{
-			switch(getTier()){
-			case 0:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_1;
-			case 1:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_2;
-			case 2:
-				return Constants.MAX_MBAR_GEN_OIL_TIER_3;
-			}
+			return Config.getInt("maxMBarGenOilT" + (getTier()+1));
 		}
-		return 0;
 	}
 
 	@Override

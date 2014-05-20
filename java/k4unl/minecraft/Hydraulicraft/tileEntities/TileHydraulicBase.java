@@ -41,6 +41,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	private boolean _isOilStored = false;
@@ -386,7 +387,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		networkCapacity = tagCompound.getInteger("networkCapacity");
 		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
 		
-		if(getWorld() != null && !getWorld().isRemote){
+		if(FMLCommonHandler.instance().getEffectiveSide().isServer()){
 			shouldUpdateNetwork = tagCompound.getBoolean("shouldUpdateNetwork");
 			if(shouldUpdateNetwork){
 				updateNetworkOnNextTick(oldPressure);
@@ -398,7 +399,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 					//updateNetworkOnNextTick(oldPressure);
 				}
 			}
-		}else if(getWorld() != null && getWorld().isRemote){
+		}else if(FMLCommonHandler.instance().getEffectiveSide().isClient()){
 			pressure = tagCompound.getFloat("pressure");
 		}
 

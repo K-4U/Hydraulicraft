@@ -154,8 +154,10 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
 		if(!isPane){
-			if(getChild().getIsRotating()){
-				return Constants.PRESSURE_PANE_PER_TICK * (10 * getPressureFactor());
+			if(getChild() != null){
+				if(getChild().getIsRotating()){
+					return Constants.PRESSURE_PANE_PER_TICK * (10 * getPressureFactor());
+				}
 			}
 		}
 		return 0f;
