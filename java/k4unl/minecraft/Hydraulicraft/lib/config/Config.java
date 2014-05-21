@@ -52,7 +52,7 @@ public class Config {
 			if(isBool){
 				val = config.get(config.CATEGORY_GENERAL, key, def).getBoolean(def);
 			}else{
-				valInt = config.get(config.CATEGORY_GENERAL, key, def).getInt(defInt);
+				valInt = config.get(config.CATEGORY_GENERAL, key, defInt).getInt(defInt);
 			}
 		}
 	}
@@ -71,13 +71,13 @@ public class Config {
 		configOptions.add(new configOption("canSawTwoMicroblocksAtOnce", true));
 		configOptions.add(new configOption("checkForUpdates", true));
 		configOptions.add(new configOption("waterPumpPerTick", 100));
-		configOptions.add(new configOption("maxMBarGenWaterT1", 250));
-		configOptions.add(new configOption("maxMBarGenWaterT2", 750));
-		configOptions.add(new configOption("maxMBarGenWaterT3", 1000));
+		configOptions.add(new configOption("maxMBarGenWaterT1", 125));
+		configOptions.add(new configOption("maxMBarGenWaterT2", 375));
+		configOptions.add(new configOption("maxMBarGenWaterT3", 500));
 		
-		configOptions.add(new configOption("maxMBarGenOilT1", 500));
-		configOptions.add(new configOption("maxMBarGenOilT2", 1500));
-		configOptions.add(new configOption("maxMBarGenOilT3", 2000));
+		configOptions.add(new configOption("maxMBarGenOilT1", 250));
+		configOptions.add(new configOption("maxMBarGenOilT2", 750));
+		configOptions.add(new configOption("maxMBarGenOilT3", 1000));
 		configOptions.add(new configOption("conversionRatioLavaHydraulic", 100));
 		
 		addHarvestableItem(new Seed(0, Blocks.wheat, 7, Items.wheat_seeds));

@@ -87,7 +87,7 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
                 }
                 crushingTicks = 0;
                 
-                pressurePerTick = (Functions.getMaxGenPerTier(pNetwork.getLowestTier(), true) * 0.075F) * currentRecipe.pressureRatio;
+                pressurePerTick = (Functions.getMaxGenPerTier(pNetwork.getLowestTier(), true) * 0.75F) * currentRecipe.pressureRatio;
             }
             
         }

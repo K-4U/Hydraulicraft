@@ -126,6 +126,9 @@ public class PressureNetwork {
 	
 	public void setPressure(float newPressure){
 		pressure = newPressure;
+		//if((float)getFluidInNetwork() / (float)getFluidCapacity() <= 0.25F){
+		//	pressure = pressure * ((float)getFluidInNetwork() / (float)getFluidCapacity());
+		//}
 	}
 	
 	public boolean getIsOilStored(){
