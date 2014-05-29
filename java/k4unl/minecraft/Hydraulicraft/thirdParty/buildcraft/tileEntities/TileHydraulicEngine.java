@@ -5,6 +5,7 @@ import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -15,7 +16,7 @@ import buildcraft.api.power.PowerHandler;
 import buildcraft.api.power.PowerHandler.PowerReceiver;
 import buildcraft.api.power.PowerHandler.Type;
 
-public class TileHydraulicEngine extends TileHydraulicBase implements IHydraulicConsumer, IPowerEmitter, IPowerReceptor {
+public class TileHydraulicEngine extends TileHydraulicBase implements IHydraulicConsumer, IPowerEmitter, IPowerReceptor, ICustomNetwork {
 	private final PowerHandler powerHandler;
 	private ForgeDirection facing = ForgeDirection.UP;
 	public float energy;

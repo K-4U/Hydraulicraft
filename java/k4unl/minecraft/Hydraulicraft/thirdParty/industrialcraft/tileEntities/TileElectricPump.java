@@ -3,22 +3,15 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class TileElectricPump extends TileHydraulicBase implements IHydraulicGenerator, IEnergySink {
 	private boolean isRunning = false;
@@ -152,8 +145,6 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 		
 		tagCompound.setInteger("tier", tier);
 		
-		tagCompound.setInteger("networkCapacity", getNetwork(getFacing()).getFluidCapacity());
-		tagCompound.setInteger("fluidInNetwork", getNetwork(getFacing()).getFluidInNetwork());
 		tagCompound.setInteger("EUUsage", EUUsage);
 	}
 

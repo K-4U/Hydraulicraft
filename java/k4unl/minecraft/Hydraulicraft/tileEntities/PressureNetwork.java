@@ -185,7 +185,7 @@ public class PressureNetwork {
 				mEnt = (IHydraulicMachine) t;
 			}
 			
-			List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
+			//List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
 			PressureNetwork foundNetwork = null;
 			if(isMultipart){
 				if(mEnt instanceof IHydraulicTransporter){
@@ -280,7 +280,7 @@ public class PressureNetwork {
 		List<IHydraulicMachine> remainingBlocks = new ArrayList<IHydraulicMachine>();
 		float newFluidInSystem = 0;
 		float fluidInSystem = fluidInNetwork;
-		//Log.info("Before iteration: FIS = " + fluidInSystem + " M = " + mainList.size());
+		Log.info("Before iteration: FIS = " + fluidInSystem + " M = " + mainList.size());
 		while(fluidInSystem > 0){
 			if(mainList.size() == 0){
 				//Error!
@@ -300,7 +300,7 @@ public class PressureNetwork {
 				}
 			}
 
-			//Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
+			Log.info("Iteration done. Fluid remaining: " + newFluidInSystem);
 			fluidInSystem = newFluidInSystem;
 			newFluidInSystem = 0;
 			

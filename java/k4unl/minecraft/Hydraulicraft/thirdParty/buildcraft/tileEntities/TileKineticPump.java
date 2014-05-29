@@ -6,6 +6,8 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IFacing;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -14,7 +16,7 @@ import buildcraft.api.power.PowerHandler;
 import buildcraft.api.power.PowerHandler.PowerReceiver;
 import buildcraft.api.power.PowerHandler.Type;
 
-public class TileKineticPump extends TileHydraulicBase implements IHydraulicGenerator, IPowerReceptor {
+public class TileKineticPump extends TileHydraulicBase implements IHydraulicGenerator, IPowerReceptor, ICustomNetwork, IFacing {
 	private boolean isRunning = false;
 	private PowerHandler powerHandler;
 	private int MJPower;
@@ -25,11 +27,20 @@ public class TileKineticPump extends TileHydraulicBase implements IHydraulicGene
 	private int fluidInNetwork;
 	private int networkCapacity;
 	
+	public TileKineticPump(){
+		super(PressureTier.HIGHPRESSURE, 1);
+		super.init(this);
+	}
+	
 	public TileKineticPump(int _tier){
 		super(PressureTier.fromOrdinal(_tier), 2 * (_tier + 1));
 		super.init(this);
 		tier = _tier;
-		
+	}
+	
+	@Override
+	public void validate(){
+		super.validate();
 	}
 	
 	private PowerHandler getPowerHandler(){
@@ -133,7 +144,6 @@ public class TileKineticPump extends TileHydraulicBase implements IHydraulicGene
 		tagCompound.setFloat("MJUsage", MJUsage);
 		
 		getPowerHandler().writeToNBT(tagCompound, "powerHandler");
-		//tagCompound.setInteger("MJPower", MJPower);
 	}
 
 	@Override

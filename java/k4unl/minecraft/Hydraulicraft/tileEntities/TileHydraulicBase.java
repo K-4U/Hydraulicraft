@@ -18,6 +18,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork.networkEntry;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorage;
@@ -210,8 +211,8 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	}
 
 	public void setStored(int i, boolean isOil, boolean doNotify){
-		if(tWorld == null) return;
-		if(tWorld.isRemote) return;
+		if(getWorld() == null) return;
+		if(getWorld().isRemote) return;
 		if(i < 0)
 			i = 0;
 		_isOilStored = isOil;
@@ -432,10 +433,17 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 					tagCompound.setTag("network" + dir.ordinal(), pNetworkCompound);
 				}
 			}
-			if(pNetwork != null){
-				tagCompound.setInteger("networkCapacity", getNetwork(ForgeDirection.UP).getFluidCapacity());
-				tagCompound.setInteger("fluidInNetwork", getNetwork(ForgeDirection.UP).getFluidInNetwork());
-			}			
+			if(target instanceof TileKineticPump){
+				if(((TileKineticPump) target).getNetwork(((TileKineticPump) target).getFacing()) != null){
+					tagCompound.setInteger("networkCapacity", getNetwork(((TileKineticPump) target).getFacing()).getFluidCapacity());
+					tagCompound.setInteger("fluidInNetwork", getNetwork(((TileKineticPump) target).getFacing()).getFluidInNetwork());
+				}
+			}else{
+				if(pNetwork != null){
+					tagCompound.setInteger("networkCapacity", getNetwork(ForgeDirection.UP).getFluidCapacity());
+					tagCompound.setInteger("fluidInNetwork", getNetwork(ForgeDirection.UP).getFluidInNetwork());
+				}
+			}
 		}
 	}
 	
