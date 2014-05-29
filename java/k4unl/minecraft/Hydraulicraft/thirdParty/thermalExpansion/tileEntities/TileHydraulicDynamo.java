@@ -37,6 +37,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 	}
 	
 	public void setFacing(ForgeDirection newDir){
+		getHandler().updateNetworkOnNextTick(getPressure(getFacing()));
 		facing = newDir;
 	}
 	
@@ -46,7 +47,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 		super.readFromNBT(tagCompound);
 		isRunning = tagCompound.getBoolean("isRunning");
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
-		//storage.readFromNBT(tagCompound);
+		storage.readFromNBT(tagCompound);
 		energyGen = tagCompound.getInteger("energyGen");
 		pressureRequired = tagCompound.getFloat("pressureRequired");
 	}
@@ -58,7 +59,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setInteger("energyGen", energyGen);
 		tagCompound.setFloat("pressureRequired", pressureRequired);
-		//storage.writeToNBT(tagCompound);
+		storage.writeToNBT(tagCompound);
 	}
 
 	public float getPercentageOfRender(){
@@ -103,7 +104,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 		
 		float energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), null)) * Constants.CONVERSION_RATIO_HYDRAULIC_RF) * Constants.MAX_TRANSFER_RF;
 		//energyToAdd *= Constants.CONVERSION_RATIO_HYDRAULIC_RF;
-		//energyToAdd = storage.receiveEnergy((int)energyToAdd, simulate);
+		energyToAdd = storage.receiveEnergy((int)energyToAdd, simulate);
 		
 		if(!simulate){
 			energyGen = (int) energyToAdd;
@@ -167,7 +168,6 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
-		// TODO Auto-generated method stub
 		return (from.equals(facing));
 	}
 
