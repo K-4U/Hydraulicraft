@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.Buildcraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.FMP;
@@ -30,8 +31,10 @@ public class ThirdPartyManager{
         allThirdParty.add(new ExtraUtilities());
         allThirdParty.add(new FMP());
         allThirdParty.add(new Pneumaticraft());
-        allThirdParty.add(new ThermalExpansion());
         allThirdParty.add(new IndustrialCraft());
+        
+        IThirdParty TE = new ThermalExpansion();
+        allThirdParty.add(TE);
 
         for(IThirdParty thirdParty : allThirdParty) {
             if(Loader.isModLoaded(thirdParty.getModId())) {
@@ -40,6 +43,13 @@ public class ThirdPartyManager{
             }
         }
 
+        if(!availableThirdParty.contains(TE)){
+        	if(Config.get("enableRF")){
+        		availableThirdParty.add(TE);
+        	}
+        }
+        
+        
         for(IThirdParty thirdParty : availableThirdParty) {
             try {
                 thirdParty.preInit();

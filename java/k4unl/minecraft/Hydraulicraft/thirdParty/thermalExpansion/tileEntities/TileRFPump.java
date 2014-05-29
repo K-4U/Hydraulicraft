@@ -3,16 +3,20 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyHandler;
 
-public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator /* TE , IEnergyHandler*/ {
+public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator, IEnergyHandler, ICustomNetwork {
 	private int currentBurnTime;
 	private int maxBurnTime;
 	private boolean isRunning = false;
-// TE 	private EnergyStorage energyStorage;
+ 	private EnergyStorage energyStorage;
 	private ForgeDirection facing = ForgeDirection.NORTH;
 	private int RFUsage = 0;
 	
@@ -20,16 +24,13 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 	private int networkCapacity;
 	
 	private int tier = -1;
-	/* TE
+	
 	private EnergyStorage getEnergyStorage(){
 		if(this.energyStorage == null) 
 			this.energyStorage = new EnergyStorage((getTier() + 1) * 400000);
 		return this.energyStorage;
-	}*/
-	
-	private Object getEnergyStorage(){
-		return null;
 	}
+
 	
 	public TileRFPump(int _tier){
 		super(PressureTier.fromOrdinal(_tier), 2 * (_tier + 1));
@@ -50,13 +51,14 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 			needsUpdate = true;
 			if(Float.compare(getGenerating(ForgeDirection.UP), 0.0F) > 0){
 				setPressure(getPressure(getFacing()) + getGenerating(ForgeDirection.UP), getFacing());
-				// TE getEnergyStorage().extractEnergy(RFUsage, false);
+				getEnergyStorage().extractEnergy(RFUsage, false);
 				isRunning = true;
 			}else{
-				/*
-				if(getHandler().getRedstonePowered()){
+				
+				if(getRedstonePowered()){
 					getEnergyStorage().extractEnergy(RFUsage, false);
-				}*/
+				}
+				
 				isRunning = false;
 			}
 		}
@@ -81,7 +83,6 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 			RFUsage = 0;
 			return 0f;
 		}
-		/* TE 
 		RFUsage = getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], true);
 		
 		if(getEnergyStorage().getEnergyStored() > Constants.MIN_REQUIRED_RF){
@@ -100,8 +101,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 			return gen; 
 		}else{
 			return 0;
-		}*/
-		return 0f;
+		}
 	}
 
 
@@ -130,9 +130,9 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 		isRunning = tagCompound.getBoolean("isRunning");
 		
 		if(tier != -1){
-			// TE energyStorage = null;
+			energyStorage = null;
 		}
-		// TE getEnergyStorage().readFromNBT(tagCompound);
+		getEnergyStorage().readFromNBT(tagCompound);
 	}
 
 	@Override
@@ -149,12 +149,12 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 		}
 		tagCompound.setInteger("RFUsage", RFUsage);
 		
-		// TE getEnergyStorage().writeToNBT(tagCompound);
+		getEnergyStorage().writeToNBT(tagCompound);
 	}
 
 	@Override
 	public void onFluidLevelChanged(int old) {	}
-/* TE 
+
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive,
 			boolean simulate) {
@@ -172,7 +172,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 	}
 
 	@Override
-	public boolean canInterface(ForgeDirection from) {
+	public boolean canConnectEnergy(ForgeDirection from) {
 		return from.equals(facing.getOpposite());
 	}
 
@@ -185,7 +185,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return getEnergyStorage().getMaxEnergyStored();
 	}
-*/
+
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
 		return side.equals(facing);

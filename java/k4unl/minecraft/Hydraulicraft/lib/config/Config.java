@@ -70,6 +70,7 @@ public class Config {
 		configOptions.add(new configOption("explosions", true));
 		configOptions.add(new configOption("canSawTwoMicroblocksAtOnce", true));
 		configOptions.add(new configOption("checkForUpdates", true));
+		configOptions.add(new configOption("enableRF", true));
 		configOptions.add(new configOption("waterPumpPerTick", 100));
 		configOptions.add(new configOption("maxMBarGenWaterT1", 25));
 		configOptions.add(new configOption("maxMBarGenWaterT2", 75));
