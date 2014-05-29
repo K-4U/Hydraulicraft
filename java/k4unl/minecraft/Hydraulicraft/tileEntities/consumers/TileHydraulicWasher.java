@@ -95,9 +95,9 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 	
 	
 	private void doWash(){
-		if(isWashing()){
+		if(isWashing() && maxWashingTicks != 0){
 			washingTicks = washingTicks + 1 + (int)((getPressure(ForgeDirection.UNKNOWN)/100) * 0.0005F);
-			if(maxWashingTicks != 0) tank.drain(Constants.MIN_REQUIRED_WATER_FOR_WASHER / maxWashingTicks, true);
+			tank.drain(Constants.MIN_REQUIRED_WATER_FOR_WASHER / maxWashingTicks, true);
 			if(washingTicks >= maxWashingTicks){
 				//washing done!
 				if(outputInventory == null){
