@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.proxy;
 
-import net.minecraft.client.model.ModelBiped;
 
 
 public class CommonProxy {
@@ -27,9 +26,9 @@ public class CommonProxy {
 	public void initSounds(){
 		
 	}
-	
-	public ModelBiped getArmorModel(int id){
-		return null;
-	}
 
+	public void initCapes(){
+		
+	}
+	
 }

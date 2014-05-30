@@ -20,19 +20,15 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.world.OreGenerator;
 import thirdParty.truetyper.TrueTypeFont;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-
-//FIXME: Fluid not being saved in NBT
 
 @Mod(
 	modid = ModInfo.ID,
@@ -80,6 +76,7 @@ public class Hydraulicraft {
 		
 		Multipart.init();
 		TickHandler.init();
+		
 	}
 	
 	/*!
@@ -96,6 +93,7 @@ public class Hydraulicraft {
 		PacketPipeline.init();
 		
 		proxy.init();
+		proxy.initCapes();
 	}
 	
 	/*!
