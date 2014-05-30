@@ -9,8 +9,6 @@ import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
-import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -59,7 +57,14 @@ public class TileHarvesterTrolley extends TileEntity {
 
 	public TileHarvesterTrolley(String name){
 		harvesterName = name;
-		trolley = Hydraulicraft.instance.harvesterTrolleyRegistrar.getTrolley(name);
+		trolley = Hydraulicraft.harvesterTrolleyRegistrar.getTrolley(name);
+	}
+	
+	private IHarvesterTrolley getInterface(){
+		if(trolley == null){
+			trolley = Hydraulicraft.harvesterTrolleyRegistrar.getTrolley(harvesterName);
+		}
+		return trolley;
 	}
 	
 	public void extendTo(float blocksToExtend, float sideExtend){
@@ -205,6 +210,9 @@ public class TileHarvesterTrolley extends TileEntity {
 		}else{
 		    plantingItem = null;
 		}
+		
+		harvesterName = tagCompound.getString("harvesterName");
+		
 	}
 
 	@Override
@@ -218,6 +226,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setFloat("movingSpeedExtending", movingSpeedExtending);
 		tagCompound.setBoolean("harvesterPart", harvesterPart);
+		tagCompound.setString("harvesterName", harvesterName);
 		
 		NBTTagList tagList = new NBTTagList();
         for(int currentIndex = 0; currentIndex < harvestedItems.size(); ++currentIndex) {
@@ -271,8 +280,6 @@ public class TileHarvesterTrolley extends TileEntity {
 		float extendedLength = getExtendedLength();
         float sidewaysMovement = getSideLength();
 
-        //Get rotation:
-        int dir = getFacing().ordinal();
         float minX = 0.0F + xCoord;
         float minY = 0.0F + yCoord;
         float minZ = 0.0F + zCoord;
@@ -306,16 +313,8 @@ public class TileHarvesterTrolley extends TileEntity {
 	
 	
 	public boolean canHandleSeed(ItemStack seed){
-		//TODO: Change me to new format!
-		int metadata = getBlockMetadata();
-		for(Seed s : Config.harvestableItems){
-			if(s.getSeedId().equals(seed.getItem())){
-				if(s.getHarvesterMeta() == metadata){
-					return true;
-				}
-			}
-		}
-		return false;
+		ArrayList<ItemStack> seedsToHandle = getInterface().getHandlingSeeds();
+		return seedsToHandle.contains(seed);
 	}
 	
 	
@@ -347,9 +346,15 @@ public class TileHarvesterTrolley extends TileEntity {
 		
 		for(int horiz = 0; horiz <= maxLength; horiz++){
 			Block block = getBlock(getLocation(horiz, -2));
-			Block soil = getBlock(getLocation(horiz, -3));
+			//Block soil = getBlock(getLocation(horiz, -3));
 			boolean canIPlantHere = false;
-			if(getBlockMetadata() == 0){
+			
+			Location l = getLocation(horiz, -2);
+			if(getInterface().canPlant(getWorldObj(), l.getX(), l.getY(), l.getZ(), firstSeed)){
+				canIPlantHere = true;
+			}
+			
+			/*if(getBlockMetadata() == 0){
 				//For "vanilla" plants:
 				canIPlantHere = canPlantSeed(getLocation(horiz, -2), firstSeed);
 			}else if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
@@ -361,7 +366,7 @@ public class TileHarvesterTrolley extends TileEntity {
 				}else{
 					canIPlantHere = false;
 				}
-			}
+			}*/
 			
 			if(block.equals(Blocks.air) && canIPlantHere){
 				locationToPlant = horiz;
@@ -373,7 +378,6 @@ public class TileHarvesterTrolley extends TileEntity {
 	}
 	
 	public void doPlant(ItemStack seed){
-		//TODO: Change me
 		plantingItem = seed;
 		if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
 			extendTo(2F, locationToPlant);
@@ -387,9 +391,12 @@ public class TileHarvesterTrolley extends TileEntity {
 	
 	private void actuallyPlant(){
 		//The trolley has arrived at the location and should plant.
-		Block plant = null;
-		int plantMeta = 0;
 		Location l = getLocation(locationToPlant, -2);
+		Block plant = getInterface().getBlockForSeed(plantingItem);
+		//int plantMeta = 0;
+		
+		
+		/*
 		if(plantingItem.getItem() instanceof IPlantable && getBlockMetadata() != Constants.HARVESTER_ID_ENDERLILY){
 			IPlantable seed = (IPlantable)plantingItem.getItem();
 			plant = seed.getPlant(worldObj, l.getX(), l.getY(), l.getZ());
@@ -403,8 +410,9 @@ public class TileHarvesterTrolley extends TileEntity {
 			plant = Blocks.reeds;
 			plantMeta = 0;
 		}
+		*/
 		
-		worldObj.setBlock(l.getX(), l.getY(), l.getZ(), plant, plantMeta, 2);
+		worldObj.setBlock(l.getX(), l.getY(), l.getZ(), plant);
 		
 		plantingItem = null;
 		isHarvesting = false;
@@ -429,7 +437,6 @@ public class TileHarvesterTrolley extends TileEntity {
 		}else{
 			return false;
 		}
-	    
 	}
 	
 	private ArrayList<ItemStack> getDroppedItems(int h){
@@ -453,30 +460,12 @@ public class TileHarvesterTrolley extends TileEntity {
 	
 	
 	public ArrayList<ItemStack> checkHarvest(int maxLen){
-		//TODO: Change me
 		for(int horiz = 0; horiz <= maxLen; horiz++){
-			Location l;
-			if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
-				l = getLocation(horiz, -1);
-			}else{
-				l = getLocation(horiz, -2);
-			}
-			int x = l.getX();
-			int y = l.getY();
-			int z = l.getZ();
-			
-			Block block = worldObj.getBlock(x, y, z);
-			int metaData = worldObj.getBlockMetadata(x, y, z);
-			
-			for(Seed harvestable : Config.harvestableItems){
-				boolean idCorrect = harvestable.getItemId().equals(block);
-				boolean fullGrown = harvestable.getFullGrown() == metaData || getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE;
-				boolean correctDolley = harvestable.getHarvesterMeta() == getBlockMetadata();
-				if(idCorrect && fullGrown && correctDolley){
-					ArrayList<ItemStack> dropped = getDroppedItems(horiz);
-					locationToHarvest = horiz;
-					return dropped;
-				}
+			Location l = getLocation(horiz, -2);
+			if(getInterface().canHarvest(getWorldObj(), l.getX(), l.getY(), l.getZ())){
+				ArrayList<ItemStack> dropped = getDroppedItems(horiz);
+				locationToHarvest = horiz;
+				return dropped;
 			}
 		}
 		return null;

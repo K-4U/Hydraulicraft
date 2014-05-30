@@ -2,22 +2,12 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys;
 
 import java.util.ArrayList;
 
+import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
-import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 
 public class TrolleyCrops implements IHarvesterTrolley{
-
-	@Override
-	public boolean canHarvest(IBlockAccess world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
-	public boolean canPlant(IBlockAccess world, int x, int y, int z) {
-		return false;
-	}
 
 	@Override
 	public ArrayList<ItemStack> getHandlingSeeds() {
@@ -26,7 +16,26 @@ public class TrolleyCrops implements IHarvesterTrolley{
 
 	@Override
 	public String getName() {
-		return Names.blockHarvesterTrolley[0].unlocalized;
+		return "crops";
+	}
+
+	@Override
+	public boolean canPlant(IBlockAccess world, int x, int y, int z,
+			ItemStack seed) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Block getBlockForSeed(ItemStack seed) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean canHarvest(IBlockAccess world, int x, int y, int z) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
