@@ -28,6 +28,10 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 	
 	private int tier = -1;
 
+	public TileElectricPump(){
+		super(PressureTier.HIGHPRESSURE, 1);
+		super.init(this);
+	}
 	
 	public TileElectricPump(int _tier){
 		super(PressureTier.fromOrdinal(_tier), 2 * (_tier+1));

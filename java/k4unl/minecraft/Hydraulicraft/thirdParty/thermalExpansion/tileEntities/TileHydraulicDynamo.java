@@ -24,7 +24,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 	private float pressureRequired = 0.0F;
 	
 	public TileHydraulicDynamo(){
-		super(PressureTier.HIGHPRESSURE, 20);
+		super(PressureTier.HIGHPRESSURE, 3);
 		super.init(this);
 	}
 	
@@ -102,7 +102,8 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 			return 0F;
 		}
 		
-		float energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), null)) * Constants.CONVERSION_RATIO_HYDRAULIC_RF) * Constants.MAX_TRANSFER_RF;
+		float energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), null)) * Constants.CONVERSION_RATIO_HYDRAULIC_RF);//
+		energyToAdd *= Constants.MAX_TRANSFER_RF;
 		//energyToAdd *= Constants.CONVERSION_RATIO_HYDRAULIC_RF;
 		energyToAdd = storage.receiveEnergy((int)energyToAdd, simulate);
 		
@@ -227,6 +228,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 		if(endNetwork != null){
 			pNetwork = endNetwork;
 			pNetwork.addMachine(this, oldPressure, getFacing().getOpposite());
+			getHandler().updateFluidOnNextTick();
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
 		}else{
 			pNetwork = new PressureNetwork(this, oldPressure, getFacing().getOpposite());

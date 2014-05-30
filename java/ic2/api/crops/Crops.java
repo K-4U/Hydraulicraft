@@ -7,6 +7,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import net.minecraftforge.common.BiomeDictionary.Type;
+
 /**
  * General management of the crop system.
  */
@@ -23,6 +25,17 @@ public abstract class Crops {
 	 * @param nutrientsBonus Nutrient stat bonus
 	 */
 	public abstract void addBiomeBonus(BiomeGenBase biome, int humidityBonus, int nutrientsBonus);
+
+	/**
+	 * Adds a crop humidity and nutrient biome bonus.
+	 * 
+	 * 0 indicates no bonus and negative values indicate a penalty.
+	 * 
+	 * @param type Forge biome type to apply the bonus in
+	 * @param humidityBonus Humidity stat bonus
+	 * @param nutrientsBonus Nutrient stat bonus
+	 */
+	public abstract void addBiomeBonus(Type type, int humidityBonus, int nutrientsBonus);
 
 	/**
 	 * Gets the humidity bonus for a biome.

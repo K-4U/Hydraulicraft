@@ -160,7 +160,9 @@ public class TileKineticPump extends TileHydraulicBase implements IHydraulicGene
 
 	public void setFacing(ForgeDirection rotation) {
 		if(!worldObj.isRemote){
-			getHandler().updateNetworkOnNextTick(getNetwork(getFacing()).getPressure());
+			if(getNetwork(getFacing()) != null){
+				getHandler().updateNetworkOnNextTick(getNetwork(getFacing()).getPressure());
+			}
 		}
 		facing = rotation;
 		

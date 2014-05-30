@@ -44,6 +44,11 @@ public class RecipeInputFluidContainer implements IRecipeInput {
 		return ret;
 	}
 
+	@Override
+	public String toString() {
+		return "RInputFluidContainer<"+amount+"x"+fluid.getName()+">";
+	}
+
 	public final Fluid fluid;
 	public final int amount;
 }

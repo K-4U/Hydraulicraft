@@ -54,9 +54,9 @@ public class Constants {
 	public static final float MIN_REQUIRED_PRESSURE_COMPRESSOR = 100F;
 	
 	//Buildcraft
-	public static final int[] MJ_USAGE_PER_TICK = {30, 90, 180};
-	public static final float CONVERSION_RATIO_MJ_HYDRAULIC = 0.08F;
-	public static final float CONVERSION_RATIO_HYDRAULIC_MJ = 0.08F;
+	public static final int[] MJ_USAGE_PER_TICK = {5, 10, 20};
+	public static final float CONVERSION_RATIO_MJ_HYDRAULIC = 0.8F;
+	public static final float CONVERSION_RATIO_HYDRAULIC_MJ = 0.8F;
 	public static final float MIN_REQUIRED_PRESSURE_ENGINE = 10000F;
 	public static final int ACTIVATION_MJ	= 20;
 	public static final float MAX_TRANSFER_MJ = 50;
@@ -73,11 +73,11 @@ public class Constants {
 	public static final float MIN_REQUIRED_PRESSURE_DYNAMO = 10000F;
 	
 	//IC2
-	public static final int[] EU_USAGE_PER_TICK = {16, 64, 128};
+	public static final int[] EU_USAGE_PER_TICK = {32, 128, 512};
 	public static final int[] INTERNAL_EU_STORAGE = {4000, 8000, 16000};
 	public static final int[] MAX_EU = {32, 128, 512};
-	public static final float CONVERSION_RATIO_EU_HYDRAULIC = 0.02F;
-	public static final float CONVERSION_RATIO_HYDRAULIC_EU = 0.02F;
+	public static final float CONVERSION_RATIO_EU_HYDRAULIC = 0.8F;
+	public static final float CONVERSION_RATIO_HYDRAULIC_EU = 0.8F;
 	public static final int MIN_REQUIRED_EU = 128;
 	public static final int MAX_TRANSFER_EU = 128;
 	
