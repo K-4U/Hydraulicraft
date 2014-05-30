@@ -1,0 +1,125 @@
+### Main Mod
+#Items
+item.gasket.name=Уплотнитель
+item.frictionPlate.name=Фрикционный диск
+item.ingotCopper.name=Медный слиток
+item.ingotLead.name=Свинцовый слиток
+item.ingotEnrichedCopper.name=Обогащённый медный слиток
+item.bucketHydraulicOil.name=Ведро гидравлического масла
+item.bacon.name=Бекон
+item.miningHelmet.name=Шлем шахтёра
+item.itemLamp.name=Лампа шахтёрского шлема
+
+#Ores
+tile.oreCopper.name=Медная руда
+tile.oreLead.name=Свинцовая руда
+
+#Blocks
+tile.hydraulicOil.name=Гидравлическое масло
+tile.hydraulicMixer.name=Смеситель
+tile.hydraulicFrictionIncinerator.name=Фрикционная печь
+tile.hydraulicCrusher.name=Дробилка
+tile.hydraulicWasher.name=Промыватель
+tile.hydraulicPressureWall.name=Стена под давлением
+tile.hydraulicPressureGlass.name=Стекло под давлением
+tile.pressureDisposal.name=Pressure Disposal
+tile.blockTransparentLight.name=Transparent Light
+
+tile.LPHydraulicPipe.name=Низконапорная труба
+tile.MPHydraulicPipe.name=Средненапорная труба
+tile.HPHydraulicPipe.name=Высоконапорная труба
+
+tile.LPPartValve.name=Низконапорная трубопроводная арматура
+tile.MPPartValve.name=Средненапорная трубопроводная арматура
+tile.HPPartValve.name=Высоконапорная трубопроводная арматура
+
+tile.LPHydraulicPressureVat.name=Низконапорный бак
+tile.MPHydraulicPressureVat.name=Средненапорный бак
+tile.HPHydraulicPressureVat.name=Высоконапорный бак
+
+tile.LPHydraulicPump.name=Низконапорная помпа
+tile.MPHydraulicPump.name=Средненапорная помпа
+tile.HPHydraulicPump.name=Высоконапорная помпа
+
+tile.LPHydraulicLavaPump.name=Низконапорная лавовая помпа
+tile.MPHydraulicLavaPump.name=Средненапорная лавовая помпа
+tile.HPHydraulicLavaPump.name=Высоконапорная лавовая помпа
+
+tile.hydraulicHarvesterSource.name=Гидравлический собиратель
+tile.hydraulicHarvesterFrame.name=Каркас собирателя
+tile.wheatHarvester.name=Собиратель пшеницы
+tile.enderLilyHarvester.name=Собиратель лилии Края
+tile.sugarCaneHarvester.name=Собиратель сахарного тростника
+
+tile.hydraulicPiston.name=Гидравлический поршень
+tile.interfaceValve.name=Интерфейс трубопроводной арматуры
+tile.valve.name=Гидравлическая трубопроводная арматура
+
+tile.LPBlockCore.name=Низконапорное ядро
+tile.MPBlockCore.name=Средненапорное ядро
+tile.HPBlockCore.name=Высоконапорное ядро
+
+tile.blockInfiniteSource.name=Бесконечный источник
+tile.hydraulicWaterPump.name=Гидравлический Архимедов винт (WIP)
+
+tile.blockCopper.name=Медный блок
+tile.blockLead.name=Свинцовый блок
+
+Gold.name=Золотая пыль
+Iron.name=Железная пыль
+Copper.name=Медная пыль
+Lead.name=Свинцовая пыль
+chunkGold.name=Золотой кусок
+chunkIron.name=Железный кусок
+chunkCopper.name=Медный кусок
+chunkLead.name=Свинцовый кусок
+
+item.itemDebug.name=Предмет отладки
+
+key.hydcraft.category=Hydraulicraft
+key.mining_helmet.desc=Шлем шахётра вкл./выкл.
+
+tile.movingPane.name=Перемещающая панель
+item.movingPane.name=Перемещающая панель
+
+
+####MISC
+itemGroup.tabHydraulicraft=HydrauliCraft
+lang.pressure=Давление
+fluid.hydraulicOil=Гидравлическое масло
+lang.gui.generating=Создание
+lang.gui.max=Макс.
+lang.gui.using=Используется
+lang.gui.output=Выход
+lang.gui.burnLeft=Burn left
+#NEW
+lang.gui.maxHighPressure=Макс.: Высоконапорн.
+lang.gui.maxMediumPressure=Макс.: Средненапорн.
+lang.gui.maxLowPressure=Макс.: Низконапорн.
+lang.warn.wip=Примечание: Этот блок работает, но будет заменён в будущем!
+
+####Third party
+#PneumaticCraft
+tile.hydraulicPneumaticCompressor.name=Пневматический компрессор
+
+
+#Buildcraft
+tile.hydraulicEngine.name=Гидравлический двигатель
+tile.LPKineticPump.name=Низконапорная кинетическая помпа
+tile.MPKineticPump.name=Средненапорная кинетическая помпа
+tile.HPKineticPump.name=Высоконапорная кинетическая помпа
+
+#Industrialcraft
+tile.hydraulicGenerator.name=Гидравлический генератор
+tile.LPElectricPump.name=Низконапорная электрическая помпа
+tile.MPElectricPump.name=Средненапорная электрическая помпа
+tile.HPElectricPump.name=Высоконапорная электрическая помпа
+
+#Thermal Expansion
+tile.hydraulicDynamo.name=Гидравлический генератор
+tile.LPRFPump.name=Низконапорная красная помпа
+tile.MPRFPump.name=Средненапорная красная помпа
+tile.HPRFPump.name=Высоконапорная красная помпа
+
+#FMP
+tile.hydraulicSaw.name=Гидравлическая пила
