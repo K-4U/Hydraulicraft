@@ -7,13 +7,8 @@ import java.util.Set;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.api.ITrolleyRegistrar;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TrolleyRegistrar implements ITrolleyRegistrar {
 

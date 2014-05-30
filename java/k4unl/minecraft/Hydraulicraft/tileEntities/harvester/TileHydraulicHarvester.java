@@ -280,7 +280,12 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 	private void updateTrolleys(){
 		for(Location l : trolleyList){
 			TileHarvesterTrolley t = getTrolleyFromCoords(l);
-			t.doMove();
+			if(t != null){
+				t.doMove();
+			}else{
+				invalidateMultiblock();
+				return;
+			}
 		}
 	}
 	
@@ -557,7 +562,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 					Location trolleyLocation = getLocationInHarvester(horiz, f, 2, dir);
 					//Log.info("(" + dir + ": " + trolleyLocation.printCoords() + "; " + f + ") = " + getBlockId(trolleyLocation) + " W: " + width + " T");
 					
-					if(!(getTileEntity(trolleyLocation) instanceof IHarvesterTrolley)){
+					if(!(getTileEntity(trolleyLocation) instanceof TileHarvesterTrolley)){
 						return false;
 					}
 				}
@@ -725,15 +730,10 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
     public boolean isItemValidForSlot(int i, ItemStack itemStack){
         if(i < 9) {
         	if(seedsStorage[i] == null){
-	        	for(Seed s: Config.harvestableItems){
-	        		if(s.getSeedId().equals(itemStack.getItem())){
-	        			return true;
-	        		}
-	        	}
+        		return true;
         	}else{
         		return (seedsStorage[i].getItem().equals(itemStack.getItem()) && seedsStorage[i].getItemDamage() == itemStack.getItemDamage());
         	}
-            return itemStack.getItem() instanceof IPlantable;
         } else {
             return false;
         }

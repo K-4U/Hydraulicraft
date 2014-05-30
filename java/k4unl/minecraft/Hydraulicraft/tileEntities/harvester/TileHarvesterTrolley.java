@@ -6,11 +6,11 @@ import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCrops;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleySugarCane;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -22,7 +22,6 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileHarvesterTrolley extends TileEntity {
@@ -51,6 +50,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	private ItemStack plantingItem = null;
 	private ArrayList<ItemStack> harvestedItems = new ArrayList<ItemStack>();//starting without being null so the renderer won't NPE.
 	private int locationToPlant = -1;
+	private int locationYHarvest = -1;
 	private int locationToHarvest = -1;
 	private int harvesterIndex;
 	private IHarvester harvester = null;
@@ -64,10 +64,11 @@ public class TileHarvesterTrolley extends TileEntity {
 	    if(trolley == null){//if trolley is null here the NBT didn't contain the new tag, and this is a legacy trolley.
             switch(getBlockMetadata()){
                 case 0:
-                    trolley = new TrolleyCrops();//Not sure if the crops trolley was metadata 0, just an example.
+                    trolley = new TrolleyCrops();
                     break;
                 case 1:
-                    //etcetera..
+                    trolley = new TrolleySugarCane();
+                    break;
             }
             worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
         }
@@ -321,7 +322,12 @@ public class TileHarvesterTrolley extends TileEntity {
 	
 	public boolean canHandleSeed(ItemStack seed){
 		ArrayList<ItemStack> seedsToHandle = getTrolley().getHandlingSeeds();
-		return seedsToHandle.contains(seed);
+		for(ItemStack s : seedsToHandle){
+			if(s.isItemEqual(seed)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	
@@ -400,24 +406,6 @@ public class TileHarvesterTrolley extends TileEntity {
 		//The trolley has arrived at the location and should plant.
 		Location l = getLocation(locationToPlant, -2);
 		Block plant = getTrolley().getBlockForSeed(plantingItem);
-		//int plantMeta = 0;
-		
-		
-		/*
-		if(plantingItem.getItem() instanceof IPlantable && getBlockMetadata() != Constants.HARVESTER_ID_ENDERLILY){
-			IPlantable seed = (IPlantable)plantingItem.getItem();
-			plant = seed.getPlant(worldObj, l.getX(), l.getY(), l.getZ());
-			plantMeta = seed.getPlantMetadata(worldObj, l.getX(), l.getY(), l.getZ());
-		}else if(getBlockMetadata() == Constants.HARVESTER_ID_ENDERLILY){
-			//It probably is a ender lilly we want to plant..
-			//TODO: FIX ME
-			plant = ExtraUtilities.enderLily;
-			plantMeta = 0;
-		}else if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
-			plant = Blocks.reeds;
-			plantMeta = 0;
-		}
-		*/
 		
 		worldObj.setBlock(l.getX(), l.getY(), l.getZ(), plant);
 		
@@ -453,12 +441,18 @@ public class TileHarvesterTrolley extends TileEntity {
 	
 	public ArrayList<ItemStack> checkHarvest(int maxLen){
 		for(int horiz = 0; horiz <= maxLen; horiz++){
-			Location l = getLocation(horiz, -2);
-			if(getTrolley().canHarvest(getWorldObj(), l.getX(), l.getY(), l.getZ())){
-				ArrayList<ItemStack> dropped = getDroppedItems(horiz);
-				locationToHarvest = horiz;
-				return dropped;
+			Location l = getLocation(horiz, -3);
+			int plantHeight = getTrolley().getPlantHeight(getWorldObj(), l.getX(), l.getY(), l.getZ());
+			for(int i = plantHeight; i >= 1 ; i--){
+				l = getLocation(horiz, -3 + i);
+				if(getTrolley().canHarvest(getWorldObj(), l.getX(), l.getY(), l.getZ())){
+					ArrayList<ItemStack> dropped = getDroppedItems(horiz);
+					locationToHarvest = horiz;
+					locationYHarvest = -3 + i;
+					return dropped;
+				}	
 			}
+			
 		}
 		return null;
 	}
@@ -481,11 +475,7 @@ public class TileHarvesterTrolley extends TileEntity {
 
 	public void doHarvest() {
 		plantingItem = null;
-		if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
-			extendTo(1.0F, locationToHarvest);
-		}else{
-			extendTo(2.0F, locationToHarvest);
-		}
+		extendTo(0-locationYHarvest, locationToHarvest);
 		isPlanting = false; //Just to be safe
 		isHarvesting = true; 
 	}
@@ -493,11 +483,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	private void actuallyHarvest(){
 		ArrayList<ItemStack> dropped = getDroppedItems(locationToHarvest);
 		Location cropLocation;
-		if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
-			cropLocation = getLocation(locationToHarvest, -1);
-		}else{
-			cropLocation = getLocation(locationToHarvest, -2);
-		}
+		cropLocation = getLocation(locationToHarvest, locationYHarvest);
 		worldObj.func_147480_a(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ(), false);
 		
 		isHarvesting = false;

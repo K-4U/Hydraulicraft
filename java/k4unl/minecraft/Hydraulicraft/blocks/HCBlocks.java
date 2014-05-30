@@ -32,7 +32,10 @@ import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockLight;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCactus;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCrops;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyNetherWart;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleySugarCane;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.oredict.OreDictionary;
@@ -105,6 +108,9 @@ public class HCBlocks {
 		harvesterTrolley = new BlockHarvesterTrolley();
 		
 		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyCrops());
+		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleySugarCane());
+		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyNetherWart());
+		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyCactus());
 		
 		registerBlocks();
 	}

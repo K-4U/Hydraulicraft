@@ -60,5 +60,16 @@ public interface IHarvesterTrolley {
 	 */
 	ResourceLocation getTexture();
 	
+	
+	/**
+	 * Gets the plant height at this location.
+	 * Means that canHarvest will be called from this location y+length, to y.
+	 * @param world
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
+	int getPlantHeight(World world, int x, int y, int z);
 
 }

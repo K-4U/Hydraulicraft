@@ -2,8 +2,6 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys;
 
 import java.util.ArrayList;
 
-import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -11,28 +9,20 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
+import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 
-public class TrolleyCrops implements IHarvesterTrolley{
-    private static final ResourceLocation resLoc =
-            new ResourceLocation(ModInfo.LID,"textures/model/harvesterTrolley_tmap.png");
-    
-	@Override
-	public ArrayList<ItemStack> getHandlingSeeds() {
-		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		ret.add(new ItemStack(Items.wheat_seeds));
-		ret.add(new ItemStack(Items.carrot));
-		ret.add(new ItemStack(Items.potato));
-		return ret;
-	}
-
+public class TrolleyNetherWart implements IHarvesterTrolley {
+	private static final ResourceLocation resLoc =
+            new ResourceLocation(ModInfo.LID,"textures/model/harvesterNetherTrolley.png");
+	
 	@Override
 	public String getName() {
-		return "crops";
+		return "netherWart";
 	}
 
 	@Override
-	public boolean canPlant(World world, int x, int y, int z,
-			ItemStack seed) {
+	public boolean canPlant(World world, int x, int y, int z, ItemStack seed) {
 		if(seed.getItem() instanceof IPlantable){
 			Block soil = world.getBlock(x, y-1, z);
 		    return (world.getFullBlockLightValue(x, y, z) >= 8 ||
@@ -44,6 +34,13 @@ public class TrolleyCrops implements IHarvesterTrolley{
 		}
 	}
 
+	@Override
+	public ArrayList<ItemStack> getHandlingSeeds() {
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+		ret.add(new ItemStack(Items.nether_wart));
+		return ret;
+	}
+	
 	@Override
 	public Block getBlockForSeed(ItemStack seed) {
 		IPlantable plantingItem = (IPlantable)seed.getItem();
@@ -63,11 +60,10 @@ public class TrolleyCrops implements IHarvesterTrolley{
 		return false;
 	}
 
-	
 	@Override
-    public ResourceLocation getTexture(){
-        return resLoc;
-    }
+	public ResourceLocation getTexture() {
+		return resLoc;
+	}
 
 	@Override
 	public int getPlantHeight(World world, int x, int y, int z) {
