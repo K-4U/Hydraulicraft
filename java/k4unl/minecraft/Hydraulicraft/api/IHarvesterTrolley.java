@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public interface IHarvesterTrolley {
@@ -46,11 +47,18 @@ public interface IHarvesterTrolley {
 	 */
 	ArrayList<ItemStack> getHandlingSeeds();
 	
-	
 	/**
 	 * What block gets planted into the soil from this seed?
 	 * @param seed
 	 * @return
 	 */
 	Block getBlockForSeed(ItemStack seed);
+
+	/**
+	 * Pass a reference to the trolley texture in here. Look at the original trolley textures to see how the map is layed out.
+	 * @return
+	 */
+	ResourceLocation getTexture();
+	
+
 }

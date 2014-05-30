@@ -19,6 +19,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockCopper;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureGlass;
@@ -149,6 +150,8 @@ public class HCBlocks {
 		
 		GameRegistry.registerBlock(blockCopper, ItemBlock.class, Names.blockCopper.unlocalized, ModInfo.ID);
 		GameRegistry.registerBlock(blockLead, ItemBlock.class, Names.blockLead.unlocalized, ModInfo.ID);
+		
+		GameRegistry.registerBlock(harvesterTrolley, HandlerTrolley.class, Names.blockHarvesterTrolley.unlocalized, ModInfo.ID);
 		
 		OreDictionary.registerOre(Names.blockCopper.unlocalized, blockCopper);
 		OreDictionary.registerOre(Names.blockLead.unlocalized, blockLead);

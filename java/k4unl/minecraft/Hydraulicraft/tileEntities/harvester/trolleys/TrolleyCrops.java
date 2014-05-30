@@ -3,14 +3,18 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys;
 import java.util.ArrayList;
 
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TrolleyCrops implements IHarvesterTrolley{
-
+    private static final ResourceLocation resLoc =
+            new ResourceLocation(ModInfo.LID,"textures/model/harvesterTrolley_tmap.png");
+    
 	@Override
 	public ArrayList<ItemStack> getHandlingSeeds() {
 		return null;
@@ -47,5 +51,11 @@ public class TrolleyCrops implements IHarvesterTrolley{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	
+	@Override
+    public ResourceLocation getTexture(){
+        return resLoc;
+    }
 
 }

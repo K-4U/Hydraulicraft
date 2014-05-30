@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester;
 
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
@@ -19,9 +20,6 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.FMLClientHandler;
 
 public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
-
-	private static final ResourceLocation resLoc =
-		new ResourceLocation(ModInfo.LID,"textures/model/harvesterTrolley_tmap.png");
     private final RenderItem customRenderItem;
     private final EntityItem renderedItem;
 	
@@ -58,12 +56,12 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		int rotation = t.getFacing().ordinal();
 		int metadata = t.getBlockMetadata();
 		
-		doRender(t, (float)x, (float)y, (float)z, f, rotation, metadata);
+		doRender(t, (float)x, (float)y, (float)z, f, rotation, metadata, t.getTrolley().getTexture());
 	}
 	
 	
 	public void doRender(TileHarvesterTrolley t, float x, float y,
-			float z, float f, int rotation, int metadata){
+			float z, float f, int rotation, int metadata, ResourceLocation resLoc){
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef(x, y, z);
@@ -97,7 +95,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 			GL11.glTranslatef(0.0F, 0.0F, sideLength);
 		}
 		drawBase(t);
-		drawHead(t, f);
+		drawHead(t, resLoc, f);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		drawPistonArm(t, f);
 		
@@ -191,7 +189,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		GL11.glEnd();
 	}
 	
-	private void drawHead(TileHarvesterTrolley tileentity, float f){
+	private void drawHead(TileHarvesterTrolley tileentity, ResourceLocation resLoc, float f){
 		GL11.glPushMatrix();
 		float fromEdge = 0.1F;
 		float sideTexture = 25.0F / 256.0F;
