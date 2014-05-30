@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.api;
+package k4unl.minecraft.Hydraulicraft.tileEntities.interfaces;
 
 import java.util.ArrayList;
 

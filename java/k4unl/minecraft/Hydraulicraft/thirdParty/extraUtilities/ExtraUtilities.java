@@ -41,12 +41,13 @@ public class ExtraUtilities implements IThirdParty{
 		enderLily = GameRegistry.findBlock("ExtraUtilities", "plant/ender_lilly");
 		Config.addHarvestableItem(new Seed(Constants.HARVESTER_ID_ENDERLILY, enderLily, 7, Item.getItemFromBlock(enderLily)));
 		
-		((BlockHarvesterTrolley)HCBlocks.harvesterTrolley).enableHarvester(Constants.HARVESTER_ID_ENDERLILY);
+		//TODO: Add ender lily here!
 	}
 	
 	public static void initRecipes(){
 		
 		//TODO: Think of a better recipe. Drop the ender pearl.
+		/*
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.harvesterTrolley, 2, Constants.HARVESTER_ID_ENDERLILY), true ,
 				new Object[] {
 					"-P-",
@@ -57,7 +58,7 @@ public class ExtraUtilities implements IThirdParty{
 					'H', Items.ender_pearl,
 					'P', HCBlocks.hydraulicPiston
 			})
-		);
+		);*/
 		
 	}
 }

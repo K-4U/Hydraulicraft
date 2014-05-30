@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.api.IHarvester;
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -24,7 +25,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolley {
+public class TileHarvesterTrolley extends TileEntity {
 	private float extendedLength;
 	private float oldExtendedLength;
 	private final float maxLength = 4F;
@@ -53,7 +54,14 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	private int locationToHarvest = -1;
 	private int harvesterIndex;
 	private IHarvester harvester = null;
+	private String harvesterName;
+	private IHarvesterTrolley trolley;
 
+	public TileHarvesterTrolley(String name){
+		harvesterName = name;
+		trolley = Hydraulicraft.instance.harvesterTrolleyRegistrar.getTrolley(name);
+	}
+	
 	public void extendTo(float blocksToExtend, float sideExtend){
 
 		if(blocksToExtend > maxLength){
@@ -126,7 +134,6 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 4, tagCompound);
 	}
 	
-	@Override
 	public void doMove(){
 	    oldExtendedLength = extendedLength;
 	    oldSideLength = sideLength;
@@ -298,8 +305,8 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	}
 	
 	
-	@Override
 	public boolean canHandleSeed(ItemStack seed){
+		//TODO: Change me to new format!
 		int metadata = getBlockMetadata();
 		for(Seed s : Config.harvestableItems){
 			if(s.getSeedId().equals(seed.getItem())){
@@ -321,8 +328,8 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		return worldObj.getBlock(l.getX(), l.getY(), l.getZ());
 	}
 	
-	@Override
 	public int canPlantSeed(ItemStack[] seeds, int maxLength){
+		//Todo: Change me
 		ItemStack firstSeed = null;
 		int seedLocation = 0;
 		for(int i = 0; i < 9; i++){
@@ -365,8 +372,8 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		return -1;
 	}
 	
-	@Override
 	public void doPlant(ItemStack seed){
+		//TODO: Change me
 		plantingItem = seed;
 		if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
 			extendTo(2F, locationToPlant);
@@ -444,8 +451,9 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 	    }
 	}
 	
-	@Override
+	
 	public ArrayList<ItemStack> checkHarvest(int maxLen){
+		//TODO: Change me
 		for(int horiz = 0; horiz <= maxLen; horiz++){
 			Location l;
 			if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
@@ -474,23 +482,22 @@ public class TileHarvesterTrolley extends TileEntity implements IHarvesterTrolle
 		return null;
 	}
 	
-	@Override
 	public void setHarvester(IHarvester nHarvester, int harvesterIndex){
 		harvester = nHarvester;
 		this.harvesterIndex = harvesterIndex;
 	}
 
-	@Override
+
 	public boolean isMoving() {
 		return isMovingSideways;
 	}
 	
-	@Override
+
 	public boolean isWorking() {
 		return isPlanting || isHarvesting || isMoving || isMovingUpDown;
 	}
 
-	@Override
+
 	public void doHarvest() {
 		plantingItem = null;
 		if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){

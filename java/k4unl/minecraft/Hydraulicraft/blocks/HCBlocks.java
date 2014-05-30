@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicPiston;
@@ -14,7 +15,6 @@ import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerCoreBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvester;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
@@ -31,6 +31,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockLight;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCrops;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.oredict.OreDictionary;
@@ -85,8 +86,6 @@ public class HCBlocks {
 		hydraulicPressureGlass = new BlockHydraulicPressureGlass();
 		hydraulicHarvesterSource = new BlockHydraulicHarvester();
 		
-		harvesterTrolley = new BlockHarvesterTrolley();
-		
 		pressureDisposal = new BlockPressureDisposal();
 		blockCore = new BlockHydraulicCore();
 		blockValve = new BlockHydraulicValve();
@@ -102,9 +101,11 @@ public class HCBlocks {
 		blockLead = new BlockLead();
 		blockCopper = new BlockCopper();
 		
+		harvesterTrolley = new BlockHarvesterTrolley();
+		
+		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyCrops());
 		
 		registerBlocks();
-		addNames();
 	}
 	
 
@@ -139,7 +140,7 @@ public class HCBlocks {
 		GameRegistry.registerBlock(hydraulicLavaPump, HandlerLavaPump.class, Names.blockHydraulicLavaPump[0].unlocalized, ModInfo.ID);
 		
 		GameRegistry.registerBlock(hydraulicHarvesterSource, HandlerHarvester.class, Names.blockHydraulicHarvester[0].unlocalized, ModInfo.ID);
-		GameRegistry.registerBlock(harvesterTrolley, HandlerHarvesterTrolley.class, Names.blockHarvesterTrolley[0].unlocalized, ModInfo.ID);
+		
 		
 		GameRegistry.registerBlock(blockCore, HandlerCoreBlock.class, Names.blockCore[0].unlocalized, ModInfo.ID);
 	
@@ -151,34 +152,5 @@ public class HCBlocks {
 		
 		OreDictionary.registerOre(Names.blockCopper.unlocalized, blockCopper);
 		OreDictionary.registerOre(Names.blockLead.unlocalized, blockLead);
-	}
-	
-	/*!
-	 * @author Koen Beckers
-	 * @date 13-12-2013
-	 * Adds the name to the LanguageRegistry.
-	 * Note: No localization yet. Maybe after Modjam!
-	 */
-	public static void addNames(){
-		
-		/*
-		LanguageRegistry.addName(hydraulicMixer, Names.blockHydraulicMixer.localized);
-		LanguageRegistry.addName(hydraulicFrictionIncinerator, Names.blockHydraulicFrictionIncinerator.localized);
-		LanguageRegistry.addName(hydraulicCrusher, Names.blockHydraulicCrusher.localized);
-		//LanguageRegistry.addName(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.localized);
-		//LanguageRegistry.addName(hydraulicPressureValve, Names.blockHydraulicPressureValve.localized);
-		//LanguageRegistry.addName(hydraulicPiston, Names.blockHydraulicPiston.localized);
-		LanguageRegistry.addName(hydraulicWasher, Names.blockHydraulicWasher.localized);
-		LanguageRegistry.addName(hydraulicPressureWall, Names.blockHydraulicPressureWall.localized);
-		//LanguageRegistry.addName(hydraulicHarvesterSource, Names.blockHydraulicHarvesterSource.localized);
-		
-		LanguageRegistry.addName(dummyWasher, Names.blockDummyWasher.localized);
-		
-		for(int i = 0; i < 3; i++){
-			LanguageRegistry.addName(new ItemStack(hydraulicHose, 1, i), Names.blockHydraulicHose[i].localized);
-			LanguageRegistry.addName(new ItemStack(hydraulicPressurevat,1,i), Names.blockHydraulicPressurevat[i].localized);
-			LanguageRegistry.addName(new ItemStack(hydraulicPump,1,i), Names.blockHydraulicPump[i].localized);
-		}*/
-				
 	}
 }

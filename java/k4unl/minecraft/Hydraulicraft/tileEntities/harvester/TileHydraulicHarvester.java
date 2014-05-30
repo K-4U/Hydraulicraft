@@ -3,7 +3,6 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.harvester;
 import java.util.ArrayList;
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.api.IHarvester;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
@@ -17,6 +16,7 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -227,17 +227,17 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 		return (TileHydraulicPiston) worldObj.getTileEntity(v.getX(), v.getY(), v.getZ());
 	}
 
-	private IHarvesterTrolley getTrolleyFromList(int index){
+	private TileHarvesterTrolley getTrolleyFromList(int index){
 		if(index < trolleyList.size()){
 			Location v = trolleyList.get(index);
-			return (IHarvesterTrolley) worldObj.getTileEntity(v.getX(), v.getY(), v.getZ());
+			return (TileHarvesterTrolley) worldObj.getTileEntity(v.getX(), v.getY(), v.getZ());
 		}else{
 			return null;
 		}
 	}
 	
-	private IHarvesterTrolley getTrolleyFromCoords(Location v){
-		return (IHarvesterTrolley) worldObj.getTileEntity(v.getX(), v.getY(), v.getZ());
+	private TileHarvesterTrolley getTrolleyFromCoords(Location v){
+		return (TileHarvesterTrolley) worldObj.getTileEntity(v.getX(), v.getY(), v.getZ());
 	}
 	
 	@Override
@@ -245,7 +245,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 		if(canRun()){
 			if(pistonMoving != -1){
 				if(pistonMoving <= trolleyList.size()){
-					IHarvesterTrolley t = getTrolleyFromList(pistonMoving);
+					TileHarvesterTrolley t = getTrolleyFromList(pistonMoving);
 					TileHydraulicPiston p = getPistonFromList(pistonMoving);
 					if(p == null || t == null) {
 						invalidateMultiblock();
@@ -279,7 +279,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 	
 	private void updateTrolleys(){
 		for(Location l : trolleyList){
-			IHarvesterTrolley t = getTrolleyFromCoords(l);
+			TileHarvesterTrolley t = getTrolleyFromCoords(l);
 			t.doMove();
 		}
 	}
@@ -481,7 +481,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 			}
 		}
 		for(Location l : trolleyList){
-			IHarvesterTrolley t = getTrolleyFromCoords(l);
+			TileHarvesterTrolley t = getTrolleyFromCoords(l);
 			if(t!=null){
 				t.setIsHarvesterPart(false);
 			}
@@ -523,9 +523,6 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 		if(!getBlock(xCoord, yCoord + 3, zCoord).equals(piston)) return false;
 		Location l = new Location(xCoord, yCoord+3, zCoord);
 		
-		int x = xCoord;
-		int y = yCoord + 3;
-		int z = zCoord;
 		int horiz = 0;
 		
 		//Check width:
@@ -798,7 +795,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 	
 	private void checkPlantable(){
 		for(int w = 0; w < harvesterWidth; w++){
-			IHarvesterTrolley t = getTrolleyFromList(w);
+			TileHarvesterTrolley t = getTrolleyFromList(w);
 			if(t == null){
 				return;
 			}
@@ -821,7 +818,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 	private void checkHarvest(){
 		//For now, only crops!
 		for(int w = 0; w < harvesterWidth; w++){
-			IHarvesterTrolley t = getTrolleyFromList(w);
+			TileHarvesterTrolley t = getTrolleyFromList(w);
 			if(t == null){
 				return;
 			}

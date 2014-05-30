@@ -1,5 +1,9 @@
 package k4unl.minecraft.Hydraulicraft;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
 import k4unl.minecraft.Hydraulicraft.events.EventHelper;
@@ -10,6 +14,7 @@ import k4unl.minecraft.Hydraulicraft.lib.ConfigHandler;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Recipes;
+import k4unl.minecraft.Hydraulicraft.lib.TrolleyRegistrar;
 import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
@@ -25,6 +30,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -50,6 +56,8 @@ public class Hydraulicraft {
 	public static Multipart mp;
 	
 	public static TrueTypeFont smallGuiFont;
+	
+	public static TrolleyRegistrar harvesterTrolleyRegistrar = new TrolleyRegistrar();
 	
 	/*!
 	 * @author Koen Beckers
@@ -111,5 +119,36 @@ public class Hydraulicraft {
 		Log.info("Hydraulicraft ready for use!");
 	}
 	
+	
+	@EventHandler
+    public void processIMCRequests(FMLInterModComms.IMCEvent event){
+        List<FMLInterModComms.IMCMessage> messages = event.getMessages();
+        for(FMLInterModComms.IMCMessage message : messages) {
+            try {
+                Class clazz = Class.forName(message.key);
+                try {
+                    Method method = clazz.getMethod(message.getStringValue());
+                    try {
+                        method.invoke(harvesterTrolleyRegistrar);
+                        Log.info("Successfully gave " + message.getSender() + " a nudge! Happy to be doing business!");
+                    } catch(IllegalAccessException e) {
+                        Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method can NOT be accessed: " + message.getStringValue());
+                    } catch(IllegalArgumentException e) {
+                        Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method has arguments or it isn't static: " + message.getStringValue());
+                    } catch(InvocationTargetException e) {
+                        Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method threw an exception: " + message.getStringValue());
+                        e.printStackTrace();
+                    }
+                } catch(NoSuchMethodException e) {
+                    Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method can NOT be found: " + message.getStringValue());
+                } catch(SecurityException e) {
+                    Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method can NOT be accessed: " + message.getStringValue());
+                }
+            } catch(ClassNotFoundException e) {
+                Log.error(message.getSender() + " tried to register to HydCraft. Failed because the class can NOT be found: " + message.key);
+            }
+
+        }
+    }
 	
 }

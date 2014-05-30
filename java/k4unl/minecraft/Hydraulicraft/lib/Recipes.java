@@ -164,7 +164,7 @@ public class Recipes {
 					'I', HCBlocks.blockInterfaceValve
 			})
 		);
-		
+		/*
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.harvesterTrolley, 4, 0), true ,
 				new Object[] {
 					"-P-",
@@ -189,7 +189,7 @@ public class Recipes {
 					'P', HCBlocks.hydraulicPiston
 			})
 		);
-		
+		*/
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockCore, 2, 0), true ,
 				new Object[] {
 					"LSL",
