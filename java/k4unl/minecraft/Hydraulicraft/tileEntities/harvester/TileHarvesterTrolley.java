@@ -6,6 +6,7 @@ import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
@@ -52,13 +53,8 @@ public class TileHarvesterTrolley extends TileEntity {
 	private int locationToHarvest = -1;
 	private int harvesterIndex;
 	private IHarvester harvester = null;
-	private String harvesterName;
 	private IHarvesterTrolley trolley;
 
-	public TileHarvesterTrolley(String name){
-		harvesterName = name;
-	}
-	
 	public void setTrolley(IHarvesterTrolley trolley){
 	    this.trolley = trolley;
 	}
@@ -186,11 +182,12 @@ public class TileHarvesterTrolley extends TileEntity {
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
+	    super.readFromNBT(tagCompound);
 		extendedLength = tagCompound.getFloat("extendedLength");
-		if(getWorldObj().isRemote){
+		//if(getWorldObj().isRemote){ K-4U.... world can be null here...
 			extendTarget = tagCompound.getFloat("extendTarget");
 			sideTarget = tagCompound.getFloat("sideTarget");
-		}
+		//}
 		isRetracting = tagCompound.getBoolean("isRetracting");
 		isMovingSideways = tagCompound.getBoolean("isMoving");
 		sideLength = tagCompound.getFloat("sideLength");
@@ -215,6 +212,7 @@ public class TileHarvesterTrolley extends TileEntity {
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
+	    super.writeToNBT(tagCompound);
 		tagCompound.setFloat("extendedLength", extendedLength);
 		tagCompound.setFloat("extendTarget", extendTarget);
 		tagCompound.setBoolean("isRetracting", isRetracting);
@@ -311,7 +309,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	
 	
 	public boolean canHandleSeed(ItemStack seed){
-		ArrayList<ItemStack> seedsToHandle = getInterface().getHandlingSeeds();
+		ArrayList<ItemStack> seedsToHandle = getTrolley().getHandlingSeeds();
 		return seedsToHandle.contains(seed);
 	}
 	
@@ -348,7 +346,7 @@ public class TileHarvesterTrolley extends TileEntity {
 			boolean canIPlantHere = false;
 			
 			Location l = getLocation(horiz, -2);
-			if(getInterface().canPlant(getWorldObj(), l.getX(), l.getY(), l.getZ(), firstSeed)){
+			if(getTrolley().canPlant(getWorldObj(), l.getX(), l.getY(), l.getZ(), firstSeed)){
 				canIPlantHere = true;
 			}
 			
@@ -390,7 +388,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	private void actuallyPlant(){
 		//The trolley has arrived at the location and should plant.
 		Location l = getLocation(locationToPlant, -2);
-		Block plant = getInterface().getBlockForSeed(plantingItem);
+		Block plant = getTrolley().getBlockForSeed(plantingItem);
 		//int plantMeta = 0;
 		
 		
@@ -460,7 +458,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	public ArrayList<ItemStack> checkHarvest(int maxLen){
 		for(int horiz = 0; horiz <= maxLen; horiz++){
 			Location l = getLocation(horiz, -2);
-			if(getInterface().canHarvest(getWorldObj(), l.getX(), l.getY(), l.getZ())){
+			if(getTrolley().canHarvest(getWorldObj(), l.getX(), l.getY(), l.getZ())){
 				ArrayList<ItemStack> dropped = getDroppedItems(horiz);
 				locationToHarvest = horiz;
 				return dropped;

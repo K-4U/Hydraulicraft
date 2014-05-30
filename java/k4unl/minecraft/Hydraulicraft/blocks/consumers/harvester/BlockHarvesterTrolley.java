@@ -46,7 +46,7 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileHarvesterTrolley(mName.unlocalized);
+		return new TileHarvesterTrolley();
 	}
 
 
