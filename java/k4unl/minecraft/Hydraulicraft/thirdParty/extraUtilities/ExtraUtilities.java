@@ -1,17 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities;
 
-import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
 import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCactus;
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ExtraUtilities implements IThirdParty{
@@ -39,9 +35,7 @@ public class ExtraUtilities implements IThirdParty{
 	
 	public static void initBlocks(){
 		enderLily = GameRegistry.findBlock("ExtraUtilities", "plant/ender_lilly");
-		Config.addHarvestableItem(new Seed(Constants.HARVESTER_ID_ENDERLILY, enderLily, 7, Item.getItemFromBlock(enderLily)));
-		
-		//TODO: Add ender lily here!
+		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyEnderlily());
 	}
 	
 	public static void initRecipes(){

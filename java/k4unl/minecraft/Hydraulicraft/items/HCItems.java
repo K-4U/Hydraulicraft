@@ -29,6 +29,8 @@ public class HCItems {
 	public static Item itemLamp;
 	public static Item itemDiamondShards;
 	
+	public static Item itemEnrichedCopperDust;
+	
 	
 	/*!
 	 * @author Koen Beckers
@@ -53,6 +55,7 @@ public class HCItems {
 		itemMiningHelmet = new ItemMiningHelmet();
 		itemLamp = new ItemLamp();
 		itemDiamondShards = new ItemDiamondShard();
+		itemEnrichedCopperDust = new ItemCopperEnrichedDust();
 		
 		registerItems();
 	}
@@ -79,12 +82,14 @@ public class HCItems {
 		
 		GameRegistry.registerItem(itemMovingPane, "item"+Names.blockMovingPane.unlocalized);
 		GameRegistry.registerItem(itemDiamondShards, Names.itemDiamondShard.unlocalized);
+		GameRegistry.registerItem(itemEnrichedCopperDust, Names.itemCopperEnrichedDust.unlocalized);
 		
 		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));
 		OreDictionary.registerOre(Names.ingotLead.unlocalized, new ItemStack(ingotLead));
 		OreDictionary.registerOre(Names.ingotEnrichedCopper.unlocalized, new ItemStack(ingotEnrichedCopper));
 		OreDictionary.registerOre(Names.itemBacon.unlocalized, new ItemStack(itemBacon));
 		OreDictionary.registerOre(Names.itemDiamondShard.unlocalized, new ItemStack(itemDiamondShards));
+		OreDictionary.registerOre(Names.itemCopperEnrichedDust.unlocalized, new ItemStack(itemEnrichedCopperDust));
 		
 		FluidStack st = FluidRegistry.getFluidStack(Names.fluidOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
 		FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketOil), new ItemStack((Item)Item.itemRegistry.getObject("bucket")));

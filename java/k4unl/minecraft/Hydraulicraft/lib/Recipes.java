@@ -516,7 +516,7 @@ public class Recipes {
 		});
 	
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotEnrichedCopper, 2), "diamondShard", "ingotCopper"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.itemEnrichedCopperDust, 2), "diamondShard", "dustCopper"));
 
 		
 		

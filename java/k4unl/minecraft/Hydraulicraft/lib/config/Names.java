@@ -117,4 +117,5 @@ public class Names {
 	public static final Name itemLamp = new Name("Lamp", "itemLamp");
 	public static final Name blockLead = new Name("Lead Block", "blockLead");
 	public static final Name blockCopper = new Name("Copper Block", "blockCopper");
+	public static final Name itemCopperEnrichedDust = new Name("Copper enriched dust", "dustDiamondCopper");
 }
