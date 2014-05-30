@@ -2,13 +2,17 @@ package k4unl.minecraft.Hydraulicraft.lib;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.api.ITrolleyRegistrar;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TrolleyRegistrar implements ITrolleyRegistrar {
@@ -27,4 +31,21 @@ public class TrolleyRegistrar implements ITrolleyRegistrar {
 	public IHarvesterTrolley getTrolley(String name) {
 		return blocks.get(name);
 	}
+
+    @Override
+    public ItemStack getTrolleyItem(String trolleyName){
+        if(!blocks.containsKey(trolleyName)) throw new IllegalArgumentException("Trolley with the name " + trolleyName + " isn't registered!");
+        
+        ItemStack trolley = new ItemStack(HCBlocks.harvesterTrolley, 1, 0);
+        
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setString("name", trolleyName);
+        trolley.setTagCompound(tag);
+        
+        return trolley;
+    }
+    
+    public Set<String> getRegisteredTrolleys(){
+        return blocks.keySet();
+    }
 }

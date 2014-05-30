@@ -57,14 +57,14 @@ public class TileHarvesterTrolley extends TileEntity {
 
 	public TileHarvesterTrolley(String name){
 		harvesterName = name;
-		trolley = Hydraulicraft.harvesterTrolleyRegistrar.getTrolley(name);
 	}
 	
-	private IHarvesterTrolley getInterface(){
-		if(trolley == null){
-			trolley = Hydraulicraft.harvesterTrolleyRegistrar.getTrolley(harvesterName);
-		}
-		return trolley;
+	public void setTrolley(IHarvesterTrolley trolley){
+	    this.trolley = trolley;
+	}
+	
+	public IHarvesterTrolley getTrolley(){
+	    return trolley;
 	}
 	
 	public void extendTo(float blocksToExtend, float sideExtend){
@@ -210,9 +210,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		}else{
 		    plantingItem = null;
 		}
-		
-		harvesterName = tagCompound.getString("harvesterName");
-		
+		this.trolley = Hydraulicraft.harvesterTrolleyRegistrar.getTrolley(tagCompound.getString("trolley"));
 	}
 
 	@Override
@@ -226,7 +224,6 @@ public class TileHarvesterTrolley extends TileEntity {
 		tagCompound.setInteger("facing", facing.ordinal());
 		tagCompound.setFloat("movingSpeedExtending", movingSpeedExtending);
 		tagCompound.setBoolean("harvesterPart", harvesterPart);
-		tagCompound.setString("harvesterName", harvesterName);
 		
 		NBTTagList tagList = new NBTTagList();
         for(int currentIndex = 0; currentIndex < harvestedItems.size(); ++currentIndex) {
@@ -241,6 +238,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	        plantingItem.writeToNBT(tag);
 	        tagCompound.setTag("PlantingItem", tag);
 	    }
+	    tagCompound.setString("trolley", trolley.getName());
 	}
 	
 	

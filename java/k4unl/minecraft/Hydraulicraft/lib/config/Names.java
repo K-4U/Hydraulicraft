@@ -48,11 +48,14 @@ public class Names {
 		new Name("Harvester frame", "hydraulicHarvesterFrame")
 	};
 	
-	public static final Name[] blockHarvesterTrolley = {
+	/*public static final Name[] blockHarvesterTrolley = {
 		new Name("Wheat Harvester", "wheatHarvester"),
 		new Name("Ender Lily Harvester", "enderLilyHarvester"),
 		new Name("Sugar Cane Harvester", "sugarCaneHarvester")
-	};
+	};*/
+	
+	public static final Name blockHarvesterTrolley = new Name("Harvester Trolley", "harvesterTrolley");
+	public static final Name trolleyCrops = new Name("Crops Trolley", "trolleyCrops");
 	
 	public static final Name[] blockCore = {
 		new Name("LP Core", "LPBlockCore"),
