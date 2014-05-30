@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
+import k4unl.minecraft.Hydraulicraft.lib.TrolleyRegistrar;
 import net.minecraft.item.ItemStack;
 
 public interface ITrolleyRegistrar {
@@ -15,5 +16,5 @@ public interface ITrolleyRegistrar {
 	 * @param trolleyName
 	 * @return
 	 */
-	public ItemStack getTrolleyItem(String trolleyName);
+    public ItemStack getTrolleyItem(String trolleyName);
 }
