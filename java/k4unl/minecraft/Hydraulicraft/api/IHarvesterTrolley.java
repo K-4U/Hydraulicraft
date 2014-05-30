@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 public interface IHarvesterTrolley {
 
@@ -26,7 +26,7 @@ public interface IHarvesterTrolley {
 	 * @param z
 	 * @return
 	 */
-	boolean canHarvest(IBlockAccess world, int x, int y, int z);
+	boolean canHarvest(World world, int x, int y, int z);
 	
 	/**
 	 * Whether or not this trolley can plant a seed at this location.
@@ -38,7 +38,7 @@ public interface IHarvesterTrolley {
 	 * @param seed
 	 * @return
 	 */
-	boolean canPlant(IBlockAccess world, int x, int y, int z, ItemStack seed);
+	boolean canPlant(World world, int x, int y, int z, ItemStack seed);
 	
 	/**
 	 * Which seeds this trolley can handle. 

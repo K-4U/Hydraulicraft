@@ -42,6 +42,7 @@ public class Recipes {
         crushableItems.add("Gold");
         crushableItems.add("Iron");
         //MODDED:
+        crushableItems.add("Ardite");
         crushableItems.add("Copper");
         crushableItems.add("Lead");
         crushableItems.add("FzDarkIron");
@@ -92,6 +93,7 @@ public class Recipes {
         CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Blocks.cobblestone, 1), 0.9F, new ItemStack(Blocks.sand, 2)));
         CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Items.bone, 1), 0.5F, new ItemStack(Items.dye, 5, 15)));
         CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Items.blaze_rod, 1), 0.5F, new ItemStack(Items.blaze_powder, 5)));
+        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Items.diamond), 1.2F, new ItemStack(HCItems.itemDiamondShards, 9)));
     }
     
     private static void registerNonStandardCrushRecipe(String sourceName, String targetName, int number){
@@ -514,7 +516,7 @@ public class Recipes {
 		});
 	
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotEnrichedCopper, 1), "gemDiamond", "ingotCopper"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.ingotEnrichedCopper, 2), "diamondShard", "ingotCopper"));
 
 		
 		

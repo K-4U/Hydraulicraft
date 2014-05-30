@@ -424,21 +424,6 @@ public class TileHarvesterTrolley extends TileEntity {
 		}
 	}
 	
-	private boolean canPlantSeed(Location l, ItemStack seed) {
-		if(seed.getItem() instanceof IPlantable){
-			int x = l.getX();
-			int y = l.getY();
-			int z = l.getZ();
-			Block soil = getWorldObj().getBlock(x, y-1, z);
-		    return (worldObj.getFullBlockLightValue(x, y, z) >= 8 ||
-		            worldObj.canBlockSeeTheSky(x, y, z)) &&
-		            soil != null && soil.canSustainPlant(worldObj, x, y - 1, z,
-		                  ForgeDirection.UP, (IPlantable)seed.getItem());			
-		}else{
-			return false;
-		}
-	}
-	
 	private ArrayList<ItemStack> getDroppedItems(int h){
 		Location cropLocation = getLocation(h, -2);
 		Block toHarvest = worldObj.getBlock(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());

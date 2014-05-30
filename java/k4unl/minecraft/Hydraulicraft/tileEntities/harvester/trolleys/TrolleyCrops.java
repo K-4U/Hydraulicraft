@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TrolleyCrops implements IHarvesterTrolley{
 
@@ -20,20 +22,28 @@ public class TrolleyCrops implements IHarvesterTrolley{
 	}
 
 	@Override
-	public boolean canPlant(IBlockAccess world, int x, int y, int z,
+	public boolean canPlant(World world, int x, int y, int z,
 			ItemStack seed) {
-		// TODO Auto-generated method stub
-		return false;
+		if(seed.getItem() instanceof IPlantable){
+			Block soil = world.getBlock(x, y-1, z);
+		    return (world.getFullBlockLightValue(x, y, z) >= 8 ||
+		    		world.canBlockSeeTheSky(x, y, z)) &&
+		            soil != null && soil.canSustainPlant(world, x, y - 1, z,
+		                  ForgeDirection.UP, (IPlantable)seed.getItem());			
+		}else{
+			return false;
+		}
 	}
 
 	@Override
 	public Block getBlockForSeed(ItemStack seed) {
-		// TODO Auto-generated method stub
+		//IPlantable plantingItem = (IPlantable)seed.getItem();
+		//return plantingItem.getPlant(worldObj, l.getX(), l.getY(), l.getZ());
 		return null;
 	}
 
 	@Override
-	public boolean canHarvest(IBlockAccess world, int x, int y, int z) {
+	public boolean canHarvest(World world, int x, int y, int z) {
 		// TODO Auto-generated method stub
 		return false;
 	}
