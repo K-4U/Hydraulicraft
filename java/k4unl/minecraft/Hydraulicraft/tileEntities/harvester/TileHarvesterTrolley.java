@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCrops;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -60,6 +61,16 @@ public class TileHarvesterTrolley extends TileEntity {
 	}
 	
 	public IHarvesterTrolley getTrolley(){
+	    if(trolley == null){//if trolley is null here the NBT didn't contain the new tag, and this is a legacy trolley.
+            switch(getBlockMetadata()){
+                case 0:
+                    trolley = new TrolleyCrops();//Not sure if the crops trolley was metadata 0, just an example.
+                    break;
+                case 1:
+                    //etcetera..
+            }
+            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
+        }
 	    return trolley;
 	}
 	
@@ -207,7 +218,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		}else{
 		    plantingItem = null;
 		}
-		this.trolley = Hydraulicraft.harvesterTrolleyRegistrar.getTrolley(tagCompound.getString("trolley"));
+		trolley = Hydraulicraft.harvesterTrolleyRegistrar.getTrolley(tagCompound.getString("trolley"));
 	}
 
 	@Override
