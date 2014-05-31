@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import k4unl.minecraft.Hydraulicraft.lib.TrolleyRegistrar;
 import net.minecraft.item.ItemStack;
 
 public interface ITrolleyRegistrar {

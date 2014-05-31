@@ -57,7 +57,7 @@ dependencies {
 
 
 def isDev = false
-version = "2.0.2"
+version = "2.0.3"
 group= "k4unl.minecraft.Hydraulicraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HydCraft"
 
@@ -95,7 +95,7 @@ task updateBuildNum << {
 build.finalizedBy updateBuildNum
 
 minecraft {
-    version = "1.7.2-10.12.1.1065"
+    version = "1.7.2-10.12.1.1098"
         assetDir = "../Minecraft/assets"
 
         // replacing stuff in the source

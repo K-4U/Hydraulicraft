@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.lib;
 import java.util.ArrayList;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -166,8 +167,11 @@ public class Recipes {
 					'I', HCBlocks.blockInterfaceValve
 			})
 		);
-		/*
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.harvesterTrolley, 4, 0), true ,
+		
+		ItemStack cropsTrolly = Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem("crops");
+		cropsTrolly.stackSize = 4;
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(cropsTrolly, true ,
 				new Object[] {
 					"-P-",
 					"WCW",
@@ -179,8 +183,10 @@ public class Recipes {
 			})
 		);
 		
+		ItemStack sugarTrolly = Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem("sugarCane");
+		sugarTrolly.stackSize = 4;
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.harvesterTrolley, 4, Constants.HARVESTER_ID_SUGARCANE), true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(sugarTrolly, true ,
 				new Object[] {
 					"-P-",
 					"WCW",
@@ -191,7 +197,37 @@ public class Recipes {
 					'P', HCBlocks.hydraulicPiston
 			})
 		);
-		*/
+		
+		ItemStack cactusTrolly = Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem("cactus");
+		cactusTrolly.stackSize = 4;
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(cactusTrolly, true ,
+				new Object[] {
+					"-P-",
+					"WCW",
+					"-S-",
+					'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+					'W', HCBlocks.hydraulicPressureWall,
+					'S', Items.golden_sword,
+					'P', HCBlocks.hydraulicPiston
+			})
+		);
+		
+		ItemStack netherWartTrolly = Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem("netherWart");
+		netherWartTrolly.stackSize = 2;
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(netherWartTrolly, true ,
+				new Object[] {
+					"-P-",
+					"WCW",
+					"-S-",
+					'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+					'W', HCBlocks.hydraulicPressureWall,
+					'S', Items.ghast_tear,
+					'P', HCBlocks.hydraulicPiston
+			})
+		);
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockCore, 2, 0), true ,
 				new Object[] {
 					"LSL",

@@ -1,13 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
-import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCactus;
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ExtraUtilities implements IThirdParty{
@@ -41,18 +40,20 @@ public class ExtraUtilities implements IThirdParty{
 	public static void initRecipes(){
 		
 		//TODO: Think of a better recipe. Drop the ender pearl.
-		/*
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.harvesterTrolley, 2, Constants.HARVESTER_ID_ENDERLILY), true ,
+		ItemStack enderTrolly = Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem("enderLily");
+		enderTrolly.stackSize = 2;
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(enderTrolly, true ,
 				new Object[] {
 					"-P-",
 					"WCW",
 					"-H-",
 					'C', new ItemStack(HCBlocks.blockCore, 1, 1),
 					'W', HCBlocks.hydraulicPressureWall,
-					'H', Items.ender_pearl,
+					'H', Items.ender_eye,
 					'P', HCBlocks.hydraulicPiston
 			})
-		);*/
+		);
 		
 	}
 }

@@ -9,6 +9,8 @@ item.bucketHydraulicOil.name=Hydraulic Oil Bucket
 item.bacon.name=Bacon
 item.miningHelmet.name=Miners Helmet
 item.itemLamp.name=Miners Helmet Lamp
+item.diamondShard.name=Diamond Shard
+item.dustDiamondCopper.name=Enriched Copper Dust
 
 #Ores
 tile.oreCopper.name=Copper Ore
@@ -47,9 +49,12 @@ tile.HPHydraulicLavaPump.name=High Pressure Lava Pump
 
 tile.hydraulicHarvesterSource.name=Hydraulic Harvester
 tile.hydraulicHarvesterFrame.name=Harvester Frame
-tile.wheatHarvester.name=Wheat Harvester Dolley
-tile.enderLilyHarvester.name=Enderlily Harvester Dolley
-tile.sugarCaneHarvester.name=Sugar Cane Harvester Dolley
+
+tile.harvesterTrolley.crops.name=Wheat Harvester Dolley
+tile.harvesterTrolley.enderLily.name=Enderlily Harvester Dolley
+tile.harvesterTrolley.sugarCane.name=Sugar Cane Harvester Dolley
+tile.harvesterTrolley.cactus.name=Cactus Harvester Dolley
+tile.harvesterTrolley.netherWart.name=Netherwart Harvester Dolley
 
 tile.hydraulicPiston.name=Hydraulic Piston
 tile.interfaceValve.name=Interface Valve
