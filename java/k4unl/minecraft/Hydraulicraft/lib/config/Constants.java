@@ -38,8 +38,6 @@ public class Constants {
 	//Harvester
 	public static final float MIN_REQUIRED_PRESSURE_HARVESTER = 100.0F;
 	public static final float PRESSURE_USAGE_PISTON = 50;
-	public static final int HARVESTER_ID_ENDERLILY = 1;
-	public static final int HARVESTER_ID_SUGARCANE = 2;
 	
 	//Friction Incinerator
 	public static final float PRESSURE_INCINERATOR = 100.0F;

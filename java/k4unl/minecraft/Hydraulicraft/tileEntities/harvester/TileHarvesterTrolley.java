@@ -9,6 +9,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.TrolleyEnderlily;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCrops;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleySugarCane;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
@@ -66,8 +67,11 @@ public class TileHarvesterTrolley extends TileEntity {
                 case 0:
                     trolley = new TrolleyCrops();
                     break;
-                case 1:
+                case 2:
                     trolley = new TrolleySugarCane();
+                    break;
+                case 1:
+                    trolley = new TrolleyEnderlily();
                     break;
             }
             worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
@@ -392,7 +396,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	
 	public void doPlant(ItemStack seed){
 		plantingItem = seed;
-		if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
+		if(getBlockMetadata() == 2){//FIXME 2 == sugar cane id, needs fixing
 			extendTo(2F, locationToPlant);
 		}else{
 			extendTo(2.7F, locationToPlant);
