@@ -5,16 +5,16 @@ import java.util.Map;
 import java.util.Set;
 
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.api.ITrolleyRegistrar;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicraftRegistrar;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TrolleyRegistrar implements ITrolleyRegistrar {
+public class HydraulicraftRegistrar implements IHydraulicraftRegistrar {
 
 	private Map<String, IHarvesterTrolley> blocks;
 	
-	public TrolleyRegistrar(){
+	public HydraulicraftRegistrar(){
 		blocks = new HashMap<String, IHarvesterTrolley>();
 	}
 	

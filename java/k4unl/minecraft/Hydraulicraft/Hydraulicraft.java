@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicraftRegistrar;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
 import k4unl.minecraft.Hydraulicraft.events.EventHelper;
@@ -14,7 +16,7 @@ import k4unl.minecraft.Hydraulicraft.lib.ConfigHandler;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Recipes;
-import k4unl.minecraft.Hydraulicraft.lib.TrolleyRegistrar;
+import k4unl.minecraft.Hydraulicraft.lib.HydraulicraftRegistrar;
 import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
@@ -57,7 +59,7 @@ public class Hydraulicraft {
 	
 	public static TrueTypeFont smallGuiFont;
 	
-	public static TrolleyRegistrar harvesterTrolleyRegistrar = new TrolleyRegistrar();
+	public static HydraulicraftRegistrar harvesterTrolleyRegistrar = new HydraulicraftRegistrar();
 	
 	/*!
 	 * @author Koen Beckers
@@ -127,14 +129,14 @@ public class Hydraulicraft {
             try {
                 Class clazz = Class.forName(message.key);
                 try {
-                    Method method = clazz.getMethod(message.getStringValue());
+                    Method method = clazz.getMethod(message.getStringValue(), IHydraulicraftRegistrar.class);
                     try {
-                        method.invoke(harvesterTrolleyRegistrar);
+                        method.invoke(null, Hydraulicraft.harvesterTrolleyRegistrar);
                         Log.info("Successfully gave " + message.getSender() + " a nudge! Happy to be doing business!");
                     } catch(IllegalAccessException e) {
                         Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method can NOT be accessed: " + message.getStringValue());
                     } catch(IllegalArgumentException e) {
-                        Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method has arguments or it isn't static: " + message.getStringValue());
+                        Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method has no single IHydraulicraftRegistrar argument or it isn't static: " + message.getStringValue());
                     } catch(InvocationTargetException e) {
                         Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method threw an exception: " + message.getStringValue());
                         e.printStackTrace();
