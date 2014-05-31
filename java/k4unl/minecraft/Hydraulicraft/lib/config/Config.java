@@ -5,9 +5,6 @@ import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Seed;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
@@ -60,7 +57,6 @@ public class Config {
 	//First is harvester ID
 	//Second blockId. 
 	//Next one is metadata when fully grown.
-	public static List<Seed> harvestableItems = new ArrayList<Seed>();
 	
 	
 	static {
@@ -80,16 +76,6 @@ public class Config {
 		configOptions.add(new configOption("maxMBarGenOilT2", 150));
 		configOptions.add(new configOption("maxMBarGenOilT3", 250));
 		configOptions.add(new configOption("conversionRatioLavaHydraulic", 100));
-		
-		addHarvestableItem(new Seed(0, Blocks.wheat, 7, Items.wheat_seeds));
-		addHarvestableItem(new Seed(0, Blocks.carrots, 7, Items.carrot));
-		addHarvestableItem(new Seed(0, Blocks.potatoes, 7, Items.potato));
-		addHarvestableItem(new Seed(Constants.HARVESTER_ID_SUGARCANE, Blocks.reeds, 0, Items.reeds));
-	}
-	
-	
-	public static void addHarvestableItem(Seed toAdd){
-		harvestableItems.add(toAdd);
 	}
 	
 	public static boolean canBeCrushed(ItemStack toCrush){
