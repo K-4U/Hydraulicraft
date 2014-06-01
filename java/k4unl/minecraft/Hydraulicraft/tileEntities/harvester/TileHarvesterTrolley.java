@@ -252,7 +252,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	        plantingItem.writeToNBT(tag);
 	        tagCompound.setTag("PlantingItem", tag);
 	    }
-	    tagCompound.setString("trolley", trolley.getName());
+	    tagCompound.setString("trolley", getTrolley().getName());
 	}
 	
 	
