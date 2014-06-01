@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities;
 
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCharger;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFrictionIncinerator;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
@@ -38,7 +39,7 @@ public class TileEntities {
 		GameRegistry.registerTileEntity(TilePressureDisposal.class, "tilePressureDisposal");
 		GameRegistry.registerTileEntity(TileHydraulicValve.class, "tileHydraulicValve");
 		GameRegistry.registerTileEntity(TileInterfaceValve.class, "tileInterfaceValve");
-		
+		GameRegistry.registerTileEntity(TileHydraulicCharger.class, "tileHydraulicCharger");
 		
 		GameRegistry.registerTileEntity(TileHarvesterFrame.class, "tileHarvesterFrame");
 		GameRegistry.registerTileEntity(TileHydraulicHarvester.class, "tileHydraulicHarvester");

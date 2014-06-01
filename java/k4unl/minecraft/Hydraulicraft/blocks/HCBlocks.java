@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicCharger;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicMixer;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicWaterPump;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockMovingPane;
@@ -61,6 +62,7 @@ public class HCBlocks {
 	public static Block blockCore;
 	public static Block blockValve;
 	public static Block blockInterfaceValve;
+	public static Block blockCharger;
 	
 	public static Block blockHose;
 	
@@ -104,6 +106,8 @@ public class HCBlocks {
 		
 		blockLead = new BlockLead();
 		blockCopper = new BlockCopper();
+		blockCharger = new BlockHydraulicCharger();
+		
 		
 		harvesterTrolley = new BlockHarvesterTrolley();
 		
@@ -158,6 +162,8 @@ public class HCBlocks {
 		GameRegistry.registerBlock(blockLead, ItemBlock.class, Names.blockLead.unlocalized, ModInfo.ID);
 		
 		GameRegistry.registerBlock(harvesterTrolley, HandlerTrolley.class, Names.blockHarvesterTrolley.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(blockCharger, HandlerHydraulicBlock.class, Names.blockHydraulicCharger.unlocalized, ModInfo.ID);
+		
 		
 		OreDictionary.registerOre(Names.blockCopper.unlocalized, blockCopper);
 		OreDictionary.registerOre(Names.blockLead.unlocalized, blockLead);
