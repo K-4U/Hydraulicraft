@@ -21,11 +21,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class FMP implements IThirdParty{
 	public static Block hydraulicSaw;
 	
-	@Override
-    public String getModId(){
-        return "ForgeMicroblock";
-    }
-
     @Override
     public void preInit(){
         initBlocks();

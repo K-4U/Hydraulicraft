@@ -32,11 +32,6 @@ public class Buildcraft implements IThirdParty{
 	public static Block blockKineticPump;
 
     @Override
-    public String getModId(){
-        return "BuildCraft|Core";
-    }
-
-    @Override
     public void preInit(){
         initBlocks();
         initRecipes();

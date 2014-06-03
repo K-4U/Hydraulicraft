@@ -29,11 +29,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class IndustrialCraft implements IThirdParty{
 	public static Block blockHydraulicGenerator;
 	public static Block blockElectricPump;
-	
-	@Override
-    public String getModId(){
-        return "IC2";
-    }
 
     @Override
     public void preInit(){

@@ -18,11 +18,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class Pneumaticraft implements IThirdParty {
 	public static Block hydraulicPneumaticCompressor;
 	
-	@Override
-    public String getModId(){
-        return "PneumaticCraft";
-    }
-
     @Override
     public void preInit(){
     }

@@ -30,11 +30,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ThermalExpansion implements IThirdParty {
 	public static Block blockHydraulicDynamo;
 	public static Block blockRFPump;
-	
-    @Override
-    public String getModId(){
-        return "ThermalExpansion";
-    }
 
     @Override
     public void preInit(){

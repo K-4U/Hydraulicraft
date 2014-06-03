@@ -11,11 +11,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ExtraUtilities implements IThirdParty{
 	public static Block enderLily;
-	
-	@Override
-    public String getModId(){
-        return "ExtraUtilities";
-    }
 
     @Override
     public void preInit(){}
