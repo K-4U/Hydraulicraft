@@ -84,7 +84,7 @@ public class ThirdPartyManager{
             try {
                 thirdParty.clientSide();
             } catch(Exception e) {
-                Log.error("Hydraulicraft wwasn't able to load third party content from the third party class " + thirdParty.getClass() + " clientside!");
+                Log.error("Hydraulicraft wasn't able to load third party content from the third party class " + thirdParty.getClass() + " clientside!");
                 e.printStackTrace();
             }
         }
