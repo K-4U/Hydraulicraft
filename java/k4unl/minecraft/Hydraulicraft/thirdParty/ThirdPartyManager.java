@@ -7,6 +7,7 @@ import java.util.Map;
 
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.thirdParty.bluepower.BluePower;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.Buildcraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.FMP;
@@ -35,6 +36,7 @@ public class ThirdPartyManager{
         thirdPartyClasses.put("PneumaticCraft", Pneumaticraft.class);
         thirdPartyClasses.put("IC2", IndustrialCraft.class);
         thirdPartyClasses.put("ThermalExpansion", ThermalExpansion.class);
+        thirdPartyClasses.put("bluepower", BluePower.class);
 
         for(Map.Entry<String, Class<? extends IThirdParty>> entry : thirdPartyClasses.entrySet()) {
             if(Loader.isModLoaded(entry.getKey()) || (entry.getKey().equals("ThermalExpansion") && Config.get("enableRF"))) {

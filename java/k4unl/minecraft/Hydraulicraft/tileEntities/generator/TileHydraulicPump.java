@@ -61,7 +61,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 					if(inventory != null){
 						inventory.stackSize--;
 						if(inventory.stackSize <= 0){
-							inventory = null;
+							inventory = inventory.getItem().getContainerItem(inventory);
 						}
 						needsUpdate = true;
 					}
