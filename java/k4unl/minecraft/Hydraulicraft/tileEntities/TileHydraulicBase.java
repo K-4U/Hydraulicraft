@@ -75,7 +75,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	
 	/**
 	 * @param _pressureTier The tier of pressure.
-	 * @param _maxStorage The max ammount of BUCKETS this machine can store.
+	 * @param _maxStorage The max ammount of Fluid/10 this machine can store.
 	 */
 	public TileHydraulicBase(PressureTier _pressureTier, int _maxStorage) {
 		pressureTier = _pressureTier;
@@ -629,7 +629,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
 	@Override
 	public int getMaxStorage() {
-		return FluidContainerRegistry.BUCKET_VOLUME * maxStorage;
+		return Config.getInt("maxFluidMultiplier") * maxStorage;
 	}
 	
 	public void firstTick(){

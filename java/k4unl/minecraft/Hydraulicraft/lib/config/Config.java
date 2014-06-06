@@ -76,6 +76,7 @@ public class Config {
 		configOptions.add(new configOption("maxMBarGenOilT2", 150));
 		configOptions.add(new configOption("maxMBarGenOilT3", 250));
 		configOptions.add(new configOption("conversionRatioLavaHydraulic", 100));
+		configOptions.add(new configOption("maxFluidMultiplier", 10));
 	}
 	
 	public static boolean canBeCrushed(ItemStack toCrush){
