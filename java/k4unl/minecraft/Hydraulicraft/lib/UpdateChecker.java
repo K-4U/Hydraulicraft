@@ -84,7 +84,7 @@ public class UpdateChecker {
 	{
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setString("modDisplayName", ModInfo.NAME);
-		compound.setString("oldVersion", ModInfo.VERSION);
+		compound.setString("oldVersion", ModInfo.VERSION + "-" + ModInfo.buildNumber);
 		compound.setString("newVersion", info.latestVersion + "-" + info.buildNumber);
 		compound.setString("updateUrl", "http://hydraulicraft.eu/downloads/");
 		compound.setBoolean("isDirectLink", false);

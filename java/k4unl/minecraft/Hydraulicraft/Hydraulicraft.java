@@ -102,7 +102,7 @@ public class Hydraulicraft {
 		NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new GuiHandler());
 		PacketPipeline.init();
 
-        UpdateChecker.checkUpdateAvailable();
+		UpdateChecker.checkUpdateAvailable();
 		
 		proxy.init();
 		proxy.initCapes();
