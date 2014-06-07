@@ -409,7 +409,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound){
-		if(!isMultipart){
+		if(!isMultipart && getClass() != TileHydraulicBase.class){
 			super.writeToNBT(tagCompound);
 		}
 		tagCompound.setInteger("fluidLevelStored",fluidLevelStored);
