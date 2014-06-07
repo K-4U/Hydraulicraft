@@ -43,7 +43,7 @@ public class UpdateChecker {
 						Log.info("Latest version released at: " + info.dateOfRelease);
 						isUpdateAvailable = true;
 						infoAboutUpdate = info;
-                        sendUpdateInfo(info);
+						sendUpdateInfo(info);
 						return true;
 					}else{
 						return false;
@@ -80,20 +80,20 @@ public class UpdateChecker {
 
 	}
 
-    private static void sendUpdateInfo(UpdateInfo info)
-    {
-        NBTTagCompound compound = new NBTTagCompound();
-        compound.setString("modDisplayName", ModInfo.NAME);
-        compound.setString("oldVersion", ModInfo.VERSION);
-        compound.setString("newVersion", info.latestVersion);
-        compound.setString("updateUrl", "http://hydraulicraft.eu/downloads/");
-        compound.setBoolean("isDirectLink", false);
-        String changeLog = "";
-        for (String string : info.changelog)
-        {
-            changeLog = changeLog + string + "\n";
-        }
-        compound.setString("changeLog", changeLog);
-        FMLInterModComms.sendMessage("VersionChecker", "addUpdate", compound);
-    }
+	private static void sendUpdateInfo(UpdateInfo info)
+	{
+		NBTTagCompound compound = new NBTTagCompound();
+		compound.setString("modDisplayName", ModInfo.NAME);
+		compound.setString("oldVersion", ModInfo.VERSION);
+		compound.setString("newVersion", info.latestVersion + "-" + info.buildNumber);
+		compound.setString("updateUrl", "http://hydraulicraft.eu/downloads/");
+		compound.setBoolean("isDirectLink", false);
+		String changeLog = "";
+		for (String string : info.changelog)
+		{
+			changeLog = changeLog + string + "\n";
+		}
+		compound.setString("changeLog", changeLog);
+		FMLInterModComms.sendMessage("VersionChecker", "addUpdate", compound);
+	}
 }
