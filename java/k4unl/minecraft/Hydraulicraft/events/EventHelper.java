@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.events;
 
+import cpw.mods.fml.common.Loader;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
@@ -77,8 +78,8 @@ public class EventHelper {
 		if(hasShownUpdateInfo || !Config.get("checkForUpdates")) return;
 		if(event.entity instanceof EntityPlayer){
 			if(event.world.isRemote){
-				//If update available, tell em!
-				if(UpdateChecker.isUpdateAvailable){
+				//If update available and the update message wasn't sent to Version Checker, tell em!
+				if(UpdateChecker.isUpdateAvailable && !Loader.isModLoaded("VersionChecker")){
 					UpdateInfo info = UpdateChecker.infoAboutUpdate;
 					Functions.showMessageInChat(((EntityPlayer)event.entity), "Hydraulicraft version " + info.latestVersion + "-" + info.buildNumber + " available!");
 					Functions.showMessageInChat(((EntityPlayer)event.entity),"Released on " + info.dateOfRelease);

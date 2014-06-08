@@ -5,10 +5,12 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
+import cpw.mods.fml.common.event.FMLInterModComms;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 
 import com.google.gson.Gson;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class UpdateChecker {
 	public static class UpdateInfo {
@@ -41,6 +43,7 @@ public class UpdateChecker {
 						Log.info("Latest version released at: " + info.dateOfRelease);
 						isUpdateAvailable = true;
 						infoAboutUpdate = info;
+						sendUpdateInfo(info);
 						return true;
 					}else{
 						return false;
@@ -75,5 +78,22 @@ public class UpdateChecker {
 	            reader.close();
 	    }
 
+	}
+
+	private static void sendUpdateInfo(UpdateInfo info)
+	{
+		NBTTagCompound compound = new NBTTagCompound();
+		compound.setString("modDisplayName", ModInfo.NAME);
+		compound.setString("oldVersion", ModInfo.VERSION + "-" + ModInfo.buildNumber);
+		compound.setString("newVersion", info.latestVersion + "-" + info.buildNumber);
+		compound.setString("updateUrl", "http://hydraulicraft.eu/downloads/");
+		compound.setBoolean("isDirectLink", false);
+		String changeLog = "";
+		for (String string : info.changelog)
+		{
+			changeLog = changeLog + string + "\n";
+		}
+		compound.setString("changeLog", changeLog);
+		FMLInterModComms.sendMessage("VersionChecker", "addUpdate", compound);
 	}
 }

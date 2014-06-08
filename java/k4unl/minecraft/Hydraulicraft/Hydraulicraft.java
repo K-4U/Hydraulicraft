@@ -101,6 +101,8 @@ public class Hydraulicraft {
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new GuiHandler());
 		PacketPipeline.init();
+
+		UpdateChecker.checkUpdateAvailable();
 		
 		proxy.init();
 		proxy.initCapes();
@@ -116,8 +118,7 @@ public class Hydraulicraft {
 		Recipes.init();
 		
 		ThirdPartyManager.instance().postInit();
-		
-		UpdateChecker.checkUpdateAvailable();
+
 		Log.info("Hydraulicraft ready for use!");
 	}
 	
