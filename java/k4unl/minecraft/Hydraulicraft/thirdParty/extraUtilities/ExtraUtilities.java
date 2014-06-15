@@ -11,6 +11,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ExtraUtilities implements IThirdParty{
 	public static Block enderLily;
+	public static Block enderCore;
 
     @Override
     public void preInit(){}
@@ -29,6 +30,7 @@ public class ExtraUtilities implements IThirdParty{
 	
 	public static void initBlocks(){
 		enderLily = GameRegistry.findBlock("ExtraUtilities", "plant/ender_lilly");
+		enderCore = GameRegistry.findBlock("ExtraUtilities", "block/ender_core"))
 		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyEnderlily());
 	}
 	
