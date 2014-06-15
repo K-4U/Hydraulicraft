@@ -9,6 +9,8 @@ item.bucketHydraulicOil.name=液压油桶
 item.bacon.name=培根
 item.miningHelmet.name=矿工头盔
 item.itemLamp.name=矿工头盔灯
+item.diamondShard.name=钻石碎片
+item.dustDiamondCopper.name=浓缩铜粉
 
 #Ores
 tile.oreCopper.name=铜矿
@@ -22,6 +24,8 @@ tile.hydraulicCrusher.name=磨粉机
 tile.hydraulicWasher.name=洗矿机
 tile.hydraulicPressureWall.name=压力墙
 tile.hydraulicPressureGlass.name=压力玻璃
+tile.pressureDisposal.name=压力处理
+tile.blockTransparentLight.name=透明灯
 
 tile.LPHydraulicPipe.name=低压管道
 tile.MPHydraulicPipe.name=中压管道
@@ -45,9 +49,13 @@ tile.HPHydraulicLavaPump.name=高压岩浆泵
 
 tile.hydraulicHarvesterSource.name=液压收割机
 tile.hydraulicHarvesterFrame.name=收割框架
-tile.wheatHarvester.name=小麦收割机
-tile.enderLilyHarvester.name=末影百合收割机
-tile.sugarCaneHarvester.name=甘蔗收割机
+
+#poorly chosen name. This was done for compatability 
+tile.wheatHarvester.crops.name=小麦收割机
+tile.wheatHarvester.enderLily.name=末影百合收割机
+tile.wheatHarvester.sugarCane.name=甘蔗收割机
+tile.wheatHarvester.cactus.name=仙人掌收割机
+tile.wheatHarvester.netherWart.name=地狱疣收割机
 
 tile.hydraulicPiston.name=液压活塞
 tile.interfaceValve.name=接口阀门
@@ -63,22 +71,37 @@ tile.hydraulicWaterPump.name=阿基米德螺旋泵 (WIP)
 tile.blockCopper.name=铜块
 tile.blockLead.name=铅块
 
-key.hydcraft.category=液压工业
-key.mining_helmet.desc=挖矿头盔 开/关
+Gold.name=金粉
+Iron.name=铁粉
+Copper.name=铜粉
+Lead.name=铅粉
+chunkGold.name=金块
+chunkIron.name=铁块
+chunkCopper.name=铜块
+chunkLead.name=铅块
 
+item.itemDebug.name=调试物品
+
+key.hydcraft.category=液压工艺
+key.mining_helmet.desc=矿工头盔 开/关
+
+tile.movingPane.name=移动板
+item.movingPane.name=移动板
 
 
 ####MISC
 itemGroup.tabHydraulicraft=液压工艺
-lang.pressure=压强
-lang.dust=%s 粉
-lang.chunk=%s 区块
+lang.pressure=压力
 fluid.hydraulicOil=液压油
 lang.gui.generating=正在产生
 lang.gui.max=最大
 lang.gui.using=正在使用
 lang.gui.output=输出
 lang.gui.burnLeft=燃烧剩余
+lang.gui.maxHighPressure=最大: 高压
+lang.gui.maxMediumPressure=最大: 中压
+lang.gui.maxLowPressure=最大: 低压
+lang.warn.wip=注意: 这个方块现在仍能正常使用,但以后会被其它取代!
 
 ####Third party
 #PneumaticCraft
