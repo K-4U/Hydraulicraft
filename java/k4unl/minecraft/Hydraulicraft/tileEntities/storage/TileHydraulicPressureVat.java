@@ -72,6 +72,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 		
 		setTier(tagCompound.getInteger("tier"));
 		prevRedstoneLevel = tagCompound.getInteger("prevRedstoneLevel");
+		setIsOilStored(tagCompound.getBoolean("isOilStored"));
 		
 		NBTTagCompound tankCompound = tagCompound.getCompoundTag("tank");
 		if(tankCompound != null){
@@ -79,6 +80,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 				tank.readFromNBT(tankCompound);
 			}
 		}
+		setIsOilStored(tagCompound.getBoolean("isOilStored"));
 	}
 
 
