@@ -4,6 +4,7 @@ import java.util.Random;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import k4unl.minecraft.Hydraulicraft.items.ItemDusts;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes.CrushingRecipe;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
@@ -78,7 +79,9 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
             	CrushingRecipe currentRecipe = CrushingRecipes.getCrushingRecipe(inputInventory); 
                 targetItem = currentRecipe.output.copy();
                 if(new Random().nextFloat() > 0.80F) {
-                	targetItem.stackSize+=1;
+                	if(!(targetItem.getItem() instanceof ItemDusts)){
+                		targetItem.stackSize+=1;
+                	}
                 }
                 crushingItem = inputInventory.copy();
                 inputInventory.stackSize--;
@@ -121,6 +124,9 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
                 if(!outputInventory.isItemEqual(target)) return false;
                 if(Float.compare(getPressure(ForgeDirection.UP), targetRecipe.pressureRatio) < 0) return false; 
                 int newItemStackSize = outputInventory.stackSize + target.stackSize + 1; //The random chance..
+                if(outputInventory.getItem() instanceof ItemDusts){
+                	newItemStackSize--;
+                }
                 boolean ret = newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize();
                 return ret;
             } else {
