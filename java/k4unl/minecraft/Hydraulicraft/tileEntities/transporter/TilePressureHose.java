@@ -6,7 +6,6 @@ import java.util.Map;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
@@ -128,7 +127,6 @@ public class TilePressureHose extends TileHydraulicBase implements IHydraulicTra
 	public void onFluidLevelChanged(int old) { }
 
 	private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir, Object caller){
-    	int opposite = Functions.getIntDirFromDirection(dir.getOpposite());
     	/* FMP if(entity instanceof TileMultipart){
     		List<TMultiPart> t = ((TileMultipart)entity).jPartList();
     		
@@ -155,8 +153,6 @@ public class TilePressureHose extends TileHydraulicBase implements IHydraulicTra
     }
 
     public boolean isConnectedTo(ForgeDirection side){
-    	int d = side.ordinal();
-    	
     	if(getWorldObj() != null){
 	    	TileEntity te = getWorldObj().getTileEntity(xCoord + side.offsetX, yCoord + side.offsetY, zCoord + side.offsetZ);
 	    	return /* FMP tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d])) && */shouldConnectTo(te, side, this);
@@ -172,7 +168,6 @@ public class TilePressureHose extends TileHydraulicBase implements IHydraulicTra
     public void checkConnectedSides(Object caller){
         connectedSides = new HashMap<ForgeDirection, TileEntity>();
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			int d = Functions.getIntDirFromDirection(dir);
 			
             TileEntity te = getWorldObj().getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
             if(shouldConnectTo(te, dir, caller)) {

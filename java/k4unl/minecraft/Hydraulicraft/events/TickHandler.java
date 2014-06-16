@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.events;
 
 import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
-import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -15,7 +14,7 @@ public class TickHandler {
     @SubscribeEvent
     public void tickWorld(TickEvent.WorldTickEvent event){
         if(event.phase == TickEvent.Phase.END) {
-            World world = event.world;
+            //World world = event.world;
         }
     }
     

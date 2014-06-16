@@ -83,7 +83,6 @@ public class RendererPartHose extends TileEntitySpecialRenderer {
 		float width = 0.2F;
 		float min = center - (width / 2);
 		float max = center + (width / 2);
-		Vector3fMax TBV = new Vector3fMax(min, min, min, max, max, max);
 		
 		if(connectedSides.containsKey(ForgeDirection.UP)){
 			drawCube(new Vector3fMax(min, max, min, max, 1.0F, max), ForgeDirection.UP);

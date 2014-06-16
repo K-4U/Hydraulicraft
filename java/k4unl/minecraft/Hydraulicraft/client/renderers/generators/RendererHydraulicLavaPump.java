@@ -155,7 +155,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		//GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 	}
 	
-	@SuppressWarnings("cast")
+	
 	private void renderGaugesContents(float thickness, TileHydraulicLavaPump t){
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -167,10 +167,10 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		
-		float a = (float)(Constants.COLOR_PRESSURE >> 24 & 255) / 255.0F;
-        float r = (float)(Constants.COLOR_PRESSURE >> 16 & 255) / 255.0F;
-        float g = (float)(Constants.COLOR_PRESSURE >> 8 & 255) / 255.0F;
-        float b = (float)(Constants.COLOR_PRESSURE & 255) / 255.0F;
+		float a = (Constants.COLOR_PRESSURE >> 24 & 255) / 255.0F;
+        float r = (Constants.COLOR_PRESSURE >> 16 & 255) / 255.0F;
+        float g = (Constants.COLOR_PRESSURE >> 8 & 255) / 255.0F;
+        float b = (Constants.COLOR_PRESSURE & 255) / 255.0F;
         GL11.glAlphaFunc(GL11.GL_EQUAL, a);
         GL11.glColor4f(r, g, b, a);
 		
@@ -192,25 +192,15 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 	
 	private void renderInsides(float thickness, TileHydraulicLavaPump t){
 		thickness -= 0.025F;
-		float tX = 188;
-		float tY = 104;
-		float tyE = 206;
-		float txE = 248;
 		GL11.glBegin(GL11.GL_QUADS);
 		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);	
-		RenderHelper.drawTexturedCubeWithLight(insides, (TileEntity)t);
+		RenderHelper.drawTexturedCubeWithLight(insides, t);
 		
 		GL11.glEnd();
 	}
 	
+	@SuppressWarnings("cast")
 	private void drawLavaTank(TileHydraulicLavaPump t, boolean isItem, float thickness){
-		float containerWidth = 21.0F/128.0F;
-		float containerSpacing = 16.0F/ 128.0F;
-		float containerHeight = 76.0F/128.0F;
-		float containerBegin = 34.0F/128.0F;
-		float containerEnd = containerHeight + containerBegin;
-		float containerDepthBegin = 0.09475F;
-		float containerDepthEnd = containerDepthBegin + 0.04F;
 
 		Vector3fMax vectorFilled = new Vector3fMax(thickness + 0.1F, 0.8F, thickness+0.1F, 1.0F - thickness - 0.1F - 0.3F, 1.0005F-thickness, 1.0F - thickness - 0.1F);
 		if(!isItem){

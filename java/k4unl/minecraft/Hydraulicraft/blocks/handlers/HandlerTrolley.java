@@ -5,7 +5,6 @@ import java.util.Set;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.HydraulicraftRegistrar;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.TrolleyEnderlily;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCrops;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleySugarCane;
@@ -28,7 +27,7 @@ public class HandlerTrolley extends ItemBlock{
     
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List itemList){
-        Set<String> trolleys = ((HydraulicraftRegistrar)Hydraulicraft.harvesterTrolleyRegistrar).getRegisteredTrolleys();
+        Set<String> trolleys = Hydraulicraft.harvesterTrolleyRegistrar.getRegisteredTrolleys();
         for(String trolley : trolleys){
             itemList.add(Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem(trolley));
         }

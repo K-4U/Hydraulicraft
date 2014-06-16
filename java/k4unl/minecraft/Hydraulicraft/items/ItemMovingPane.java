@@ -40,7 +40,6 @@ public class ItemMovingPane extends HydraulicItemBase {
 			int sideToPlace = MathHelper.floor_double(player.rotationYaw / 90F + 0.5D) & 3;
 			ForgeDirection s = Functions.getDirectionFromInt(sideToPlace);
 			
-			boolean canPlace = true;
 			//ForgeDirection dir = ForgeDirection.getOrientation(sideToPlace);
 			ForgeDirection dir = ForgeDirection.UP;
 			int i = 0;

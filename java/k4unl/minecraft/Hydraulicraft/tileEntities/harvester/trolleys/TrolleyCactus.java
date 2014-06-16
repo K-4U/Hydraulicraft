@@ -2,15 +2,14 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys;
 
 import java.util.ArrayList;
 
+import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 
 
 public class TrolleyCactus implements IHarvesterTrolley {

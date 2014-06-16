@@ -78,7 +78,9 @@ public class BlockHydraulicPiston extends HydraulicBlockContainerBase {
             setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
         }
     }
-    @Override
+    
+    @SuppressWarnings("cast")
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
 		if(hasFrontIcon){
 			int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;

@@ -18,7 +18,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInfiniteSource;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
-import k4unl.minecraft.Hydraulicraft.tileEntities.transporter.TilePressureHose;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TileEntities {

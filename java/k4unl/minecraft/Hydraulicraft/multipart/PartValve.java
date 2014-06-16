@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.Icon;
-
 import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
@@ -13,7 +11,6 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartValve;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
@@ -221,7 +218,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     }
 
     private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir, Object caller){
-    	int opposite = Functions.getIntDirFromDirection(dir.getOpposite());
     	if(entity instanceof TileMultipart){
     		List<TMultiPart> t = ((TileMultipart)entity).jPartList();
     		
@@ -244,8 +240,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     }
 
     public boolean isConnectedTo(ForgeDirection side){
-    	int d = side.ordinal();
-    	
     	if(world() != null && tile() != null){
 	    	TileEntity te = world().getTileEntity(x() + side.offsetX, y() + side.offsetY, z() + side.offsetZ);
 	    	NormallyOccludedPart p = new NormallyOccludedPart(getBoundingBox(side));

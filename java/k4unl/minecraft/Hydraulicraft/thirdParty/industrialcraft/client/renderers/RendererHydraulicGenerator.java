@@ -239,7 +239,7 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 	}
 	
 	private void drawHydraulicsTank(TileHydraulicGenerator t, boolean isItem){
-		float containerWidth = 21.0F/128.0F;
+		//float containerWidth = 21.0F/128.0F;
 		float containerSpacing = 16.0F/ 128.0F;
 		float containerHeight = 76.0F/128.0F;
 		float containerBegin = 34.0F/128.0F;

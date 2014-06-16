@@ -68,12 +68,14 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase {
 		return true;
 	}
 	
+	@SuppressWarnings("cast")
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
 		super.onBlockPlacedBy(world, x, y, z, player, iStack);
 		TileEntity ent = world.getTileEntity(x, y, z);
 		if(ent instanceof TileHydraulicGenerator){
 			if(iStack != null){
+				
 				int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
 				int metaDataToSet = 0;
 				switch(sideToPlace){

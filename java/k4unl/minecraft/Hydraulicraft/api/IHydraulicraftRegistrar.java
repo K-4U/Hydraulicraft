@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import cpw.mods.fml.common.event.FMLInterModComms;
 import net.minecraft.item.ItemStack;
 
 /**

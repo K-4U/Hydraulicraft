@@ -154,6 +154,7 @@ public class HydraulicBlockBase extends Block {
 	}
 	
 	
+	@SuppressWarnings("cast")
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
 		if(hasFrontIcon){

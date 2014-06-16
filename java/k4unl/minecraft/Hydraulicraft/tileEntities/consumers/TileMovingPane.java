@@ -101,8 +101,6 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 			}
 		}
 		if(!worldObj.isRemote && isPane == false){
-			int targetIsNul = Float.compare(target, 0.0F);
-			int movingSpeedIsNul = Float.compare(movingSpeed, 0.0F);
 			if(getRedstonePowered(this)){
 				if(Float.compare(target, 1.0F) != 0 && Float.compare(movingSpeed, 0.0F) < 0){
 					movingSpeed = 0.1F;

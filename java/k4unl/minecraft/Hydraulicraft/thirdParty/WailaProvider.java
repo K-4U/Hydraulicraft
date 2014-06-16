@@ -35,6 +35,7 @@ public class WailaProvider implements IWailaDataProvider {
 		return currenttip;
 	}
 
+	@SuppressWarnings("cast")
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack,
 			List<String> currenttip, IWailaDataAccessor accessor,
@@ -64,7 +65,7 @@ public class WailaProvider implements IWailaDataProvider {
 			int maxPressure = (int)mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), null);
 			
 			values.put("Fl", stored + "/" + max + " mBuckets (" + (int)(((float)stored / (float)max) * 100) + "%)");
-			values.put("Pr", (new DecimalFormat("#.##")).format(pressure) + "/" + maxPressure + " mBar (" + (int)(((float)pressure / (float)maxPressure) * 100) + "%)");
+			values.put("Pr", (new DecimalFormat("#.##")).format(pressure) + "/" + maxPressure + " mBar (" + (int)((pressure / (float)maxPressure) * 100) + "%)");
 			
 			if(mEnt instanceof IHydraulicGenerator){
 				float gen = ((IHydraulicGenerator) mEnt).getGenerating(ForgeDirection.UP);

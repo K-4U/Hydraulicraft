@@ -9,7 +9,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
 
@@ -54,7 +53,7 @@ public class GuiMixer extends HydraulicGUIBase {
 		FluidTankInfo[] tankInfo = mixer.getTankInfo(ForgeDirection.UP);
 		if(tankInfo[0].fluid != null){
 			if(tankInfo[0].fluid.amount > 0){
-				Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
+				//Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
 				int color = Constants.COLOR_WATER;
 				
 				drawVerticalProgressBar(34, 16, 52, 26, tankInfo[0].fluid.amount, tankInfo[0].capacity, color, FluidRegistry.WATER.getLocalizedName(), "mB");
@@ -62,7 +61,7 @@ public class GuiMixer extends HydraulicGUIBase {
 		}
 		if(tankInfo[1].fluid != null){
 			if(tankInfo[1].fluid.amount > 0){
-				Fluid inTank = FluidRegistry.getFluid(tankInfo[1].fluid.fluidID);
+				//Fluid inTank = FluidRegistry.getFluid(tankInfo[1].fluid.fluidID);
 				int color = Constants.COLOR_OIL;
 
 				drawVerticalProgressBar(107, 16, 52, 26, tankInfo[1].fluid.amount, tankInfo[1].capacity, color, Fluids.fluidOil.getLocalizedName(), "mB");

@@ -150,6 +150,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_BLEND);
 		
 	}
+	@SuppressWarnings("cast")
 	private void renderGaugesContents(float thickness, TileHydraulicPump t){
 		thickness -= 0.025F;
 		GL11.glEnable(GL11.GL_BLEND);
@@ -182,10 +183,6 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 	
 	private void renderInsides(float thickness, TileHydraulicPump t){
 		thickness -= 0.025F;
-		float tX = 188;
-		float tY = 104;
-		float tyE = 206;
-		float txE = 248;
 		GL11.glBegin(GL11.GL_QUADS);
 		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);	
 		RenderHelper.drawTexturedCubeWithLight(insides, t);

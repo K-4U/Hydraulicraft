@@ -81,7 +81,7 @@ public class BlockHydraulicPump extends HydraulicTieredBlockBase {
 			return false;
 			
 		}
-		TileHydraulicPump pump = (TileHydraulicPump) entity;
+		
 		player.openGui(Hydraulicraft.instance, GuiIDs.GUIPump, world, x, y, z);
 		
 		return true;

@@ -47,7 +47,7 @@ public class GuiLavaPump extends HydraulicGUIBase {
 		drawSmallerString(61, startY + (step * 2), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_MAX_ENTRY) + ":", false);
 		drawSmallerString(65, startY + (step * 3), EnumChatFormatting.GREEN + "" + pump.getMaxGenerating(ForgeDirection.UP) + " mBar/t", false);
 		drawSmallerString(61, startY + (step * 4), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_USING_ENTRY) + ":", false);
-		drawSmallerString(65, startY + (step * 5), EnumChatFormatting.GREEN + "" + (int)(pump.getLavaUsage()) + " mB/t", false);
+		drawSmallerString(65, startY + (step * 5), EnumChatFormatting.GREEN + "" + pump.getLavaUsage() + " mB/t", false);
 		
 		
 		drawFluidAndPressure();

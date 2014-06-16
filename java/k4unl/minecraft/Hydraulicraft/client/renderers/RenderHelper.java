@@ -148,7 +148,7 @@ public class RenderHelper {
 	public static void drawTesselatedCubeWithTexture(Vector3fMax vector, IIcon icon){
 		Tessellator tessellator = Tessellator.instance;
 		
-		boolean wasTesselating = true;
+		
 		/*if(!tessellator.isDrawing){
 			
 			wasTesselating = false;

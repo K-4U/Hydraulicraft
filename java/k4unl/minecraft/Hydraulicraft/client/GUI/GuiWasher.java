@@ -9,8 +9,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 import org.lwjgl.opengl.GL11;
@@ -36,7 +34,7 @@ public class GuiWasher extends HydraulicGUIBase {
 		FluidTankInfo[] tankInfo = washer.getTankInfo(ForgeDirection.UP);
 		if(tankInfo[0].fluid != null){
 			if(tankInfo[0].fluid.amount > 0){
-				Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
+				//Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
 				int color = 0xFFFFFFFF;
 				color = Constants.COLOR_WATER | 0x7F000000;
 				

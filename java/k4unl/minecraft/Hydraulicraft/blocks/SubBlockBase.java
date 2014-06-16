@@ -3,8 +3,6 @@ package k4unl.minecraft.Hydraulicraft.blocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Icon;
-
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
@@ -14,7 +12,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class SubBlockBase extends HydraulicBlockBase {
 	private List<IIcon> icons;
@@ -82,7 +79,6 @@ public class SubBlockBase extends HydraulicBlockBase {
 	
 	@Override
 	public IIcon getIcon(int side, int metadata){
-		ForgeDirection s = ForgeDirection.getOrientation(side);
 		if(metadata >= icons.size()){
 			metadata = 0;
 		}/*

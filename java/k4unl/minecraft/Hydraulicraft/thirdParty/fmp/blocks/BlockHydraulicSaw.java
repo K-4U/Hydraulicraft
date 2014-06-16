@@ -31,7 +31,7 @@ public class BlockHydraulicSaw extends HydraulicBlockContainerBase {
 			return false;
 			
 		}
-		TileHydraulicSaw pump = (TileHydraulicSaw) entity;
+		
 		player.openGui(Hydraulicraft.instance, GuiIDs.GUISaw, world, x, y, z);
 		
 		return true;

@@ -116,7 +116,7 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 		if(worldObj.isRemote){
 			//GUI
 			if(ic2EnergyStored <= energyToAdd){
-				return (double)energyToAdd;
+				return energyToAdd;
 			}else{
 				return Math.min(ic2EnergyStored, Constants.MAX_TRANSFER_EU);
 			}

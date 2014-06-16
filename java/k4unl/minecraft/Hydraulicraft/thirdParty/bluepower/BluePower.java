@@ -31,7 +31,7 @@ public class BluePower implements IThirdParty{
 	public static void initBlocks(){
 		flaxBlock = GameRegistry.findBlock("bluepower", "flax_crop");
 		flaxItem = GameRegistry.findItem("bluepower", "flax_seeds");
-		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyFlax());
+		//Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyFlax());
 	}
 	
 	public static void initRecipes(){
@@ -39,7 +39,7 @@ public class BluePower implements IThirdParty{
 		ItemStack flaxTrolly = Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem("flax");
 		flaxTrolly.stackSize = 2;
 		
-		/*GameRegistry.addRecipe(new ShapedOreRecipe(flaxTrolly, true ,
+		GameRegistry.addRecipe(new ShapedOreRecipe(flaxTrolly, true ,
 				new Object[] {
 					"-P-",
 					"WCW",
@@ -49,7 +49,7 @@ public class BluePower implements IThirdParty{
 					'H', new ItemStack(sickle),
 					'P', HCBlocks.hydraulicPiston
 			})
-		);*/
+		);
 		
 	}
 }

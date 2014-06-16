@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.blocks.storage;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
@@ -42,7 +41,7 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase {
 			return false;
 			
 		}
-		TileHydraulicPressureVat pump = (TileHydraulicPressureVat) entity;
+		
 		player.openGui(Hydraulicraft.instance, GuiIDs.GUIPressureVat, world, x, y, z);
 		
 		return true;

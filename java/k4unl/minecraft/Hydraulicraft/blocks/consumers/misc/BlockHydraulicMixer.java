@@ -31,7 +31,7 @@ public class BlockHydraulicMixer extends HydraulicBlockContainerBase {
 			return false;
 			
 		}
-		TileHydraulicMixer mixer = (TileHydraulicMixer) entity;
+		
 		player.openGui(Hydraulicraft.instance, GuiIDs.GUIMixer, world, x, y, z);
 		
 		return true;

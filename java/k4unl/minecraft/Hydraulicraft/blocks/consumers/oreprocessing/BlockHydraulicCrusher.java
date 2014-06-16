@@ -31,7 +31,7 @@ public class BlockHydraulicCrusher extends HydraulicBlockContainerBase {
 			return false;
 			
 		}
-		TileHydraulicCrusher pump = (TileHydraulicCrusher) entity;
+
 		player.openGui(Hydraulicraft.instance, GuiIDs.GUICrusher, world, x, y, z);
 		
 		return true;

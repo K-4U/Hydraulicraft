@@ -58,7 +58,7 @@ public class RendererHarvesterItem implements IItemRenderer {
 			fFrame.renderTileEntityAt(null, x, y, z, 0);
 		}else if(metadata == 0){
 			GL11.glScalef(scale, scale, scale);
-			fHarvester.doRender(null, (float)x, (float)y, (float)z, 0.0F, metadata);
+			fHarvester.doRender(null, x, y, z, 0.0F, metadata);
 		}
 	}
 

@@ -275,7 +275,7 @@ public class RendererElectricPump extends TileEntitySpecialRenderer {
 		
 		float sideXb = 0.0F/256.0F;
 		float sideXe = 100F/256.0F;
-		float sideYb = 192.0F/256.0F;
+		//float sideYb = 192.0F/256.0F;
 		float sideYe = 200.0F/256.0F;
 		
 		

@@ -31,7 +31,7 @@ public class BlockHydraulicFrictionIncinerator extends HydraulicBlockContainerBa
 			return false;
 			
 		}
-		TileHydraulicFrictionIncinerator pump = (TileHydraulicFrictionIncinerator) entity;
+		
 		player.openGui(Hydraulicraft.instance, GuiIDs.GUIIncinerator, w, x, y, z);
 		
 		return true;
