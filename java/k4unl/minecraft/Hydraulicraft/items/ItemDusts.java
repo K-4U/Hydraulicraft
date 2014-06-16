@@ -69,15 +69,8 @@ public class ItemDusts extends Item {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack){
-		return dusts.get(itemStack.getItemDamage()).getName();
+		return "dust" + dusts.get(itemStack.getItemDamage()).getName();
 	}
-	
-	/* TODO: Fix me
-	@Override	
-	public String getItemDisplayName(ItemStack itemStack){
-		return Localization.getString(Localization.DUST_ENTRY, dusts.get(itemStack.getItemDamage()).getName());
-	}
-	*/
 	
 	@Override
 	public void registerIcons(IIconRegister icon){
@@ -85,10 +78,6 @@ public class ItemDusts extends Item {
 			c.setIcon(icon.registerIcon(ModInfo.LID + ":" + "dust" + c.getName()));
 		}
 	}
-	/*
-	public ItemStack getWashingRecipe(ItemStack itemStack){
-		return new ItemStack(this.itemID, 2, itemStack.getItemDamage());
-	}*/
 	
 	@Override
 	public IIcon getIconFromDamage(int damage){

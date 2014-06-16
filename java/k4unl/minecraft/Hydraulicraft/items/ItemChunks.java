@@ -78,12 +78,6 @@ public class ItemChunks extends Item {
 		return "chunk" + chunks.get(itemStack.getItemDamage()).getName();
 	}
 	
-	/* TODO: Fix me
-	@Override	
-	public String getItemDisplayName(ItemStack itemStack){
-		return Localization.getString(Localization.CHUNK_ENTRY, chunks.get(itemStack.getItemDamage()).getName());
-	}
-	*/
 	
 	@Override
 	public void registerIcons(IIconRegister icon){

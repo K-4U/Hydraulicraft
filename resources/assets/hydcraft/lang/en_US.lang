@@ -71,10 +71,10 @@ tile.hydraulicWaterPump.name=Hydraulic Archimedes' Screw (WIP)
 tile.blockCopper.name=Copper Block
 tile.blockLead.name=Lead Block
 
-Gold.name=Gold Dust
-Iron.name=Iron Dust
-Copper.name=Copper Dust
-Lead.name=Lead Dust
+dustGold.name=Gold Dust
+dustIron.name=Iron Dust
+dustCopper.name=Copper Dust
+dustLead.name=Lead Dust
 chunkGold.name=Gold Chunk
 chunkIron.name=Iron Chunk
 chunkCopper.name=Copper Chunk
