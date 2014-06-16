@@ -83,6 +83,10 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 		super.updateEntity();
 		
 		if(isRotating && isPane){
+			if(getParent() == null){
+				//This happens when the block is broken.
+				return;
+			}
 			if(getParent().hasEnoughPressure()){
 				prevMovedPercentage = movedPercentage;
 				movedPercentage += (movingSpeed * getParent().getPressureFactor());
@@ -101,6 +105,9 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 			}
 		}
 		if(!worldObj.isRemote && isPane == false){
+			if(getChild() == null){
+				return;
+			}
 			if(getRedstonePowered(this)){
 				if(Float.compare(target, 1.0F) != 0 && Float.compare(movingSpeed, 0.0F) < 0){
 					movingSpeed = 0.1F;
