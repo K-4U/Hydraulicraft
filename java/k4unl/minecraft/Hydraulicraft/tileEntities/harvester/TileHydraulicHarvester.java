@@ -795,7 +795,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 			if(t == null){
 				return;
 			}
-			int theSeedToPlant = t.canPlantSeed(seedsStorage, harvesterLength);
+			int theSeedToPlant = t.canPlantSeed(seedsStorage, harvesterLength-1);
 			if(theSeedToPlant != -1){
 				ItemStack toPlant = seedsStorage[theSeedToPlant].copy();
 				toPlant.stackSize = 1;

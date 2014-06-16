@@ -489,7 +489,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 					getNetwork(ForgeDirection.UNKNOWN).updateFluid(target);
 				}
 				
-				if(getWorld().getTotalWorldTime() % 2 == 0){
+				if(getWorld().getTotalWorldTime() % 10 == 0){
 					updateBlock();
 				}
 				

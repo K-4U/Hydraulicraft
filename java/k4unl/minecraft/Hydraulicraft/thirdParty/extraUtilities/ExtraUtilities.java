@@ -30,7 +30,7 @@ public class ExtraUtilities implements IThirdParty{
 	
 	public static void initBlocks(){
 		enderLily = GameRegistry.findBlock("ExtraUtilities", "plant/ender_lilly");
-		enderCore = GameRegistry.findBlock("ExtraUtilities", "block/ender_core"))
+		enderCore = GameRegistry.findBlock("ExtraUtilities", "decorativeBlock1");
 		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyEnderlily());
 	}
 	

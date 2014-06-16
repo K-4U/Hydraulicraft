@@ -28,7 +28,8 @@ public class TrolleyEnderlily implements IHarvesterTrolley {
 	@Override
 	public boolean canPlant(World world, int x, int y, int z, ItemStack seed) {
 		Block soil = world.getBlock(x, y-1, z);
-		return soil.equals(Blocks.dirt) || soil.equals(Blocks.grass) || soil.equals(Blocks.end_stone) || soil.equals(extraUtilities.enderCore);
+		int meta = world.getBlockMetadata(x, y-1, z);
+		return soil.equals(Blocks.dirt) || soil.equals(Blocks.grass) || soil.equals(Blocks.end_stone) || (soil.equals(ExtraUtilities.enderCore) && meta == 11);
 	}
 
 	@Override
