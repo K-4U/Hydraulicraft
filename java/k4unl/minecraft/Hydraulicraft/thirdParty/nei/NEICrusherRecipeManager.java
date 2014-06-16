@@ -73,11 +73,17 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler {
     public void loadUsageRecipes(ItemStack ingredient) {    	
         for(CrushingRecipes.CrushingRecipe recipe: CrushingRecipes.crushingRecipes) {
         	if(recipe.inputString != ""){
-	        	String oreName = OreDictionary.getOreName(OreDictionary.getOreID(ingredient));
-	        	if(recipe.inputString == oreName){
-	                this.arecipes.add(getShape(recipe));
-	                break;
-	            }
+        		int[] oreIds = OreDictionary.getOreIDs(ingredient);
+        		
+        		for(int id : oreIds){
+        			if(id > 0){
+	        			String oreName = OreDictionary.getOreName(id);
+			        	if(recipe.inputString == oreName){
+			                this.arecipes.add(getShape(recipe));
+			                break;
+			            }
+        			}
+        		}
         	}else{
         		if(recipe.input.isItemEqual(ingredient)){
 	                this.arecipes.add(getShape(recipe));
