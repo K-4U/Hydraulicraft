@@ -94,6 +94,7 @@ public class EventHelper {
 					hasShownUpdateInfo = true;
 				}else{
 					Functions.showMessageInChat(((EntityPlayer) event.entity), "Hydraulicraft up to date (" + ModInfo.VERSION + "-" + ModInfo.buildNumber + ")");
+					hasShownUpdateInfo = true;
 				}
 			}
 		}
