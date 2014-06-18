@@ -224,7 +224,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 		FluidStack drained = tank.drain(maxDrain, doDrain); 
-		if(doDrain && drained.amount > 0){
+		if(doDrain && drained != null && drained.amount > 0){
 			//Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
 			getHandler().updateFluidOnNextTick();
 		}
