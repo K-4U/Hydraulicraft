@@ -30,6 +30,8 @@ public class HCItems {
 	
 	public static Item itemEnrichedCopperDust;
 	
+	public static Item itemEnderLolly;
+	
 	
 	/*!
 	 * @author Koen Beckers
@@ -55,6 +57,7 @@ public class HCItems {
 		itemLamp = new ItemLamp();
 		itemDiamondShards = new ItemDiamondShard();
 		itemEnrichedCopperDust = new ItemCopperEnrichedDust();
+		itemEnderLolly = new ItemEnderLolly();
 		
 		registerItems();
 	}
@@ -82,6 +85,7 @@ public class HCItems {
 		GameRegistry.registerItem(itemMovingPane, "item"+Names.blockMovingPane.unlocalized);
 		GameRegistry.registerItem(itemDiamondShards, Names.itemDiamondShard.unlocalized);
 		GameRegistry.registerItem(itemEnrichedCopperDust, Names.itemCopperEnrichedDust.unlocalized);
+		GameRegistry.registerItem(itemEnderLolly, Names.itemEnderLolly.unlocalized);
 		
 		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));
 		OreDictionary.registerOre(Names.ingotLead.unlocalized, new ItemStack(ingotLead));

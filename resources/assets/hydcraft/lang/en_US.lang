@@ -11,6 +11,7 @@ item.miningHelmet.name=Miners Helmet
 item.itemLamp.name=Miners Helmet Lamp
 item.diamondShard.name=Diamond Shard
 item.dustDiamondCopper.name=Enriched Copper Dust
+item.enderLolly.name=Ender Lolly
 
 #Ores
 tile.oreCopper.name=Copper Ore

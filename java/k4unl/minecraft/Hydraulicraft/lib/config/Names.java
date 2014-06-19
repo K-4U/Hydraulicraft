@@ -107,6 +107,7 @@ public class Names {
 	public static final Name itemDust = new Name("Dusts","dust");
 	public static final Name itemBucketOil = new Name("Hydraulic Oil Bucket","bucketHydraulicOil");
 	public static final Name itemBacon = new Name("Bacon","bacon");
+	public static final Name itemEnderLolly = new Name("Ender Lolly","enderLolly");
 	public static final Name itemDiamondShard = new Name("Diamond Shard", "diamondShard");
 	
 	
