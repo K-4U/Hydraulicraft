@@ -97,7 +97,7 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler {
 
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
-    	if(getClass() == NEICrusherRecipeManager.class) {
+    	if(getClass() == NEICrusherRecipeManager.class && results.length > 0) {
             for(CrushingRecipes.CrushingRecipe recipe: CrushingRecipes.crushingRecipes) {
             	if(recipe.output.isItemEqual((ItemStack) results[0])){
             		this.arecipes.add(getShape(recipe));
