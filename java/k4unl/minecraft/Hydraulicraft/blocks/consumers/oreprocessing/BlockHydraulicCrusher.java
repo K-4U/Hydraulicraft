@@ -32,7 +32,7 @@ public class BlockHydraulicCrusher extends HydraulicBlockContainerBase {
 			
 		}
 
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUICrusher, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.CRUSHER.ordinal(), world, x, y, z);
 		
 		return true;
 	}

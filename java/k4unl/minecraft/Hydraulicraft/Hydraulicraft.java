@@ -14,6 +14,7 @@ import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.ConfigHandler;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.HydraulicraftRegistrar;
+import k4unl.minecraft.Hydraulicraft.lib.IPs;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Recipes;
 import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
@@ -25,6 +26,7 @@ import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.world.OreGenerator;
+import net.minecraftforge.common.DimensionManager;
 import thirdParty.truetyper.TrueTypeFont;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -34,6 +36,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -59,6 +63,7 @@ public class Hydraulicraft {
 	public static TrueTypeFont smallGuiFont;
 	
 	public static HydraulicraftRegistrar harvesterTrolleyRegistrar = new HydraulicraftRegistrar();
+	public static IPs ipList = new IPs();
 	
 	/*!
 	 * @author Koen Beckers
@@ -152,5 +157,16 @@ public class Hydraulicraft {
 
         }
     }
+	
+
+	@EventHandler
+	public void serverStart(FMLServerStartingEvent event){
+		Hydraulicraft.ipList.readFromFile(DimensionManager.getCurrentSaveRootDirectory());
+	}
+	
+	@EventHandler
+	public void serverStop(FMLServerStoppingEvent event){
+		Hydraulicraft.ipList.saveToFile(DimensionManager.getCurrentSaveRootDirectory());
+	}
 	
 }

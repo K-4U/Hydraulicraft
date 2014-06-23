@@ -49,7 +49,7 @@ public class BlockInfiniteSource extends HydraulicBlockContainerBase {
 			}
 		}
 		
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUIInfiniteSource, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.INFINITESOURCE.ordinal(), world, x, y, z);
 		return true;
 	}
 }

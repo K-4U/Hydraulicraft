@@ -33,7 +33,7 @@ public class BlockHydraulicWasher extends HydraulicBlockContainerBase {
 		}
 		TileHydraulicWasher washer = (TileHydraulicWasher) entity;
 		if(washer.getIsValidMultiblock()){
-			player.openGui(Hydraulicraft.instance, GuiIDs.GUIWasher, world, x, y, z);
+			player.openGui(Hydraulicraft.instance, GuiIDs.WASHER.ordinal(), world, x, y, z);
 			return true;
 		}
 		

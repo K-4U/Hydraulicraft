@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.lib.helperClasses;
 
+
 public class Vector3fMax {
 	private float xMin;
 	private float yMin;
@@ -67,5 +68,9 @@ public class Vector3fMax {
 	
 	public void setZMax(float newZ){
 		this.zMax = newZ;
+	}
+	
+	public Vector3fMax copy() {
+		return new Vector3fMax(xMin, yMin, zMin, xMax, yMax, zMax);
 	}
 }

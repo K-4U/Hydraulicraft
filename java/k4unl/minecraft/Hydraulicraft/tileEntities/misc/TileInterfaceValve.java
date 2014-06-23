@@ -351,4 +351,8 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 		}	
 	}
 
+	public void checkTank() {
+		
+	}
+
 }

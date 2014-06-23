@@ -93,6 +93,12 @@ public class Names {
 		new Name("HP Valve", "HPPartValve")
 	};
 	
+	public static final Name portalBase = new Name("Portal Base", "portalBase");
+	public static final Name portalFrame = new Name("Portal Frame", "portalFrame");
+	public static final Name portalTeleporter = new Name("Portal Teleporter", "portalTeleporter");
+	
+	public static final Name itemIPCard = new Name("Portal IP Card", "portalIPCard");
+	
 	
 	public static final Name oreCopper = new Name("Copper Ore", "oreCopper");
 	public static final Name oreLead = new Name("Lead Ore", "oreLead");

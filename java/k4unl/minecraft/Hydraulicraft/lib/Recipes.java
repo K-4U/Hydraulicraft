@@ -538,6 +538,26 @@ public class Recipes {
 		            'K', HCItems.gasket,
 		            'G', Blocks.glass_pane
 				}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.portalBase, 1), true,
+				new Object[] {
+			"III",
+			"EEE",
+			"III",
+			'I', Items.iron_ingot,
+			'E', Items.ender_pearl
+		}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.portalFrame, 6), true,
+				new Object[] {
+			"III",
+			"IEI",
+			"III",
+			'I', Items.iron_ingot,
+			'E', Items.ender_pearl
+		}));
+		
+		
 
 	}
 	
@@ -576,6 +596,16 @@ public class Recipes {
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.itemMiningHelmet, 1), HCItems.itemLamp, Items.iron_helmet));
 		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.itemIPCard, 1), true,
+				new Object[] {
+			"ROO",
+			"RWI",
+			"RII",
+			'I', Items.iron_ingot,
+			'R', Items.redstone,
+			'W', new ItemStack(Blocks.wool, 1, 15),
+			'O', new ItemStack(Blocks.wool, 1, 14)
+		}));
 	}
 	
 }

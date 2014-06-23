@@ -63,7 +63,7 @@ public class BlockHydraulicDynamo extends HydraulicBlockContainerBase {
 			
 		}
 		//TileHydraulicDynamo dyn = (TileHydraulicDynamo) entity;
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUIHydraulicDynamo, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.DYNAMO.ordinal(), world, x, y, z);
 		
 		return true;
 	}

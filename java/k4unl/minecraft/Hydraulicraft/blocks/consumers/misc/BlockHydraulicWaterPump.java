@@ -1,8 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
-import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
-import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWaterPump;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,8 +29,6 @@ public class BlockHydraulicWaterPump extends HydraulicBlockContainerBase {
 			return false;
 			
 		}
-		
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUIMixer, world, x, y, z);
 		
 		return true;
 	}

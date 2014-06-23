@@ -61,7 +61,7 @@ public class BlockElectricPump extends HydraulicTieredBlockBase {
 			return false;
 		}
 
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUIElecticPump, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.ELECTRICPUMP.ordinal(), world, x, y, z);
 		
 		return true;
 	}

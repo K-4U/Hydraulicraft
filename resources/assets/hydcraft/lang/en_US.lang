@@ -129,3 +129,9 @@ tile.HPRFPump.name=High Pressure Redstone Pump
 
 #FMP
 tile.hydraulicSaw.name=Hydraulic Saw
+
+tile.portalBase.name=Portal base
+tile.portalFrame.name=Portal frame
+tile.portalTeleporter.name=Portal
+item.portalIPCard.name=Portal IP Card
+itemGroup.tabGOW=Glowing Octo Wallhack

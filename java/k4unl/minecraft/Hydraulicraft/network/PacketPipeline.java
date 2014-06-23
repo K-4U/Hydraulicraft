@@ -13,6 +13,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.network.packets.PacketKeyPressed;
+import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalEnabled;
+import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalStateChanged;
+import k4unl.minecraft.Hydraulicraft.network.packets.PacketSpawnParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -115,6 +119,9 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 
     public PacketPipeline(){
     	registerPacket(PacketKeyPressed.class);
+    	registerPacket(PacketPortalEnabled.class);
+		registerPacket(PacketPortalStateChanged.class);
+		registerPacket(PacketSpawnParticle.class);
 
         channels = NetworkRegistry.INSTANCE.newChannel(ModInfo.CHANNEL, this);
 

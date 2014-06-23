@@ -58,7 +58,7 @@ public class BlockRFPump extends HydraulicTieredBlockBase {
 			return false;
 		}
 		//TileRFPump compressor = (TileRFPump) entity;
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUIRFPump, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.RFPUMP.ordinal(), world, x, y, z);
 		
 		return true;
 	}

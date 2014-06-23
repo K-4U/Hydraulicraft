@@ -3,8 +3,8 @@ package k4unl.minecraft.Hydraulicraft.events;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Key;
-import k4unl.minecraft.Hydraulicraft.network.PacketKeyPressed;
 import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
+import k4unl.minecraft.Hydraulicraft.network.packets.PacketKeyPressed;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.settings.KeyBinding;
 

@@ -42,7 +42,7 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase {
 			
 		}
 		
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUIPressureVat, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.PRESSUREVAT.ordinal(), world, x, y, z);
 		
 		return true;
 	}

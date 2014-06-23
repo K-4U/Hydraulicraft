@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -16,6 +17,7 @@ public class RenderHelper {
 	static float lightEastWest = 0.8F;
 	static float lightNorthSouth = 0.6F;
 	private static Tessellator tess = Tessellator.instance;
+	public static float pixel = 1.0F/16.0F;
 	
 	public static void vertexWithTexture(float x, float y, float z, float tL, float tT){
 		GL11.glTexCoord2f(tL, tT);
@@ -377,4 +379,163 @@ public class RenderHelper {
 		endCap.draw(r, 10, 10);*/
 	}
 	
+
+	
+	public static void renderSide(Vector3fMax vector, ForgeDirection dir){
+		//Top side
+		if(dir == ForgeDirection.UP){
+			GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMax());
+			GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMax());
+			GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMin());
+			GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMin());
+		}
+		
+		//Bottom side
+		if(dir == ForgeDirection.DOWN){
+			GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMax());
+			GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMax());
+			GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMin());
+			GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMin());
+		}
+		
+		//West side
+		if(dir == ForgeDirection.WEST){
+			GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMax());
+			GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMax());
+			GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMin());
+			GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMin());
+		}
+		
+		//East side
+		if(dir == ForgeDirection.EAST){
+			GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMin());
+			GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMin());
+			GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMax());
+			GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMax());
+		}
+		
+		//North side
+		if(dir == ForgeDirection.NORTH){
+			GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMin());
+			GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMin());
+			GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMin());
+			GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMin());
+		}
+		
+		//South side
+		if(dir == ForgeDirection.SOUTH){
+			GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMax());
+			GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMax());
+			GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMax());
+			GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMax());
+		}
+	}
+	public static void drawCubeWithLines(int size, boolean isActive, float rF, float gF, float bF){
+		float minPP = RenderHelper.pixel * (size+1);
+		float minNP = RenderHelper.pixel * size;
+		float maxPP = RenderHelper.pixel * (16-(size+1));
+		float maxNP = RenderHelper.pixel * (16-size);
+		
+		Vector3fMax vNS = new Vector3fMax(minPP, minPP, minNP, maxPP, maxPP, maxNP);
+		Vector3fMax vEW = new Vector3fMax(minNP, minPP, minPP, maxNP, maxPP, maxPP);
+		Vector3fMax vTB = new Vector3fMax(minPP, minNP, minPP, maxPP, maxNP, maxPP);
+		GL11.glColor3f(rF, gF, bF);
+		RenderHelper.renderSide(vNS, ForgeDirection.NORTH);
+		RenderHelper.renderSide(vNS, ForgeDirection.SOUTH);
+		
+		RenderHelper.renderSide(vEW, ForgeDirection.EAST);
+		RenderHelper.renderSide(vEW, ForgeDirection.WEST);
+		
+		RenderHelper.renderSide(vTB, ForgeDirection.UP);
+		RenderHelper.renderSide(vTB, ForgeDirection.DOWN);
+		
+		if(!isActive){
+			GL11.glColor3f(1.0F, 0.0F, 0.0F);
+		}else{
+			GL11.glColor3f(0.0F, 1.0F, 0.0F);
+		}
+		Vector3fMax vEWS = new Vector3fMax(minNP, minNP, minNP, maxNP, maxNP, minPP);
+		Vector3fMax vEWN = new Vector3fMax(minNP, minNP, maxPP, maxNP, maxNP, maxNP);
+		
+		Vector3fMax vEWT = new Vector3fMax(minNP, maxPP, minPP, maxNP, maxNP, maxPP);
+		Vector3fMax vEWB = new Vector3fMax(minNP, minNP, minPP, maxNP, minPP, maxPP);
+		
+		Vector3fMax vNSW = new Vector3fMax(minNP, minNP, minNP, minPP, maxNP, maxNP);
+		Vector3fMax vNSE = new Vector3fMax(maxPP, minNP, minNP, maxNP, maxNP, maxNP);
+		Vector3fMax vNST = new Vector3fMax(minPP, maxPP, minNP, maxPP, maxNP, maxNP);
+		Vector3fMax vNSB = new Vector3fMax(minPP, minNP, minNP, maxPP, minPP, maxNP);
+		
+		
+		Vector3fMax vTBW = new Vector3fMax(minNP, minNP, minNP, minPP, maxNP, maxNP);
+		Vector3fMax vTBE = new Vector3fMax(maxPP, minNP, minNP, maxNP, maxNP, maxNP);
+		Vector3fMax vTBN = new Vector3fMax(minPP, minNP, minNP, maxPP, maxNP, minPP);
+		Vector3fMax vTBS = new Vector3fMax(minPP, minNP, maxPP, maxPP, maxNP, maxNP);
+		
+		RenderHelper.renderSide(vEWS, ForgeDirection.EAST);
+		RenderHelper.renderSide(vEWS, ForgeDirection.WEST);
+		RenderHelper.renderSide(vEWN, ForgeDirection.EAST);
+		RenderHelper.renderSide(vEWN, ForgeDirection.WEST);
+		RenderHelper.renderSide(vEWT, ForgeDirection.EAST);
+		RenderHelper.renderSide(vEWT, ForgeDirection.WEST);
+		RenderHelper.renderSide(vEWB, ForgeDirection.EAST);
+		RenderHelper.renderSide(vEWB, ForgeDirection.WEST);
+		
+		
+		RenderHelper.renderSide(vNSW, ForgeDirection.NORTH);
+		RenderHelper.renderSide(vNSW, ForgeDirection.SOUTH);
+		RenderHelper.renderSide(vNSE, ForgeDirection.NORTH);
+		RenderHelper.renderSide(vNSE, ForgeDirection.SOUTH);
+		
+		RenderHelper.renderSide(vNST, ForgeDirection.NORTH);
+		RenderHelper.renderSide(vNST, ForgeDirection.SOUTH);
+		RenderHelper.renderSide(vNSB, ForgeDirection.NORTH);
+		RenderHelper.renderSide(vNSB, ForgeDirection.SOUTH);
+		
+		RenderHelper.renderSide(vTBW, ForgeDirection.UP);
+		RenderHelper.renderSide(vTBW, ForgeDirection.DOWN);
+		RenderHelper.renderSide(vTBE, ForgeDirection.UP);
+		RenderHelper.renderSide(vTBE, ForgeDirection.DOWN);
+		RenderHelper.renderSide(vTBN, ForgeDirection.UP);
+		RenderHelper.renderSide(vTBN, ForgeDirection.DOWN);
+		RenderHelper.renderSide(vTBS, ForgeDirection.UP);
+		RenderHelper.renderSide(vTBS, ForgeDirection.DOWN);
+	}
+	
+	public static void drawWhiteCube(Vector3fMax vector){
+		//Top side
+		GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMax());
+		GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMax());
+		GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMin());
+		GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMin());
+		
+		//Bottom side
+		GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMax());
+		GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMax());
+		GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMin());
+		GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMin());
+		
+		//West side
+		GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMax());
+		GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMax());
+		GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMin());
+		GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMin());
+		
+		//East side
+		GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMin());
+		GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMin());
+		GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMax());
+		GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMax());
+		
+		//North side
+		GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMin());
+		GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMin());
+		GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMin());
+		GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMin());
+		
+		//South side
+		GL11.glVertex3f(vector.getXMin(), vector.getYMin(), vector.getZMax());
+		GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMax());
+		GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMax());
+		GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMax());
+	}
 }

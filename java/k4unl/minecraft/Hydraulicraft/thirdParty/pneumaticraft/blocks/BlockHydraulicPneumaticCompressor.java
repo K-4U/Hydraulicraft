@@ -40,7 +40,7 @@ public class BlockHydraulicPneumaticCompressor extends HydraulicBlockContainerBa
 			
 		}
 		//TileHydraulicPneumaticCompressor compressor = (TileHydraulicPneumaticCompressor) entity;
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUIPneumaticCompressor, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.COMPRESSOR.ordinal(), world, x, y, z);
 		
 		return true;
 	}

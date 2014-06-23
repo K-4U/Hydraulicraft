@@ -32,7 +32,7 @@ public class BlockHydraulicSaw extends HydraulicBlockContainerBase {
 			
 		}
 		
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUISaw, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.SAW.ordinal(), world, x, y, z);
 		
 		return true;
 	}

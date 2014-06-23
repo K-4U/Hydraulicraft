@@ -64,7 +64,7 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase {
 			return false;
 		}
 		
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUIHydraulicGenerator, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.GENERATOR.ordinal(), world, x, y, z);
 		return true;
 	}
 	

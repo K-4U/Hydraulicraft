@@ -32,7 +32,7 @@ public class BlockHydraulicMixer extends HydraulicBlockContainerBase {
 			
 		}
 		
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUIMixer, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.MIXER.ordinal(), world, x, y, z);
 		
 		return true;
 	}

@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.network;
+package k4unl.minecraft.Hydraulicraft.network.packets;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.network.AbstractPacket;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class PacketKeyPressed extends AbstractPacket{

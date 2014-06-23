@@ -90,7 +90,7 @@ public class BlockHydraulicHarvester extends HydraulicBlockContainerBase {
 		
 		TileHydraulicHarvester harvester = (TileHydraulicHarvester) entity;
 		if(harvester.getIsMultiblock()){
-			player.openGui(Hydraulicraft.instance, GuiIDs.GUIHarvester, world, x, y, z);
+			player.openGui(Hydraulicraft.instance, GuiIDs.HARVESTER.ordinal(), world, x, y, z);
 			return true;
 		}
 		

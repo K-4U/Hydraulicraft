@@ -32,7 +32,7 @@ public class BlockHydraulicFrictionIncinerator extends HydraulicBlockContainerBa
 			
 		}
 		
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUIIncinerator, w, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.INCINERATOR.ordinal(), w, x, y, z);
 		
 		return true;
 	}

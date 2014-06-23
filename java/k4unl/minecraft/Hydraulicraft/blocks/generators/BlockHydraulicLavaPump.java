@@ -82,7 +82,7 @@ public class BlockHydraulicLavaPump extends HydraulicTieredBlockBase {
 			
 		}
 		
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUILavaPump, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.LAVAPUMP.ordinal(), world, x, y, z);
 		
 		return true;
 	}

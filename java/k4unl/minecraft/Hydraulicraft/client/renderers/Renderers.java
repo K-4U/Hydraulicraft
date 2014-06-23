@@ -8,6 +8,11 @@ import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.Render
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.RendererHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.client.renderers.generators.RendererHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.client.renderers.generators.RendererHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalBase;
+import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalFrame;
+import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalTeleporter;
+import k4unl.minecraft.Hydraulicraft.client.renderers.items.ItemRendererPortalBase;
+import k4unl.minecraft.Hydraulicraft.client.renderers.items.ItemRendererPortalFrame;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHarvesterItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHarvesterTrolleyItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicHoseItem;
@@ -21,6 +26,9 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
+import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalFrame;
+import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
@@ -55,5 +63,12 @@ public class Renderers {
 		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartHose,  new RendererHydraulicHoseItem());
 		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartValve,  new RendererPartValveItem());
 		//MinecraftForgeClient.registerItemRenderer(Ids.partValve.act+256,  new RendererPartValveItem());*/
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TilePortalBase.class, new RendererPortalBase());
+		ClientRegistry.bindTileEntitySpecialRenderer(TilePortalFrame.class, new RendererPortalFrame());
+		ClientRegistry.bindTileEntitySpecialRenderer(TilePortalTeleporter.class, new RendererPortalTeleporter());
+		
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.portalBase), new ItemRendererPortalBase());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.portalFrame), new ItemRendererPortalFrame());
 	}
 }

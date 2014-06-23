@@ -62,7 +62,7 @@ public class BlockKineticPump extends HydraulicTieredBlockBase {
 			return false;
 		}
 
-		player.openGui(Hydraulicraft.instance, GuiIDs.GUIKineticPump, world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.KINETICPUMP.ordinal(), world, x, y, z);
 		
 		return true;
 	}
