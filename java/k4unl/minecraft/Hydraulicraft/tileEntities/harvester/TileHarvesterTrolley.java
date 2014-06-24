@@ -306,7 +306,7 @@ public class TileHarvesterTrolley extends TileEntity {
         //maxY += extendedLength;
         maxZ += sidewaysMovement * getFacing().offsetX;
         
-        return AxisAlignedBB.getAABBPool().getAABB(minX, minY, minZ, maxX, maxY, maxZ);
+        return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
 	public void setFacing(ForgeDirection nFacing) {

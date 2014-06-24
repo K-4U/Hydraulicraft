@@ -186,7 +186,7 @@ public class TileHydraulicPiston extends TileHydraulicBase implements IHydraulic
         maxY += extendedLength * (dir.offsetY > 0 ? dir.offsetY : 0);
         maxZ += extendedLength * (dir.offsetZ > 0 ? dir.offsetZ : 0);
         
-        return AxisAlignedBB.getAABBPool().getAABB(minX, minY, minZ, maxX, maxY, maxZ);
+        return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
     }
 	
 	@Override

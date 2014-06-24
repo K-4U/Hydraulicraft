@@ -109,7 +109,6 @@ public class Hydraulicraft {
 		UpdateChecker.checkUpdateAvailable();
 		
 		proxy.init();
-		proxy.initCapes();
 	}
 	
 	/*!

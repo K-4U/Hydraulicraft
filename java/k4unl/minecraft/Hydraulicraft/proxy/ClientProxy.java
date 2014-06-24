@@ -27,9 +27,4 @@ public class ClientProxy extends CommonProxy {
 	public void initFonts(){
 		Hydraulicraft.smallGuiFont = FontLoader.createFont(new ResourceLocation(ModInfo.LID,"fonts/Ubuntu.ttf"), 15, true);
 	}
-	
-	public void initCapes(){
-		
-	}
-
 }
