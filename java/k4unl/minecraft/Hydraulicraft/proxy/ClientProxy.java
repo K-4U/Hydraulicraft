@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.proxy;
 
-import com.jadarstudios.developercapes.DevCapes;
-
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.client.renderers.Renderers;
 import k4unl.minecraft.Hydraulicraft.events.KeyHandler;
@@ -31,7 +29,7 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	public void initCapes(){
-		DevCapes.getInstance().registerConfig("http://vps.k-4u.nl/hydraulicraft/capes.json", ModInfo.ID);
+		
 	}
 
 }
