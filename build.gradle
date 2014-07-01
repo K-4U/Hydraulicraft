@@ -60,7 +60,8 @@ dependencies {
         // file("dep/ForgeMultipart-1.7.2-1.1.0.282-dev.jar").renameTo(file("dep/fmp.jar"))
         // println(" Done")
 
-        compile "mcp.mobius.waila:Waila:1.5.2a"
+    compile "codechicken:ForgeMultipart:1.7.2-1.1.0.289:dev"
+    compile "mcp.mobius.waila:Waila:1.5.2a"
 
         println(" Adding dependencies!")
         // compile files("dep/ccl.jar")
@@ -76,7 +77,7 @@ dependencies {
 // because it wont work otherwise... because FML doesnt laod coremods from the classpath
 task copyChicken(type: Copy, dependsOn: "extractUserDev") {
     from { configurations.compile }
-    include "**/*Chicken*.jar", "**/*NotEnoughItems*.jar"
+    include "**/*Chicken*.jar", "**/*NotEnoughItems*.jar", "**/ForgeMultipart*.jar"
     exclude "**/CodeChickenLib*" // because CCC downloads it anyways.. -_-
     into file(minecraft.assetDir + "/../mods") // paralell to the assets dir
 
