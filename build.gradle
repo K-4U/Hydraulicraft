@@ -86,10 +86,11 @@ archivesBaseName = "HydCraft"
 
 project.ext {
     buildNum = System.getenv("BUILD_NUMBER")
+    mcVersion = "1.7.10"
 }
 
 minecraft {
-    version = "1.7.10-10.13.0.1150"
+    version = "${project.ext.mcVersion}-10.13.0.1150"
         assetDir = "../Minecraft/assets"
 
         // replacing stuff in the source
@@ -121,11 +122,7 @@ processResources
 {
     inputs.property "version", project.version
         inputs.property "mcversion", project.minecraft.version
-        if(isDev){
-            inputs.property "buildNum","DEV-${project.ext.buildNum}"
-        }else{
             inputs.property "buildNum", project.ext.buildNum
-        }
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
@@ -144,5 +141,5 @@ processResources
 
 
 jar {
-    classifier = project.ext.buildNum
+    classifier = "${project.ext.mcVersion}-${project.ext.buildNum}"
 }
