@@ -35,6 +35,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -42,6 +43,8 @@ import codechicken.lib.data.MCDataOutput;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	private boolean _isOilStored = false;
@@ -133,7 +136,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	}
 	
 	public boolean getRedstonePowered(){
-		return isRedstonePowered;
+		return getIsRedstonePowered();
 	}
 	
 	public void updateBlock(){
@@ -403,7 +406,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 			pressure = tagCompound.getFloat("pressure");
 		}
 
-		isRedstonePowered = tagCompound.getBoolean("isRedstonePowered");
+		setRedstonePowered(tagCompound.getBoolean("isRedstonePowered"));
 	}
 	
 	@Override
@@ -413,7 +416,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		}
 		tagCompound.setInteger("fluidLevelStored",fluidLevelStored);
 		tagCompound.setBoolean("isOilStored", _isOilStored);
-		tagCompound.setBoolean("isRedstonePowered", isRedstonePowered);
+		tagCompound.setBoolean("isRedstonePowered", getIsRedstonePowered());
 		tagCompound.setInteger("pressureTier", pressureTier.ordinal());
 		tagCompound.setInteger("maxStorage", maxStorage);
 		
@@ -452,12 +455,12 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
 	public void checkRedstonePower() {
 		boolean isIndirectlyPowered = getWorld().isBlockIndirectlyGettingPowered(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
-		if(isIndirectlyPowered && !isRedstonePowered){
-			isRedstonePowered = true;
-			this.redstoneChanged(isRedstonePowered);
-		}else if(isRedstonePowered && !isIndirectlyPowered){
-			isRedstonePowered = false;
-			this.redstoneChanged(isRedstonePowered);
+		if(isIndirectlyPowered && !getIsRedstonePowered()){
+			setRedstonePowered(true);
+			this.redstoneChanged(getIsRedstonePowered());
+		}else if(getIsRedstonePowered() && !isIndirectlyPowered){
+			setRedstonePowered(false);
+			this.redstoneChanged(getIsRedstonePowered());
 		}
 	}
 
@@ -790,5 +793,19 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 			hasOwnFluidTank = true;
 		}
 		isMultipart = true;		
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getRenderBoundingBox(){
+		return AxisAlignedBB.getBoundingBox(xCoord,yCoord,zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
+	}
+
+	public boolean getIsRedstonePowered() {
+		return isRedstonePowered;
+	}
+
+	public void setRedstonePowered(boolean isRedstonePowered) {
+		this.isRedstonePowered = isRedstonePowered;
 	}
 }

@@ -9,7 +9,7 @@ import net.minecraft.util.AxisAlignedBB;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileGOWBase extends TileEntity {
+public class TileHydraulicBaseNoPower extends TileEntity {
 	protected boolean isRedstonePowered;
 	
 	

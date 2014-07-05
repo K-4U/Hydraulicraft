@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.ItemIPCard;
 import k4unl.minecraft.Hydraulicraft.lib.IPs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -16,7 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TilePortalBase extends TileGOWBase implements IInventory {
+public class TilePortalBase extends TileHydraulicBase implements IInventory, IHydraulicConsumer {
 	private boolean portalFormed;
 	private boolean portalEnabled;
 	private int portalWidth;
@@ -27,10 +31,12 @@ public class TilePortalBase extends TileGOWBase implements IInventory {
 	private long ip;
 	private boolean ipRegistered = false;
 	private int colorIndex = 0;
+	private IBaseClass baseHandler;
 	
 	private ItemStack linkingCard;
 	
 	public TilePortalBase(){
+		super(PressureTier.HIGHPRESSURE, 20000);
 		frames = new ArrayList<Location>();
 	}
 	
@@ -291,13 +297,13 @@ public class TilePortalBase extends TileGOWBase implements IInventory {
 	
 	
 	@Override
-	protected void redstoneChanged(){
+	public void redstoneChanged(boolean isPowered){
 		if(getWorldObj() != null){
 			if(portalFormed && linkingCard != null){
-				if(portalEnabled && !isRedstonePowered){
+				if(portalEnabled && !getIsRedstonePowered()){
 					portalEnabled = false;
 					disablePortal();
-				}else if(isRedstonePowered){
+				}else if(getIsRedstonePowered()){
 					portalEnabled = true;
 					enablePortal();
 				}
@@ -464,6 +470,24 @@ public class TilePortalBase extends TileGOWBase implements IInventory {
 	
 	public Location getBlockLocation() {
 		return new Location(xCoord, yCoord, zCoord);
+	}
+
+	@Override
+	public void onFluidLevelChanged(int old) {	}
+
+	@Override
+	public boolean canConnectTo(ForgeDirection side) {
+		return true;
+	}
+
+	@Override
+	public float workFunction(boolean simulate, ForgeDirection from) {
+		return 0;
+	}
+
+	@Override
+	public boolean canWork(ForgeDirection dir) {
+		return dir.equals(ForgeDirection.UP);
 	}
 
 }

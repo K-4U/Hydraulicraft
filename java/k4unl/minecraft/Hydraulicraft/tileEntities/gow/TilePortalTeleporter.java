@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 
-public class TilePortalTeleporter extends TileGOWBase {
+public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 	private boolean hasSendPacket = true;
 	private float transparancy = 0.2F;
 	private float prevTransparancy = 0.2F;

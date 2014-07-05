@@ -4,19 +4,18 @@ import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerPortalBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiPortalBase extends GuiContainer {
+public class GuiPortalBase extends HydraulicGUIBase {
 
 	protected static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/portalBase.png");
 	protected TilePortalBase base;
 	
 	public GuiPortalBase(InventoryPlayer invPlayer, TilePortalBase _base) {
-		super(new ContainerPortalBase(invPlayer, _base));
+		super(_base, new ContainerPortalBase(invPlayer, _base), resLoc);
 
 		base = _base;
 	}

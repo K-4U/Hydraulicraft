@@ -8,7 +8,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TilePortalFrame extends TileGOWBase{
+public class TilePortalFrame extends TileHydraulicBaseNoPower{
+	
+
 	private boolean hasSendPacket = true;
 	private boolean isActive;
 	private Location parentLocation;
