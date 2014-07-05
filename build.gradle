@@ -31,14 +31,6 @@ repositories {
 apply plugin: 'forge'
 
 dependencies {
-    // def f = new File('dep/')
-    //     if(f.exists()){
-    //         f.delete()
-    //     }
-    // f.mkdirs()
-    //     if(!f.exists()){
-    //         f.mkdir()
-    //     }
     println(" Downloading dependencies!")
         // print(" - CCL")
         // ant.get(src: 'http://files.minecraftforge.net/maven/codechicken/CodeChickenLib/1.7.2-1.1.1.80/CodeChickenLib-1.7.2-1.1.1.80-dev.jar', dest: 'dep')
@@ -60,8 +52,8 @@ dependencies {
         // file("dep/ForgeMultipart-1.7.2-1.1.0.282-dev.jar").renameTo(file("dep/fmp.jar"))
         // println(" Done")
 
-    compile "codechicken:ForgeMultipart:1.7.2-1.1.0.289:dev"
-    compile "mcp.mobius.waila:Waila:1.5.2a"
+        compile "codechicken:ForgeMultipart:1.7.2-1.1.0.289:dev"
+        compile "mcp.mobius.waila:Waila:1.5.2a"
 
         println(" Adding dependencies!")
         // compile files("dep/ccl.jar")
@@ -78,53 +70,23 @@ dependencies {
 task copyChicken(type: Copy, dependsOn: "extractUserDev") {
     from { configurations.compile }
     include "**/*Chicken*.jar", "**/*NotEnoughItems*.jar", "**/ForgeMultipart*.jar"
-    exclude "**/CodeChickenLib*" // because CCC downloads it anyways.. -_-
-    into file(minecraft.assetDir + "/../mods") // paralell to the assets dir
+        exclude "**/CodeChickenLib*" // because CCC downloads it anyways.. -_-
+        into file(minecraft.assetDir + "/../mods") // paralell to the assets dir
 
-    mustRunAfter "deobfBinJar"
-    mustRunAfter "repackMinecraft"
+        mustRunAfter "deobfBinJar"
+        mustRunAfter "repackMinecraft"
 }
 tasks.setupDevWorkspace.dependsOn copyChicken
 tasks.setupDecompWorkspace.dependsOn copyChicken
 
 
-def isDev = false
 version = "2.0.3"
 group= "k4unl.minecraft.Hydraulicraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HydCraft"
 
-
-task release << {
-    println("Building release of ${project.archivesBaseName} with buildNumber ${project.ext.buildNum}")
-        isDev = false
+project.ext {
+    buildNum = System.getenv("BUILD_NUMBER")
 }
-
-task dev << {
-    println("Building dev version of ${project.archivesBaseName} with buildNumber DEV-${project.ext.buildNum}")
-        isDev = true
-}
-
-task whatIsDev << {
-    if(isDev){
-        println("FUCKING YAY")
-    }else{
-        println("NOPE YOU BASTARD")
-    }
-}
-
-release.finalizedBy whatIsDev
-dev.finalizedBy whatIsDev
-
-whatIsDev.finalizedBy build
-
-//This ups our build number by one!
-task updateBuildNum << {
-    ant.propertyfile(file:"gradle.properties"){
-        entry(key : "buildNum", value: project.ext.buildNum.toInteger() + 1)
-    }
-}
-
-build.finalizedBy updateBuildNum
 
 minecraft {
     version = "1.7.10-10.13.0.1150"
@@ -133,12 +95,7 @@ minecraft {
         // replacing stuff in the source
         replace '@VERSION@', project.version
         replace '@MC_VERSION@', version
-        if(isDev){
-            replace '@BUILD_NUMBER@', "DEV-${project.ext.buildNum}"
-        }else{
-            replace '@BUILD_NUMBER@', project.ext.buildNum
-                println("ALERT")
-        }
+        replace '@BUILD_NUMBER@', project.ext.buildNum
 }
 
 
@@ -174,12 +131,7 @@ processResources
         include 'mcmod.info'
 
             // replace version and mcversion
-            if(isDev){
-                expand 'version':project.version, 'mcversion':project.minecraft.version, 'buildNum':"DEV-${project.ext.buildNum}"
-            }else{
-                expand 'version':project.version, 'mcversion':project.minecraft.version, 'buildNum':project.ext.buildNum
-                    println("ALERT")
-            }
+            expand 'version':project.version, 'mcversion':project.minecraft.version, 'buildNum':project.ext.buildNum
     }
 
     // copy everything else, thats not the mcmod.info
@@ -192,10 +144,5 @@ processResources
 
 
 jar {
-    if(isDev){
-        classifier = "DEV-${project.ext.buildNum}"
-    }else{
-        classifier = project.ext.buildNum
-            println("ALERT")
-    }
+    classifier = project.ext.buildNum
 }
