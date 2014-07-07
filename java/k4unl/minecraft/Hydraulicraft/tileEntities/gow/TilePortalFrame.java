@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.gow;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
 import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalStateChanged;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;

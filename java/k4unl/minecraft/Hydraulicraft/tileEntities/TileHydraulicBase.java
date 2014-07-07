@@ -116,7 +116,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 			if(isMultipart){
 				tWorld = tMp.world();
 			}else{ 
-				tWorld = tTarget.getWorldObj();
+				if(tTarget != null){
+					tWorld = tTarget.getWorldObj();
+				}
 			}
 		}
 		return tWorld;
@@ -421,7 +423,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		tagCompound.setInteger("maxStorage", maxStorage);
 		
 		
-		if(getWorld() != null && !getWorld().isRemote){
+		if(getWorld() != null && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
 			tagCompound.setBoolean("shouldUpdateNetwork", shouldUpdateNetwork);
 		
 			if(getNetwork(ForgeDirection.UP) != null){
@@ -704,7 +706,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	@Override
 	public void invalidate(){
 		super.invalidate();
-		if(!getWorld().isRemote){
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
 			for(ForgeDirection dir: connectedSides){
 				if(getNetwork(dir) != null){
 					getNetwork(dir).removeMachine(target);

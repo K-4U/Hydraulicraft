@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemDye;
 import net.minecraft.tileentity.TileEntity;
@@ -54,5 +55,16 @@ public class BlockPortalBase extends GOWBlockRendering {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y,
+				int z, Block blockId) {
+		super.onNeighborBlockChange(world, x, y, z, blockId);
+		
+		TileEntity tile = world.getTileEntity(x, y, z);
+		if(tile instanceof TilePortalBase){
+			((TilePortalBase)tile).checkRedstonePower();			
+		}
 	}
 }

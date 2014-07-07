@@ -37,6 +37,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 	
 	public TilePortalBase(){
 		super(PressureTier.HIGHPRESSURE, 20000);
+		super.init(this);
 		frames = new ArrayList<Location>();
 	}
 	

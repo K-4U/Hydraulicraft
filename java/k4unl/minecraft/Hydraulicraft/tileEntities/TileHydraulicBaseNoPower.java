@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.tileEntities.gow;
+package k4unl.minecraft.Hydraulicraft.tileEntities;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
