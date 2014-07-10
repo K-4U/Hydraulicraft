@@ -115,6 +115,13 @@ sourceSets {
                 // include 'some inclusion'
         }
     }
+    api {
+        java {
+            srcDir 'api'
+		    srcDir '../IGWMod/src'
+        }
+    }
+
 }
 
 
