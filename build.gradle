@@ -79,15 +79,15 @@ dependencies {
 //tasks.setupDevWorkspace.dependsOn copyChicken
 //tasks.setupDecompWorkspace.dependsOn copyChicken
 
-
-version = "2.0.3"
-group= "k4unl.minecraft.Hydraulicraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "HydCraft"
-
 project.ext {
     buildNum = System.getenv("BUILD_NUMBER")
     mcVersion = "1.7.10"
 }
+
+version = "2.0"
+group= "k4unl.minecraft.Hydraulicraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "HydCraft"
+
 
 minecraft {
     version = "${project.ext.mcVersion}-10.13.0.1179"
@@ -148,5 +148,6 @@ processResources
 
 
 jar {
-    classifier = "${project.ext.mcVersion}-${project.ext.buildNum}"
+    appendix = "${project.ext.mcVersion}"
+    classifier = "${project.ext.buildNum}"
 }
