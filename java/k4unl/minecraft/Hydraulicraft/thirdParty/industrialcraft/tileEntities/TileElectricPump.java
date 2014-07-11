@@ -182,49 +182,10 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 		return false;
 	}
 
-	@Override
-	public double demandedEnergyUnits() {
-		if(ic2EnergyStored < Constants.INTERNAL_EU_STORAGE[getTier()]){
-			return Double.MAX_VALUE; 
-		}else{
-			return 0;
-		}
-	}
-
-	@Override
-	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
-		if(amount > getMaxSafeInput()){
-			if(!worldObj.isRemote) {
-				//And, better check if the block actually still exists..
-				if(!this.isInvalid()){
-	                worldObj.createExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.5F, true);
-	                worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-				}
-            }
-            return 0;
-		}else{
-			//Work
-			//Best might be to store it in an internal buffer
-			//Then use that buffer to get work done..
-			if(ic2EnergyStored < getMaxEUStorage()){
-				ic2EnergyStored += amount;
-				
-				amount = Math.max((ic2EnergyStored - getMaxEUStorage()),0);
-				if(ic2EnergyStored > getMaxEUStorage()){
-					amount = ic2EnergyStored - getMaxEUStorage();
-					ic2EnergyStored = getMaxEUStorage();
-				}
-				getHandler().updateBlock();
-			}
-		}
-		return amount;
-	}
-
 	public int getMaxEUStorage(){
 		return Constants.INTERNAL_EU_STORAGE[getTier()];
 	}
-	
-	@Override
+
 	public int getMaxSafeInput() {
 		//TODO Add upgrades
 		return Constants.MAX_EU[getTier()];
@@ -283,5 +244,48 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 			//EUUsage = Constants.MAX_EU[getTier()];
 		}
 		return EUUsage;
+	}
+
+	@Override
+	public double getDemandedEnergy() {
+		if(ic2EnergyStored < Constants.INTERNAL_EU_STORAGE[getTier()]){
+			return Double.MAX_VALUE;
+		}else{
+			return 0;
+		}
+	}
+
+	@Override
+	public int getSinkTier() {
+		return 1;
+	}
+
+	@Override
+	public double injectEnergy(ForgeDirection forgeDirection, double amount, double v2) {
+		if(amount > getMaxSafeInput()){
+			if(!worldObj.isRemote) {
+				//And, better check if the block actually still exists..
+				if(!this.isInvalid()){
+					worldObj.createExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.5F, true);
+					worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+				}
+			}
+			return 0;
+		}else{
+			//Work
+			//Best might be to store it in an internal buffer
+			//Then use that buffer to get work done..
+			if(ic2EnergyStored < getMaxEUStorage()){
+				ic2EnergyStored += amount;
+
+				amount = Math.max((ic2EnergyStored - getMaxEUStorage()),0);
+				if(ic2EnergyStored > getMaxEUStorage()){
+					amount = ic2EnergyStored - getMaxEUStorage();
+					ic2EnergyStored = getMaxEUStorage();
+				}
+				getHandler().updateBlock();
+			}
+		}
+		return amount;
 	}
 }

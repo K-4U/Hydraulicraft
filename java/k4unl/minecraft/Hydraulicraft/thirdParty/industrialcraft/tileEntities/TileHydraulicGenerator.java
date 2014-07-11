@@ -132,7 +132,12 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 			ic2EnergyStored = 0;
 		}
 	}
-	
+
+	@Override
+	public int getSourceTier() {
+		return 1;
+	}
+
 	public int getEUStored() {
 		return ic2EnergyStored;
 	}
