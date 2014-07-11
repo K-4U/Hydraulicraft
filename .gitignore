@@ -8,6 +8,8 @@
 *.ear
 
 *.iml
+*.ipr
+*.iws
 
 environment.properties
 *.db
