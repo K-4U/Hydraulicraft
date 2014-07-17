@@ -27,7 +27,7 @@ public class ThirdPartyManager{
     }
 
     public void preInit(){
-        FMLInterModComms.sendMessage("Waila", "register", "k4unl.minecraft.Hydraulicraft.thirdParty.WailaProvider.callbackRegister");
+        //FMLInterModComms.sendMessage("Waila", "register", "k4unl.minecraft.Hydraulicraft.thirdParty.WailaProvider.callbackRegister");
         
         Map<String, Class<? extends IThirdParty>> thirdPartyClasses = new HashMap<String, Class<? extends IThirdParty>>();
         thirdPartyClasses.put("BuildCraft|Core",  Buildcraft.class);

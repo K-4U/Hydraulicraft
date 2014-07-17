@@ -33,17 +33,21 @@ public class GuiPortalBase extends HydraulicGUIBase {
 		//Draw IP address
 		
 		drawHorizontalAlignedString(82 + x, 44 + y, 76, base.getIPString(), false);
-		drawHorizontalAlignedString(82 + x, 24 + y, 76, "IP-address:", false);
-		
-		drawHorizontalAlignedString(0 + x, 24 + y, 76, "Link card:", false);
+		drawMediumString(82 + x, 24 + y, "IP-address:", false);
+
+		drawMediumString(22 + x, 24 + y, "Link card:", false);
+
+		//drawHorizontalAlignedString(18 + x, 24 + y, 76, "Link card:", false);
 		//fontRendererObj.drawString(base.getIPString(), 82 + x, 28+y, 0xFFFFFF, true);
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		drawHorizontalAlignedString(7,5,xSize-14, HCBlocks.portalBase.getLocalizedName(), true);
+		drawFluidAndPressure();
+		checkTooltips(mouseX, mouseY);
 	}
-
+/*
 	public void drawHorizontalAlignedString(int xOffset, int yOffset, int w, String text, boolean useShadow){
 		int stringWidth = fontRendererObj.getStringWidth(text);
 		int newX = xOffset;
@@ -52,6 +56,6 @@ public class GuiPortalBase extends HydraulicGUIBase {
 		}
 		
 		fontRendererObj.drawString(text, newX, yOffset, 0xFFFFFF, useShadow);
-	}
+	}*/
 	
 }

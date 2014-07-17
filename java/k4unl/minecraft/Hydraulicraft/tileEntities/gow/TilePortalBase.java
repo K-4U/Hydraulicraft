@@ -1,8 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.gow;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
@@ -20,6 +19,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TilePortalBase extends TileHydraulicBase implements IInventory, IHydraulicConsumer {
 	private boolean portalFormed;
 	private boolean portalEnabled;
@@ -31,12 +33,18 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 	private long ip;
 	private boolean ipRegistered = false;
 	private int colorIndex = 0;
-	private IBaseClass baseHandler;
+
+
+	private boolean hasInterfaceValve = false;
+	private Location interfaceValveLocation;
+
+	private boolean hasHydraulicValve = false;
+	private Location hydraulicValveLocation;
 	
 	private ItemStack linkingCard;
 	
 	public TilePortalBase(){
-		super(PressureTier.HIGHPRESSURE, 20000);
+		super(PressureTier.HIGHPRESSURE, 200);
 		super.init(this);
 		frames = new ArrayList<Location>();
 	}
@@ -47,7 +55,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 		}
 		if(getWorldObj() != null){
 			String IP = Hydraulicraft.ipList.generateNewRandomIP(getWorldObj().provider.dimensionId);
-			//GlowingOctoWallHack.ipList.registerIP(IPs.ipToLong(IP), new Location(xCoord, yCoord, zCoord, getWorldObj().provider.dimensionId));
+			Hydraulicraft.ipList.registerIP(IPs.ipToLong(IP), new Location(xCoord, yCoord, zCoord, getWorldObj().provider.dimensionId));
 			ipRegistered = false;
 			ip = IPs.ipToLong(IP);
 			getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -70,14 +78,14 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 			linkingCard = ItemStack.loadItemStackFromNBT(linkCardNBT);
 		}
 		ip = tCompound.getLong("ip");
-		if(ip == 0){
+		if(ip == 0 && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
 			genNewIP();
-		}else{
+		}else if(ip != 0){
 			ipRegistered = false;
 		}
 		
 		colorIndex = tCompound.getInteger("colorIndex");
-		
+		hasInterfaceValve = tCompound.getBoolean("hasInterfaceValve");
 		
 		readFramesFromNBT(tCompound);
 	}
@@ -126,13 +134,21 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 		
 		tCompound.setLong("ip", ip);
 		tCompound.setInteger("colorIndex", colorIndex);
-		
+
+		tCompound.setBoolean("hasInterfaceValve", hasInterfaceValve);
+
 		writeFramesToNBT(tCompound);
 	}
 	
 	@Override
 	public void updateEntity(){
 		super.updateEntity();
+
+		if(ip == 0){
+			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+				genNewIP();
+			}
+		}
 		//Every 10 ticks, check for a complete portal.
 		if(getWorldObj().getTotalWorldTime() % 20 == 0 && !getWorldObj().isRemote){
 			if(checkPortalComplete()){
@@ -234,6 +250,9 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 				return false;
 			}
 		}
+
+		//Now check the insides.
+
 		
 		//Log.info("Found a portal. It's " + portalWidth + " wide and " + portalHeight + " high in " + baseDir + " with the portal in the " + portalDir);
 		
@@ -304,7 +323,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 				if(portalEnabled && !getIsRedstonePowered()){
 					portalEnabled = false;
 					disablePortal();
-				}else if(getIsRedstonePowered()){
+				}else if(getIsRedstonePowered() && !portalEnabled && getPressure(ForgeDirection.UP) >= Config.getInt("portalmBarUsagePerTickPerBlock")){
 					portalEnabled = true;
 					enablePortal();
 				}
@@ -478,11 +497,26 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
-		return true;
+		if(!side.equals(ForgeDirection.UP)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
+		if(from.equals(ForgeDirection.UP)){
+			if(getPressure(ForgeDirection.UP) >= Config.getInt("portalmBarUsagePerTickPerBlock")){
+				if(getIsActive()) {
+					return Config.getInt("portalmBarUsagePerTickPerBlock");
+				}
+			}else{
+				if(getIsActive()){
+					disablePortal();
+				}
+			}
+		}
 		return 0;
 	}
 

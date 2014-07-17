@@ -44,22 +44,6 @@ dependencies {
     compile 'net.industrial-craft:industrialcraft-2:2.2.504-experimental:api'
 }
 
-
-
-// some crazy stuff to make sure the chicken stuff is in the mods folder...
-// because it wont work otherwise... because FML doesnt laod coremods from the classpath
-//task copyChicken(type: Copy, dependsOn: "extractUserDev") {
-//    from { configurations.compile }
-//    include "**/*Chicken*.jar", "**/*NotEnoughItems*.jar", "**/ForgeMultipart*.jar"
-//        exclude "**/CodeChickenLib*" // because CCC downloads it anyways.. -_-
-//        into file(minecraft.assetDir + "/../mods") // paralell to the assets dir
-
-//        mustRunAfter "deobfBinJar"
-//        mustRunAfter "repackMinecraft"
-//}
-//tasks.setupDevWorkspace.dependsOn copyChicken
-//tasks.setupDecompWorkspace.dependsOn copyChicken
-
 project.ext {
 	buildNum = System.getenv("BUILD_NUMBER")
 	mcVersion = "1.7.10"
@@ -69,10 +53,8 @@ version = "2.0"
 group= "k4unl.minecraft.Hydraulicraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HydCraft"
 
-
 minecraft {
-	version = "${project.ext.mcVersion}-10.13.0.1179"
-//        assetDir = "../Minecraft/assets"
+	version = "${project.ext.mcVersion}-10.13.0.1180"
 
 		// replacing stuff in the source
 		replace '@VERSION@', project.version
@@ -99,7 +81,6 @@ sourceSets {
 	api {
 		java {
 			srcDir 'api'
-			srcDir '../IGWMod/src'
 		}
 	}
 
@@ -109,14 +90,14 @@ sourceSets {
 processResources
 {
 	inputs.property "version", project.version
-		inputs.property "mcversion", project.minecraft.version
-			inputs.property "buildNum", project.ext.buildNum
+	inputs.property "mcversion", project.minecraft.version
+	inputs.property "buildNum", project.ext.buildNum
 	// replace stuff in mcmod.info, nothing else
 	from(sourceSets.main.resources.srcDirs) {
 		include 'mcmod.info'
 
-			// replace version and mcversion
-			expand 'version':project.version, 'mcversion':project.minecraft.version, 'buildNum':project.ext.buildNum
+		// replace version and mcversion
+		expand 'version':project.version, 'mcversion':project.minecraft.version, 'buildNum':project.ext.buildNum
 	}
 
 	// copy everything else, thats not the mcmod.info

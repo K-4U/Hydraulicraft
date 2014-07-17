@@ -81,6 +81,7 @@ public class Config {
 		configOptions.add(new configOption("maxPortalHeight", 10));
 		configOptions.add(new configOption("maxPortalWidth", 10));
 		configOptions.add(new configOption("portalTimeoutInSeconds", 20));
+		configOptions.add(new configOption("portalmBarUsagePerTickPerBlock", 10));
 	}
 	
 	public static boolean canBeCrushed(ItemStack toCrush){

@@ -61,6 +61,7 @@ public class Hydraulicraft {
 	public static Multipart mp;
 	
 	public static TrueTypeFont smallGuiFont;
+	public static TrueTypeFont mediumGuiFont;
 	
 	public static HydraulicraftRegistrar harvesterTrolleyRegistrar = new HydraulicraftRegistrar();
 	public static IPs ipList = new IPs();

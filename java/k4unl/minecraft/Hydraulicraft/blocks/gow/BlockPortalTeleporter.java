@@ -90,6 +90,7 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
 			long lastInPortal = entCompound.getLong("lastInPortal" + teleporter.getPortalBase().getIPLong());
 			if(world.getTotalWorldTime() - lastInPortal > (Config.getInt("portalTimeoutInSeconds") * 20)){
 				if(teleportLocation != null){
+					teleporter.usePressure();
 					TeleportHelper.teleportEntity(entity, teleportLocation);
 					Random rnd = new Random(System.currentTimeMillis()/1000);
 					double dx = 0.0D;

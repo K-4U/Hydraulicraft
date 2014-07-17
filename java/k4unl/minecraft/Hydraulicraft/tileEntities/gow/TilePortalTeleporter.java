@@ -100,4 +100,8 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 	public boolean isEdge(ForgeDirection dir) {
 		return (new Location(xCoord, yCoord, zCoord, dir).getBlock(getWorldObj()) == HCBlocks.portalFrame);
 	}
+
+	public void usePressure() {
+
+	}
 }

@@ -89,10 +89,10 @@ public class WailaProvider implements IWailaDataProvider {
 	}
 	
 	public static void callbackRegister(IWailaRegistrar registrar){
-		registrar.registerHeadProvider(new WailaProvider(), IHydraulicMachine.class);
+		/*registrar.registerHeadProvider(new WailaProvider(), IHydraulicMachine.class);
 		registrar.registerBodyProvider(new WailaProvider(), IHydraulicMachine.class);
 		registrar.registerTailProvider(new WailaProvider(), IHydraulicMachine.class);
-		registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
+		registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);*/
 		
 		//registrar.registerBodyProvider(new WailaProvider(), Ids.blockHydraulicPump.act);
 	}

@@ -137,6 +137,15 @@ public class HydraulicGUIBase extends GuiContainer {
 
 	}
 
+	public void drawMediumString(int xOffset, int yOffset, String text,
+	                              boolean useShadow) {
+		GL11.glPushMatrix();
+		FontHelper.drawString(text, xOffset, yOffset,
+				Hydraulicraft.mediumGuiFont, 1f, 1f);
+		GL11.glPopMatrix();
+
+	}
+
 	public static void drawVerticalProgressBar(int xOffset, int yOffset, int h,
 			int w, float value, float max, int color) {
 		float perc = value / max;
