@@ -32,10 +32,10 @@ public class GuiPortalBase extends HydraulicGUIBase {
 		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 		//Draw IP address
 		
-		drawHorizontalAlignedString(82 + x, 44 + y, 76, base.getIPString(), false);
-		drawMediumString(82 + x, 24 + y, "IP-address:", false);
+		drawHorizontalAlignedString(65 + x, 44 + y, 76, base.getIPString(), false);
+		drawMediumString(60 + x, 24 + y, "IP-address:", false);
 
-		drawMediumString(22 + x, 24 + y, "Link card:", false);
+		drawMediumString(26 + x, 24 + y, "Link card:", false);
 
 		//drawHorizontalAlignedString(18 + x, 24 + y, 76, "Link card:", false);
 		//fontRendererObj.drawString(base.getIPString(), 82 + x, 28+y, 0xFFFFFF, true);

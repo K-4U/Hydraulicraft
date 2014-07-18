@@ -13,7 +13,7 @@ public class ContainerPortalBase extends Container {
 	
 	public ContainerPortalBase(InventoryPlayer invPlayer, TilePortalBase _base){
 		base = _base;
-		addSlotToContainer(new Slot(_base, 0, 26, 42));
+		addSlotToContainer(new Slot(_base, 0, 31, 42));
 		
 		bindPlayerInventory(invPlayer);
 	}
