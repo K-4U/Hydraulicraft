@@ -13,7 +13,7 @@ public class Constants {
 	//Generators
 	public final static int[] MAX_LAVA_USAGE = {5, 15, 20};
 	
-	public final static float USING_WATER_PENALTY = 0.5F;
+	public final static float USING_WATER_PENALTY = 0.005F;
 	
 	public final static float MIN_PRESSURE_PANE = 10.0F;
 	public final static float PRESSURE_PANE_PER_TICK = 5.0F;
