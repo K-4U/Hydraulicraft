@@ -1,8 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,6 +18,9 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileInterfaceValve extends TileEntity implements ISidedInventory, IFluidHandler {
 	private int targetX;
@@ -351,8 +357,81 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 		}	
 	}
 
-	public void checkTank() {
-		
+	public void checkTank(ForgeDirection sideClicked) {
+		Log.info("Checking tank. Clicked on side " + sideClicked);
+		ForgeDirection tankDir = sideClicked.getOpposite();
+
+		int width = 0;
+		int height = 0;
+		int depth = 0;
+		List<Location> airBlocks = new ArrayList<Location>();
+
+		int minX = 0;
+		int minY = 0;
+		int minZ = 0;
+		int maxX = 0;
+		int maxY = 0;
+		int maxZ = 0;
+
+		Location otherSide = new Location(xCoord, yCoord, zCoord, tankDir);
+		int offset = 0;
+		int size = 0;
+		for(offset = 0; offset < Constants.MAX_TANK_SIZE; offset++){
+			Location testLoc = new Location(otherSide, tankDir, offset);
+			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+				size++;
+				airBlocks.add(testLoc);
+			}else{
+				break;
+			}
+		}
+		Log.info("No blocks found in " + tankDir + " for " + size + " blocks");
+		if(size == Constants.MAX_TANK_SIZE){
+			//Check if there's a block at the end.
+			Location testLoc = new Location(otherSide, tankDir, size);
+			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+				return;
+			}else{
+				Log.info("Valid this way");
+			}
+		}else{
+			Log.info("Valid this way");
+		}
+		if(tankDir.offsetX == 1){
+			minX = otherSide.getX();
+			maxX = new Location(otherSide, tankDir, offset).getX();
+		}
+		if(tankDir.offsetX == -1){
+			maxX = otherSide.getX();
+			minX = new Location(otherSide, tankDir, offset).getX();
+		}
+		if(tankDir.offsetY == 1){
+			minY = otherSide.getY();
+			maxY = new Location(otherSide, tankDir, offset).getY();
+		}
+		if(tankDir.offsetY == -1){
+			maxY = otherSide.getY();
+			minY = new Location(otherSide, tankDir, offset).getY();
+		}
+		if(tankDir.offsetZ == 1){
+			minZ = otherSide.getZ();
+			maxZ = new Location(otherSide, tankDir, offset).getZ();
+		}
+		if(tankDir.offsetZ == -1){
+			maxZ = otherSide.getZ();
+			minZ = new Location(otherSide, tankDir, offset).getZ();
+		}
+		Log.info("X-: " + minX + " X+:" + maxX + " Y-: " + minY + " Y+:" + maxY + " Z-: " + minZ + " Z+:" + maxZ);
+
+		int sizeRemaining = Constants.MAX_TANK_SIZE;
+		if(!tankDir.equals(ForgeDirection.UP) && !tankDir.equals(ForgeDirection.DOWN)){
+			ForgeDirection rotated = tankDir.getRotation(ForgeDirection.UP);
+			Log.info("Rotated=" + rotated);
+		}else{
+			ForgeDirection rotated = tankDir.getRotation(ForgeDirection.NORTH);
+			Log.info("Rotated=" + rotated);
+		}
+
 	}
 
 }
