@@ -239,10 +239,10 @@ public class HydraulicGUIBase extends GuiContainer {
 
 		color = Constants.COLOR_PRESSURE;
 		drawVerticalProgressBar(152, 16, 54, 16,
-				mEnt.getHandler().getPressure(ForgeDirection.UNKNOWN),
-				mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), null),
+				(mEnt.getHandler().getPressure(ForgeDirection.UNKNOWN) / 1000),
+				(mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), null) / 1000),
 				color, Localization.getString(Localization.PRESSURE_ENTRY),
-				"mBar");
+				"Bar");
 	}
 
 	@Override
