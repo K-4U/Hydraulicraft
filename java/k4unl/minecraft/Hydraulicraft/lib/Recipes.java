@@ -542,10 +542,12 @@ public class Recipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.portalBase, 1), true,
 				new Object[] {
 			"III",
-			"EEE",
-			"III",
+			"ECE",
+			"IGI",
 			'I', Items.iron_ingot,
-			'E', Items.ender_pearl
+			'E', Items.ender_pearl,
+			'C', new ItemStack(HCBlocks.blockCore, 1, 2),
+			'G', HCItems.gasket
 		}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.portalFrame, 6), true,
@@ -606,6 +608,14 @@ public class Recipes {
 			'W', new ItemStack(Blocks.wool, 1, 15),
 			'O', new ItemStack(Blocks.wool, 1, 14)
 		}));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.itemEnderLolly, 4), true,
+				new Object[] {
+						"E",
+						"S",
+						'E', Items.ender_pearl,
+						'S', Items.stick
+				}));
 	}
 	
 }

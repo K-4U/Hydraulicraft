@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.gow;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
 import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalEnabled;
@@ -102,6 +103,6 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 	}
 
 	public void usePressure() {
-
+		getPortalBase().getHandler().setPressure(getPortalBase().getPressure(ForgeDirection.UNKNOWN) + Config.getInt("pressurePerTeleport"), ForgeDirection.UP);
 	}
 }
