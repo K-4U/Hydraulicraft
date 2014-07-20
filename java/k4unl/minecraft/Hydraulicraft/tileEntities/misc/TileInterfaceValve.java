@@ -380,22 +380,17 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 			Location testLoc = new Location(otherSide, tankDir, offset);
 			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
 				size++;
-				airBlocks.add(testLoc);
 			}else{
 				break;
 			}
 		}
-		Log.info("No blocks found in " + tankDir + " for " + size + " blocks");
+
 		if(size == Constants.MAX_TANK_SIZE){
 			//Check if there's a block at the end.
 			Location testLoc = new Location(otherSide, tankDir, size);
 			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
 				return;
-			}else{
-				Log.info("Valid this way");
 			}
-		}else{
-			Log.info("Valid this way");
 		}
 		if(tankDir.offsetX == 1){
 			minX = otherSide.getX();
@@ -421,16 +416,177 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 			maxZ = otherSide.getZ();
 			minZ = new Location(otherSide, tankDir, offset).getZ();
 		}
-		Log.info("X-: " + minX + " X+:" + maxX + " Y-: " + minY + " Y+:" + maxY + " Z-: " + minZ + " Z+:" + maxZ);
 
 		int sizeRemaining = Constants.MAX_TANK_SIZE;
+		ForgeDirection rotated;
 		if(!tankDir.equals(ForgeDirection.UP) && !tankDir.equals(ForgeDirection.DOWN)){
-			ForgeDirection rotated = tankDir.getRotation(ForgeDirection.UP);
-			Log.info("Rotated=" + rotated);
+			rotated = tankDir.getRotation(ForgeDirection.UP);
 		}else{
-			ForgeDirection rotated = tankDir.getRotation(ForgeDirection.NORTH);
-			Log.info("Rotated=" + rotated);
+			rotated = tankDir.getRotation(ForgeDirection.NORTH);
 		}
+
+		size = 0;
+		for(offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++){
+			Location testLoc = new Location(otherSide, rotated, offset);
+			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+				size++;
+			}else{
+				break;
+			}
+		}
+		sizeRemaining = Constants.MAX_TANK_SIZE - offset;
+
+		if(size == Constants.MAX_TANK_SIZE){
+			//Check if there's a block at the end.
+			Location testLoc = new Location(otherSide, tankDir, size);
+			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+				return;
+			}
+		}
+
+		if(rotated.offsetX == 1){
+			maxX = new Location(otherSide, rotated, size-1).getX();
+		}
+		if(rotated.offsetX == -1){
+			minX = new Location(otherSide, rotated, size-1).getX();
+		}
+		if(rotated.offsetY == 1){
+			maxY = new Location(otherSide, rotated, size-1).getY();
+		}
+		if(rotated.offsetY == -1){
+			minY = new Location(otherSide, rotated, size-1).getY();
+		}
+		if(rotated.offsetZ == 1){
+			maxZ = new Location(otherSide, rotated, size-1).getZ();
+		}
+		if(rotated.offsetZ == -1){
+			minZ = new Location(otherSide, rotated, size-1).getZ();
+		}
+
+		rotated = rotated.getOpposite();
+		size = 0;
+		for(offset = 0; offset <= sizeRemaining; offset++){
+			Location testLoc = new Location(otherSide, rotated, offset);
+			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+				size++;
+				airBlocks.add(testLoc);
+			}else{
+				break;
+			}
+		}
+		sizeRemaining = Constants.MAX_TANK_SIZE - offset;
+
+		if(size == Constants.MAX_TANK_SIZE){
+			//Check if there's a block at the end.
+			Location testLoc = new Location(otherSide, tankDir, size);
+			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+				return;
+			}
+		}
+
+		if(rotated.offsetX == 1){
+			maxX = new Location(otherSide, rotated, size-1).getX();
+		}
+		if(rotated.offsetX == -1){
+			minX = new Location(otherSide, rotated, size-1).getX();
+		}
+		if(rotated.offsetY == 1){
+			maxY = new Location(otherSide, rotated, size-1).getY();
+		}
+		if(rotated.offsetY == -1){
+			minY = new Location(otherSide, rotated, size-1).getY();
+		}
+		if(rotated.offsetZ == 1){
+			maxZ = new Location(otherSide, rotated, size-1).getZ();
+		}
+		if(rotated.offsetZ == -1){
+			minZ = new Location(otherSide, rotated, size-1).getZ();
+		}
+
+		//Now, rotate it the OTHER way
+		if(!tankDir.equals(ForgeDirection.UP) && !tankDir.equals(ForgeDirection.DOWN)){
+			rotated = tankDir.getRotation(ForgeDirection.EAST);
+		}else{
+			rotated = tankDir.getRotation(ForgeDirection.EAST);
+		}
+
+		size = 0;
+		for(offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++){
+			Location testLoc = new Location(otherSide, rotated, offset);
+			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+				size++;
+			}else{
+				break;
+			}
+		}
+		sizeRemaining = Constants.MAX_TANK_SIZE - offset;
+
+		if(size == Constants.MAX_TANK_SIZE){
+			//Check if there's a block at the end.
+			Location testLoc = new Location(otherSide, tankDir, size);
+			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+				return;
+			}
+		}
+
+		if(rotated.offsetX == 1){
+			maxX = new Location(otherSide, rotated, size-1).getX();
+		}
+		if(rotated.offsetX == -1){
+			minX = new Location(otherSide, rotated, size-1).getX();
+		}
+		if(rotated.offsetY == 1){
+			maxY = new Location(otherSide, rotated, size-1).getY();
+		}
+		if(rotated.offsetY == -1){
+			minY = new Location(otherSide, rotated, size-1).getY();
+		}
+		if(rotated.offsetZ == 1){
+			maxZ = new Location(otherSide, rotated, size-1).getZ();
+		}
+		if(rotated.offsetZ == -1){
+			minZ = new Location(otherSide, rotated, size-1).getZ();
+		}
+
+		rotated = rotated.getOpposite();
+		size = 0;
+		for(offset = 0; offset <= sizeRemaining; offset++){
+			Location testLoc = new Location(otherSide, rotated, offset);
+			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+				size++;
+			}else{
+				break;
+			}
+		}
+		sizeRemaining = Constants.MAX_TANK_SIZE - offset;
+
+		if(size == Constants.MAX_TANK_SIZE){
+			//Check if there's a block at the end.
+			Location testLoc = new Location(otherSide, tankDir, size);
+			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+				return;
+			}
+		}
+
+		if(rotated.offsetX == 1){
+			maxX = new Location(otherSide, rotated, size-1).getX();
+		}
+		if(rotated.offsetX == -1){
+			minX = new Location(otherSide, rotated, size-1).getX();
+		}
+		if(rotated.offsetY == 1){
+			maxY = new Location(otherSide, rotated, size-1).getY();
+		}
+		if(rotated.offsetY == -1){
+			minY = new Location(otherSide, rotated, size-1).getY();
+		}
+		if(rotated.offsetZ == 1){
+			maxZ = new Location(otherSide, rotated, size-1).getZ();
+		}
+		if(rotated.offsetZ == -1){
+			minZ = new Location(otherSide, rotated, size-1).getZ();
+		}
+		Log.info("X-: " + minX + " X+:" + maxX + " Y-: " + minY + " Y+:" + maxY + " Z-: " + minZ + " Z+:" + maxZ);
 
 	}
 
