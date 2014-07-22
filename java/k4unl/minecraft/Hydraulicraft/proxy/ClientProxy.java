@@ -1,11 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.proxy;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.client.renderers.IconSupplier;
 import k4unl.minecraft.Hydraulicraft.client.renderers.Renderers;
 import k4unl.minecraft.Hydraulicraft.events.KeyHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import thirdParty.truetyper.FontLoader;
 
 
@@ -20,6 +22,7 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	public void initRenderers(){
+		MinecraftForge.EVENT_BUS.register(new IconSupplier());
 		Renderers.init();
 		ThirdPartyManager.instance().clientSide();
 	}

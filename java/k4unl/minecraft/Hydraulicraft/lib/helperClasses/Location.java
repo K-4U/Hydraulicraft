@@ -19,6 +19,12 @@ public class Location {
 		this.y = y;
 		this.z = z;
 	}
+
+	public Location(Location clone) {
+		this.x = clone.x;
+		this.y = clone.y;
+		this.z = clone.z;
+	}
 	
 	public Location(int xCoord, int yCoord, int zCoord, ForgeDirection dir) {
 		this.x = xCoord + dir.offsetX;

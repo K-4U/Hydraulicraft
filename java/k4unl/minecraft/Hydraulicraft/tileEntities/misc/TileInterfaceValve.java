@@ -152,6 +152,16 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 		isTank = tagCompound.getBoolean("isTank");
 		tankCorner1 = new Location(tagCompound.getIntArray("tankCorner1"));
 		tankCorner2 = new Location(tagCompound.getIntArray("tankCorner2"));
+		tankScore = tagCompound.getInteger("tankScore");
+		if(tank == null){
+			tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
+		}
+		NBTTagCompound tankCompound = tagCompound.getCompoundTag("tank");
+		if(tankCompound != null){
+			if(tank != null){
+				tank.readFromNBT(tankCompound);
+			}
+		}
 	}
 	
 	
@@ -165,7 +175,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 4, tagCompound);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 5, tagCompound);
 	}
 	
 
@@ -188,24 +198,41 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 		tagCompound.setBoolean("targetHasChanged", targetHasChanged);
 
 		tagCompound.setBoolean("isTank", isTank);
-		tagCompound.setIntArray("tankCorner1", tankCorner1.getIntArray());
-		tagCompound.setIntArray("tankCorner2", tankCorner2.getIntArray());
+		if(isTank == true) {
+			tagCompound.setIntArray("tankCorner1", tankCorner1.getIntArray());
+			tagCompound.setIntArray("tankCorner2", tankCorner2.getIntArray());
+			tagCompound.setInteger("tankScore", tankScore);
+		}
+		NBTTagCompound tankCompound = new NBTTagCompound();
+		if(tank != null){
+			tank.writeToNBT(tankCompound);
+			tagCompound.setTag("tank", tankCompound);
+		}
 	}
 	
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		if(getFluidTarget() != null){
-			return getFluidTarget().fill(from, resource, doFill);
+		if(!isTank) {
+			if (getFluidTarget() != null) {
+				return getFluidTarget().fill(from, resource, doFill);
+			} else {
+				return 0;
+			}
 		}else{
-			return 0;			
+			return tank.fill(resource, doFill);
+
 		}
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource,
 			boolean doDrain) {
-		if(getFluidTarget() != null){
-			return getFluidTarget().drain(from, resource, doDrain);
+		if(!isTank) {
+			if (getFluidTarget() != null) {
+				return getFluidTarget().drain(from, resource, doDrain);
+			} else {
+				return null;
+			}
 		}else{
 			return null;
 		}
@@ -213,37 +240,54 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		if(getFluidTarget() != null){
-			return getFluidTarget().drain(from, maxDrain, doDrain);
+		if(!isTank) {
+			if (getFluidTarget() != null) {
+				return getFluidTarget().drain(from, maxDrain, doDrain);
+			} else {
+				return null;
+			}
 		}else{
-			return null;
+			return tank.drain(maxDrain, doDrain);
 		}
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		if(getFluidTarget() != null){
-			return getFluidTarget().canFill(from, fluid);
+		if(!isTank) {
+			if (getFluidTarget() != null) {
+				return getFluidTarget().canFill(from, fluid);
+			} else {
+				return false;
+			}
 		}else{
-			return false;
+			return true;
 		}
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		if(getFluidTarget() != null){
-			return getFluidTarget().canDrain(from, fluid);
+		if(!isTank) {
+			if (getFluidTarget() != null) {
+				return getFluidTarget().canDrain(from, fluid);
+			} else {
+				return false;
+			}
 		}else{
-			return false;
+			return true;
 		}
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		if(getFluidTarget() != null){
-			return getFluidTarget().getTankInfo(from);
+		if(!isTank) {
+			if (getFluidTarget() != null) {
+				return getFluidTarget().getTankInfo(from);
+			} else {
+				return null;
+			}
 		}else{
-			return null;
+			FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
+			return tankInfo;
 		}
 	}
 
@@ -616,7 +660,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 						}else{
 							//Check what material this tank is made of, it adds to the tankScore.
 							//We should make an array here
-
+							
 						}
 
 					}
@@ -626,8 +670,10 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 		tankCorner1 = new Location(minX, minY, minZ);
 		tankCorner2 = new Location(maxX, maxY, maxZ);
 		isTank = true;
+		tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
 		Log.info("This tank is good!");
 		getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+		getWorldObj().markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
 	}
 
 	public Location getTankCorner1(){

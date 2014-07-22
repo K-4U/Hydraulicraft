@@ -166,7 +166,7 @@ public class RenderHelper {
 		}
 
 		// Top side
-		t.setColorRGBA_F(1.0F, 0.0F, 0.0F, 1.0F);
+		t.setColorRGBA_F(1.0F, 0.0F, 0.0F, 0.7F);
 		t.setNormal(0, 1, 0);
 		t.addVertex(vector.getXMin(), vector.getYMax(), vector.getZMax());
 		t.addVertex(vector.getXMax(), vector.getYMax(), vector.getZMax());
@@ -175,7 +175,7 @@ public class RenderHelper {
 
 		// Bottom side
 		t.setNormal(0, -1, 0);
-		t.setColorRGBA_F(1.0F, 1.0F, 0.0F, 1.0F);
+		t.setColorRGBA_F(1.0F, 1.0F, 0.0F, 0.7F);
 		t.addVertex(vector.getXMax(), vector.getYMin(), vector.getZMax());
 		t.addVertex(vector.getXMin(), vector.getYMin(), vector.getZMax());
 		t.addVertex(vector.getXMin(), vector.getYMin(), vector.getZMin());
@@ -183,7 +183,7 @@ public class RenderHelper {
 
 		// Draw west side:
 		t.setNormal(-1, 0, 0);
-		t.setColorRGBA_F(0.0F, 1.0F, 0.0F, 1.0F);
+		t.setColorRGBA_F(0.0F, 1.0F, 0.0F, 0.7F);
 		t.addVertex(vector.getXMin(), vector.getYMin(), vector.getZMax());
 		t.addVertex(vector.getXMin(), vector.getYMax(), vector.getZMax());
 		t.addVertex(vector.getXMin(), vector.getYMax(), vector.getZMin());
@@ -191,7 +191,7 @@ public class RenderHelper {
 
 		// Draw east side:
 		t.setNormal(1, 0, 0);
-		t.setColorRGBA_F(0.0F, 1.0F, 1.0F, 1.0F);
+		t.setColorRGBA_F(0.0F, 1.0F, 1.0F, 0.7F);
 		t.addVertex(vector.getXMax(), vector.getYMin(), vector.getZMin());
 		t.addVertex(vector.getXMax(), vector.getYMax(), vector.getZMin());
 		t.addVertex(vector.getXMax(), vector.getYMax(), vector.getZMax());
@@ -199,7 +199,7 @@ public class RenderHelper {
 
 		// Draw north side
 		t.setNormal(0, 0, -1);
-		t.setColorRGBA_F(0.0F, 0.0F, 1.0F, 1.0F);
+		t.setColorRGBA_F(0.0F, 0.0F, 1.0F, 0.7F);
 		t.addVertex(vector.getXMin(), vector.getYMin(), vector.getZMin());
 		t.addVertex(vector.getXMin(), vector.getYMax(), vector.getZMin());
 		t.addVertex(vector.getXMax(), vector.getYMax(), vector.getZMin());
@@ -207,7 +207,7 @@ public class RenderHelper {
 
 		// Draw south side
 		t.setNormal(0, 0, 1);
-		t.setColorRGBA_F(0.0F, 0.0F, 0.0F, 1.0F);
+		t.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.7F);
 		t.addVertex(vector.getXMin(), vector.getYMin(), vector.getZMax());
 		t.addVertex(vector.getXMax(), vector.getYMin(), vector.getZMax());
 		t.addVertex(vector.getXMax(), vector.getYMax(), vector.getZMax());
@@ -220,14 +220,13 @@ public class RenderHelper {
 	
 	public static void drawTesselatedCubeWithTexture(Vector3fMax vector, IIcon icon){
 		Tessellator tessellator = Tessellator.instance;
-		
-		
-		/*if(!tessellator.isDrawing){
-			
-			wasTesselating = false;
-		}*/
-		tessellator.startDrawingQuads();
-		
+
+		boolean wasTesselating = false;
+		try {
+			tessellator.startDrawingQuads();
+		} catch (IllegalStateException e) {
+			wasTesselating = true;
+		}
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 		
 		tessellator.setTextureUV(icon.getMinU(), icon.getMinV());
@@ -237,44 +236,50 @@ public class RenderHelper {
 		float U = icon.getMaxU();
 		float V = icon.getMaxV();
 		//Top side
+		tessellator.setNormal(0, 1, 0);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMax(), vector.getZMax(), u, v);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMax(), vector.getZMax(), u, V);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMax(), vector.getZMin(), U, V);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMax(), vector.getZMin(), U, v);
 		
 		//Bottom side
+		tessellator.setNormal(0, -1, 0);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMin(), vector.getZMax(), u, v);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMin(), vector.getZMax(), u, V);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMin(), vector.getZMin(), U, V);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMin(), vector.getZMin(), U, v);
 		
 		//Draw west side:
+		tessellator.setNormal(-1, 0, 0);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMin(), vector.getZMax(), u, v);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMax(), vector.getZMax(), u, V);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMax(), vector.getZMin(), U, V);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMin(), vector.getZMin(), U, v);
 		
 		//Draw east side:
+		tessellator.setNormal(1, 0, 0);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMin(), vector.getZMin(), u, v);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMax(), vector.getZMin(), u, V);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMax(), vector.getZMax(), U, V);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMin(), vector.getZMax(), U, v);
 		
 		//Draw north side
+		tessellator.setNormal(0, 0, -1);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMin(), vector.getZMin(), u, v); 
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMax(), vector.getZMin(), u, V);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMax(), vector.getZMin(), U, V);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMin(), vector.getZMin(), U, v);
 
 		//Draw south side
+		tessellator.setNormal(0, 0, 1);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMin(), vector.getZMax(), u, v);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMin(), vector.getZMax(), u, V);
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMax(), vector.getZMax(), U, V);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMax(), vector.getZMax(), U, v);
-		
-		//if(!wasTesselating){
+
+		if (!wasTesselating) {
 			tessellator.draw();
-		//}
+		}
 	}	
 		
 	public static void drawTexturedCube(Vector3fMax vector){
