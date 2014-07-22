@@ -1,0 +1,141 @@
+buildscript {
+    repositories {
+        mavenCentral()
+            maven {
+                name = "forge"
+                    url = "http://files.minecraftforge.net/maven"
+            }
+        maven {
+            name = "sonatype"
+                url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+
+repositories {
+    maven { // The repo from which to get waila
+        name "Mobius Repo"
+            url "http://mobiusstrip.eu/maven"
+    }
+    maven { // the repo from which to get NEI and stuff
+        name 'CB Repo'
+            url "http://chickenbones.net/maven/"
+    }
+    maven {
+        name = "ic2"
+            url = "http://maven.ic2.player.to/"
+    }
+}
+
+
+apply plugin: 'forge'
+
+dependencies {
+    compile "codechicken:CodeChickenLib:1.7.2-1.1.1.92:dev"
+	compile "codechicken:CodeChickenCore:1.7.2-1.0.2.10:dev"
+	compile "codechicken:NotEnoughItems:1.7.2-1.0.2.14:dev"
+	compile "codechicken:ForgeMultipart:1.7.2-1.1.0.283:dev"
+	compile "mcp.mobius.waila:Waila:1.5.2a"
+    //compile 'com.mod-buildcraft:buildcraft:5.0.6:dev'
+	compile 'net.industrial-craft:industrialcraft-2:2.2.504-experimental:api'
+}
+
+project.ext {
+    buildNum = System.getenv("BUILD_NUMBER")
+	//buildNum = 9
+    mcVersion = "1.7.2"
+}
+
+version = "2.0"
+group= "k4unl.minecraft.Hydraulicraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "HydCraft"
+
+minecraft {
+    version = "${project.ext.mcVersion}-10.12.2.1147"
+
+        // replacing stuff in the source
+        replace '@VERSION@', project.version
+        replace '@MC_VERSION@', version
+        replace '@BUILD_NUMBER@', project.ext.buildNum
+}
+
+
+// configure the source folders
+sourceSets {
+    main {
+        java {
+            srcDir 'java'
+                // exclude 'some exclusion'
+                // include 'some inclusion'
+        }
+        resources {
+            srcDir 'resources'
+                exclude '**/.md' // exclude readme from localization repo
+                // exclude 'some exclusion'
+                // include 'some inclusion'
+        }
+    }
+    api {
+        java {
+            srcDir 'api'
+        }
+    }
+
+}
+
+
+processResources
+{
+    inputs.property "version", project.version
+        inputs.property "mcversion", project.minecraft.version
+        inputs.property "buildNum", project.ext.buildNum
+        // replace stuff in mcmod.info, nothing else
+        from(sourceSets.main.resources.srcDirs) {
+            include 'mcmod.info'
+
+                // replace version and mcversion
+                expand 'version':project.version, 'mcversion':project.minecraft.version, 'buildNum':project.ext.buildNum
+        }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+    //This makes sure that it gets run EVERY time
+    outputs.upToDateWhen {false}
+}
+
+
+jar {
+    appendix = "${project.ext.mcVersion}"
+        classifier = "${project.ext.buildNum}"
+}
+
+task deobfJar(type: Jar) {
+    from(sourceSets.main.output) {
+        appendix = "${project.ext.mcVersion}"
+        classifier = "${project.ext.buildNum}-deobf"
+    }
+}
+
+// Create API library zip
+task apiZip(type: Zip) {
+    from sourceSets.main.java
+    include 'k4unl/minecraft/Hydraulicraft/api/**'
+    destinationDir = file 'output'
+
+    appendix = "${project.ext.mcVersion}"
+    classifier = "${project.ext.buildNum}-api"
+}
+
+apiZip.mustRunAfter deobfJar
+
+
+artifacts {
+    archives deobfJar
+        archives apiZip
+}
