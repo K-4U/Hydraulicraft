@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.RendererHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.RendererMovingPane;
@@ -20,6 +21,7 @@ import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicLav
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicPistonItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererHydraulicPumpItem;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.RendererPartValveItem;
+import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
@@ -49,8 +51,6 @@ public class Renderers {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicPump.class, new RendererHydraulicPump());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TilePressureHose.class, new RendererPartHose());
-		
-		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileMovingPane.class, new RendererMovingPane());
 		
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.hydraulicPiston), new RendererHydraulicPistonItem());
@@ -62,7 +62,6 @@ public class Renderers {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.blockHose),  new RendererHydraulicHoseItem());
 		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartHose,  new RendererHydraulicHoseItem());
 		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartValve,  new RendererPartValveItem());
-		//MinecraftForgeClient.registerItemRenderer(Ids.partValve.act+256,  new RendererPartValveItem());*/
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TilePortalBase.class, new RendererPortalBase());
 		ClientRegistry.bindTileEntitySpecialRenderer(TilePortalFrame.class, new RendererPortalFrame());
@@ -70,5 +69,8 @@ public class Renderers {
 		
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.portalBase), new ItemRendererPortalBase());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.portalFrame), new ItemRendererPortalFrame());
+
+		RenderingRegistry.registerBlockHandler(new RendererInterfaceValve());
+
 	}
 }

@@ -145,7 +145,78 @@ public class RenderHelper {
 		GL11.glVertex3f(vector.getXMax(), vector.getYMin(), vector.getZMax());
 		GL11.glVertex3f(vector.getXMax(), vector.getYMax(), vector.getZMax());
 		GL11.glVertex3f(vector.getXMin(), vector.getYMax(), vector.getZMax());
-	}	
+	}
+
+	/**
+	 * Draws a cube with the size of vector. Every face has the same color This uses the Tessellator
+	 *
+	 * @author Koen Beckers (K4Unl)
+	 * @param vector
+	 */
+	public static void drawTesselatedCube(Vector3fMax vector) {
+
+		Tessellator t = Tessellator.instance;
+		boolean wasTesselating = false;
+
+		// Check if we were already tesselating
+		try {
+			t.startDrawingQuads();
+		} catch (IllegalStateException e) {
+			wasTesselating = true;
+		}
+
+		// Top side
+		t.setColorRGBA_F(1.0F, 0.0F, 0.0F, 1.0F);
+		t.setNormal(0, 1, 0);
+		t.addVertex(vector.getXMin(), vector.getYMax(), vector.getZMax());
+		t.addVertex(vector.getXMax(), vector.getYMax(), vector.getZMax());
+		t.addVertex(vector.getXMax(), vector.getYMax(), vector.getZMin());
+		t.addVertex(vector.getXMin(), vector.getYMax(), vector.getZMin());
+
+		// Bottom side
+		t.setNormal(0, -1, 0);
+		t.setColorRGBA_F(1.0F, 1.0F, 0.0F, 1.0F);
+		t.addVertex(vector.getXMax(), vector.getYMin(), vector.getZMax());
+		t.addVertex(vector.getXMin(), vector.getYMin(), vector.getZMax());
+		t.addVertex(vector.getXMin(), vector.getYMin(), vector.getZMin());
+		t.addVertex(vector.getXMax(), vector.getYMin(), vector.getZMin());
+
+		// Draw west side:
+		t.setNormal(-1, 0, 0);
+		t.setColorRGBA_F(0.0F, 1.0F, 0.0F, 1.0F);
+		t.addVertex(vector.getXMin(), vector.getYMin(), vector.getZMax());
+		t.addVertex(vector.getXMin(), vector.getYMax(), vector.getZMax());
+		t.addVertex(vector.getXMin(), vector.getYMax(), vector.getZMin());
+		t.addVertex(vector.getXMin(), vector.getYMin(), vector.getZMin());
+
+		// Draw east side:
+		t.setNormal(1, 0, 0);
+		t.setColorRGBA_F(0.0F, 1.0F, 1.0F, 1.0F);
+		t.addVertex(vector.getXMax(), vector.getYMin(), vector.getZMin());
+		t.addVertex(vector.getXMax(), vector.getYMax(), vector.getZMin());
+		t.addVertex(vector.getXMax(), vector.getYMax(), vector.getZMax());
+		t.addVertex(vector.getXMax(), vector.getYMin(), vector.getZMax());
+
+		// Draw north side
+		t.setNormal(0, 0, -1);
+		t.setColorRGBA_F(0.0F, 0.0F, 1.0F, 1.0F);
+		t.addVertex(vector.getXMin(), vector.getYMin(), vector.getZMin());
+		t.addVertex(vector.getXMin(), vector.getYMax(), vector.getZMin());
+		t.addVertex(vector.getXMax(), vector.getYMax(), vector.getZMin());
+		t.addVertex(vector.getXMax(), vector.getYMin(), vector.getZMin());
+
+		// Draw south side
+		t.setNormal(0, 0, 1);
+		t.setColorRGBA_F(0.0F, 0.0F, 0.0F, 1.0F);
+		t.addVertex(vector.getXMin(), vector.getYMin(), vector.getZMax());
+		t.addVertex(vector.getXMax(), vector.getYMin(), vector.getZMax());
+		t.addVertex(vector.getXMax(), vector.getYMax(), vector.getZMax());
+		t.addVertex(vector.getXMin(), vector.getYMax(), vector.getZMax());
+
+		if (!wasTesselating) {
+			t.draw();
+		}
+	}
 	
 	public static void drawTesselatedCubeWithTexture(Vector3fMax vector, IIcon icon){
 		Tessellator tessellator = Tessellator.instance;

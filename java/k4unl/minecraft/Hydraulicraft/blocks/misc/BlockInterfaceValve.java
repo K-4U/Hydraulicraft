@@ -1,7 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.blocks.misc;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,6 +33,13 @@ public class BlockInterfaceValve extends HydraulicBlockContainerBase {
 			valve.checkTank(s);
 		}
 		return false;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderType() {
+
+		return RendererInterfaceValve.RENDER_ID;
 	}
 
 }

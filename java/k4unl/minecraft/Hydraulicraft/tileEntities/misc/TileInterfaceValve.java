@@ -4,6 +4,8 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
@@ -14,26 +16,22 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileInterfaceValve extends TileEntity implements ISidedInventory, IFluidHandler {
+public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISidedInventory, IFluidHandler {
 	private int targetX;
 	private int targetY;
 	private int targetZ;
 	private boolean targetHasChanged = true;
 	
 	private boolean isTank = false;
-	private int tankSizeX = 0;
-	private int tankSizeY = 0;
-	private int tankSizeZ = 0;
 	private Location tankCorner1;
 	private Location tankCorner2;
+	private int tankScore = 0;
+	private FluidTank tank;
 	
 	
 	private IHydraulicConsumer target;
@@ -41,7 +39,9 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 	private ISidedInventory inventoryTarget;
 	private boolean clientNeedsToResetTarget = false;
 	private boolean clientNeedsToSetTarget = false;
-	
+
+	//TODO: Use PlayerInteractEvent for detection of right clicking.
+
 	public void resetTarget(){
 		target = null;
 		targetX = xCoord;
@@ -149,6 +149,9 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 				getTarget();
 			}
 		}
+		isTank = tagCompound.getBoolean("isTank");
+		tankCorner1 = new Location(tagCompound.getIntArray("tankCorner1"));
+		tankCorner2 = new Location(tagCompound.getIntArray("tankCorner2"));
 	}
 	
 	
@@ -183,6 +186,10 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 			clientNeedsToSetTarget = false;
 		}
 		tagCompound.setBoolean("targetHasChanged", targetHasChanged);
+
+		tagCompound.setBoolean("isTank", isTank);
+		tagCompound.setIntArray("tankCorner1", tankCorner1.getIntArray());
+		tagCompound.setIntArray("tankCorner2", tankCorner2.getIntArray());
 	}
 	
 	@Override
@@ -364,7 +371,7 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 		int width = 0;
 		int height = 0;
 		int depth = 0;
-		List<Location> airBlocks = new ArrayList<Location>();
+
 
 		int minX = 0;
 		int minY = 0;
@@ -394,27 +401,27 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 		}
 		if(tankDir.offsetX == 1){
 			minX = otherSide.getX();
-			maxX = new Location(otherSide, tankDir, offset).getX();
+			maxX = new Location(otherSide, tankDir, offset-1).getX();
 		}
 		if(tankDir.offsetX == -1){
 			maxX = otherSide.getX();
-			minX = new Location(otherSide, tankDir, offset).getX();
+			minX = new Location(otherSide, tankDir, offset-1).getX();
 		}
 		if(tankDir.offsetY == 1){
 			minY = otherSide.getY();
-			maxY = new Location(otherSide, tankDir, offset).getY();
+			maxY = new Location(otherSide, tankDir, offset-1).getY();
 		}
 		if(tankDir.offsetY == -1){
 			maxY = otherSide.getY();
-			minY = new Location(otherSide, tankDir, offset).getY();
+			minY = new Location(otherSide, tankDir, offset-1).getY();
 		}
 		if(tankDir.offsetZ == 1){
 			minZ = otherSide.getZ();
-			maxZ = new Location(otherSide, tankDir, offset).getZ();
+			maxZ = new Location(otherSide, tankDir, offset-1).getZ();
 		}
 		if(tankDir.offsetZ == -1){
 			maxZ = otherSide.getZ();
-			minZ = new Location(otherSide, tankDir, offset).getZ();
+			minZ = new Location(otherSide, tankDir, offset-1).getZ();
 		}
 
 		int sizeRemaining = Constants.MAX_TANK_SIZE;
@@ -469,7 +476,6 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 			Location testLoc = new Location(otherSide, rotated, offset);
 			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
 				size++;
-				airBlocks.add(testLoc);
 			}else{
 				break;
 			}
@@ -588,6 +594,51 @@ public class TileInterfaceValve extends TileEntity implements ISidedInventory, I
 		}
 		Log.info("X-: " + minX + " X+:" + maxX + " Y-: " + minY + " Y+:" + maxY + " Z-: " + minZ + " Z+:" + maxZ);
 
+		List<Location> airBlocks = new ArrayList<Location>();
+		tankScore = 0;
+		//Now.. Get all the blocks that are there:
+		for(int x = minX-1; x <= maxX+1; x++){
+			for(int y = minY-1; y <= maxY+1; y++){
+				for(int z = minZ-1; z <= maxZ+1; z++){
+					Block bl = getWorldObj().getBlock(x,y,z);
+					if((x >= minX && x <= maxX) && (y >= minY && y <= maxY) && (z >= minZ && z <= maxZ)){
+						if(bl == Blocks.air){
+							airBlocks.add(new Location(x,y,z));
+							tankScore++;//For every air block, we add one to the tankScore
+						}else{
+							Log.info("Sorry, we detected a non-air block at " + (new Location(x,y,z)).print());
+							return;
+						}
+					}else{
+						if(bl == Blocks.air){
+							Log.info("Sorry, we detected an air block at " + (new Location(x,y,z)).print());
+							return;
+						}else{
+							//Check what material this tank is made of, it adds to the tankScore.
+							//We should make an array here
+
+						}
+
+					}
+				}
+			}
+		}
+		tankCorner1 = new Location(minX, minY, minZ);
+		tankCorner2 = new Location(maxX, maxY, maxZ);
+		isTank = true;
+		Log.info("This tank is good!");
+		getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
+	public Location getTankCorner1(){
+		return tankCorner1;
+	}
+
+	public Location getTankCorner2(){
+		return tankCorner2;
+	}
+
+	public boolean isValidTank() {
+		return isTank;
+	}
 }
