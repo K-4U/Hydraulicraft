@@ -39,7 +39,7 @@ dependencies {
         compile "codechicken:CodeChickenCore:1.7.10-1.0.2.11:dev"
         compile "codechicken:NotEnoughItems:1.7.10-1.0.2.26:dev"
         compile "codechicken:ForgeMultipart:1.7.10-1.1.0.297:dev"
-        compile "mcp.mobius.waila:Waila:1.5.2a"
+        compile "mcp.mobius.waila:Waila:1.5.3_1.7.10"
         compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
         compile 'net.industrial-craft:industrialcraft-2:2.2.504-experimental:api'
 }
