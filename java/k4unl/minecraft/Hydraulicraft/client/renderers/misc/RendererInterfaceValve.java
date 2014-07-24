@@ -12,12 +12,17 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidTankInfo;
 import org.lwjgl.opengl.GL11;
 
-public class RendererInterfaceValve implements ISimpleBlockRenderingHandler {
+public class RendererInterfaceValve extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler  {
 
     public static final int   RENDER_ID         = RenderingRegistry.getNextAvailableRenderId();
     public static final Block FAKE_RENDER_BLOCK = new Block(Material.rock) {
@@ -89,6 +94,7 @@ public class RendererInterfaceValve implements ISimpleBlockRenderingHandler {
 		    float U = icon.getMaxU();
 		    float V = icon.getMaxV();
 		    Tessellator tessellator = Tessellator.instance;
+
 		    for(int xR = 0; xR < outerXDifference; xR++){
 			    for(int yR = 0; yR < outerYDifference; yR++) {
 				    //Draw north side
@@ -160,4 +166,76 @@ public class RendererInterfaceValve implements ISimpleBlockRenderingHandler {
 
         return RENDER_ID;
     }
+
+	@Override
+	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
+	                               double z, float f) {
+		TileInterfaceValve t = (TileInterfaceValve) tileentity;
+		//Get metadata for rotation:
+		int rotation = 0;//t.getDir();
+		int metadata = t.getBlockMetadata();
+
+		doRender(t, (float) x, (float) y, (float) z, f, rotation, metadata);
+	}
+
+	public void doRender(TileInterfaceValve t, float x, float y,
+	                     float z, float f, int rotation, int metadata){
+
+		GL11.glPushMatrix();
+		GL11.glTranslatef(x, y, z);
+
+//		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
+
+
+
+		if(t.isValidTank()) {
+			FluidTankInfo tankInfo = t.getTankInfo(ForgeDirection.UNKNOWN)[0];
+			Location corner1 = t.getTankCorner1();
+			Location corner2 = t.getTankCorner2();
+
+			int innerXDifference = 0;
+			int innerYDifference = 0;
+			int innerZDifference = 0;
+			int locationDifferenceX = t.xCoord - corner1.getX();
+			int locationDifferenceY = t.yCoord - corner1.getY();
+			int locationDifferenceZ = t.zCoord - corner1.getZ();
+
+
+			innerXDifference = corner2.getX() - corner1.getX() + 1;
+			innerYDifference = corner2.getY() - corner1.getY() + 1;
+			innerZDifference = corner2.getZ() - corner1.getZ() + 1;
+
+			GL11.glTranslatef(-locationDifferenceX, -locationDifferenceY, -locationDifferenceZ);
+
+			//GL11.glColor3f(1.0F, 1.0F, 1.0F);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
+			GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
+			//GL11.glBegin(GL11.GL_QUADS);
+
+
+			Vector3fMax insides = new Vector3fMax(0.001F, -0.001F, 0.001F, innerXDifference - 0.001F, -0.001F, innerZDifference - 0.001F);
+			float percentage;
+			if(tankInfo != null){
+				if(tankInfo.fluid != null){
+					percentage = (float)tankInfo.fluid.amount / (float)tankInfo.capacity;
+					insides.setYMax(percentage * innerYDifference);
+					IIcon fluidIcon = tankInfo.fluid.getFluid().getIcon();
+					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+					RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+				}
+			}
+			GL11.glDisable(GL11.GL_BLEND);
+
+			//RenderHelper.drawColoredCube(insides);
+			//GL11.glEnd();
+
+
+		}
+
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glPopMatrix();
+	}
 }
+

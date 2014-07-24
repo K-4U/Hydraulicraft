@@ -152,7 +152,10 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 		isTank = tagCompound.getBoolean("isTank");
 		tankCorner1 = new Location(tagCompound.getIntArray("tankCorner1"));
 		tankCorner2 = new Location(tagCompound.getIntArray("tankCorner2"));
-		tankScore = tagCompound.getInteger("tankScore");
+		if(tankScore != tagCompound.getInteger("tankScore")) {
+			tankScore = tagCompound.getInteger("tankScore");
+			tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
+		}
 		if(tank == null){
 			tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
 		}
@@ -219,6 +222,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 				return 0;
 			}
 		}else{
+			getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 			return tank.fill(resource, doFill);
 
 		}
@@ -247,6 +251,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 				return null;
 			}
 		}else{
+			getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 			return tank.drain(maxDrain, doDrain);
 		}
 	}
@@ -411,10 +416,6 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 	public void checkTank(ForgeDirection sideClicked) {
 		Log.info("Checking tank. Clicked on side " + sideClicked);
 		ForgeDirection tankDir = sideClicked.getOpposite();
-
-		int width = 0;
-		int height = 0;
-		int depth = 0;
 
 
 		int minX = 0;

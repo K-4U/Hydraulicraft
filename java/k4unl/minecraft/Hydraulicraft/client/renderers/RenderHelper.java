@@ -221,11 +221,11 @@ public class RenderHelper {
 	public static void drawTesselatedCubeWithTexture(Vector3fMax vector, IIcon icon){
 		Tessellator tessellator = Tessellator.instance;
 
-		boolean wasTesselating = false;
+		boolean wasTessellating = false;
 		try {
 			tessellator.startDrawingQuads();
 		} catch (IllegalStateException e) {
-			wasTesselating = true;
+			wasTessellating = true;
 		}
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 		
@@ -277,7 +277,7 @@ public class RenderHelper {
 		tessellator.addVertexWithUV(vector.getXMax(), vector.getYMax(), vector.getZMax(), U, V);
 		tessellator.addVertexWithUV(vector.getXMin(), vector.getYMax(), vector.getZMax(), U, v);
 
-		if (!wasTesselating) {
+		if (!wasTessellating) {
 			tessellator.draw();
 		}
 	}	

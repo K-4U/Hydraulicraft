@@ -148,7 +148,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMax(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMax(), 248F/256F, 206F/256F); //BR
 		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMax(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMin(), 248F/256F, 104F/256F);  //TR
 		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMin(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMin(), 188F/256F, 104F/256F);  //TL
-		
+
 		//RenderHelper.tesselatorDraw();
 		GL11.glEnd();
 		GL11.glDisable(GL11.GL_BLEND);

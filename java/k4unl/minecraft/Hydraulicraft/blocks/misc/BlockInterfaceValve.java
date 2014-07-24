@@ -9,8 +9,10 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 public class BlockInterfaceValve extends HydraulicBlockContainerBase {
 
@@ -29,8 +31,21 @@ public class BlockInterfaceValve extends HydraulicBlockContainerBase {
 
 		if(FMLCommonHandler.instance().getEffectiveSide().isServer()) {
 			TileInterfaceValve valve = (TileInterfaceValve) world.getTileEntity(x, y, z);
-			ForgeDirection s = ForgeDirection.getOrientation(side);
-			valve.checkTank(s);
+			if(!valve.isValidTank()) {
+				ForgeDirection s = ForgeDirection.getOrientation(side);
+				valve.checkTank(s);
+			}else{
+				player.addChatComponentMessage(new ChatComponentText("In this tank: "));
+				FluidTankInfo tankInfo = valve.getTankInfo(ForgeDirection.UP)[0];
+				if(tankInfo != null) {
+					if(tankInfo.fluid == null){
+						player.addChatComponentMessage(new ChatComponentText("Capacity: " + tankInfo.capacity));
+					}else {
+						player.addChatComponentMessage(new ChatComponentText(tankInfo.fluid.getFluid().getName()));
+						player.addChatComponentMessage(new ChatComponentText(tankInfo.fluid.amount + "/" + tankInfo.capacity));
+					}
+				}
+			}
 		}
 		return false;
 	}
