@@ -55,14 +55,23 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 				}
 			}
 			if(!worldObj.isRemote){
+                Boolean isItemFuel = TileEntityFurnace.isItemFuel(inventory);
 				if(currentBurnTime <= 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure(from) < getMaxPressure(getHandler().isOilStored(), from)){
 					//Put new item in
 					currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory)+1;
 					if(inventory != null){
-						inventory.stackSize--;
-						if(inventory.stackSize <= 0){
-							inventory = inventory.getItem().getContainerItem(inventory);
-						}
+                        ItemStack containerItem = inventory.getItem()
+                                .getContainerItem(inventory);
+
+                        if(containerItem == null){
+                            inventory.stackSize--;
+                            if(inventory.stackSize == 0){
+                                inventory = null;
+                            }
+                        }else{
+                            inventory = containerItem.copy();
+                        }
+
 						needsUpdate = true;
 					}
 				}
