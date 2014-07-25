@@ -1,9 +1,12 @@
 package k4unl.minecraft.Hydraulicraft;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
-
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicraftRegistrar;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
@@ -11,13 +14,7 @@ import k4unl.minecraft.Hydraulicraft.events.EventHelper;
 import k4unl.minecraft.Hydraulicraft.events.TickHandler;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
-import k4unl.minecraft.Hydraulicraft.lib.ConfigHandler;
-import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
-import k4unl.minecraft.Hydraulicraft.lib.HydraulicraftRegistrar;
-import k4unl.minecraft.Hydraulicraft.lib.IPs;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.Recipes;
-import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
+import k4unl.minecraft.Hydraulicraft.lib.*;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
@@ -26,20 +23,16 @@ import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.world.OreGenerator;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
 import thirdParty.truetyper.TrueTypeFont;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
 
 @Mod(
 	modid = ModInfo.ID,
@@ -91,6 +84,20 @@ public class Hydraulicraft {
 		
 		Multipart.init();
 		TickHandler.init();
+
+        NBTTagCompound toRegister = new NBTTagCompound();
+        ItemStack beginStack = new ItemStack(Blocks.sand, 1);
+        ItemStack endStack = new ItemStack(Items.diamond, 10);
+        NBTTagCompound itemFrom = new NBTTagCompound();
+        beginStack.writeToNBT(itemFrom);
+        NBTTagCompound itemTo = new NBTTagCompound();
+        endStack.writeToNBT(itemTo);
+
+        toRegister.setTag("itemFrom", itemFrom);
+        toRegister.setTag("itemTo", itemTo);
+        toRegister.setFloat("pressureRatio", 1.0F);
+        FMLInterModComms.sendMessage("HydCraft", "registerCrushingRecipe",
+                toRegister);
 		
 	}
 	
@@ -132,24 +139,37 @@ public class Hydraulicraft {
         List<FMLInterModComms.IMCMessage> messages = event.getMessages();
         for(FMLInterModComms.IMCMessage message : messages) {
             try {
-                Class clazz = Class.forName(message.key);
-                try {
-                    Method method = clazz.getMethod(message.getStringValue(), IHydraulicraftRegistrar.class);
+                if(message.key.equals("registerCrushingRecipe")){
+                    NBTTagCompound toRegister = message.getNBTValue();
+
+                    ItemStack from = ItemStack.loadItemStackFromNBT
+                            (toRegister.getCompoundTag("itemFrom"));
+                    ItemStack to = ItemStack.loadItemStackFromNBT
+                            (toRegister.getCompoundTag("itemTo"));
+                    float pressureRatio = toRegister.getFloat("pressureRatio");
+                    CrushingRecipes.addCrushingRecipe(new CrushingRecipes
+                            .CrushingRecipe(from, pressureRatio,
+                            to));
+                }else{
+                    Class clazz = Class.forName(message.key);
                     try {
-                        method.invoke(null, Hydraulicraft.harvesterTrolleyRegistrar);
-                        Log.info("Successfully gave " + message.getSender() + " a nudge! Happy to be doing business!");
-                    } catch(IllegalAccessException e) {
+                        Method method = clazz.getMethod(message.getStringValue(), IHydraulicraftRegistrar.class);
+                        try {
+                            method.invoke(null, Hydraulicraft.harvesterTrolleyRegistrar);
+                            Log.info("Successfully gave " + message.getSender() + " a nudge! Happy to be doing business!");
+                        } catch(IllegalAccessException e) {
+                            Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method can NOT be accessed: " + message.getStringValue());
+                        } catch(IllegalArgumentException e) {
+                            Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method has no single IHydraulicraftRegistrar argument or it isn't static: " + message.getStringValue());
+                        } catch(InvocationTargetException e) {
+                            Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method threw an exception: " + message.getStringValue());
+                            e.printStackTrace();
+                        }
+                    } catch(NoSuchMethodException e) {
+                        Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method can NOT be found: " + message.getStringValue());
+                    } catch(SecurityException e) {
                         Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method can NOT be accessed: " + message.getStringValue());
-                    } catch(IllegalArgumentException e) {
-                        Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method has no single IHydraulicraftRegistrar argument or it isn't static: " + message.getStringValue());
-                    } catch(InvocationTargetException e) {
-                        Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method threw an exception: " + message.getStringValue());
-                        e.printStackTrace();
                     }
-                } catch(NoSuchMethodException e) {
-                    Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method can NOT be found: " + message.getStringValue());
-                } catch(SecurityException e) {
-                    Log.error(message.getSender() + " tried to register to HydCraft. Failed because the method can NOT be accessed: " + message.getStringValue());
                 }
             } catch(ClassNotFoundException e) {
                 Log.error(message.getSender() + " tried to register to HydCraft. Failed because the class can NOT be found: " + message.key);
@@ -170,3 +190,5 @@ public class Hydraulicraft {
 	}
 	
 }
+
+
