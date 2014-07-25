@@ -232,7 +232,7 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
                     for(int xR = 0; xR < innerXDifference; xR++){
                         for(int zR = 0; zR < innerZDifference; zR++){
 
-                            for(int zY = 0; zY <= height; zY++){
+                            for(int zY = 0; zY < height; zY++){
                                 Vector3fMax insides = new Vector3fMax(xR + 0.001F,
                                         zY + 0.001F, zR + 0.001F,
                                         xR - 0.001F + 1, -0.001F,
@@ -240,15 +240,19 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
                                 insides.setYMax(zY - 0.001F + 1);
                                 RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
                             }
-                            Vector3fMax insides = new Vector3fMax(xR + 0.001F,
-                                    height + 0.001F + 1, zR + 0.001F,
-                                    xR - 0.001F + 1, -0.001F,
-                                    zR - 0.001F + 1);
-                            insides.setYMax(height - 0.001F + ((percentage *
-                                    (float)innerYDifference) % 1.0F) + 1);
+                            if((percentage * (float)innerYDifference) % 1.0F
+                                    >= 0.01F){
+                                Vector3fMax insides = new Vector3fMax(xR + 0.001F,
+                                        height + 0.001F, zR + 0.001F,
+                                        xR - 0.001F + 1, -0.001F,
+                                        zR - 0.001F + 1);
+                                insides.setYMax(height - 0.001F + ((percentage *
+                                        (float)innerYDifference) % 1.0F));
 
 
-                            RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+                                RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+                            }
+
                         }
                     }
 

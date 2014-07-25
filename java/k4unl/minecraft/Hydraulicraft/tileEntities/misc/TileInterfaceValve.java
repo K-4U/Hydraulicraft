@@ -555,10 +555,11 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 		}
 
 		//Now, rotate it the OTHER way
-		if(!tankDir.equals(ForgeDirection.UP) && !tankDir.equals(ForgeDirection.DOWN)){
+		if(!tankDir.equals(ForgeDirection.EAST) && !tankDir.equals
+                (ForgeDirection.WEST)){
 			rotated = tankDir.getRotation(ForgeDirection.EAST);
 		}else{
-			rotated = tankDir.getRotation(ForgeDirection.EAST);
+			rotated = tankDir.getRotation(ForgeDirection.NORTH);
 		}
 
 		size = 0;
