@@ -23,8 +23,6 @@ import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.world.OreGenerator;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
@@ -84,21 +82,6 @@ public class Hydraulicraft {
 		
 		Multipart.init();
 		TickHandler.init();
-
-        NBTTagCompound toRegister = new NBTTagCompound();
-        ItemStack beginStack = new ItemStack(Blocks.sand, 1);
-        ItemStack endStack = new ItemStack(Items.diamond, 10);
-        NBTTagCompound itemFrom = new NBTTagCompound();
-        beginStack.writeToNBT(itemFrom);
-        NBTTagCompound itemTo = new NBTTagCompound();
-        endStack.writeToNBT(itemTo);
-
-        toRegister.setTag("itemFrom", itemFrom);
-        toRegister.setTag("itemTo", itemTo);
-        toRegister.setFloat("pressureRatio", 1.0F);
-        FMLInterModComms.sendMessage("HydCraft", "registerCrushingRecipe",
-                toRegister);
-		
 	}
 	
 	/*!

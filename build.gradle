@@ -116,16 +116,19 @@ jar {
 
 task deobfJar(type: Jar) {
     from(sourceSets.main.output) {
-        appendix = 'deobf'
+        appendix = "${project.ext.mcVersion}"
+            classifier = "${project.ext.buildNum}-deobf"
     }
 }
 
 // Create API library zip
 task apiZip(type: Zip) {
-    from(sourceSets.main.java) {
+    from sourceSets.main.java
+        include 'k4unl/minecraft/Hydraulicraft/api/**'
+        destinationDir = file 'output'
 
-    }
-    classifier = 'api'
+        appendix = "${project.ext.mcVersion}"
+        classifier = "${project.ext.buildNum}-api"
 }
 
 apiZip.mustRunAfter deobfJar
@@ -133,5 +136,5 @@ apiZip.mustRunAfter deobfJar
 
 artifacts {
     archives deobfJar
-        archives apiZip
+    archives apiZip
 }
