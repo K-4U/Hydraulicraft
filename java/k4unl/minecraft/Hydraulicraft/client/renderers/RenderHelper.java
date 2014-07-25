@@ -280,7 +280,8 @@ public class RenderHelper {
 		if (!wasTessellating) {
 			tessellator.draw();
 		}
-	}	
+	}
+
 		
 	public static void drawTexturedCube(Vector3fMax vector){
 		//Top side:

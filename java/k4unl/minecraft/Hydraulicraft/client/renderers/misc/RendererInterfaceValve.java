@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -213,17 +214,44 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
 			//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 			GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 			//GL11.glBegin(GL11.GL_QUADS);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper
+                    .lightmapTexUnit, 240f, 240f);
 
 
-			Vector3fMax insides = new Vector3fMax(0.001F, -0.001F, 0.001F, innerXDifference - 0.001F, -0.001F, innerZDifference - 0.001F);
 			float percentage;
 			if(tankInfo != null){
 				if(tankInfo.fluid != null){
 					percentage = (float)tankInfo.fluid.amount / (float)tankInfo.capacity;
-					insides.setYMax(percentage * innerYDifference);
+                    int height = (int)Math.floor((double)percentage *
+                            (double)innerYDifference);
+
 					IIcon fluidIcon = tankInfo.fluid.getFluid().getIcon();
+
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-					RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+
+                    for(int xR = 0; xR < innerXDifference; xR++){
+                        for(int zR = 0; zR < innerZDifference; zR++){
+
+                            for(int zY = 0; zY <= height; zY++){
+                                Vector3fMax insides = new Vector3fMax(xR + 0.001F,
+                                        zY + 0.001F, zR + 0.001F,
+                                        xR - 0.001F + 1, -0.001F,
+                                        zR - 0.001F + 1);
+                                insides.setYMax(zY - 0.001F + 1);
+                                RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+                            }
+                            Vector3fMax insides = new Vector3fMax(xR + 0.001F,
+                                    height + 0.001F + 1, zR + 0.001F,
+                                    xR - 0.001F + 1, -0.001F,
+                                    zR - 0.001F + 1);
+                            insides.setYMax(height - 0.001F + ((percentage *
+                                    (float)innerYDifference) % 1.0F) + 1);
+
+
+                            RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+                        }
+                    }
+
 				}
 			}
 			GL11.glDisable(GL11.GL_BLEND);
