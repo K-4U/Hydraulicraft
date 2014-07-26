@@ -4,7 +4,6 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import k4unl.minecraft.Hydraulicraft.client.renderers.IconSupplier;
 import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
@@ -19,7 +18,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
 import org.lwjgl.opengl.GL11;
 
@@ -61,19 +59,19 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
 	    int outerZDifference = 0;
 	    TileInterfaceValve valve = (TileInterfaceValve)world.getTileEntity(x, y, z);
 	    boolean isValidTank = valve.isValidTank();
-	    Log.info("Render: isTank = " + isValidTank);
+	    //Log.info("Render: isTank = " + isValidTank);
 	    if(valve.isValidTank()) {
 		    Location corner1 = valve.getTankCorner1();
 		    Location corner1_out = new Location(valve.getTankCorner1());
-		    corner1_out.addX(-1);
-		    corner1_out.addY(-1);
-		    corner1_out.addZ(-1);
+		    //corner1_out.addX(-1);
+		    //corner1_out.addY(-1);
+		    //corner1_out.addZ(-1);
 
 		    Location corner2 = valve.getTankCorner2();
 		    Location corner2_out = new Location(valve.getTankCorner2());
-		    corner2_out.addX(2);
-		    corner2_out.addY(2);
-		    corner2_out.addZ(2);
+		    corner2_out.addX(1);
+		    corner2_out.addY(1);
+		    corner2_out.addZ(1);
 
 		    innerXDifference = corner2.getX() - corner1.getX();
 		    innerYDifference = corner2.getY() - corner1.getY();
@@ -83,7 +81,7 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
 		    outerYDifference = corner2_out.getY() - corner1_out.getY();
 		    outerZDifference = corner2_out.getZ() - corner1_out.getZ();
 
-		    Log.info(corner2_out.printCoords());
+		    //Log.info(corner2_out.printCoords());
 
 
 		    Tessellator.instance.addTranslation(corner1_out.getX(), corner1_out.getY(), corner1_out.getZ());
@@ -202,9 +200,9 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
 			int locationDifferenceZ = t.zCoord - corner1.getZ();
 
 
-			innerXDifference = corner2.getX() - corner1.getX() + 1;
-			innerYDifference = corner2.getY() - corner1.getY() + 1;
-			innerZDifference = corner2.getZ() - corner1.getZ() + 1;
+			innerXDifference = corner2.getX() - corner1.getX() - 1;
+			innerYDifference = corner2.getY() - corner1.getY() - 1;
+			innerZDifference = corner2.getZ() - corner1.getZ() - 1;
 
 			GL11.glTranslatef(-locationDifferenceX, -locationDifferenceY, -locationDifferenceZ);
 
@@ -228,29 +226,44 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
 					IIcon fluidIcon = tankInfo.fluid.getFluid().getIcon();
 
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    //Log.info(height + "");
+                    for(int xR = 1; xR <= innerXDifference; xR++){
+                        for(int zR = 1; zR <= innerZDifference; zR++){
+                            if(!tankInfo.fluid.getFluid().isGaseous()){
+                                for(int zY = 1; zY <= height; zY++){
+                                    Vector3fMax insides = new Vector3fMax(xR + 0.001F,
+                                            zY + 0.001F, zR + 0.001F,
+                                            xR - 0.001F + 1, -0.001F,
+                                            zR - 0.001F + 1);
+                                    insides.setYMax(zY - 0.001F + 1);
+                                    RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+                                }
+                                //Log.info((percentage * (float)innerYDifference) % 1.0F + "");
+                                //Log.info(innerYDifference + "");
+                                //Log.info(percentage + "");
+                                //Log.info(height + "");
+                                if((percentage * (float)innerYDifference) % 1.0F
+                                        >= 0.01F){
+                                    Vector3fMax insides = new Vector3fMax(xR + 0.001F,
+                                            height + 0.001F + 1, zR + 0.001F,
+                                            xR - 0.001F + 1, -0.001F,
+                                            zR - 0.001F + 1);
+                                    insides.setYMax(height - 0.001F + ((percentage *
+                                            (float)innerYDifference) % 1.0F) + 1);
 
-                    for(int xR = 0; xR < innerXDifference; xR++){
-                        for(int zR = 0; zR < innerZDifference; zR++){
 
-                            for(int zY = 0; zY < height; zY++){
-                                Vector3fMax insides = new Vector3fMax(xR + 0.001F,
-                                        zY + 0.001F, zR + 0.001F,
-                                        xR - 0.001F + 1, -0.001F,
-                                        zR - 0.001F + 1);
-                                insides.setYMax(zY - 0.001F + 1);
-                                RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
-                            }
-                            if((percentage * (float)innerYDifference) % 1.0F
-                                    >= 0.01F){
-                                Vector3fMax insides = new Vector3fMax(xR + 0.001F,
-                                        height + 0.001F, zR + 0.001F,
-                                        xR - 0.001F + 1, -0.001F,
-                                        zR - 0.001F + 1);
-                                insides.setYMax(height - 0.001F + ((percentage *
-                                        (float)innerYDifference) % 1.0F));
-
-
-                                RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+                                    RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+                                }
+                            }else{
+                                GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.3F + (percentage * 0.7F));
+                                for(int zY = 1; zY <= innerYDifference; zY++){
+                                    Vector3fMax insides = new Vector3fMax(xR + 0.001F,
+                                            zY + 0.001F, zR + 0.001F,
+                                            xR - 0.001F + 1, -0.001F,
+                                            zR - 0.001F + 1);
+                                    insides.setYMax(zY - 0.001F + 1);
+                                    RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+                                }
                             }
 
                         }

@@ -1,8 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
@@ -14,8 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.GameRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Recipes {
 	public static void init(){
@@ -82,9 +82,6 @@ public class Recipes {
         }
         
         //Other mods. Stuff that doesn't follow the ingot stuff.
-        if(Loader.isModLoaded("AppliedEnergistics")){
-        	registerNonStandardCrushRecipe("oreCertusQuartz", "crystalCertusQuartz", 2);
-        }
         if(Loader.isModLoaded("IC2")){
         	registerNonStandardCrushRecipe("oreUranium", "crushedUranium", 2);
         }

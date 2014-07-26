@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
@@ -153,8 +155,10 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 		tankCorner1 = new Location(tagCompound.getIntArray("tankCorner1"));
 		tankCorner2 = new Location(tagCompound.getIntArray("tankCorner2"));
 		if(tankScore != tagCompound.getInteger("tankScore")) {
-			tankScore = tagCompound.getInteger("tankScore");
-			tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
+            if(tankScore == 0){
+                tankScore = tagCompound.getInteger("tankScore");
+                tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
+            }
 		}
 		if(tank == null){
 			tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
@@ -205,7 +209,9 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 			tagCompound.setIntArray("tankCorner1", tankCorner1.getIntArray());
 			tagCompound.setIntArray("tankCorner2", tankCorner2.getIntArray());
 			tagCompound.setInteger("tankScore", tankScore);
-		}
+		}else{
+            tagCompound.setInteger("tankScore", 0);
+        }
 		NBTTagCompound tankCompound = new NBTTagCompound();
 		if(tank != null){
 			tank.writeToNBT(tankCompound);
@@ -650,33 +656,53 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 					if((x >= minX && x <= maxX) && (y >= minY && y <= maxY) && (z >= minZ && z <= maxZ)){
 						if(bl == Blocks.air){
 							airBlocks.add(new Location(x,y,z));
-							tankScore++;//For every air block, we add one to the tankScore
 						}else{
-							Log.info("Sorry, we detected a non-air block at " + (new Location(x,y,z)).print());
 							return;
 						}
 					}else{
-						if(bl == Blocks.air){
-							Log.info("Sorry, we detected an air block at " + (new Location(x,y,z)).print());
+						if(bl == Blocks.air || Config.isTankBlockBlacklisted(bl)){
 							return;
 						}else{
 							//Check what material this tank is made of, it adds to the tankScore.
 							//We should make an array here
-							
+							tankScore += Config.getTankBlockScore(bl);
 						}
 
 					}
 				}
 			}
 		}
+        tankScore = airBlocks.size() * tankScore;
+        //Now. modify the locations so that it actually uses the BLOCKS
+        minX -= 1;
+        minY -= 1;
+        minZ -= 1;
+        maxX += 1;
+        maxY += 1;
+        maxZ += 1;
+
 		tankCorner1 = new Location(minX, minY, minZ);
 		tankCorner2 = new Location(maxX, maxY, maxZ);
 		isTank = true;
-		tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
-		Log.info("This tank is good!");
-		getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+        if(tank == null){
+		    tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
+        }else{
+            tank.setCapacity(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
+        }
+        //We should save this tank to an array.
+        Hydraulicraft.tankList.addNewTank(tankCorner1, tankCorner2, new Location(xCoord, yCoord, zCoord));
+        getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 		getWorldObj().markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
 	}
+
+    public void breakTank(){
+        isTank = false;
+        Hydraulicraft.tankList.deleteTank(tankCorner1, tankCorner2);
+        tankCorner1 = null;
+        tankCorner2 = null;
+        getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+        getWorldObj().markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
+    }
 
 	public Location getTankCorner1(){
 		return tankCorner1;
@@ -689,4 +715,12 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 	public boolean isValidTank() {
 		return isTank;
 	}
+
+    @Override
+    public void invalidate(){
+        super.invalidate();
+        if(isTank){
+            breakTank();
+        }
+    }
 }

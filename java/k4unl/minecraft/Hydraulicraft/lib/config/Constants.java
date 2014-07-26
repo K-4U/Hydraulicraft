@@ -1,5 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.lib.config;
 
+import net.minecraft.init.Blocks;
+import java.util.HashMap;
+import java.util.Map;
+import net.minecraft.block.Block;
+
 public class Constants {
 	public final static int MAX_MBAR_OIL_TIER_1 = 1000000;
 	public final static int MAX_MBAR_OIL_TIER_2 = 5000000;
@@ -86,7 +91,20 @@ public class Constants {
 	public static final int KEYS_MINING_HELMET = 0;
 
 	public static final int MAX_TANK_SIZE = 15;
-	
-	
-	
+
+    public static Map<Block, Boolean> TANK_BLACKLIST = new HashMap<Block, Boolean>();
+    public static Map<Block, Integer> TANK_SCORELIST = new HashMap<Block, Integer>();
+
+    static {
+        TANK_BLACKLIST.put(Blocks.dirt, true);
+        TANK_BLACKLIST.put(Blocks.grass, true);
+
+        TANK_SCORELIST.put(Blocks.cobblestone, 1);
+        TANK_SCORELIST.put(Blocks.stone, 2);
+        TANK_SCORELIST.put(Blocks.iron_block, 10);
+        TANK_SCORELIST.put(Blocks.gold_block, 15);
+        TANK_SCORELIST.put(Blocks.diamond_block, 25);
+        TANK_SCORELIST.put(Blocks.emerald_block, 30);
+        TANK_SCORELIST.put(Blocks.log, 1);
+    }
 }

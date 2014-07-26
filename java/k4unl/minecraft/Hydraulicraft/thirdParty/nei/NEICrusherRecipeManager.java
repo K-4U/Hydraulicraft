@@ -1,8 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
-import java.awt.Rectangle;
-import java.util.LinkedList;
-
+import codechicken.nei.NEIClientUtils;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.ShapedRecipeHandler;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
@@ -12,9 +12,9 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import codechicken.nei.NEIClientUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.ShapedRecipeHandler;
+
+import java.awt.*;
+import java.util.LinkedList;
 
 
 public class NEICrusherRecipeManager extends ShapedRecipeHandler {
@@ -98,10 +98,12 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler {
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
     	if(getClass() == NEICrusherRecipeManager.class && results.length > 0) {
-            for(CrushingRecipes.CrushingRecipe recipe: CrushingRecipes.crushingRecipes) {
-            	if(recipe.output.isItemEqual((ItemStack) results[0])){
-            		this.arecipes.add(getShape(recipe));
-            	}
+            if(results[0] instanceof ItemStack){ //Because Mariculture can't be assed to fix this.
+                for(CrushingRecipes.CrushingRecipe recipe: CrushingRecipes.crushingRecipes) {
+                    if(recipe.output.isItemEqual((ItemStack) results[0])){
+                        this.arecipes.add(getShape(recipe));
+                    }
+                }
             }
     	}
     }

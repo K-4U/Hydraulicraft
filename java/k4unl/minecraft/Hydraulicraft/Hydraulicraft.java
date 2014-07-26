@@ -56,6 +56,7 @@ public class Hydraulicraft {
 	
 	public static HydraulicraftRegistrar harvesterTrolleyRegistrar = new HydraulicraftRegistrar();
 	public static IPs ipList = new IPs();
+    public static Tanks tankList = new Tanks();
 	
 	/*!
 	 * @author Koen Beckers
@@ -164,12 +165,14 @@ public class Hydraulicraft {
 
 	@EventHandler
 	public void serverStart(FMLServerStartingEvent event){
-		Hydraulicraft.ipList.readFromFile(DimensionManager.getCurrentSaveRootDirectory());
+		ipList.readFromFile(DimensionManager.getCurrentSaveRootDirectory());
+        tankList.readFromFile(DimensionManager.getCurrentSaveRootDirectory());
 	}
 	
 	@EventHandler
 	public void serverStop(FMLServerStoppingEvent event){
-		Hydraulicraft.ipList.saveToFile(DimensionManager.getCurrentSaveRootDirectory());
+		ipList.saveToFile(DimensionManager.getCurrentSaveRootDirectory());
+        tankList.saveToFile(DimensionManager.getCurrentSaveRootDirectory());
 	}
 	
 }

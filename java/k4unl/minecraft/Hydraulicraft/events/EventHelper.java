@@ -1,5 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.events;
 
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
@@ -8,7 +11,9 @@ import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
 import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker.UpdateInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityPig;
@@ -18,8 +23,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHelper {
 	private static boolean hasShownUpdateInfo = false;
@@ -57,7 +60,12 @@ public class EventHelper {
 					break;
 				}
 			}
-		}
+		}else{
+            Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.x, event.y, event.z);
+            if(vLocation != null){
+                ((TileInterfaceValve)vLocation.getTE(event.world)).breakTank();
+            }
+        }
 	}
 	
 	@SubscribeEvent

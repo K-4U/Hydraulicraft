@@ -1,12 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.lib.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
+
+import java.util.*;
+
 
 public class Config {
 	private static class configOption{
@@ -29,6 +30,10 @@ public class Config {
 			defInt = _def;
 			isBool = false;
 		}
+
+        protected configOption(String nKey){
+            key = nKey;
+        }
 		
 		public String getKey(){
 			return key;
@@ -53,11 +58,11 @@ public class Config {
 			}
 		}
 	}
+
 	private static final List<configOption> configOptions = new ArrayList<configOption>();
-	//First is harvester ID
-	//Second blockId. 
-	//Next one is metadata when fully grown.
-	
+    private static final Map<Block, Integer> tankScores = new HashMap<Block, Integer>();
+    private static final Map<Block, Boolean> tankBlackList = new HashMap<Block, Boolean>();
+
 	
 	static {
 		configOptions.add(new configOption("shouldGenCopperOre", true));
@@ -97,8 +102,41 @@ public class Config {
 		for(configOption config : configOptions){
 			config.loadFromConfig(c);
 		}
+
+        tankBlackList.clear();
+        tankScores.clear();
+        Iterator<Block> itr = Block.blockRegistry.iterator();
+        while(itr.hasNext()){
+            Block bl = itr.next();
+
+            boolean isBlackListed = false;
+            if(Constants.TANK_BLACKLIST.containsKey(bl)){
+                isBlackListed = Constants.TANK_BLACKLIST.get(bl);
+            }
+            int score = 1;
+            if(Constants.TANK_SCORELIST.containsKey(bl)){
+                score = Constants.TANK_SCORELIST.get(bl);
+            }
+
+            tankBlackList.put(bl, c.get("tankBlacklist", bl.getUnlocalizedName(), isBlackListed).getBoolean());
+            tankScores.put(bl, c.get("tankBlockScores", bl.getUnlocalizedName(), score).getInt());
+        }
 	}
-	
+
+    public static boolean isTankBlockBlacklisted(Block bl){
+        if(tankBlackList.containsKey(bl)){
+            return tankBlackList.get(bl);
+        }
+        return false;
+    }
+
+    public static int getTankBlockScore(Block bl){
+        if(tankScores.containsKey(bl)){
+            return tankScores.get(bl);
+        }
+        return 1;
+    }
+
 	public static boolean get(String key) {
 		for(configOption config : configOptions){
 			if(config.getKey().equals(key)){
