@@ -103,6 +103,7 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 	}
 
 	public void usePressure() {
-		getPortalBase().getHandler().setPressure(getPortalBase().getPressure(ForgeDirection.UNKNOWN) + Config.getInt("pressurePerTeleport"), ForgeDirection.UP);
+		getPortalBase().getHandler().setPressure(getPortalBase().getPressure
+                (ForgeDirection.UNKNOWN) - Config.getInt("pressurePerTeleport"), ForgeDirection.UP);
 	}
 }
