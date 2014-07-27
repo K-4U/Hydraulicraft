@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -420,279 +421,286 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 	}
 
 	public void checkTank(ForgeDirection sideClicked) {
-		Log.info("Checking tank. Clicked on side " + sideClicked);
-		ForgeDirection tankDir = sideClicked.getOpposite();
+        if(getFluidTarget() == null){
+            Log.info("Checking tank. Clicked on side " + sideClicked);
+            ForgeDirection tankDir = sideClicked.getOpposite();
 
 
-		int minX = 0;
-		int minY = 0;
-		int minZ = 0;
-		int maxX = 0;
-		int maxY = 0;
-		int maxZ = 0;
+            int minX = 0;
+            int minY = 0;
+            int minZ = 0;
+            int maxX = 0;
+            int maxY = 0;
+            int maxZ = 0;
 
-		Location otherSide = new Location(xCoord, yCoord, zCoord, tankDir);
-		int offset = 0;
-		int size = 0;
-		for(offset = 0; offset < Constants.MAX_TANK_SIZE; offset++){
-			Location testLoc = new Location(otherSide, tankDir, offset);
-			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
-				size++;
-			}else{
-				break;
-			}
-		}
+            Location otherSide = new Location(xCoord, yCoord, zCoord, tankDir);
+            int offset = 0;
+            int size = 0;
+            for(offset = 0; offset < Constants.MAX_TANK_SIZE; offset++){
+                Location testLoc = new Location(otherSide, tankDir, offset);
+                if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+                    size++;
+                }else{
+                    break;
+                }
+            }
 
-		if(size == Constants.MAX_TANK_SIZE){
-			//Check if there's a block at the end.
-			Location testLoc = new Location(otherSide, tankDir, size);
-			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
-				return;
-			}
-		}
-		if(tankDir.offsetX == 1){
-			minX = otherSide.getX();
-			maxX = new Location(otherSide, tankDir, offset-1).getX();
-		}
-		if(tankDir.offsetX == -1){
-			maxX = otherSide.getX();
-			minX = new Location(otherSide, tankDir, offset-1).getX();
-		}
-		if(tankDir.offsetY == 1){
-			minY = otherSide.getY();
-			maxY = new Location(otherSide, tankDir, offset-1).getY();
-		}
-		if(tankDir.offsetY == -1){
-			maxY = otherSide.getY();
-			minY = new Location(otherSide, tankDir, offset-1).getY();
-		}
-		if(tankDir.offsetZ == 1){
-			minZ = otherSide.getZ();
-			maxZ = new Location(otherSide, tankDir, offset-1).getZ();
-		}
-		if(tankDir.offsetZ == -1){
-			maxZ = otherSide.getZ();
-			minZ = new Location(otherSide, tankDir, offset-1).getZ();
-		}
+            if(size == Constants.MAX_TANK_SIZE){
+                //Check if there's a block at the end.
+                Location testLoc = new Location(otherSide, tankDir, size);
+                if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+                    return;
+                }
+            }
+            if(tankDir.offsetX == 1){
+                minX = otherSide.getX();
+                maxX = new Location(otherSide, tankDir, offset-1).getX();
+            }
+            if(tankDir.offsetX == -1){
+                maxX = otherSide.getX();
+                minX = new Location(otherSide, tankDir, offset-1).getX();
+            }
+            if(tankDir.offsetY == 1){
+                minY = otherSide.getY();
+                maxY = new Location(otherSide, tankDir, offset-1).getY();
+            }
+            if(tankDir.offsetY == -1){
+                maxY = otherSide.getY();
+                minY = new Location(otherSide, tankDir, offset-1).getY();
+            }
+            if(tankDir.offsetZ == 1){
+                minZ = otherSide.getZ();
+                maxZ = new Location(otherSide, tankDir, offset-1).getZ();
+            }
+            if(tankDir.offsetZ == -1){
+                maxZ = otherSide.getZ();
+                minZ = new Location(otherSide, tankDir, offset-1).getZ();
+            }
 
-		int sizeRemaining = Constants.MAX_TANK_SIZE;
-		ForgeDirection rotated;
-		if(!tankDir.equals(ForgeDirection.UP) && !tankDir.equals(ForgeDirection.DOWN)){
-			rotated = tankDir.getRotation(ForgeDirection.UP);
-		}else{
-			rotated = tankDir.getRotation(ForgeDirection.NORTH);
-		}
+            int sizeRemaining = Constants.MAX_TANK_SIZE;
+            ForgeDirection rotated;
+            if(!tankDir.equals(ForgeDirection.UP) && !tankDir.equals(ForgeDirection.DOWN)){
+                rotated = tankDir.getRotation(ForgeDirection.UP);
+            }else{
+                rotated = tankDir.getRotation(ForgeDirection.NORTH);
+            }
 
-		size = 0;
-		for(offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++){
-			Location testLoc = new Location(otherSide, rotated, offset);
-			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
-				size++;
-			}else{
-				break;
-			}
-		}
-		sizeRemaining = Constants.MAX_TANK_SIZE - offset;
+            size = 0;
+            for(offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++){
+                Location testLoc = new Location(otherSide, rotated, offset);
+                if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+                    size++;
+                }else{
+                    break;
+                }
+            }
+            sizeRemaining = Constants.MAX_TANK_SIZE - offset;
 
-		if(size == Constants.MAX_TANK_SIZE){
-			//Check if there's a block at the end.
-			Location testLoc = new Location(otherSide, tankDir, size);
-			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
-				return;
-			}
-		}
+            if(size == Constants.MAX_TANK_SIZE){
+                //Check if there's a block at the end.
+                Location testLoc = new Location(otherSide, tankDir, size);
+                if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+                    return;
+                }
+            }
 
-		if(rotated.offsetX == 1){
-			maxX = new Location(otherSide, rotated, size-1).getX();
-		}
-		if(rotated.offsetX == -1){
-			minX = new Location(otherSide, rotated, size-1).getX();
-		}
-		if(rotated.offsetY == 1){
-			maxY = new Location(otherSide, rotated, size-1).getY();
-		}
-		if(rotated.offsetY == -1){
-			minY = new Location(otherSide, rotated, size-1).getY();
-		}
-		if(rotated.offsetZ == 1){
-			maxZ = new Location(otherSide, rotated, size-1).getZ();
-		}
-		if(rotated.offsetZ == -1){
-			minZ = new Location(otherSide, rotated, size-1).getZ();
-		}
+            if(rotated.offsetX == 1){
+                maxX = new Location(otherSide, rotated, size-1).getX();
+            }
+            if(rotated.offsetX == -1){
+                minX = new Location(otherSide, rotated, size-1).getX();
+            }
+            if(rotated.offsetY == 1){
+                maxY = new Location(otherSide, rotated, size-1).getY();
+            }
+            if(rotated.offsetY == -1){
+                minY = new Location(otherSide, rotated, size-1).getY();
+            }
+            if(rotated.offsetZ == 1){
+                maxZ = new Location(otherSide, rotated, size-1).getZ();
+            }
+            if(rotated.offsetZ == -1){
+                minZ = new Location(otherSide, rotated, size-1).getZ();
+            }
 
-		rotated = rotated.getOpposite();
-		size = 0;
-		for(offset = 0; offset <= sizeRemaining; offset++){
-			Location testLoc = new Location(otherSide, rotated, offset);
-			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
-				size++;
-			}else{
-				break;
-			}
-		}
-		sizeRemaining = Constants.MAX_TANK_SIZE - offset;
+            rotated = rotated.getOpposite();
+            size = 0;
+            for(offset = 0; offset <= sizeRemaining; offset++){
+                Location testLoc = new Location(otherSide, rotated, offset);
+                if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+                    size++;
+                }else{
+                    break;
+                }
+            }
+            sizeRemaining = Constants.MAX_TANK_SIZE - offset;
 
-		if(size == Constants.MAX_TANK_SIZE){
-			//Check if there's a block at the end.
-			Location testLoc = new Location(otherSide, tankDir, size);
-			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
-				return;
-			}
-		}
+            if(size == Constants.MAX_TANK_SIZE){
+                //Check if there's a block at the end.
+                Location testLoc = new Location(otherSide, tankDir, size);
+                if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+                    return;
+                }
+            }
 
-		if(rotated.offsetX == 1){
-			maxX = new Location(otherSide, rotated, size-1).getX();
-		}
-		if(rotated.offsetX == -1){
-			minX = new Location(otherSide, rotated, size-1).getX();
-		}
-		if(rotated.offsetY == 1){
-			maxY = new Location(otherSide, rotated, size-1).getY();
-		}
-		if(rotated.offsetY == -1){
-			minY = new Location(otherSide, rotated, size-1).getY();
-		}
-		if(rotated.offsetZ == 1){
-			maxZ = new Location(otherSide, rotated, size-1).getZ();
-		}
-		if(rotated.offsetZ == -1){
-			minZ = new Location(otherSide, rotated, size-1).getZ();
-		}
+            if(rotated.offsetX == 1){
+                maxX = new Location(otherSide, rotated, size-1).getX();
+            }
+            if(rotated.offsetX == -1){
+                minX = new Location(otherSide, rotated, size-1).getX();
+            }
+            if(rotated.offsetY == 1){
+                maxY = new Location(otherSide, rotated, size-1).getY();
+            }
+            if(rotated.offsetY == -1){
+                minY = new Location(otherSide, rotated, size-1).getY();
+            }
+            if(rotated.offsetZ == 1){
+                maxZ = new Location(otherSide, rotated, size-1).getZ();
+            }
+            if(rotated.offsetZ == -1){
+                minZ = new Location(otherSide, rotated, size-1).getZ();
+            }
 
-		//Now, rotate it the OTHER way
-		if(!tankDir.equals(ForgeDirection.EAST) && !tankDir.equals
-                (ForgeDirection.WEST)){
-			rotated = tankDir.getRotation(ForgeDirection.EAST);
-		}else{
-			rotated = tankDir.getRotation(ForgeDirection.NORTH);
-		}
+            //Now, rotate it the OTHER way
+            if(!tankDir.equals(ForgeDirection.EAST) && !tankDir.equals
+                    (ForgeDirection.WEST)){
+                rotated = tankDir.getRotation(ForgeDirection.EAST);
+            }else{
+                rotated = tankDir.getRotation(ForgeDirection.NORTH);
+            }
 
-		size = 0;
-		for(offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++){
-			Location testLoc = new Location(otherSide, rotated, offset);
-			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
-				size++;
-			}else{
-				break;
-			}
-		}
-		sizeRemaining = Constants.MAX_TANK_SIZE - offset;
+            size = 0;
+            for(offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++){
+                Location testLoc = new Location(otherSide, rotated, offset);
+                if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+                    size++;
+                }else{
+                    break;
+                }
+            }
+            sizeRemaining = Constants.MAX_TANK_SIZE - offset;
 
-		if(size == Constants.MAX_TANK_SIZE){
-			//Check if there's a block at the end.
-			Location testLoc = new Location(otherSide, tankDir, size);
-			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
-				return;
-			}
-		}
+            if(size == Constants.MAX_TANK_SIZE){
+                //Check if there's a block at the end.
+                Location testLoc = new Location(otherSide, tankDir, size);
+                if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+                    return;
+                }
+            }
 
-		if(rotated.offsetX == 1){
-			maxX = new Location(otherSide, rotated, size-1).getX();
-		}
-		if(rotated.offsetX == -1){
-			minX = new Location(otherSide, rotated, size-1).getX();
-		}
-		if(rotated.offsetY == 1){
-			maxY = new Location(otherSide, rotated, size-1).getY();
-		}
-		if(rotated.offsetY == -1){
-			minY = new Location(otherSide, rotated, size-1).getY();
-		}
-		if(rotated.offsetZ == 1){
-			maxZ = new Location(otherSide, rotated, size-1).getZ();
-		}
-		if(rotated.offsetZ == -1){
-			minZ = new Location(otherSide, rotated, size-1).getZ();
-		}
+            if(rotated.offsetX == 1){
+                maxX = new Location(otherSide, rotated, size-1).getX();
+            }
+            if(rotated.offsetX == -1){
+                minX = new Location(otherSide, rotated, size-1).getX();
+            }
+            if(rotated.offsetY == 1){
+                maxY = new Location(otherSide, rotated, size-1).getY();
+            }
+            if(rotated.offsetY == -1){
+                minY = new Location(otherSide, rotated, size-1).getY();
+            }
+            if(rotated.offsetZ == 1){
+                maxZ = new Location(otherSide, rotated, size-1).getZ();
+            }
+            if(rotated.offsetZ == -1){
+                minZ = new Location(otherSide, rotated, size-1).getZ();
+            }
 
-		rotated = rotated.getOpposite();
-		size = 0;
-		for(offset = 0; offset <= sizeRemaining; offset++){
-			Location testLoc = new Location(otherSide, rotated, offset);
-			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
-				size++;
-			}else{
-				break;
-			}
-		}
-		sizeRemaining = Constants.MAX_TANK_SIZE - offset;
+            rotated = rotated.getOpposite();
+            size = 0;
+            for(offset = 0; offset <= sizeRemaining; offset++){
+                Location testLoc = new Location(otherSide, rotated, offset);
+                if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+                    size++;
+                }else{
+                    break;
+                }
+            }
+            sizeRemaining = Constants.MAX_TANK_SIZE - offset;
 
-		if(size == Constants.MAX_TANK_SIZE){
-			//Check if there's a block at the end.
-			Location testLoc = new Location(otherSide, tankDir, size);
-			if(testLoc.getBlock(getWorldObj()) == Blocks.air){
-				return;
-			}
-		}
+            if(size == Constants.MAX_TANK_SIZE){
+                //Check if there's a block at the end.
+                Location testLoc = new Location(otherSide, tankDir, size);
+                if(testLoc.getBlock(getWorldObj()) == Blocks.air){
+                    return;
+                }
+            }
 
-		if(rotated.offsetX == 1){
-			maxX = new Location(otherSide, rotated, size-1).getX();
-		}
-		if(rotated.offsetX == -1){
-			minX = new Location(otherSide, rotated, size-1).getX();
-		}
-		if(rotated.offsetY == 1){
-			maxY = new Location(otherSide, rotated, size-1).getY();
-		}
-		if(rotated.offsetY == -1){
-			minY = new Location(otherSide, rotated, size-1).getY();
-		}
-		if(rotated.offsetZ == 1){
-			maxZ = new Location(otherSide, rotated, size-1).getZ();
-		}
-		if(rotated.offsetZ == -1){
-			minZ = new Location(otherSide, rotated, size-1).getZ();
-		}
-		Log.info("X-: " + minX + " X+:" + maxX + " Y-: " + minY + " Y+:" + maxY + " Z-: " + minZ + " Z+:" + maxZ);
+            if(rotated.offsetX == 1){
+                maxX = new Location(otherSide, rotated, size-1).getX();
+            }
+            if(rotated.offsetX == -1){
+                minX = new Location(otherSide, rotated, size-1).getX();
+            }
+            if(rotated.offsetY == 1){
+                maxY = new Location(otherSide, rotated, size-1).getY();
+            }
+            if(rotated.offsetY == -1){
+                minY = new Location(otherSide, rotated, size-1).getY();
+            }
+            if(rotated.offsetZ == 1){
+                maxZ = new Location(otherSide, rotated, size-1).getZ();
+            }
+            if(rotated.offsetZ == -1){
+                minZ = new Location(otherSide, rotated, size-1).getZ();
+            }
+            Log.info("X-: " + minX + " X+:" + maxX + " Y-: " + minY + " Y+:" + maxY + " Z-: " + minZ + " Z+:" + maxZ);
 
-		List<Location> airBlocks = new ArrayList<Location>();
-		tankScore = 0;
-		//Now.. Get all the blocks that are there:
-		for(int x = minX-1; x <= maxX+1; x++){
-			for(int y = minY-1; y <= maxY+1; y++){
-				for(int z = minZ-1; z <= maxZ+1; z++){
-					Block bl = getWorldObj().getBlock(x,y,z);
-					if((x >= minX && x <= maxX) && (y >= minY && y <= maxY) && (z >= minZ && z <= maxZ)){
-						if(bl == Blocks.air){
-							airBlocks.add(new Location(x,y,z));
-						}else{
-							return;
-						}
-					}else{
-						if(bl == Blocks.air || Config.isTankBlockBlacklisted(bl)){
-							return;
-						}else{
-							//Check what material this tank is made of, it adds to the tankScore.
-							//We should make an array here
-							tankScore += Config.getTankBlockScore(bl);
-						}
+            List<Location> airBlocks = new ArrayList<Location>();
+            List<Location> valveBlocks = new ArrayList<Location>();
+            tankScore = 0;
+            //Now.. Get all the blocks that are there:
+            for(int x = minX-1; x <= maxX+1; x++){
+                for(int y = minY-1; y <= maxY+1; y++){
+                    for(int z = minZ-1; z <= maxZ+1; z++){
+                        Block bl = getWorldObj().getBlock(x,y,z);
+                        if((x >= minX && x <= maxX) && (y >= minY && y <= maxY) && (z >= minZ && z <= maxZ)){
+                            if(bl == Blocks.air){
+                                airBlocks.add(new Location(x,y,z));
+                            }else{
+                                return;
+                            }
+                        }else{
+                            if(bl == Blocks.air || Config.isTankBlockBlacklisted(bl)){
+                                return;
+                            }else{
+                                if(bl == HCBlocks.blockInterfaceValve){
+                                    valveBlocks.add(new Location(x, y, z));
+                                }else{
+                                    //Check what material this tank is made of, it adds to the tankScore.
+                                    //We should make an array here
+                                    tankScore += Config.getTankBlockScore(bl);
+                                }
+                            }
 
-					}
-				}
-			}
-		}
-        tankScore = airBlocks.size() * tankScore;
-        //Now. modify the locations so that it actually uses the BLOCKS
-        minX -= 1;
-        minY -= 1;
-        minZ -= 1;
-        maxX += 1;
-        maxY += 1;
-        maxZ += 1;
+                        }
+                    }
+                }
+            }
+            tankScore = airBlocks.size() * tankScore;
+            //Now. modify the locations so that it actually uses the BLOCKS
+            minX -= 1;
+            minY -= 1;
+            minZ -= 1;
+            maxX += 1;
+            maxY += 1;
+            maxZ += 1;
 
-		tankCorner1 = new Location(minX, minY, minZ);
-		tankCorner2 = new Location(maxX, maxY, maxZ);
-		isTank = true;
-        if(tank == null){
-		    tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
-        }else{
-            tank.setCapacity(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
+            tankCorner1 = new Location(minX, minY, minZ);
+            tankCorner2 = new Location(maxX, maxY, maxZ);
+            isTank = true;
+            if(tank == null){
+                tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
+            }else{
+                tank.setCapacity(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
+            }
+            //We should save this tank to an array.
+            Hydraulicraft.tankList.addNewTank(tankCorner1, tankCorner2, new Location(xCoord, yCoord, zCoord));
+            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+            getWorldObj().markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
         }
-        //We should save this tank to an array.
-        Hydraulicraft.tankList.addNewTank(tankCorner1, tankCorner2, new Location(xCoord, yCoord, zCoord));
-        getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-		getWorldObj().markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
 	}
 
     public void breakTank(){

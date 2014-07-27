@@ -86,6 +86,9 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
 
 		    Tessellator.instance.addTranslation(corner1_out.getX(), corner1_out.getY(), corner1_out.getZ());
 		    GL11.glEnable(GL11.GL_BLEND);
+            
+            GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.4F);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
 
 		    IIcon icon = IconSupplier.tankGrid;
 		    float u = icon.getMinU();
@@ -98,34 +101,34 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
 			    for(int yR = 0; yR < outerYDifference; yR++) {
 				    //Draw north side
 				    tessellator.setNormal(0, 0, -1);
-				    tessellator.addVertexWithUV(-0.02F + xR, -0.02F + yR, -0.02F, u, v);
-				    tessellator.addVertexWithUV(-0.02F + xR, 0.02F + yR+1, -0.02F, u, V);
-				    tessellator.addVertexWithUV(0.02F + xR + 1, 0.02F + yR+1, -0.02F, U, V);
-				    tessellator.addVertexWithUV(0.02F + xR + 1, -0.02F + yR, -0.02F, U, v);
+				    tessellator.addVertexWithUV(-0.002F + xR, -0.002F + yR, -0.002F, u, v);
+				    tessellator.addVertexWithUV(-0.002F + xR, 0.002F + yR+1, -0.002F, u, V);
+				    tessellator.addVertexWithUV(0.002F + xR + 1, 0.002F + yR+1, -0.002F, U, V);
+				    tessellator.addVertexWithUV(0.002F + xR + 1, -0.002F + yR, -0.002F, U, v);
 
 				    //Draw south side
 				    tessellator.setNormal(0, 0, 1);
-				    tessellator.addVertexWithUV(-0.02F + xR, -0.02F + yR, outerZDifference+0.02F, u, v);
-				    tessellator.addVertexWithUV(0.02F + xR + 1, -0.02F + yR, outerZDifference+0.02F, u, V);
-				    tessellator.addVertexWithUV(0.02F + xR + 1, 0.02F + yR + 1, outerZDifference+0.02F, U, V);
-				    tessellator.addVertexWithUV(-0.02F + xR, 0.02F + yR + 1, outerZDifference+0.02F, U, v);
+				    tessellator.addVertexWithUV(-0.002F + xR, -0.002F + yR, outerZDifference+0.002F, u, v);
+				    tessellator.addVertexWithUV(0.002F + xR + 1, -0.002F + yR, outerZDifference+0.002F, u, V);
+				    tessellator.addVertexWithUV(0.002F + xR + 1, 0.002F + yR + 1, outerZDifference+0.002F, U, V);
+				    tessellator.addVertexWithUV(-0.002F + xR, 0.002F + yR + 1, outerZDifference+0.002F, U, v);
 			    }
 		    }
 		    for(int zR = 0; zR < outerZDifference; zR++){
 			    for(int yR = 0; yR < outerYDifference; yR++) {
 					//Draw west side:
 				    tessellator.setNormal(-1, 0, 0);
-				    tessellator.addVertexWithUV(-0.02F, -0.02F + yR, 0.02F + zR + 1, u, v);
-				    tessellator.addVertexWithUV(-0.02F, 0.02F + yR + 1, 0.02F + zR + 1, u, V);
-				    tessellator.addVertexWithUV(-0.02F, 0.02F + yR + 1, -0.02F + zR, U, V);
-				    tessellator.addVertexWithUV(-0.02F, -0.02F + yR, -0.02F + zR, U, v);
+				    tessellator.addVertexWithUV(-0.002F, -0.002F + yR, 0.002F + zR + 1, u, v);
+				    tessellator.addVertexWithUV(-0.002F, 0.002F + yR + 1, 0.002F + zR + 1, u, V);
+				    tessellator.addVertexWithUV(-0.002F, 0.002F + yR + 1, -0.002F + zR, U, V);
+				    tessellator.addVertexWithUV(-0.002F, -0.002F + yR, -0.002F + zR, U, v);
 
 				    //Draw east side:
 				    tessellator.setNormal(1, 0, 0);
-				    tessellator.addVertexWithUV(outerXDifference + 0.02F, -0.02F + yR, -0.02F + zR, u, v);
-				    tessellator.addVertexWithUV(outerXDifference + 0.02F, 0.02F + yR + 1, -0.02F + zR, u, V);
-				    tessellator.addVertexWithUV(outerXDifference + 0.02F, 0.02F + yR + 1, 0.02F + zR + 1, U, V);
-				    tessellator.addVertexWithUV(outerXDifference + 0.02F, -0.02F + yR, 0.02F + zR + 1, U, v);
+				    tessellator.addVertexWithUV(outerXDifference + 0.002F, -0.002F + yR, -0.002F + zR, u, v);
+				    tessellator.addVertexWithUV(outerXDifference + 0.002F, 0.002F + yR + 1, -0.002F + zR, u, V);
+				    tessellator.addVertexWithUV(outerXDifference + 0.002F, 0.002F + yR + 1, 0.002F + zR + 1, U, V);
+				    tessellator.addVertexWithUV(outerXDifference + 0.002F, -0.002F + yR, 0.002F + zR + 1, U, v);
 			    }
 		    }
 
@@ -133,17 +136,17 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
 			    for(int xR = 0; xR < outerXDifference; xR++) {
 					//Top side
 				    tessellator.setNormal(0, 1, 0);
-				    tessellator.addVertexWithUV(-0.02F + xR, outerYDifference + 0.02F, 0.02F + zR + 1, u, v);
-				    tessellator.addVertexWithUV(0.02F + xR + 1, outerYDifference + 0.02F, 0.02F + zR + 1, u, V);
-				    tessellator.addVertexWithUV(0.02F + xR + 1, outerYDifference + 0.02F, -0.02F + zR, U, V);
-				    tessellator.addVertexWithUV(-0.02F + xR, outerYDifference + 0.02F, -0.02F + zR, U, v);
+				    tessellator.addVertexWithUV(-0.002F + xR, outerYDifference + 0.02F, 0.02F + zR + 1, u, v);
+				    tessellator.addVertexWithUV(0.002F + xR + 1, outerYDifference + 0.02F, 0.02F + zR + 1, u, V);
+				    tessellator.addVertexWithUV(0.002F + xR + 1, outerYDifference + 0.02F, -0.02F + zR, U, V);
+				    tessellator.addVertexWithUV(-0.002F + xR, outerYDifference + 0.02F, -0.02F + zR, U, v);
 
 				    //Bottom side
 				    tessellator.setNormal(0, -1, 0);
-				    tessellator.addVertexWithUV(0.02F + xR + 1, -0.02F, 0.02F + zR + 1, u, v);
-				    tessellator.addVertexWithUV(-0.02F + xR, -0.02F, 0.02F + zR + 1, u, V);
-				    tessellator.addVertexWithUV(-0.02F + xR, -0.02F, -0.02F + zR, U, V);
-				    tessellator.addVertexWithUV(0.02F + xR + 1, -0.02F, -0.02F + zR, U, v);
+				    tessellator.addVertexWithUV(0.002F + xR + 1, -0.002F, 0.002F + zR + 1, u, v);
+				    tessellator.addVertexWithUV(-0.002F + xR, -0.002F, 0.002F + zR + 1, u, V);
+				    tessellator.addVertexWithUV(-0.002F + xR, -0.002F, -0.002F + zR, U, V);
+				    tessellator.addVertexWithUV(0.002F + xR + 1, -0.002F, -0.002F + zR, U, v);
 			    }
 		    }
 
