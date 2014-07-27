@@ -25,6 +25,8 @@ public class Names {
 	public static final Name blockHydraulicWaterPump = new Name("Water Pump", "hydraulicWaterPump");
 
 	public static final Name blockHydraulicCharger = new Name("Hydraulic charger", "hydraulicCharger");
+    public static final Name blockChunkLoader = new Name("Chunk Loader",
+            "chunkLoader");
 	
 	public static final Name[] blockRFPump = {
 		new Name("LP RF Pump", "LPRFPump"),
@@ -126,5 +128,6 @@ public class Names {
 	public static final Name blockLead = new Name("Lead Block", "blockLead");
 	public static final Name blockCopper = new Name("Copper Block", "blockCopper");
 	public static final Name itemCopperEnrichedDust = new Name("Copper enriched dust", "dustDiamondCopper");
+
 	
 }

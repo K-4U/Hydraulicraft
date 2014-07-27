@@ -24,15 +24,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerTrolley;
-import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockCopper;
-import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
-import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureGlass;
-import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
-import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
-import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInfiniteSource;
-import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
-import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockLead;
-import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockLight;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.*;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCactus;
@@ -79,6 +71,8 @@ public class HCBlocks {
 	public static Block portalBase;
 	public static Block portalFrame;
 	public static Block portalTeleporter;
+
+    public static Block blockChunkLoader;
 	
 	/*!
 	 * @author Koen Beckers
@@ -117,9 +111,11 @@ public class HCBlocks {
 		portalBase = new BlockPortalBase();
 		portalFrame = new BlockPortalFrame();
 		portalTeleporter = new BlockPortalTeleporter();
-		
+
+
+        blockChunkLoader = new BlockChunkLoader();
+
 		harvesterTrolley = new BlockHarvesterTrolley();
-		
 		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyCrops());
 		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleySugarCane());
 		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyNetherWart());
@@ -172,7 +168,10 @@ public class HCBlocks {
 		
 		GameRegistry.registerBlock(harvesterTrolley, HandlerTrolley.class, Names.blockHarvesterTrolley.unlocalized);
 		GameRegistry.registerBlock(blockCharger, HandlerHydraulicBlock.class, Names.blockHydraulicCharger.unlocalized);
-		
+
+        GameRegistry.registerBlock(blockChunkLoader, ItemBlock.class,
+                Names.blockChunkLoader.unlocalized);
+
 		GameRegistry.registerBlock(portalBase, Names.portalBase.unlocalized);
 		GameRegistry.registerBlock(portalFrame, Names.portalFrame.unlocalized);
 		GameRegistry.registerBlock(portalTeleporter, Names.portalTeleporter.unlocalized);

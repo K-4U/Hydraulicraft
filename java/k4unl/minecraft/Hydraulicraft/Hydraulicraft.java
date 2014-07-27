@@ -26,6 +26,7 @@ import k4unl.minecraft.Hydraulicraft.world.OreGenerator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.ForgeChunkManager;
 import thirdParty.truetyper.TrueTypeFont;
 
 import java.lang.reflect.InvocationTargetException;
@@ -99,7 +100,10 @@ public class Hydraulicraft {
 		PacketPipeline.init();
 
 		UpdateChecker.checkUpdateAvailable();
-		
+
+        ForgeChunkManager.setForcedChunkLoadingCallback(Hydraulicraft
+                .instance, null);
+
 		proxy.init();
 	}
 	
