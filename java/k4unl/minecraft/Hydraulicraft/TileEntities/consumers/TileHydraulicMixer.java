@@ -279,9 +279,11 @@ public class TileHydraulicMixer extends TileEntity implements
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		FluidStack drained = outputTank.drain(maxDrain, doDrain); 
-		if(doDrain && drained.amount > 0){
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		FluidStack drained = outputTank.drain(maxDrain, doDrain);
+		if(drained != null){
+			if(doDrain && drained.amount > 0){
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			}
 		}
 		return drained;
 	}

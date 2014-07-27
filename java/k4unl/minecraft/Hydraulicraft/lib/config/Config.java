@@ -12,6 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 
 public class Config {
+	private static final String isDev = "@DEV@";
+	
 	private static class configOption{
 		private String key;
 		private boolean val;
@@ -40,6 +42,13 @@ public class Config {
 	//Next one is metadata when fully grown.
 	public static List<Seed> harvestableItems = new ArrayList<Seed>();
 	
+	public static boolean isThisDev(){
+		if(!isDev.equals("")){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	static {
 		configOptions.add(new configOption("shouldGenOres", true));

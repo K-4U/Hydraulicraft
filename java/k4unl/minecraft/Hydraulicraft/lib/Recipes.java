@@ -28,15 +28,19 @@ public class Recipes {
 
         initializeCrushingRecipes();
 	}
-
+	
     private static void initializeCrushingRecipes() {
     	//Yeah, just put them in, right there, yeahhhhhh
+    	//Sorry, i just need to do this, otherwise my mod breaks.
+    	//I could do some fancy stuff here.. But does it REALLY matter?
     	OreDictionary.registerOre("oreIron", Block.oreIron);
     	OreDictionary.registerOre("ingotIron", Item.ingotIron);
     	OreDictionary.registerOre("oreGold", Block.oreGold);
     	OreDictionary.registerOre("ingotGold", Item.ingotGold);
     	OreDictionary.registerOre("oreNetherQuartz", Block.oreNetherQuartz);
     	OreDictionary.registerOre("gemDiamond", Item.diamond);
+    	
+    	//OreDictionary.initVanillaEntries();
         //Get items from ore dictionary:
         List<String> crushableItems = new ArrayList<String>();
         crushableItems.add("Gold");

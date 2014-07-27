@@ -21,6 +21,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -66,8 +67,9 @@ public class Blocks {
 		hydraulicHarvesterSource = new BlockHydraulicHarvester();
 		
 		harvesterTrolley = new BlockHarvesterTrolley();
-		
-		pressureDisposal = new BlockPressureDisposal();
+		if(Config.isThisDev()){
+			pressureDisposal = new BlockPressureDisposal();
+		}
 		blockCore = new BlockHydraulicCore();
 		blockValve = new BlockHydraulicValve();
 		blockInterfaceValve = new BlockInterfaceValve();
@@ -96,7 +98,9 @@ public class Blocks {
 		GameRegistry.registerBlock(hydraulicWasher, Names.blockHydraulicWasher.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureWall, Names.blockHydraulicPressureWall.unlocalized);
 		
-		GameRegistry.registerBlock(pressureDisposal, Names.blockPressureDisposal.unlocalized);
+		if(Config.isThisDev()){
+			GameRegistry.registerBlock(pressureDisposal, Names.blockPressureDisposal.unlocalized);
+		}
 		GameRegistry.registerBlock(blockValve, Names.blockValve.unlocalized);
 		GameRegistry.registerBlock(blockInterfaceValve, Names.blockInterfaceValve.unlocalized);
 		

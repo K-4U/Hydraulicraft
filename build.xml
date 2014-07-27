@@ -74,11 +74,13 @@
 	<target name="replace_tokens">
 		<replace dir="${environment.mcp_location}/src/minecraft/" token="@VERSION@" value="${build.mod_version}" />
 		<replace dir="${environment.mcp_location}/src/minecraft/" token="@BUILD_NUMBER@" value="${build.build_number}" />
+		<replace dir="${environment.mcp_location}/src/minecraft/" token="@DEV@" value="" />
 	</target>
 
 	<target name="replace_tokens_dev">
         <replace dir="${environment.mcp_location}/src/minecraft/" token="@VERSION@" value="${build.mod_version}-DEV" />
         <replace dir="${environment.mcp_location}/src/minecraft/" token="@BUILD_NUMBER@" value="${build.build_number}" />
+		<replace dir="${environment.mcp_location}/src/minecraft/" token="@DEV@" value="YES" />
     </target>
 	
 	<target name="recompile">
