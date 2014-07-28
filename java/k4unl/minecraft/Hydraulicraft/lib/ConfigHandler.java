@@ -1,9 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
-import java.io.File;
-
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import net.minecraftforge.common.config.Configuration;
+
+import java.io.File;
 
 /*!
  * @author Koen Beckers
@@ -27,6 +27,13 @@ public class ConfigHandler{
         Config.loadConfigOptions(config);
         
         if(config.hasChanged()) {
+            config.save();
+        }
+    }
+
+    public static void loadTank(){
+        Config.loadTankOptions(config);
+        if(config.hasChanged()){
             config.save();
         }
     }

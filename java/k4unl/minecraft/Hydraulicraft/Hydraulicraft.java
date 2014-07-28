@@ -113,6 +113,7 @@ public class Hydraulicraft {
 		Recipes.init();
 		
 		ThirdPartyManager.instance().postInit();
+        ConfigHandler.loadTank();
 
 		Log.info("Hydraulicraft ready for use!");
 	}

@@ -103,6 +103,9 @@ public class Config {
 			config.loadFromConfig(c);
 		}
 
+    }
+
+    public static void loadTankOptions(Configuration c){
         tankBlackList.clear();
         tankScores.clear();
         Iterator<Block> itr = Block.blockRegistry.iterator();
@@ -113,13 +116,15 @@ public class Config {
             if(Constants.TANK_BLACKLIST.containsKey(bl)){
                 isBlackListed = Constants.TANK_BLACKLIST.get(bl);
             }
-            int score = 1;
-            if(Constants.TANK_SCORELIST.containsKey(bl)){
-                score = Constants.TANK_SCORELIST.get(bl);
+            if(!isBlackListed){
+                int score = 1;
+                if(Constants.TANK_SCORELIST.containsKey(bl)){
+                    score = Constants.TANK_SCORELIST.get(bl);
+                }
+                tankScores.put(bl, c.get("tankBlockScores", bl.getUnlocalizedName(), score).getInt());
             }
 
             tankBlackList.put(bl, c.get("tankBlacklist", bl.getUnlocalizedName(), isBlackListed).getBoolean());
-            tankScores.put(bl, c.get("tankBlockScores", bl.getUnlocalizedName(), score).getInt());
         }
 	}
 

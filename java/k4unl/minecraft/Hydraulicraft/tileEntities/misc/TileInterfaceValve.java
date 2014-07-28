@@ -663,7 +663,11 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                                 return;
                             }
                         }else{
-                            if(bl == Blocks.air || Config.isTankBlockBlacklisted(bl)){
+                            if(bl == Blocks.air){
+                                Log.info("Block at " + x + ", " + y + ", " + z + " is air!");
+                                return;
+                            }else if( Config.isTankBlockBlacklisted(bl)){
+                                Log.info("Block (" + bl.getUnlocalizedName() + ") at " + x + ", " + y + ", " + z + " is blacklisted!");
                                 return;
                             }else{
                                 if(bl == HCBlocks.blockInterfaceValve){
@@ -679,7 +683,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                     }
                 }
             }
-            tankScore = airBlocks.size() * tankScore;
+            tankScore = airBlocks.size() + tankScore;
             //Now. modify the locations so that it actually uses the BLOCKS
             minX -= 1;
             minY -= 1;
