@@ -18,6 +18,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 
@@ -96,14 +97,15 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 			TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
 			if(t instanceof IHydraulicConsumer){
 				target = (IHydraulicConsumer) t;
-				if(t instanceof IFluidHandler){
-					fluidTarget = (IFluidHandler) t;
-				}
-				if(t instanceof ISidedInventory){
-					inventoryTarget = (ISidedInventory) t;
-				}
-				targetHasChanged = false;
-			}
+            }
+            if(t instanceof IFluidHandler){
+                fluidTarget = (IFluidHandler) t;
+            }
+            if(t instanceof ISidedInventory){
+                inventoryTarget = (ISidedInventory) t;
+            }
+            targetHasChanged = false;
+			//}
 		}else if(targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
 			target = null;
 			fluidTarget = null;
@@ -671,7 +673,10 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                                 return;
                             }else{
                                 if(bl == HCBlocks.blockInterfaceValve){
-                                    valveBlocks.add(new Location(x, y, z));
+                                    Location vBlock =new Location(x, y, z);
+                                    if(!vBlock.compare(xCoord, yCoord, zCoord)){
+                                        valveBlocks.add(vBlock);
+                                    }
                                 }else{
                                     //Check what material this tank is made of, it adds to the tankScore.
                                     //We should make an array here
@@ -691,6 +696,10 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             maxX += 1;
             maxY += 1;
             maxZ += 1;
+
+            for(Location valveLoc : valveBlocks){
+                ((TileInterfaceValve)valveLoc.getTE(getWorldObj())).setTarget(xCoord, yCoord, zCoord);
+            }
 
             tankCorner1 = new Location(minX, minY, minZ);
             tankCorner2 = new Location(maxX, maxY, maxZ);
@@ -735,4 +744,38 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             breakTank();
         }
     }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox(){
+        /*float extendedLength = getExtendedLength();
+        float sidewaysMovement = getSideLength();*/
+
+        float minX = 0.0F + xCoord;
+        float minY = 0.0F + yCoord;
+        float minZ = 0.0F + zCoord;
+        float maxX = 1.0F + xCoord;
+        float maxY = 1.0F + yCoord;
+        float maxZ = 1.0F + zCoord;
+
+        if(isValidTank()){
+            int outerXDifference = 0;
+            int outerYDifference = 0;
+            int outerZDifference = 0;
+
+            outerXDifference = tankCorner2.getX() - tankCorner1.getX();
+            outerYDifference = tankCorner2.getY() - tankCorner1.getY();
+            outerZDifference = tankCorner2.getZ() - tankCorner1.getZ();
+
+            minX = tankCorner1.getX() - xCoord;
+            minY = tankCorner1.getY() - yCoord;
+            minZ = tankCorner1.getZ() - zCoord;
+
+            maxX = outerXDifference;
+            maxY = outerYDifference;
+            maxZ = outerZDifference;
+            //Log.info("minX: "+ minX + " minY: " + minY + " minZ: " + minZ + " maxX: " + maxX + " maxY: " + maxY + " maxZ: " + maxZ);
+        }
+        return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+    }
 }
+
