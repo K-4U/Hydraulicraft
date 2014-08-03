@@ -33,7 +33,7 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower{
 		
 	}
 	
-	@SideOnly(Side.CLIENT)
+
 	public boolean isConnectedTo(ForgeDirection dir){
 		Location thatLocation = new Location(xCoord, yCoord, zCoord, dir);
 		if(thatLocation == null || getWorldObj() == null){
