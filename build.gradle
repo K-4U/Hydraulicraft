@@ -45,7 +45,8 @@ dependencies {
 }
 
 project.ext {
-    buildNum = System.getenv("BUILD_NUMBER")
+    //buildNum = System.getenv("BUILD_NUMBER")
+    buildNum = 0
         mcVersion = "1.7.10"
 }
 
@@ -123,12 +124,14 @@ task deobfJar(type: Jar) {
 
 // Create API library zip
 task apiZip(type: Zip) {
-    from sourceSets.main.java
+    from(sourceSets.main.java){
         include 'k4unl/minecraft/Hydraulicraft/api/**'
+
         destinationDir = file 'output'
 
         appendix = "${project.ext.mcVersion}"
         classifier = "${project.ext.buildNum}-api"
+    }
 }
 
 apiZip.mustRunAfter deobfJar

@@ -1,9 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
@@ -14,7 +11,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
-import codechicken.multipart.TileMultipart;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 public class PressureNetwork {
@@ -243,11 +243,17 @@ public class PressureNetwork {
 	}
 	
 	public void updateFluid(IHydraulicMachine mEnt){
-		if(mEnt.getHandler().isOilStored()){
-			isOilStored = true;
-		}else{
-			isOilStored = false;
-		}
+
+        boolean canOilBeStored = false;
+        if(mEnt.getHandler().isOilStored()){
+            isOilStored = true;
+        }else{
+            isOilStored = false;
+        }
+
+        if(isOilStored == false && mEnt.getHandler().getStored() == 0){
+            canOilBeStored = true;
+        }
 		fluidInNetwork = 0;
 		fluidCapacity = 0;
 		
@@ -264,9 +270,13 @@ public class PressureNetwork {
 			}
 			
 			if(machine != null){
-				if((getIsOilStored() && machine.getHandler().isOilStored()) || (!getIsOilStored() && !machine.getHandler().isOilStored() ) || machine.getHandler().getStored() == 0){ //Otherwise we would be turning water into oil
+				if(((getIsOilStored() && machine.getHandler().isOilStored()) || canOilBeStored) || (!getIsOilStored() && !machine.getHandler().isOilStored() ) || machine.getHandler().getStored() == 0){ //Otherwise we would be turning water into oil
+
 					fluidInNetwork = fluidInNetwork + machine.getHandler().getStored();
 					fluidCapacity = fluidCapacity + machine.getHandler().getMaxStorage();
+                    if(canOilBeStored && !isOilStored && machine.getHandler().isOilStored()){
+                        isOilStored = true;
+                    }
 					machine.getHandler().setStored(0, isOilStored, false);
 					mainList.add(machine);
 				}
