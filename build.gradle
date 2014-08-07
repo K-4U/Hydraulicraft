@@ -45,8 +45,7 @@ dependencies {
 }
 
 project.ext {
-    //buildNum = System.getenv("BUILD_NUMBER")
-    buildNum = 0
+    buildNum = System.getenv("BUILD_NUMBER")
         mcVersion = "1.7.10"
 }
 
