@@ -76,7 +76,7 @@ public class TileHydraulicMixer extends TileHydraulicBase implements
 	
 	public void doConvert(){
 		if(isWorking){
-			ticksDone = ticksDone + 1 + (int)((getPressure(ForgeDirection.UNKNOWN)/100) * 0.00005F);
+			ticksDone = ticksDone + 1 + (int)((getPressure(ForgeDirection.UNKNOWN)/100) * 0.0003F);
 			//Log.info(ticksDone+ "");
 			if(ticksDone >= maxTicks){
 				if(outputTank.getFluidAmount() <= 0){
