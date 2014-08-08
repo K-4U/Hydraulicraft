@@ -26,3 +26,4 @@ Just an example on how to use IMC to register crushing recipes:
 
 Where itemFrom and itemTo are ItemStacks.
 The pressureRatio is how much pressure it should use. 1 is the normal amount of pressure. I use 1.2 for diamonds. So, the harder your material is, the higher you make this (Although i do not recommend going above 3!)
+You can also use registerWashingRecipe, with the exact same arguments.
