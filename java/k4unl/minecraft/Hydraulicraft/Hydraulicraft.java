@@ -139,6 +139,17 @@ public class Hydraulicraft {
                     CrushingRecipes.addCrushingRecipe(new CrushingRecipes
                             .CrushingRecipe(from, pressureRatio,
                             to));
+                }else if(message.key.equals("registerWashingRecipe")){
+                    NBTTagCompound toRegister = message.getNBTValue();
+
+                    ItemStack from = ItemStack.loadItemStackFromNBT
+                            (toRegister.getCompoundTag("itemFrom"));
+                    ItemStack to = ItemStack.loadItemStackFromNBT
+                            (toRegister.getCompoundTag("itemTo"));
+                    float pressureRatio = toRegister.getFloat("pressureRatio");
+                    WashingRecipes.addWashingRecipe(new WashingRecipes
+                            .WashingRecipe(from, pressureRatio,
+                            to));
                 }else{
                     Class clazz = Class.forName(message.key);
                     try {
