@@ -1,9 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
@@ -12,6 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
@@ -39,6 +43,18 @@ public class BlockMovingPane extends HydraulicBlockContainerBase {
 	public int getRenderBlockPass(){
 		return 1;
 	}
+
+    @Override
+    public int quantityDropped(Random p_149745_1_){
+        return 0;
+    }
+
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune){
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        ret.add(new ItemStack(HCItems.itemMovingPane, 1));
+
+        return ret;
+    }
 
 	// This block is called when block is broken and destroys the primary block.
 	@Override
