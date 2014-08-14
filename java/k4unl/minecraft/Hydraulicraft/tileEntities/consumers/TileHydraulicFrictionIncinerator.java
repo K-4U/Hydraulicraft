@@ -63,7 +63,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 				if(outputInventory == null){
 					outputInventory = targetItem.copy(); 
 				}else{
-					outputInventory.stackSize++;
+					outputInventory.stackSize += targetItem.stackSize;
 				}
 				smeltingItem = null;
 				targetItem = null;

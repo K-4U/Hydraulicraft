@@ -6,8 +6,6 @@ import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalStateChanged;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TilePortalFrame extends TileHydraulicBaseNoPower{
 	
@@ -33,7 +31,7 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower{
 		
 	}
 	
-	@SideOnly(Side.CLIENT)
+
 	public boolean isConnectedTo(ForgeDirection dir){
 		Location thatLocation = new Location(xCoord, yCoord, zCoord, dir);
 		if(thatLocation == null || getWorldObj() == null){
