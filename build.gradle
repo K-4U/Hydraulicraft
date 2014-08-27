@@ -143,12 +143,12 @@ artifacts {
 
 task("uploadJars", dependsOn:"reobf") {
     description = "uploads JARs"
-    if (project.hasProperty("local_maven")) {
+    if (System.getenv("local_maven") != null) {
         apply plugin: 'maven'
         uploadArchives {
             repositories {
                 mavenDeployer {
-                    repository(url: "file://${local_maven}")
+                    repository(url: "file://" + System.getenv("local_maven"))
                 }
             }
         }
