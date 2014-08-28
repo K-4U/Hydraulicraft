@@ -30,7 +30,7 @@ public class GuiElectricPump extends HydraulicGUIBase {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		
 		
-		drawHorizontalAlignedString(7, 3, xSize - 14, Localization.getLocalizedName(Names.blockRFPump[pump.getTier()].unlocalized), true);
+		drawHorizontalAlignedString(7, 3, xSize - 14, Localization.getLocalizedName(Names.blockElectricPump[pump.getTier()].unlocalized), true);
 		drawVerticalProgressBar(124, 16, 54, 16, pump.getEUStored(), pump.getMaxEUStorage(), Constants.COLOR_EU, "Energy Units", "EU");
 				
 		
