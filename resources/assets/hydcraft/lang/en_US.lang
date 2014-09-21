@@ -72,14 +72,27 @@ tile.hydraulicWaterPump.name=Hydraulic Archimedes' Screw (WIP)
 tile.blockCopper.name=Copper Block
 tile.blockLead.name=Lead Block
 
+#Dust and chunks
 dustGold.name=Gold Dust
 dustIron.name=Iron Dust
+dustArdite.name=Ardite Dust
 dustCopper.name=Copper Dust
 dustLead.name=Lead Dust
+dustFzDarkIron.name=Dark Iron Dust
+dustTin.name=Tin Dust
+dustCobalt.name=Cobalt Dust
+dustSilver.name=Silver Dust
+dustNickel.name=Nickel Dust
 chunkGold.name=Gold Chunk
 chunkIron.name=Iron Chunk
+chunkArdite.name=Ardite Chunk
 chunkCopper.name=Copper Chunk
 chunkLead.name=Lead Chunk
+chunkFzDarkIron.name=Dark Iron Chunk
+chunkTin.name=Tin Chunk
+chunkCobalt.name=Cobalt Chunk
+chunkSilver.name=Silver Chunk
+chunkNickel.name=Nickel Chunk
 
 item.itemDebug.name=Debug Item
 
