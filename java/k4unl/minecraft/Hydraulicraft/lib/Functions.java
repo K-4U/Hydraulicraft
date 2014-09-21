@@ -1,8 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -18,6 +15,9 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Functions {
 	private static boolean isUpdateAvailable;
@@ -77,12 +77,12 @@ public class Functions {
 	}
 	
 	public static boolean isInString(String oreName, String[] list){
-		boolean ret = false;
-		for(int i = 0; i < list.length; i++){
-			ret = ret || (oreName.substring(0, list[i].length()).equals(list[i]));
-		}
-		return ret;
-	}
+        boolean ret = false;
+        for(int i = 0; i < list.length; i++){
+            ret = ret || (oreName.substring(0, list[i].length()).equals(list[i]));
+        }
+        return ret;
+    }
 	
 
     public static String getPrefixName(String oreDictName){

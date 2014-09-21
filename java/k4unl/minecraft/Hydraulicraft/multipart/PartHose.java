@@ -1,16 +1,16 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import codechicken.lib.data.MCDataInput;
+import codechicken.lib.data.MCDataOutput;
+import codechicken.lib.raytracer.IndexedCuboid6;
+import codechicken.lib.render.EntityDigIconFX;
+import codechicken.lib.vec.Cuboid6;
+import codechicken.lib.vec.Vector3;
+import codechicken.microblock.ISidedHollowConnect;
+import codechicken.multipart.*;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.api.*;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
@@ -27,24 +27,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
 
-import codechicken.lib.data.MCDataInput;
-import codechicken.lib.data.MCDataOutput;
-import codechicken.lib.raytracer.IndexedCuboid6;
-import codechicken.lib.render.EntityDigIconFX;
-import codechicken.lib.vec.Cuboid6;
-import codechicken.lib.vec.Vector3;
-import codechicken.microblock.ISidedHollowConnect;
-import codechicken.multipart.JNormalOcclusion;
-import codechicken.multipart.NormalOcclusionTest;
-import codechicken.multipart.NormallyOccludedPart;
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TSlottedPart;
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.*;
 
 
 
@@ -292,19 +277,25 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     }
     
     public void checkConnectedSides(Object caller){
+        HashMap<ForgeDirection, TileEntity> oldSides = new HashMap<ForgeDirection, TileEntity>(connectedSides);
         connectedSides = new HashMap<ForgeDirection, TileEntity>();
+
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			int d = Functions.getIntDirFromDirection(dir);
 			
             TileEntity te = world().getTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
             if(shouldConnectTo(te, dir, caller)) {
             	if(tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]))){
+                    if(!oldSides.containsKey(dir)){
+                        connectedSidesHaveChanged = true;
+                    }
             		connectedSides.put(dir, te);
             	}
             }
         }
-		connectedSidesHaveChanged = true;
-		getHandler().updateBlock();
+        if(connectedSidesHaveChanged){
+		    getHandler().updateBlock();
+        }
     }
     
     @Override

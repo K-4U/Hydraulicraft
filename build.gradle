@@ -29,6 +29,10 @@ repositories {
         name = "ic2"
             url = "http://maven.ic2.player.to/"
     }
+    maven {
+        name "K4Repo"
+        url "http://maven.k-4u.nl"
+    }
 }
 
 
@@ -36,30 +40,31 @@ apply plugin: 'forge'
 
 dependencies {
     compile "codechicken:CodeChickenLib:1.7.10-1.1.1.95:dev"
-        compile "codechicken:CodeChickenCore:1.7.10-1.0.2.11:dev"
-        compile "codechicken:NotEnoughItems:1.7.10-1.0.2.26:dev"
-        compile "codechicken:ForgeMultipart:1.7.10-1.1.0.297:dev"
-        compile "mcp.mobius.waila:Waila:1.5.3_1.7.10"
-        compile 'com.mod-buildcraft:buildcraft:6.0.17:dev'
-        compile 'net.industrial-craft:industrialcraft-2:2.2.504-experimental:api'
+    compile "codechicken:CodeChickenCore:1.7.10-1.0.2.11:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.2.26:dev"
+    compile "codechicken:ForgeMultipart:1.7.10-1.1.0.297:dev"
+    compile "mcp.mobius.waila:Waila:1.5.3_1.7.10"
+    compile 'com.mod-buildcraft:buildcraft:6.0.17:dev'
+    compile 'net.industrial-craft:industrialcraft-2:2.2.504-experimental:api'
+    compile "k4unl:k4lib:1.7.10-0.1.1:deobf"
 }
 
 project.ext {
     buildNum = System.getenv("BUILD_NUMBER")
-        mcVersion = "1.7.10"
+    mcVersion = "1.7.10"
 }
 
-version = "2.0"
-group= "k4unl.minecraft.Hydraulicraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = project.ext.mcVersion + "-2.0." + project.ext.buildNum
+group= "k4unl" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HydCraft"
 
 minecraft {
     version = "${project.ext.mcVersion}-10.13.0.1180"
 
-        // replacing stuff in the source
-        replace '@VERSION@', project.version
-        replace '@MC_VERSION@', version
-        replace '@BUILD_NUMBER@', project.ext.buildNum
+    // replacing stuff in the source
+    replace '@VERSION@', project.version
+    replace '@MC_VERSION@', version
+    replace '@BUILD_NUMBER@', project.ext.buildNum
 }
 
 
@@ -73,9 +78,9 @@ sourceSets {
         }
         resources {
             srcDir 'resources'
-                exclude '**/.md' // exclude readme from localization repo
-                // exclude 'some exclusion'
-                // include 'some inclusion'
+            exclude '**/.md' // exclude readme from localization repo
+            // exclude 'some exclusion'
+            // include 'some inclusion'
         }
     }
     api {
@@ -90,15 +95,15 @@ sourceSets {
 processResources
 {
     inputs.property "version", project.version
-        inputs.property "mcversion", project.minecraft.version
-        inputs.property "buildNum", project.ext.buildNum
-        // replace stuff in mcmod.info, nothing else
-        from(sourceSets.main.resources.srcDirs) {
-            include 'mcmod.info'
+    inputs.property "mcversion", project.minecraft.version
+    inputs.property "buildNum", project.ext.buildNum
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
 
-                // replace version and mcversion
-                expand 'version':project.version, 'mcversion':project.minecraft.version, 'buildNum':project.ext.buildNum
-        }
+            // replace version and mcversion
+            expand 'version':project.version, 'mcversion':project.minecraft.version, 'buildNum':project.ext.buildNum
+    }
 
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
@@ -110,14 +115,12 @@ processResources
 
 
 jar {
-    appendix = "${project.ext.mcVersion}"
-        classifier = "${project.ext.buildNum}"
+    classifier = "universal"
 }
 
 task deobfJar(type: Jar) {
     from(sourceSets.main.output) {
-        appendix = "${project.ext.mcVersion}"
-            classifier = "${project.ext.buildNum}-deobf"
+        classifier = "deobf"
     }
 }
 
@@ -128,8 +131,7 @@ task apiZip(type: Zip) {
 
         destinationDir = file 'output'
 
-        appendix = "${project.ext.mcVersion}"
-        classifier = "${project.ext.buildNum}-api"
+        classifier = "api"
     }
 }
 
@@ -149,6 +151,40 @@ task("uploadJars", dependsOn:"reobf") {
             repositories {
                 mavenDeployer {
                     repository(url: "file://" + System.getenv("local_maven"))
+                    pom {
+                        groupId = project.group
+                        version = project.version
+                        artifactId = project.archivesBaseName
+                        project {
+                            name project.archivesBaseName
+                            packaging 'jar'
+                            description 'Hydraulicraft'
+                            url 'http://Hydraulicrat.eu'
+                            scm {
+                                url 'https://github.com/K-4U/Hydraulicraft'
+                                connection 'scm:git:git@github.com:K-4U/Hydraulicraft.git'
+                                developerConnection 'scm:git:git@github.com:K-4U/Hydraulicraft.git'
+                            }
+                            issueManagement {
+                                system 'github'
+                                url 'https://github.com/K-4U/Hydraulicraft/issues'
+                            }
+                            licenses {
+                                license {
+                                    name 'GPLv3'
+                                    url 'https://github.com/K-4U/Hydraulicraft/blob/master/LICENSE'
+                                    distribution 'repo'
+                                }
+                            }
+                            developers {
+                                developer {
+                                    id 'K4Unl'
+                                    name 'K4Unl'
+                                    roles { role 'developer' }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
