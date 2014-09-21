@@ -11,6 +11,7 @@ item.miningHelmet.name=矿工头盔
 item.itemLamp.name=矿工头盔灯
 item.diamondShard.name=钻石碎片
 item.dustDiamondCopper.name=浓缩铜粉
+item.enderLolly.name=末影棒棒糖
 
 #Ores
 tile.oreCopper.name=铜矿
@@ -48,7 +49,7 @@ tile.MPHydraulicLavaPump.name=中压岩浆泵
 tile.HPHydraulicLavaPump.name=高压岩浆泵
 
 tile.hydraulicHarvesterSource.name=液压收割机
-tile.hydraulicHarvesterFrame.name=收割框架
+tile.hydraulicHarvesterFrame.name=收割机框架
 
 #poorly chosen name. This was done for compatability 
 tile.wheatHarvester.crops.name=小麦收割机
@@ -129,3 +130,8 @@ tile.HPRFPump.name=高压红石泵
 #FMP
 tile.hydraulicSaw.name=液压锯
 
+tile.portalBase.name=传送门基座
+tile.portalFrame.name=传送门框架
+tile.portalTeleporter.name=传送门
+item.portalIPCard.name=传送门IP卡
+itemGroup.tabGOW=Glowing Octo Wallhack
