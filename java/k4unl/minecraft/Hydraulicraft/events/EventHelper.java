@@ -88,7 +88,7 @@ public class EventHelper {
 				//If update available and the update message wasn't sent to Version Checker, tell em!
 				if(UpdateChecker.isUpdateAvailable && !Loader.isModLoaded("VersionChecker")){
 					UpdateInfo info = UpdateChecker.infoAboutUpdate;
-					Functions.showMessageInChat(((EntityPlayer)event.entity), "Hydraulicraft version " + info.latestVersion + "-" + info.buildNumber + " available!");
+					Functions.showMessageInChat(((EntityPlayer)event.entity), "Hydraulicraft version " + info.latestVersion + " available!");
 					Functions.showMessageInChat(((EntityPlayer)event.entity),"Released on " + info.dateOfRelease);
 					int i = 0;
 					for(String cl : info.changelog){
