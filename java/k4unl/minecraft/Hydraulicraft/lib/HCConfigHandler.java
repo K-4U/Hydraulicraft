@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.lib;
 
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.k4lib.lib.config.ConfigHandler;
-import net.minecraftforge.common.config.Configuration;
 
 /*!
  * @author Koen Beckers
@@ -11,7 +10,6 @@ import net.minecraftforge.common.config.Configuration;
  * (it's early, don't expect any good documentation)
  */
 public class HCConfigHandler extends ConfigHandler {
-    private static Configuration config;
 
 
     public static void loadTank(){
