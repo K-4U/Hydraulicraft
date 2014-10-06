@@ -14,7 +14,6 @@ import java.util.List;
 public class UpdateChecker {
 	public static class UpdateInfo {
 	    public String latestVersion;
-	    public String buildNumber;
 	    public String dateOfRelease;
 	    public List<String> changelog;
 	}
@@ -27,7 +26,7 @@ public class UpdateChecker {
 		if(HCConfig.getBool("checkForUpdates")){
 			String json = "";
 			try {
-				json = readUrl("http://hydraulicraft.eu/update_1.7.2.json");
+				json = readUrl("http://hydraulicraft.eu/update_1.7.10.json");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -37,7 +36,7 @@ public class UpdateChecker {
 					Gson gson = new Gson();        
 					UpdateInfo info = gson.fromJson(json, UpdateInfo.class);
 					
-					if(!info.latestVersion.equals(ModInfo.VERSION) || !info.buildNumber.equals(ModInfo.buildNumber)){
+					if(!info.latestVersion.equals(ModInfo.VERSION)){
 						Log.info("New version available!");
 						Log.info("Latest version released at: " + info.dateOfRelease);
 						isUpdateAvailable = true;
@@ -84,7 +83,6 @@ public class UpdateChecker {
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setString("modDisplayName", ModInfo.NAME);
 		compound.setString("oldVersion", ModInfo.VERSION + "-" + ModInfo.buildNumber);
-		compound.setString("newVersion", info.latestVersion + "-" + info.buildNumber);
 		compound.setString("updateUrl", "http://hydraulicraft.eu/downloads/");
 		compound.setBoolean("isDirectLink", false);
 		String changeLog = "";
