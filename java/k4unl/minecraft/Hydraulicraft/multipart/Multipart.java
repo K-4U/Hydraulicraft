@@ -1,14 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
-import java.util.List;
-
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import codechicken.lib.vec.BlockCoord;
 import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.MultiPartRegistry.IPartConverter;
@@ -16,6 +7,15 @@ import codechicken.multipart.MultiPartRegistry.IPartFactory;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
 import cpw.mods.fml.common.registry.GameRegistry;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.k4lib.lib.Location;
+import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+
+import java.util.List;
 
 
 public class Multipart implements IPartFactory, IPartConverter{

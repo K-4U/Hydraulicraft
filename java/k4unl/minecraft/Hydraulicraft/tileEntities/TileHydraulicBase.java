@@ -1,21 +1,18 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import codechicken.lib.data.MCDataOutput;
+import codechicken.multipart.TMultiPart;
+import codechicken.multipart.TileMultipart;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.api.*;
 import k4unl.minecraft.Hydraulicraft.blocks.IHydraulicMultiBlock;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
@@ -25,6 +22,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
@@ -39,124 +37,130 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
-import codechicken.lib.data.MCDataOutput;
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileHydraulicBase extends TileEntity implements IBaseClass {
-	private boolean _isOilStored = false;
-	private int fluidLevelStored = 0;
-	private boolean isRedstonePowered = false;
-	
-	private float pressure = 0F;
-	
-	private boolean isMultipart;
-	private World tWorld;
-	private Location blockLocation;
-	private TMultiPart tMp;
-	private TileEntity tTarget;
-	private IHydraulicMachine target;
-	
-	private boolean hasOwnFluidTank;
-	private boolean firstUpdate = true;
-	private float oldPressure = 0f;
-	
-	private boolean shouldUpdateNetwork = true;
-	private boolean shouldUpdateFluid = false;
-	
-	private PressureTier pressureTier;
-	private int maxStorage = 0;
-	protected List<ForgeDirection> connectedSides;
-    protected PressureNetwork pNetwork;
-    private int fluidInNetwork;
-	private int networkCapacity;
-	
-	
-	/**
-	 * @param _pressureTier The tier of pressure.
-	 * @param _maxStorage The max ammount of Fluid/10 this machine can store.
-	 */
-	public TileHydraulicBase(PressureTier _pressureTier, int _maxStorage) {
-		pressureTier = _pressureTier;
-		maxStorage = _maxStorage;
-    	connectedSides = new ArrayList<ForgeDirection>();
-	}
-	
-	public void init(TileEntity _target){
-		tTarget = _target;
-		target = (IHydraulicMachine) _target;
-		if(target instanceof TileHydraulicPressureVat){
-			hasOwnFluidTank = true;
-		}
-		tWorld = _target.getWorldObj();
-	}
-	
-	public IBaseClass getHandler(){
-		return this;
-	}
-	
-	public Location getBlockLocation(){
-		if(blockLocation == null){
-			if(isMultipart){
-				if(tMp.tile() != null){
-					blockLocation = new Location(tMp.x(), tMp.y(), tMp.z());
-				}
-			}else{
-				blockLocation = new Location(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
-			}
-		}
-		return blockLocation;
-	}
-	
-	public World getWorld(){
-		if(tWorld == null){
-			if(isMultipart){
-				tWorld = tMp.world();
-			}else{ 
-				if(tTarget != null){
-					tWorld = tTarget.getWorldObj();
-				}
-			}
-		}
-		return tWorld;
-	}
-	
-	public void redstoneChanged(boolean rsPowered){
-		
-	}
-	
-	public void dropItemStackInWorld(ItemStack itemStack){
-		if(itemStack != null){
-			EntityItem ei = new EntityItem(getWorld());
-			ei.setEntityItemStack(itemStack);
-			ei.setPosition(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
-			getWorld().spawnEntityInWorld(ei);
-		}
-	}
-	
-	public boolean getRedstonePowered(){
-		return getIsRedstonePowered();
-	}
-	
-	public void updateBlock(){
-		if(getWorld() != null && !getWorld().isRemote){
-			if(isMultipart && tMp.tile() != null){
-		    	MCDataOutput writeStream = tMp.tile().getWriteStream(tMp);
-		    	tMp.writeDesc(writeStream);
-			}else{
-				getWorld().markBlockForUpdate(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
-			}
-		}
+    private boolean _isOilStored      = false;
+    private int     fluidLevelStored  = 0;
+    private boolean isRedstonePowered = false;
+
+    private float pressure = 0F;
+
+    private boolean           isMultipart;
+    private World             tWorld;
+    private Location          blockLocation;
+    private TMultiPart        tMp;
+    private TileEntity        tTarget;
+    private IHydraulicMachine target;
+
+    private boolean hasOwnFluidTank;
+    private boolean firstUpdate = true;
+    private float   oldPressure = 0f;
+
+    private boolean shouldUpdateNetwork = true;
+    private boolean shouldUpdateFluid   = false;
+
+    private PressureTier pressureTier;
+    private int maxStorage = 0;
+    protected List<ForgeDirection> connectedSides;
+    protected PressureNetwork      pNetwork;
+    private   int                  fluidInNetwork;
+    private   int                  networkCapacity;
+
+
+    /**
+     * @param _pressureTier The tier of pressure.
+     * @param _maxStorage The max ammount of Fluid/10 this machine can store.
+     */
+    public TileHydraulicBase(PressureTier _pressureTier, int _maxStorage) {
+
+        pressureTier = _pressureTier;
+        maxStorage = _maxStorage;
+        connectedSides = new ArrayList<ForgeDirection>();
     }
 
-	public void checkPressure(ForgeDirection dir){
-		if(getWorld() == null) return;
-		if(getWorld().isRemote) return;
-		
-		float newPressure = getPressure(dir);
+    public void init(TileEntity _target) {
+
+        tTarget = _target;
+        target = (IHydraulicMachine) _target;
+        if (target instanceof TileHydraulicPressureVat) {
+            hasOwnFluidTank = true;
+        }
+        tWorld = _target.getWorldObj();
+    }
+
+    public IBaseClass getHandler() {
+
+        return this;
+    }
+
+    public Location getBlockLocation() {
+
+        if (blockLocation == null) {
+            if (isMultipart) {
+                if (tMp.tile() != null) {
+                    blockLocation = new Location(tMp.x(), tMp.y(), tMp.z());
+                }
+            } else {
+                blockLocation = new Location(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+            }
+        }
+        return blockLocation;
+    }
+
+    public World getWorld() {
+
+        if (tWorld == null) {
+            if (isMultipart) {
+                tWorld = tMp.world();
+            } else {
+                if (tTarget != null) {
+                    tWorld = tTarget.getWorldObj();
+                }
+            }
+        }
+        return tWorld;
+    }
+
+    public void redstoneChanged(boolean rsPowered) {
+
+    }
+
+    public void dropItemStackInWorld(ItemStack itemStack) {
+
+        if (itemStack != null) {
+            EntityItem ei = new EntityItem(getWorld());
+            ei.setEntityItemStack(itemStack);
+            ei.setPosition(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
+            getWorld().spawnEntityInWorld(ei);
+        }
+    }
+
+    public boolean getRedstonePowered() {
+
+        return getIsRedstonePowered();
+    }
+
+    public void updateBlock() {
+
+        if (getWorld() != null && !getWorld().isRemote) {
+            if (isMultipart && tMp.tile() != null) {
+                MCDataOutput writeStream = tMp.tile().getWriteStream(tMp);
+                tMp.writeDesc(writeStream);
+            } else {
+                getWorld().markBlockForUpdate(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
+            }
+        }
+    }
+
+    public void checkPressure(ForgeDirection dir) {
+
+        if (getWorld() == null) return;
+        if (getWorld().isRemote) return;
+
+        float newPressure = getPressure(dir);
 		int compare = Float.compare(getMaxPressure(isOilStored(), dir), newPressure);
 		if(compare < 0 && getStored() > 0){
 			getWorld().createExplosion((Entity)null, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(),
@@ -499,7 +503,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 				
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 					if(getNetwork(dir) != null){
-						if(getWorld().getTotalWorldTime() % 2 == 0 && Config.get("explosions")){
+						if(getWorld().getTotalWorldTime() % 2 == 0 && HCConfig.getBool("explosions")){
 							checkPressure(dir);
 						}
 						
@@ -633,7 +637,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
 	@Override
 	public int getMaxStorage() {
-		return Config.getInt("maxFluidMultiplier") * maxStorage;
+		return HCConfig.getInt("maxFluidMultiplier") * maxStorage;
 	}
 	
 	public void firstTick(){

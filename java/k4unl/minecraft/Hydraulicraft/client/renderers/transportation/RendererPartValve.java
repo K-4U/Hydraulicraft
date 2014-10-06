@@ -1,19 +1,17 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.transportation;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
+import codechicken.multipart.TileMultipart;
+import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.multipart.PartValve;
+import k4unl.minecraft.k4lib.client.RenderHelper;
+import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
-
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.client.FMLClientHandler;
 
 public class RendererPartValve extends TileEntitySpecialRenderer {
 

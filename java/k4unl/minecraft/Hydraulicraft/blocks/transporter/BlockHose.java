@@ -1,12 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.blocks.transporter;
 
-import java.util.List;
-import java.util.Map;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.tileEntities.transporter.TilePressureHose;
+import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -14,50 +13,57 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Map;
 
 public class BlockHose extends HydraulicTieredBlockBase {
 
-	private static Vector3fMax blockBounds = new Vector3fMax(0.3f, 0.3f, 0.3f, 0.7f, 0.7f, 0.7f);
-	
-	public BlockHose() {
-		super(Names.partHose);
-	}
+    private static Vector3fMax blockBounds = new Vector3fMax(0.3f, 0.3f, 0.3f, 0.7f, 0.7f, 0.7f);
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		TilePressureHose pHose = new TilePressureHose(metadata);
-		return pHose;
-	}
+    public BlockHose() {
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getRenderType() {
-		return -1;
-	}
+        super(Names.partHose);
+    }
 
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
 
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
+        TilePressureHose pHose = new TilePressureHose(metadata);
+        return pHose;
+    }
 
-	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z,
-			Block block) {
-		super.onNeighborBlockChange(world, x, y, z, block);
-		TileEntity t = world.getTileEntity(x, y, z);
-		if (t instanceof TilePressureHose) {
-			((TilePressureHose) t).refreshConnectedSides();
-		}
-	}
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getRenderType() {
 
-	private boolean isDir(Map<ForgeDirection, TileEntity> connectedSides, ForgeDirection dir){
+        return -1;
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+
+        return false;
+    }
+
+    @Override
+    public void onNeighborBlockChange(World world, int x, int y, int z,
+      Block block) {
+
+        super.onNeighborBlockChange(world, x, y, z, block);
+        TileEntity t = world.getTileEntity(x, y, z);
+        if (t instanceof TilePressureHose) {
+            ((TilePressureHose) t).refreshConnectedSides();
+        }
+    }
+
+    private boolean isDir(Map<ForgeDirection, TileEntity> connectedSides, ForgeDirection dir){
 		return connectedSides.containsKey(dir);
 	}
 	

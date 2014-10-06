@@ -1,9 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.IHydraulicMultiBlock;
@@ -15,8 +11,8 @@ import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes.WashingRecipe;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
@@ -28,13 +24,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class TileHydraulicWasher extends TileHydraulicBase implements
 		ISidedInventory, IFluidHandler, IHydraulicConsumer, IHydraulicMultiBlock {
@@ -292,7 +286,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(i == 0 && Config.canBeWashed(itemStack)){
+		if(i == 0 && HCConfig.canBeWashed(itemStack)){
 			return true;
 		}else if(i == 2){
 			if(FluidContainerRegistry.isFilledContainer(itemStack)){
@@ -315,7 +309,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		if(i == 0 && Config.canBeWashed(itemStack)){
+		if(i == 0 && HCConfig.canBeWashed(itemStack)){
 			return true;
 		}else{
 			return false;

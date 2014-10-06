@@ -1,55 +1,57 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsumer {
     private Location parent;
     private Location child;
-    private ForgeDirection facing = ForgeDirection.UP;
+    private ForgeDirection facing     = ForgeDirection.UP;
     private ForgeDirection paneFacing = ForgeDirection.NORTH;
-    
-    private boolean isPane = false;
+
+    private boolean isPane     = false;
     private boolean isRotating = false;
-    
-    private float movedPercentage = 0.0F;
+
+    private float movedPercentage     = 0.0F;
     private float prevMovedPercentage = 0.0F;
-    private float movingSpeed = 0.01F;
-    private float target = 1.0F;
-    
-    public TileMovingPane(){
-    	super(PressureTier.HIGHPRESSURE, 5);
-    	super.init(this);
+    private float movingSpeed         = 0.01F;
+    private float target              = 1.0F;
+
+    public TileMovingPane() {
+
+        super(PressureTier.HIGHPRESSURE, 5);
+        super.init(this);
     }
 
-    public boolean getIsRotating(){
-    	return isRotating;
+    public boolean getIsRotating() {
+
+        return isRotating;
     }
-    
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound) {
-		super.readFromNBT(tagCompound);
-		isPane = tagCompound.getBoolean("isPane");
-		if(isPane){
-			parent = new Location(tagCompound.getIntArray("parent"));
-		}else{
-			child = new Location(tagCompound.getIntArray("child"));
-		}
-		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
-		paneFacing = ForgeDirection.getOrientation(tagCompound.getInteger("paneFacing"));
-		
-		if(isPane){
-			isRotating = tagCompound.getBoolean("isRotating");
+
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+
+        super.readFromNBT(tagCompound);
+        isPane = tagCompound.getBoolean("isPane");
+        if (isPane) {
+            parent = new Location(tagCompound.getIntArray("parent"));
+        } else {
+            child = new Location(tagCompound.getIntArray("child"));
+        }
+        facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+        paneFacing = ForgeDirection.getOrientation(tagCompound.getInteger("paneFacing"));
+
+        if (isPane) {
+            isRotating = tagCompound.getBoolean("isRotating");
 			movedPercentage = tagCompound.getFloat("movedPercentage");
 			movingSpeed = tagCompound.getFloat("movingSpeed");
 			target = tagCompound.getFloat("target");
@@ -251,7 +253,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 		boolean allFalse = true;
 		boolean oneTrue = false;
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			TileEntity te = Functions.getTEInDir(getWorldObj(), xCoord, yCoord, zCoord, dir);
+			TileEntity te = new Location(xCoord, yCoord, zCoord).getTE(getWorldObj(), dir);
 			if(te instanceof TileMovingPane){
 				if(!called.contains(te)){
 					if(((TileMovingPane) te).getRedstonePowered(called) == true){

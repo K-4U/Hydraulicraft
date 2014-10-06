@@ -1,17 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.harvester;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.TrolleyEnderlily;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCrops;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleySugarCane;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -23,6 +19,10 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TileHarvesterTrolley extends TileEntity {
 	private float extendedLength;
@@ -179,7 +179,7 @@ public class TileHarvesterTrolley extends TileEntity {
 				actuallyPlant();
 			}else if(isHarvesting){
 				actuallyHarvest();
-			}else if(Config.get("shouldDolleyInHarvesterGoBack") && harvestedItems != null){
+			}else if(HCConfig.getBool("shouldDolleyInHarvesterGoBack") && harvestedItems != null){
 				harvester.putInInventory(harvestedItems);
 				harvestedItems = new ArrayList<ItemStack>();
 			}
@@ -415,7 +415,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		plantingItem = null;
 		isHarvesting = false;
 		isPlanting = false;
-		if(Config.get("shouldDolleyInHarvesterGoBack")){
+		if(HCConfig.getBool("shouldDolleyInHarvesterGoBack")){
 			extendTo(0, 0);
 		}else{
 			extendTo(0, locationToPlant);
@@ -491,7 +491,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		
 		isHarvesting = false;
 		isPlanting = false;
-		if(Config.get("shouldDolleyInHarvesterGoBack")){
+		if(HCConfig.getBool("shouldDolleyInHarvesterGoBack")){
 			harvestedItems = dropped;
 			extendTo(0, 0);
 		}else{

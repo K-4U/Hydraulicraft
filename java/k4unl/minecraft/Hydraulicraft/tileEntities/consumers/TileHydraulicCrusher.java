@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
-import java.util.Random;
-
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.items.ItemDusts;
@@ -9,7 +7,7 @@ import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes.CrushingRecipe;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +15,8 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.Random;
 
 public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInventory, IHydraulicConsumer{
     private ItemStack inputInventory;
@@ -136,7 +136,7 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
     }
 
     private static boolean canCrush(ItemStack inv){
-        return Config.canBeCrushed(inv);
+        return HCConfig.canBeCrushed(inv);
     }
 
     @Override

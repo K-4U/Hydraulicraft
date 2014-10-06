@@ -1,16 +1,16 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyHandler;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
 
 public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator, IEnergyHandler, ICustomNetwork {
 	private int currentBurnTime;
@@ -75,9 +75,9 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 	@Override
 	public int getMaxGenerating(ForgeDirection from) {
 		if(!getHandler().isOilStored()){
-			return Config.getInt("maxMBarGenWaterT" + (getTier()+1));
+			return HCConfig.getInt("maxMBarGenWaterT" + (getTier() + 1));
 		}else{
-			return Config.getInt("maxMBarGenOilT" + (getTier()+1));
+			return HCConfig.getInt("maxMBarGenOilT" + (getTier()+1));
 		}
 	}
 

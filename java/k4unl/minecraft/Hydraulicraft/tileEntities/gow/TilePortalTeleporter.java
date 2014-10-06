@@ -1,43 +1,45 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.gow;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
 import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalEnabled;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 
 public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
-	private boolean hasSendPacket = true;
-	private float transparancy = 0.2F;
-	private float prevTransparancy = 0.2F;
-	private float directionTransparency = 0.01F;
-	private ForgeDirection baseDir;
-	private ForgeDirection portalDir;
-	private Location portalBase;
-	
-	@Override
-	public void readFromNBT(NBTTagCompound tCompound){
-		super.readFromNBT(tCompound);
-		
-		baseDir = ForgeDirection.getOrientation(tCompound.getInteger("baseDir"));
-		portalDir = ForgeDirection.getOrientation(tCompound.getInteger("portalDir"));
-		
-		portalBase = new Location(tCompound.getIntArray("portalBase"));
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound tCompound){
-		super.writeToNBT(tCompound);
-		tCompound.setInteger("baseDir", baseDir.ordinal());
-		tCompound.setInteger("portalDir", portalDir.ordinal());
-		
-		if(portalBase != null){
-			tCompound.setIntArray("portalBase", portalBase.getIntArray());
+    private boolean hasSendPacket         = true;
+    private float   transparancy          = 0.2F;
+    private float   prevTransparancy      = 0.2F;
+    private float   directionTransparency = 0.01F;
+    private ForgeDirection baseDir;
+    private ForgeDirection portalDir;
+    private Location       portalBase;
+
+    @Override
+    public void readFromNBT(NBTTagCompound tCompound) {
+
+        super.readFromNBT(tCompound);
+
+        baseDir = ForgeDirection.getOrientation(tCompound.getInteger("baseDir"));
+        portalDir = ForgeDirection.getOrientation(tCompound.getInteger("portalDir"));
+
+        portalBase = new Location(tCompound.getIntArray("portalBase"));
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tCompound) {
+
+        super.writeToNBT(tCompound);
+        tCompound.setInteger("baseDir", baseDir.ordinal());
+        tCompound.setInteger("portalDir", portalDir.ordinal());
+
+        if (portalBase != null) {
+            tCompound.setIntArray("portalBase", portalBase.getIntArray());
 		}
 	}
 	
@@ -104,6 +106,6 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 
 	public void usePressure() {
 		getPortalBase().getHandler().setPressure(getPortalBase().getPressure
-                (ForgeDirection.UNKNOWN) - Config.getInt("pressurePerTeleport"), ForgeDirection.UP);
+                (ForgeDirection.UNKNOWN) - HCConfig.getInt("pressurePerTeleport"), ForgeDirection.UP);
 	}
 }

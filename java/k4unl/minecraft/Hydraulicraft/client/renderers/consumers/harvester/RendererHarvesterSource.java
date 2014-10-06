@@ -1,19 +1,16 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester;
 
 
-
-import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
+import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
+import k4unl.minecraft.k4lib.client.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
 
 public class RendererHarvesterSource extends TileEntitySpecialRenderer {
 

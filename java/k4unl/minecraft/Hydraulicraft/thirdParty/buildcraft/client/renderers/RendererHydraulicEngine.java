@@ -1,16 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.renderers;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
+import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
+import k4unl.minecraft.k4lib.client.RenderHelper;
+import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
 
 public class RendererHydraulicEngine extends TileEntitySpecialRenderer  {
 

@@ -1,14 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.world;
 
-import java.util.Random;
-
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import cpw.mods.fml.common.IWorldGenerator;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import cpw.mods.fml.common.IWorldGenerator;
+
+import java.util.Random;
 
 public class OreGenerator implements IWorldGenerator {
 
@@ -50,10 +50,10 @@ public class OreGenerator implements IWorldGenerator {
 	}
 	
 	private void generateOverworld(World world, Random random, int chunkX, int chunkZ){
-		if(Config.get("shouldGenCopperOre")){
+		if(HCConfig.getBool("shouldGenCopperOre")){
 			generateOre(Ores.oreCopper, world, random, chunkX, chunkZ);
 		}
-		if(Config.get("shouldGenLeadOre")){
+		if(HCConfig.getBool("shouldGenLeadOre")){
 			generateOre(Ores.oreLead, world, random, chunkX, chunkZ);
 		}
 	}

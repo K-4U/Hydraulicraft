@@ -1,14 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.gow;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
+import k4unl.minecraft.k4lib.client.RenderHelper;
+import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
 
 public class RendererPortalBase extends TileEntitySpecialRenderer {

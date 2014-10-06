@@ -5,8 +5,8 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -19,36 +19,41 @@ import java.util.Random;
 
 public class PressureNetwork {
 	public static class networkEntry{
-		private Location blockLocation;
-		private ForgeDirection from;
-		
-		public networkEntry(Location nLocation, ForgeDirection nFrom){
-			blockLocation = nLocation;
-			from = nFrom;
-		}
-		
-		public Location getLocation(){
-			return blockLocation;
-		}
-		
-		public ForgeDirection getFrom(){
-			return from;
-		}
-	}
-	private float pressure = 0;
-	
-	private List<networkEntry> machines;
-	private int randomNumber = 0;
-	private IBlockAccess world;
-	private int fluidInNetwork = 0;
-	private int fluidCapacity = 0;
-	private boolean isOilStored = false;
-	private PressureTier lowestTier = PressureTier.INVALID;
-	
-	public PressureNetwork(IHydraulicMachine machine, float beginPressure, ForgeDirection from){
-		randomNumber = new Random().nextInt();
-		machines = new ArrayList<networkEntry>();
-		machines.add(new networkEntry(((TileHydraulicBase)machine.getHandler()).getBlockLocation(), from));
+        private Location       blockLocation;
+        private ForgeDirection from;
+
+        public networkEntry(Location nLocation, ForgeDirection nFrom) {
+
+            blockLocation = nLocation;
+            from = nFrom;
+        }
+
+        public Location getLocation() {
+
+            return blockLocation;
+        }
+
+        public ForgeDirection getFrom() {
+
+            return from;
+        }
+    }
+
+    private float pressure = 0;
+
+    private List<networkEntry> machines;
+    private int randomNumber = 0;
+    private IBlockAccess world;
+    private int          fluidInNetwork = 0;
+    private int          fluidCapacity  = 0;
+    private boolean      isOilStored    = false;
+    private PressureTier lowestTier     = PressureTier.INVALID;
+
+    public PressureNetwork(IHydraulicMachine machine, float beginPressure, ForgeDirection from) {
+
+        randomNumber = new Random().nextInt();
+        machines = new ArrayList<networkEntry>();
+        machines.add(new networkEntry(((TileHydraulicBase)machine.getHandler()).getBlockLocation(), from));
 		pressure = beginPressure;
 		world = ((TileHydraulicBase)machine.getHandler()).getWorld();
 		isOilStored = machine.getHandler().isOilStored();

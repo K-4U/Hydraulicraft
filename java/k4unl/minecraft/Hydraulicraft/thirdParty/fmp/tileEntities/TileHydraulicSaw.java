@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -337,7 +337,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
         
         
         boolean scanForNext = false;
-        if(Config.get("canSawTwoMicroblocksAtOnce")){
+        if(HCConfig.getBool("canSawTwoMicroblocksAtOnce")){
         	scanForNext = (!getIsSawingLeftRight() || !getIsSawingUpDown());
         }else{
         	scanForNext = (!getIsSawingLeftRight() && !getIsSawingLeftRight());
@@ -443,10 +443,10 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
     }
 
     private static boolean canSplit(ItemStack inv){
-        return Config.canBeCrushed(inv);
+        return HCConfig.canBeCrushed(inv);
     }
     private static boolean canThin(ItemStack inv){
-        return Config.canBeCrushed(inv);
+        return HCConfig.canBeCrushed(inv);
     }
     
 	@Override

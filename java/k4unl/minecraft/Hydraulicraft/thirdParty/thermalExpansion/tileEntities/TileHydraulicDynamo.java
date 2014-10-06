@@ -203,18 +203,19 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 		return storage.getMaxExtract();
 	}
 
-	@Override
-	public int getInfoEnergy() {
-		return this.storage.getEnergyStored();
-	}
+    @Override
+    public int getInfoEnergyStored() {
 
-	@Override
-	public int getInfoMaxEnergy() {
-		return this.storage.getMaxEnergyStored();
-	}
+        return this.storage.getEnergyStored();
+    }
 
-	
-	@Override
+    @Override
+    public int getInfoMaxEnergyStored() {
+
+        return this.storage.getMaxEnergyStored();
+    }
+
+    @Override
 	public boolean canWork(ForgeDirection dir) {
 		return dir.equals(facing.getOpposite());
 	}

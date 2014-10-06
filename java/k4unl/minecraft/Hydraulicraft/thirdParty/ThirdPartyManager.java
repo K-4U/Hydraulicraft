@@ -1,12 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import cpw.mods.fml.common.Loader;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.thirdParty.bluepower.BluePower;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.Buildcraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
@@ -14,8 +10,11 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.FMP;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.IndustrialCraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.event.FMLInterModComms;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ThirdPartyManager{
 
@@ -39,7 +38,7 @@ public class ThirdPartyManager{
         thirdPartyClasses.put("bluepower", BluePower.class);
 
         for(Map.Entry<String, Class<? extends IThirdParty>> entry : thirdPartyClasses.entrySet()) {
-            if(Loader.isModLoaded(entry.getKey()) || (entry.getKey().equals("ThermalExpansion") && Config.get("enableRF"))) {
+            if(Loader.isModLoaded(entry.getKey()) || (entry.getKey().equals("ThermalExpansion") && HCConfig.getBool("enableRF"))) {
                 try {
                     thirdPartyMods.add(entry.getValue().newInstance());
                 } catch(Exception e) {

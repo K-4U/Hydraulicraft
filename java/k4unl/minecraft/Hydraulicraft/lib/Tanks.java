@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.lib;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.k4lib.lib.Location;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -15,14 +15,16 @@ public class Tanks {
         private Location location2;
         private Location valveLocation;
 
-        public Tank(Location loc1, Location loc2, Location _valveLocation){
+        public Tank(Location loc1, Location loc2, Location _valveLocation) {
+
             location1 = loc1;
             location2 = loc2;
             valveLocation = _valveLocation;
         }
 
-        public boolean isLocationInTank(int x, int y, int z){
-            if(x >= location1.getX() && x <= location2.getX()){
+        public boolean isLocationInTank(int x, int y, int z) {
+
+            if (x >= location1.getX() && x <= location2.getX()){
                 if(y >= location1.getY() && y <= location2.getY()){
                     if(z >= location1.getZ() && z <= location2.getZ()){
                         return true;

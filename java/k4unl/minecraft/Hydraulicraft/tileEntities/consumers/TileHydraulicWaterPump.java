@@ -2,19 +2,13 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.*;
 
 public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydraulicConsumer, IFluidHandler {
 
@@ -36,14 +30,14 @@ public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydrau
 		//See if it's inside the water.
 		int waterBlocksAround = 0;
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			if(Functions.getBlockInDir(getWorldObj(), xCoord, yCoord, zCoord, dir) == Blocks.water){
+			if(getBlockLocation().getBlock(getWorldObj(), dir) == Blocks.water){
 				waterBlocksAround+=1;
 			}
 		}
 		fluidHandlersNear = 0;
 		boolean hasFluidHandlerNear = false;
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			TileEntity shouldIFillThis = Functions.getTEInDir(getWorldObj(), xCoord, yCoord, zCoord, dir);
+			TileEntity shouldIFillThis = getBlockLocation().getTE(getWorldObj(), dir);
 			if(shouldIFillThis instanceof IFluidHandler){
 				if(((IFluidHandler)shouldIFillThis).canFill(dir.getOpposite(), FluidRegistry.WATER)){
 					hasFluidHandlerNear = true;
@@ -70,10 +64,10 @@ public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydrau
 	}
 
 	private void doPump() {
-		int toFill = Config.getInt("waterPumpPerTick");
+		int toFill = HCConfig.getInt("waterPumpPerTick");
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			TileEntity shouldIFillThis = Functions.getTEInDir(getWorldObj(), xCoord, yCoord, zCoord, dir);
+			TileEntity shouldIFillThis = getBlockLocation().getTE(getWorldObj(), dir);
 			if(shouldIFillThis instanceof IFluidHandler){
 				if(((IFluidHandler)shouldIFillThis).canFill(dir.getOpposite(), FluidRegistry.WATER)){
 					if(((IFluidHandler)shouldIFillThis).fill(dir.getOpposite(), new FluidStack(FluidRegistry.WATER, toFill), false) > 0){

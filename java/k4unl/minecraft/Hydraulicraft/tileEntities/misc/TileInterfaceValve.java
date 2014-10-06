@@ -4,10 +4,10 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -26,67 +26,70 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISidedInventory, IFluidHandler {
-	private int targetX;
-	private int targetY;
-	private int targetZ;
-	private boolean targetHasChanged = true;
-	
-	private boolean isTank = false;
-	private Location tankCorner1;
-	private Location tankCorner2;
-	private int tankScore = 0;
-	private FluidTank tank;
-	
-	
-	private IHydraulicConsumer target;
-	private IFluidHandler fluidTarget;
-	private ISidedInventory inventoryTarget;
-	private boolean clientNeedsToResetTarget = false;
-	private boolean clientNeedsToSetTarget = false;
+    private int targetX;
+    private int targetY;
+    private int targetZ;
+    private boolean targetHasChanged = true;
 
-	//TODO: Use PlayerInteractEvent for detection of right clicking.
+    private boolean isTank = false;
+    private Location tankCorner1;
+    private Location tankCorner2;
+    private int tankScore = 0;
+    private FluidTank tank;
 
-	public void resetTarget(){
-		target = null;
-		targetX = xCoord;
-		targetY = yCoord;
-		targetZ = zCoord;
-		targetHasChanged = true;
-		
-		if(!worldObj.isRemote){
-			clientNeedsToResetTarget = true;
-		}
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-	}
-	
-	public void setTarget(int x, int y, int z){
-		targetX = x;
-		targetY = y;
-		targetZ = z;
-		targetHasChanged = true;
-		
-		if(!worldObj.isRemote){
-			clientNeedsToSetTarget = true;
-		}
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-	}
-	
-	public IHydraulicConsumer getTarget(){
-		if(targetHasChanged == true &&(targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
-			TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
-			if(t instanceof IHydraulicConsumer){
-				target = (IHydraulicConsumer) t;
-				targetHasChanged = false;
-			}
-			if(t instanceof IFluidHandler){
-				fluidTarget = (IFluidHandler) t;
-			}
-			if(t instanceof ISidedInventory){
-				inventoryTarget = (ISidedInventory) t;
-			}
-		}else if(targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
-			target = null;
-			fluidTarget = null;
+
+    private IHydraulicConsumer target;
+    private IFluidHandler      fluidTarget;
+    private ISidedInventory    inventoryTarget;
+    private boolean clientNeedsToResetTarget = false;
+    private boolean clientNeedsToSetTarget   = false;
+
+    //TODO: Use PlayerInteractEvent for detection of right clicking.
+
+    public void resetTarget() {
+
+        target = null;
+        targetX = xCoord;
+        targetY = yCoord;
+        targetZ = zCoord;
+        targetHasChanged = true;
+
+        if (!worldObj.isRemote) {
+            clientNeedsToResetTarget = true;
+        }
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+    public void setTarget(int x, int y, int z) {
+
+        targetX = x;
+        targetY = y;
+        targetZ = z;
+        targetHasChanged = true;
+
+        if (!worldObj.isRemote) {
+            clientNeedsToSetTarget = true;
+        }
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+    public IHydraulicConsumer getTarget() {
+
+        if (targetHasChanged == true && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)) {
+            TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
+            if (t instanceof IHydraulicConsumer) {
+                target = (IHydraulicConsumer) t;
+                targetHasChanged = false;
+            }
+            if (t instanceof IFluidHandler) {
+                fluidTarget = (IFluidHandler) t;
+            }
+            if (t instanceof ISidedInventory) {
+                inventoryTarget = (ISidedInventory) t;
+            }
+        } else if (targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord) {
+            target = null;
+            fluidTarget = null;
 			inventoryTarget = null;
 		}
 		return target;
@@ -668,7 +671,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                             if(bl == Blocks.air){
                                 Log.info("Block at " + x + ", " + y + ", " + z + " is air!");
                                 return;
-                            }else if( Config.isTankBlockBlacklisted(bl)){
+                            }else if(HCConfig.isTankBlockBlacklisted(bl)){
                                 Log.info("Block (" + bl.getUnlocalizedName() + ") at " + x + ", " + y + ", " + z + " is blacklisted!");
                                 return;
                             }else{
@@ -680,7 +683,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                                 }else{
                                     //Check what material this tank is made of, it adds to the tankScore.
                                     //We should make an array here
-                                    tankScore += Config.getTankBlockScore(bl);
+                                    tankScore += HCConfig.getTankBlockScore(bl);
                                 }
                             }
 

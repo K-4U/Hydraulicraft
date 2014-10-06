@@ -1,14 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.k4lib.lib.Functions;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,40 +17,47 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemMiningHelmet extends ItemArmor {
-	private final String textureLocation;
-	private Location prevPlayerLocation;
-	private List<Location> prevPlacedBlocks;
-	
-	public ItemMiningHelmet() {
-		super(ArmorMaterial.IRON, 0, 0);
-		
-		setMaxStackSize(64);
-		setUnlocalizedName(Names.itemMiningHelmet.unlocalized);
-		setTextureName(ModInfo.LID + ":" + Names.itemMiningHelmet.unlocalized);
-		
-		setCreativeTab(CustomTabs.tabHydraulicraft);
-		textureLocation = ModInfo.LID + ":textures/armor/hydraulicArmor";
-		prevPlayerLocation = new Location(0, 0, 0);
-		prevPlacedBlocks = new ArrayList<Location>();
-	}
-	
+    private final String         textureLocation;
+    private       Location       prevPlayerLocation;
+    private       List<Location> prevPlacedBlocks;
+
+    public ItemMiningHelmet() {
+
+        super(ArmorMaterial.IRON, 0, 0);
+
+        setMaxStackSize(64);
+        setUnlocalizedName(Names.itemMiningHelmet.unlocalized);
+        setTextureName(ModInfo.LID + ":" + Names.itemMiningHelmet.unlocalized);
+
+        setCreativeTab(CustomTabs.tabHydraulicraft);
+        textureLocation = ModInfo.LID + ":textures/armor/hydraulicArmor";
+        prevPlayerLocation = new Location(0, 0, 0);
+        prevPlacedBlocks = new ArrayList<Location>();
+    }
+
     @Override
-    public void registerIcons(IIconRegister register){
+    public void registerIcons(IIconRegister register) {
+
         itemIcon = register.registerIcon(getIconString());
     }
-	
-	@Override
-    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type){
+
+    @Override
+    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
+
         return textureLocation + "_1.png";
     }
-	
-	@Override
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack){
-		if(!world.isRemote){
-			return;
-		}
-		if(itemStack.getTagCompound() == null){
+
+    @Override
+    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+
+        if (!world.isRemote) {
+            return;
+        }
+        if (itemStack.getTagCompound() == null){
 			itemStack.setTagCompound(new NBTTagCompound());
 		}
 		if(itemStack.getTagCompound().getBoolean("powered")){

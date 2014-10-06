@@ -1,43 +1,38 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import k4unl.minecraft.k4lib.lib.Location;
+import net.minecraft.nbt.NBTTagCompound;
+
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
-import net.minecraft.nbt.NBTTagCompound;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 public class IPs {
-	private Random rnd;
-	private boolean isLoaded = false;
-	private Map<Long, Location> registeredIps;
-	
-	
-	public IPs(){
-		registeredIps = new HashMap<Long, Location>();
-		rnd = new Random(System.currentTimeMillis()/1000);
-	}
-	
-	public void readFromFile(File dir){
-		registeredIps.clear();
-		if(dir != null){
-			Gson gson = new Gson();
-			String p = dir.getAbsolutePath();
-			p += "/portals.json";
-			File f = new File(p);
-			if(f.exists()){
-				f.delete();
+    private Random rnd;
+    private boolean isLoaded = false;
+    private Map<Long, Location> registeredIps;
+
+
+    public IPs() {
+
+        registeredIps = new HashMap<Long, Location>();
+        rnd = new Random(System.currentTimeMillis() / 1000);
+    }
+
+    public void readFromFile(File dir) {
+
+        registeredIps.clear();
+        if (dir != null) {
+            Gson gson = new Gson();
+            String p = dir.getAbsolutePath();
+            p += "/portals.json";
+            File f = new File(p);
+            if (f.exists()) {
+                f.delete();
 			}
 			if(!f.exists()){
 				try {

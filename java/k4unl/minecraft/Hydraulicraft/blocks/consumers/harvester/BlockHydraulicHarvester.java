@@ -1,16 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester;
 
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
+import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -25,73 +23,81 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHydraulicHarvester extends HydraulicBlockContainerBase {
-	private IIcon blockIcon;
-	private Name[] mName;
+import java.util.List;
 
-	public Vector3fMax blockBounds = new Vector3fMax(0.2f, 0.2f, 0.2f, 0.8F, 0.8F, 0.8F);
-	
-	protected boolean hasTopIcon[] = {
-			false, false
-	};
-	protected boolean hasBottomIcon[] = {
-			false, false
-	};
-	
-	
-	public BlockHydraulicHarvester() {
-		super(Names.blockHydraulicHarvester[0]);
-		
-		mName = Names.blockHydraulicHarvester;
-	}
+public class BlockHydraulicHarvester extends HydraulicBlockContainerBase {
+    private IIcon  blockIcon;
+    private Name[] mName;
+
+    public Vector3fMax blockBounds = new Vector3fMax(0.2f, 0.2f, 0.2f, 0.8F, 0.8F, 0.8F);
+
+    protected boolean hasTopIcon[]    = {
+      false, false
+    };
+    protected boolean hasBottomIcon[] = {
+      false, false
+    };
+
+
+    public BlockHydraulicHarvester() {
+
+        super(Names.blockHydraulicHarvester[0]);
+
+        mName = Names.blockHydraulicHarvester;
+    }
 
     @Override
-    public int getRenderType(){
+    public int getRenderType() {
+
         return -1;
     }
 
     @Override
-    public boolean isOpaqueCube(){
+    public boolean isOpaqueCube() {
+
         return false;
     }
 
     @Override
-    public boolean renderAsNormalBlock(){
+    public boolean renderAsNormalBlock() {
+
         return false;
     }
-	
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata){
-		switch(metadata){
-		case 0:
-			return new TileHydraulicHarvester();
-		case 1:
-			return new TileHarvesterFrame();
-		}
+
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
+
+        switch (metadata) {
+            case 0:
+                return new TileHydraulicHarvester();
+            case 1:
+                return new TileHarvesterFrame();
+        }
         return null;
     }
 
-	@Override
-	public void getSubBlocks(Item block, CreativeTabs tab, List list){
-		for(int i = 0; i < mName.length; i++){
-			list.add(new ItemStack(this, 1, i));
-		}
-	}
+    @Override
+    public void getSubBlocks(Item block, CreativeTabs tab, List list) {
 
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		
-		TileEntity entity = world.getTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileHydraulicHarvester)){
-			return false;
-			
-		}
-		
-		TileHydraulicHarvester harvester = (TileHydraulicHarvester) entity;
-		if(harvester.getIsMultiblock()){
-			player.openGui(Hydraulicraft.instance, GuiIDs.HARVESTER.ordinal(), world, x, y, z);
-			return true;
+        for (int i = 0; i < mName.length; i++) {
+            list.add(new ItemStack(this, 1, i));
+        }
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z,
+      EntityPlayer player, int par6, float par7, float par8, float par9) {
+
+        TileEntity entity = world.getTileEntity(x, y, z);
+        if (entity == null || !(entity instanceof TileHydraulicHarvester)) {
+            return false;
+
+        }
+
+        TileHydraulicHarvester harvester = (TileHydraulicHarvester) entity;
+        if (harvester.getIsMultiblock()) {
+            player.openGui(Hydraulicraft.instance, GuiIDs.HARVESTER.ordinal(), world, x, y, z);
+            return true;
 		}
 		
 		return false;

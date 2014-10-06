@@ -1,16 +1,15 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
+import com.google.gson.Gson;
+import cpw.mods.fml.common.event.FMLInterModComms;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import net.minecraft.nbt.NBTTagCompound;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
-
-import cpw.mods.fml.common.event.FMLInterModComms;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-
-import com.google.gson.Gson;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class UpdateChecker {
 	public static class UpdateInfo {
@@ -25,7 +24,7 @@ public class UpdateChecker {
 	
 	
 	public static boolean checkUpdateAvailable(){
-		if(Config.get("checkForUpdates")){
+		if(HCConfig.getBool("checkForUpdates")){
 			String json = "";
 			try {
 				json = readUrl("http://hydraulicraft.eu/update_1.7.2.json");

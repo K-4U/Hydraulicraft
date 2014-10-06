@@ -1,18 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.ChunkPosition;
-import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -132,9 +125,9 @@ public class Functions {
 	
 	public static int getMaxGenPerTier(PressureTier tier, boolean isOil){
 		if(!isOil){
-			return Config.getInt("maxMBarGenWaterT" + (tier.ordinal()+1));
+			return HCConfig.getInt("maxMBarGenWaterT" + (tier.ordinal()+1));
 		}else{
-			return Config.getInt("maxMBarGenOilT" + (tier.ordinal()+1));
+			return HCConfig.getInt("maxMBarGenOilT" + (tier.ordinal()+1));
 		}
 	}
 	
@@ -164,27 +157,4 @@ public class Functions {
 		}
 		return 0;
 	}
-	
-    public static MovingObjectPosition getEntityLookedObject(EntityLivingBase entity, float maxDistance){
-        Vec3 entityVec = Vec3.createVectorHelper(entity.posX, entity.posY + entity.getEyeHeight() - entity.yOffset - (entity.isSneaking() ? 0.08 : 0), entity.posZ);
-        Vec3 entityLookVec = entity.getLook(1.0F);
-        Vec3 maxDistVec = entityVec.addVector(entityLookVec.xCoord * maxDistance, entityLookVec.yCoord * maxDistance, entityLookVec.zCoord * maxDistance);
-        return entity.worldObj.rayTraceBlocks(entityVec, maxDistVec);
-    }
-
-    public static ChunkPosition getEntityLookedBlock(EntityLivingBase entity, float maxDistance){
-        MovingObjectPosition hit = getEntityLookedObject(entity, maxDistance);
-        if(hit == null || hit.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
-            return null;
-        }
-        return new ChunkPosition(hit.blockX, hit.blockY, hit.blockZ);
-    }
-    
-    public static Block getBlockInDir(IBlockAccess w, int x, int y, int z, ForgeDirection dir){
-    	return w.getBlock(x+dir.offsetX, y+dir.offsetY, z + dir.offsetZ);
-    }
-    
-    public static TileEntity getTEInDir(IBlockAccess w, int x, int y, int z, ForgeDirection dir){
-    	return w.getTileEntity(x+dir.offsetX, y+dir.offsetY, z + dir.offsetZ);
-    }
 }

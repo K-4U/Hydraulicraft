@@ -3,48 +3,51 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileHydraulicPiston extends TileHydraulicBase implements IHydraulicConsumer {
-	private float oldExtendedLength;
-	private float extendedLength;
-	private float maxLength = 4F;
-	private float extendTarget = 0F;
-	private float movingSpeed = 0.05F;
-	private float movingSpeedBack = 0.1F;
-	private boolean harvesterPart = false;
-	private Location harvesterLocation;
-	
-	private boolean isRetracting;
-	private ForgeDirection facing = ForgeDirection.NORTH;
+    private float oldExtendedLength;
+    private float extendedLength;
+    private float   maxLength       = 4F;
+    private float   extendTarget    = 0F;
+    private float   movingSpeed     = 0.05F;
+    private float   movingSpeedBack = 0.1F;
+    private boolean harvesterPart   = false;
+    private Location harvesterLocation;
 
-	public TileHydraulicPiston(){
-		super(PressureTier.HIGHPRESSURE, 5);
-		super.init(this);
-	}
-	
-	public float getExtendTarget(){
-		return extendTarget;
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound) {
-		super.readFromNBT(tagCompound);
-		extendedLength = tagCompound.getFloat("extendedLength");
-		maxLength = tagCompound.getFloat("maxLength");
-		extendTarget = tagCompound.getFloat("extendTarget");
-		harvesterPart = tagCompound.getBoolean("harvesterPart");
-		isRetracting = tagCompound.getBoolean("isMoving");
-		oldExtendedLength = tagCompound.getFloat("oldExtendedLength");
-		
-		harvesterLocation = new Location(tagCompound.getIntArray("harvesterLocation"));
-		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+    private boolean isRetracting;
+    private ForgeDirection facing = ForgeDirection.NORTH;
+
+    public TileHydraulicPiston() {
+
+        super(PressureTier.HIGHPRESSURE, 5);
+        super.init(this);
+    }
+
+    public float getExtendTarget() {
+
+        return extendTarget;
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+
+        super.readFromNBT(tagCompound);
+        extendedLength = tagCompound.getFloat("extendedLength");
+        maxLength = tagCompound.getFloat("maxLength");
+        extendTarget = tagCompound.getFloat("extendTarget");
+        harvesterPart = tagCompound.getBoolean("harvesterPart");
+        isRetracting = tagCompound.getBoolean("isMoving");
+        oldExtendedLength = tagCompound.getFloat("oldExtendedLength");
+
+        harvesterLocation = new Location(tagCompound.getIntArray("harvesterLocation"));
+        facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 	}
 
 	@Override

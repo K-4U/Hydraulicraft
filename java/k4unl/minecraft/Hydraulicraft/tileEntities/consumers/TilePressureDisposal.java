@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -17,8 +17,8 @@ public class TilePressureDisposal extends TileHydraulicBase implements
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
 		if(getRedstonePowered()){
-			if(getPressure(ForgeDirection.UNKNOWN) > (Config.getInt("maxMBarGenWaterT3")*4)){
-				return (Config.getInt("maxMBarGenWaterT3")*4) % getPressure(ForgeDirection.UNKNOWN);
+			if(getPressure(ForgeDirection.UNKNOWN) > (HCConfig.getInt("maxMBarGenWaterT3")*4)){
+				return (HCConfig.getInt("maxMBarGenWaterT3")*4) % getPressure(ForgeDirection.UNKNOWN);
 			}else{
 				return getPressure(ForgeDirection.UNKNOWN);
 			}

@@ -1,10 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.lib.config;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.block.Block;
 
 public class Constants {
 	public final static int MAX_MBAR_OIL_TIER_1 = 1000000;

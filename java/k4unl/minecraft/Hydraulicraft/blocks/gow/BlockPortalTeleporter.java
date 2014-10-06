@@ -1,16 +1,15 @@
 package k4unl.minecraft.Hydraulicraft.blocks.gow;
 
-import java.util.List;
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.lib.TeleportHelper;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
 import k4unl.minecraft.Hydraulicraft.network.packets.PacketSpawnParticle;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
+import k4unl.minecraft.k4lib.lib.Location;
+import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,49 +19,55 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockPortalTeleporter extends GOWBlockRendering {
-	private static Vector3fMax blockBounds = new Vector3fMax(0.499F, 0.499F, 0.499F, 0.501F, 0.501F, 0.501F);
-	
-	
-	public BlockPortalTeleporter() {
-		super(Names.portalTeleporter.unlocalized);
-	}
+    private static Vector3fMax blockBounds = new Vector3fMax(0.499F, 0.499F, 0.499F, 0.501F, 0.501F, 0.501F);
 
-	@Override
-	protected Class<? extends TileEntity> getTileEntity() {
-		return TilePortalTeleporter.class;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public boolean canRenderInPass(int pass){
-		return true;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public int getRenderBlockPass(){
-		return 1;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess iba, int x, int y, int z){
-		TileEntity ent = iba.getTileEntity(x, y, z);
-		
-		if(ent instanceof TilePortalTeleporter){
-			TilePortalTeleporter teleporter = (TilePortalTeleporter)ent;
-			Vector3fMax vector = blockBounds.copy();
-			if(teleporter.getBaseDir() != null){
-				if(teleporter.getBaseDir().equals(ForgeDirection.NORTH) | teleporter.getPortalDir().equals(ForgeDirection.NORTH)){
-					vector.setZMin(0.0F);
-					vector.setZMax(1.0F);
-				}
-				if(teleporter.getPortalDir().equals(ForgeDirection.UP)){
-					vector.setYMin(0.0F);
+
+    public BlockPortalTeleporter() {
+
+        super(Names.portalTeleporter.unlocalized);
+    }
+
+    @Override
+    protected Class<? extends TileEntity> getTileEntity() {
+
+        return TilePortalTeleporter.class;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean canRenderInPass(int pass) {
+
+        return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getRenderBlockPass() {
+
+        return 1;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess iba, int x, int y, int z) {
+
+        TileEntity ent = iba.getTileEntity(x, y, z);
+
+        if (ent instanceof TilePortalTeleporter) {
+            TilePortalTeleporter teleporter = (TilePortalTeleporter) ent;
+            Vector3fMax vector = blockBounds.copy();
+            if (teleporter.getBaseDir() != null) {
+                if (teleporter.getBaseDir().equals(ForgeDirection.NORTH) | teleporter.getPortalDir().equals(ForgeDirection.NORTH)) {
+                    vector.setZMin(0.0F);
+                    vector.setZMax(1.0F);
+                }
+                if (teleporter.getPortalDir().equals(ForgeDirection.UP)) {
+                    vector.setYMin(0.0F);
 					vector.setYMax(1.0F);
 				}
 				if(teleporter.getBaseDir().equals(ForgeDirection.EAST) || teleporter.getPortalDir().equals(ForgeDirection.EAST)){
@@ -94,7 +99,7 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
             }
 			Location teleportLocation = teleporter.getPortalBase().getTarget();
 			long lastInPortal = entCompound.getLong("lastInPortal" + teleporter.getPortalBase().getIPLong());
-			if(world.getTotalWorldTime() - lastInPortal > (Config.getInt("portalTimeoutInSeconds") * 20)){
+			if(world.getTotalWorldTime() - lastInPortal > (HCConfig.getInt("portalTimeoutInSeconds") * 20)){
 				if(teleportLocation != null){
 					teleporter.usePressure();
 					TeleportHelper.teleportEntity(entity, teleportLocation);

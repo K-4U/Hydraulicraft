@@ -1,17 +1,17 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 
+import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import codechicken.multipart.TileMultipart;
 
 public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicMachine {
 	private int targetX;

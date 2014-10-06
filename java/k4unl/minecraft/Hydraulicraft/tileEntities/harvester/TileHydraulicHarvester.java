@@ -1,8 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.harvester;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
@@ -10,10 +7,10 @@ import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -25,72 +22,78 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TileHydraulicHarvester extends TileHydraulicBase implements IHydraulicConsumer, ISidedInventory, IHarvester {
-	private ItemStack[] seedsStorage;
-	private ItemStack[] outputStorage;
-	
-	private boolean isMultiblock;
-	private int harvesterLength;
-	private int harvesterWidth;
-	private ForgeDirection facing = ForgeDirection.UNKNOWN;
-	private boolean firstRun = true;
-	
-	private boolean isPlanting = false;
-	private boolean isHarvesting = false;
-	private boolean retracting = false;
-	
-	private int pistonMoving = -1;
-	private int harvestLocationH;
-	private int harvestLocationW;
-	private int plantLocationH;
-	private int plantLocationW;
-	private ItemStack plantingItem;
-	
-	private List<Location> pistonList = new ArrayList<Location>();
-	private List<Location> trolleyList = new ArrayList<Location>();
-	
-	
-	private static final Block horizontalFrame = HCBlocks.hydraulicHarvesterSource;
-	private static final Block verticalFrame = Blocks.fence;
-	private static final Block piston = HCBlocks.hydraulicPiston;
-	private static final Block endBlock = HCBlocks.hydraulicPressureWall;
-	
-	public TileHydraulicHarvester(){
-		super(PressureTier.HIGHPRESSURE, 16);
-		super.init(this);
-		seedsStorage = new ItemStack[9];
-		outputStorage = new ItemStack[9];
-	}
+    private ItemStack[] seedsStorage;
+    private ItemStack[] outputStorage;
 
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound) {
-		super.readFromNBT(tagCompound);
-		isMultiblock = tagCompound.getBoolean("isMultiblock");
-		harvesterLength = tagCompound.getInteger("harvesterLength");
-		harvesterWidth = tagCompound.getInteger("harvesterWidth");
-		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
-		readPistonListFromNBT(tagCompound);
-		for(int i = 0; i<9; i++){
-			NBTTagCompound tc = tagCompound.getCompoundTag("seedsStorage"+i);
-			seedsStorage[i] = ItemStack.loadItemStackFromNBT(tc);
-			
-			tc = tagCompound.getCompoundTag("outputStorage"+i);
-			outputStorage[i] = ItemStack.loadItemStackFromNBT(tc);
-		}
-		
-		//harvestLocationH = tagCompound.getInteger("harvestLocationH");
-		//harvestLocationW = tagCompound.getInteger("harvestLocationW");
-		isHarvesting = tagCompound.getBoolean("isHarvesting");
-		
-		//plantLocationH = tagCompound.getInteger("plantLocationH");
-		//plantLocationW = tagCompound.getInteger("plantLocationW");
-		isPlanting = tagCompound.getBoolean("isPlanting");
-		
-	}
+    private boolean isMultiblock;
+    private int     harvesterLength;
+    private int     harvesterWidth;
+    private ForgeDirection facing   = ForgeDirection.UNKNOWN;
+    private boolean        firstRun = true;
 
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound) {
-		super.writeToNBT(tagCompound);
+    private boolean isPlanting   = false;
+    private boolean isHarvesting = false;
+    private boolean retracting   = false;
+
+    private int pistonMoving = -1;
+    private int       harvestLocationH;
+    private int       harvestLocationW;
+    private int       plantLocationH;
+    private int       plantLocationW;
+    private ItemStack plantingItem;
+
+    private List<Location> pistonList  = new ArrayList<Location>();
+    private List<Location> trolleyList = new ArrayList<Location>();
+
+
+    private static final Block horizontalFrame = HCBlocks.hydraulicHarvesterSource;
+    private static final Block verticalFrame   = Blocks.fence;
+    private static final Block piston          = HCBlocks.hydraulicPiston;
+    private static final Block endBlock        = HCBlocks.hydraulicPressureWall;
+
+    public TileHydraulicHarvester() {
+
+        super(PressureTier.HIGHPRESSURE, 16);
+        super.init(this);
+        seedsStorage = new ItemStack[9];
+        outputStorage = new ItemStack[9];
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+
+        super.readFromNBT(tagCompound);
+        isMultiblock = tagCompound.getBoolean("isMultiblock");
+        harvesterLength = tagCompound.getInteger("harvesterLength");
+        harvesterWidth = tagCompound.getInteger("harvesterWidth");
+        facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+        readPistonListFromNBT(tagCompound);
+        for (int i = 0; i < 9; i++) {
+            NBTTagCompound tc = tagCompound.getCompoundTag("seedsStorage" + i);
+            seedsStorage[i] = ItemStack.loadItemStackFromNBT(tc);
+
+            tc = tagCompound.getCompoundTag("outputStorage" + i);
+            outputStorage[i] = ItemStack.loadItemStackFromNBT(tc);
+        }
+
+        //harvestLocationH = tagCompound.getInteger("harvestLocationH");
+        //harvestLocationW = tagCompound.getInteger("harvestLocationW");
+        isHarvesting = tagCompound.getBoolean("isHarvesting");
+
+        //plantLocationH = tagCompound.getInteger("plantLocationH");
+        //plantLocationW = tagCompound.getInteger("plantLocationW");
+        isPlanting = tagCompound.getBoolean("isPlanting");
+
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tagCompound) {
+
+        super.writeToNBT(tagCompound);
 		tagCompound.setBoolean("isMultiblock", isMultiblock);
 		tagCompound.setInteger("harvesterLength", harvesterLength);
 		tagCompound.setInteger("harvesterWidth", harvesterWidth);

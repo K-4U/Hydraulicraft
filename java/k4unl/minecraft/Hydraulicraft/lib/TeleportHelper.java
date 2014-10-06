@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;

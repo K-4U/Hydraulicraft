@@ -1,9 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities;
 
+import buildcraft.api.power.IPowerReceptor;
+import buildcraft.api.power.PowerHandler;
+import buildcraft.api.power.PowerHandler.PowerReceiver;
+import buildcraft.api.power.PowerHandler.Type;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
@@ -11,10 +15,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IFacing;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import buildcraft.api.power.IPowerReceptor;
-import buildcraft.api.power.PowerHandler;
-import buildcraft.api.power.PowerHandler.PowerReceiver;
-import buildcraft.api.power.PowerHandler.Type;
 
 public class TileKineticPump extends TileHydraulicBase implements IHydraulicGenerator, IPowerReceptor, ICustomNetwork, IFacing {
 	private boolean isRunning = false;
@@ -79,9 +79,9 @@ public class TileKineticPump extends TileHydraulicBase implements IHydraulicGene
 	@Override
 	public int getMaxGenerating(ForgeDirection from) {
 		if(!getHandler().isOilStored()){
-			return Config.getInt("maxMBarGenWaterT" + (getTier()+1));
+			return HCConfig.getInt("maxMBarGenWaterT" + (getTier()+1));
 		}else{
-			return Config.getInt("maxMBarGenOilT" + (getTier()+1));
+			return HCConfig.getInt("maxMBarGenOilT" + (getTier() + 1));
 		}
 	}
 

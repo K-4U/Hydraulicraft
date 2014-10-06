@@ -9,11 +9,11 @@ import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
 import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker.UpdateInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityPig;
@@ -82,7 +82,7 @@ public class EventHelper {
 
 	@SubscribeEvent
 	public void onEntityJoinEvent(EntityJoinWorldEvent event){
-		if(hasShownUpdateInfo || !Config.get("checkForUpdates")) return;
+		if(hasShownUpdateInfo || !HCConfig.getBool("checkForUpdates")) return;
 		if(event.entity instanceof EntityPlayer){
 			if(event.world.isRemote){
 				//If update available and the update message wasn't sent to Version Checker, tell em!

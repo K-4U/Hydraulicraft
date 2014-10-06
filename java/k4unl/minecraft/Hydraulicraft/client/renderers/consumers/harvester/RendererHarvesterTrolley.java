@@ -1,9 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester;
 
-import java.util.List;
-
-import k4unl.minecraft.Hydraulicraft.client.renderers.RenderHelper;
+import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
+import k4unl.minecraft.k4lib.client.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -12,10 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.FMLClientHandler;
+import java.util.List;
 
 public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
     private final RenderItem customRenderItem;

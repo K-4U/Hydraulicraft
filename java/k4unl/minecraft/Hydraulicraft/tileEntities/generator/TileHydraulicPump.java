@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.generator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.Config;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -87,9 +87,9 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 	@Override
 	public int getMaxGenerating(ForgeDirection from) {
 		if(!getHandler().isOilStored()){
-			return Config.getInt("maxMBarGenWaterT" + (getTier()+1));
+			return HCConfig.getInt("maxMBarGenWaterT" + (getTier() + 1));
 		}else{
-			return Config.getInt("maxMBarGenOilT" + (getTier()+1));
+			return HCConfig.getInt("maxMBarGenOilT" + (getTier()+1));
 		}
 	}
 

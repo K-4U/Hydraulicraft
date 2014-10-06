@@ -68,7 +68,7 @@ public class Hydraulicraft {
 	public void preInit(FMLPreInitializationEvent event){
 		Log.init();
 		
-		ConfigHandler.init(event.getSuggestedConfigurationFile());
+		HCConfigHandler.init(event.getSuggestedConfigurationFile());
 		
 		CustomTabs.init();
 		
@@ -117,7 +117,7 @@ public class Hydraulicraft {
 		Recipes.init();
 		
 		ThirdPartyManager.instance().postInit();
-        ConfigHandler.loadTank();
+        HCConfigHandler.loadTank();
 
 		Log.info("Hydraulicraft ready for use!");
 	}

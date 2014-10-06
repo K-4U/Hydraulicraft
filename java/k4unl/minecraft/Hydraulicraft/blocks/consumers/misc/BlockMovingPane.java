@@ -1,16 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import buildcraft.api.tools.IToolWrench;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Location;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
+import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +18,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import buildcraft.api.tools.IToolWrench;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class BlockMovingPane extends HydraulicBlockContainerBase {
 

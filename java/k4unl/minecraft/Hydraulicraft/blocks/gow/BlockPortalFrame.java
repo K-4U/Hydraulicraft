@@ -1,11 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.blocks.gow;
 
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Vector3fMax;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalFrame;
+import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -13,29 +11,34 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockPortalFrame extends GOWBlockRendering {
-	private static Vector3fMax blockBounds = new Vector3fMax(0.3F, 0.3F, 0.3F, 0.7F, 0.7F, 0.7F);
-	
-	public BlockPortalFrame() {
-		super(Names.portalFrame.unlocalized);
-		setCreativeTab(CustomTabs.tabGOW);
-	}
+import java.util.List;
 
-	@Override
-	protected Class<? extends TileEntity> getTileEntity() {
-		return TilePortalFrame.class;
-	}
-	
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess iba, int x, int y, int z){
-		TileEntity ent = iba.getTileEntity(x, y, z);
-		
-		if(ent instanceof TilePortalFrame){
-			TilePortalFrame frame = (TilePortalFrame)ent;
-			Vector3fMax vector = blockBounds.copy();
-			if(frame.isConnectedTo(ForgeDirection.UP))
-				vector.setYMax(1.0F);
-			if(frame.isConnectedTo(ForgeDirection.DOWN))
+public class BlockPortalFrame extends GOWBlockRendering {
+    private static Vector3fMax blockBounds = new Vector3fMax(0.3F, 0.3F, 0.3F, 0.7F, 0.7F, 0.7F);
+
+    public BlockPortalFrame() {
+
+        super(Names.portalFrame.unlocalized);
+        setCreativeTab(CustomTabs.tabGOW);
+    }
+
+    @Override
+    protected Class<? extends TileEntity> getTileEntity() {
+
+        return TilePortalFrame.class;
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess iba, int x, int y, int z) {
+
+        TileEntity ent = iba.getTileEntity(x, y, z);
+
+        if (ent instanceof TilePortalFrame) {
+            TilePortalFrame frame = (TilePortalFrame) ent;
+            Vector3fMax vector = blockBounds.copy();
+            if (frame.isConnectedTo(ForgeDirection.UP))
+                vector.setYMax(1.0F);
+            if (frame.isConnectedTo(ForgeDirection.DOWN))
 				vector.setYMin(0.0F);
 			
 			if(frame.isConnectedTo(ForgeDirection.EAST))
