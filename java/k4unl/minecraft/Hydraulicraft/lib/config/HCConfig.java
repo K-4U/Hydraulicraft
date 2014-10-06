@@ -39,6 +39,11 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("portalTimeoutInSeconds", 20));
         configOptions.add(new ConfigOption("portalmBarUsagePerTickPerBlock", 1000));
         configOptions.add(new ConfigOption("pressurePerTeleport", 10000));
+
+        configOptions.add(new ConfigOption("disableBacon", false));
+        configOptions.add(new ConfigOption("baconFoodLevel", 4));
+        configOptions.add(new ConfigOption("disableEnderLolly", false));
+        configOptions.add(new ConfigOption("enderLollyFoodLevel", 4));
 	}
 	
 	public static boolean canBeCrushed(ItemStack toCrush){

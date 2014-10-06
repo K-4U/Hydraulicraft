@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.BucketHandler;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -47,7 +48,13 @@ public class HCItems {
 		itemFrictionPlate = new ItemFrictionPlate();
 		itemDebugger = new ItemDebug();
 		itemBucketOil = new ItemBucketOil();
-		itemBacon = new ItemBacon();
+
+        if(!HCConfig.getBool("disableBacon")) {
+            itemBacon = new ItemBacon();
+        }
+        if(!HCConfig.getBool("disableEnderLolly")) {
+            itemEnderLolly = new ItemEnderLolly();
+        }
 		
 		
 		itemChunk = new ItemChunks();
@@ -58,7 +65,7 @@ public class HCItems {
 		itemLamp = new ItemLamp();
 		itemDiamondShards = new ItemDiamondShard();
 		itemEnrichedCopperDust = new ItemCopperEnrichedDust();
-		itemEnderLolly = new ItemEnderLolly();
+
 		
 		itemIPCard = new ItemIPCard();
 		
@@ -78,8 +85,7 @@ public class HCItems {
 		GameRegistry.registerItem(itemFrictionPlate, Names.itemFrictionPlate.unlocalized);
 		GameRegistry.registerItem(itemDebugger, Names.itemDebugger.unlocalized);
 		GameRegistry.registerItem(itemBucketOil, Names.itemBucketOil.unlocalized);
-		GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);
-		
+
 		GameRegistry.registerItem(itemDust, Names.itemDust.unlocalized);
 		GameRegistry.registerItem(itemChunk, Names.itemChunk.unlocalized);
 		GameRegistry.registerItem(itemMiningHelmet, Names.itemMiningHelmet.unlocalized);
@@ -88,7 +94,7 @@ public class HCItems {
 		GameRegistry.registerItem(itemMovingPane, "item"+Names.blockMovingPane.unlocalized);
 		GameRegistry.registerItem(itemDiamondShards, Names.itemDiamondShard.unlocalized);
 		GameRegistry.registerItem(itemEnrichedCopperDust, Names.itemCopperEnrichedDust.unlocalized);
-		GameRegistry.registerItem(itemEnderLolly, Names.itemEnderLolly.unlocalized);
+
 		
 		GameRegistry.registerItem(itemIPCard, Names.itemIPCard.unlocalized);
 		
@@ -98,7 +104,14 @@ public class HCItems {
 		OreDictionary.registerOre(Names.itemBacon.unlocalized, new ItemStack(itemBacon));
 		OreDictionary.registerOre(Names.itemDiamondShard.unlocalized, new ItemStack(itemDiamondShards));
 		OreDictionary.registerOre(Names.itemCopperEnrichedDust.unlocalized, new ItemStack(itemEnrichedCopperDust));
-		
+
+
+        if(!HCConfig.getBool("disableBacon")) {
+            GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);
+        }
+        if(!HCConfig.getBool("disableEnderLolly")) {
+            GameRegistry.registerItem(itemEnderLolly, Names.itemEnderLolly.unlocalized);
+        }
 		
 		
 		FluidStack st = FluidRegistry.getFluidStack(Names.fluidOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
