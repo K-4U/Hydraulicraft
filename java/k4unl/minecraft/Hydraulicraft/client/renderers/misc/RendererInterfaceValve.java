@@ -230,32 +230,68 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
 
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                     //Log.info(height + "");
+                    boolean wasTessellating = RenderHelper.beginTesselatingWithTexture();
                     for(int xR = 1; xR <= innerXDifference; xR++){
                         for(int zR = 1; zR <= innerZDifference; zR++){
                             if(!tankInfo.fluid.getFluid().isGaseous()){
+                                boolean bottomRendered = false;
                                 for(int zY = 1; zY <= height; zY++){
-                                    Vector3fMax insides = new Vector3fMax(xR + 0.001F,
-                                            zY + 0.001F, zR + 0.001F,
-                                            xR - 0.001F + 1, -0.001F,
-                                            zR - 0.001F + 1);
-                                    insides.setYMax(zY - 0.001F + 1);
-                                    RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+                                    Vector3fMax insides = new Vector3fMax(xR,
+                                            zY, zR,
+                                            xR + 1, zY,
+                                            zR + 1);
+                                    insides.setYMax(zY + 1);
+
+                                    if(zY == 1) {
+                                        RenderHelper.drawTesselatedSideBottomWithTexture(insides, fluidIcon);
+                                        bottomRendered = true;
+                                    }
+
+                                    if(zR == 1){
+                                        RenderHelper.drawTesselatedSideNorthWithTexture(insides, fluidIcon);
+                                    }
+                                    if(zR == innerZDifference){
+                                        RenderHelper.drawTesselatedSideSouthWithTexture(insides, fluidIcon);
+                                    }
+                                    if(zR == innerYDifference){
+                                        RenderHelper.drawTesselatedSideTopWithTexture(insides, fluidIcon);
+                                    }
+                                    if(xR == 1){
+                                        RenderHelper.drawTesselatedSideWestWithTexture(insides, fluidIcon);
+                                    }
+                                    if(xR == innerXDifference){
+                                        RenderHelper.drawTesselatedSideEastWithTexture(insides, fluidIcon);
+                                    }
+                                    //RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
                                 }
                                 //Log.info((percentage * (float)innerYDifference) % 1.0F + "");
                                 //Log.info(innerYDifference + "");
                                 //Log.info(percentage + "");
                                 //Log.info(height + "");
-                                if((percentage * (float)innerYDifference) % 1.0F
-                                        >= 0.01F){
-                                    Vector3fMax insides = new Vector3fMax(xR + 0.001F,
-                                            height + 0.001F + 1, zR + 0.001F,
-                                            xR - 0.001F + 1, -0.001F,
-                                            zR - 0.001F + 1);
-                                    insides.setYMax(height - 0.001F + ((percentage *
-                                            (float)innerYDifference) % 1.0F) + 1);
+                                if((percentage * (float)innerYDifference) % 1.0F >= 0.01F){
+                                    Vector3fMax insides = new Vector3fMax(xR,
+                                            height + 1, zR,
+                                            xR + 1, 0,
+                                            zR + 1);
+                                    insides.setYMax(height + ((percentage * (float)innerYDifference) % 1.0F) + 1);
 
+                                    if(!bottomRendered){
+                                        RenderHelper.drawTesselatedSideBottomWithTexture(insides, fluidIcon);
+                                    }
+                                    if(zR == 1){
+                                        RenderHelper.drawTesselatedSideNorthWithTexture(insides, fluidIcon);
+                                    }
+                                    if(zR == innerZDifference){
+                                        RenderHelper.drawTesselatedSideSouthWithTexture(insides, fluidIcon);
+                                    }
 
-                                    RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+                                    if(xR == 1){
+                                        RenderHelper.drawTesselatedSideWestWithTexture(insides, fluidIcon);
+                                    }
+                                    if(xR == innerXDifference){
+                                        RenderHelper.drawTesselatedSideEastWithTexture(insides, fluidIcon);
+                                    }
+                                    RenderHelper.drawTesselatedSideTopWithTexture(insides, fluidIcon);
                                 }
                             }else{
                                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.3F + (percentage * 0.7F));
@@ -265,12 +301,33 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
                                             xR - 0.001F + 1, -0.001F,
                                             zR - 0.001F + 1);
                                     insides.setYMax(zY - 0.001F + 1);
-                                    RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
+                                    if(zY == 1) {
+                                        RenderHelper.drawTesselatedSideBottomWithTexture(insides, fluidIcon);
+                                    }
+
+                                    if(zR == innerYDifference){
+                                        RenderHelper.drawTesselatedSideTopWithTexture(insides, fluidIcon);
+                                    }
+
+                                    if(zR == 1){
+                                        RenderHelper.drawTesselatedSideNorthWithTexture(insides, fluidIcon);
+                                    }
+                                    if(zR == innerZDifference){
+                                        RenderHelper.drawTesselatedSideSouthWithTexture(insides, fluidIcon);
+                                    }
+
+                                    if(xR == 1){
+                                        RenderHelper.drawTesselatedSideWestWithTexture(insides, fluidIcon);
+                                    }
+                                    if(xR == innerXDifference){
+                                        RenderHelper.drawTesselatedSideEastWithTexture(insides, fluidIcon);
+                                    }
                                 }
                             }
 
                         }
                     }
+                    RenderHelper.stopTesselating(wasTessellating);
 
 				}
 			}

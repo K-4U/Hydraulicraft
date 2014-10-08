@@ -89,7 +89,7 @@ public class EventHelper {
 				if(UpdateChecker.isUpdateAvailable && !Loader.isModLoaded("VersionChecker")){
 					UpdateInfo info = UpdateChecker.infoAboutUpdate;
 					Functions.showMessageInChat(((EntityPlayer)event.entity), "Hydraulicraft version " + info.latestVersion + " available!");
-					Functions.showMessageInChat(((EntityPlayer)event.entity),"Released on " + info.dateOfRelease);
+					Functions.showMessageInChat(((EntityPlayer)event.entity), "Released on " + info.dateOfRelease);
 					int i = 0;
 					for(String cl : info.changelog){
 						Functions.showMessageInChat(((EntityPlayer)event.entity), cl);						
