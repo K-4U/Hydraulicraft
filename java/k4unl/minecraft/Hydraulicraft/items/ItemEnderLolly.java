@@ -8,7 +8,7 @@ import net.minecraft.item.ItemFood;
 
 public class ItemEnderLolly extends ItemFood {
 	public ItemEnderLolly() {
-		super(HCConfig.getInt("enderLollyFoodLevel"), false);
+		super(HCConfig.INSTANCE.getInt("enderLollyFoodLevel"), false);
 		
 		setMaxStackSize(64);
 		setUnlocalizedName(Names.itemEnderLolly.unlocalized);

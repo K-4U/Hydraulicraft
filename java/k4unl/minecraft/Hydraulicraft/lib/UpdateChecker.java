@@ -23,7 +23,7 @@ public class UpdateChecker {
 	
 	
 	public static boolean checkUpdateAvailable(){
-		if(HCConfig.getBool("checkForUpdates")){
+		if(HCConfig.INSTANCE.getBool("checkForUpdates")){
 			String json = "";
 			try {
 				json = readUrl("http://hydraulicraft.eu/update_1.7.10.json");

@@ -49,10 +49,10 @@ public class HCItems {
 		itemDebugger = new ItemDebug();
 		itemBucketOil = new ItemBucketOil();
 
-        if(!HCConfig.getBool("disableBacon")) {
+        if(!HCConfig.INSTANCE.getBool("disableBacon")) {
             itemBacon = new ItemBacon();
         }
-        if(!HCConfig.getBool("disableEnderLolly")) {
+        if(!HCConfig.INSTANCE.getBool("disableEnderLolly")) {
             itemEnderLolly = new ItemEnderLolly();
         }
 		
@@ -106,10 +106,10 @@ public class HCItems {
 		OreDictionary.registerOre(Names.itemCopperEnrichedDust.unlocalized, new ItemStack(itemEnrichedCopperDust));
 
 
-        if(!HCConfig.getBool("disableBacon")) {
+        if(!HCConfig.INSTANCE.getBool("disableBacon")) {
             GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);
         }
-        if(!HCConfig.getBool("disableEnderLolly")) {
+        if(!HCConfig.INSTANCE.getBool("disableEnderLolly")) {
             GameRegistry.registerItem(itemEnderLolly, Names.itemEnderLolly.unlocalized);
         }
 		

@@ -108,7 +108,7 @@ public class Tanks {
                     registeredTanks = new ArrayList<Tank>();
                 }
 
-                Log.info("Read from file: " + json);
+                //Log.info("Read from file: " + json);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -117,25 +117,13 @@ public class Tanks {
 
 
         }
-
-
-/*
-        NBTTagCompound tCompound = new NBTTagCompound();
-        isLoaded = true;
-        int entries = tCompound.getInteger("entries");
-        for(int i = 0; i<entries; i++){
-            NBTTagCompound entryCompound = tCompound.getCompoundTag(""+i);
-            long key = entryCompound.getLong("key");
-            Location value = new Location(entryCompound.getIntArray("location"));
-            registeredTanks.put(key, value);
-        }*/
     }
 
     public void saveToFile(File dir){
         if(dir != null){
             Gson gson = new Gson();
             String json = gson.toJson(registeredTanks);
-            Log.info("Saving: " + json);
+            //Log.info("Saving: " + json);
             String p = dir.getAbsolutePath();
             p += "/tanks.json";
             File f = new File(p);

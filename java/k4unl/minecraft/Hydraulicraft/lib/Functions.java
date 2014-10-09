@@ -125,9 +125,9 @@ public class Functions {
 	
 	public static int getMaxGenPerTier(PressureTier tier, boolean isOil){
 		if(!isOil){
-			return HCConfig.getInt("maxMBarGenWaterT" + (tier.ordinal()+1));
+			return HCConfig.INSTANCE.getInt("maxMBarGenWaterT" + (tier.ordinal()+1));
 		}else{
-			return HCConfig.getInt("maxMBarGenOilT" + (tier.ordinal()+1));
+			return HCConfig.INSTANCE.getInt("maxMBarGenOilT" + (tier.ordinal()+1));
 		}
 	}
 	

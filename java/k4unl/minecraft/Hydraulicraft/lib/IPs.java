@@ -58,7 +58,7 @@ public class IPs {
 					registeredIps = new HashMap<Long, Location>();
 				}
 				
-				Log.info("Read from file: " + json);
+				//Log.info("Read from file: " + json);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -84,7 +84,7 @@ public class IPs {
 		if(dir != null){
 			Gson gson = new Gson();
 			String json = gson.toJson(registeredIps);
-			Log.info("Saving: " + json);
+			//Log.info("Saving: " + json);
 			String p = dir.getAbsolutePath();
 			p += "/portals.json";
 			File f = new File(p);

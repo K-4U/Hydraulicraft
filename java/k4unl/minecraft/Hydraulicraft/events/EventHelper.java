@@ -82,7 +82,7 @@ public class EventHelper {
 
 	@SubscribeEvent
 	public void onEntityJoinEvent(EntityJoinWorldEvent event){
-		if(hasShownUpdateInfo || !HCConfig.getBool("checkForUpdates")) return;
+		if(hasShownUpdateInfo || !HCConfig.INSTANCE.getBool("checkForUpdates")) return;
 		if(event.entity instanceof EntityPlayer){
 			if(event.world.isRemote){
 				//If update available and the update message wasn't sent to Version Checker, tell em!

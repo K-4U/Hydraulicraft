@@ -15,6 +15,7 @@ import k4unl.minecraft.Hydraulicraft.events.TickHandler;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.*;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
@@ -37,7 +38,7 @@ import java.util.List;
 	modid = ModInfo.ID,
 	name = ModInfo.NAME,
 	version = ModInfo.VERSION,
-	dependencies = "required-after:ForgeMultipart@1.1.0.275"
+	dependencies = "required-after:ForgeMultipart@[1.1.0.297,);required-after:k4lib@[1.7.10-0.1.13,)"
 )
 
 public class Hydraulicraft {
@@ -67,8 +68,9 @@ public class Hydraulicraft {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event){
 		Log.init();
-		
-		HCConfigHandler.init(event.getSuggestedConfigurationFile());
+
+        HCConfig.INSTANCE.init();
+		HCConfigHandler.init(HCConfig.INSTANCE, event.getSuggestedConfigurationFile());
 		
 		CustomTabs.init();
 		

@@ -337,7 +337,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
         
         
         boolean scanForNext = false;
-        if(HCConfig.getBool("canSawTwoMicroblocksAtOnce")){
+        if(HCConfig.INSTANCE.getBool("canSawTwoMicroblocksAtOnce")){
         	scanForNext = (!getIsSawingLeftRight() || !getIsSawingUpDown());
         }else{
         	scanForNext = (!getIsSawingLeftRight() && !getIsSawingLeftRight());

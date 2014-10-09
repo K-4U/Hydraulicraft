@@ -87,9 +87,9 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 	@Override
 	public int getMaxGenerating(ForgeDirection from) {
 		if(!getHandler().isOilStored()){
-			return HCConfig.getInt("maxMBarGenWaterT" + (getTier() + 1));
+			return HCConfig.INSTANCE.getInt("maxMBarGenWaterT" + (getTier() + 1));
 		}else{
-			return HCConfig.getInt("maxMBarGenOilT" + (getTier()+1));
+			return HCConfig.INSTANCE.getInt("maxMBarGenOilT" + (getTier()+1));
 		}
 	}
 

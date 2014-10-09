@@ -12,10 +12,13 @@ import java.util.*;
 
 
 public class HCConfig extends Config{
+    public static final Config INSTANCE = new HCConfig();
+
     private static final Map<Block, Integer>                     tankScores    = new HashMap<Block, Integer>();
     private static final Map<Block, Boolean>                     tankBlackList = new HashMap<Block, Boolean>();
 
-    static {
+    @Override
+    public void init(){
         configOptions.add(new ConfigOption("shouldGenCopperOre", true));
         configOptions.add(new ConfigOption("shouldGenLeadOre", true));
         configOptions.add(new ConfigOption("shouldDolleyInHarvesterGoBack", true));

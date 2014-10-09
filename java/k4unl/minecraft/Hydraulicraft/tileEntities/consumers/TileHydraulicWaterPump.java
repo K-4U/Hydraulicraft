@@ -64,7 +64,7 @@ public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydrau
 	}
 
 	private void doPump() {
-		int toFill = HCConfig.getInt("waterPumpPerTick");
+		int toFill = HCConfig.INSTANCE.getInt("waterPumpPerTick");
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			TileEntity shouldIFillThis = getBlockLocation().getTE(getWorldObj(), dir);

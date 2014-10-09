@@ -503,7 +503,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 				
 				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 					if(getNetwork(dir) != null){
-						if(getWorld().getTotalWorldTime() % 2 == 0 && HCConfig.getBool("explosions")){
+						if(getWorld().getTotalWorldTime() % 2 == 0 && HCConfig.INSTANCE.getBool("explosions")){
 							checkPressure(dir);
 						}
 						
@@ -637,7 +637,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
 	@Override
 	public int getMaxStorage() {
-		return HCConfig.getInt("maxFluidMultiplier") * maxStorage;
+		return HCConfig.INSTANCE.getInt("maxFluidMultiplier") * maxStorage;
 	}
 	
 	public void firstTick(){

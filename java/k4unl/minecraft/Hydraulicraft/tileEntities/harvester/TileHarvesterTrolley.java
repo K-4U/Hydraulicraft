@@ -179,7 +179,7 @@ public class TileHarvesterTrolley extends TileEntity {
 				actuallyPlant();
 			}else if(isHarvesting){
 				actuallyHarvest();
-			}else if(HCConfig.getBool("shouldDolleyInHarvesterGoBack") && harvestedItems != null){
+			}else if(HCConfig.INSTANCE.getBool("shouldDolleyInHarvesterGoBack") && harvestedItems != null){
 				harvester.putInInventory(harvestedItems);
 				harvestedItems = new ArrayList<ItemStack>();
 			}
@@ -415,7 +415,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		plantingItem = null;
 		isHarvesting = false;
 		isPlanting = false;
-		if(HCConfig.getBool("shouldDolleyInHarvesterGoBack")){
+		if(HCConfig.INSTANCE.getBool("shouldDolleyInHarvesterGoBack")){
 			extendTo(0, 0);
 		}else{
 			extendTo(0, locationToPlant);
@@ -491,7 +491,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		
 		isHarvesting = false;
 		isPlanting = false;
-		if(HCConfig.getBool("shouldDolleyInHarvesterGoBack")){
+		if(HCConfig.INSTANCE.getBool("shouldDolleyInHarvesterGoBack")){
 			harvestedItems = dropped;
 			extendTo(0, 0);
 		}else{

@@ -17,8 +17,8 @@ public class TilePressureDisposal extends TileHydraulicBase implements
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
 		if(getRedstonePowered()){
-			if(getPressure(ForgeDirection.UNKNOWN) > (HCConfig.getInt("maxMBarGenWaterT3")*4)){
-				return (HCConfig.getInt("maxMBarGenWaterT3")*4) % getPressure(ForgeDirection.UNKNOWN);
+			if(getPressure(ForgeDirection.UNKNOWN) > (HCConfig.INSTANCE.getInt("maxMBarGenWaterT3")*4)){
+				return (HCConfig.INSTANCE.getInt("maxMBarGenWaterT3")*4) % getPressure(ForgeDirection.UNKNOWN);
 			}else{
 				return getPressure(ForgeDirection.UNKNOWN);
 			}

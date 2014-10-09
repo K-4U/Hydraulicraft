@@ -38,7 +38,7 @@ public class ThirdPartyManager{
         thirdPartyClasses.put("bluepower", BluePower.class);
 
         for(Map.Entry<String, Class<? extends IThirdParty>> entry : thirdPartyClasses.entrySet()) {
-            if(Loader.isModLoaded(entry.getKey()) || (entry.getKey().equals("ThermalExpansion") && HCConfig.getBool("enableRF"))) {
+            if(Loader.isModLoaded(entry.getKey()) || (entry.getKey().equals("ThermalExpansion") && HCConfig.INSTANCE.getBool("enableRF"))) {
                 try {
                     thirdPartyMods.add(entry.getValue().newInstance());
                 } catch(Exception e) {

@@ -173,7 +173,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 		portalWidth = 0;
 		int half = 0;
 		while(i != 2){
-			for(int z = 1; z <= HCConfig.getInt("maxPortalWidth"); z++){
+			for(int z = 1; z <= HCConfig.INSTANCE.getInt("maxPortalWidth"); z++){
 				Location nLocation = new Location(xCoord, yCoord, zCoord, baseDir, z);
 				Location oLocation = new Location(xCoord, yCoord, zCoord, baseDir.getOpposite(), z);
 				if(nLocation.getBlock(getWorldObj()) == HCBlocks.portalFrame){
@@ -212,7 +212,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 		portalHeight = 0;
 		while(i != 3){
 			//Log.info("Checking for portal with basedir at " + baseDir + " and top at " + portalDir);
-			for(int y = 1; y <= HCConfig.getInt("maxPortalHeight"); y++){
+			for(int y = 1; y <= HCConfig.INSTANCE.getInt("maxPortalHeight"); y++){
 				Location nLocation = new Location(firstLocation, portalDir, y);
 				Location oLocation = new Location(secondLocation, portalDir, y);
 				if(nLocation.getBlock(getWorldObj()) == HCBlocks.portalFrame){
@@ -325,7 +325,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 				if(portalEnabled && !getIsRedstonePowered()){
 					portalEnabled = false;
 					disablePortal();
-				}else if(getIsRedstonePowered() && !portalEnabled && getPressure(ForgeDirection.UP) >= HCConfig.getInt("portalmBarUsagePerTickPerBlock")){
+				}else if(getIsRedstonePowered() && !portalEnabled && getPressure(ForgeDirection.UP) >= HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock")){
 					portalEnabled = true;
 					enablePortal();
 				}
@@ -509,9 +509,9 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
 		if(from.equals(ForgeDirection.UP)){
-			if(getPressure(ForgeDirection.UP) >= HCConfig.getInt("portalmBarUsagePerTickPerBlock")){
+			if(getPressure(ForgeDirection.UP) >= HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock")){
 				if(getIsActive()) {
-					return HCConfig.getInt("portalmBarUsagePerTickPerBlock");
+					return HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock");
 				}
 			}else{
 				if(getIsActive()){

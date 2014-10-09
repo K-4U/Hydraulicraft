@@ -99,7 +99,7 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
             }
 			Location teleportLocation = teleporter.getPortalBase().getTarget();
 			long lastInPortal = entCompound.getLong("lastInPortal" + teleporter.getPortalBase().getIPLong());
-			if(world.getTotalWorldTime() - lastInPortal > (HCConfig.getInt("portalTimeoutInSeconds") * 20)){
+			if(world.getTotalWorldTime() - lastInPortal > (HCConfig.INSTANCE.getInt("portalTimeoutInSeconds") * 20)){
 				if(teleportLocation != null){
 					teleporter.usePressure();
 					TeleportHelper.teleportEntity(entity, teleportLocation);
