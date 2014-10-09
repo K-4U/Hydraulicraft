@@ -42,99 +42,105 @@ import java.util.List;
 )
 
 public class Hydraulicraft {
-	//This is the instance that Forge uses:
-	@Instance(value=ModInfo.ID)
-	public static Hydraulicraft instance;
-	
-	@SidedProxy(
-		clientSide = ModInfo.PROXY_LOCATION + ".ClientProxy",
-		serverSide = ModInfo.PROXY_LOCATION + ".CommonProxy"
-	)
-	public static CommonProxy proxy;
-	public static Multipart mp;
-	
-	public static TrueTypeFont smallGuiFont;
-	public static TrueTypeFont mediumGuiFont;
-	
-	public static HydraulicraftRegistrar harvesterTrolleyRegistrar = new HydraulicraftRegistrar();
-	public static IPs ipList = new IPs();
-    public static Tanks tankList = new Tanks();
-	
-	/*!
+    //This is the instance that Forge uses:
+    @Instance(value = ModInfo.ID)
+    public static Hydraulicraft instance;
+
+    @SidedProxy(
+      clientSide = ModInfo.PROXY_LOCATION + ".ClientProxy",
+      serverSide = ModInfo.PROXY_LOCATION + ".CommonProxy"
+    )
+    public static CommonProxy proxy;
+    public static Multipart   mp;
+
+    public static TrueTypeFont smallGuiFont;
+    public static TrueTypeFont mediumGuiFont;
+
+    public static HydraulicraftRegistrar harvesterTrolleyRegistrar = new HydraulicraftRegistrar();
+    public static IPs                    ipList                    = new IPs();
+    public static Tanks                  tankList                  = new Tanks();
+
+    public static HCConfigHandler configHandler = new HCConfigHandler();
+
+    /*!
 	 * @author Koen Beckers
 	 * @date 13-12-2013
 	 * Before the mod initializes
 	 */
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event){
-		Log.init();
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+
+        Log.init();
 
         HCConfig.INSTANCE.init();
-		HCConfigHandler.init(HCConfig.INSTANCE, event.getSuggestedConfigurationFile());
-		
-		CustomTabs.init();
-		
-		HCBlocks.init();
-		Ores.init();
-		TileEntities.init();
-		Fluids.init();
-		
-		HCItems.init();
-		EventHelper.init();
-		
-		ThirdPartyManager.instance().preInit();
-		
-		Multipart.init();
-		TickHandler.init();
-	}
-	
-	/*!
+        configHandler.init(HCConfig.INSTANCE, event.getSuggestedConfigurationFile());
+
+        CustomTabs.init();
+
+        HCBlocks.init();
+        Ores.init();
+        TileEntities.init();
+        Fluids.init();
+
+        HCItems.init();
+        EventHelper.init();
+
+        ThirdPartyManager.instance().preInit();
+
+        Multipart.init();
+        TickHandler.init();
+    }
+
+    /*!
 	 * @author Koen Beckers
 	 * @date 13-12-2013
 	 * Loading the mod!
 	 */
-	@EventHandler
-	public void load(FMLInitializationEvent event){
-		ThirdPartyManager.instance().init();
-		
-		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
-		NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new GuiHandler());
-		PacketPipeline.init();
+    @EventHandler
+    public void load(FMLInitializationEvent event) {
 
-		UpdateChecker.checkUpdateAvailable();
+        ThirdPartyManager.instance().init();
+
+        GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
+        NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new GuiHandler());
+        PacketPipeline.init();
+
+        UpdateChecker.checkUpdateAvailable();
 
         ForgeChunkManager.setForcedChunkLoadingCallback(Hydraulicraft
-                .instance, null);
+          .instance, null);
 
-		proxy.init();
-	}
-	
-	/*!
+        proxy.init();
+    }
+
+    /*!
 	 * @author Koen Beckers
 	 * @date 13-12-2013
 	 * After the mod has been loaded.
 	 */
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event){
-		Recipes.init();
-		
-		ThirdPartyManager.instance().postInit();
-        HCConfigHandler.loadTank();
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
 
-		Log.info("Hydraulicraft ready for use!");
-	}
-	
-	
-	@EventHandler
-    public void processIMCRequests(FMLInterModComms.IMCEvent event){
+        Recipes.init();
+
+        ThirdPartyManager.instance().postInit();
+        configHandler.loadTank();
+
+        Log.info("Hydraulicraft ready for use!");
+    }
+
+
+    @EventHandler
+    public void processIMCRequests(FMLInterModComms.IMCEvent event) {
+
         List<FMLInterModComms.IMCMessage> messages = event.getMessages();
-        for(FMLInterModComms.IMCMessage message : messages) {
+        for (FMLInterModComms.IMCMessage message : messages) {
             try {
-                if(message.key.equals("registerCrushingRecipe")){
+                if (message.key.equals("registerCrushingRecipe")) {
                     NBTTagCompound toRegister = message.getNBTValue();
 
                     ItemStack from = ItemStack.loadItemStackFromNBT
-                            (toRegister.getCompoundTag("itemFrom"));
+                      (toRegister.getCompoundTag("itemFrom"));
                     ItemStack to = ItemStack.loadItemStackFromNBT
                             (toRegister.getCompoundTag("itemTo"));
                     float pressureRatio = toRegister.getFloat("pressureRatio");
