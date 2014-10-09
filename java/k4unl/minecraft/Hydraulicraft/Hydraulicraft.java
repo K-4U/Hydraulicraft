@@ -38,7 +38,7 @@ import java.util.List;
 	modid = ModInfo.ID,
 	name = ModInfo.NAME,
 	version = ModInfo.VERSION,
-	dependencies = "required-after:ForgeMultipart@[1.1.0.297,);required-after:k4lib@[1.7.10-0.1.13,)"
+	dependencies = "required-after:ForgeMultipart@[1.1.0.297,)"//;required-after:k4lib@[1.7.10-0.1.13,)"
 )
 
 public class Hydraulicraft {
