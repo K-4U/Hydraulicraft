@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.network.AbstractPacket;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +34,6 @@ public class PacketKeyPressed extends AbstractPacket{
     public void handleServerSide(EntityPlayer player){
 		switch(keyIndex){
 		case Constants.KEYS_MINING_HELMET:
-			Log.info("Key pressed!");
 			if(player.getCurrentArmor(3) != null){
 				if(player.getCurrentArmor(3).getItem() instanceof ItemMiningHelmet){
 					ItemMiningHelmet.togglePower(player.getCurrentArmor(3));
