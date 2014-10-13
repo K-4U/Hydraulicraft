@@ -277,7 +277,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     }
     
     public void checkConnectedSides(Object caller){
-        HashMap<ForgeDirection, TileEntity> oldSides = new HashMap<ForgeDirection, TileEntity>(connectedSides);
+        HashMap<ForgeDirection, TileEntity> oldSides;
+        if(connectedSides != null) {
+            oldSides = new HashMap<ForgeDirection, TileEntity>(connectedSides);
+        }else{
+            oldSides = new HashMap<ForgeDirection, TileEntity>();
+        }
         connectedSides = new HashMap<ForgeDirection, TileEntity>();
 
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
