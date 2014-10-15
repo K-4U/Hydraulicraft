@@ -240,7 +240,7 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
                                             zY, zR,
                                             xR + 1, zY,
                                             zR + 1);
-                                    insides.setYMax(zY + 1);
+                                    insides.setYMax(zY + 0.99999F);
 
                                     if(zY == 1) {
                                         RenderHelper.drawTesselatedSideBottomWithTexture(insides, fluidIcon);
@@ -253,7 +253,7 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
                                     if(zR == innerZDifference){
                                         RenderHelper.drawTesselatedSideSouthWithTexture(insides, fluidIcon);
                                     }
-                                    if(zR == innerYDifference){
+                                    if(zY == innerYDifference){
                                         RenderHelper.drawTesselatedSideTopWithTexture(insides, fluidIcon);
                                     }
                                     if(xR == 1){
@@ -291,6 +291,7 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
                                     if(xR == innerXDifference){
                                         RenderHelper.drawTesselatedSideEastWithTexture(insides, fluidIcon);
                                     }
+
                                     RenderHelper.drawTesselatedSideTopWithTexture(insides, fluidIcon);
                                 }
                             }else{
@@ -305,7 +306,7 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
                                         RenderHelper.drawTesselatedSideBottomWithTexture(insides, fluidIcon);
                                     }
 
-                                    if(zR == innerYDifference){
+                                    if(zY == innerYDifference){
                                         RenderHelper.drawTesselatedSideTopWithTexture(insides, fluidIcon);
                                     }
 
