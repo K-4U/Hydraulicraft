@@ -112,7 +112,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 			if(target == null) return false;
 			if(outputInventory != null){
 				if(!outputInventory.isItemEqual(target)) return false;
-				int newItemStackSize = outputInventory.stackSize + inputInventory.stackSize;
+				int newItemStackSize = outputInventory.stackSize + 1;
 				
 				return (newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize());
 			}else{
