@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
 import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker.UpdateInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
@@ -88,8 +89,8 @@ public class EventHelper {
 				//If update available and the update message wasn't sent to Version Checker, tell em!
 				if(UpdateChecker.isUpdateAvailable && !Loader.isModLoaded("VersionChecker")){
 					UpdateInfo info = UpdateChecker.infoAboutUpdate;
-					Functions.showMessageInChat(((EntityPlayer)event.entity), "Hydraulicraft version " + info.latestVersion + " available!");
-					Functions.showMessageInChat(((EntityPlayer)event.entity), "Released on " + info.dateOfRelease);
+					Functions.showMessageInChat(((EntityPlayer)event.entity), Localization.getString(Localization.GUI_UPDATEAVAILABLE, info.latestVersion));
+					Functions.showMessageInChat(((EntityPlayer)event.entity), Localization.getString(Localization.GUI_RELEASEDAT, info.dateOfRelease));
 					int i = 0;
 					for(String cl : info.changelog){
 						Functions.showMessageInChat(((EntityPlayer)event.entity), cl);						
@@ -101,7 +102,7 @@ public class EventHelper {
 					}
 					hasShownUpdateInfo = true;
 				}else{
-					Functions.showMessageInChat(((EntityPlayer) event.entity), "Hydraulicraft up to date (" + ModInfo.VERSION + "-" + ModInfo.buildNumber + ")");
+					Functions.showMessageInChat(((EntityPlayer) event.entity), Localization.getString(Localization.GUI_UPTODATE) + " (" + ModInfo.VERSION + ")");
 					hasShownUpdateInfo = true;
 				}
 			}

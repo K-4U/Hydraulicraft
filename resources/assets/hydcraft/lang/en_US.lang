@@ -116,6 +116,10 @@ lang.gui.maxHighPressure=Max: High pressure
 lang.gui.maxMediumPressure=Max: Medium pressure
 lang.gui.maxLowPressure=Max: Low pressure
 lang.warn.wip=Note: This blocks works but is going to replaced in the future!
+lang.gui.updateAvailable=Hydraulicraft version %s available
+lang.gui.releasedAt=Released on: %s
+lang.gui.upToDate=Hydraulicraft up to date
+
 
 ####Third party
 #PneumaticCraft

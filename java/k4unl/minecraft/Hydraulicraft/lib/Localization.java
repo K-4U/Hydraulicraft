@@ -15,6 +15,9 @@ public class Localization {
 	public static final String MAXPRESSURE_HIGH = "lang.gui.maxHighPressure";
 	public static final String MAXPRESSURE_MEDIUM= "lang.gui.maxMediumPressure";
 	public static final String MAXPRESSURE_LOW = "lang.gui.maxLowPressure";
+    public static final String GUI_UPTODATE = "lang.gui.upToDate";
+    public static final String GUI_UPDATEAVAILABLE = "lang.gui.updateAvailable";
+    public static final String GUI_RELEASEDAT = "lang.gui.releasedAt";
 	
 	
 	public static String getLocalizedName(String unlocalizedName){
