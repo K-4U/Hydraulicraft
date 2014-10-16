@@ -122,12 +122,6 @@ lang.warn.wip=Note: This blocks works but is going to replaced in the future!
 tile.hydraulicPneumaticCompressor.name=Pneumatic Compressor
 
 
-#Buildcraft
-tile.hydraulicEngine.name=Hydraulic Engine
-tile.LPKineticPump.name=Low Pressure Kinetic Pump
-tile.MPKineticPump.name=Medium Pressure Kinetic Pump
-tile.HPKineticPump.name=High Pressure Kinetic Pump
-
 #Industrialcraft
 tile.hydraulicGenerator.name=Hydraulic Generator
 tile.LPElectricPump.name=Low Pressure Electric Pump
