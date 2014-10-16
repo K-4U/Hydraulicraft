@@ -11,10 +11,6 @@ import k4unl.minecraft.Hydraulicraft.containers.ContainerPressureVat;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerPump;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerWasher;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.GUI.GuiHydraulicEngine;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.client.GUI.GuiKineticPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileHydraulicEngine;
-import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.tileEntities.TileKineticPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.client.GUI.GuiSaw;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.containers.ContainerSaw;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities.TileHydraulicSaw;
@@ -73,11 +69,6 @@ public class GuiHandler implements IGuiHandler {
 					return new ContainerEmpty(player.inventory);
 				}
 				break;
-			case ENGINE:
-				if(ent instanceof TileHydraulicEngine){
-					return new ContainerEmpty(player.inventory);
-				}
-				break;
 			case GENERATOR:
 				if(ent instanceof TileHydraulicGenerator){
 					return new ContainerEmpty(player.inventory);
@@ -99,11 +90,6 @@ public class GuiHandler implements IGuiHandler {
 				}
 				break;
 			case INVALID:
-				break;
-			case KINETICPUMP:
-				if(ent instanceof TileKineticPump){
-					return new ContainerEmpty(player.inventory);
-				}
 				break;
 			case LAVAPUMP:
 				if(ent instanceof TileHydraulicLavaPump){
@@ -182,11 +168,6 @@ public class GuiHandler implements IGuiHandler {
 					return new GuiElectricPump(player.inventory, ent);
 				}
 				break;
-			case ENGINE:
-				if(ent instanceof TileHydraulicEngine){
-					return new GuiHydraulicEngine(player.inventory, ent);
-				}
-				break;
 			case GENERATOR:
 				if(ent instanceof TileHydraulicGenerator){
 					return new GuiHydraulicGenerator(player.inventory, ent);
@@ -208,11 +189,6 @@ public class GuiHandler implements IGuiHandler {
 				}
 				break;
 			case INVALID:
-				break;
-			case KINETICPUMP:
-				if(ent instanceof TileKineticPump){
-					return new GuiKineticPump(player.inventory, ent);
-				}
 				break;
 			case LAVAPUMP:
 				if(ent instanceof TileHydraulicLavaPump){

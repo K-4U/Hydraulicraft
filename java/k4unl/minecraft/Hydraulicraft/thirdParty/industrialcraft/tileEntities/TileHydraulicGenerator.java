@@ -64,7 +64,7 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 	
 	public float createPower(boolean simulate){
 		boolean rp = getRedstonePowered();
-		int pressureReq = Float.compare(getPressure(getFacing().getOpposite()), Constants.MIN_REQUIRED_PRESSURE_ENGINE);
+		int pressureReq = Float.compare(getPressure(getFacing().getOpposite()), Constants.MIN_REQUIRED_PRESSURE_DYNAMO);
 		float energyStored = getEUStored();
 		float energyMax = getMaxEUStorage();
 		int EUReq = Float.compare(energyStored, energyMax);
