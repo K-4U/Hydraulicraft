@@ -8,7 +8,10 @@ item.ingotEnrichedCopper.name=Обогащённый медный слиток
 item.bucketHydraulicOil.name=Ведро гидравлического масла
 item.bacon.name=Бекон
 item.miningHelmet.name=Шлем шахтёра
-item.itemLamp.name=Лампа шахтёрского шлема
+item.itemLamp.name=Фонарь шахтёрского шлема
+item.diamondShard.name=Алмазный осколок
+item.dustDiamondCopper.name=Обогащённая медная пыль
+item.enderLolly.name=Ender Lolly
 
 #Ores
 tile.oreCopper.name=Медная руда
@@ -22,42 +25,46 @@ tile.hydraulicCrusher.name=Дробилка
 tile.hydraulicWasher.name=Промыватель
 tile.hydraulicPressureWall.name=Стена под давлением
 tile.hydraulicPressureGlass.name=Стекло под давлением
-tile.pressureDisposal.name=Pressure Disposal
-tile.blockTransparentLight.name=Transparent Light
+tile.pressureDisposal.name=Удаление давления
+tile.blockTransparentLight.name=Прозрачный свет
 
-tile.LPHydraulicPipe.name=Низконапорная труба
-tile.MPHydraulicPipe.name=Средненапорная труба
-tile.HPHydraulicPipe.name=Высоконапорная труба
+tile.LPHydraulicPipe.name=Труба низкого давления
+tile.MPHydraulicPipe.name=Труба среднего давления
+tile.HPHydraulicPipe.name=Труба высокого давления
 
-tile.LPPartValve.name=Низконапорная трубопроводная арматура
-tile.MPPartValve.name=Средненапорная трубопроводная арматура
-tile.HPPartValve.name=Высоконапорная трубопроводная арматура
+tile.LPPartValve.name=Клапан низкого давления
+tile.MPPartValve.name=Клапан среднего давления
+tile.HPPartValve.name=Клапан высокого давления
 
-tile.LPHydraulicPressureVat.name=Низконапорный бак
-tile.MPHydraulicPressureVat.name=Средненапорный бак
-tile.HPHydraulicPressureVat.name=Высоконапорный бак
+tile.LPHydraulicPressureVat.name=Бак низкого давления
+tile.MPHydraulicPressureVat.name=Бак среднего давления
+tile.HPHydraulicPressureVat.name=Бак высокого давления
 
-tile.LPHydraulicPump.name=Низконапорная помпа
-tile.MPHydraulicPump.name=Средненапорная помпа
-tile.HPHydraulicPump.name=Высоконапорная помпа
+tile.LPHydraulicPump.name=Помпа низкого давления
+tile.MPHydraulicPump.name=Помпа среднего давления
+tile.HPHydraulicPump.name=Помпа высокого давления
 
-tile.LPHydraulicLavaPump.name=Низконапорная лавовая помпа
-tile.MPHydraulicLavaPump.name=Средненапорная лавовая помпа
-tile.HPHydraulicLavaPump.name=Высоконапорная лавовая помпа
+tile.LPHydraulicLavaPump.name=Лавовая помпа низкого давления
+tile.MPHydraulicLavaPump.name=Лавовая помпа среднего давления
+tile.HPHydraulicLavaPump.name=Лавовая помпа высокого давления
 
-tile.hydraulicHarvesterSource.name=Гидравлический собиратель
-tile.hydraulicHarvesterFrame.name=Каркас собирателя
-tile.wheatHarvester.name=Собиратель пшеницы
-tile.enderLilyHarvester.name=Собиратель лилии Края
-tile.sugarCaneHarvester.name=Собиратель сахарного тростника
+tile.hydraulicHarvesterSource.name=Гидравлический сборщик
+tile.hydraulicHarvesterFrame.name=Каркас сборщика
+
+#poorly chosen name. This was done for compatability 
+tile.wheatHarvester.crops.name=Сборщик пшеницы
+tile.wheatHarvester.enderLily.name=Сборщик лилий Края
+tile.wheatHarvester.sugarCane.name=Сборщик сахарного тростника
+tile.wheatHarvester.cactus.name=Сборщик кактуса
+tile.wheatHarvester.netherWart.name=Сборщик нароста Нижнего мира
 
 tile.hydraulicPiston.name=Гидравлический поршень
-tile.interfaceValve.name=Интерфейс трубопроводной арматуры
-tile.valve.name=Гидравлическая трубопроводная арматура
+tile.interfaceValve.name=Интерфейс клапана
+tile.valve.name=Гидравлический клапан
 
-tile.LPBlockCore.name=Низконапорное ядро
-tile.MPBlockCore.name=Средненапорное ядро
-tile.HPBlockCore.name=Высоконапорное ядро
+tile.LPBlockCore.name=Ядро низкого давления
+tile.MPBlockCore.name=Ядро среднего давления
+tile.HPBlockCore.name=Ядро высокого давления
 
 tile.blockInfiniteSource.name=Бесконечный источник
 tile.hydraulicWaterPump.name=Гидравлический Архимедов винт (WIP)
@@ -65,14 +72,27 @@ tile.hydraulicWaterPump.name=Гидравлический Архимедов в�
 tile.blockCopper.name=Медный блок
 tile.blockLead.name=Свинцовый блок
 
-Gold.name=Золотая пыль
-Iron.name=Железная пыль
-Copper.name=Медная пыль
-Lead.name=Свинцовая пыль
+#Dust and chunks
+dustGold.name=Золотая пыль
+dustIron.name=Железная пыль
+dustArdite.name=Ардитовая пыль
+dustCopper.name=Медная пыль
+dustLead.name=Свинцовая пыль
+dustFzDarkIron.name=Пыль тёмного железа
+dustTin.name=Оловянная пыль
+dustCobalt.name=Кобальтовая пыль
+dustSilver.name=Серебрянная пыль
+dustNickel.name=Никелевая пыль
 chunkGold.name=Золотой кусок
 chunkIron.name=Железный кусок
+chunkArdite.name=Ардитовый кусок
 chunkCopper.name=Медный кусок
 chunkLead.name=Свинцовый кусок
+chunkFzDarkIron.name=Кусок тёмного железа
+chunkTin.name=Оловянный кусок
+chunkCobalt.name=Кобальтовый кусок
+chunkSilver.name=Серебрянный кусок
+chunkNickel.name=Никелевый кусок
 
 item.itemDebug.name=Предмет отладки
 
@@ -91,35 +111,38 @@ lang.gui.generating=Создание
 lang.gui.max=Макс.
 lang.gui.using=Используется
 lang.gui.output=Выход
-lang.gui.burnLeft=Burn left
-#NEW
-lang.gui.maxHighPressure=Макс.: Высоконапорн.
-lang.gui.maxMediumPressure=Макс.: Средненапорн.
-lang.gui.maxLowPressure=Макс.: Низконапорн.
+lang.gui.burnLeft=Горения осталось
+lang.gui.maxHighPressure=Макс.: Высокое давление
+lang.gui.maxMediumPressure=Макс.: Среднее давление
+lang.gui.maxLowPressure=Макс.: Низкое давление
 lang.warn.wip=Примечание: Этот блок работает, но будет заменён в будущем!
+lang.gui.updateAvailable=Hydraulicraft версии %s доступен
+lang.gui.releasedAt=Выпущен: %s
+lang.gui.upToDate=Hydraulicraft обновлён
+
 
 ####Third party
 #PneumaticCraft
 tile.hydraulicPneumaticCompressor.name=Пневматический компрессор
 
 
-#Buildcraft
-tile.hydraulicEngine.name=Гидравлический двигатель
-tile.LPKineticPump.name=Низконапорная кинетическая помпа
-tile.MPKineticPump.name=Средненапорная кинетическая помпа
-tile.HPKineticPump.name=Высоконапорная кинетическая помпа
-
 #Industrialcraft
 tile.hydraulicGenerator.name=Гидравлический генератор
-tile.LPElectricPump.name=Низконапорная электрическая помпа
-tile.MPElectricPump.name=Средненапорная электрическая помпа
-tile.HPElectricPump.name=Высоконапорная электрическая помпа
+tile.LPElectricPump.name=Электрическая помпа низкого давления
+tile.MPElectricPump.name=Электрическая помпа среднего давления
+tile.HPElectricPump.name=Электрическая помпа высокого давления
 
 #Thermal Expansion
 tile.hydraulicDynamo.name=Гидравлический генератор
-tile.LPRFPump.name=Низконапорная красная помпа
-tile.MPRFPump.name=Средненапорная красная помпа
-tile.HPRFPump.name=Высоконапорная красная помпа
+tile.LPRFPump.name=Красная помпа низкого давления
+tile.MPRFPump.name=Красная помпа среднего давления
+tile.HPRFPump.name=Красная помпа высокого давления
 
 #FMP
 tile.hydraulicSaw.name=Гидравлическая пила
+
+tile.portalBase.name=Основание портала
+tile.portalFrame.name=Каркас портала
+tile.portalTeleporter.name=Портала
+item.portalIPCard.name=Карта IP портала
+itemGroup.tabGOW=Glowing Octo Wallhack
