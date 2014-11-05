@@ -28,24 +28,24 @@ tile.hydraulicPressureGlass.name=Højtryksglas
 tile.pressureDisposal.name=Trykventil
 tile.blockTransparentLight.name=Gennemsigtigt Lys
 
-tile.LPHydraulicPipe.name=Low Pressure Pipe
-tile.MPHydraulicPipe.name=Medium Pressure Pipe
-tile.HPHydraulicPipe.name=Højtryks rør
+tile.LPHydraulicPipe.name=Lavtryks Rør
+tile.MPHydraulicPipe.name=Mediumtryks Rør
+tile.HPHydraulicPipe.name=Højtryks Rør
 
-tile.LPPartValve.name=Low Pressure Valve
-tile.MPPartValve.name=Medium Pressure Valve
-tile.HPPartValve.name=High Pressure Valve
+tile.LPPartValve.name=Lavtryksventil
+tile.MPPartValve.name=Mediumtryksventil
+tile.HPPartValve.name=Højtryksventil
 
-tile.LPHydraulicPressureVat.name=Low Pressure Vat
-tile.MPHydraulicPressureVat.name=Medium Pressure Vat
+tile.LPHydraulicPressureVat.name=Lavtryks Vat
+tile.MPHydraulicPressureVat.name=Mediumtryks Vat
 tile.HPHydraulicPressureVat.name=Højtryks Vat
 
-tile.LPHydraulicPump.name=Low Pressure Pump
-tile.MPHydraulicPump.name=Medium Pressure Pump
-tile.HPHydraulicPump.name=High Pressure Pump
+tile.LPHydraulicPump.name=Lavtrykspumpe
+tile.MPHydraulicPump.name=Mediumtrykspumpe
+tile.HPHydraulicPump.name=Højtrykspumpe
 
-tile.LPHydraulicLavaPump.name=Low Pressure Lava Pump
-tile.MPHydraulicLavaPump.name=Medium Pressure Lava Pump
+tile.LPHydraulicLavaPump.name=Lavtryks Lava Pumpe
+tile.MPHydraulicLavaPump.name=Mediumtryks Lava Pumpe
 tile.HPHydraulicLavaPump.name=Højtryks Lava Pumpe
 
 tile.hydraulicHarvesterSource.name=Hydraulisk Høstmaskine
