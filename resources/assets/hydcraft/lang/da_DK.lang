@@ -1,0 +1,148 @@
+### Main Mod
+#Items
+item.gasket.name=Pakning
+item.frictionPlate.name=Friktionsplade
+item.ingotCopper.name=Kobber Bar
+item.ingotLead.name=Bly Bar
+item.ingotEnrichedCopper.name=Beriget Kobber Bar
+item.bucketHydraulicOil.name=Hydraulisk Olie Spand
+item.bacon.name=Bacon
+item.miningHelmet.name=Minearbejderens Hjelm
+item.itemLamp.name=Minearbejderens Hjelm Lampe
+item.diamondShard.name=Diamant Skår
+item.dustDiamondCopper.name=Beriget Kobber Støv
+item.enderLolly.name=Ender Slikkepind
+
+#Ores
+tile.oreCopper.name=Kobber Malm
+tile.oreLead.name=Bly Malm
+
+#Blocks
+tile.hydraulicOil.name=Hydraulisk Olie
+tile.hydraulicMixer.name=Mixer
+tile.hydraulicFrictionIncinerator.name=Friktionsforbrændingsovn
+tile.hydraulicCrusher.name=Knuseværk
+tile.hydraulicWasher.name=Renseanlæg
+tile.hydraulicPressureWall.name=Højtryks mur
+tile.hydraulicPressureGlass.name=Højtryksglas
+tile.pressureDisposal.name=Trykventil
+tile.blockTransparentLight.name=Gennemsigtigt Lys
+
+tile.LPHydraulicPipe.name=Low Pressure Pipe
+tile.MPHydraulicPipe.name=Medium Pressure Pipe
+tile.HPHydraulicPipe.name=Højtryks rør
+
+tile.LPPartValve.name=Low Pressure Valve
+tile.MPPartValve.name=Medium Pressure Valve
+tile.HPPartValve.name=High Pressure Valve
+
+tile.LPHydraulicPressureVat.name=Low Pressure Vat
+tile.MPHydraulicPressureVat.name=Medium Pressure Vat
+tile.HPHydraulicPressureVat.name=Højtryks Vat
+
+tile.LPHydraulicPump.name=Low Pressure Pump
+tile.MPHydraulicPump.name=Medium Pressure Pump
+tile.HPHydraulicPump.name=High Pressure Pump
+
+tile.LPHydraulicLavaPump.name=Low Pressure Lava Pump
+tile.MPHydraulicLavaPump.name=Medium Pressure Lava Pump
+tile.HPHydraulicLavaPump.name=Højtryks Lava Pumpe
+
+tile.hydraulicHarvesterSource.name=Hydraulisk Høstmaskine
+tile.hydraulicHarvesterFrame.name=Høstmaskine Stel
+
+#poorly chosen name. This was done for compatability 
+tile.wheatHarvester.crops.name=Hvede Høstemaskine Arm
+tile.wheatHarvester.enderLily.name=Enderlily Høstemaskine Arm
+tile.wheatHarvester.sugarCane.name=Sukkerrør Høstemaskine Arm
+tile.wheatHarvester.cactus.name=Kaktus Høstemaskine Arm
+tile.wheatHarvester.netherWart.name=Nether-vorte Høstemaskine Arm
+
+tile.hydraulicPiston.name=Hydraulisk Stempel
+tile.interfaceValve.name=Brugerflade Ventil
+tile.valve.name=Hydraulisk Blokventil
+
+tile.LPBlockCore.name=Low Pressure Core
+tile.MPBlockCore.name=Medium Pressure Core
+tile.HPBlockCore.name=High Pressure Core
+
+tile.blockInfiniteSource.name=Infinite Source
+tile.hydraulicWaterPump.name=Hydraulic Archimedes' Screw (WIP)
+
+tile.blockCopper.name=Copper Block
+tile.blockLead.name=Lead Block
+
+#Dust and chunks
+dustGold.name=Gold Dust
+dustIron.name=Iron Dust
+dustArdite.name=Ardite Dust
+dustCopper.name=Copper Dust
+dustLead.name=Lead Dust
+dustFzDarkIron.name=Dark Iron Dust
+dustTin.name=Tin Dust
+dustCobalt.name=Cobalt Dust
+dustSilver.name=Silver Dust
+dustNickel.name=Nickel Dust
+chunkGold.name=Gold Chunk
+chunkIron.name=Iron Chunk
+chunkArdite.name=Ardite Chunk
+chunkCopper.name=Copper Chunk
+chunkLead.name=Lead Chunk
+chunkFzDarkIron.name=Dark Iron Chunk
+chunkTin.name=Tin Chunk
+chunkCobalt.name=Cobalt Chunk
+chunkSilver.name=Silver Chunk
+chunkNickel.name=Nickel Chunk
+
+item.itemDebug.name=Debug Item
+
+key.hydcraft.category=Hydraulicraft
+key.mining_helmet.desc=Miners helmet on/off
+
+tile.movingPane.name=Moving Pane
+item.movingPane.name=Moving Pane
+
+
+####MISC
+itemGroup.tabHydraulicraft=HydrauliCraft
+lang.pressure=Pressure
+fluid.hydraulicOil=Hydraulic Oil
+lang.gui.generating=Generating
+lang.gui.max=Max
+lang.gui.using=Using
+lang.gui.output=Output
+lang.gui.burnLeft=Burn left
+lang.gui.maxHighPressure=Max: High pressure
+lang.gui.maxMediumPressure=Max: Medium pressure
+lang.gui.maxLowPressure=Max: Low pressure
+lang.warn.wip=Note: This blocks works but is going to replaced in the future!
+lang.gui.updateAvailable=Hydraulicraft version %s available
+lang.gui.releasedAt=Released on: %s
+lang.gui.upToDate=Hydraulicraft up to date
+
+
+####Third party
+#PneumaticCraft
+tile.hydraulicPneumaticCompressor.name=Pneumatic Compressor
+
+
+#Industrialcraft
+tile.hydraulicGenerator.name=Hydraulic Generator
+tile.LPElectricPump.name=Low Pressure Electric Pump
+tile.MPElectricPump.name=Medium Pressure Electric Pump
+tile.HPElectricPump.name=High Pressure Electric Pump
+
+#Thermal Expansion
+tile.hydraulicDynamo.name=Hydraulic Dynamo
+tile.LPRFPump.name=Low Pressure Redstone Pump
+tile.MPRFPump.name=Medium Pressure Redstone Pump
+tile.HPRFPump.name=High Pressure Redstone Pump
+
+#FMP
+tile.hydraulicSaw.name=Hydraulic Saw
+
+tile.portalBase.name=Portal base
+tile.portalFrame.name=Portal frame
+tile.portalTeleporter.name=Portal
+item.portalIPCard.name=Portal IP Card
+itemGroup.tabGOW=Glowing Octo Wallhack
