@@ -1,0 +1,148 @@
+### Main Mod
+#Items
+item.gasket.name=Pakning
+item.frictionPlate.name=Friktionsplade
+item.ingotCopper.name=Kobber Bar
+item.ingotLead.name=Bly Bar
+item.ingotEnrichedCopper.name=Beriget Kobber Bar
+item.bucketHydraulicOil.name=Hydraulisk Olie Spand
+item.bacon.name=Bacon
+item.miningHelmet.name=Minearbejderens Hjelm
+item.itemLamp.name=Minearbejderens Hjelm Lampe
+item.diamondShard.name=Diamant Skår
+item.dustDiamondCopper.name=Beriget Kobber Støv
+item.enderLolly.name=Ender Slikkepind
+
+#Ores
+tile.oreCopper.name=Kobber Malm
+tile.oreLead.name=Bly Malm
+
+#Blocks
+tile.hydraulicOil.name=Hydraulisk Olie
+tile.hydraulicMixer.name=Mixer
+tile.hydraulicFrictionIncinerator.name=Friktionsforbrændingsovn
+tile.hydraulicCrusher.name=Knuseværk
+tile.hydraulicWasher.name=Renseanlæg
+tile.hydraulicPressureWall.name=Højtryks mur
+tile.hydraulicPressureGlass.name=Højtryksglas
+tile.pressureDisposal.name=Trykventil
+tile.blockTransparentLight.name=Gennemsigtigt Lys
+
+tile.LPHydraulicPipe.name=Lavtryks Rør
+tile.MPHydraulicPipe.name=Mediumtryks Rør
+tile.HPHydraulicPipe.name=Højtryks Rør
+
+tile.LPPartValve.name=Lavtryksventil
+tile.MPPartValve.name=Mediumtryksventil
+tile.HPPartValve.name=Højtryksventil
+
+tile.LPHydraulicPressureVat.name=Lavtrykstank
+tile.MPHydraulicPressureVat.name=Mediumtrykstank
+tile.HPHydraulicPressureVat.name=Højtrykstank
+
+tile.LPHydraulicPump.name=Lavtrykspumpe
+tile.MPHydraulicPump.name=Mediumtrykspumpe
+tile.HPHydraulicPump.name=Højtrykspumpe
+
+tile.LPHydraulicLavaPump.name=Lavtryks Lava Pumpe
+tile.MPHydraulicLavaPump.name=Mediumtryks Lava Pumpe
+tile.HPHydraulicLavaPump.name=Højtryks Lava Pumpe
+
+tile.hydraulicHarvesterSource.name=Hydraulisk Høstmaskine
+tile.hydraulicHarvesterFrame.name=Høstmaskine Stel
+
+#poorly chosen name. This was done for compatability 
+tile.wheatHarvester.crops.name=Hvede Høstemaskine Arm
+tile.wheatHarvester.enderLily.name=Enderlily Høstemaskine Arm
+tile.wheatHarvester.sugarCane.name=Sukkerrør Høstemaskine Arm
+tile.wheatHarvester.cactus.name=Kaktus Høstemaskine Arm
+tile.wheatHarvester.netherWart.name=Nether-vorte Høstemaskine Arm
+
+tile.hydraulicPiston.name=Hydraulisk Stempel
+tile.interfaceValve.name=Brugerflade Ventil
+tile.valve.name=Hydraulisk Blokventil
+
+tile.LPBlockCore.name=Lavtryks Kerne
+tile.MPBlockCore.name=Mediumtryks Kerne
+tile.HPBlockCore.name=Højtryks Kerne
+
+tile.blockInfiniteSource.name=Uendeligheds Kilden
+tile.hydraulicWaterPump.name=Hydraulisk Arkimedesskrue (WIP)
+
+tile.blockCopper.name=Kobber Blok
+tile.blockLead.name=Bly Blok
+
+#Dust and chunks
+dustGold.name=Guld Støv
+dustIron.name=Jern Støv
+dustArdite.name=Ardite Støv
+dustCopper.name=Kobber Støv
+dustLead.name=Bly Støv
+dustFzDarkIron.name=Mørkt Jern Støv
+dustTin.name=Tin Støv
+dustCobalt.name=Cobalt Støv
+dustSilver.name=Sølv Støv
+dustNickel.name=Nikkel Støv
+chunkGold.name=Guld Klump
+chunkIron.name=Jern Klump
+chunkArdite.name=Ardite Klump
+chunkCopper.name=Kobber Klump
+chunkLead.name=Bly Klump
+chunkFzDarkIron.name=Mørkt Jern Klump
+chunkTin.name=Tin Klump
+chunkCobalt.name=Cobalt Klump
+chunkSilver.name=Sølv Klump
+chunkNickel.name=Nikkel Klump
+
+item.itemDebug.name=Fejlsøgnings Ting
+
+key.hydcraft.category=Hydraulicraft
+key.mining_helmet.desc=Minearbejderens Hjelm on/off
+
+tile.movingPane.name=Flytnings Panel
+item.movingPane.name=Flytnings Panel
+
+
+####MISC
+itemGroup.tabHydraulicraft=HydrauliCraft
+lang.pressure=Tryk
+fluid.hydraulicOil=Hydraulisk Olie
+lang.gui.generating=Generer
+lang.gui.max=Maks
+lang.gui.using=Bruger
+lang.gui.output=Output
+lang.gui.burnLeft=Resterende brændetid
+lang.gui.maxHighPressure=Maks: Højtryk
+lang.gui.maxMediumPressure=Maks: Mediumtryks
+lang.gui.maxLowPressure=Maks: Lavtryks
+lang.warn.wip=Bemærk: Denne block er funktionel, men vil blive udskiftet senere hen!
+lang.gui.updateAvailable=Hydraulicraft version %s er tilgængelig
+lang.gui.releasedAt=Udgivet den: %s
+lang.gui.upToDate=Hydraulicraft er opdateret
+
+
+####Third party
+#PneumaticCraft
+tile.hydraulicPneumaticCompressor.name=Pneumatisk Kompressor
+
+
+#Industrialcraft
+tile.hydraulicGenerator.name=Hydraulisk Generator
+tile.LPElectricPump.name=Lavtryks Elektrisk Pumpe
+tile.MPElectricPump.name=Mediumtryks Elektrisk Pumpe
+tile.HPElectricPump.name=Højtryks Elektrisk Pumpe
+
+#Thermal Expansion
+tile.hydraulicDynamo.name=Hydraulisk Dynamo
+tile.LPRFPump.name=Lavtryks Rødstens Pumpe
+tile.MPRFPump.name=Mediumtryks Rødstens Pumpe
+tile.HPRFPump.name=Højtryks Rødstens Pumpe
+
+#FMP
+tile.hydraulicSaw.name=Hydraulisk Sav
+
+tile.portalBase.name=Portal Basen
+tile.portalFrame.name=Portal Stel
+tile.portalTeleporter.name=Portal
+item.portalIPCard.name=Portal IP Kort
+itemGroup.tabGOW=Glowing Octo Wallhack
