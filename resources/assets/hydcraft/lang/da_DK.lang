@@ -111,7 +111,7 @@ lang.gui.generating=Generer
 lang.gui.max=Maks
 lang.gui.using=Bruger
 lang.gui.output=Output
-lang.gui.burnLeft=Forbrænding tilbage
+lang.gui.burnLeft=Resterende brændetid
 lang.gui.maxHighPressure=Maks: Højtryk
 lang.gui.maxMediumPressure=Maks: Mediumtryks
 lang.gui.maxLowPressure=Maks: Lavtryks
@@ -127,22 +127,22 @@ tile.hydraulicPneumaticCompressor.name=Pneumatisk Kompressor
 
 
 #Industrialcraft
-tile.hydraulicGenerator.name=Hydraulis Generator
-tile.LPElectricPump.name=Low Pressure Electric Pump
-tile.MPElectricPump.name=Medium Pressure Electric Pump
-tile.HPElectricPump.name=High Pressure Electric Pump
+tile.hydraulicGenerator.name=Hydraulisk Generator
+tile.LPElectricPump.name=Lavtryks Elektrisk Pumpe
+tile.MPElectricPump.name=Mediumtryks Elektrisk Pumpe
+tile.HPElectricPump.name=Højtryks Elektrisk Pumpe
 
 #Thermal Expansion
-tile.hydraulicDynamo.name=Hydraulic Dynamo
-tile.LPRFPump.name=Low Pressure Redstone Pump
-tile.MPRFPump.name=Medium Pressure Redstone Pump
-tile.HPRFPump.name=High Pressure Redstone Pump
+tile.hydraulicDynamo.name=Hydraulisk Dynamo
+tile.LPRFPump.name=Lavtryks Rødstens Pumpe
+tile.MPRFPump.name=Mediumtryks Rødstens Pumpe
+tile.HPRFPump.name=Højtryks Rødstens Pumpe
 
 #FMP
-tile.hydraulicSaw.name=Hydraulic Saw
+tile.hydraulicSaw.name=Hydraulisk Sav
 
-tile.portalBase.name=Portal base
-tile.portalFrame.name=Portal frame
+tile.portalBase.name=Portal Basen
+tile.portalFrame.name=Portal Stel
 tile.portalTeleporter.name=Portal
-item.portalIPCard.name=Portal IP Card
+item.portalIPCard.name=Portal IP Kort
 itemGroup.tabGOW=Glowing Octo Wallhack
