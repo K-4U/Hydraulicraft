@@ -36,9 +36,9 @@ tile.LPPartValve.name=Lavtryksventil
 tile.MPPartValve.name=Mediumtryksventil
 tile.HPPartValve.name=Højtryksventil
 
-tile.LPHydraulicPressureVat.name=Lavtryks Vat
-tile.MPHydraulicPressureVat.name=Mediumtryks Vat
-tile.HPHydraulicPressureVat.name=Højtryks Vat
+tile.LPHydraulicPressureVat.name=Lavtrykstank
+tile.MPHydraulicPressureVat.name=Mediumtrykstank
+tile.HPHydraulicPressureVat.name=Højtrykstank
 
 tile.LPHydraulicPump.name=Lavtrykspumpe
 tile.MPHydraulicPump.name=Mediumtrykspumpe
@@ -62,72 +62,72 @@ tile.hydraulicPiston.name=Hydraulisk Stempel
 tile.interfaceValve.name=Brugerflade Ventil
 tile.valve.name=Hydraulisk Blokventil
 
-tile.LPBlockCore.name=Low Pressure Core
-tile.MPBlockCore.name=Medium Pressure Core
-tile.HPBlockCore.name=High Pressure Core
+tile.LPBlockCore.name=Lavtryks Kerne
+tile.MPBlockCore.name=Mediumtryks Kerne
+tile.HPBlockCore.name=Højtryks Kerne
 
-tile.blockInfiniteSource.name=Infinite Source
-tile.hydraulicWaterPump.name=Hydraulic Archimedes' Screw (WIP)
+tile.blockInfiniteSource.name=Uendeligheds Kilden
+tile.hydraulicWaterPump.name=Hydraulisk Arkimedesskrue (WIP)
 
-tile.blockCopper.name=Copper Block
-tile.blockLead.name=Lead Block
+tile.blockCopper.name=Kobber Blok
+tile.blockLead.name=Bly Blok
 
 #Dust and chunks
-dustGold.name=Gold Dust
-dustIron.name=Iron Dust
-dustArdite.name=Ardite Dust
-dustCopper.name=Copper Dust
-dustLead.name=Lead Dust
-dustFzDarkIron.name=Dark Iron Dust
-dustTin.name=Tin Dust
-dustCobalt.name=Cobalt Dust
-dustSilver.name=Silver Dust
-dustNickel.name=Nickel Dust
-chunkGold.name=Gold Chunk
-chunkIron.name=Iron Chunk
-chunkArdite.name=Ardite Chunk
-chunkCopper.name=Copper Chunk
-chunkLead.name=Lead Chunk
-chunkFzDarkIron.name=Dark Iron Chunk
-chunkTin.name=Tin Chunk
-chunkCobalt.name=Cobalt Chunk
-chunkSilver.name=Silver Chunk
-chunkNickel.name=Nickel Chunk
+dustGold.name=Guld Støv
+dustIron.name=Jern Støv
+dustArdite.name=Ardite Støv
+dustCopper.name=Kobber Støv
+dustLead.name=Bly Støv
+dustFzDarkIron.name=Mørkt Jern Støv
+dustTin.name=Tin Støv
+dustCobalt.name=Cobalt Støv
+dustSilver.name=Sølv Støv
+dustNickel.name=Nikkel Støv
+chunkGold.name=Guld Klump
+chunkIron.name=Jern Klump
+chunkArdite.name=Ardite Klump
+chunkCopper.name=Kobber Klump
+chunkLead.name=Bly Klump
+chunkFzDarkIron.name=Mørkt Jern Klump
+chunkTin.name=Tin Klump
+chunkCobalt.name=Cobalt Klump
+chunkSilver.name=Sølv Klump
+chunkNickel.name=Nikkel Klump
 
-item.itemDebug.name=Debug Item
+item.itemDebug.name=Fejlsøgnings Ting
 
 key.hydcraft.category=Hydraulicraft
-key.mining_helmet.desc=Miners helmet on/off
+key.mining_helmet.desc=Minearbejderens Hjelm on/off
 
-tile.movingPane.name=Moving Pane
-item.movingPane.name=Moving Pane
+tile.movingPane.name=Flytnings Panel
+item.movingPane.name=Flytnings Panel
 
 
 ####MISC
 itemGroup.tabHydraulicraft=HydrauliCraft
-lang.pressure=Pressure
-fluid.hydraulicOil=Hydraulic Oil
-lang.gui.generating=Generating
-lang.gui.max=Max
-lang.gui.using=Using
+lang.pressure=Tryk
+fluid.hydraulicOil=Hydraulisk Olie
+lang.gui.generating=Generer
+lang.gui.max=Maks
+lang.gui.using=Bruger
 lang.gui.output=Output
-lang.gui.burnLeft=Burn left
-lang.gui.maxHighPressure=Max: High pressure
-lang.gui.maxMediumPressure=Max: Medium pressure
-lang.gui.maxLowPressure=Max: Low pressure
-lang.warn.wip=Note: This blocks works but is going to replaced in the future!
-lang.gui.updateAvailable=Hydraulicraft version %s available
-lang.gui.releasedAt=Released on: %s
-lang.gui.upToDate=Hydraulicraft up to date
+lang.gui.burnLeft=Forbrænding tilbage
+lang.gui.maxHighPressure=Maks: Højtryk
+lang.gui.maxMediumPressure=Maks: Mediumtryks
+lang.gui.maxLowPressure=Maks: Lavtryks
+lang.warn.wip=Bemærk: Denne block er funktionel, men vil blive udskiftet senere hen!
+lang.gui.updateAvailable=Hydraulicraft version %s er tilgængelig
+lang.gui.releasedAt=Udgivet den: %s
+lang.gui.upToDate=Hydraulicraft er opdateret
 
 
 ####Third party
 #PneumaticCraft
-tile.hydraulicPneumaticCompressor.name=Pneumatic Compressor
+tile.hydraulicPneumaticCompressor.name=Pneumatisk Kompressor
 
 
 #Industrialcraft
-tile.hydraulicGenerator.name=Hydraulic Generator
+tile.hydraulicGenerator.name=Hydraulis Generator
 tile.LPElectricPump.name=Low Pressure Electric Pump
 tile.MPElectricPump.name=Medium Pressure Electric Pump
 tile.HPElectricPump.name=High Pressure Electric Pump
