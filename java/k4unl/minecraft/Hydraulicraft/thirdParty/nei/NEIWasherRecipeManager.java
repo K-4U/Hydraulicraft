@@ -1,5 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
+import java.awt.Rectangle;
+import java.util.LinkedList;
+
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
 import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
@@ -74,17 +77,19 @@ public class NEIWasherRecipeManager extends ShapedRecipeHandler{
 
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
-        if(outputId.equals("crafting") && getClass() ==
-                NEIWasherRecipeManager.class) {
+        if(outputId.equals("washing")){
             for(WashingRecipes.WashingRecipe recipe: WashingRecipes.washingRecipes) {
                 this.arecipes.add(getShape(recipe));
             }
+        }else{
+        	super.loadCraftingRecipes(outputId, results);
         }
     }
     
     @Override
     public void loadTransferRects(){
-    	
+    	transferRects = new LinkedList<RecipeTransferRect>();
+        transferRects.add(new RecipeTransferRect(new Rectangle(74, 28, 35, 20), "washing"));
     }
     
     @Override

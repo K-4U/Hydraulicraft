@@ -97,15 +97,12 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler {
 
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
-    	if(getClass() == NEICrusherRecipeManager.class && results.length > 0) {
-            if(results[0] instanceof ItemStack){ //Because Mariculture can't be assed to fix this.
-                for(CrushingRecipes.CrushingRecipe recipe: CrushingRecipes.crushingRecipes) {
-                    if(recipe.output.isItemEqual((ItemStack) results[0])){
-                        this.arecipes.add(getShape(recipe));
-                    }
-                }
+    	if(outputId.equals("crushing")){
+            for(CrushingRecipes.CrushingRecipe recipe: CrushingRecipes.crushingRecipes){
+                this.arecipes.add(getShape(recipe));
             }
-    	}
+    	}else
+    		super.loadCraftingRecipes(outputId, results);
     }
     
     @Override
