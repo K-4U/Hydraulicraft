@@ -85,10 +85,12 @@ public class NEICrusherRecipeManager extends ShapedRecipeHandler {
         			}
         		}
         	}else{
-        		if(recipe.input.isItemEqual(ingredient)){
-	                this.arecipes.add(getShape(recipe));
-	                break;
-	            }
+                if(recipe.input != null && ingredient != null) {
+                    if (recipe.input.isItemEqual(ingredient)) {
+                        this.arecipes.add(getShape(recipe));
+                        break;
+                    }
+                }
         	}
         }
     }
