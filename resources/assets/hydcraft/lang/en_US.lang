@@ -12,6 +12,7 @@ item.itemLamp.name=Miners Helmet Lamp
 item.diamondShard.name=Diamond Shard
 item.dustDiamondCopper.name=Enriched Copper Dust
 item.enderLolly.name=Ender Lolly
+item.itemJarDirt.name=Jar of Dirt
 
 #Ores
 tile.oreCopper.name=Copper Ore
@@ -146,3 +147,4 @@ tile.portalFrame.name=Portal frame
 tile.portalTeleporter.name=Portal
 item.portalIPCard.name=Portal IP Card
 itemGroup.tabGOW=Glowing Octo Wallhack
+

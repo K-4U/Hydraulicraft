@@ -613,6 +613,17 @@ public class Recipes {
 						'E', Items.ender_pearl,
 						'S', Items.stick
 				}));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.itemJarDirt, 1), true,
+				new Object[] {
+						"-S-",
+						"GDG",
+						"GGG",
+						'G', Blocks.glass,
+						'D', Blocks.dirt,
+						'S', "slabWood"
+				}));
+
 	}
 	
 }

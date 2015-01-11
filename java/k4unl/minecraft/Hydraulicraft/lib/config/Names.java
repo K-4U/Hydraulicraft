@@ -122,5 +122,6 @@ public class Names {
 	public static final Name blockCopper = new Name("Copper Block", "blockCopper");
 	public static final Name itemCopperEnrichedDust = new Name("Copper enriched dust", "dustDiamondCopper");
 
+	public static final Name itemJarDirt = new Name("Jar of Dirt", "itemJarDirt");
 	
 }
