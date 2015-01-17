@@ -34,9 +34,6 @@ public class HCItems {
 	public static Item itemEnderLolly;
 	public static Item itemIPCard;
 
-	public static Item itemJarDirt;
-	
-	
 	/*!
 	 * @author Koen Beckers
 	 * @date 13-12-2013
@@ -71,7 +68,6 @@ public class HCItems {
 		
 		itemIPCard = new ItemIPCard();
 
-		itemJarDirt = new ItemJarDirt();
 
 		registerItems();
 	}
@@ -99,7 +95,6 @@ public class HCItems {
 		GameRegistry.registerItem(itemDiamondShards, Names.itemDiamondShard.unlocalized);
 		GameRegistry.registerItem(itemEnrichedCopperDust, Names.itemCopperEnrichedDust.unlocalized);
 
-		GameRegistry.registerItem(itemJarDirt, Names.itemJarDirt.unlocalized);
 		GameRegistry.registerItem(itemIPCard, Names.itemIPCard.unlocalized);
 		
 		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));

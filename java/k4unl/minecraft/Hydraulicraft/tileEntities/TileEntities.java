@@ -17,10 +17,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
-import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileChunkLoader;
-import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
-import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInfiniteSource;
-import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -58,6 +55,8 @@ public class TileEntities {
 		GameRegistry.registerTileEntity(TilePortalTeleporter.class, "tilePortalTeleporter");
         GameRegistry.registerTileEntity(TileChunkLoader.class,
                 "tileChunkLoader");
+
+		GameRegistry.registerTileEntity(TileJarOfDirt.class, "tileJarOfDirt");
 		
 	}
 }

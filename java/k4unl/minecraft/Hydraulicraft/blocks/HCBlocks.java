@@ -73,6 +73,8 @@ public class HCBlocks {
 	public static Block portalTeleporter;
 
     public static Block blockChunkLoader;
+
+	public static Block blockJarDirt;
 	
 	/*!
 	 * @author Koen Beckers
@@ -112,6 +114,7 @@ public class HCBlocks {
 		portalFrame = new BlockPortalFrame();
 		portalTeleporter = new BlockPortalTeleporter();
 
+		blockJarDirt = new BlockJarOfDirt();
 
         blockChunkLoader = new BlockChunkLoader();
 
@@ -175,8 +178,13 @@ public class HCBlocks {
 		GameRegistry.registerBlock(portalBase, Names.portalBase.unlocalized);
 		GameRegistry.registerBlock(portalFrame, Names.portalFrame.unlocalized);
 		GameRegistry.registerBlock(portalTeleporter, Names.portalTeleporter.unlocalized);
-		
+
+
+		GameRegistry.registerBlock(blockJarDirt, ItemBlockTooltip.class, Names.blockJarDirt.unlocalized);
+
 		OreDictionary.registerOre(Names.blockCopper.unlocalized, blockCopper);
 		OreDictionary.registerOre(Names.blockLead.unlocalized, blockLead);
+
+
 	}
 }

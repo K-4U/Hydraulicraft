@@ -12,7 +12,7 @@ item.itemLamp.name=Miners Helmet Lamp
 item.diamondShard.name=Diamond Shard
 item.dustDiamondCopper.name=Enriched Copper Dust
 item.enderLolly.name=Ender Lolly
-item.itemJarDirt.name=Jar of Dirt
+
 
 #Ores
 tile.oreCopper.name=Copper Ore
@@ -72,6 +72,8 @@ tile.hydraulicWaterPump.name=Hydraulic Archimedes' Screw (WIP)
 
 tile.blockCopper.name=Copper Block
 tile.blockLead.name=Lead Block
+
+tile.blockJarDirt.name=Jar of Dirt
 
 #Dust and chunks
 dustGold.name=Gold Dust
