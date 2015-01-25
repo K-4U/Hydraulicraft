@@ -4,7 +4,12 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicraftRegistrar;
@@ -14,7 +19,16 @@ import k4unl.minecraft.Hydraulicraft.events.EventHelper;
 import k4unl.minecraft.Hydraulicraft.events.TickHandler;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
-import k4unl.minecraft.Hydraulicraft.lib.*;
+import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
+import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
+import k4unl.minecraft.Hydraulicraft.lib.HCConfigHandler;
+import k4unl.minecraft.Hydraulicraft.lib.HydraulicraftRegistrar;
+import k4unl.minecraft.Hydraulicraft.lib.IPs;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.Recipes;
+import k4unl.minecraft.Hydraulicraft.lib.Tanks;
+import k4unl.minecraft.Hydraulicraft.lib.UpdateChecker;
+import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
@@ -27,7 +41,6 @@ import k4unl.minecraft.Hydraulicraft.world.OreGenerator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.ForgeChunkManager;
 import thirdParty.truetyper.TrueTypeFont;
 
 import java.lang.reflect.InvocationTargetException;
@@ -107,8 +120,8 @@ public class Hydraulicraft {
 
         UpdateChecker.checkUpdateAvailable();
 
-        ForgeChunkManager.setForcedChunkLoadingCallback(Hydraulicraft
-          .instance, null);
+        //ForgeChunkManager.setForcedChunkLoadingCallback(Hydraulicraft
+        //  .instance, null);
 
         proxy.init();
     }

@@ -508,7 +508,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
-		if(from.equals(ForgeDirection.UP)){
+		if(from.equals(ForgeDirection.UP) && getIsActive()){
 			if(getPressure(ForgeDirection.UP) >= (HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget()))){
 				if(getIsActive()) {
 					return HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget());
