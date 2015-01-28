@@ -59,7 +59,7 @@ public class Recipes {
             String ingotName = "ingot" + item;
             ArrayList<ItemStack> ingotStack = OreDictionary.getOres(ingotName);
             
-            Log.info("Found " + oreStack.size() + " ores and " + ingotStack.size() + " ingots for " + item);
+            //Log.info("Found " + oreStack.size() + " ores and " + ingotStack.size() + " ingots for " + item);
             
             if(oreStack.size() > 0 && ingotStack.size() > 0){
             	int metaId = HCItems.itemChunk.addChunk(item);
