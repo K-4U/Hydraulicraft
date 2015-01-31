@@ -152,6 +152,9 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
 
 	@Override
 	public void workFunction(ForgeDirection from) {
+        getHandler().setStored(getNetwork(from).getFluidCapacity() - getNetwork(from).getFluidInNetwork(), true, true);
+        getHandler().setPressure(getMaxPressure(getHandler().isOilStored(), from), from);
+        getHandler().updateFluidOnNextTick();
 	}
 
 	@Override
