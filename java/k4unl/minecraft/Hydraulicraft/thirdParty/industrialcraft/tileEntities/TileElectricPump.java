@@ -62,7 +62,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 			}
 			
 			setPressure(getPressure(from) + getGenerating(from), getFacing().getOpposite());
-			ic2EnergyStored -= getEUUsage();
+			ic2EnergyStored = ic2EnergyStored - getEUUsage();
 			isRunning = true;
 		}else{
 			isRunning = false;
@@ -103,8 +103,9 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 				//This means the pressure we are generating is too much!
 				gen = getMaxPressure(getHandler().isOilStored(), null) - getPressure(getFacing().getOpposite());
 			}
-			
-			EUUsage = (int)(gen * (getFluidInNetwork(from) / getFluidCapacity(from)) / Constants.CONVERSION_RATIO_EU_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
+
+
+
 			return gen;
 		}else{
 			EUUsage = 0;

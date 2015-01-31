@@ -101,7 +101,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 				gen = getMaxGenerating(from);
 			}
 			
-			RFUsage = (int)(gen * (getFluidInNetwork(from) / getFluidCapacity(from)) / Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
+			//RFUsage = (int)(gen * (getFluidInNetwork(from) / getFluidCapacity(from)) / Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
 			return gen; 
 		}else{
 			return 0;
