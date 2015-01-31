@@ -19,8 +19,6 @@ public class HCConfig extends Config{
 
     @Override
     public void init(){
-        configOptions.add(new ConfigOption("shouldGenCopperOre", true));
-        configOptions.add(new ConfigOption("shouldGenLeadOre", true));
         configOptions.add(new ConfigOption("shouldDolleyInHarvesterGoBack", true));
         configOptions.add(new ConfigOption("explosions", true));
         configOptions.add(new ConfigOption("canSawTwoMicroblocksAtOnce", true));
@@ -37,16 +35,28 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("conversionRatioLavaHydraulic", 100));
         configOptions.add(new ConfigOption("maxFluidMultiplier", 10));
 
-        configOptions.add(new ConfigOption("maxPortalHeight", 10));
-        configOptions.add(new ConfigOption("maxPortalWidth", 10));
-        configOptions.add(new ConfigOption("portalTimeoutInSeconds", 20));
-        configOptions.add(new ConfigOption("portalmBarUsagePerTickPerBlock", 1000));
-        configOptions.add(new ConfigOption("pressurePerTeleport", 10000));
+        configOptions.add(new ConfigOption("maxPortalHeight", 10).setCategory("portals"));
+        configOptions.add(new ConfigOption("maxPortalWidth", 10).setCategory("portals"));
+        configOptions.add(new ConfigOption("portalTimeoutInSeconds", 20).setCategory("portals"));
+        configOptions.add(new ConfigOption("portalmBarUsagePerTickPerBlock", 1000).setCategory("portals"));
+        configOptions.add(new ConfigOption("pressurePerTeleport", 10000).setCategory("portals"));
 
-        configOptions.add(new ConfigOption("disableBacon", false));
-        configOptions.add(new ConfigOption("baconFoodLevel", 4));
-        configOptions.add(new ConfigOption("disableEnderLolly", false));
-        configOptions.add(new ConfigOption("enderLollyFoodLevel", 4));
+        configOptions.add(new ConfigOption("disableBacon", false).setCategory("food"));
+        configOptions.add(new ConfigOption("baconFoodLevel", 4).setCategory("food"));
+        configOptions.add(new ConfigOption("disableEnderLolly", false).setCategory("food"));
+        configOptions.add(new ConfigOption("enderLollyFoodLevel", 4).setCategory("food"));
+
+
+        configOptions.add(new ConfigOption("shouldGenCopperOre", true).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("shouldGenLeadOre", true).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("copperMinY", 35).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("copperMaxY", 90).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("copperVeinSize", 7).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("copperVeinCount", 8).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("leadMinY", 35).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("leadMaxY", 90).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("leadVeinSize", 4).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("leadVeinCount", 8).setCategory("worldgen"));
 	}
 	
 	public static boolean canBeCrushed(ItemStack toCrush){

@@ -30,12 +30,9 @@ public class Constants {
 	public final static int COLOR_PRESSURE = 0x3FFFFFFF;
 	public static final int COLOR_OIL = 0x4F8C6900;
 	public static final int COLOR_RF = 0x7FE00000;
-	public static final int COLOR_MJ = 0x5003FFFF;
 	public static final int COLOR_EU = 0x7FEE0000;
 	public static final int COLOR_TEXT = 0xFFFFFFFF;
-	public static final int COLOR_GUI_TERMINAL = 0xFF00FF00;
-	
-	
+
 	//Mixer
 	public final static int OIL_FOR_ONE_SEED	=	100;
 	public final static int WATER_FOR_ONE_SEED  = 	50;
@@ -45,9 +42,6 @@ public class Constants {
 	//Harvester
 	public static final float MIN_REQUIRED_PRESSURE_HARVESTER = 100.0F;
 	public static final float PRESSURE_USAGE_PISTON = 50;
-	
-	//Friction Incinerator
-	public static final float PRESSURE_INCINERATOR = 100.0F;
 	
 	/**
 	 * Conversion to other mods
@@ -77,8 +71,6 @@ public class Constants {
 	public static final float CONVERSION_RATIO_HYDRAULIC_EU = 0.8F;
 	public static final int MIN_REQUIRED_EU = 128;
 	public static final int MAX_TRANSFER_EU = 128;
-	
-	
 	
 	public static final int PACKET_UPDATE_DISTANCE = 64;
 	
@@ -156,6 +148,7 @@ public class Constants {
         TANK_BLACKLIST.put(Blocks.unlit_redstone_torch, true);
         TANK_BLACKLIST.put(Blocks.unpowered_comparator, true);
         TANK_BLACKLIST.put(Blocks.unpowered_repeater, true);
+        TANK_BLACKLIST.put(Blocks.wool, true);
         TANK_BLACKLIST.put(Blocks.vine, true);
         TANK_BLACKLIST.put(Blocks.yellow_flower, true);
 

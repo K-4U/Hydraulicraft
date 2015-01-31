@@ -39,22 +39,22 @@ public class OreGenerator implements IWorldGenerator {
 		//Do nothing here, we don't want ores in the nether!
 	}
 	
-	private void generateOre(Block ore, World world, Random random, int chunkX, int chunkZ){
-		for(int i = 0; i < 3; i++){
+	private void generateOre(Block ore, World world, int veinSize, int veinCount, int minY, int maxY, Random random, int chunkX, int chunkZ){
+		for(int i = 0; i < veinCount; i++){
 			int firstBlockXCoord = chunkX + random.nextInt(16);
-			int firstBlockYCoord = 18 + random.nextInt(72); // From +18 to 70
+			int firstBlockYCoord = minY + random.nextInt(maxY - minY); // From +18 to 70
 			int firstBlockZCoord = chunkZ + random.nextInt(16);
 			
-			(new WorldGenMinable(ore, 12)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
+			(new WorldGenMinable(ore, veinSize)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
 		}
 	}
 	
 	private void generateOverworld(World world, Random random, int chunkX, int chunkZ){
 		if(HCConfig.INSTANCE.getBool("shouldGenCopperOre")){
-			generateOre(Ores.oreCopper, world, random, chunkX, chunkZ);
+			generateOre(Ores.oreCopper, world, HCConfig.INSTANCE.getInt("copperVeinSize"), HCConfig.INSTANCE.getInt("copperVeinCount"),HCConfig.INSTANCE.getInt("copperMinY"),HCConfig.INSTANCE.getInt("copperMaxY"), random, chunkX, chunkZ);
 		}
 		if(HCConfig.INSTANCE.getBool("shouldGenLeadOre")){
-			generateOre(Ores.oreLead, world, random, chunkX, chunkZ);
+            generateOre(Ores.oreLead, world, HCConfig.INSTANCE.getInt("leadVeinSize"), HCConfig.INSTANCE.getInt("leadVeinCount"),HCConfig.INSTANCE.getInt("leadMinY"),HCConfig.INSTANCE.getInt("leadMaxY"), random, chunkX, chunkZ);
 		}
 	}
 
