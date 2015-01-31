@@ -31,7 +31,7 @@ public class BluePower implements IThirdParty{
 	public static void initBlocks(){
 		flaxBlock = GameRegistry.findBlock("bluepower", "flax_crop");
 		flaxItem = GameRegistry.findItem("bluepower", "flax_seeds");
-		//Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyFlax());
+		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyFlax());
 	}
 	
 	public static void initRecipes(){

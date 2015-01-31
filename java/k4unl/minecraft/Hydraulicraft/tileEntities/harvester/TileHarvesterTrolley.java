@@ -199,10 +199,8 @@ public class TileHarvesterTrolley extends TileEntity {
 	public void readFromNBT(NBTTagCompound tagCompound) {
 	    super.readFromNBT(tagCompound);
 		extendedLength = tagCompound.getFloat("extendedLength");
-		//if(getWorldObj().isRemote){ K-4U.... world can be null here...
-			extendTarget = tagCompound.getFloat("extendTarget");
-			sideTarget = tagCompound.getFloat("sideTarget");
-		//}
+        extendTarget = tagCompound.getFloat("extendTarget");
+        sideTarget = tagCompound.getFloat("sideTarget");
 		isRetracting = tagCompound.getBoolean("isRetracting");
 		isMovingSideways = tagCompound.getBoolean("isMoving");
 		sideLength = tagCompound.getFloat("sideLength");
@@ -335,8 +333,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	
 	
 	public Location getLocation(int length, int y){
-		Location l = new Location(xCoord + getFacing().offsetX * length, yCoord + y, zCoord + getFacing().offsetZ * length);
-		return l;
+		return new Location(xCoord + getFacing().offsetX * length, yCoord + y, zCoord + getFacing().offsetZ * length);
 	}
 	
 	private Block getBlock(Location l){
@@ -369,20 +366,6 @@ public class TileHarvesterTrolley extends TileEntity {
 			if(getTrolley().canPlant(getWorldObj(), l.getX(), l.getY(), l.getZ(), firstSeed)){
 				canIPlantHere = true;
 			}
-			
-			/*if(getBlockMetadata() == 0){
-				//For "vanilla" plants:
-				canIPlantHere = canPlantSeed(getLocation(horiz, -2), firstSeed);
-			}else if(getBlockMetadata() == Constants.HARVESTER_ID_SUGARCANE){
-				Location toPlaceLocation = getLocation(horiz, -2);
-				canIPlantHere = Blocks.reeds.canPlaceBlockAt(worldObj, toPlaceLocation.getX(), toPlaceLocation.getY(), toPlaceLocation.getZ());
-			}else if(getBlockMetadata() == Constants.HARVESTER_ID_ENDERLILY){
-				if(soil.equals(Blocks.dirt) || soil.equals(Blocks.grass) || soil.equals(Blocks.end_stone)){
-					canIPlantHere = true;
-				}else{
-					canIPlantHere = false;
-				}
-			}*/
 			
 			if(block.equals(Blocks.air) && canIPlantHere){
 				locationToPlant = horiz;
@@ -423,7 +406,8 @@ public class TileHarvesterTrolley extends TileEntity {
 	}
 	
 	private ArrayList<ItemStack> getDroppedItems(int h){
-		Location cropLocation = getLocation(h, -2);
+		Location cropLocation = getLocation(h, -3);
+        cropLocation.addY(getTrolley().getPlantHeight(getWorldObj(), cropLocation.getX(), cropLocation.getY(), cropLocation.getZ()));
 		Block toHarvest = worldObj.getBlock(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
 		int metaData = worldObj.getBlockMetadata(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
 		if(toHarvest != null){
