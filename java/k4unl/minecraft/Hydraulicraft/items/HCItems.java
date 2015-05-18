@@ -21,7 +21,7 @@ public class HCItems {
 	public static Item itemDebugger;
 	public static ItemChunks itemChunk;
 	public static ItemDusts itemDust;
-	public static Item itemBucketOil;
+
 	public static Item itemBacon;
 	public static Item itemMovingPane;
 	
@@ -33,6 +33,9 @@ public class HCItems {
 	
 	public static Item itemEnderLolly;
 	public static Item itemIPCard;
+
+    public static Item itemBucketOil;
+    public static Item itemBucketHydraulicOil;
 
 	/*!
 	 * @author Koen Beckers
@@ -47,6 +50,7 @@ public class HCItems {
 		itemFrictionPlate = new ItemFrictionPlate();
 		itemDebugger = new ItemDebug();
 		itemBucketOil = new ItemBucketOil();
+        itemBucketHydraulicOil = new ItemBucketHydraulicOil();
 
         if(!HCConfig.INSTANCE.getBool("disableBacon")) {
             itemBacon = new ItemBacon();
@@ -84,7 +88,7 @@ public class HCItems {
 		GameRegistry.registerItem(ingotLead, Names.ingotLead.unlocalized);
 		GameRegistry.registerItem(itemFrictionPlate, Names.itemFrictionPlate.unlocalized);
 		GameRegistry.registerItem(itemDebugger, Names.itemDebugger.unlocalized);
-		GameRegistry.registerItem(itemBucketOil, Names.itemBucketOil.unlocalized);
+
 
 		GameRegistry.registerItem(itemDust, Names.itemDust.unlocalized);
 		GameRegistry.registerItem(itemChunk, Names.itemChunk.unlocalized);
@@ -105,6 +109,9 @@ public class HCItems {
 		OreDictionary.registerOre(Names.itemCopperEnrichedDust.unlocalized, new ItemStack(itemEnrichedCopperDust));
 
 
+        GameRegistry.registerItem(itemBucketOil, Names.itemBucketOil.unlocalized);
+        GameRegistry.registerItem(itemBucketHydraulicOil, Names.itemBucketHydraulicOil.unlocalized);
+
         if(!HCConfig.INSTANCE.getBool("disableBacon")) {
             GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);
         }
@@ -113,9 +120,14 @@ public class HCItems {
         }
 		
 		
-		FluidStack st = FluidRegistry.getFluidStack(Names.fluidOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
-		FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketOil), new ItemStack((Item)Item.itemRegistry.getObject("bucket")));
-		BucketHandler.INSTANCE.buckets.put(Fluids.fluidOilBlock, itemBucketOil);
+		FluidStack st = FluidRegistry.getFluidStack(Names.fluidHydraulicOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
+		FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketHydraulicOil), new ItemStack((Item)Item.itemRegistry.getObject("bucket")));
+		BucketHandler.INSTANCE.buckets.put(Fluids.fluidHydraulicOilBlock, itemBucketHydraulicOil);
+
+
+        st = FluidRegistry.getFluidStack(Names.fluidOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
+        FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketOil), new ItemStack((Item)Item.itemRegistry.getObject("bucket")));
+        BucketHandler.INSTANCE.buckets.put(Fluids.fluidOilBlock, itemBucketOil);
 	}
 }
 

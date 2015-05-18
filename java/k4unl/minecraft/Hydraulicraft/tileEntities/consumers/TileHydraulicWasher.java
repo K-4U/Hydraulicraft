@@ -292,7 +292,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 			if(FluidContainerRegistry.isFilledContainer(itemStack)){
 				if(FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(FluidRegistry.WATER, 1))){
 					return true;
-				}else if(FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(Fluids.fluidOil, 1))){
+				}else if(FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(Fluids.fluidHydraulicOil, 1))){
 					return true;
 				}
 			}

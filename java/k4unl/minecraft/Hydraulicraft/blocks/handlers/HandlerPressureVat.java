@@ -32,7 +32,7 @@ public class HandlerPressureVat extends HydraulicTieredBlockHandler {
 		float pressureMax = 0F;
 		if(itemstack.getTagCompound() != null && itemstack.getTagCompound().getBoolean("hasBeenPlaced")){
 			if(itemstack.getTagCompound().getBoolean("isOilStored")){
-				fluidName = Fluids.fluidOil.getLocalizedName(); 
+				fluidName = Fluids.fluidHydraulicOil.getLocalizedName();
 			}
 			
 			if(itemstack.getTagCompound().getCompoundTag("tank") != null){

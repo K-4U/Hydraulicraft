@@ -1,16 +1,19 @@
 package k4unl.minecraft.Hydraulicraft.world;
 
 import cpw.mods.fml.common.IWorldGenerator;
+import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.feature.WorldGenLakes;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 
 import java.util.Random;
 
-public class OreGenerator implements IWorldGenerator {
+public class HCWorldGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world,
@@ -48,14 +51,31 @@ public class OreGenerator implements IWorldGenerator {
 			(new WorldGenMinable(ore, veinSize)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
 		}
 	}
+
+    private void generateFluids(Block fluidBlock, World world, int minY, int maxY, Random random, int chunkX, int chunkZ){
+        int firstBlockXCoord = chunkX + random.nextInt(16);
+        int firstBlockYCoord = minY + random.nextInt(maxY - minY); // From +18 to 70
+        int firstBlockZCoord = chunkZ + random.nextInt(16);
+        Log.info(firstBlockXCoord + " " + firstBlockYCoord + " " + firstBlockZCoord);
+        (new WorldGenLakes(fluidBlock)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
+    }
 	
 	private void generateOverworld(World world, Random random, int chunkX, int chunkZ){
-		if(HCConfig.INSTANCE.getBool("shouldGenCopperOre")){
+		if(HCConfig.INSTANCE.getBool("shouldGenCopperOre", "worldgen")){
 			generateOre(Ores.oreCopper, world, HCConfig.INSTANCE.getInt("copperVeinSize"), HCConfig.INSTANCE.getInt("copperVeinCount"),HCConfig.INSTANCE.getInt("copperMinY"),HCConfig.INSTANCE.getInt("copperMaxY"), random, chunkX, chunkZ);
 		}
-		if(HCConfig.INSTANCE.getBool("shouldGenLeadOre")){
+		if(HCConfig.INSTANCE.getBool("shouldGenLeadOre", "worldgen")){
             generateOre(Ores.oreLead, world, HCConfig.INSTANCE.getInt("leadVeinSize"), HCConfig.INSTANCE.getInt("leadVeinCount"),HCConfig.INSTANCE.getInt("leadMinY"),HCConfig.INSTANCE.getInt("leadMaxY"), random, chunkX, chunkZ);
 		}
+        if(HCConfig.INSTANCE.getBool("shouldGenOil", "worldgen")){
+            if (random.nextDouble() < 0.5) {
+                int x = chunkX * 16 + random.nextInt(16);
+                int z = chunkZ * 16 + random.nextInt(16);//20
+                int y = 30 + random.nextInt(40);
+
+                (new WorldGenOil()).generate(world, random, x, z, 25, y);
+            }
+        }
 	}
 
 }

@@ -80,7 +80,7 @@ public class TileHydraulicMixer extends TileHydraulicBase implements
 			//Log.info(ticksDone+ "");
 			if(ticksDone >= maxTicks){
 				if(outputTank.getFluidAmount() <= 0){
-					outputTank.setFluid(new FluidStack(Fluids.fluidOil, Constants.OIL_FOR_ONE_SEED));
+					outputTank.setFluid(new FluidStack(Fluids.fluidHydraulicOil, Constants.OIL_FOR_ONE_SEED));
 				}else{
 					outputTank.getFluid().amount+=Constants.OIL_FOR_ONE_SEED;
 				}
@@ -242,7 +242,7 @@ public class TileHydraulicMixer extends TileHydraulicBase implements
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		if(fluid.equals(Fluids.fluidOil)){
+		if(fluid.equals(Fluids.fluidHydraulicOil)){
 			return true;			
 		}else{
 			return false;

@@ -57,6 +57,8 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("leadMaxY", 90).setCategory("worldgen"));
         configOptions.add(new ConfigOption("leadVeinSize", 4).setCategory("worldgen"));
         configOptions.add(new ConfigOption("leadVeinCount", 8).setCategory("worldgen"));
+
+        configOptions.add(new ConfigOption("shouldGenOil", true).setCategory("worldgen"));
 	}
 	
 	public static boolean canBeCrushed(ItemStack toCrush){

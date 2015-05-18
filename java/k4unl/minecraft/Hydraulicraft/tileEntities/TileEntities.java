@@ -1,14 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities;
 
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCharger;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCrusher;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFrictionIncinerator;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWaterPump;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TilePressureDisposal;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
@@ -53,10 +45,10 @@ public class TileEntities {
 		GameRegistry.registerTileEntity(TilePortalBase.class, "tilePortalBase");
 		GameRegistry.registerTileEntity(TilePortalFrame.class, "tilePortalFrame");
 		GameRegistry.registerTileEntity(TilePortalTeleporter.class, "tilePortalTeleporter");
-        GameRegistry.registerTileEntity(TileChunkLoader.class,
-                "tileChunkLoader");
 
+        GameRegistry.registerTileEntity(TileChunkLoader.class, "tileChunkLoader");
 		GameRegistry.registerTileEntity(TileJarOfDirt.class, "tileJarOfDirt");
+        GameRegistry.registerTileEntity(TileAssembler.class,  "tileHydraulicAssembler");
 		
 	}
 }

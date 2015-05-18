@@ -165,7 +165,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 			if(FluidContainerRegistry.isFilledContainer(itemStack)){
 				if(FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(FluidRegistry.WATER, 1))){
 					return true;
-				}else if(FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(Fluids.fluidOil, 1))){
+				}else if(FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(Fluids.fluidHydraulicOil, 1))){
 					return true;
 				}
 			}
@@ -190,7 +190,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 		}
 		
 		int filled = tank.fill(resource, doFill);
-		if(resource.getFluid().getID() == Fluids.fluidOil.getID()){
+		if(resource.getFluid().getID() == Fluids.fluidHydraulicOil.getID()){
 			getHandler().setIsOilStored(true);
 		}else{
 			getHandler().setIsOilStored(false);
@@ -235,7 +235,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
 		if(fluid.getID() == FluidRegistry.WATER.getID() ||
-				fluid.getID() == Fluids.fluidOil.getID()){
+				fluid.getID() == Fluids.fluidHydraulicOil.getID()){
 			return true;
 		}else{
 			return false;
@@ -281,7 +281,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 				if(i == 0){
 					tank.setFluid(null);
 				}else{
-					tank.setFluid(new FluidStack(Fluids.fluidOil, i));
+					tank.setFluid(new FluidStack(Fluids.fluidHydraulicOil, i));
 				}
 			}else{
 				if(i == 0){

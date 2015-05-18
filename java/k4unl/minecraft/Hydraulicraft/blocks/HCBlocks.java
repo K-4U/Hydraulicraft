@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockAssembler;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicPiston;
@@ -75,6 +76,7 @@ public class HCBlocks {
     public static Block blockChunkLoader;
 
 	public static Block blockJarDirt;
+    public static Block blockAssembler;
 	
 	/*!
 	 * @author Koen Beckers
@@ -117,6 +119,8 @@ public class HCBlocks {
 		blockJarDirt = new BlockJarOfDirt();
 
         blockChunkLoader = new BlockChunkLoader();
+
+        blockAssembler = new BlockAssembler();
 
 		harvesterTrolley = new BlockHarvesterTrolley();
 		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyCrops());
@@ -181,6 +185,8 @@ public class HCBlocks {
 
 
 		GameRegistry.registerBlock(blockJarDirt, ItemBlockTooltip.class, Names.blockJarDirt.unlocalized);
+
+        GameRegistry.registerBlock(blockAssembler, HandlerHydraulicBlock.class, Names.blockHydraulicAssembler.unlocalized);
 
 		OreDictionary.registerOre(Names.blockCopper.unlocalized, blockCopper);
 		OreDictionary.registerOre(Names.blockLead.unlocalized, blockLead);

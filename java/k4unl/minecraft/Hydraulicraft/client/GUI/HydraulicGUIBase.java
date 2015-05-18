@@ -231,8 +231,8 @@ public class HydraulicGUIBase extends GuiContainer {
 			fluidName = FluidRegistry.WATER.getLocalizedName();
 		} else {
 			color = Constants.COLOR_OIL;
-			icon = Fluids.fluidOil.getIcon();
-			fluidName = Fluids.fluidOil.getLocalizedName();
+			icon = Fluids.fluidHydraulicOil.getIcon();
+			fluidName = Fluids.fluidHydraulicOil.getLocalizedName();
 		}
 		drawVerticalProgressBarWithTexture(8, 16, 54, 16, mEnt.getHandler()
 				.getStored(), mEnt.getHandler().getMaxStorage(), icon, fluidName, "mB");

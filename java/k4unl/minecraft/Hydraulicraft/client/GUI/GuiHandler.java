@@ -1,15 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
-import k4unl.minecraft.Hydraulicraft.containers.ContainerCrusher;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerEmpty;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerHarvester;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerIncinerator;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerInfiniteSource;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerMixer;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerPortalBase;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerPressureVat;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerPump;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerWasher;
+import k4unl.minecraft.Hydraulicraft.containers.*;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.client.GUI.GuiSaw;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.containers.ContainerSaw;
@@ -25,10 +16,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiH
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiRFPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCrusher;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFrictionIncinerator;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
@@ -131,6 +119,11 @@ public class GuiHandler implements IGuiHandler {
 					return new ContainerPortalBase(player.inventory, (TilePortalBase) ent);
 				}
 				break;
+            case ASSEMBLER:
+                if(ent instanceof TileAssembler){
+                    return new ContainerAssembler(player.inventory, (TileAssembler) ent);
+                }
+                break;
 			default:
 				break;
 			
@@ -230,6 +223,10 @@ public class GuiHandler implements IGuiHandler {
 					return new GuiPortalBase(player.inventory, (TilePortalBase) ent);
 				}
 				break;
+            case ASSEMBLER:
+                if(ent instanceof TileAssembler){
+                    return new GuiAssembler(player.inventory, (TileAssembler) ent);
+                }
 			default:
 				break;
 			

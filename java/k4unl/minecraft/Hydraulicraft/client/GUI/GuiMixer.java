@@ -64,7 +64,7 @@ public class GuiMixer extends HydraulicGUIBase {
 				//Fluid inTank = FluidRegistry.getFluid(tankInfo[1].fluid.fluidID);
 				int color = Constants.COLOR_OIL;
 
-				drawVerticalProgressBar(107, 16, 52, 26, tankInfo[1].fluid.amount, tankInfo[1].capacity, color, Fluids.fluidOil.getLocalizedName(), "mB");
+				drawVerticalProgressBar(107, 16, 52, 26, tankInfo[1].fluid.amount, tankInfo[1].capacity, color, Fluids.fluidHydraulicOil.getLocalizedName(), "mB");
 			}
 		}
 		

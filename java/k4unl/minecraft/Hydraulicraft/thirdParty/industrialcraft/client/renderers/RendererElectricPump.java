@@ -310,7 +310,7 @@ public class RendererElectricPump extends TileEntitySpecialRenderer {
 		        float r = (float)(Constants.COLOR_OIL >> 16 & 255) / 255.0F;
 		        float g = (float)(Constants.COLOR_OIL >> 8 & 255) / 255.0F;
 		        float b = (float)(Constants.COLOR_OIL & 255) / 255.0F;*/
-		        fluidIcon = Fluids.fluidOil.getIcon();
+		        fluidIcon = Fluids.fluidHydraulicOil.getIcon();
 			}else{
 				fluidIcon = FluidRegistry.WATER.getIcon();
 			}

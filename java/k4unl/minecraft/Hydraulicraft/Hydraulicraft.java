@@ -37,7 +37,7 @@ import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileEntities;
-import k4unl.minecraft.Hydraulicraft.world.OreGenerator;
+import k4unl.minecraft.Hydraulicraft.world.HCWorldGenerator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
@@ -114,7 +114,7 @@ public class Hydraulicraft {
 
         ThirdPartyManager.instance().init();
 
-        GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
+        GameRegistry.registerWorldGenerator(new HCWorldGenerator(), 0);
         NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new GuiHandler());
         PacketPipeline.init();
 
