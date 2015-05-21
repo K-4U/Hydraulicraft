@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.world;
 
 import cpw.mods.fml.common.IWorldGenerator;
-import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
@@ -68,9 +67,10 @@ public class HCWorldGenerator implements IWorldGenerator {
             generateOre(Ores.oreLead, world, HCConfig.INSTANCE.getInt("leadVeinSize"), HCConfig.INSTANCE.getInt("leadVeinCount"),HCConfig.INSTANCE.getInt("leadMinY"),HCConfig.INSTANCE.getInt("leadMaxY"), random, chunkX, chunkZ);
 		}
         if(HCConfig.INSTANCE.getBool("shouldGenOil", "worldgen")){
+			//Log.info("Now genning " + (chunkX * 16) + " " + (chunkZ * 16));
             if (random.nextDouble() < 0.5) {
-                int x = chunkX * 16 + random.nextInt(16);
-                int z = chunkZ * 16 + random.nextInt(16);//20
+                int x = (chunkX * 16) + 8;
+                int z = (chunkZ * 16) + 8;
                 int y = 30 + random.nextInt(40);
 
                 (new WorldGenOil()).generate(world, random, x, z, 25, y);

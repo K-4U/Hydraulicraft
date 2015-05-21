@@ -6,7 +6,6 @@ import k4unl.minecraft.Hydraulicraft.lib.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeCache;
 import net.minecraft.world.chunk.Chunk;
 
 import java.util.Random;
@@ -38,10 +37,9 @@ public class WorldGenOil {
             }
         }
 
-        for(int i = 0; i <= worldHeight; i++){
+        for(int i = 1; i <= worldHeight+10; i++){
             world.setBlock(middleX, i, middleZ, Fluids.fluidOilBlock);
         }
-
     }
 
 

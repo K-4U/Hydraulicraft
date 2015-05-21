@@ -60,7 +60,7 @@ group= "k4unl" // http://maven.apache.org/guides/mini/guide-naming-conventions.h
 archivesBaseName = "HydCraft"
 
 minecraft {
-    version = "${project.ext.mcVersion}-10.13.0.1180"
+    version = "${project.ext.mcVersion}-10.13.3.1408-${project.ext.mcVersion}"
 
     // replacing stuff in the source
     replace '@VERSION@', project.version
