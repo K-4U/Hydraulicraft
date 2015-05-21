@@ -71,8 +71,8 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 	public void updateEntity(){
 		super.updateEntity();
 		if(worldObj.isRemote){
-			rotational+=0.1F;
-			if(rotational > 1.0F){
+			rotational+=0.01F;
+			if(rotational >= 1.0F){
 				rotational = 0.0F;
 			}
 		}
@@ -165,7 +165,7 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 	}
 
 	public double getRotational(float f) {
-		float diff = (rotational - oldRotational) * f;
+		float diff = Math.abs(rotational - oldRotational) * f;
 		oldRotational = rotational;
 		return rotational + diff;
 	}
