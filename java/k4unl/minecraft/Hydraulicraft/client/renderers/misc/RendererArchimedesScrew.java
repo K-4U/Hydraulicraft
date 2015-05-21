@@ -71,7 +71,7 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer implement
 
         //Do rendering
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glTranslated(0.0, 1.0, 0.0);
+        GL11.glTranslated(0.5, 1.0, 0.5);
         renderHelix(tileentity, f);
 
 
@@ -87,19 +87,43 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer implement
         double ri = 0.25;
         double ro = 0.5;
         double height = 1.0;
+        double thickness = 0.1;
         int rev = 2;
 
+        //GL11.glRotatef(f * 360, 0, 1, 0);
         GL11.glBegin(GL11.GL_QUADS);
-        for(int s = 0; s < slices; s++){
-            double t1 = (double)((2.0 * Math.PI * (double)rev) / (double)slices) * (double)s;
-            double t2 = (double)((2.0 * Math.PI * (double)rev) / (double)slices) * ((double)s+1.0);
-
-            double h1 = (height / (double)slices) * (double)s;
-            double h2 = (height / (double)slices) * ((double)s+1.0F);
-            GL11.glVertex3d(Math.cos(t1) * ri, h1, Math.sin(t1) * ro);
-            GL11.glVertex3d(Math.cos(t1) * ro, h1, Math.sin(t1) * ri);
+        for (int s = 0; s < slices; s++)
+        {
+            double t1 = (2 * Math.PI * rev) / slices * s;
+            double t2 = (2 * Math.PI * rev) / slices * (s + 1);
+            double h1 = (1.0 * height / slices) * s;
+            double h2 = (1.0 * height / slices) * (s + 1);
+            /* Bottom */
+            GL11.glVertex3d(Math.cos(t1) * ri, h1, Math.sin(t1) * ri);
+            GL11.glVertex3d(Math.cos(t1) * ro, h1, Math.sin(t1) * ro);
             GL11.glVertex3d(Math.cos(t2) * ro, h2, Math.sin(t2) * ro);
             GL11.glVertex3d(Math.cos(t2) * ri, h2, Math.sin(t2) * ri);
+            /* Top */
+            GL11.glVertex3d(Math.cos(t2) * ri, h2 + thickness, Math.sin(t2) * ri);
+            GL11.glVertex3d(Math.cos(t2) * ro, h2 + thickness, Math.sin(t2) * ro);
+            GL11.glVertex3d(Math.cos(t1) * ro, h1 + thickness, Math.sin(t1) * ro);
+            GL11.glVertex3d(Math.cos(t1) * ri, h1 + thickness, Math.sin(t1) * ri);
+            /* Side */
+            GL11.glVertex3d(Math.cos(t1) * ro, h1 + thickness, Math.sin(t1) * ro);
+            GL11.glVertex3d(Math.cos(t2) * ro, h2 + thickness, Math.sin(t2) * ro);
+            GL11.glVertex3d(Math.cos(t2) * ro, h2, Math.sin(t2) * ro);
+            GL11.glVertex3d(Math.cos(t1) * ro, h1, Math.sin(t1) * ro);
+        }
+        /* Cylinder */
+        GL11.glColor3f(1.0f, 0, 0);
+        for (int s = 0; s < slices; s++)
+        {
+            double t1 = (2 * Math.PI) / slices * s;
+            double t2 = (2 * Math.PI) / slices * (s + 1);
+            GL11.glVertex3d(Math.cos(t1) * ri, 1, Math.sin(t1) * ri);
+            GL11.glVertex3d(Math.cos(t2) * ri, 1, Math.sin(t2) * ri);
+            GL11.glVertex3d(Math.cos(t2) * ri, 0, Math.sin(t2) * ri);
+            GL11.glVertex3d(Math.cos(t1) * ri, 0, Math.sin(t1) * ri);
         }
         GL11.glEnd();
     }
