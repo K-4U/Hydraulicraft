@@ -68,12 +68,12 @@ public class HCWorldGenerator implements IWorldGenerator {
 		}
         if(HCConfig.INSTANCE.getBool("shouldGenOil", "worldgen")){
 			//Log.info("Now genning " + (chunkX * 16) + " " + (chunkZ * 16));
-            if (random.nextDouble() < 0.5) {
-                int x = (chunkX * 16) + 8;
-                int z = (chunkZ * 16) + 8;
+            if (random.nextDouble() < HCConfig.INSTANCE.getDouble("oilChance", "worldgen")) {
+                int x = chunkX + 8;
+                int z = chunkZ + 8;
                 int y = 30 + random.nextInt(40);
 
-                (new WorldGenOil()).generate(world, random, x, z, 25, y);
+                (new WorldGenOil()).generate(world, random, x, z, random.nextInt(20), y);
             }
         }
 	}

@@ -59,6 +59,8 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("leadVeinCount", 8).setCategory("worldgen"));
 
         configOptions.add(new ConfigOption("shouldGenOil", true).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("oilChance", 0.005).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("oilSpoutSize", 1).setCategory("worldgen").setComment("How big the oil spout is, above ground. Set to negative value for harder to find spouts"));
 	}
 	
 	public static boolean canBeCrushed(ItemStack toCrush){
