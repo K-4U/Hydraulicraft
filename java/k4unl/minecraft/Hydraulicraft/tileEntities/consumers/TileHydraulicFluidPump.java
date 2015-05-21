@@ -16,6 +16,8 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 	private int fluidHandlersNear = 0;
 	private FluidTank tank;
 	private ForgeDirection facing = ForgeDirection.NORTH;
+	private float rotational;
+	private float oldRotational;
 
 	public TileHydraulicFluidPump(){
 		super(PressureTier.LOWPRESSURE, 2);
@@ -58,9 +60,21 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
+
 			return 5F + (getPressure(ForgeDirection.UNKNOWN) * 0.00005F);
 		}else{
 			return 0F;
+		}
+	}
+
+	@Override
+	public void updateEntity(){
+		super.updateEntity();
+		if(worldObj.isRemote){
+			rotational+=0.1F;
+			if(rotational > 1.0F){
+				rotational = 0.0F;
+			}
 		}
 	}
 
@@ -148,5 +162,11 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 
 	public void setFacing(ForgeDirection nFacing){
 		facing = nFacing;
+	}
+
+	public double getRotational(float f) {
+		float diff = (rotational - oldRotational) * f;
+		oldRotational = rotational;
+		return rotational + diff;
 	}
 }

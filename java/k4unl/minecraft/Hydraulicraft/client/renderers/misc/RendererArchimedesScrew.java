@@ -71,7 +71,9 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer implement
 
         //Do rendering
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glTranslated(0.5, 1.0, 0.5);
+        GL11.glTranslated(0.5, 0.5, 0.8);
+        GL11.glRotatef(116F, 1.0F, 0, 0);
+
         renderHelix(tileentity, f);
 
 
@@ -83,14 +85,15 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer implement
     }
 
     public static void renderHelix(TileHydraulicFluidPump pump, float f){
-        int slices = 40;
+        int slices = 80;
         double ri = 0.25;
         double ro = 0.5;
-        double height = 1.0;
-        double thickness = 0.1;
-        int rev = 2;
+        double height = 2.0;
+        double thickness = 1.0 / 16.0;
+        int rev = 8;
 
-        //GL11.glRotatef(f * 360, 0, 1, 0);
+        GL11.glPushMatrix();
+        GL11.glRotated(-360F * pump.getRotational(f), 0.0F, 1.0F, 0.0F);
         GL11.glBegin(GL11.GL_QUADS);
         for (int s = 0; s < slices; s++)
         {
@@ -114,18 +117,22 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer implement
             GL11.glVertex3d(Math.cos(t2) * ro, h2, Math.sin(t2) * ro);
             GL11.glVertex3d(Math.cos(t1) * ro, h1, Math.sin(t1) * ro);
         }
+        GL11.glEnd();
+
         /* Cylinder */
         GL11.glColor3f(1.0f, 0, 0);
+        GL11.glBegin(GL11.GL_QUADS);
         for (int s = 0; s < slices; s++)
         {
             double t1 = (2 * Math.PI) / slices * s;
             double t2 = (2 * Math.PI) / slices * (s + 1);
-            GL11.glVertex3d(Math.cos(t1) * ri, 1, Math.sin(t1) * ri);
-            GL11.glVertex3d(Math.cos(t2) * ri, 1, Math.sin(t2) * ri);
+            GL11.glVertex3d(Math.cos(t1) * ri, height, Math.sin(t1) * ri);
+            GL11.glVertex3d(Math.cos(t2) * ri, height, Math.sin(t2) * ri);
             GL11.glVertex3d(Math.cos(t2) * ri, 0, Math.sin(t2) * ri);
             GL11.glVertex3d(Math.cos(t1) * ri, 0, Math.sin(t1) * ri);
         }
         GL11.glEnd();
+        GL11.glPopMatrix();
     }
 
     @Override
