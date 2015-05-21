@@ -21,7 +21,7 @@ public class Names {
     public static final Name blockHydraulicDynamo    = new Name("Hydraulic Dynamo", "hydraulicDynamo");
     public static final Name blockHydraulicGenerator = new Name("Hydraulic Generator", "hydraulicGenerator");
     public static final Name blockHydraulicSaw       = new Name("Hydraulic Saw", "hydraulicSaw");
-    public static final Name blockHydraulicWaterPump = new Name("Water Pump", "hydraulicWaterPump");
+    public static final Name blockHydraulicFluidPump = new Name("Fluid Pump", "hydraulicFluidPump");
 
     public static final Name blockHydraulicCharger = new Name("Hydraulic charger", "hydraulicCharger");
     public static final Name blockChunkLoader      = new Name("Chunk Loader", "chunkLoader");

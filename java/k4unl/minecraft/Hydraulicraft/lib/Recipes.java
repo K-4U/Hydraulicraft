@@ -487,7 +487,7 @@ public class Recipes {
 		            'L', Blocks.lever
 				}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockHydraulicWaterPump, 1), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockHydraulicFluidPump, 1), true,
 				new Object [] {
 					"-P-",
 		            "GCG",

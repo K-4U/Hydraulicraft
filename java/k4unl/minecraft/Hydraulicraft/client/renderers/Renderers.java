@@ -14,10 +14,12 @@ import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalBase;
 import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalFrame;
 import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.client.renderers.items.*;
+import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererArchimedesScrew;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererJarOfDirt;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFluidPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
@@ -74,5 +76,8 @@ public class Renderers {
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileJarOfDirt.class, new RendererJarOfDirt());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.blockJarDirt), new ItemRendererJarOfDirt());
+
+		RenderingRegistry.registerBlockHandler(new RendererArchimedesScrew());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicFluidPump.class, new RendererArchimedesScrew());
 	}
 }

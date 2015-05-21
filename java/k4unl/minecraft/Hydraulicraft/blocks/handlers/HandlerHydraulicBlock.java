@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 
 import java.util.List;
 
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicWaterPump;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicFluidPump;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +28,7 @@ public class HandlerHydraulicBlock extends ItemBlock {
 		if(itemstack != null){
 			Item theItem  = itemstack.getItem();
 			Block btH = ((HandlerHydraulicBlock)theItem).blockToHandle;
-			if(btH instanceof BlockHydraulicWaterPump){
+			if(btH instanceof BlockHydraulicFluidPump){
 				list.add(EnumChatFormatting.RED + Localization.getString(Localization.MAXPRESSURE_LOW));
 				list.add(EnumChatFormatting.RESET + Localization.getString(Localization.NOTE_WIP_REPLACED));
 			}else{

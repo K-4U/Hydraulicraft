@@ -20,6 +20,7 @@ tile.oreLead.name=Lead Ore
 
 #Blocks
 tile.hydraulicOil.name=Hydraulic Oil
+tile.oil.name=Crude oil
 tile.hydraulicMixer.name=Mixer
 tile.hydraulicFrictionIncinerator.name=Friction Incinerator
 tile.hydraulicCrusher.name=Crusher
@@ -111,6 +112,7 @@ item.movingPane.name=Moving Pane
 itemGroup.tabHydraulicraft=HydrauliCraft
 lang.pressure=Pressure
 fluid.hydraulicOil=Hydraulic Oil
+fluid.oil=Crude Oil
 lang.gui.generating=Generating
 lang.gui.max=Max
 lang.gui.using=Using

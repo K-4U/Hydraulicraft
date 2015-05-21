@@ -10,13 +10,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 
-public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydraulicConsumer, IFluidHandler {
+public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydraulicConsumer, IFluidHandler {
 
 	private float requiredPressure = 5.0F;
 	private int fluidHandlersNear = 0;
 	private FluidTank tank;
+	private ForgeDirection facing = ForgeDirection.NORTH;
 
-	public TileHydraulicWaterPump(){
+	public TileHydraulicFluidPump(){
 		super(PressureTier.LOWPRESSURE, 2);
 		super.init(this);
 		tank = new FluidTank(new FluidStack(FluidRegistry.WATER, 10), 10);
@@ -139,5 +140,13 @@ public class TileHydraulicWaterPump extends TileHydraulicBase implements IHydrau
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 		FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
 		return tankInfo;
+	}
+
+	public ForgeDirection getFacing(){
+		return facing;
+	}
+
+	public void setFacing(ForgeDirection nFacing){
+		facing = nFacing;
 	}
 }
