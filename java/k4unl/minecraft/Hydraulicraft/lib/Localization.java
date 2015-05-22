@@ -11,7 +11,6 @@ public class Localization {
     public static final String GUI_USING_ENTRY         = "lang.gui.using";
     public static final String GUI_OUTPUT_ENTRY        = "lang.gui.output";
     public static final String GUI_BURNLEFT_ENTRY      = "lang.gui.burnLeft";
-    public static final String NOTE_WIP_REPLACED       = "lang.warn.wip";
     public static final String MAXPRESSURE_HIGH        = "lang.gui.maxHighPressure";
     public static final String MAXPRESSURE_MEDIUM      = "lang.gui.maxMediumPressure";
     public static final String MAXPRESSURE_LOW         = "lang.gui.maxLowPressure";
@@ -19,6 +18,7 @@ public class Localization {
     public static final String GUI_UPDATEAVAILABLE     = "lang.gui.updateAvailable";
     public static final String GUI_RELEASEDAT          = "lang.gui.releasedAt";
     public static final String DESC_HYDRAULICFLUIDPUMP = "desc.hydraulicFluidPump";
+    public static final String GUI_MULTIBLOCK          = "lang.tooltip.multiblock";
 
 
     public static String getLocalizedName(String unlocalizedName) {

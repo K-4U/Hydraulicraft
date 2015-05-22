@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class HandlerTrolley extends ItemBlock{
+public class HandlerTrolley extends HandlerHydraulicBlock{
 
     public HandlerTrolley(Block block){
         super(block);
@@ -33,8 +33,7 @@ public class HandlerTrolley extends ItemBlock{
         }
     }
     
-    public String getUnlocalizedName(ItemStack stack)
-    {
+    public String getUnlocalizedName(ItemStack stack) {
         NBTTagCompound tag = stack.getTagCompound();
         if(tag != null){
             return super.getUnlocalizedName(stack) + "." + tag.getString("name");

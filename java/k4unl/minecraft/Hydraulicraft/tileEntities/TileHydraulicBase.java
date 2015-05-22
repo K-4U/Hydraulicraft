@@ -8,6 +8,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.*;
 import k4unl.minecraft.Hydraulicraft.blocks.IHydraulicMultiBlock;
+import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -68,6 +69,18 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     private   int                  fluidInNetwork;
     private   int                  networkCapacity;
 
+
+    /**
+     * @param _pressureTier The tier of pressure.
+     * @param _maxStorage The max ammount of Fluid/10 this machine can store.
+     */
+    public TileHydraulicBase(Class<ITieredBlock> tieredBlock, int _maxStorage) {
+
+
+        pressureTier = tieredBlock.getTier();
+        maxStorage = _maxStorage;
+        connectedSides = new ArrayList<ForgeDirection>();
+    }
 
     /**
      * @param _pressureTier The tier of pressure.

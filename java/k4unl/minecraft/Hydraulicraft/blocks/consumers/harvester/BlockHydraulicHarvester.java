@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -25,7 +27,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class BlockHydraulicHarvester extends HydraulicBlockContainerBase {
+public class BlockHydraulicHarvester extends HydraulicBlockContainerBase implements ITieredBlock {
     private IIcon  blockIcon;
     private Name[] mName;
 
@@ -217,6 +219,11 @@ public class BlockHydraulicHarvester extends HydraulicBlockContainerBase {
         	setBlockBounds(0,0,0,1,1,1);
         }
     }
-	
 
+
+    @Override
+    public PressureTier getTier() {
+
+        return PressureTier.MEDIUMPRESSURE;
+    }
 }

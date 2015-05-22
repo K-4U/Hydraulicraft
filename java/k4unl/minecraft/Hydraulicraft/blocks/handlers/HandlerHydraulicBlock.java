@@ -2,6 +2,8 @@ package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 
 import java.util.List;
 
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicFluidPump;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
@@ -29,14 +31,30 @@ public class HandlerHydraulicBlock extends ItemBlock {
 		if(itemstack != null){
 			Item theItem  = itemstack.getItem();
 			Block btH = ((HandlerHydraulicBlock)theItem).blockToHandle;
-			if(btH instanceof BlockHydraulicFluidPump) {
-                list.add(EnumChatFormatting.RED + Localization.getString(Localization.MAXPRESSURE_LOW));
-                list.add(EnumChatFormatting.RESET + Localization.getString(Localization.DESC_HYDRAULICFLUIDPUMP));
-            }else if(btH instanceof ITooltipProvider){
-                //list.add(EnumChatFormatting.RESET + )
-			}else{
-				list.add(EnumChatFormatting.GREEN + Localization.getString(Localization.MAXPRESSURE_HIGH));
+
+            if(btH instanceof ITieredBlock){
+                String toTranslate = "";
+                PressureTier pt = ((ITieredBlock)btH).getTier();
+                switch(pt){
+                    case LOWPRESSURE:
+                        toTranslate = Localization.MAXPRESSURE_LOW;
+                        break;
+                    case MEDIUMPRESSURE:
+                        toTranslate = Localization.MAXPRESSURE_MEDIUM;
+                        break;
+                    case HIGHPRESSURE:
+                        toTranslate = Localization.MAXPRESSURE_HIGH;
+                        break;
+                    case INVALID:
+                        toTranslate = "ERROR";
+                        break;
+                }
+                list.add(EnumChatFormatting.GREEN + Localization.getString(toTranslate));
+            }
+            if(btH instanceof ITooltipProvider){
+                list.add(EnumChatFormatting.RESET + ((ITooltipProvider)btH).getToolTip());
 			}
+
 		}
 	}
 }

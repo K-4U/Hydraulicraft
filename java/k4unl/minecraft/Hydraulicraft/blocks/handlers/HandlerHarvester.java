@@ -19,9 +19,6 @@ public class HandlerHarvester extends HydraulicTieredBlockHandler {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack){
-		if(itemStack.getItemDamage() >= Names.blockHydraulicHarvester.length){
-			return "DERP";
-		}
 		String unlocalizedName = Names.blockHydraulicHarvester[itemStack.getItemDamage()].unlocalized;
 		if(!unlocalizedName.startsWith("tile.")){
 			unlocalizedName = "tile." + unlocalizedName;

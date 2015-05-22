@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -58,7 +59,7 @@ public class ThermalExpansion implements IThirdParty {
 		blockHydraulicDynamo = new BlockHydraulicDynamo();
 		blockRFPump = new BlockRFPump();
 		
-		GameRegistry.registerBlock(blockHydraulicDynamo, ItemBlock.class, Names.blockHydraulicDynamo.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(blockHydraulicDynamo, HandlerHydraulicBlock.class, Names.blockHydraulicDynamo.unlocalized);
 		GameRegistry.registerBlock(blockRFPump, HandlerRFPump.class, Names.blockRFPump[0].unlocalized);
 		
 		GameRegistry.registerTileEntity(TileHydraulicDynamo.class, "tileHydraulicDynamo");

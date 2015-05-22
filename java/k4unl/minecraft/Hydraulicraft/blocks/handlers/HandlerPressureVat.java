@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 public class HandlerPressureVat extends HydraulicTieredBlockHandler {
 
@@ -25,14 +26,14 @@ public class HandlerPressureVat extends HydraulicTieredBlockHandler {
 
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4){
 		super.addInformation(itemstack, player, list, par4);
-		String fluidName = FluidRegistry.WATER.getLocalizedName();
+		String fluidName = FluidRegistry.WATER.getLocalizedName(new FluidStack(FluidRegistry.WATER,1));
 		float fluidStored = 0F;
 		float fluidMax = 0F;
 		float pressureStored = 0F;
 		float pressureMax = 0F;
 		if(itemstack.getTagCompound() != null && itemstack.getTagCompound().getBoolean("hasBeenPlaced")){
 			if(itemstack.getTagCompound().getBoolean("isOilStored")){
-				fluidName = Fluids.fluidHydraulicOil.getLocalizedName();
+				fluidName = Fluids.fluidHydraulicOil.getLocalizedName(new FluidStack(Fluids.fluidHydraulicOil, 1));
 			}
 			
 			if(itemstack.getTagCompound().getCompoundTag("tank") != null){

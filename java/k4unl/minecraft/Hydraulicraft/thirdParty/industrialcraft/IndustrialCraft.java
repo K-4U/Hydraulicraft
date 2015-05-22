@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft;
 
 import ic2.api.item.IC2Items;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
@@ -57,7 +58,7 @@ public class IndustrialCraft implements IThirdParty{
 		blockElectricPump = new BlockElectricPump();
 		
 		
-		GameRegistry.registerBlock(blockHydraulicGenerator, ItemBlock.class, Names.blockHydraulicGenerator.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(blockHydraulicGenerator, HandlerHydraulicBlock.class, Names.blockHydraulicGenerator.unlocalized);
 		GameRegistry.registerBlock(blockElectricPump, HandlerElectricPump.class, Names.blockElectricPump[0].unlocalized);
 		
 		GameRegistry.registerTileEntity(TileHydraulicGenerator.class, "tileHydraulicGenerator");

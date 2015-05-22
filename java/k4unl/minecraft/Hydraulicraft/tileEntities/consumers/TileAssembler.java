@@ -3,6 +3,8 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockAssembler;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -13,7 +15,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     public TileAssembler() {
 
-        super(PressureTier.MEDIUMPRESSURE, 10);
+        super(BlockAssembler, 10);
         super.init(this);
     }
 

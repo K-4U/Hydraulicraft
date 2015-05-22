@@ -163,8 +163,7 @@ public class HCBlocks {
 		GameRegistry.registerBlock(hydraulicLavaPump, HandlerLavaPump.class, Names.blockHydraulicLavaPump[0].unlocalized);
 		
 		GameRegistry.registerBlock(hydraulicHarvesterSource, HandlerHarvester.class, Names.blockHydraulicHarvester[0].unlocalized);
-		
-		
+
 		GameRegistry.registerBlock(blockCore, HandlerCoreBlock.class, Names.blockCore[0].unlocalized);
 	
 		GameRegistry.registerBlock(blockLight, HandlerHydraulicBlock.class, Names.blockLight.unlocalized);
@@ -176,15 +175,15 @@ public class HCBlocks {
 		GameRegistry.registerBlock(harvesterTrolley, HandlerTrolley.class, Names.blockHarvesterTrolley.unlocalized);
 		GameRegistry.registerBlock(blockCharger, HandlerHydraulicBlock.class, Names.blockHydraulicCharger.unlocalized);
 
-        GameRegistry.registerBlock(blockChunkLoader, ItemBlock.class,
+        GameRegistry.registerBlock(blockChunkLoader, HandlerHydraulicBlock.class,
                 Names.blockChunkLoader.unlocalized);
 
-		GameRegistry.registerBlock(portalBase, Names.portalBase.unlocalized);
-		GameRegistry.registerBlock(portalFrame, Names.portalFrame.unlocalized);
-		GameRegistry.registerBlock(portalTeleporter, Names.portalTeleporter.unlocalized);
+		GameRegistry.registerBlock(portalBase, HandlerHydraulicBlock.class, Names.portalBase.unlocalized);
+		GameRegistry.registerBlock(portalFrame, HandlerHydraulicBlock.class, Names.portalFrame.unlocalized);
+		GameRegistry.registerBlock(portalTeleporter, HandlerHydraulicBlock.class, Names.portalTeleporter.unlocalized);
 
 
-		GameRegistry.registerBlock(blockJarDirt, ItemBlockTooltip.class, Names.blockJarDirt.unlocalized);
+		GameRegistry.registerBlock(blockJarDirt, HandlerHydraulicBlock.class, Names.blockJarDirt.unlocalized);
 
         GameRegistry.registerBlock(blockAssembler, HandlerHydraulicBlock.class, Names.blockHydraulicAssembler.unlocalized);
 

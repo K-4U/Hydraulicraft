@@ -56,7 +56,8 @@ public class GuiMixer extends HydraulicGUIBase {
 				//Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
 				int color = Constants.COLOR_WATER;
 				
-				drawVerticalProgressBar(34, 16, 52, 26, tankInfo[0].fluid.amount, tankInfo[0].capacity, color, FluidRegistry.WATER.getLocalizedName(), "mB");
+				drawVerticalProgressBar(34, 16, 52, 26, tankInfo[0].fluid.amount, tankInfo[0].capacity, color, FluidRegistry.WATER.getLocalizedName
+                  (tankInfo[0].fluid), "mB");
 			}
 		}
 		if(tankInfo[1].fluid != null){
@@ -64,7 +65,8 @@ public class GuiMixer extends HydraulicGUIBase {
 				//Fluid inTank = FluidRegistry.getFluid(tankInfo[1].fluid.fluidID);
 				int color = Constants.COLOR_OIL;
 
-				drawVerticalProgressBar(107, 16, 52, 26, tankInfo[1].fluid.amount, tankInfo[1].capacity, color, Fluids.fluidHydraulicOil.getLocalizedName(), "mB");
+				drawVerticalProgressBar(107, 16, 52, 26, tankInfo[1].fluid.amount, tankInfo[1].capacity, color, Fluids.fluidHydraulicOil
+                  .getLocalizedName(tankInfo[0].fluid), "mB");
 			}
 		}
 		

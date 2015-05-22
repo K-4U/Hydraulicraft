@@ -1,6 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.blocks.gow;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.items.ItemIPCard;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
@@ -12,7 +14,7 @@ import net.minecraft.item.ItemDye;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockPortalBase extends GOWBlockRendering {
+public class BlockPortalBase extends GOWBlockRendering implements ITieredBlock {
 
 	public BlockPortalBase() {
 		super(Names.portalBase.unlocalized);
@@ -67,4 +69,10 @@ public class BlockPortalBase extends GOWBlockRendering {
 			((TilePortalBase)tile).checkRedstonePower();			
 		}
 	}
+
+    @Override
+    public PressureTier getTier() {
+
+        return PressureTier.HIGHPRESSURE;
+    }
 }

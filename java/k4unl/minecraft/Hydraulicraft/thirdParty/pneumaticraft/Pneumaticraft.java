@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -38,7 +39,7 @@ public class Pneumaticraft implements IThirdParty {
 	
 	public static void initBlocks(){
 		hydraulicPneumaticCompressor = new BlockHydraulicPneumaticCompressor();
-		GameRegistry.registerBlock(hydraulicPneumaticCompressor, ItemBlock.class, Names.blockHydraulicPneumaticCompressor.unlocalized, ModInfo.ID);
+		GameRegistry.registerBlock(hydraulicPneumaticCompressor, HandlerHydraulicBlock.class, Names.blockHydraulicPneumaticCompressor.unlocalized);
 		//LanguageRegistry.addName(hydraulicPneumaticCompressor, Names.blockHydraulicPneumaticCompressor.localized);
 		
 		GameRegistry.registerTileEntity(TileHydraulicPneumaticCompressor.class, "tileHydraulicPneumaticCompressor");

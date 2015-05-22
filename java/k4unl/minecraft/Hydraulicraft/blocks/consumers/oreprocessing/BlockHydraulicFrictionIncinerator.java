@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFrictionIncinerator;
@@ -9,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicFrictionIncinerator extends HydraulicBlockContainerBase {
+public class BlockHydraulicFrictionIncinerator extends HydraulicBlockContainerBase implements ITieredBlock {
 
 	public BlockHydraulicFrictionIncinerator() {
 		super(Names.blockHydraulicFrictionIncinerator);
@@ -36,4 +38,10 @@ public class BlockHydraulicFrictionIncinerator extends HydraulicBlockContainerBa
 		
 		return true;
 	}
+
+    @Override
+    public PressureTier getTier() {
+
+        return PressureTier.MEDIUMPRESSURE;
+    }
 }

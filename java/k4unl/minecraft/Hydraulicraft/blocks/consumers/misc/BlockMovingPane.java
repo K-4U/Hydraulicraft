@@ -1,8 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
 import buildcraft.api.tools.IToolWrench;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BlockMovingPane extends HydraulicBlockContainerBase {
+public class BlockMovingPane extends HydraulicBlockContainerBase implements ITieredBlock{
 
 	public BlockMovingPane() {
 		super(Names.blockMovingPane);
@@ -246,6 +248,11 @@ public class BlockMovingPane extends HydraulicBlockContainerBase {
 			super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
 		}
     }
-    
-    
+
+
+    @Override
+    public PressureTier getTier() {
+
+        return PressureTier.HIGHPRESSURE;
+    }
 }

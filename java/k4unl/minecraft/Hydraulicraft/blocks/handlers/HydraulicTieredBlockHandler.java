@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class HydraulicTieredBlockHandler extends ItemBlock {
+public class HydraulicTieredBlockHandler extends HandlerHydraulicBlock {
 	private Name[] tNames;
 	
 	

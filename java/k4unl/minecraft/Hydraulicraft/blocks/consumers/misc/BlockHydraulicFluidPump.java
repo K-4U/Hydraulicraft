@@ -2,7 +2,9 @@ package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererArchimedesScrew;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
@@ -16,7 +18,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase {
+public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase implements ITieredBlock, ITooltipProvider{
 
 	public BlockHydraulicFluidPump() {
 		super(Names.blockHydraulicFluidPump);
@@ -77,5 +79,16 @@ public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase {
 
 		return RendererArchimedesScrew.RENDER_ID;
 	}
-    
+
+    @Override
+    public PressureTier getTier() {
+
+        return PressureTier.LOWPRESSURE;
+    }
+
+    @Override
+    public String getToolTip() {
+
+        return Localization.getString(Localization.DESC_HYDRAULICFLUIDPUMP);
+    }
 }
