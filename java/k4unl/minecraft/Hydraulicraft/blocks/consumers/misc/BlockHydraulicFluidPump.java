@@ -44,7 +44,7 @@ public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase {
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
-		if(hasFrontIcon){
+		//if(hasFrontIcon){
 			int sideToPlace = MathHelper.floor_double((double) (player.rotationYaw / 90F) + 0.5D) & 3;
 
 
@@ -66,9 +66,9 @@ public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase {
 
 			TileEntity pEnt = world.getTileEntity(x, y, z);
 			if(pEnt instanceof TileHydraulicFluidPump){
-				((TileHydraulicFluidPump)pEnt).setFacing(ForgeDirection.getOrientation(metaDataToSet));
+				((TileHydraulicFluidPump)pEnt).setFacing(ForgeDirection.getOrientation(metaDataToSet).getOpposite());
 			}
-		}
+		//}
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class ItemBucketHydraulicOil extends ItemBucket {
     public ItemBucketHydraulicOil() {
         super(Fluids.fluidHydraulicOilBlock);
 
-        Name itemName = Names.itemBucketOil;
+        Name itemName = Names.itemBucketHydraulicOil;
 
         setUnlocalizedName(itemName.unlocalized);
         setTextureName(ModInfo.LID + ":" + itemName.unlocalized);

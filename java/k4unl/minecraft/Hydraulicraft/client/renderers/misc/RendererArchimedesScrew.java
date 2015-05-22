@@ -71,8 +71,8 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer implement
 
         //Do rendering
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glTranslated(0.5, 0.5, 0.8);
-        GL11.glRotatef(116F, 1.0F, 0, 0);
+        GL11.glTranslated(0.8, 0.5, 0.5);
+        GL11.glRotatef(116F, 0.0F, 0.0F, -1.0F);
 
         renderHelix(tileentity, f);
 
