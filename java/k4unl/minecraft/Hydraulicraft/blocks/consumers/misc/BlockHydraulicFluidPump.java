@@ -3,7 +3,9 @@ package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererArchimedesScrew;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFluidPump;
 import net.minecraft.entity.EntityLivingBase;
@@ -75,4 +77,5 @@ public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase {
 
 		return RendererArchimedesScrew.RENDER_ID;
 	}
+    
 }

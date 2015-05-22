@@ -70,7 +70,8 @@ tile.MPBlockCore.name=Medium Pressure Core
 tile.HPBlockCore.name=High Pressure Core
 
 tile.blockInfiniteSource.name=Infinite Source
-tile.hydraulicWaterPump.name=Hydraulic Archimedes' Screw (WIP)
+tile.hydraulicFluidPump.name=Hydraulic Archimedes' Screw
+desc.hydraulicFluidPump=Pump for pumping up fluids
 
 tile.blockCopper.name=Copper Block
 tile.blockLead.name=Lead Block

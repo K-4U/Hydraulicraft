@@ -30,7 +30,7 @@ public class HandlerHydraulicBlock extends ItemBlock {
 			Block btH = ((HandlerHydraulicBlock)theItem).blockToHandle;
 			if(btH instanceof BlockHydraulicFluidPump){
 				list.add(EnumChatFormatting.RED + Localization.getString(Localization.MAXPRESSURE_LOW));
-				list.add(EnumChatFormatting.RESET + Localization.getString(Localization.NOTE_WIP_REPLACED));
+				list.add(EnumChatFormatting.RESET + Localization.getString(Localization.DESC_HYDRAULICFLUIDPUMP));
 			}else{
 				list.add(EnumChatFormatting.GREEN + Localization.getString(Localization.MAXPRESSURE_HIGH));
 			}
