@@ -140,6 +140,10 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 	private void doPump() {
         //TODO: Fix me up with the pressure.
 		int toFill = HCConfig.INSTANCE.getInt("waterPumpPerTick");
+        if(tank.fill(new FluidStack(((IFluidBlock)fluidPumping).getFluid(), toFill), false) < toFill){
+            return;
+            //We cannot do anything
+        }
         tank.fill(new FluidStack(((IFluidBlock)fluidPumping).getFluid(), toFill), true);
 
         if(tank.getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME) {
@@ -179,11 +183,16 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
+        tank.readFromNBT(tagCompound);
+        setFacing(ForgeDirection.getOrientation(tagCompound.getInteger("facing")));
+
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
+        tank.writeToNBT(tagCompound);
+        tagCompound.setInteger("facing", getFacing().ordinal());
 	}
 
 	@Override
@@ -235,8 +244,8 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
-		return tankInfo;
+
+        return new FluidTankInfo[] {new FluidTankInfo(tank)};
 	}
 
 	public ForgeDirection getFacing(){
@@ -248,6 +257,7 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 	}
 
 	public double getRotational(float f) {
+
 		float diff = Math.abs(rotational - oldRotational) * f;
 		oldRotational = rotational;
 		return rotational + diff;
