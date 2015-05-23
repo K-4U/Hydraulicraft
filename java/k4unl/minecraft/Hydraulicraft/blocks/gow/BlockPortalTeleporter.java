@@ -32,12 +32,6 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
         super(Names.portalTeleporter.unlocalized);
     }
 
-    @Override
-    protected Class<? extends TileEntity> getTileEntity() {
-
-        return TilePortalTeleporter.class;
-    }
-
     @SideOnly(Side.CLIENT)
     @Override
     public boolean canRenderInPass(int pass) {
@@ -156,5 +150,11 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
 		return null;
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World var1, int var2) {
+
+        return new TilePortalTeleporter();
     }
 }

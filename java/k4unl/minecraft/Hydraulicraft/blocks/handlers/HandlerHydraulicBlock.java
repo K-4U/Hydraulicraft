@@ -17,25 +17,27 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class HandlerHydraulicBlock extends ItemBlock {
-	private Block blockToHandle;
-	
-	
-	public HandlerHydraulicBlock(Block _blockToHandle) {
-		super(_blockToHandle);
-		blockToHandle = _blockToHandle;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4){
-		if(itemstack != null){
-			Item theItem  = itemstack.getItem();
-			Block btH = ((HandlerHydraulicBlock)theItem).blockToHandle;
+    protected Block blockToHandle;
 
-            if(btH instanceof ITieredBlock){
+
+    public HandlerHydraulicBlock(Block _blockToHandle) {
+
+        super(_blockToHandle);
+        blockToHandle = _blockToHandle;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
+
+        if (itemstack != null) {
+            Item theItem = itemstack.getItem();
+            Block btH = ((HandlerHydraulicBlock) theItem).blockToHandle;
+
+            if (btH instanceof ITieredBlock) {
                 String toTranslate = "";
-                PressureTier pt = ((ITieredBlock)btH).getTier();
-                switch(pt){
+                PressureTier pt = ((ITieredBlock) btH).getTier();
+                switch (pt) {
                     case LOWPRESSURE:
                         toTranslate = Localization.MAXPRESSURE_LOW;
                         break;

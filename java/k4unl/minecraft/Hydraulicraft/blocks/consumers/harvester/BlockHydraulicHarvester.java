@@ -71,7 +71,7 @@ public class BlockHydraulicHarvester extends HydraulicBlockContainerBase impleme
 
         switch (metadata) {
             case 0:
-                return new TileHydraulicHarvester();
+                return new TileHydraulicHarvester(getTier());
             case 1:
                 return new TileHarvesterFrame();
         }

@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.blocks.generators;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.blocks.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
@@ -15,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockHydraulicPump extends HydraulicTieredBlockBase {
+public class BlockHydraulicPump extends HydraulicTieredBlockBase implements IMultiTieredBlock{
 
 	public BlockHydraulicPump() {
         super(Names.blockHydraulicPump);
@@ -86,4 +88,10 @@ public class BlockHydraulicPump extends HydraulicTieredBlockBase {
 		
 		return true;
 	}
+
+    @Override
+    public PressureTier getTier(int metadata) {
+
+        return PressureTier.fromOrdinal(metadata);
+    }
 }

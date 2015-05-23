@@ -16,8 +16,8 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
     private static float dangerPressure = 5;  
 
     
-    public TileHydraulicPneumaticCompressor(){
-    	super(PressureTier.HIGHPRESSURE, 20);
+    public TileHydraulicPneumaticCompressor(PressureTier tier){
+    	super(tier, 20);
     	super.init(this);
     }
     

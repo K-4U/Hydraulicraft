@@ -20,12 +20,6 @@ public class BlockPortalBase extends GOWBlockRendering implements ITieredBlock {
 		super(Names.portalBase.unlocalized);
 		setCreativeTab(CustomTabs.tabGOW);
 	}
-
-	@Override
-	protected Class<? extends TileEntity> getTileEntity() {
-		return TilePortalBase.class;
-	}
-	
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
@@ -74,5 +68,11 @@ public class BlockPortalBase extends GOWBlockRendering implements ITieredBlock {
     public PressureTier getTier() {
 
         return PressureTier.HIGHPRESSURE;
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World var1, int var2) {
+
+        return new TilePortalBase(getTier());
     }
 }

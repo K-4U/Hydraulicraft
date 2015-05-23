@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities.TileHydraulicSaw;
@@ -9,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicSaw extends HydraulicBlockContainerBase {
+public class BlockHydraulicSaw extends HydraulicBlockContainerBase implements ITieredBlock {
 
 	public BlockHydraulicSaw() {
 		super(Names.blockHydraulicSaw);
@@ -18,7 +20,7 @@ public class BlockHydraulicSaw extends HydraulicBlockContainerBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicSaw();
+		return new TileHydraulicSaw(getTier());
 	}
 	
 	@Override
@@ -37,4 +39,9 @@ public class BlockHydraulicSaw extends HydraulicBlockContainerBase {
 		return true;
 	}
 
+    @Override
+    public PressureTier getTier() {
+
+        return PressureTier.MEDIUMPRESSURE;
+    }
 }

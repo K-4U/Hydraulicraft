@@ -30,9 +30,9 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
     private List<Location> fluidBlocks;
 
 
-    public TileHydraulicFluidPump() {
+    public TileHydraulicFluidPump(PressureTier tier) {
 
-        super(PressureTier.LOWPRESSURE, 2);
+        super(tier, 2);
         super.init(this);
         tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME);
         blocksToScan = new ArrayList<Location>();

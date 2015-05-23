@@ -19,15 +19,7 @@ public abstract class GOWBlockBase extends BlockContainer {
 		setResistance(10F);		
 	}
 
-	protected abstract Class<? extends TileEntity> getTileEntity();
-	
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
-		try{
-			return getTileEntity().newInstance();
-		}catch(Exception e){
-			return null;
-		}
-	}
+	public abstract TileEntity createNewTileEntity(World var1, int var2);
 
 }

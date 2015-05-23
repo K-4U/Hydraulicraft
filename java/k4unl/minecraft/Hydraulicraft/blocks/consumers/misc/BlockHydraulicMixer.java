@@ -20,7 +20,7 @@ public class BlockHydraulicMixer extends HydraulicBlockContainerBase implements 
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicMixer();
+		return new TileHydraulicMixer(getTier());
 	}
 	
 	@Override

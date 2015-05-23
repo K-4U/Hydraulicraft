@@ -13,8 +13,8 @@ public class TileHydraulicCharger extends TileHydraulicBase implements IInventor
 	private ItemStack chargingItem;
 	
 	
-	public TileHydraulicCharger() {
-		super(PressureTier.HIGHPRESSURE, 1);
+	public TileHydraulicCharger(PressureTier tier) {
+		super(tier, 1);
 		super.init(this);
 	}
 

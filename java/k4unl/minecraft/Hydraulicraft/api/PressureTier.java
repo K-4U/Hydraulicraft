@@ -24,4 +24,8 @@ public enum PressureTier {
 			return INVALID;
 		}
 	}
+
+    public int toInt() {
+        return this.tier;
+    }
 }

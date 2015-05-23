@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
 import net.minecraft.item.ItemStack;
@@ -45,7 +46,7 @@ public class ItemRendererPortalBase implements IItemRenderer{
 	
 	private void render(float x, float y, float z, float scale){
 		GL11.glScalef(scale, scale, scale);
-		portalBaseRenderer.doRender(new TilePortalBase(), x, y, z, 0);
+		portalBaseRenderer.doRender(new TilePortalBase(PressureTier.HIGHPRESSURE), x, y, z, 0);
 	}
 	
 	 

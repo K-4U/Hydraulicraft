@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.blocks.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
@@ -12,7 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import buildcraft.api.tools.IToolWrench;
 
-public class BlockRFPump extends HydraulicTieredBlockBase {
+public class BlockRFPump extends HydraulicTieredBlockBase implements IMultiTieredBlock{
 
 	public BlockRFPump() {
 		super(Names.blockRFPump);
@@ -24,7 +26,7 @@ public class BlockRFPump extends HydraulicTieredBlockBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileRFPump(metadata);
+		return new TileRFPump(getTier(metadata));
 	}
 
 	
@@ -83,4 +85,9 @@ public class BlockRFPump extends HydraulicTieredBlockBase {
 		return true;
     }
 
+    @Override
+    public PressureTier getTier(int metadata) {
+
+        return PressureTier.fromOrdinal(metadata);
+    }
 }

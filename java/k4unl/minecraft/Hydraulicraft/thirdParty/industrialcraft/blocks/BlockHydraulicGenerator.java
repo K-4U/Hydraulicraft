@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
@@ -16,7 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import buildcraft.api.tools.IToolWrench;
 
-public class BlockHydraulicGenerator extends HydraulicBlockContainerBase {
+public class BlockHydraulicGenerator extends HydraulicBlockContainerBase implements ITieredBlock {
 
 	public BlockHydraulicGenerator() {
 		super(Names.blockHydraulicGenerator);
@@ -26,7 +28,7 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicGenerator();
+		return new TileHydraulicGenerator(getTier());
 	}
 
 	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
@@ -122,5 +124,10 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase {
 		
 		return true;
     }
-	
+
+    @Override
+    public PressureTier getTier() {
+
+        return PressureTier.HIGHPRESSURE;
+    }
 }

@@ -23,12 +23,6 @@ public class BlockPortalFrame extends GOWBlockRendering {
     }
 
     @Override
-    protected Class<? extends TileEntity> getTileEntity() {
-
-        return TilePortalFrame.class;
-    }
-
-    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess iba, int x, int y, int z) {
 
         TileEntity ent = iba.getTileEntity(x, y, z);
@@ -83,4 +77,10 @@ public class BlockPortalFrame extends GOWBlockRendering {
 			super.addCollisionBoxesToList(w, x, y, z, axigAlignedBB, arrayList, entity);
 		}
 	}
+
+    @Override
+    public TileEntity createNewTileEntity(World var1, int var2) {
+
+        return new TilePortalFrame();
+    }
 }

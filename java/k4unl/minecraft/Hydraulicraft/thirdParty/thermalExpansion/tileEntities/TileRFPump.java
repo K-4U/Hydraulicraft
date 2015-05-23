@@ -36,8 +36,8 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 		super.init(this);
 	}
 	
-	public TileRFPump(int _tier){
-		super(PressureTier.fromOrdinal(_tier), 2 * (_tier + 1));
+	public TileRFPump(PressureTier _tier){
+		super(_tier, 2 * (_tier.toInt() + 1));
 		super.init(this);
 	}
 	

@@ -35,7 +35,7 @@ public abstract class HydraulicBlockContainerBase extends BlockContainer {
 	
 	@Override
 	public abstract TileEntity createNewTileEntity(World world, int var2);
-	
+
 	@Override
 	public abstract boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9);
 	

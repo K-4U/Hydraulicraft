@@ -55,9 +55,9 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
     private static final Block piston          = HCBlocks.hydraulicPiston;
     private static final Block endBlock        = HCBlocks.hydraulicPressureWall;
 
-    public TileHydraulicHarvester() {
+    public TileHydraulicHarvester(PressureTier tier) {
 
-        super(PressureTier.HIGHPRESSURE, 16);
+        super(tier, 16);
         super.init(this);
         seedsStorage = new ItemStack[9];
         outputStorage = new ItemStack[9];

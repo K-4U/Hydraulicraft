@@ -44,6 +44,6 @@ public class ItemRendererJarOfDirt implements IItemRenderer {
 
     private void render(float x, float y, float z, float scale){
         GL11.glScalef(scale, scale, scale);
-        rendererJarOfDirt.renderTileEntityAt(new TilePortalBase(), x, y, z, 0);
+        rendererJarOfDirt.renderTileEntityAt(null, x, y, z, 0);
     }
 }
