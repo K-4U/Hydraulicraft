@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
-import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
+import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCharger;
 import net.minecraft.entity.player.EntityPlayer;

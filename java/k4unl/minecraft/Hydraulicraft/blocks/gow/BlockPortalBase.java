@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.blocks.gow;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
+import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.items.ItemIPCard;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;

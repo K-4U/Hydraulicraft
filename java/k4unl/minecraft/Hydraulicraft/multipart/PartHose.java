@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.*;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
+import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;

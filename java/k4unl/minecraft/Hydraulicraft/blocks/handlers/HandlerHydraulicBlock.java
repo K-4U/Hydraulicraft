@@ -3,9 +3,8 @@ package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
+import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicFluidPump;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;

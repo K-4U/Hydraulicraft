@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
-import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
+import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;

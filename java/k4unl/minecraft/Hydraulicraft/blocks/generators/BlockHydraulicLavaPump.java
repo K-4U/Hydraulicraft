@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.blocks.generators;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
-import k4unl.minecraft.Hydraulicraft.blocks.IMultiTieredBlock;
+import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;

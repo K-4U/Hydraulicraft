@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.blocks;
+package k4unl.minecraft.Hydraulicraft.api;
 
 
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;

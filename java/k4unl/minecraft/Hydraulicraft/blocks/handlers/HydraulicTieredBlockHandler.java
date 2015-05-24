@@ -3,15 +3,12 @@ package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.blocks.IMultiTieredBlock;
-import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
-import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
+import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
