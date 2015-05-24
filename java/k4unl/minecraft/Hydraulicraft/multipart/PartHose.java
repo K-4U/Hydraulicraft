@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.*;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -33,7 +34,8 @@ import java.util.*;
 
 
 
-public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusion, ISidedHollowConnect, IHydraulicTransporter, ICustomNetwork {
+public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusion, ISidedHollowConnect, IHydraulicTransporter, ICustomNetwork,
+  ITieredBlock {
     public static Cuboid6[] boundingBoxes = new Cuboid6[14];
     private static int expandBounds = -1;
     
@@ -45,7 +47,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     private boolean hasCheckedSinceStartup;
     private boolean hasFoundNetwork = false;
     
-    private int tier = 0;
+    private PressureTier tier = PressureTier.INVALID;
 
     @SideOnly(Side.CLIENT)
     private static RendererPartHose renderer;
@@ -98,7 +100,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	}
 
 	public void preparePlacement(int itemDamage) {
-		tier = itemDamage;
+		tier = PressureTier.fromOrdinal(itemDamage);
 		
 	}
 	
@@ -110,7 +112,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			getHandler().validateI();
 			getHandler().readFromNBTI(tagCompound);
 		}
-		tier = tagCompound.getInteger("tier");
+		tier = PressureTier.fromOrdinal(tagCompound.getInteger("tier"));
 		//getHandler().updateNetworkOnNextTick(oldPressure);
 		//checkConnectedSides();
 		readConnectedSidesFromNBT(tagCompound);
@@ -120,13 +122,13 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	public void save(NBTTagCompound tagCompound){
 		super.save(tagCompound);
 		getHandler().writeToNBTI(tagCompound);
-		tagCompound.setInteger("tier", tier);
+		tagCompound.setInteger("tier", tier.toInt());
 		writeConnectedSidesToNBT(tagCompound);
 	}
 	
 	@Override
     public void writeDesc(MCDataOutput packet){
-		packet.writeInt(getTier());
+		packet.writeInt(getTier().toInt());
 		
 		NBTTagCompound mainCompound = new NBTTagCompound();
 		NBTTagCompound handlerCompound = new NBTTagCompound();
@@ -166,7 +168,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	
     @Override
     public void readDesc(MCDataInput packet){
-        tier = packet.readInt();
+        tier = PressureTier.fromOrdinal(packet.readInt());
         
         NBTTagCompound mainCompound = packet.readNBTTagCompound();
 		NBTTagCompound handlerCompound = mainCompound.getCompoundTag("handler");
@@ -229,7 +231,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         		renderer = new RendererPartHose();
         	}
             GL11.glDisable(GL11.GL_LIGHTING);
-            renderer.doRender(pos.x, pos.y, pos.z, 0, tier, connectedSides);
+            renderer.doRender(pos.x, pos.y, pos.z, 0, tier.toInt(), connectedSides);
             GL11.glEnable(GL11.GL_LIGHTING);
         }
     }
@@ -318,7 +320,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     }
     
     public ItemStack getItem(){
-        return new ItemStack(Multipart.itemPartHose, 1, tier);
+        return new ItemStack(Multipart.itemPartHose, 1, tier.toInt());
     }
     
     @Override
@@ -346,13 +348,13 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	@Override
 	public void onFluidLevelChanged(int old) {	}
 
-	public int getTier() {
+	public PressureTier getTier() {
 		return tier;
 	}
 	
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this, PressureTier.fromOrdinal(getTier()), 2 * (getTier()+1));
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this, 2 * (getTier().toInt()+1));
         return baseHandler;
 	}
 	

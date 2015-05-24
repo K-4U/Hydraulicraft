@@ -23,8 +23,8 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 	private int energyGen = 0;
 	private float pressureRequired = 0.0F;
 	
-	public TileHydraulicDynamo(PressureTier tier){
-		super(tier, 3);
+	public TileHydraulicDynamo(){
+		super(3);
 		super.init(this);
 	}
 	

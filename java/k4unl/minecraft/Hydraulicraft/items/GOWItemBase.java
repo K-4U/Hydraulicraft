@@ -39,7 +39,7 @@ public class GOWItemBase extends Item {
 	}
 	
 	@Override
-	public boolean hasEffect(ItemStack itemStack){
+	public boolean hasEffect(ItemStack itemStack, int pass){
 		if(itemStack.getTagCompound() == null){
 			itemStack.setTagCompound(new NBTTagCompound());
 		}

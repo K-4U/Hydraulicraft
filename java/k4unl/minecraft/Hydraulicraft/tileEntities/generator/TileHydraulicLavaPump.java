@@ -19,14 +19,14 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 	private int networkCapacity;
 	
 	private ForgeDirection facing = ForgeDirection.UNKNOWN;
-	
+
 	public TileHydraulicLavaPump(){
-		super(PressureTier.HIGHPRESSURE, 1);
+		super(2);
 		super.init(this);
 	}
 	
 	public TileHydraulicLavaPump(int tier){
-		super(PressureTier.fromOrdinal(tier), 2 * (tier + 1));
+		super(2 * (tier + 1));
 		super.init(this);
 	}
 	
@@ -114,7 +114,6 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
 		}
 		super.setMaxStorage(2 * (tier + 1));
-		super.setPressureTier(PressureTier.fromOrdinal(tier));
 	}
 	
 	public int getTier() {
@@ -124,7 +123,6 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 				tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
 			}
 			super.setMaxStorage(2 * (tier + 1));
-			super.setPressureTier(PressureTier.fromOrdinal(tier));
 		}
 		
 		return tier;

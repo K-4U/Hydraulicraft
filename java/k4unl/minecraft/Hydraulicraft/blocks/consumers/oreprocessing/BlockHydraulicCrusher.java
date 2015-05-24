@@ -20,7 +20,7 @@ public class BlockHydraulicCrusher extends HydraulicBlockContainerBase implement
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int var2) {
-		return new TileHydraulicCrusher(getTier());
+		return new TileHydraulicCrusher();
 	}
 	
 	@Override

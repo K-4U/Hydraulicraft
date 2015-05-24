@@ -10,7 +10,7 @@ public class TilePressureDisposal extends TileHydraulicBase implements
 		IHydraulicConsumer {
 
 	public TilePressureDisposal(){
-		super(PressureTier.HIGHPRESSURE, 1);
+		super(1);
 		super.init(this);
 	}
 

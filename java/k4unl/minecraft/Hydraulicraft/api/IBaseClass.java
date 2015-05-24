@@ -13,12 +13,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @author K-4U
  */
 public interface IBaseClass {
-	/**
-	 * Used for setting a new tier during runtime.
-	 * @param newTier
-	 */
-	public void setPressureTier(PressureTier newTier);
-	
+
 	/**
 	 * Set the max ammount of fluid this block can handle during runtime
 	 * @param maxFluid The ammount of BUCKETS this block can handle

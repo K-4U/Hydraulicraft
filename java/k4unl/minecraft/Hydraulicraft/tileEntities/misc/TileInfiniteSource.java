@@ -22,7 +22,7 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
 	private FluidTank tank = new FluidTank(2000);
 
 	public TileInfiniteSource(){
-		super(PressureTier.HIGHPRESSURE, 1);
+		super(1);
 		super.init(this);
 	}
 	

@@ -38,10 +38,10 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
     private float pressurePerTick = 0F;
 
     private ItemStack saw = GameRegistry.findItemStack("ForgeMicroblock","sawDiamond", 1);
+
     
-    
-    public TileHydraulicSaw(PressureTier tier){
-    	super(tier, 10);
+    public TileHydraulicSaw(){
+    	super(10);
     	super.init(this);
     }
 	

@@ -18,8 +18,8 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 	private int energyToAdd;
 	private float pressureRequired;
 	
-	public TileHydraulicGenerator(PressureTier tier){
-		super(tier, 20);
+	public TileHydraulicGenerator(){
+		super(20);
 		super.init(this);
 	}
 

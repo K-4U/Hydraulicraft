@@ -2,7 +2,9 @@ package k4unl.minecraft.Hydraulicraft.blocks.transporter;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.blocks.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.transporter.TilePressureHose;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
@@ -17,7 +19,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 import java.util.Map;
 
-public class BlockHose extends HydraulicTieredBlockBase {
+public class BlockHose extends HydraulicTieredBlockBase implements IMultiTieredBlock {
 
     private static Vector3fMax blockBounds = new Vector3fMax(0.3f, 0.3f, 0.3f, 0.7f, 0.7f, 0.7f);
 
@@ -29,7 +31,7 @@ public class BlockHose extends HydraulicTieredBlockBase {
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
 
-        TilePressureHose pHose = new TilePressureHose(metadata);
+        TilePressureHose pHose = new TilePressureHose();
         return pHose;
     }
 
@@ -152,5 +154,11 @@ public class BlockHose extends HydraulicTieredBlockBase {
                 setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             }
         }
+    }
+
+    @Override
+    public PressureTier getTier(int metadata) {
+
+        return PressureTier.fromOrdinal(metadata);
     }
 }

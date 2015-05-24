@@ -35,8 +35,8 @@ public class TileHydraulicMixer extends TileHydraulicBase implements
 	private FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	private FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 8);
 
-	public TileHydraulicMixer(PressureTier tier){
-		super(tier, 6);
+	public TileHydraulicMixer(){
+		super(6);
 		super.init(this);
 	}
 

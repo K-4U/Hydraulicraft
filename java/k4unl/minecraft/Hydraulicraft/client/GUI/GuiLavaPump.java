@@ -13,6 +13,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 public class GuiLavaPump extends HydraulicGUIBase {
@@ -33,9 +34,11 @@ public class GuiLavaPump extends HydraulicGUIBase {
 		//Get lava level:
 		FluidTankInfo[] tankInfo = pump.getTankInfo(ForgeDirection.UP);
 		if(tankInfo[0].fluid != null){
-			drawVerticalProgressBarWithTexture(124, 16, 54, 16, tankInfo[0].fluid.amount, tankInfo[0].capacity, tankInfo[0].fluid.getFluid().getIcon(), FluidRegistry.LAVA.getLocalizedName(), "mB");
+			drawVerticalProgressBarWithTexture(124, 16, 54, 16, tankInfo[0].fluid.amount, tankInfo[0].capacity, tankInfo[0].fluid.getFluid()
+              .getIcon(), FluidRegistry.LAVA.getLocalizedName(tankInfo[0].fluid), "mB");
 		}else{
-			drawVerticalProgressBar(124, 16, 56, 18, 0, tankInfo[0].capacity, 0x00000000, FluidRegistry.LAVA.getLocalizedName(), "mB");
+			drawVerticalProgressBar(124, 16, 56, 18, 0, tankInfo[0].capacity, 0x00000000, FluidRegistry.LAVA.getLocalizedName(new FluidStack
+                (FluidRegistry.LAVA, 1)), "mB");
 		}
 		
 		int startY = 17;

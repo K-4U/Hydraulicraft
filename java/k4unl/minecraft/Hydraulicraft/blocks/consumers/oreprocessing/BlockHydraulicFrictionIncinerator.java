@@ -20,7 +20,7 @@ public class BlockHydraulicFrictionIncinerator extends HydraulicBlockContainerBa
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int var2) {
-		return new TileHydraulicFrictionIncinerator(getTier());
+		return new TileHydraulicFrictionIncinerator();
 	}	
 	
 	@Override

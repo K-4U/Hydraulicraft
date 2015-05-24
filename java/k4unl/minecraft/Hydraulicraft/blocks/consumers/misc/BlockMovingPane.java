@@ -33,7 +33,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileMovingPane(getTier());
+		return new TileMovingPane();
 	}
 	
 	@Override

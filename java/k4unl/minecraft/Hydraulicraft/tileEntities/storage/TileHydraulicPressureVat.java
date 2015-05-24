@@ -31,12 +31,12 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	private int prevRedstoneLevel = 0;
 	
 	public TileHydraulicPressureVat(){
-		super(PressureTier.HIGHPRESSURE, 48);
+		super(48);
 		super.init(this);
 	}
 	
 	public TileHydraulicPressureVat(int _tier){
-		super(PressureTier.fromOrdinal(_tier), 16 * (_tier+1));
+		super(16 * (_tier+1));
 		super.init(this);
 		tier = _tier;
 		if(tank == null){
@@ -48,7 +48,6 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 		if(tier == -1 && newTier != -1){
 			tier = newTier;
 			super.setMaxStorage(16 * (tier + 1));
-			super.setPressureTier(PressureTier.fromOrdinal(newTier));
 			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
 		}
 	}
@@ -58,7 +57,6 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 			tier = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 			tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier+1)));
 			super.setMaxStorage(2 * (tier + 1));
-			super.setPressureTier(PressureTier.fromOrdinal(tier));
 		}
 		return tier;
 	}

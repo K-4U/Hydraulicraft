@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartValve;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -44,8 +45,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 
-public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclusion, ISidedHollowConnect, IHydraulicTransporter, ICustomNetwork {
-	
+public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclusion, ISidedHollowConnect, IHydraulicTransporter, ICustomNetwork,
+  ITieredBlock {
+
 	public static Cuboid6 boundingBox;
 	public static Cuboid6[] boundingBoxes = new Cuboid6[6];
 	public static Cuboid6 boundingBoxC;
@@ -53,7 +55,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     public static Cuboid6 boundingBoxEW;
     public static Cuboid6 boundingBoxUD;
     private static int expandBounds = -1;
-    
+
     private IBaseClass baseHandler;
     private boolean needToCheckNeighbors;
     private boolean connectedSidesHaveChanged = true;
@@ -61,22 +63,22 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     private boolean hasFoundNetwork = false;
     private ForgeDirection facing = ForgeDirection.NORTH;
     private boolean hasDirection = false;
-    
+
     private PressureNetwork pNetwork1;
-    private PressureNetwork pNetwork2; 
+    private PressureNetwork pNetwork2;
     private boolean hasMerged = false;
-    
-    private int tier = 0;
+
+    private PressureTier tier = PressureTier.INVALID;
 
     @SideOnly(Side.CLIENT)
     private static RendererPartValve renderer;
-    
+
     @SideOnly(Side.CLIENT)
     private static IIcon breakIcon;
-    
+
     static {
     	float center = 0.5F;
-        
+
         float width = 0.2F;
         float min = (center - width);
 		float max = (center + width);
@@ -87,46 +89,46 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
         boundingBox = boundingBoxNS;
         boundingBoxes[ForgeDirection.NORTH.ordinal()] = new Cuboid6(min, min, 0.0F, max, max, min);
         boundingBoxes[ForgeDirection.SOUTH.ordinal()] = new Cuboid6(min, min, max, max, max, 1.0F);
-        
+
         boundingBoxes[ForgeDirection.EAST.ordinal()] = new Cuboid6(max, min, min, 1.0F, max, max);
         boundingBoxes[ForgeDirection.WEST.ordinal()] = new Cuboid6(0.0F, min, min, min, max, max);
-        
+
         boundingBoxes[ForgeDirection.UP.ordinal()] = new Cuboid6(min, max, min, max, 1.0F, max);
         boundingBoxes[ForgeDirection.DOWN.ordinal()] = new Cuboid6(min, 0.0F, min, max, min, max);
     }
-    
+
 	@Override
 	public String getType() {
 		return "tile." + Names.partValve[0].unlocalized;
 	}
 
 	public void preparePlacement(int itemDamage) {
-		tier = itemDamage;
+		tier = PressureTier.fromOrdinal(itemDamage);
 	}
-	
+
 	@Override
 	public void load(NBTTagCompound tagCompound){
 		super.load(tagCompound);
 		if(getHandler() != null)
 			getHandler().readFromNBTI(tagCompound);
-		tier = tagCompound.getInteger("tier");
+		tier = PressureTier.fromOrdinal(tagCompound.getInteger("tier"));
 		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
 		hasDirection = tagCompound.getBoolean("hasDirection");
 	}
-	
+
 	@Override
 	public void save(NBTTagCompound tagCompound){
 		super.save(tagCompound);
 		getHandler().writeToNBTI(tagCompound);
 		tagCompound.setInteger("facing", getFacing().ordinal());
 		tagCompound.setBoolean("hasDirection", hasDirection);
-		tagCompound.setInteger("tier", tier);
+		tagCompound.setInteger("tier", getTier().toInt());
 	}
-	
+
 	@Override
     public void writeDesc(MCDataOutput packet){
-		packet.writeInt(getTier());
-		
+		packet.writeInt(getTier().toInt());
+
 		NBTTagCompound mainCompound = new NBTTagCompound();
 		mainCompound.setInteger("facing", getFacing().ordinal());
 		mainCompound.setBoolean("hasDirection", hasDirection);
@@ -144,7 +146,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	
     @Override
     public void readDesc(MCDataInput packet){
-        tier = packet.readInt();
+        tier = PressureTier.fromOrdinal(packet.readInt());
         
         NBTTagCompound mainCompound = packet.readNBTTagCompound();
         facing = ForgeDirection.getOrientation(mainCompound.getInteger("facing"));
@@ -211,7 +213,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
         	GL11.glPushMatrix();
             GL11.glDisable(GL11.GL_LIGHTING);
 			
-            renderer.doRender(pos.x, pos.y, pos.z, frame, tier, this);
+            renderer.doRender(pos.x, pos.y, pos.z, frame, tier.toInt(), this);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glPopMatrix();
         }
@@ -313,7 +315,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     }
     
     public ItemStack getItem(){
-        return new ItemStack(Multipart.itemPartValve, 1, tier);
+        return new ItemStack(Multipart.itemPartValve, 1, tier.toInt());
     }
     
     @Override
@@ -340,13 +342,13 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
         return getItem();
     }
 
-	public int getTier() {
+	public PressureTier getTier() {
 		return tier;
 	}
 	
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this, PressureTier.fromOrdinal(getTier()),2 * (getTier()+1));
+		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this, 2 * (getTier().toInt()+1));
         return baseHandler;
 	}
 

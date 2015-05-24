@@ -64,7 +64,7 @@ public class RendererPartHose extends TileEntitySpecialRenderer {
 		TileMultipart mp = (TileMultipart)tileentity;
 		if(Multipart.hasPartHose(mp)){
 			PartHose tp = Multipart.getHose(mp);
-			doRender(x, y, z, f, tp.getTier(), tp.getConnectedSides());
+			doRender(x, y, z, f, tp.getTier().toInt(), tp.getConnectedSides());
 		}
 	}
 	

@@ -18,6 +18,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 
+import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 
 import thirdParty.truetyper.FontHelper;
@@ -228,11 +229,11 @@ public class HydraulicGUIBase extends GuiContainer {
 		if (!mEnt.getHandler().isOilStored()) {
 			color = Constants.COLOR_WATER;
 			icon = FluidRegistry.WATER.getIcon();
-			fluidName = FluidRegistry.WATER.getLocalizedName();
+			fluidName = FluidRegistry.WATER.getLocalizedName(new FluidStack(FluidRegistry.WATER, 1));
 		} else {
 			color = Constants.COLOR_OIL;
 			icon = Fluids.fluidHydraulicOil.getIcon();
-			fluidName = Fluids.fluidHydraulicOil.getLocalizedName();
+			fluidName = Fluids.fluidHydraulicOil.getLocalizedName(new FluidStack(Fluids.fluidHydraulicOil, 1));
 		}
 		drawVerticalProgressBarWithTexture(8, 16, 54, 16, mEnt.getHandler()
 				.getStored(), mEnt.getHandler().getMaxStorage(), icon, fluidName, "mB");

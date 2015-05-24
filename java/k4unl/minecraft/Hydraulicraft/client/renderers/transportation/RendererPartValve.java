@@ -89,7 +89,7 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		TileMultipart mp = (TileMultipart)tileentity;
 		if(Multipart.hasPartValve(mp)){
 			PartValve tp = Multipart.getValve(mp);
-			doRender(x, y, z, f, tp.getTier(), tp);
+			doRender(x, y, z, f, tp.getTier().toInt(), tp);
 		}
 	}
 	

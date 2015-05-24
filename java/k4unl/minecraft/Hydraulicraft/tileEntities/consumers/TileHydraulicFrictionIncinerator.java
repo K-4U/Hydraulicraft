@@ -24,9 +24,8 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 	private int smeltingTicks = 0;
 	private int maxSmeltingTicks = 0;
 
-	
-	public TileHydraulicFrictionIncinerator(PressureTier tier){
-		super(tier, 5);
+	public TileHydraulicFrictionIncinerator(){
+		super(5);
 		super.init(this);
 	}
 	

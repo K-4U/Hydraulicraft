@@ -23,7 +23,7 @@ public class BlockAssembler extends HydraulicBlockContainerBase implements ITier
     @Override
     public TileEntity createNewTileEntity(World world, int var2) {
 
-        return new TileAssembler(getTier());
+        return new TileAssembler();
     }
 
     @Override

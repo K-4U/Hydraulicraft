@@ -27,7 +27,7 @@ public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase impleme
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicFluidPump(getTier());
+		return new TileHydraulicFluidPump();
 	}
 	
 	@Override

@@ -27,12 +27,12 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 	private int networkCapacity;
 	
 	public TileHydraulicPump(){
-		super(PressureTier.HIGHPRESSURE, 1);
+		super(1);
 		super.init(this);
 	}
 	
 	public TileHydraulicPump(int _tier){
-		super(PressureTier.fromOrdinal(_tier), 2 * (_tier + 1));
+		super(2 * (_tier + 1));
 		tier = _tier;
 		super.init(this);
 	}
@@ -252,7 +252,6 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 	private void setTier(int newTier) {
 		tier = newTier;
 		super.setMaxStorage(2 * (tier + 1));
-		super.setPressureTier(PressureTier.fromOrdinal(tier));
 	}
 
 	@Override

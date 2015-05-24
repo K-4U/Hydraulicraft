@@ -20,7 +20,7 @@ public class BlockHydraulicSaw extends HydraulicBlockContainerBase implements IT
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicSaw(getTier());
+		return new TileHydraulicSaw();
 	}
 	
 	@Override

@@ -73,7 +73,7 @@ public class ItemDebug extends HydraulicItemBase {
 					if(ent instanceof TileMultipart){
 						if(Multipart.hasPartHose((TileMultipart)ent)){
 							PartHose hose = Multipart.getHose((TileMultipart)ent);
-							int tier = hose.getTier();
+							int tier = hose.getTier().toInt();
 							Functions.showMessageInChat(player, "Tier:          " + tier);							
 						}
 					}

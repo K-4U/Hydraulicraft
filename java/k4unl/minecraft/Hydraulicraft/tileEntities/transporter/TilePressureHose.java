@@ -23,14 +23,8 @@ public class TilePressureHose extends TileHydraulicBase implements IHydraulicTra
     private int tier = -1;
     
     public TilePressureHose(){
-    	super(PressureTier.HIGHPRESSURE, 1);
+    	super(1);
     	super.init(this);
-    }
-    
-    public TilePressureHose(int _tier){
-    	super(PressureTier.fromOrdinal(_tier), 2*(_tier+1));
-    	super.init(this);
-    	tier = _tier;
     }
     
 
@@ -248,7 +242,6 @@ public class TilePressureHose extends TileHydraulicBase implements IHydraulicTra
 	public void setTier(int metadata) {
 		tier = metadata;
 		super.setMaxStorage(2*(tier+1));
-		super.setPressureTier(PressureTier.fromOrdinal(metadata));
 	}
 
 	public void refreshConnectedSides() {

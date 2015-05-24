@@ -17,7 +17,7 @@ public class BlockHydraulicCharger extends HydraulicBlockContainerBase implement
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int var2) {
-		return new TileHydraulicCharger(getTier());
+		return new TileHydraulicCharger();
 	}
 
 	@Override

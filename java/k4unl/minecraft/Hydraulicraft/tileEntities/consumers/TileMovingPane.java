@@ -26,9 +26,9 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
     private float movingSpeed         = 0.01F;
     private float target              = 1.0F;
 
-    public TileMovingPane(PressureTier tier) {
+    public TileMovingPane() {
 
-        super(tier, 5);
+        super(5);
         super.init(this);
     }
 

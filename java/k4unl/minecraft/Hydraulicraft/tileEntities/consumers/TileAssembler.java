@@ -13,9 +13,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileAssembler extends TileHydraulicBase implements IHydraulicConsumer, IInventory{
 
-    public TileAssembler(PressureTier tier) {
 
-        super(tier, 10);
+    public TileAssembler() {
+
+        super(10);
         super.init(this);
     }
 

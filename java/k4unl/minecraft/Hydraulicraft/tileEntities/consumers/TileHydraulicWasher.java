@@ -32,88 +32,94 @@ import java.util.Random;
 
 public class TileHydraulicWasher extends TileHydraulicBase implements
 		ISidedInventory, IFluidHandler, IHydraulicConsumer, IHydraulicMultiBlock {
-	private ItemStack inputInventory;
-	private ItemStack washingItem;
-	private ItemStack targetItem;
-	private ItemStack outputInventory;
-	private ItemStack fluidInputInventory;
-	private ItemStack fluidOutputInventory;
-	private int washingTicks = 0;
-	private int maxWashingTicks = 0;
-	private float requiredPressure = 5F;
-	
-	private boolean isValidMultiblock;
-	
-	private List<TileHydraulicValve> valves;
-	private TileInterfaceValve fluidValve;
-	private TileInterfaceValve itemValve;
-	private int tier = 0;
-	private float pressurePerTick = 0F;
-	
-	
-	public TileHydraulicWasher(){
-		super(PressureTier.LOWPRESSURE, 10);
-		super.init(this);
-		valves = new ArrayList<TileHydraulicValve>();
-	}
-	
-	public boolean getIsValidMultiblock(){
-		return isValidMultiblock;
-	}
-	
-	private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 50);
-	
-	
-	public int getWashingTicks(){
-		return washingTicks;
-	}
+    private ItemStack inputInventory;
+    private ItemStack washingItem;
+    private ItemStack targetItem;
+    private ItemStack outputInventory;
+    private ItemStack fluidInputInventory;
+    private ItemStack fluidOutputInventory;
+    private int   washingTicks     = 0;
+    private int   maxWashingTicks  = 0;
+    private float requiredPressure = 5F;
 
-	public boolean isWashing() {
-		return (washingItem != null && targetItem != null);
-	}	
-	
-	@Override
-	public float workFunction(boolean simulate, ForgeDirection from) {
-		if(canRun() || isWashing()){
-			if(!simulate){
-				doWash();
-			}
-			//The higher the pressure
-			//The higher the speed!
-			//But also the more it uses..
-			return 0.1F + pressurePerTick + (1+(getPressure(from) / getMaxPressure(getHandler().isOilStored(), from)));
-		}else{
-			return 0F;
-		}
-	}
-	
-	
-	private void doWash(){
-		if(isWashing() && maxWashingTicks != 0){
-			washingTicks = washingTicks + 1 + (int)((getPressure(ForgeDirection.UNKNOWN)/100) * 0.0005F);
-			tank.drain(Constants.MIN_REQUIRED_WATER_FOR_WASHER / maxWashingTicks, true);
-			if(washingTicks >= maxWashingTicks){
-				//washing done!
-				if(outputInventory == null){
-					outputInventory = targetItem.copy(); 
-				}else{
-					outputInventory.stackSize += targetItem.stackSize;
-				}
-				
-				
-				washingItem = null;
-				targetItem = null;
-				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			}
-		}else{
-			if(canRun()){
-				WashingRecipe recipe = WashingRecipes.getWashingRecipe(inputInventory);
-				targetItem = recipe.getOutput();
-				pressurePerTick = recipe.pressure;
-				if(new Random().nextFloat() > 0.85F) {
-                	targetItem.stackSize+=1;
+    private boolean isValidMultiblock;
+
+    private List<TileHydraulicValve> valves;
+    private TileInterfaceValve       fluidValve;
+    private TileInterfaceValve       itemValve;
+    private int tier = 0;
+    private float pressurePerTick = 0F;
+    private PressureTier pressureTier;
+
+
+    public TileHydraulicWasher() {
+
+        super(10);
+        super.init(this);
+        valves = new ArrayList<TileHydraulicValve>();
+    }
+
+    public boolean getIsValidMultiblock() {
+
+        return isValidMultiblock;
+    }
+
+    private FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 50);
+
+
+    public int getWashingTicks() {
+
+        return washingTicks;
+    }
+
+    public boolean isWashing() {
+
+        return (washingItem != null && targetItem != null);
+    }
+
+    @Override
+    public float workFunction(boolean simulate, ForgeDirection from) {
+
+        if (canRun() || isWashing()) {
+            if (!simulate) {
+                doWash();
+            }
+            //The higher the pressure
+            //The higher the speed!
+            //But also the more it uses..
+            return 0.1F + pressurePerTick + (1 + (getPressure(from) / getMaxPressure(getHandler().isOilStored(), from)));
+        } else {
+            return 0F;
+        }
+    }
+
+
+    private void doWash() {
+
+        if (isWashing() && maxWashingTicks != 0) {
+            washingTicks = washingTicks + 1 + (int) ((getPressure(ForgeDirection.UNKNOWN) / 100) * 0.0005F);
+            tank.drain(Constants.MIN_REQUIRED_WATER_FOR_WASHER / maxWashingTicks, true);
+            if (washingTicks >= maxWashingTicks) {
+                //washing done!
+                if (outputInventory == null) {
+                    outputInventory = targetItem.copy();
+                } else {
+                    outputInventory.stackSize += targetItem.stackSize;
                 }
-				washingItem = inputInventory.copy();
+
+                washingItem = null;
+                targetItem = null;
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            }
+        } else {
+            if (canRun()) {
+                WashingRecipe recipe = WashingRecipes.getWashingRecipe(inputInventory);
+                targetItem = recipe.getOutput();
+                pressurePerTick = recipe.pressure;
+                if (new Random().nextFloat() > 0.85F) {
+                    targetItem.stackSize += 1;
+                }
+                washingItem = inputInventory.copy();
 				
 				inputInventory.stackSize--;
 				if(inputInventory.stackSize <= 0){
@@ -426,9 +432,9 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 		targetItem = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("targetItem"));
 		
 		isValidMultiblock = tagCompound.getBoolean("isValidMultiblock");
-		
+
 		tier = tagCompound.getInteger("tier");
-		super.setPressureTier(PressureTier.fromOrdinal(tier));
+		setPressureTier(PressureTier.fromOrdinal(tier));
 	}
 
 	@Override
@@ -553,7 +559,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 								return false;
 							}else{
 								tier = meta;
-								super.setPressureTier(PressureTier.fromOrdinal(tier));
+								setPressureTier(PressureTier.fromOrdinal(tier));
 								continue;
 							}
 						}
@@ -705,4 +711,9 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 	@Override
 	public void closeInventory() {
 	}
+
+    public void setPressureTier(PressureTier pressureTier) {
+
+        this.pressureTier = pressureTier;
+    }
 }

@@ -24,7 +24,7 @@ public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicDynamo(getTier());
+		return new TileHydraulicDynamo();
 	}
 
 	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){

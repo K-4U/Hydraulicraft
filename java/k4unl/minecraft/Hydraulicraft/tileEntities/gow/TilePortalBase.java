@@ -42,9 +42,14 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     private ItemStack linkingCard;
 
+    public TilePortalBase(){
+        super(1);
+        super.init(this);
+    }
+
     public TilePortalBase(PressureTier tier) {
 
-        super(tier, 200);
+        super(200);
         super.init(this);
         frames = new ArrayList<Location>();
     }

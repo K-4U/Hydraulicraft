@@ -28,10 +28,10 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
     private int maxCrushingTicks = 0;
     private int oldScaledCrushTime;
     private float pressurePerTick = 0F;
-    
-    
-    public TileHydraulicCrusher(PressureTier tier){
-    	super(tier, 5);
+
+
+    public TileHydraulicCrusher(){
+    	super(5);
     	super.init(this);
     }
 

@@ -24,7 +24,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 
 	
 	public TileHydraulicValve(){
-		super(PressureTier.HIGHPRESSURE, 1);
+		super(1);
 		super.init(this);
 	}
 	

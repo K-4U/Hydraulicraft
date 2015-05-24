@@ -8,6 +8,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.*;
 import k4unl.minecraft.Hydraulicraft.blocks.IHydraulicMultiBlock;
+import k4unl.minecraft.Hydraulicraft.blocks.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
@@ -70,12 +71,10 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     private   int                  networkCapacity;
 
     /**
-     * @param _pressureTier The tier of pressure.
      * @param _maxStorage The max ammount of Fluid/10 this machine can store.
      */
-    public TileHydraulicBase(PressureTier _pressureTier, int _maxStorage) {
+    public TileHydraulicBase(int _maxStorage) {
 
-        pressureTier = _pressureTier;
         maxStorage = _maxStorage;
         connectedSides = new ArrayList<ForgeDirection>();
     }
@@ -174,7 +173,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	
 	public float getMaxPressure(boolean isOil, ForgeDirection from){
 		if(isOil){
-			switch(pressureTier){
+			switch(getPressureTier()){
 			case LOWPRESSURE:
 				return Constants.MAX_MBAR_OIL_TIER_1;
 			case MEDIUMPRESSURE:
@@ -185,7 +184,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 				return 0; //BOOM! hehehe
 			}			
 		}else{
-			switch(pressureTier){
+			switch(getPressureTier()){
 			case LOWPRESSURE:
 				return Constants.MAX_MBAR_WATER_TIER_1;
 			case MEDIUMPRESSURE:
@@ -390,7 +389,6 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		fluidLevelStored = tagCompound.getInteger("fluidLevelStored");
 		_isOilStored = tagCompound.getBoolean("isOilStored");
 		oldPressure = tagCompound.getFloat("oldPressure");
-		pressureTier = PressureTier.fromOrdinal(tagCompound.getInteger("pressureTier"));
 		maxStorage = tagCompound.getInteger("maxStorage");
 		networkCapacity = tagCompound.getInteger("networkCapacity");
 		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
@@ -422,7 +420,6 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		tagCompound.setInteger("fluidLevelStored",fluidLevelStored);
 		tagCompound.setBoolean("isOilStored", _isOilStored);
 		tagCompound.setBoolean("isRedstonePowered", getIsRedstonePowered());
-		tagCompound.setInteger("pressureTier", pressureTier.ordinal());
 		tagCompound.setInteger("maxStorage", maxStorage);
 		
 		
@@ -716,14 +713,19 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 	}
 
 	@Override
-	public void setPressureTier(PressureTier newTier) {
-		pressureTier = newTier;		
-		markDirty();
-	}
-	
-	@Override
 	public PressureTier getPressureTier() {
-		return pressureTier;		
+        if(isMultipart){
+            if (tMp instanceof ITieredBlock){
+                return ((ITieredBlock)tMp).getTier();
+            }
+        }else {
+            if (tTarget.getBlockType() instanceof ITieredBlock) {
+                return ((ITieredBlock) tTarget.getBlockType()).getTier();
+            } else if (tTarget.getBlockType() instanceof IMultiTieredBlock) {
+                return ((IMultiTieredBlock) tTarget.getBlockType()).getTier(getBlockMetadata());
+            }
+        }
+        return PressureTier.INVALID;
 	}
 
 	@Override

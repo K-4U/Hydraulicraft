@@ -22,7 +22,7 @@ public class BlockHydraulicPneumaticCompressor extends HydraulicBlockContainerBa
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicPneumaticCompressor(getTier());
+		return new TileHydraulicPneumaticCompressor();
 	}
 
 	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){

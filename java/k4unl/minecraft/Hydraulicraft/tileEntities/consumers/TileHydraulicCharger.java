@@ -11,10 +11,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileHydraulicCharger extends TileHydraulicBase implements IInventory, IHydraulicConsumer {
 	private ItemStack chargingItem;
-	
-	
-	public TileHydraulicCharger(PressureTier tier) {
-		super(tier, 1);
+
+	public TileHydraulicCharger() {
+		super(1);
 		super.init(this);
 	}
 

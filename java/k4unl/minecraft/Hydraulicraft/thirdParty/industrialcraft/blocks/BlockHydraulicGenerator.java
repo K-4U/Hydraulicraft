@@ -28,7 +28,7 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase impleme
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicGenerator(getTier());
+		return new TileHydraulicGenerator();
 	}
 
 	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
