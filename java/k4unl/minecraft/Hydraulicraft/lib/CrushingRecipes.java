@@ -31,14 +31,6 @@ public class CrushingRecipes {
 		public ItemStack getOutput() {
 			return output.copy();
 		}
-
-        
-        /*public CrushingRecipe(ItemStack inp, float press, ItemStack outp){
-        	inputString = "";
-            input = inp;
-            output = outp;
-            pressure = press;
-        }*/
     }
 
     public static LinkedList<CrushingRecipe> crushingRecipes = new
@@ -49,6 +41,7 @@ public class CrushingRecipes {
     }
     
     public static ItemStack getCrushingRecipeOutput(ItemStack itemStack){
+        //TODO: CHANGE ME
     	String oreDictName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
 		for(CrushingRecipe rec : crushingRecipes){
 			if(rec.input != null){
@@ -61,6 +54,7 @@ public class CrushingRecipes {
     }
     
     public static CrushingRecipe getCrushingRecipe(ItemStack itemStack){
+        //TODO: Change me
     	String oreDictName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
 		for(CrushingRecipe rec : crushingRecipes){
 			if(rec.input != null){
@@ -89,36 +83,5 @@ public class CrushingRecipes {
         }
         return null;
     }
-
-/*
-    public ItemStack getCrushingRecipe(ItemStack itemStack){
-        ItemStack ret = null;
-
-        List<String> allowedList = new ArrayList<String>();
-        allowedList.add("Gold");
-        allowedList.add("Iron");
-        allowedList.add("Copper");
-        allowedList.add("Lead");
-        allowedList.add("Quartz");
-
-        //Get oreDictionaryName
-        String oreName = itemStack.getUnlocalizedName();
-        oreName = oreName.substring("tile.".length());
-        String metalName = Functions.getMetalName(oreName);
-        if(allowedList.contains(metalName)){
-            for(int i = 0; i < chunks.size(); i++){
-                String cName = chunks.get(i).getName();
-                if(cName.equals(metalName)){
-                    if(metalName.equals("Quartz")){
-                        return new ItemStack(Item.netherQuartz,3 + ((new Random()).nextFloat() > 0.85F ? 1 : 0));
-                    }else{
-                        return new ItemStack(this.itemID, 2, i);
-                    }
-                }
-            }
-        }
-
-        return ret;
-    }*/
 
 }

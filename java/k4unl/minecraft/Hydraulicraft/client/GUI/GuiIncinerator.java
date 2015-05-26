@@ -38,7 +38,6 @@ public class GuiIncinerator extends HydraulicGUIBase {
 			float percentage = (float)done / (float)maxTicks;
 			int xPos = startX + (int) (travelPath * percentage);
 
-            //TODO decide whether one should have a wobbling effect or not (the last parameter)
             IconRenderer.drawMergedIcon(xPos, 19, zLevel, smeltingItem, targetItem, percentage, smeltingItem.stackSize % 2 == 0);
 		}
 		checkTooltips(mouseX, mouseY);

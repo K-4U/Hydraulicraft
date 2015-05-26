@@ -64,7 +64,7 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
 	}
 	
 	 @SideOnly(Side.CLIENT)
-	 public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
+	 public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
 	     TileHarvesterTrolley teTrolley = (TileHarvesterTrolley)world.getTileEntity(x, y, z);
 	     return Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem(teTrolley.getTrolley().getName());
 	 }

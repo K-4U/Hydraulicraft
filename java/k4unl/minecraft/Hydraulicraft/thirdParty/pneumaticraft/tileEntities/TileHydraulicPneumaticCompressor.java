@@ -13,7 +13,7 @@ import pneumaticCraft.api.tileentity.IPneumaticMachine;
 public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implements
 		IPneumaticMachine, IHydraulicConsumer {
     private IAirHandler airHandler;
-    private static float dangerPressure = 5;  
+    private static int dangerPressure = 5;
 
     
     public TileHydraulicPneumaticCompressor(){
@@ -23,7 +23,7 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
     
     @Override
     public IAirHandler getAirHandler(){
-        if(airHandler == null) airHandler = AirHandlerSupplier.getAirHandler(dangerPressure, 7, 50, 2000);
+        if(airHandler == null) airHandler = AirHandlerSupplier.getAirHandler(dangerPressure, 7, 2000);
         return airHandler;
     }
     
@@ -79,7 +79,7 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
 	private void doCompress() {
 		//Simplest function EVER!
 		float usage = (getPressure(ForgeDirection.UNKNOWN) / 10000);
-		getAirHandler().addAir(usage * Constants.CONVERSION_RATIO_HYDRAULIC_AIR, ForgeDirection.UNKNOWN);
+		getAirHandler().addAir((int)usage * (int)Constants.CONVERSION_RATIO_HYDRAULIC_AIR, ForgeDirection.UNKNOWN);
 	}
 
 	private boolean canRun() {

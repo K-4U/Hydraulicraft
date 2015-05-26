@@ -223,12 +223,6 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 		}
 	}
 
-	/* TODO: Fix me
-	@Override
-	public void onInventoryChanged(){
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-	}
-	*/
 	
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1) {
@@ -334,7 +328,6 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

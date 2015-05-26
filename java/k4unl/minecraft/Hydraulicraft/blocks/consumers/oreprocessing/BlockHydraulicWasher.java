@@ -11,7 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-//Todo: Implement IMultiblock or something, telling the user that it looks at the core placed in the center.
 public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements ITooltipProvider {
 
 	public BlockHydraulicWasher() {

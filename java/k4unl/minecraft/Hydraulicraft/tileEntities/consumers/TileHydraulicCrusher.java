@@ -229,13 +229,6 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
         }
     }
 
-    /* TODO: Fix me
-    @Override
-    public void onInventoryChanged(){
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-    }
-    */
-
     @Override
     public int[] getAccessibleSlotsFromSide(int var1){
         return new int[]{1, 0};

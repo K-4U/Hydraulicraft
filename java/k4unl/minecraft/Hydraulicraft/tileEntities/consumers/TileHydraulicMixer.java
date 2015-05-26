@@ -50,7 +50,7 @@ public class TileHydraulicMixer extends TileHydraulicBase implements
 		}else{
 			if(outputTank.getFluidAmount() + Constants.OIL_FOR_ONE_SEED < outputTank.getCapacity()){
 				if(inputInventory.getItem().equals(Items.wheat_seeds)){
-					if(inputTank.getFluid().isFluidEqual(new FluidStack(FluidRegistry.WATER.getID(),0)) && inputTank.getFluidAmount() > Constants.WATER_FOR_ONE_SEED){
+					if(inputTank.getFluid().isFluidEqual(new FluidStack(FluidRegistry.WATER, 0)) && inputTank.getFluidAmount() > Constants.WATER_FOR_ONE_SEED){
 						return true;
 					}
 				}
@@ -334,20 +334,15 @@ public class TileHydraulicMixer extends TileHydraulicBase implements
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void openInventory() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void closeInventory() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override

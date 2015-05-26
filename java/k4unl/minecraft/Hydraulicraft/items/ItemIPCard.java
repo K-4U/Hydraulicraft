@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.items;
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class ItemIPCard extends GOWItemBase {
+public class ItemIPCard extends HydraulicItemBase{
 
 	public ItemIPCard() {
 		super(Names.itemIPCard);

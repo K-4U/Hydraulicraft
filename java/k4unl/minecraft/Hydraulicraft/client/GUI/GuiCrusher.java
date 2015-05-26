@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class GuiCrusher extends HydraulicGUIBase{
-    private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/assembler.png");
+    private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/crusher.png");
     TileHydraulicCrusher crusher;
 
     public GuiCrusher(InventoryPlayer invPlayer, TileHydraulicCrusher _crusher){

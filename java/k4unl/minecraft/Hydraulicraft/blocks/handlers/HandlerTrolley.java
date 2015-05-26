@@ -42,27 +42,4 @@ public class HandlerTrolley extends HandlerHydraulicBlock{
             return super.getUnlocalizedName(stack);
         }
     }
-
-    public void onUpdate(ItemStack stack, World world, Entity par3Entity, int par4, boolean par5) {
-        if(world.getWorldTime() % 40 == 0){//TODO legacy code, remove after a while
-            NBTTagCompound tag = stack.getTagCompound();
-            if(tag == null){
-                tag = new NBTTagCompound();
-                stack.setTagCompound(tag);
-            }
-            if(!tag.hasKey("name")){
-                switch(stack.getItemDamage()){
-                    case 0:
-                        tag.setString("name", new TrolleyCrops().getName());
-                        break;
-                    case 2:
-                        tag.setString("name", new TrolleySugarCane().getName());
-                        break;
-                    case 1:
-                        tag.setString("name", new TrolleyEnderlily().getName());
-                        break;
-                }
-            }
-        }
-    }
 }
