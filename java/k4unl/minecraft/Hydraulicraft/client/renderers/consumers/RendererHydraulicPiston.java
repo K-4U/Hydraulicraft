@@ -75,22 +75,24 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 	}
 	
 	public static void drawBase(TileHydraulicPiston tileentity){
-		float half = 0.9F;
+		float half = 1.0F - RenderHelper.pixel * 2;
+		float textureWidth = 0.5F - ((1.0F / 32.0F) * 2);
 		if(tileentity != null){
 			if(tileentity.getIsHarvesterPart()){
 				half = 1F;
+				textureWidth = 0.5F;
 			}
 		}
 		//Draw TOP side.
 		GL11.glBegin(GL11.GL_QUADS);
-		RenderHelper.vertexWithTexture(0.0F, 1.0F, 1.0F, 0F, 0F);
-		RenderHelper.vertexWithTexture(half, 1.0F, 1.0F, 0.5F, 0F);		
-		RenderHelper.vertexWithTexture(half, 1.0F, 0.0F, 0.5F, 0.5F);
+		RenderHelper.vertexWithTexture(0.0F, 1.0F, 1.0F, 0.0F, 0.0F);
+		RenderHelper.vertexWithTexture(half, 1.0F, 1.0F, textureWidth, 0.0F);
+		RenderHelper.vertexWithTexture(half, 1.0F, 0.0F, textureWidth, 0.5F);
 		RenderHelper.vertexWithTexture(0.0F, 1.0F, 0.0F, 0.0F, 0.5F);
 		
 		//Draw bottom side.
-		RenderHelper.vertexWithTexture(half, 0.0F, 1.0F, 0.0F, 0F); // TR
-		RenderHelper.vertexWithTexture(0.0F, 0.0F, 1.0F, 0.5F, 0F);	 //BR
+		RenderHelper.vertexWithTexture(half, 0.0F, 1.0F, 0.0F, 0.0F); // TR
+		RenderHelper.vertexWithTexture(0.0F, 0.0F, 1.0F, 0.5F, 0.0F); //BR
 		RenderHelper.vertexWithTexture(0.0F, 0.0F, 0.0F, 0.5F, 0.5F); //TL
 		RenderHelper.vertexWithTexture(half, 0.0F, 0.0F, 0.0F, 0.5F); //BL
 		
@@ -102,7 +104,6 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		RenderHelper.vertexWithTexture(0.0F, 0.0F, 0.0F, 0.0F, 0.5F); //BL
 
 		//Draw front side:
-		
 		RenderHelper.vertexWithTexture(half, 0.0F, 0.0F, 0.5F, 0.0F); // BR
 		RenderHelper.vertexWithTexture(half, 1.0F, 0.0F, 1.0F, 0.0F); //TR
 		RenderHelper.vertexWithTexture(half, 1.0F, 1.0F, 1.0F, 0.5F); //TL
@@ -111,22 +112,23 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		
 		//Draw right side:
 		RenderHelper.vertexWithTexture(0.0F, 0.0F, 0.0F, 0.0F, 0.0F); // BR
-		RenderHelper.vertexWithTexture(0.0F, 1.0F, 0.0F, 0.5F, 0.0F);	 //TR
-		RenderHelper.vertexWithTexture(half, 1.0F, 0.0F, 0.5F, 0.5F); //TL
+		RenderHelper.vertexWithTexture(0.0F, 1.0F, 0.0F, textureWidth, 0.0F); //TR
+		RenderHelper.vertexWithTexture(half, 1.0F, 0.0F, textureWidth, 0.5F); //TL
 		RenderHelper.vertexWithTexture(half, 0.0F, 0.0F, 0.0F, 0.5F); //BL
 
 		//Draw left side:
 		RenderHelper.vertexWithTexture(0.0F, 0.0F, 1.0F, 0.0F, 0.0F); // BR
-		RenderHelper.vertexWithTexture(half, 0.0F, 1.0F, 0.5F, 0.0F);	 //TR
-		RenderHelper.vertexWithTexture(half, 1.0F, 1.0F, 0.5F, 0.5F); //TL
+		RenderHelper.vertexWithTexture(half, 0.0F, 1.0F, textureWidth, 0.0F); //TR
+		RenderHelper.vertexWithTexture(half, 1.0F, 1.0F, textureWidth, 0.5F); //TL
 		RenderHelper.vertexWithTexture(0.0F, 1.0F, 1.0F, 0.0F, 0.5F); //BL
 		
 		GL11.glEnd();
 	}
 	
 	public static void drawPistonHead(TileHydraulicPiston tileentity){
-		float half = 0.9F;
+		float half = 1.0F - RenderHelper.pixel * 2;
 		float startCoord = half;
+		float textureWidth = ((1.0F / 32.0F)*2);
 		
 		if(tileentity != null){
 			if(tileentity.getIsHarvesterPart()){
@@ -136,52 +138,52 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		}
 		
 		
-		float headThickness = 0.1F;
+		float headThickness = RenderHelper.pixel * 2;
 		float endCoord = startCoord + headThickness;
 		//Draw TOP side.
 		GL11.glBegin(GL11.GL_QUADS);
 		
 		RenderHelper.vertexWithTexture(startCoord, 1.0F, 1.0F, 0F, 0.5F);
-		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, 0.0976F, 0.5F);		
-		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, 0.0976F, 1.0F);
+		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, textureWidth, 0.5F);
+		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, textureWidth, 1.0F);
 		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, 0.0F, 1.0F);
 
 		//Draw bottom side.
 		RenderHelper.vertexWithTexture(endCoord, 0.0F, 1.0F, 0F, 0.5F);
-		RenderHelper.vertexWithTexture(startCoord, 0.0F, 1.0F, 0.0976F, 0.5F);		
-		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, 0.0976F, 1.0F);
+		RenderHelper.vertexWithTexture(startCoord, 0.0F, 1.0F, textureWidth, 0.5F);
+		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, textureWidth, 1.0F);
 		RenderHelper.vertexWithTexture(endCoord, 0.0F, 0.0F, 0.0F, 1.0F);
 		
 		//Draw back side:
-		RenderHelper.vertexWithTexture(startCoord, 0.0F, 1.0F, 0.0976F, 0.5F);
-		RenderHelper.vertexWithTexture(startCoord, 1.0F, 1.0F, 0.5976F, 0.5F);		
-		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, 0.5976F, 1.0F);
-		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, 0.0976F, 1.0F);
+		RenderHelper.vertexWithTexture(startCoord, 0.0F, 1.0F, textureWidth, 0.5F);
+		RenderHelper.vertexWithTexture(startCoord, 1.0F, 1.0F, textureWidth + 0.5F, 0.5F);
+		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, textureWidth + 0.5F, 1.0F);
+		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, textureWidth, 1.0F);
 
 		//Draw front side:
-		RenderHelper.vertexWithTexture(endCoord, 0.0F, 0.0F, 0.0976F, 0.5F); 
-		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, 0.5976F, 0.5F); 	
-		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, 0.5976F, 1.0F); 
-		RenderHelper.vertexWithTexture(endCoord, 0.0F, 1.0F, 0.0976F, 1.0F); 
+		RenderHelper.vertexWithTexture(endCoord, 0.0F, 0.0F, textureWidth, 0.5F);
+		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, textureWidth + 0.5F, 0.5F);
+		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, textureWidth + 0.5F, 1.0F);
+		RenderHelper.vertexWithTexture(endCoord, 0.0F, 1.0F, textureWidth, 1.0F);
 
 		
 		//Draw right side:
-		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, 0.0976F, 1.0F); //BR
-		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, 0.0976F, 0.5F); // TR
+		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, textureWidth, 1.0F); //BR
+		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, textureWidth, 0.5F); // TR
 		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, 0.0F, 0.5F); //TL
 		RenderHelper.vertexWithTexture(endCoord, 0.0F, 0.0F, 0.0F, 1.0F); //BL
 		
 		//Draw left side:
 		
 		RenderHelper.vertexWithTexture(startCoord, 0.0F, 1.0F, 0.0F, 0.5F); 
-		RenderHelper.vertexWithTexture(endCoord, 0.0F, 1.0F, 0.0976F, 0.5F); 
-		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, 0.0976F, 1.0F); 
+		RenderHelper.vertexWithTexture(endCoord, 0.0F, 1.0F, textureWidth, 0.5F);
+		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, textureWidth, 1.0F);
 		RenderHelper.vertexWithTexture(startCoord, 1.0F, 1.0F, 0.0F, 1.0F); 
 		GL11.glEnd();
 	}
 	
 	public static void drawPistonArm(TileHydraulicPiston tileentity, float f){
-		float half = 0.9F;
+		float half = 1.0F - RenderHelper.pixel * 2;
 		float totalLength = 0F;
 		float maxLength = 1F;
 		if(tileentity != null){

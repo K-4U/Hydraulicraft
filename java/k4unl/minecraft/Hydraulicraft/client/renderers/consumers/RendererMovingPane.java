@@ -114,7 +114,7 @@ public class RendererMovingPane extends TileEntitySpecialRenderer {
 	
 	public static void drawPane(TileMovingPane pane, float f){
 		GL11.glBegin(GL11.GL_QUADS);
-		RenderHelper.drawTexturedCube(new Vector3fMax(-0.001F, 0.0F, -0.001F, 1.0001F, 0.051F, 0.051F));
+		RenderHelper.drawTexturedCube(new Vector3fMax(-0.001F, 0.0F, -0.001F, 1.0001F, RenderHelper.pixel, RenderHelper.pixel));
 		GL11.glEnd();
 		GL11.glTranslatef(0.0F, 0.025F, 0.025f);
 		
@@ -129,30 +129,7 @@ public class RendererMovingPane extends TileEntitySpecialRenderer {
 		if(MinecraftForgeClient.getRenderPass() == 0){
 			
 			GL11.glBegin(GL11.GL_QUADS);
-			//Top side:
-			/*RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 0.5F, 0.0F);
-			RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), 1.0F, 0.0F);		
-			RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), 1.0F, 0.5F);
-			RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), 0.5F, 0.5F);
-			
-			//Bottom side:
-			RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), 0.5F, 0.0F);
-			RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), 1.0F, 0.0F);		
-			RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), 1.0F, 0.5F);
-			RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), 0.5F, 0.5F);
-	*/
-			//Draw west side:
-			/*RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), 1.0F, 0.0F);
-			RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 1.0F, 0.5F);
-			RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), 0.5F, 0.5F);
-			RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), 0.5F, 0.0F);
-			
-			//Draw east side:
-			RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), 1.0F, 0.0F);
-			RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), 1.0F, 0.5F);
-			RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), 0.5F, 0.5F);
-			RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), 0.5F, 0.0F);
-			*/
+
 			//Draw north side
 			RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), 1.0F, 0.0F); 
 			RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), 1.0F, 0.5F);
@@ -166,8 +143,6 @@ public class RendererMovingPane extends TileEntitySpecialRenderer {
 			RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 0.5F, 0.5F);
 			
 			GL11.glEnd();
-			
-			
 			
 		}else{
 			GL11.glDisable(GL11.GL_TEXTURE_2D);

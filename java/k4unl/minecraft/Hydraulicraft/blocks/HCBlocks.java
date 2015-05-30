@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockAssembler;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicCharger;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicMixer;
@@ -19,7 +20,6 @@ import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalBase;
 import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalFrame;
 import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerCoreBlock;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
@@ -52,6 +52,7 @@ public class HCBlocks {
 	public static Block hydraulicPressureWall;
 	public static Block hydraulicPressureGlass;
 	public static Block hydraulicHarvesterSource;
+	public static Block hydraulicHarvesterFrame;
 	public static Block harvesterTrolley;
 	public static Block pressureDisposal;
 	public static Block blockCore;
@@ -95,6 +96,7 @@ public class HCBlocks {
 		hydraulicPressureWall = new BlockHydraulicPressureWall();
 		hydraulicPressureGlass = new BlockHydraulicPressureGlass();
 		hydraulicHarvesterSource = new BlockHydraulicHarvester();
+		hydraulicHarvesterFrame = new BlockHydraulicHarvesterFrame();
 		
 		pressureDisposal = new BlockPressureDisposal();
 		blockCore = new BlockHydraulicCore();
@@ -162,7 +164,8 @@ public class HCBlocks {
 		GameRegistry.registerBlock(hydraulicPump, HandlerPump.class, Names.blockHydraulicPump[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicLavaPump, HandlerLavaPump.class, Names.blockHydraulicLavaPump[0].unlocalized);
 		
-		GameRegistry.registerBlock(hydraulicHarvesterSource, HandlerHarvester.class, Names.blockHydraulicHarvester[0].unlocalized);
+		GameRegistry.registerBlock(hydraulicHarvesterSource, HandlerHydraulicBlock.class, Names.blockHydraulicHarvester.unlocalized);
+		GameRegistry.registerBlock(hydraulicHarvesterFrame, HandlerHydraulicBlock.class, Names.blockHarvesterFrame.unlocalized);
 
 		GameRegistry.registerBlock(blockCore, HandlerCoreBlock.class, Names.blockCore[0].unlocalized);
 	

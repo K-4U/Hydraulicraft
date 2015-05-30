@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.harvester;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -50,7 +49,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
     private List<Location> trolleyList = new ArrayList<Location>();
 
 
-    private static final Block horizontalFrame = HCBlocks.hydraulicHarvesterSource;
+    private static final Block horizontalFrame = HCBlocks.hydraulicHarvesterFrame;
     private static final Block verticalFrame   = Blocks.fence;
     private static final Block piston          = HCBlocks.hydraulicPiston;
     private static final Block endBlock        = HCBlocks.hydraulicPressureWall;
@@ -555,7 +554,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 			length = 0;
 			l = getLocationInHarvester(horiz, f, 3, dir);
 			//Log.info("(" + dir + ": " + l.printCoords() + "; " + f + ") = " + getBlockId(l) + " W: " + width + " F");
-			while(getBlock(l).equals(horizontalFrame) && getBlockMetaFromCoord(l) == 1){
+			while(getBlock(l).equals(horizontalFrame)){
 				if(horiz == 1){
 					//Check if there's a trolley right there!
 					Location trolleyLocation = getLocationInHarvester(horiz, f, 2, dir);
@@ -590,7 +589,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 				l = getLocationInHarvester(horiz, f, 3, dir);
 			}
 			//So.. This should actually be the endBlock!
-			//Log.info("(" + dir + ": " + l.printCoords() + "; " + f + ") = " + getBlockId(l) + " W: " + width);
+			//Log.info("(" + dir + ": " + l.printCoords() + "; " + f + ") = " + getBlock(l).getUnlocalizedName() + " W: " + width);
 			
 			if(!getBlock(l).equals(endBlock)){
 				return false;
@@ -842,7 +841,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 
 	@Override
 	public String getInventoryName() {
-		return Localization.getLocalizedName(Names.blockHydraulicHarvester[0].unlocalized);
+		return Localization.getLocalizedName(Names.blockHydraulicHarvester.unlocalized);
 	}
 
 	@Override

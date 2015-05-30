@@ -46,6 +46,8 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     private boolean connectedSidesHaveChanged = true;
     private boolean hasCheckedSinceStartup;
     private boolean hasFoundNetwork = false;
+
+	private static float pixel = 1.0F / 16F;
     
     private PressureTier tier = PressureTier.INVALID;
 
@@ -57,12 +59,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     
     static {
     	float center = 0.5F;
-    	float offset = 0.10F;
+    	float offset = pixel*2;
     	//float offsetY = 0.2F;
     	//float offsetZ = 0.2F;
     	float centerFirst = center - offset;
     	float centerSecond = center + offset;
-        double w = 0.2D / 2;
+        double w = pixel*2;
         boundingBoxes[6] = new Cuboid6(centerFirst - w, centerFirst - w, centerFirst - w, centerFirst + w, centerFirst + w, centerFirst + w);
         boundingBoxes[13] = new Cuboid6(centerSecond - w, centerSecond - w, centerSecond - w, centerSecond + w, centerSecond + w, centerSecond + w);
         

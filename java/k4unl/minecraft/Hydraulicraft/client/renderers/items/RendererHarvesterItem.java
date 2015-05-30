@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.RendererHarvesterFrame;
-import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.RendererHarvesterSource;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -10,7 +9,6 @@ import org.lwjgl.opengl.GL11;
 public class RendererHarvesterItem implements IItemRenderer {
 
 	private static RendererHarvesterFrame fFrame = new RendererHarvesterFrame();
-	private static RendererHarvesterSource fHarvester = new RendererHarvesterSource();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -53,13 +51,8 @@ public class RendererHarvesterItem implements IItemRenderer {
 	}
 	
 	private void render(float x, float y, float z, float scale, int metadata){
-		if(metadata == 1){
-			GL11.glScalef(scale, scale, scale);
-			fFrame.renderTileEntityAt(null, x, y, z, 0);
-		}else if(metadata == 0){
-			GL11.glScalef(scale, scale, scale);
-			fHarvester.doRender(null, x, y, z, 0.0F, metadata);
-		}
+		GL11.glScalef(scale, scale, scale);
+		fFrame.renderTileEntityAt(null, x, y, z, 0);
 	}
 
 }

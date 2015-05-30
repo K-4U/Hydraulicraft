@@ -59,8 +59,8 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
 		float center = 0.5F;
-		float offset = 0.1F;
-		float centerOffset = 0.2F;
+		float offset = RenderHelper.pixel*2;
+		float centerOffset = RenderHelper.pixel*4;
 		
 		drawCable(center, -offset, centerOffset);
 		drawCable(center, +offset, centerOffset);
@@ -69,8 +69,8 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		if(valve != null && valve.isActive()){
 			drawCorner(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center+centerOffset));
 		}else{
-			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center-0.05F), true);
-			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center+0.05F, center+centerOffset, center+centerOffset, center+centerOffset), false);
+			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center-RenderHelper.pixel), true);
+			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center+RenderHelper.pixel, center+centerOffset, center+centerOffset, center+centerOffset), false);
 		}
 		
 		//GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -100,7 +100,7 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 	
 	
 	private void drawCable(float center, float offset, float centerOffset){
-		float width = 0.2F;
+		float width = RenderHelper.pixel * 4;
 		float min = (center + offset)- (width / 2);
 		float max = (center + offset)  + (width / 2);
 		float xMin = center - centerOffset;

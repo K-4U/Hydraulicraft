@@ -18,6 +18,8 @@ import java.util.Map;
 
 public class RendererPartHose extends TileEntitySpecialRenderer {
 
+	private static float pixel = 1.0F / 16F;
+
 	private static final ResourceLocation resLoc[] = {
 		new ResourceLocation(ModInfo.LID,"textures/model/hydraulicHose_tmap_0.png"),
 		new ResourceLocation(ModInfo.LID,"textures/model/hydraulicHose_tmap_1.png"),
@@ -71,14 +73,14 @@ public class RendererPartHose extends TileEntitySpecialRenderer {
 	
 	private void drawFirstCable(Map<ForgeDirection, TileEntity> connectedSides){
 		float center = 0.5F;
-		float offset = 0.1F;
+		float offset = RenderHelper.pixel*2;
 		drawCable(connectedSides, center-offset);
 		drawCable(connectedSides, center+offset);
 	}
 	
 	
 	private void drawCable(Map<ForgeDirection, TileEntity> connectedSides, float center){
-		float width = 0.2F;
+		float width = RenderHelper.pixel*4;
 		float min = center - (width / 2);
 		float max = center + (width / 2);
 		

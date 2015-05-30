@@ -50,7 +50,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		//Do rendering
         
-		float thickness = 0.06F;
+		float thickness = RenderHelper.pixel;
 		renderTieredBars(tier, thickness);
 		renderInsidesWithoutLighting(thickness);
 		renderGauges(thickness);
@@ -106,7 +106,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		//Do rendering
 		GL11.glColor3f(0.9F, 0.9F, 0.9F);
-		float thickness = 0.06F;
+		float thickness = RenderHelper.pixel;
 		renderTieredBars(t.getTier(), thickness);
 		renderInsides(thickness, t);
 		renderGaugesContents(thickness, t);
@@ -118,7 +118,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 	}
 	
 	private void renderInsidesWithoutLighting(float thickness){
-		thickness -= 0.025F;
+		//thickness -= 0.025F;
 		GL11.glBegin(GL11.GL_QUADS);
 		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);
 		RenderHelper.drawTexturedCube(insides);
@@ -126,31 +126,25 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 	}
 	
 	private void renderGauges(float thickness){
-		thickness -= 0.025F;
+		//thickness -= 0.025F;
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glBegin(GL11.GL_QUADS);
-		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - 0.1F - 0.2F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F, 1.0002F-thickness, 1.0F - thickness - 0.1F);
-		
-		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMax(), 189F/256F, 0.39F); //BL
-		RenderHelper.vertexWithTexture(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMax(), 215F/256F, 0.39F);	//BR
-		RenderHelper.vertexWithTexture(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMin(), 215F/256F, 0.0F); //TR
-		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMin(), 189F/256F, 0.0F); //TL
-		
-		Vector3fMax vectorLavaWindow = new Vector3fMax(thickness + 0.1F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F - 0.3F, 1.0002F-thickness, 1.0F - thickness - 0.1F);
-		
-		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMin(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMax(), 188F/256F, 206F/256F); //BL
-		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMax(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMax(), 248F/256F, 206F/256F); //BR
-		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMax(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMin(), 248F/256F, 104F/256F);  //TR
-		RenderHelper.vertexWithTexture(vectorLavaWindow.getXMin(), vectorLavaWindow.getYMax(), vectorLavaWindow.getZMin(), 188F/256F, 104F/256F);  //TL
-		
+		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - RenderHelper.pixel*6, 0.0F, thickness+RenderHelper.pixel, 1.0F - thickness - RenderHelper.pixel, 1.0002F-thickness, 1.0F - thickness - RenderHelper.pixel);
+		float texturePixel = 1.0F / 32F;
+
+		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMax(), texturePixel*19, texturePixel*14); //BL
+		RenderHelper.vertexWithTexture(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMax(), texturePixel*24, texturePixel*14);	//BR
+		RenderHelper.vertexWithTexture(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMin(), texturePixel*24, 0.0F); //TR
+		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMin(), texturePixel*19, 0.0F); //TL
+
 		GL11.glEnd();
 		GL11.glDisable(GL11.GL_BLEND);
 		
 	}
 	@SuppressWarnings("cast")
 	private void renderGaugesContents(float thickness, TileHydraulicPump t){
-		thickness -= 0.025F;
+		//thickness -= 0.025F;
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -161,13 +155,13 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
         float b = (float)(Constants.COLOR_PRESSURE & 255) / 255.0F;
         GL11.glAlphaFunc(GL11.GL_EQUAL, a);
         GL11.glColor4f(r, g, b, a);
-		
-		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - 0.1F - 0.2F, 0.0F, thickness+0.1F, 1.0F - thickness - 0.1F, 1.0001F-thickness, 1.0F - thickness - 0.1F);
+
+		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - RenderHelper.pixel*6, 0.0F, thickness+RenderHelper.pixel, 1.0F - thickness - RenderHelper.pixel, 1.0002F-thickness, 1.0F - thickness - RenderHelper.pixel);
 		float h = vectorPressure.getZMax() - vectorPressure.getZMin();
 		vectorPressure.setZMin(vectorPressure.getZMax() - (h * (t.getHandler().getPressure(ForgeDirection.UNKNOWN) / t.getMaxPressure(t.getHandler().isOilStored(), t.getFacing()))));
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex3f(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMax()); //BL
-		GL11.glVertex3f(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMax());	//BR
+		GL11.glVertex3f(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMax()); //BR
 		GL11.glVertex3f(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMin()); //TR
 		GL11.glVertex3f(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMin()); //TL
 		GL11.glEnd();
@@ -180,7 +174,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 	}
 	
 	private void renderInsides(float thickness, TileHydraulicPump t){
-		thickness -= 0.025F;
+		//thickness -= 0.025F;
 		GL11.glBegin(GL11.GL_QUADS);
 		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);	
 		RenderHelper.drawTexturedCubeWithLight(insides, t);
@@ -202,92 +196,94 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 			GL11.glRotatef(90.0F, 0.0F, -1.0F, 0.0F);
 		}
 	}
-	
+
 	private void drawTieredHorizontalCube(Vector3fMax vector, int tier, float thickness){
 		GL11.glBegin(GL11.GL_QUADS);
 		//RenderHelper.drawColoredCube(vector);
-		float tXb[] = {128.0F/256.0F, 148.0F/256.0F, 168.0F/256.0F};
-		float tXe[] = {148.0F/256.0F, 168.0F/256.0F, 188.0F/256.0F};
+		float texturePixel = 1.0F / 32F;
+		float tXb[] = {texturePixel*16, texturePixel*17, texturePixel*18};
+		float tXe[] = {texturePixel*17, texturePixel*18, texturePixel*19};
 		tXe[tier] = tXb[tier] + (thickness/2);
-		
+
 		//Top side:
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), tXe[tier], 0.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXe[tier], 1.0F);		
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), tXb[tier], 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXe[tier], 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), tXb[tier], 0.0F);
-		
+
 		//Bottom side:
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), tXe[tier], 0.0F);
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXe[tier], 1.0F);		
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXb[tier], 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXe[tier], 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), tXb[tier], 0.0F);
 
 		//Draw west side:
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXe[tier], 1.0F);
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), tXb[tier], 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXe[tier], 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), tXb[tier], 0.0F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXe[tier], 0.0F);
-		
+
 		//Draw east side:
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), tXe[tier], 0.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), tXe[tier], 1.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXb[tier], 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), tXe[tier], 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), tXb[tier], 0.0F);
-		
+
 		//Draw north side
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXe[tier], 1.0F); 
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), tXb[tier], 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXe[tier], 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), tXb[tier], 0.0F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), tXe[tier], 0.0F);
 
 		//Draw south side
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXe[tier], 0.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), tXe[tier], 1.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXb[tier], 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), tXe[tier], 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), tXb[tier], 0.0F);
 		GL11.glEnd();
 	}
-	
+
 	private void drawTieredVerticalCube(Vector3fMax vector, int tier, float thickness){
 		GL11.glBegin(GL11.GL_QUADS);
 		//RenderHelper.drawColoredCube(vector);
-		float tXb[] = {128.0F/256.0F, 148.0F/256.0F, 168.0F/256.0F};
-		float tXe[] = {148.0F/256.0F, 168.0F/256.0F, 188.0F/256.0F};
+		float texturePixel = 1.0F / 32F;
+		float tXb[] = {texturePixel*16, texturePixel*17, texturePixel*18};
+		float tXe[] = {texturePixel*17, texturePixel*18, texturePixel*19};
 		tXe[tier] = tXb[tier] + (thickness/2);
-		
+
 		//Top side:
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), tXe[tier], 0.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXe[tier], (thickness/2));		
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXe[tier], (thickness/2));
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), tXb[tier], (thickness/2));
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), tXb[tier], 0.0F);
-		
+
 		//Bottom side:
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), tXe[tier], 0.0F);
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXe[tier], (thickness/2));		
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXe[tier], (thickness/2));
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXb[tier], (thickness/2));
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), tXb[tier], 0.0F);
 
 		//Draw west side:
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXb[tier], 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), tXb[tier], 0.0F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), tXe[tier], 0.0F);
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXe[tier], 1.0F);
-		
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXe[tier], 0.5F);
+
 		//Draw east side:
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), tXe[tier], 0.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), tXe[tier], 1.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXb[tier], 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), tXe[tier], 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), tXb[tier], 0.0F);
-		
+
 		//Draw north side
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXb[tier], 1.0F); 
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), tXb[tier], 0.0F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), tXe[tier], 0.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), tXe[tier], 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), tXe[tier], 0.5F);
 
 		//Draw south side
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXe[tier], 1.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), tXb[tier], 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXe[tier], 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXb[tier], 0.0F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), tXe[tier], 0.0F);
 		GL11.glEnd();

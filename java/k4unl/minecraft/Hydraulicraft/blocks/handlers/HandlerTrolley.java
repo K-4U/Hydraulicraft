@@ -1,23 +1,17 @@
 package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 
-import java.util.List;
-import java.util.Set;
-
-import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.TrolleyEnderlily;
-import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCrops;
-import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleySugarCane;
-import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
+import java.util.List;
+import java.util.Set;
 
 public class HandlerTrolley extends HandlerHydraulicBlock{
 
@@ -38,6 +32,7 @@ public class HandlerTrolley extends HandlerHydraulicBlock{
         if(tag != null){
             return super.getUnlocalizedName(stack) + "." + tag.getString("name");
         }else{
+            //TODO: Fix meh
             Log.error("Tag of a trolley itemstack was null??");
             return super.getUnlocalizedName(stack);
         }

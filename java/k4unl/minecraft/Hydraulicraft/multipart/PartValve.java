@@ -1,16 +1,17 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
-import k4unl.minecraft.Hydraulicraft.api.HydraulicBaseClassSupplier;
-import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import codechicken.lib.data.MCDataInput;
+import codechicken.lib.data.MCDataOutput;
+import codechicken.lib.raytracer.IndexedCuboid6;
+import codechicken.lib.render.EntityDigIconFX;
+import codechicken.lib.vec.Cuboid6;
+import codechicken.lib.vec.Vector3;
+import codechicken.microblock.ISidedHollowConnect;
+import codechicken.multipart.*;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.api.*;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartValve;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -25,24 +26,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
 
-import codechicken.lib.data.MCDataInput;
-import codechicken.lib.data.MCDataOutput;
-import codechicken.lib.raytracer.IndexedCuboid6;
-import codechicken.lib.render.EntityDigIconFX;
-import codechicken.lib.vec.Cuboid6;
-import codechicken.lib.vec.Vector3;
-import codechicken.microblock.ISidedHollowConnect;
-import codechicken.multipart.JNormalOcclusion;
-import codechicken.multipart.NormalOcclusionTest;
-import codechicken.multipart.NormallyOccludedPart;
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TSlottedPart;
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclusion, ISidedHollowConnect, IHydraulicTransporter, ICustomNetwork,
@@ -55,6 +43,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     public static Cuboid6 boundingBoxEW;
     public static Cuboid6 boundingBoxUD;
     private static int expandBounds = -1;
+	private static float pixel = 1.0F / 16F;
 
     private IBaseClass baseHandler;
     private boolean needToCheckNeighbors;
@@ -79,7 +68,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     static {
     	float center = 0.5F;
 
-        float width = 0.2F;
+        float width = pixel*4;
         float min = (center - width);
 		float max = (center + width);
         boundingBoxNS = new Cuboid6(min, min, 0.0F, max, max, 1.0F);

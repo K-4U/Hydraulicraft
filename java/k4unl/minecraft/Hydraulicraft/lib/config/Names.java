@@ -34,8 +34,8 @@ public class Names {
     public static final Name[] blockElectricPump = { new Name("LP MJ Pump", "LPElectricPump"), new Name("MP MJ Pump", "MPElectricPump"),
       new Name("HP MJ Pump", "HPElectricPump") };
 
-    public static final Name[] blockHydraulicHarvester = { new Name("Harvester", "hydraulicHarvesterSource"),
-      new Name("Harvester frame", "hydraulicHarvesterFrame") };
+    public static final Name blockHydraulicHarvester = new Name("Harvester", "hydraulicHarvesterSource");
+    public static final Name blockHarvesterFrame = new Name("Harvester frame", "hydraulicHarvesterFrame");
 	
 	/*public static final Name[] blockHarvesterTrolley = {
 		new Name("Wheat Harvester", "wheatHarvester"),
