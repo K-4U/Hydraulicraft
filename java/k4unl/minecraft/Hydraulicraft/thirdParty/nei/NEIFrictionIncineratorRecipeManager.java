@@ -1,13 +1,29 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
 
-public class NEIFrictionIncineratorRecipeManager /*extends ShapedRecipeHandler*/{
-    /*private ShapedRecipeHandler.CachedShapedRecipe getShape(Map.Entry<List<Integer>, ItemStack> recipe) {
+import codechicken.nei.NEIClientUtils;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.ShapedRecipeHandler;
+import k4unl.minecraft.Hydraulicraft.client.GUI.GuiIncinerator;
+import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+
+import java.awt.*;
+import java.util.Map;
+
+public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler {
+    private ShapedRecipeHandler.CachedShapedRecipe getShape(Map.Entry<ItemStack, ItemStack> recipe) {
         ShapedRecipeHandler.CachedShapedRecipe shape = new
                 ShapedRecipeHandler.CachedShapedRecipe(0, 0, null, recipe.getValue());
 
 
-        PositionedStack stack = new PositionedStack(new ItemStack(recipe.getKey().get(0), 1, recipe.getKey().get(1)), 35, 8);
+        PositionedStack stack = new PositionedStack(recipe.getKey(), 35, 8);
         stack.setMaxSize(2);
         shape.ingredients.add(stack);
         shape.result.relx = 113;
@@ -18,9 +34,9 @@ public class NEIFrictionIncineratorRecipeManager /*extends ShapedRecipeHandler*/
     @Override
     public void loadCraftingRecipes(ItemStack result) {
     	//Input, output
-    	Map<List<Integer>, ItemStack> recipes = FurnaceRecipes.smelting().getMetaSmeltingList(); 
+    	Map<ItemStack, ItemStack> recipes = FurnaceRecipes.smelting().getSmeltingList();
     	
-        for(Map.Entry<List<Integer>, ItemStack> recipe: recipes.entrySet()) {
+        for(Map.Entry<ItemStack, ItemStack> recipe: recipes.entrySet()) {
             if(NEIClientUtils.areStacksSameTypeCrafting(recipe.getValue(), result)) {
                 this.arecipes.add(getShape(recipe));
             }
@@ -50,11 +66,10 @@ public class NEIFrictionIncineratorRecipeManager /*extends ShapedRecipeHandler*/
 
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-    	Map<List<Integer>, ItemStack> recipes = FurnaceRecipes.smelting().getMetaSmeltingList(); 
+    	Map<ItemStack, ItemStack> recipes = FurnaceRecipes.smelting().getSmeltingList();
     	
-        for(Map.Entry<List<Integer>, ItemStack> recipe: recipes.entrySet()) {
-        	ItemStack src = new ItemStack(recipe.getKey().get(0), 1, recipe.getKey().get(1));
-            if(NEIClientUtils.areStacksSameTypeCrafting(src, ingredient)) {
+        for(Map.Entry<ItemStack, ItemStack> recipe: recipes.entrySet()) {
+            if(NEIClientUtils.areStacksSameTypeCrafting(recipe.getKey(), ingredient)) {
                 this.arecipes.add(getShape(recipe));
                 break;
             }
@@ -65,9 +80,9 @@ public class NEIFrictionIncineratorRecipeManager /*extends ShapedRecipeHandler*/
     public void loadCraftingRecipes(String outputId, Object... results) {
         if(outputId.equals("incinerator") && getClass() ==
                 NEIFrictionIncineratorRecipeManager.class) {
-        	Map<List<Integer>, ItemStack> recipes = FurnaceRecipes.smelting().getMetaSmeltingList(); 
+        	Map<ItemStack, ItemStack> recipes = FurnaceRecipes.smelting().getSmeltingList();
         	
-            for(Map.Entry<List<Integer>, ItemStack> recipe: recipes.entrySet()) {
+            for(Map.Entry<ItemStack, ItemStack> recipe: recipes.entrySet()) {
             	this.arecipes.add(getShape(recipe));
             }
         }
@@ -97,5 +112,5 @@ public class NEIFrictionIncineratorRecipeManager /*extends ShapedRecipeHandler*/
         //TODO decide whether one should have a wobbling effect or not (the last parameter)
         IconRenderer.drawMergedIcon(xPos, 8, 0, smeltingItem, targetItem, percentage, smeltingItem.stackSize % 2 == 0);
 		//drawProgressBar(80, 21, 207, 0, 34, 19, 48, 2 | (1 << 3));
-    }*/
+    }
 }

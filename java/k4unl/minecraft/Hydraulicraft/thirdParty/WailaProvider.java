@@ -1,24 +1,20 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.IWailaRegistrar;
-import mcp.mobius.waila.api.SpecialChars;
+import mcp.mobius.waila.api.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import codechicken.multipart.TileMultipart;
+
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class WailaProvider implements IWailaDataProvider {
 
@@ -89,10 +85,10 @@ public class WailaProvider implements IWailaDataProvider {
 	}
 	
 	public static void callbackRegister(IWailaRegistrar registrar){
-		/*registrar.registerHeadProvider(new WailaProvider(), IHydraulicMachine.class);
+		registrar.registerHeadProvider(new WailaProvider(), IHydraulicMachine.class);
 		registrar.registerBodyProvider(new WailaProvider(), IHydraulicMachine.class);
 		registrar.registerTailProvider(new WailaProvider(), IHydraulicMachine.class);
-		registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);*/
+		registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
 		
 		//registrar.registerBodyProvider(new WailaProvider(), Ids.blockHydraulicPump.act);
 	}

@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.thirdParty.bluepower.BluePower;
@@ -25,7 +26,7 @@ public class ThirdPartyManager{
     }
 
     public void preInit(){
-        //FMLInterModComms.sendMessage("Waila", "register", "k4unl.minecraft.Hydraulicraft.thirdParty.WailaProvider.callbackRegister");
+        FMLInterModComms.sendMessage("Waila", "register", "k4unl.minecraft.Hydraulicraft.thirdParty.WailaProvider.callbackRegister");
         
         Map<String, Class<? extends IThirdParty>> thirdPartyClasses = new HashMap<String, Class<? extends IThirdParty>>();
         thirdPartyClasses.put("ExtraUtilities", ExtraUtilities.class);
