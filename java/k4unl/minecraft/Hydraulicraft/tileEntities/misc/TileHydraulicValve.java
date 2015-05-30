@@ -4,16 +4,19 @@ import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IConnectTexture;
 import k4unl.minecraft.k4lib.lib.Location;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicMachine {
+public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicMachine, IConnectTexture {
 	private int targetX;
 	private int targetY;
 	private int targetZ;
@@ -211,5 +214,15 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 	
 	private TileEntity getBlockTileEntity(Location l) {
 		return worldObj.getTileEntity(l.getX(), l.getY(), l.getZ());
+	}
+
+	@Override
+	public boolean connectTexture() {
+		return getTarget() != null;
+	}
+
+	@Override
+	public boolean connectTextureTo(Block type) {
+		return connectTexture() && (type instanceof BlockHydraulicPressureWall || type instanceof BlockInterfaceValve);
 	}
 }

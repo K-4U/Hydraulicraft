@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.k4lib.lib.Functions;
 import mcp.mobius.waila.api.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -73,7 +74,9 @@ public class WailaProvider implements IWailaDataProvider {
 				int maxEU = ((TileElectricPump)mEnt).getMaxEUStorage();
 				values.put("EU", storedEU + "/" + maxEU);
 			}
-			values.put("C", ((TileHydraulicBase)mEnt.getHandler()).getBlockLocation().printLocation());
+			if(Functions.isInDev()) {
+				values.put("C", ((TileHydraulicBase) mEnt.getHandler()).getBlockLocation().printLocation());
+			}
 			
 			//Put it up there.
 			for(Map.Entry<String, String> entry : values.entrySet()) {

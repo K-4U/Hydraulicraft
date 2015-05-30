@@ -3,10 +3,13 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
+import k4unl.minecraft.Hydraulicraft.blocks.transporter.BlockHydraulicPressureValve;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IConnectTexture;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -25,7 +28,7 @@ import net.minecraftforge.fluids.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISidedInventory, IFluidHandler {
+public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISidedInventory, IFluidHandler, IConnectTexture {
     private int targetX;
     private int targetY;
     private int targetZ;
@@ -651,7 +654,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             if(rotated.offsetZ == -1){
                 minZ = new Location(otherSide, rotated, size-1).getZ();
             }
-            Log.info("X-: " + minX + " X+:" + maxX + " Y-: " + minY + " Y+:" + maxY + " Z-: " + minZ + " Z+:" + maxZ);
+            //Log.info("X-: " + minX + " X+:" + maxX + " Y-: " + minY + " Y+:" + maxY + " Z-: " + minZ + " Z+:" + maxZ);
 
             List<Location> airBlocks = new ArrayList<Location>();
             List<Location> valveBlocks = new ArrayList<Location>();
@@ -780,5 +783,23 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
         }
         return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
     }
+
+	@Override
+	public boolean connectTexture() {
+		if(isValidTank())
+			return true;
+		if(getFluidTarget() != null)
+			return true;
+		if(getInventoryTarget() != null)
+			return true;
+		if(getTarget() != null)
+			return true;
+		return false;
+	}
+
+	@Override
+	public boolean connectTextureTo(Block type) {
+		return connectTexture() && ( type instanceof BlockHydraulicPressureWall || type instanceof BlockHydraulicPressureValve);
+	}
 }
 

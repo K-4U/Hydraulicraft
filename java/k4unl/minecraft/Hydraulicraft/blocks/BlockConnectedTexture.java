@@ -4,8 +4,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IConnectTexture;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
@@ -33,6 +35,20 @@ public class BlockConnectedTexture extends HydraulicBlockBase {
         return icons[0];
     }
 
+    @SideOnly(Side.CLIENT)
+    public boolean connectTo(IBlockAccess world, int x, int y, int z){
+        if(world.getBlock(x, y, z) == this){
+            return true;
+        }
+        TileEntity te = world.getTileEntity(x, y, z);
+        if(te != null){
+            if(te instanceof IConnectTexture){
+                return ((IConnectTexture)te).connectTexture();
+            }
+        }
+        return false;
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
@@ -40,34 +56,34 @@ public class BlockConnectedTexture extends HydraulicBlockBase {
         boolean[] bitMatrix = new boolean[8];
 
         if (side == 0 || side == 1) {
-            bitMatrix[0] = world.getBlock(x - 1, y, z - 1) == this;
-            bitMatrix[1] = world.getBlock(x, y, z - 1) == this;
-            bitMatrix[2] = world.getBlock(x + 1, y, z - 1) == this;
-            bitMatrix[3] = world.getBlock(x - 1, y, z) == this;
-            bitMatrix[4] = world.getBlock(x + 1, y, z) == this;
-            bitMatrix[5] = world.getBlock(x - 1, y, z + 1) == this;
-            bitMatrix[6] = world.getBlock(x, y, z + 1) == this;
-            bitMatrix[7] = world.getBlock(x + 1, y, z + 1) == this;
+            bitMatrix[0] = connectTo(world, x - 1, y, z - 1);
+            bitMatrix[1] = connectTo(world, x, y, z - 1);
+            bitMatrix[2] = connectTo(world, x + 1, y, z - 1);
+            bitMatrix[3] = connectTo(world, x - 1, y, z);
+            bitMatrix[4] = connectTo(world, x + 1, y, z);
+            bitMatrix[5] = connectTo(world, x - 1, y, z + 1);
+            bitMatrix[6] = connectTo(world, x, y, z + 1);
+            bitMatrix[7] = connectTo(world, x + 1, y, z + 1);
         }
         if (side == 2 || side == 3) {
-            bitMatrix[0] = world.getBlock(x + (side == 2 ? 1 : -1), y + 1, z) == this;
-            bitMatrix[1] = world.getBlock(x, y + 1, z) == this;
-            bitMatrix[2] = world.getBlock(x + (side == 3 ? 1 : -1), y + 1, z) == this;
-            bitMatrix[3] = world.getBlock(x + (side == 2 ? 1 : -1), y, z) == this;
-            bitMatrix[4] = world.getBlock(x + (side == 3 ? 1 : -1), y, z) == this;
-            bitMatrix[5] = world.getBlock(x + (side == 2 ? 1 : -1), y - 1, z) == this;
-            bitMatrix[6] = world.getBlock(x, y - 1, z) == this;
-            bitMatrix[7] = world.getBlock(x + (side == 3 ? 1 : -1), y - 1, z) == this;
+            bitMatrix[0] = connectTo(world, x + (side == 2 ? 1 : -1), y + 1, z);
+            bitMatrix[1] = connectTo(world, x, y + 1, z);
+            bitMatrix[2] = connectTo(world, x + (side == 3 ? 1 : -1), y + 1, z);
+            bitMatrix[3] = connectTo(world, x + (side == 2 ? 1 : -1), y, z);
+            bitMatrix[4] = connectTo(world, x + (side == 3 ? 1 : -1), y, z);
+            bitMatrix[5] = connectTo(world, x + (side == 2 ? 1 : -1), y - 1, z);
+            bitMatrix[6] = connectTo(world, x, y - 1, z);
+            bitMatrix[7] = connectTo(world, x + (side == 3 ? 1 : -1), y - 1, z);
         }
         if (side == 4 || side == 5) {
-            bitMatrix[0] = world.getBlock(x, y + 1, z + (side == 5 ? 1 : -1)) == this;
-            bitMatrix[1] = world.getBlock(x, y + 1, z) == this;
-            bitMatrix[2] = world.getBlock(x, y + 1, z + (side == 4 ? 1 : -1)) == this;
-            bitMatrix[3] = world.getBlock(x, y, z + (side == 5 ? 1 : -1)) == this;
-            bitMatrix[4] = world.getBlock(x, y, z + (side == 4 ? 1 : -1)) == this;
-            bitMatrix[5] = world.getBlock(x, y - 1, z + (side == 5 ? 1 : -1)) == this;
-            bitMatrix[6] = world.getBlock(x, y - 1, z) == this;
-            bitMatrix[7] = world.getBlock(x, y - 1, z + (side == 4 ? 1 : -1)) == this;
+            bitMatrix[0] = connectTo(world, x, y + 1, z + (side == 5 ? 1 : -1));
+            bitMatrix[1] = connectTo(world, x, y + 1, z);
+            bitMatrix[2] = connectTo(world, x, y + 1, z + (side == 4 ? 1 : -1));
+            bitMatrix[3] = connectTo(world, x, y, z + (side == 5 ? 1 : -1));
+            bitMatrix[4] = connectTo(world, x, y, z + (side == 4 ? 1 : -1));
+            bitMatrix[5] = connectTo(world, x, y - 1, z + (side == 5 ? 1 : -1));
+            bitMatrix[6] = connectTo(world, x, y - 1, z);
+            bitMatrix[7] = connectTo(world, x, y - 1, z + (side == 4 ? 1 : -1));
         }
 
         int idBuilder = 0;

@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.blocks.misc;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.BlockConnectedTextureContainer;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-public class BlockInterfaceValve extends HydraulicBlockContainerBase {
+public class BlockInterfaceValve extends BlockConnectedTextureContainer {
 
 	public BlockInterfaceValve() {
 		super(Names.blockInterfaceValve);
@@ -35,7 +35,7 @@ public class BlockInterfaceValve extends HydraulicBlockContainerBase {
 				ForgeDirection s = ForgeDirection.getOrientation(side);
 				valve.checkTank(s);
 			}else{
-				player.addChatComponentMessage(new ChatComponentText("In this tank: "));
+				//player.addChatComponentMessage(new ChatComponentText("In this tank: "));
 				FluidTankInfo tankInfo = valve.getTankInfo(ForgeDirection.UP)[0];
 				if(tankInfo != null) {
 					if(tankInfo.fluid == null){

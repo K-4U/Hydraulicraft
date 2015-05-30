@@ -16,6 +16,8 @@ public class BlockHydraulicFrictionIncinerator extends HydraulicBlockContainerBa
 	public BlockHydraulicFrictionIncinerator() {
 		super(Names.blockHydraulicFrictionIncinerator);
 		this.hasFrontIcon = true;
+		this.hasTopIcon = true;
+		this.hasBottomIcon = true;
 	}
 
 	@Override

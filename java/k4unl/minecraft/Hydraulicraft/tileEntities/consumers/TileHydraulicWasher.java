@@ -15,6 +15,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IConnectTexture;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import net.minecraft.block.Block;
@@ -31,7 +32,7 @@ import java.util.List;
 import java.util.Random;
 
 public class TileHydraulicWasher extends TileHydraulicBase implements
-		ISidedInventory, IFluidHandler, IHydraulicConsumer, IHydraulicMultiBlock {
+		ISidedInventory, IFluidHandler, IHydraulicConsumer, IHydraulicMultiBlock, IConnectTexture {
     private ItemStack inputInventory;
     private ItemStack washingItem;
     private ItemStack targetItem;
@@ -716,4 +717,14 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
         this.pressureTier = pressureTier;
     }
+
+	@Override
+	public boolean connectTexture() {
+		return getIsValidMultiblock();
+	}
+
+	@Override
+	public boolean connectTextureTo(Block type) {
+		return type instanceof BlockInterfaceValve;
+	}
 }
