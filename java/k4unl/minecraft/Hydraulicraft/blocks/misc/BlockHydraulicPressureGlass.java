@@ -1,16 +1,16 @@
 package k4unl.minecraft.Hydraulicraft.blocks.misc;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.blocks.BlockConnectedTexture;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.Facing;
 import net.minecraft.world.IBlockAccess;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockHydraulicPressureGlass extends HydraulicBlockBase {
+public class BlockHydraulicPressureGlass extends BlockConnectedTexture {
 
 	public BlockHydraulicPressureGlass() {
 		super(Names.blockHydraulicPressureGlass, Material.glass);

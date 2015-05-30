@@ -19,7 +19,7 @@ public class HydraulicBlockBase extends Block {
 	private IIcon bottomIcon;
 	private IIcon frontIcon;
 	
-	private Name mName;
+	protected Name mName;
 	
 	protected boolean hasBottomIcon = false;
 	protected boolean hasTopIcon = false;
