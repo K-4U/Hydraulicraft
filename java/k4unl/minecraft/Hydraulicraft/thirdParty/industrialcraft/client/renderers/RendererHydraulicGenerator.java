@@ -94,7 +94,7 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 		//Do rendering
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		drawFluidContainers();
-		drawHydraulicsTank(t, false);
+		//drawHydraulicsTank(t, false);
 		drawBase();
 		
 		//GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -107,15 +107,15 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 	private void drawBase(){
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		float insetFirst = 0.09375F;
-		float baseHeight = 0.1953125F;
+		float insetFirst = RenderHelper.pixel*2;
+		float baseHeight = RenderHelper.pixel*3;
 		
-		float tXI = 244.0F/256.0F;
+		float tXI = RenderHelper.renderPixel * 30;
 		float tXO = 1.0F;
 		float tYIT = 0.0F;
-		float tYIB = 100.0F/256.0F;
-		float tYTB = 229.0F/256.0F;
-		float tYFT = 239.0F/256.0F;
+		float tYIB = RenderHelper.renderPixel * 13;
+		float tYTB = RenderHelper.renderPixel * 30;
+		float tYFT = RenderHelper.renderPixel * 29;
 		
 		Vector3fMax vector = new Vector3fMax(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		//Top side:
@@ -155,10 +155,10 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 		GL11.glBegin(GL11.GL_QUADS);
 		//Draw north side
 		//Upper bit
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin()+insetFirst, 0.5F, tYTB);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin()+insetFirst, 1.0F, tYTB);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin()+baseHeight, vector.getZMin()+insetFirst, 1.0F, 0.5F);
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin()+baseHeight, vector.getZMin()+insetFirst, 0.5F, 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin()+insetFirst, 0.5F, 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin()+insetFirst, 1.0F, 0.5F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin()+insetFirst, 1.0F, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin()+insetFirst, 0.5F, 1.0F);
 		
 		//Lower top bit
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin()+baseHeight, vector.getZMin()+insetFirst, 0.0F, tYFT);
@@ -184,20 +184,18 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 	
 	private void drawFluidContainers(){
 		GL11.glBegin(GL11.GL_QUADS);
-		float containerWidth = 21.0F/128.0F;
-		float containerSpacing = 16.0F/ 128.0F;
-		float containerHeight = 76.0F/128.0F;
-		float containerBegin = 34.0F/128.0F;
+		float containerHeight = RenderHelper.pixel * 10;
+		float containerBegin = RenderHelper.pixel * 4;
 		float containerEnd = containerHeight + containerBegin;
-		float containerDepthBegin = 0.09375F;
-		float containerDepthEnd = containerDepthBegin + 0.04F;
-		Vector3fMax vector = new Vector3fMax(containerSpacing, containerBegin, containerDepthBegin, containerWidth + containerSpacing, containerEnd, containerDepthEnd);
+		float containerDepthBegin = RenderHelper.pixel * 2;
+		float containerDepthEnd = containerDepthBegin + RenderHelper.pixel*2;
+		Vector3fMax vector = new Vector3fMax(RenderHelper.pixel*2, containerBegin, containerDepthBegin, RenderHelper.pixel*5, containerEnd, containerDepthEnd);
 		drawFluidContainer(vector);
-		
-		vector = new Vector3fMax((containerSpacing*2)+containerWidth, containerBegin, containerDepthBegin, (containerWidth + containerSpacing)*2, containerEnd, containerDepthEnd);
+
+		vector = new Vector3fMax(RenderHelper.pixel*6, containerBegin, containerDepthBegin, RenderHelper.pixel*10, containerEnd, containerDepthEnd);
 		drawFluidContainer(vector);
-		
-		vector = new Vector3fMax((containerSpacing*3)+(containerWidth*2), containerBegin, containerDepthBegin, (containerWidth + containerSpacing)*3, containerEnd, containerDepthEnd);
+
+		vector = new Vector3fMax(RenderHelper.pixel*11, containerBegin, containerDepthBegin, RenderHelper.pixel*14, containerEnd, containerDepthEnd);
 		drawFluidContainer(vector);
 		
 		GL11.glEnd();
@@ -256,11 +254,6 @@ public class RendererHydraulicGenerator extends TileEntitySpecialRenderer  {
 		
 			IIcon fluidIcon;
 			if(t.getHandler().isOilStored()){
-				//RenderHelper.setARGBFromHex(Constants.COLOR_OIL + 0xFE000000);
-				/*float a = 0.7F;
-		        float r = (float)(Constants.COLOR_OIL >> 16 & 255) / 255.0F;
-		        float g = (float)(Constants.COLOR_OIL >> 8 & 255) / 255.0F;
-		        float b = (float)(Constants.COLOR_OIL & 255) / 255.0F;*/
 		        fluidIcon = Fluids.fluidHydraulicOil.getIcon();
 			}else{
 				fluidIcon = FluidRegistry.WATER.getIcon();

@@ -119,7 +119,7 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 		float sideXb = 0.125F;
 		float sideXe = 0.25F;
 		
-		Vector3fMax vector = new Vector3fMax(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);
+		Vector3fMax vector = new Vector3fMax(0.0F, 0.0F, 0.0F, 1.0F, RenderHelper.pixel*4, 1.0F);
 		//Top side:
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 0.0F, 0.0F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), 0.5F, 0.0F);		
@@ -156,7 +156,7 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), sideXe, 1.0F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), sideXe, 0.5F);
 		
-		vector = new Vector3fMax(0.0F, 0.5F, 0.0F, 1.0F, 0.75F, 1.0F);
+		vector = new Vector3fMax(0.0F, 0.5F, 0.0F, 1.0F, 0.5F+RenderHelper.pixel*4, 1.0F);
 		//Top side:
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 0.0F, 0.0F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), 0.5F, 0.0F);		
@@ -196,13 +196,13 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 	
 	private static void drawAxle(){
 		float c = 0.5F;
-		float w = 0.5F;
+		float w = RenderHelper.pixel*8;
 		float b = c - (w/2);
 		float e = c + (w/2);
-		float xTopb = 179.0F/256.0F;
-		float xTope = 230.0F/256.0F;
-		float yTope = 51.0F/256.0F; 
-		float ySidee = 96.0F/256.0F;
+		float xTopb = RenderHelper.renderPixel*24;
+		float xTope = RenderHelper.renderPixel*32;
+		float yTope = RenderHelper.renderPixel*8;
+		float ySidee = RenderHelper.renderPixel*12;
 		
 		Vector3fMax vector = new Vector3fMax(b, 0.25F, b, e, 1.0F, e);
 		//Top side:
@@ -237,11 +237,16 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 	}
 	
 	private void drawMovingPart(float p){
-		float b = 0.25F;
-		float w = 0.25F;
+		float c = 0.5F;
+		float base = RenderHelper.pixel*4;
+		float w = RenderHelper.pixel*4;
+
+		float width = RenderHelper.pixel*14;
+		float b = -(width/2);
+		float e = (width/2);
 		
 		float sideXb = 0.0F;
-		float sideXe = 0.125F;
+		float sideXe = RenderHelper.renderPixel*4;
 		
 		//Let's see if we can do this..
 		GL11.glTranslatef(0.5F, 0.0F, 0.5F);
@@ -249,7 +254,7 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 		
 		
 		GL11.glBegin(GL11.GL_QUADS);
-		Vector3fMax vector = new Vector3fMax(-0.36F, b, -0.36F, 0.36F, b+w, 0.36F);
+		Vector3fMax vector = new Vector3fMax(b, base, b, e, base+w, e);
 		//Top side:
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), 0.25F, 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), 0.75F, 0.5F);		
@@ -263,27 +268,27 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), 0.25F, 1.0F);
 
 		//Draw west side:
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), sideXe, 1.0F);
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), sideXb, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), sideXe, RenderHelper.renderPixel*30);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), sideXb, RenderHelper.renderPixel*30);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), sideXb, 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), sideXe, 0.5F);
 		
 		//Draw east side:
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), sideXe, 1.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), sideXb, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), sideXe, RenderHelper.renderPixel*30);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), sideXb, RenderHelper.renderPixel*30);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), sideXb, 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), sideXe, 0.5F);
 		
 		//Draw north side
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), sideXe, 1.0F); 
-		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), sideXb, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), sideXe, RenderHelper.renderPixel*30);
+		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), sideXb, RenderHelper.renderPixel*30);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), sideXb, 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), sideXe, 0.5F);
 
 		//Draw south side
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), sideXb, 0.5F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), sideXb, 1.0F);
-		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), sideXe, 1.0F);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), sideXb, RenderHelper.renderPixel*30);
+		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), sideXe, RenderHelper.renderPixel*30);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), sideXe, 0.5F);
 		
 		GL11.glEnd();
