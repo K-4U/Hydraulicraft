@@ -1,16 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockAssembler;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicPiston;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicCharger;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicMixer;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockHydraulicFluidPump;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockMovingPane;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.BlockPressureDisposal;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.*;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicFrictionIncinerator;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicWasher;
@@ -19,12 +16,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalBase;
 import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalFrame;
 import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalTeleporter;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerCoreBlock;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerLavaPump;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPressureVat;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerPump;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerTrolley;
+import k4unl.minecraft.Hydraulicraft.blocks.handlers.*;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.*;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -35,7 +27,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleySuga
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.oredict.OreDictionary;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class HCBlocks {
 	
@@ -141,58 +132,51 @@ public class HCBlocks {
 	 * Registers the blocks to the GameRegistry
 	 */
 	public static void registerBlocks(){
-		GameRegistry.registerBlock(hydraulicMixer, HandlerHydraulicBlock.class, Names.blockHydraulicMixer.unlocalized);
 		GameRegistry.registerBlock(hydraulicFrictionIncinerator, HandlerHydraulicBlock.class, Names.blockHydraulicFrictionIncinerator.unlocalized);
 		GameRegistry.registerBlock(hydraulicCrusher, HandlerHydraulicBlock.class, Names.blockHydraulicCrusher.unlocalized);
-		//GameRegistry.registerBlock(hydraulicPressureGauge, Names.blockHydraulicPressureGauge.unlocalized);
-		//GameRegistry.registerBlock(hydraulicPressureValve, Names.blockHydraulicPressureValve.unlocalized);
-		GameRegistry.registerBlock(hydraulicPiston, HandlerHydraulicBlock.class, Names.blockHydraulicPiston.unlocalized);
 		GameRegistry.registerBlock(hydraulicWasher, HandlerHydraulicBlock.class, Names.blockHydraulicWasher.unlocalized);
+
 		GameRegistry.registerBlock(hydraulicPressureWall, ItemBlock.class, Names.blockHydraulicPressureWall.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureGlass, ItemBlock.class, Names.blockHydraulicPressureGlass.unlocalized);
-		
-		GameRegistry.registerBlock(pressureDisposal, HandlerHydraulicBlock.class, Names.blockPressureDisposal.unlocalized);
+		GameRegistry.registerBlock(hydraulicMixer, HandlerHydraulicBlock.class, Names.blockHydraulicMixer.unlocalized);
+
 		GameRegistry.registerBlock(blockValve, HandlerHydraulicBlock.class, Names.blockValve.unlocalized);
 		GameRegistry.registerBlock(blockInterfaceValve, HandlerHydraulicBlock.class, Names.blockInterfaceValve.unlocalized);
-		GameRegistry.registerBlock(blockInfiniteSource, HandlerHydraulicBlock.class, Names.blockInfiniteSource.unlocalized);
 		GameRegistry.registerBlock(movingPane, HandlerHydraulicBlock.class, Names.blockMovingPane.unlocalized);
-		
-		//GameRegistry.registerBlock(blockHose, HandlerHose.class, Names.partHose[0].unlocalized, ModInfo.ID);
-		
-		
+
 		GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicPump, HandlerPump.class, Names.blockHydraulicPump[0].unlocalized);
 		GameRegistry.registerBlock(hydraulicLavaPump, HandlerLavaPump.class, Names.blockHydraulicLavaPump[0].unlocalized);
 		
 		GameRegistry.registerBlock(hydraulicHarvesterSource, HandlerHydraulicBlock.class, Names.blockHydraulicHarvester.unlocalized);
 		GameRegistry.registerBlock(hydraulicHarvesterFrame, HandlerHydraulicBlock.class, Names.blockHarvesterFrame.unlocalized);
+		GameRegistry.registerBlock(harvesterTrolley, HandlerTrolley.class, Names.blockHarvesterTrolley.unlocalized);
+		GameRegistry.registerBlock(hydraulicPiston, HandlerHydraulicBlock.class, Names.blockHydraulicPiston.unlocalized);
 
 		GameRegistry.registerBlock(blockCore, HandlerCoreBlock.class, Names.blockCore[0].unlocalized);
-	
-		GameRegistry.registerBlock(blockLight, HandlerHydraulicBlock.class, Names.blockLight.unlocalized);
-		GameRegistry.registerBlock(blockHydraulicFluidPump, HandlerHydraulicBlock.class, Names.blockHydraulicFluidPump.unlocalized);
-		
-		GameRegistry.registerBlock(blockCopper, ItemBlock.class, Names.blockCopper.unlocalized);
-		GameRegistry.registerBlock(blockLead, ItemBlock.class, Names.blockLead.unlocalized);
-		
-		GameRegistry.registerBlock(harvesterTrolley, HandlerTrolley.class, Names.blockHarvesterTrolley.unlocalized);
-		GameRegistry.registerBlock(blockCharger, HandlerHydraulicBlock.class, Names.blockHydraulicCharger.unlocalized);
 
-        GameRegistry.registerBlock(blockChunkLoader, HandlerHydraulicBlock.class,
-                Names.blockChunkLoader.unlocalized);
+		GameRegistry.registerBlock(blockHydraulicFluidPump, HandlerHydraulicBlock.class, Names.blockHydraulicFluidPump.unlocalized);
 
 		GameRegistry.registerBlock(portalBase, HandlerHydraulicBlock.class, Names.portalBase.unlocalized);
 		GameRegistry.registerBlock(portalFrame, HandlerHydraulicBlock.class, Names.portalFrame.unlocalized);
-		GameRegistry.registerBlock(portalTeleporter, HandlerHydraulicBlock.class, Names.portalTeleporter.unlocalized);
-
 
 		GameRegistry.registerBlock(blockJarDirt, HandlerHydraulicBlock.class, Names.blockJarDirt.unlocalized);
 
+		GameRegistry.registerBlock(blockCharger, HandlerHydraulicBlock.class, Names.blockHydraulicCharger.unlocalized);
         GameRegistry.registerBlock(blockAssembler, HandlerHydraulicBlock.class, Names.blockHydraulicAssembler.unlocalized);
 
+
+		GameRegistry.registerBlock(blockCopper, ItemBlock.class, Names.blockCopper.unlocalized);
+		GameRegistry.registerBlock(blockLead, ItemBlock.class, Names.blockLead.unlocalized);
 		OreDictionary.registerOre(Names.blockCopper.unlocalized, blockCopper);
 		OreDictionary.registerOre(Names.blockLead.unlocalized, blockLead);
 
+
+		GameRegistry.registerBlock(blockLight, HandlerHydraulicBlock.class, Names.blockLight.unlocalized);
+		GameRegistry.registerBlock(pressureDisposal, HandlerHydraulicBlock.class, Names.blockPressureDisposal.unlocalized);
+		GameRegistry.registerBlock(blockInfiniteSource, HandlerHydraulicBlock.class, Names.blockInfiniteSource.unlocalized);
+		GameRegistry.registerBlock(blockChunkLoader, HandlerHydraulicBlock.class, Names.blockChunkLoader.unlocalized);
+		GameRegistry.registerBlock(portalTeleporter, HandlerHydraulicBlock.class, Names.portalTeleporter.unlocalized);
 
 	}
 }
