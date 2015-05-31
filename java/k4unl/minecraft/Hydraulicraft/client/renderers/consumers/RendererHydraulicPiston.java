@@ -128,7 +128,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 	public static void drawPistonHead(TileHydraulicPiston tileentity){
 		float half = 1.0F - RenderHelper.pixel * 2;
 		float startCoord = half;
-		float textureWidth = ((1.0F / 32.0F)*2);
+		float textureWidth = RenderHelper.renderPixel;
 		
 		if(tileentity != null){
 			if(tileentity.getIsHarvesterPart()){
@@ -137,7 +137,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 			startCoord += tileentity.getExtendedLength();
 		}
 		
-		
+
 		float headThickness = RenderHelper.pixel * 2;
 		float endCoord = startCoord + headThickness;
 		//Draw TOP side.

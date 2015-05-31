@@ -33,8 +33,8 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
         renderedItem.hoverStart = 0.0F;
 	}
 	
-	private final float baseWidth_ = 0.1F;
-	private final float beginTop_ = 0.9F;
+	private final float baseWidth_ = RenderHelper.pixel*3;
+	private final float beginTop_ = 1.0F - RenderHelper.pixel;
 	private final float endTop = beginTop_ + baseWidth_;
 	private final float xOffset = 0F;
 	private final float zOffset = 0F;
@@ -104,7 +104,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 	}
 	
 	void drawWheel(float centerX, float centerY, float centerZ){
-		float radius = 0.05F;
+		float radius = RenderHelper.pixel;
 		
 		float textureWidth = 74F / 256F / 2;
 		float textureXCenter = 153F / 256F + textureWidth;
@@ -126,14 +126,15 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 	
 
 	private void drawBase(TileHarvesterTrolley tileentity){
-		float width = 0.45F;
-		float length = 0.45F;
+		float width = RenderHelper.pixel*6;
+		float length = RenderHelper.pixel*7;
 		
-		float beginCoord = 1.28F;
+		float beginCoord = 1.0F+ RenderHelper.pixel*4;
 		float endCoord = length + beginCoord;
 		float centerCoord = 0.5F;
 		float beginCenter = centerCoord - width/2;
 		float endCenter = 1F - beginCenter;
+
 		GL11.glPushMatrix();
 		//GL11.glDisable(GL11.GL_TEXTURE_2D);
 		drawWheel(beginCenter, beginCoord+0.055F, beginCenter+0.045F);
@@ -147,48 +148,49 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		
 		//Draw TOP side.
 		GL11.glBegin(GL11.GL_QUADS);
-		RenderHelper.vertexWithTexture(beginCenter, endCoord, endCenter, 0.5F, 0.5F); //BR
-		RenderHelper.vertexWithTexture(endCenter, endCoord, endCenter, 0.5F, 0.0F); //TR
-		RenderHelper.vertexWithTexture(endCenter, endCoord, beginCenter, 0.0F, 0.0F); //TL
-		RenderHelper.vertexWithTexture(beginCenter, endCoord, beginCenter, 0.0F, 0.5F); //BL
-		
+		RenderHelper.vertexWithTexture(beginCenter, endCoord, endCenter, RenderHelper.renderPixel*12, RenderHelper.renderPixel*6); //BR
+		RenderHelper.vertexWithTexture(endCenter, endCoord, endCenter, RenderHelper.renderPixel*12, 0.0F); //TR
+		RenderHelper.vertexWithTexture(endCenter, endCoord, beginCenter, RenderHelper.renderPixel*6, 0.0F); //TL
+		RenderHelper.vertexWithTexture(beginCenter, endCoord, beginCenter, RenderHelper.renderPixel*6, RenderHelper.renderPixel*6); //BL
+
 		//Draw bottom side
-		RenderHelper.vertexWithTexture(endCenter, beginCoord, endCenter, 1.0F, 0.5F); //TR
-		RenderHelper.vertexWithTexture(beginCenter, beginCoord, endCenter, 1.0F, 0.0F);  //BR
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, endCenter, 0.5F+RenderHelper.renderPixel*6, RenderHelper.renderPixel*6); //BR
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, endCenter, 0.5F+RenderHelper.renderPixel*6, 0.0F);  //TR
 		RenderHelper.vertexWithTexture(beginCenter, beginCoord, beginCenter, 0.5F, 0.0F); //TL
-		RenderHelper.vertexWithTexture(endCenter, beginCoord, beginCenter, 0.5F, 0.5F); //BL
-		
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, beginCenter, 0.5F, RenderHelper.renderPixel*6); //BL
+
 		
 		//Draw back side.
-		RenderHelper.vertexWithTexture(beginCenter, beginCoord, endCenter, 0.5F, 0.5F); //Bottom right corner
-		RenderHelper.vertexWithTexture(beginCenter, endCoord, endCenter, 0.5F, 0.0F);  //Top right corner
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, endCenter, RenderHelper.renderPixel*6, RenderHelper.renderPixel*7); //Bottom right corner
+		RenderHelper.vertexWithTexture(beginCenter, endCoord, endCenter, RenderHelper.renderPixel*6, 0.0F);  //Top right corner
 		RenderHelper.vertexWithTexture(beginCenter, endCoord, beginCenter, 0.0F, 0.0F);  //Top left corner
-		RenderHelper.vertexWithTexture(beginCenter, beginCoord, beginCenter, 0.0F, 0.5F); //Bottom left corner.
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, beginCenter, 0.0F, RenderHelper.renderPixel*7); //Bottom left corner.
 		
 		//Draw front side:
-		RenderHelper.vertexWithTexture(endCenter, beginCoord, beginCenter, 0.5F, 0.5F); //BR
-		RenderHelper.vertexWithTexture(endCenter, endCoord, beginCenter, 0.5F, 0.0F); //TR
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, beginCenter, RenderHelper.renderPixel*6, RenderHelper.renderPixel*7); //BR
+		RenderHelper.vertexWithTexture(endCenter, endCoord, beginCenter, RenderHelper.renderPixel*6, 0.0F); //TR
 		RenderHelper.vertexWithTexture(endCenter, endCoord, endCenter, 0.0F, 0.0F); //TL
-		RenderHelper.vertexWithTexture(endCenter, beginCoord, endCenter, 0.0F, 0.5F); //BL
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, endCenter, 0.0F, RenderHelper.renderPixel*7); //BL
 		
 		//Draw right side:
-		RenderHelper.vertexWithTexture(beginCenter, beginCoord, beginCenter, 0.5F, 0.5F); //BR
-		RenderHelper.vertexWithTexture(beginCenter, endCoord, beginCenter, 0.5F, 0.0F);  //TR
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, beginCenter, RenderHelper.renderPixel*6, RenderHelper.renderPixel*7); //BR
+		RenderHelper.vertexWithTexture(beginCenter, endCoord, beginCenter, RenderHelper.renderPixel*6, 0.0F);  //TR
 		RenderHelper.vertexWithTexture(endCenter, endCoord, beginCenter, 0.0F, 0.0F);  //TL
-		RenderHelper.vertexWithTexture(endCenter, beginCoord, beginCenter, 0.0F, 0.5F); //BL
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, beginCenter, 0.0F, RenderHelper.renderPixel*7); //BL
 		
 		//Draw left side:
-		RenderHelper.vertexWithTexture(beginCenter, beginCoord, endCenter, 0.5F, 0.5F); //BL
-		RenderHelper.vertexWithTexture(endCenter, beginCoord, endCenter, 0.5F, 0.0F); //BR
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, endCenter, RenderHelper.renderPixel*6, RenderHelper.renderPixel*7); //BL
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, endCenter, RenderHelper.renderPixel*6, 0.0F); //BR
 		RenderHelper.vertexWithTexture(endCenter, endCoord, endCenter, 0.0F, 0.0F); //TR
-		RenderHelper.vertexWithTexture(beginCenter, endCoord, endCenter, 0.0F, 0.5F); //TL
+		RenderHelper.vertexWithTexture(beginCenter, endCoord, endCenter, 0.0F, RenderHelper.renderPixel*7); //TL
+
 		GL11.glEnd();
 	}
 	
 	private void drawHead(TileHarvesterTrolley tileentity, ResourceLocation resLoc, float f){
 		GL11.glPushMatrix();
-		float fromEdge = 0.1F;
-		float sideTexture = 25.0F / 256.0F;
+		float fromEdge = RenderHelper.pixel;
+		float sideTexture = RenderHelper.renderPixel*3;
 		float otherEdge = 1.0F - fromEdge;
 		if(tileentity != null){
 		    float extendedLength = tileentity.getOldExtendedLength() + (tileentity.getExtendedLength() - tileentity.getOldExtendedLength()) * f;
@@ -197,41 +199,41 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		//Facing east for TOP and BOTTOM
 		//Draw TOP side.
 		GL11.glBegin(GL11.GL_QUADS);
-		RenderHelper.vertexWithTexture(fromEdge, endTop, otherEdge, 0.5F, 0.5F); //BR
-		RenderHelper.vertexWithTexture(otherEdge, endTop, otherEdge, 0.5F, 0.0F); //TR
-		RenderHelper.vertexWithTexture(otherEdge, endTop, fromEdge, 0.0F, 0.0F); //TL
-		RenderHelper.vertexWithTexture(fromEdge, endTop, fromEdge, 0.0F, 0.5F); //BL
+		RenderHelper.vertexWithTexture(fromEdge, endTop, otherEdge, 0.5F + RenderHelper.renderPixel*14, RenderHelper.renderPixel*14); //BR
+		RenderHelper.vertexWithTexture(otherEdge, endTop, otherEdge, 0.5F + RenderHelper.renderPixel*14, 0.0F); //TR
+		RenderHelper.vertexWithTexture(otherEdge, endTop, fromEdge, 0.5F, 0.0F); //TL
+		RenderHelper.vertexWithTexture(fromEdge, endTop, fromEdge, 0.5F, RenderHelper.renderPixel*14); //BL
 		
 		//Draw bottom side.
-		RenderHelper.vertexWithTexture(otherEdge, beginTopX, otherEdge, 0.5F+sideTexture, 1.0F); //TR
-		RenderHelper.vertexWithTexture(fromEdge, beginTopX, otherEdge, 0.5F+sideTexture, 0.5F);  //BR
-		RenderHelper.vertexWithTexture(fromEdge, beginTopX, fromEdge, 0.0F+sideTexture, 0.5F); //TL
-		RenderHelper.vertexWithTexture(otherEdge, beginTopX, fromEdge, 0.0F+sideTexture, 1.0F); //BL
+		RenderHelper.vertexWithTexture(otherEdge, beginTopX, otherEdge, sideTexture+RenderHelper.renderPixel*14, 0.5F+RenderHelper.renderPixel*14); //TR
+		RenderHelper.vertexWithTexture(fromEdge, beginTopX, otherEdge, sideTexture+RenderHelper.renderPixel*14, 0.5F);  //BR
+		RenderHelper.vertexWithTexture(fromEdge, beginTopX, fromEdge, sideTexture, 0.5F); //TL
+		RenderHelper.vertexWithTexture(otherEdge, beginTopX, fromEdge, sideTexture, 0.5F+RenderHelper.renderPixel*14); //BL
 		
 		//Draw back side:
-		RenderHelper.vertexWithTexture(fromEdge, beginTopX, otherEdge, 0.0F, 1.0F); //BR
-		RenderHelper.vertexWithTexture(fromEdge, endTop, otherEdge, sideTexture, 1.0F); //TR
+		RenderHelper.vertexWithTexture(fromEdge, beginTopX, otherEdge, 0.0F, 0.5F+RenderHelper.renderPixel*14); //BR
+		RenderHelper.vertexWithTexture(fromEdge, endTop, otherEdge, sideTexture, 0.5F+RenderHelper.renderPixel*14); //TR
 		RenderHelper.vertexWithTexture(fromEdge, endTop, fromEdge, sideTexture, 0.5F); //TL
 		RenderHelper.vertexWithTexture(fromEdge, beginTopX, fromEdge, 0.0F, 0.5F); //BL
 	
 		
 		//Draw front side:
-		RenderHelper.vertexWithTexture(otherEdge, beginTopX, fromEdge, 0.0F, 1.0F);
-		RenderHelper.vertexWithTexture(otherEdge, endTop, fromEdge, sideTexture, 1.0F);
+		RenderHelper.vertexWithTexture(otherEdge, beginTopX, fromEdge, 0.0F, 0.5F+RenderHelper.renderPixel*14);
+		RenderHelper.vertexWithTexture(otherEdge, endTop, fromEdge, sideTexture, 0.5F+RenderHelper.renderPixel*14);
 		RenderHelper.vertexWithTexture(otherEdge, endTop, otherEdge, sideTexture, 0.5F);
 		RenderHelper.vertexWithTexture(otherEdge, beginTopX, otherEdge, 0.0F, 0.5F);
 		
 		//Draw right side:
-		RenderHelper.vertexWithTexture(fromEdge, beginTopX, fromEdge, 0.0F, 1.0F); 
-		RenderHelper.vertexWithTexture(fromEdge, endTop, fromEdge, sideTexture, 1.0F); 
+		RenderHelper.vertexWithTexture(fromEdge, beginTopX, fromEdge, 0.0F, 0.5F+RenderHelper.renderPixel*14);
+		RenderHelper.vertexWithTexture(fromEdge, endTop, fromEdge, sideTexture, 0.5F+RenderHelper.renderPixel*14);
 		RenderHelper.vertexWithTexture(otherEdge, endTop, fromEdge, sideTexture, 0.5F); 
 		RenderHelper.vertexWithTexture(otherEdge, beginTopX, fromEdge, 0.0F, 0.5F);
 		
 		
 		//Draw left side:
 		RenderHelper.vertexWithTexture(fromEdge, beginTopX, otherEdge, 0.0F, 0.5F); //BL
-		RenderHelper.vertexWithTexture(otherEdge, beginTopX, otherEdge, 0.0F, 1.0F); //BR
-		RenderHelper.vertexWithTexture(otherEdge, endTop, otherEdge, sideTexture, 1.0F); //TR
+		RenderHelper.vertexWithTexture(otherEdge, beginTopX, otherEdge, 0.0F, 0.5F+RenderHelper.renderPixel*14); //BR
+		RenderHelper.vertexWithTexture(otherEdge, endTop, otherEdge, sideTexture, 0.5F+RenderHelper.renderPixel*14); //TR
 		RenderHelper.vertexWithTexture(fromEdge, endTop, otherEdge, sideTexture, 0.5F); //TL
 		GL11.glEnd();
 		

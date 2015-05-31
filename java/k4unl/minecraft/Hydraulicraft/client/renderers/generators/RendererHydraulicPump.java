@@ -131,7 +131,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glBegin(GL11.GL_QUADS);
 		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - RenderHelper.pixel*6, 0.0F, thickness+RenderHelper.pixel, 1.0F - thickness - RenderHelper.pixel, 1.0002F-thickness, 1.0F - thickness - RenderHelper.pixel);
-		float texturePixel = 1.0F / 32F;
+		float texturePixel = RenderHelper.renderPixel;
 
 		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMax(), texturePixel*19, texturePixel*14); //BL
 		RenderHelper.vertexWithTexture(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMax(), texturePixel*24, texturePixel*14);	//BR
@@ -200,7 +200,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 	private void drawTieredHorizontalCube(Vector3fMax vector, int tier, float thickness){
 		GL11.glBegin(GL11.GL_QUADS);
 		//RenderHelper.drawColoredCube(vector);
-		float texturePixel = 1.0F / 32F;
+		float texturePixel = RenderHelper.renderPixel;
 		float tXb[] = {texturePixel*16, texturePixel*17, texturePixel*18};
 		float tXe[] = {texturePixel*17, texturePixel*18, texturePixel*19};
 		tXe[tier] = tXb[tier] + (thickness/2);
@@ -246,7 +246,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 	private void drawTieredVerticalCube(Vector3fMax vector, int tier, float thickness){
 		GL11.glBegin(GL11.GL_QUADS);
 		//RenderHelper.drawColoredCube(vector);
-		float texturePixel = 1.0F / 32F;
+		float texturePixel = RenderHelper.renderPixel;
 		float tXb[] = {texturePixel*16, texturePixel*17, texturePixel*18};
 		float tXe[] = {texturePixel*17, texturePixel*18, texturePixel*19};
 		tXe[tier] = tXb[tier] + (thickness/2);

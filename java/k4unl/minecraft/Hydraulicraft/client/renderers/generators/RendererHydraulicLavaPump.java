@@ -131,7 +131,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		//GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 		GL11.glBegin(GL11.GL_QUADS);
 		//RenderHelper.startTesselating();
-		float texturePixel = 1.0F / 32F;
+		float texturePixel = RenderHelper.renderPixel;
 		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - RenderHelper.pixel*6, 0.0F, thickness+RenderHelper.pixel, 1.0F - thickness - RenderHelper.pixel, 1.0002F-thickness, 1.0F - thickness - RenderHelper.pixel);
 
 		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMax(), texturePixel*19, texturePixel*14); //BL
@@ -239,7 +239,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 	private void drawTieredHorizontalCube(Vector3fMax vector, int tier, float thickness){
 		GL11.glBegin(GL11.GL_QUADS);
 		//RenderHelper.drawColoredCube(vector);
-		float texturePixel = 1.0F / 32F;
+		float texturePixel = RenderHelper.renderPixel;
 		float tXb[] = {texturePixel*16, texturePixel*17, texturePixel*18};
 		float tXe[] = {texturePixel*17, texturePixel*18, texturePixel*19};
 		tXe[tier] = tXb[tier] + (thickness/2);
@@ -285,7 +285,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 	private void drawTieredVerticalCube(Vector3fMax vector, int tier, float thickness){
 		GL11.glBegin(GL11.GL_QUADS);
 		//RenderHelper.drawColoredCube(vector);
-		float texturePixel = 1.0F / 32F;
+		float texturePixel = RenderHelper.renderPixel;
 		float tXb[] = {texturePixel*16, texturePixel*17, texturePixel*18};
 		float tXe[] = {texturePixel*17, texturePixel*18, texturePixel*19};
 		tXe[tier] = tXb[tier] + (thickness/2);
