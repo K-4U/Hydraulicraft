@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
@@ -64,8 +63,6 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
     private boolean canRun() {
         //See if it's either a y level above fluid or another screw
         //First we need to grab the block one y level down, and 2 to the facing-direction
-
-
         if(fluidPumping == null) return false;
 
 		fluidHandlersNear = 0;
@@ -117,8 +114,10 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
             if(fluidPumping == null){
                 Block block = getWorldObj().getBlock(xCoord + (facing.offsetX * 2), yCoord - 1, zCoord + (facing.offsetZ * 2));
                 if(block instanceof IFluidBlock){
-                    //Now, we also need to grab all the blocks that are connected to this block, and pump from the one furthest away.
-                    fluidPumping = block;
+					if(((IFluidBlock)block).canDrain(getWorldObj(), xCoord+(facing.offsetX * 2),yCoord - 1, zCoord + (facing.offsetZ * 2))) {
+						//Now, we also need to grab all the blocks that are connected to this block, and pump from the one furthest away.
+						fluidPumping = block;
+					}
                 }
             }
             if(fluidBlocks.size() == 0 && blocksToScan.size() == 0 && fluidPumping != null){

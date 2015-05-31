@@ -36,6 +36,7 @@ public class HCItems {
 
     public static Item itemBucketOil;
     public static Item itemBucketHydraulicOil;
+	public static Item itemBucketLubricant;
 
 	/*!
 	 * @author Koen Beckers
@@ -49,8 +50,9 @@ public class HCItems {
 		ingotEnrichedCopper = new IngotEnrichedCopper();
 		itemFrictionPlate = new ItemFrictionPlate();
 		itemDebugger = new ItemDebug();
-		itemBucketOil = new ItemBucketOil();
-        itemBucketHydraulicOil = new ItemBucketHydraulicOil();
+		itemBucketOil = new ItemBucketBase(Fluids.fluidOilBlock, Names.itemBucketOil);
+        itemBucketHydraulicOil = new ItemBucketBase(Fluids.fluidHydraulicOilBlock, Names.itemBucketHydraulicOil);
+		itemBucketLubricant = new ItemBucketBase(Fluids.fluidLubricantBlock, Names.itemBucketLubricant);
 
         if(!HCConfig.INSTANCE.getBool("disableBacon")) {
             itemBacon = new ItemBacon();
@@ -111,6 +113,7 @@ public class HCItems {
 
         GameRegistry.registerItem(itemBucketOil, Names.itemBucketOil.unlocalized);
         GameRegistry.registerItem(itemBucketHydraulicOil, Names.itemBucketHydraulicOil.unlocalized);
+		GameRegistry.registerItem(itemBucketLubricant, Names.itemBucketLubricant.unlocalized);
 
         if(!HCConfig.INSTANCE.getBool("disableBacon")) {
             GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);
@@ -128,6 +131,10 @@ public class HCItems {
         st = FluidRegistry.getFluidStack(Names.fluidOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
         FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketOil), new ItemStack((Item)Item.itemRegistry.getObject("bucket")));
         BucketHandler.INSTANCE.buckets.put(Fluids.fluidOilBlock, itemBucketOil);
+
+		st = FluidRegistry.getFluidStack(Names.fluidLubricant.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
+		FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketLubricant), new ItemStack((Item)Item.itemRegistry.getObject("bucket")));
+		BucketHandler.INSTANCE.buckets.put(Fluids.fluidLubricantBlock, itemBucketLubricant);
 	}
 }
 

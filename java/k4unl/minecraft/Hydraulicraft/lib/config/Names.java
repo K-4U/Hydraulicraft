@@ -97,8 +97,12 @@ public class Names {
     public static final Name blockJarDirt = new Name("Jar of Dirt", "blockJarDirt");
 
     public static final Name fluidHydraulicOil      = new Name("Hydraulic Oil", "hydraulicOil");
-    public static final Name fluidOil = new Name("Oil", "oil");
-    public static final Name itemBucketHydraulicOil       = new Name("Hydraulic Oil Bucket", "bucketHydraulicOil");
-    public static final Name itemBucketOil       = new Name("Oil Bucket", "bucketOil");
+    public static final Name fluidOil               = new Name("Oil", "oil");
+    public static final Name fluidLubricant         = new Name("Lubricant", "lubricant");
+    public static final Name itemBucketHydraulicOil = new Name("Hydraulic Oil Bucket", "bucketHydraulicOil");
+    public static final Name itemBucketOil          = new Name("Oil Bucket", "bucketOil");
+    public static final Name itemBucketLubricant    = new Name("Lubricant Bucket", "bucketLubricant");
+
+
 
 }
