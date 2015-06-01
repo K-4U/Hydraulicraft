@@ -60,6 +60,7 @@ public class Renderers {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.blockHose),  new RendererHydraulicHoseItem());
 		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartHose, new RendererHydraulicHoseItem());
 		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartValve, new RendererPartValveItem());
+		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartFluidPipe, new RendererPartFluidPipeItem());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TilePortalBase.class, new RendererPortalBase());
 		ClientRegistry.bindTileEntitySpecialRenderer(TilePortalFrame.class, new RendererPortalFrame());

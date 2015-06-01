@@ -18,6 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import codechicken.multipart.TileMultipart;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 public class ItemDebug extends HydraulicItemBase {
 
@@ -38,7 +39,23 @@ public class ItemDebug extends HydraulicItemBase {
 					if(ent instanceof TileMultipart){
 						if(Multipart.hasTransporter((TileMultipart)ent)){
 							mEnt = Multipart.getTransporter((TileMultipart)ent);
-						}else{
+						}
+						if(Multipart.hasPartFluidPipe((TileMultipart)ent)) {
+							if(Multipart.getFluidPipe((TileMultipart)ent).getFluidStored() != null) {
+								Functions.showMessageInChat(player, "FL: " + Multipart.getFluidPipe((TileMultipart) ent).getFluidStored().getName() + " " + Multipart.getFluidPipe((TileMultipart) ent).getFluidAmountStored());
+							}else{
+								Functions.showMessageInChat(player, "FL: null " + Multipart.getFluidPipe((TileMultipart) ent).getFluidAmountStored());
+							}
+						}
+						if(Multipart.hasPartFluidHandler((TileMultipart) ent)){
+							FluidTankInfo tankInfo = Multipart.getFluidHandler((TileMultipart)ent).getTankInfo(ForgeDirection.UNKNOWN)[0];
+							if(tankInfo.fluid != null) {
+								Functions.showMessageInChat(player, "T: " + tankInfo.fluid.amount + "/" + tankInfo.capacity);
+							}else{
+								Functions.showMessageInChat(player, "T: null/" + tankInfo.capacity);
+							}
+						}
+						if(!Multipart.hasTransporter((TileMultipart)ent)){
 							return false;
 						}
 					}else{

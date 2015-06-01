@@ -6,6 +6,8 @@ import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -19,12 +21,14 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
     private float requiredPressure  = 5.0F;
     private int   MAX_DISTANCE      = 30; //30 blocks away..
     private int   fluidHandlersNear = 0;
+	private boolean hasPumped = false;
     private FluidTank tank;
     private ForgeDirection facing = ForgeDirection.NORTH;
     private float rotational;
     private float oldRotational;
 
-    private Block fluidPumping;
+    private Fluid fluidPumping;
+	private Block blockPumping;
     private List<Location> blocksToScan;
     private List<Location> fluidBlocks;
 
@@ -47,13 +51,19 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
             Location toCheck = toScan.getNewOffset(dir, 1);
             if (!toCheck.isInList(fluidBlocks) && !toCheck.isInList(blocksToScan)){
                 if(toCheck.getDifference(getBlockLocation()) < MAX_DISTANCE){
-                    if(toCheck.getBlock(getWorldObj()) == fluidPumping) {
-                        int check = Float.compare(((IFluidBlock) toCheck.getBlock(getWorldObj())).getFilledPercentage(getWorldObj(), toCheck.getX(), toCheck
-                          .getY(), toCheck.getZ()), 1.0F);
-                        if(check == 0 && ((IFluidBlock)toCheck.getBlock(getWorldObj())).canDrain(getWorldObj(), toCheck.getX(), toCheck.getY(),
-                          toCheck.getZ())){
-                            blocksToScan.add(toScan.getNewOffset(dir, 1));
-                        }
+                    if(toCheck.getBlock(getWorldObj()) == blockPumping) {
+						if(toCheck.getBlock(getWorld()) instanceof BlockLiquid){
+							//We possibly need to do more here..
+							blocksToScan.add(toScan.getNewOffset(dir, 1));
+						}else if(toCheck.getBlock(getWorld()) instanceof IFluidBlock) {
+
+							int check = Float.compare(((IFluidBlock) toCheck.getBlock(getWorldObj())).getFilledPercentage(getWorldObj(), toCheck.getX(), toCheck
+									.getY(), toCheck.getZ()), 1.0F);
+							if (check == 0 && ((IFluidBlock) toCheck.getBlock(getWorldObj())).canDrain(getWorldObj(), toCheck.getX(), toCheck.getY(),
+									toCheck.getZ())) {
+								blocksToScan.add(toScan.getNewOffset(dir, 1));
+							}
+						}
                     }
                 }
             }
@@ -70,7 +80,7 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			TileEntity shouldIFillThis = getBlockLocation().getTE(getWorldObj(), dir);
 			if(shouldIFillThis instanceof IFluidHandler){
-				if(((IFluidHandler)shouldIFillThis).canFill(dir.getOpposite(), ((IFluidBlock)fluidPumping).getFluid())){
+				if(((IFluidHandler)shouldIFillThis).canFill(dir.getOpposite(), fluidPumping)){
 					hasFluidHandlerNear = true;
 					fluidHandlersNear++;
 				}
@@ -81,16 +91,20 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 	
 	@Override
 	public float workFunction(boolean simulate, ForgeDirection from) {
-		if(canRun()){
-			if(!simulate){
+		if(canRun()) {
+			if (!simulate) {
 				doPump();
 			}
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-            //TODO: Fix this goddamn algorithm so that it makes more sense.
-
-			return 5F + (getPressure(ForgeDirection.UNKNOWN) * 0.00005F);
+			//TODO: Fix this goddamn algorithm so that it makes more sense.
+			if (hasPumped){
+				hasPumped = false;
+				return 0.5F + (getPressure(ForgeDirection.UNKNOWN) * 0.00005F);
+			}else {
+				return 0.0000001F;
+			}
 		}else{
 			return 0F;
 		}
@@ -113,12 +127,28 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
             //If the fluidPumping block is not null, that means we have found a block earlier.
             if(fluidPumping == null){
                 Block block = getWorldObj().getBlock(xCoord + (facing.offsetX * 2), yCoord - 1, zCoord + (facing.offsetZ * 2));
+				Fluid blockFluid = FluidRegistry.lookupFluidForBlock(block);
+				if((block == Blocks.flowing_lava || block == Blocks.lava) && blockFluid == null){
+					fluidPumping = FluidRegistry.LAVA;
+					blockPumping = Blocks.flowing_lava;
+				}
+				if((block == Blocks.flowing_water || block == Blocks.water) && blockFluid == null){
+					fluidPumping = FluidRegistry.WATER;
+					blockPumping = Blocks.flowing_water;
+				}
+
                 if(block instanceof IFluidBlock){
 					if(((IFluidBlock)block).canDrain(getWorldObj(), xCoord+(facing.offsetX * 2),yCoord - 1, zCoord + (facing.offsetZ * 2))) {
 						//Now, we also need to grab all the blocks that are connected to this block, and pump from the one furthest away.
-						fluidPumping = block;
+						fluidPumping = ((IFluidBlock)block).getFluid();
+						blockPumping = block;
 					}
-                }
+                }else if(blockFluid != null && block != null){
+					if(getWorld().getBlockMetadata(xCoord + (facing.offsetX * 2), yCoord - 1, zCoord + (facing.offsetZ * 2)) == 0){
+						fluidPumping = blockFluid;
+						blockPumping = block;
+					}
+				}
             }
             if(fluidBlocks.size() == 0 && blocksToScan.size() == 0 && fluidPumping != null){
                 blocksToScan.add(new Location(xCoord + (facing.offsetX * 2), yCoord - 1, zCoord + (facing.offsetZ * 2)));
@@ -139,39 +169,51 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 	private void doPump() {
         //TODO: Fix me up with the pressure.
 		int toFill = HCConfig.INSTANCE.getInt("waterPumpPerTick");
-        if(tank.fill(new FluidStack(((IFluidBlock)fluidPumping).getFluid(), toFill), false) < toFill){
-            return;
+        if(!(tank.fill(new FluidStack(fluidPumping, toFill), false) < toFill)){
+			tank.fill(new FluidStack(fluidPumping, toFill), true);
+			hasPumped = true;
             //We cannot do anything
-        }
-        tank.fill(new FluidStack(((IFluidBlock)fluidPumping).getFluid(), toFill), true);
+        }else{
+			hasPumped = false;
+		}
+
 
         if(tank.getFluidAmount() >= FluidContainerRegistry.BUCKET_VOLUME) {
             //Remove a block from the list.
             //Todo: Remove a block furthest away first
             Location toDrain = fluidBlocks.get(fluidBlocks.size()-1);
-            fluidBlocks.remove(fluidBlocks.size()-1);
-            if(!(toDrain.getBlock(getWorldObj()) instanceof IFluidBlock)){
-                if(toDrain.compare(xCoord + (facing.offsetX * 2), yCoord - 1, zCoord + (facing.offsetZ * 2))){
-                    //Done pumping.
-                    fluidPumping = null;
-                }
-                return;
-            }
-            IFluidBlock theBlock = (IFluidBlock)toDrain.getBlock(getWorldObj());
-            theBlock.drain(getWorldObj(), toDrain.getX(), toDrain.getY(), toDrain.getZ(), true);
 
+            if(!(toDrain.getBlock(getWorldObj()) instanceof IFluidBlock)){
+				if(!(toDrain.getBlock(getWorld()) instanceof BlockLiquid)){
+					if (toDrain.compare(xCoord + (facing.offsetX * 2), yCoord - 1, zCoord + (facing.offsetZ * 2))) {
+						//Done pumping.
+						fluidPumping = null;
+					}
+					return;
+				}
+
+            }
+			if (toDrain.getBlock(getWorld()) instanceof IFluidBlock) {
+				IFluidBlock theBlock = (IFluidBlock)toDrain.getBlock(getWorldObj());
+				theBlock.drain(getWorldObj(), toDrain.getX(), toDrain.getY(), toDrain.getZ(), true);
+				fluidBlocks.remove(fluidBlocks.size()-1);
+				hasPumped = true;
+			}else if(toDrain.getBlock(getWorld()) instanceof BlockLiquid){
+				if(!(toDrain.getBlock(getWorld()) == Blocks.water) && fluidBlocks.size() < 3) {
+					getWorld().setBlock(toDrain.getX(), toDrain.getY(), toDrain.getZ(), Blocks.air, 0, 2);
+					fluidBlocks.remove(fluidBlocks.size()-1);
+				}
+				hasPumped = true;
+			}
 
             for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
                 TileEntity shouldIFillThis = getBlockLocation().getTE(getWorldObj(), dir);
                 if (shouldIFillThis instanceof IFluidHandler) {
-                    if (((IFluidHandler) shouldIFillThis).canFill(dir.getOpposite(), ((IFluidBlock) fluidPumping).getFluid())) {
-                        if (((IFluidHandler) shouldIFillThis).fill(dir.getOpposite(), new FluidStack(((IFluidBlock) fluidPumping).getFluid(),
-                          FluidContainerRegistry.BUCKET_VOLUME), false) == FluidContainerRegistry.BUCKET_VOLUME) {
-                            ((IFluidHandler) shouldIFillThis).fill(dir.getOpposite(), new FluidStack(((IFluidBlock)fluidPumping).getFluid(),
-                                FluidContainerRegistry
-                                .BUCKET_VOLUME),
-                              true);
+                    if (((IFluidHandler) shouldIFillThis).canFill(dir.getOpposite(), fluidPumping)) {
+                        if (((IFluidHandler) shouldIFillThis).fill(dir.getOpposite(), new FluidStack(fluidPumping, FluidContainerRegistry.BUCKET_VOLUME), false) == FluidContainerRegistry.BUCKET_VOLUME) {
+                            ((IFluidHandler) shouldIFillThis).fill(dir.getOpposite(), new FluidStack(fluidPumping, FluidContainerRegistry.BUCKET_VOLUME), true);
                             tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+
                         }
                     }
                 }
@@ -209,10 +251,7 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 	
 	@Override
 	public boolean canWork(ForgeDirection dir) {
-		if(getNetwork(dir) == null){
-			return false;
-		}
-		return dir.equals(ForgeDirection.UP);
+		return getNetwork(dir) != null && dir.equals(ForgeDirection.UP);
 	}
 
 	@Override

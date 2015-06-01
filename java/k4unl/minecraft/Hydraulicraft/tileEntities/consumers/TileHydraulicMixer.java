@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
@@ -13,13 +12,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.*;
 
 public class TileHydraulicMixer extends TileHydraulicBase implements
 		ISidedInventory, IFluidHandler, IHydraulicConsumer {
@@ -233,6 +226,7 @@ public class TileHydraulicMixer extends TileHydraulicBase implements
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
+		if(fluid == null) return true;
 		if(fluid.equals(FluidRegistry.WATER)){
 			return true;
 		}else{
@@ -242,6 +236,7 @@ public class TileHydraulicMixer extends TileHydraulicBase implements
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+		if(fluid == null) return true;
 		if(fluid.equals(Fluids.fluidHydraulicOil)){
 			return true;			
 		}else{

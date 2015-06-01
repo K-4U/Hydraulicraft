@@ -50,6 +50,7 @@ public class Names {
 
     public static final Name[] partHose                  = { new Name("LP Hydraulic Pressure Pipe", "LPHydraulicPipe"),
       new Name("MP Hydraulic Pressure Pipe", "MPHydraulicPipe"), new Name("HP Hydraulic Pressure Pipe", "HPHydraulicPipe") };
+
     public static final Name[] blockHydraulicPressurevat = { new Name("LP Hydraulic Pressure Vat", "LPHydraulicPressureVat"),
       new Name("MP Hydraulic Pressure Vat", "MPHydraulicPressureVat"), new Name("HP Hydraulic Pressure Vat", "HPHydraulicPressureVat") };
 
@@ -61,6 +62,9 @@ public class Names {
 
     public static final Name[] partValve = { new Name("LP Valve", "LPPartValve"), new Name("MP Valve", "MPPartValve"),
       new Name("HP Valve", "HPPartValve") };
+
+    public static final Name partFluidPipe            = new Name("Fluid Pipe", "fluidPipe");
+    public static final Name partFluidInterface = new Name("Fluid Interface", "fluidInterface");
 
     public static final Name portalBase       = new Name("Portal Base", "portalBase");
     public static final Name portalFrame      = new Name("Portal Frame", "portalFrame");
