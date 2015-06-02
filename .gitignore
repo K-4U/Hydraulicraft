@@ -21,3 +21,5 @@ environment.properties
 .gradle/
 .settings/
 output/
+out/
+run/
