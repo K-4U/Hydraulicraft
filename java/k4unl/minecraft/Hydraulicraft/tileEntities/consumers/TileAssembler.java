@@ -2,33 +2,38 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockAssembler;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 
-public class TileAssembler extends TileHydraulicBase implements IHydraulicConsumer, IInventory{
-
+public class TileAssembler extends TileHydraulicBase implements IHydraulicConsumer, IFluidInventory, IFluidCraftingMachine {
+    InventoryFluidCrafting inventoryCrafting;
+    InventoryCraftResult   inventoryResult;
 
     public TileAssembler() {
-
         super(10);
         super.init(this);
+        FluidTank[] tanks = new FluidTank[1];
+
+        // TODO size of assembler's crafting tank
+        tanks[0] = new FluidTank(4000);
+        inventoryCrafting = new InventoryFluidCrafting(this, 3, tanks, null);
+        inventoryResult = new InventoryCraftResult();
     }
 
     @Override
     public float workFunction(boolean simulate, ForgeDirection from) {
-
         return 0;
     }
 
     @Override
     public boolean canWork(ForgeDirection dir) {
-
         return false;
     }
 
@@ -39,65 +44,55 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public boolean canConnectTo(ForgeDirection side) {
-
         return true;
     }
 
     public int getScaledAssembleTime() {
-
         return 0;
     }
 
     @Override
     public int getSizeInventory() {
-
-        return 0;
+        return inventoryCrafting.getSizeInventory();
     }
 
     @Override
-    public ItemStack getStackInSlot(int p_70301_1_) {
-
-        return null;
+    public ItemStack getStackInSlot(int slot) {
+        return inventoryCrafting.getStackInSlot(slot);
     }
 
     @Override
-    public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_) {
-
-        return null;
+    public ItemStack decrStackSize(int slot, int amount) {
+        return inventoryCrafting.decrStackSize(slot, amount);
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int p_70304_1_) {
-
-        return null;
+    public ItemStack getStackInSlotOnClosing(int slot) {
+        return inventoryCrafting.getStackInSlotOnClosing(slot);
     }
 
     @Override
-    public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_) {
-
+    public void setInventorySlotContents(int slot, ItemStack itemStack) {
+        inventoryCrafting.setInventorySlotContents(slot, itemStack);
     }
 
     @Override
     public String getInventoryName() {
-
         return null;
     }
 
     @Override
     public boolean hasCustomInventoryName() {
-
         return false;
     }
 
     @Override
     public int getInventoryStackLimit() {
-
-        return 0;
+        return inventoryCrafting.getInventoryStackLimit();
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer p_70300_1_) {
-
+    public boolean isUseableByPlayer(EntityPlayer player) {
         return true;
     }
 
@@ -112,8 +107,48 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
     }
 
     @Override
-    public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        return inventoryCrafting.isItemValidForSlot(slot, itemStack);
+    }
 
-        return false;
+    @Override
+    public boolean drainFluid(FluidStack fluidStack, boolean pretend) {
+        return inventoryCrafting.drainFluid(fluidStack, pretend);
+    }
+
+    @Override
+    public boolean fillFluid(FluidStack fluidStack, boolean pretend) {
+        return inventoryCrafting.fillFluid(fluidStack, pretend);
+    }
+
+    public InventoryFluidCrafting getFluidInventory() {
+        return inventoryCrafting;
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
+        inventoryCrafting.save(tagCompound);
+
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
+        inventoryCrafting.load(tagCompound);
+    }
+
+    public InventoryCraftResult getInventoryResult() {
+        return inventoryResult;
+    }
+
+    @Override
+    public void onCraftingMatrixChanged() {
+        //inventoryResult.setRecipe(HydraulicRecipes.getAssemblerRecipe(inventoryCrafting));
+        IFluidRecipe recipe = HydraulicRecipes.getAssemblerRecipe(inventoryCrafting);
+        if (recipe == null)
+            inventoryResult.setInventorySlotContents(0, null);
+        else
+            inventoryResult.setInventorySlotContents(0, recipe.getRecipeOutput());
     }
 }

@@ -1,55 +1,50 @@
 package k4unl.minecraft.Hydraulicraft.lib.recipes;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HydraulicRecipes {
-    private static List<HydraulicUnshapedRecipe> recipesCrusher;
-    private static List<HydraulicUnshapedRecipe> recipesIncinerator;
-    private static List<HydraulicUnshapedRecipe> recipesAssembler;
-    private static List<HydraulicUnshapedRecipe> recipesCharger;
-    private static List<HydraulicUnshapedRecipe> recipesPiston;
-    private static List<HydraulicUnshapedRecipe> recipesWasher;
+    private static List<IFluidRecipe> recipesCrusher;
+    private static List<IFluidRecipe> recipesIncinerator;
+    private static List<IFluidRecipe> recipesAssembler;
+    private static List<IFluidRecipe> recipesWasher;
 
     static {
-        recipesCrusher = new ArrayList<HydraulicUnshapedRecipe>();
-        recipesIncinerator = new ArrayList<HydraulicUnshapedRecipe>();
-        recipesAssembler = new ArrayList<HydraulicUnshapedRecipe>();
-        recipesCharger = new ArrayList<HydraulicUnshapedRecipe>();
-        recipesPiston = new ArrayList<HydraulicUnshapedRecipe>();
-        recipesWasher = new ArrayList<HydraulicUnshapedRecipe>();
+        recipesCrusher = new ArrayList<IFluidRecipe>();
+        recipesIncinerator = new ArrayList<IFluidRecipe>();
+        recipesAssembler = new ArrayList<IFluidRecipe>();
+        recipesWasher = new ArrayList<IFluidRecipe>();
+
+        recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(Blocks.dirt), "d  ", " d ", "  d", 'd', Blocks.stone));
+        recipesAssembler.add(new FluidShapelessOreRecipe(new ItemStack(Blocks.coal_block), Items.coal));
     }
 
-    public void addCrusherRecipe(Object[] input, Object[] output) {
-        recipesCrusher.add(new HydraulicUnshapedRecipe(input, output));
-    }
-
-    public void addIncineratorRecipe(Object[] input, Object[] output) {
-        recipesIncinerator.add(new HydraulicUnshapedRecipe(input, output));
-    }
-
-    public void addAssemblerRecipe(Object[] input, Object[] output) {
-        recipesCharger.add(new HydraulicUnshapedRecipe(input, output));
-    }
-
-    private HydraulicUnshapedRecipe getRecipe(List<HydraulicUnshapedRecipe> list, Object[] inputs) {
-        for (HydraulicUnshapedRecipe recipe : list) {
-            if (recipe.matches(inputs))
+    private static IFluidRecipe getRecipe(List<IFluidRecipe> list, IFluidInventory inventory) {
+        for (IFluidRecipe recipe : list) {
+            if (recipe.matches(inventory))
                 return recipe;
         }
 
         return null;
     }
 
-    public HydraulicUnshapedRecipe getCrusherRecipe(Object[] input) {
-        return getRecipe(recipesCrusher, input);
+    public static IFluidRecipe getCrusherRecipe(IFluidInventory inventory) {
+        return getRecipe(recipesCrusher, inventory);
     }
 
-    public HydraulicUnshapedRecipe getIncineratorRecipe(Object[] input) {
-        return getRecipe(recipesIncinerator, input);
+    public static IFluidRecipe getIncineratorRecipe(IFluidInventory inventory) {
+        return getRecipe(recipesIncinerator, inventory);
     }
 
-    public HydraulicUnshapedRecipe getAssemblerRecipe(Object[] input) {
-        return getRecipe(recipesAssembler, input);
+    public static IFluidRecipe getAssemblerRecipe(IFluidInventory inventory) {
+        return getRecipe(recipesAssembler, inventory);
+    }
+
+    public static IFluidRecipe getWasherRecipes(IFluidInventory inventory) {
+        return getRecipe(recipesWasher, inventory);
     }
 }
