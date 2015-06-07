@@ -1,11 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.containers.ContainerMixer;
+import k4unl.minecraft.Hydraulicraft.containers.ContainerFilter;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFilter;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -14,15 +14,15 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiMixer extends HydraulicGUIBase {
-	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/mixer.png");
-	TileHydraulicMixer mixer;
+public class GuiFilter extends HydraulicGUIBase {
+	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/filter.png");
+	TileHydraulicFilter filter;
 	
 	
-	public GuiMixer(InventoryPlayer invPlayer, TileHydraulicMixer _mixer) {
-		super(_mixer, new ContainerMixer(invPlayer, _mixer), resLoc);
+	public GuiFilter(InventoryPlayer invPlayer, TileHydraulicFilter _filter) {
+		super(_filter, new ContainerFilter(invPlayer, _filter), resLoc);
 		
-		mixer = _mixer;
+		filter = _filter;
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class GuiMixer extends HydraulicGUIBase {
         //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
-        float scaledProgress = mixer.getScaledMixTime();
+        float scaledProgress = filter.getScaledMixTime();
         int width = (int) (45 * scaledProgress);
         int h = (int) (21 * (scaledProgress * 3));
         if(h > 21){
@@ -46,11 +46,11 @@ public class GuiMixer extends HydraulicGUIBase {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		//fontRenderer.drawString(Names.blockHydraulicMixer.localized, 8, 6, 0xFFFFFF);
-		drawHorizontalAlignedString(7, 3, xSize-14, HCBlocks.hydraulicMixer.getLocalizedName(), true);
+		//fontRenderer.drawString(Names.blockHydraulicFilter.localized, 8, 6, 0xFFFFFF);
+		drawHorizontalAlignedString(7, 3, xSize-14, HCBlocks.hydraulicFilter.getLocalizedName(), true);
 		
 		
-		FluidTankInfo[] tankInfo = mixer.getTankInfo(ForgeDirection.UP);
+		FluidTankInfo[] tankInfo = filter.getTankInfo(ForgeDirection.UP);
 		if(tankInfo[0].fluid != null){
 			if(tankInfo[0].fluid.amount > 0){
 				//Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);

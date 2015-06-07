@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.slots;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFrictionIncinerator;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFilter;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
@@ -32,8 +32,8 @@ public class SlotMachineInput extends Slot {
 			return ((TileHydraulicPump) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
 		}else if(ent instanceof TileHydraulicCrusher){
 			return ((TileHydraulicCrusher) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
-		}else if(ent instanceof TileHydraulicMixer){
-			return ((TileHydraulicMixer) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
+		}else if(ent instanceof TileHydraulicFilter){
+			return ((TileHydraulicFilter) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
 		}else if(ent instanceof TileHydraulicWasher){
 			return ((TileHydraulicWasher) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
 		}else if(ent instanceof TileHydraulicPressureVat){

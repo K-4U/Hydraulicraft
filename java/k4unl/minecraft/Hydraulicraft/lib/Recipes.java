@@ -305,7 +305,7 @@ public class Recipes {
         );
 
 		
-		GameRegistry.addRecipe(new ItemStack(HCBlocks.hydraulicMixer, 1),
+		GameRegistry.addRecipe(new ItemStack(HCBlocks.hydraulicFilter, 1),
                 new Object[]{
                         "GKG",
                         "KCK",

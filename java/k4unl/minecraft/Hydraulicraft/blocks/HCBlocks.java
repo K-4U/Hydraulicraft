@@ -32,7 +32,7 @@ public class HCBlocks {
 	
 	public static Block hydraulicPump;
 	public static Block hydraulicLavaPump;
-	public static Block hydraulicMixer;
+	public static Block hydraulicFilter;
 	public static Block hydraulicFrictionIncinerator;
 	public static Block hydraulicCrusher;
 	public static Block hydraulicPressureGauge;
@@ -79,7 +79,7 @@ public class HCBlocks {
 		hydraulicPump = new BlockHydraulicPump();
 		hydraulicLavaPump = new BlockHydraulicLavaPump();
 		hydraulicPressurevat = new BlockHydraulicPressureVat();
-		hydraulicMixer = new BlockHydraulicMixer();
+		hydraulicFilter = new BlockHydraulicFilter();
 		hydraulicFrictionIncinerator = new BlockHydraulicFrictionIncinerator();
 		hydraulicCrusher = new BlockHydraulicCrusher();
 		hydraulicPiston = new BlockHydraulicPiston();
@@ -138,7 +138,7 @@ public class HCBlocks {
 
 		GameRegistry.registerBlock(hydraulicPressureWall, ItemBlock.class, Names.blockHydraulicPressureWall.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureGlass, ItemBlock.class, Names.blockHydraulicPressureGlass.unlocalized);
-		GameRegistry.registerBlock(hydraulicMixer, HandlerHydraulicBlock.class, Names.blockHydraulicMixer.unlocalized);
+		GameRegistry.registerBlock(hydraulicFilter, HandlerHydraulicBlock.class, Names.blockHydraulicFilter.unlocalized);
 
 		GameRegistry.registerBlock(blockValve, HandlerHydraulicBlock.class, Names.blockValve.unlocalized);
 		GameRegistry.registerBlock(blockInterfaceValve, HandlerHydraulicBlock.class, Names.blockInterfaceValve.unlocalized);

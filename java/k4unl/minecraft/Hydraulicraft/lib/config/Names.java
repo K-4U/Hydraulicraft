@@ -4,7 +4,7 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
 public class Names {
 
-    public static final Name blockHydraulicMixer               = new Name("Mixer", "hydraulicMixer");
+    public static final Name blockHydraulicFilter = new Name("Filter", "hydraulicFilter");
     public static final Name blockHydraulicFrictionIncinerator = new Name("Friction Incinerator", "hydraulicFrictionIncinerator");
     public static final Name blockHydraulicCrusher             = new Name("Crusher", "hydraulicCrusher");
     public static final Name blockHydraulicPressureGauge       = new Name("Pressure Gauge", "hydraulicPressureGauge");

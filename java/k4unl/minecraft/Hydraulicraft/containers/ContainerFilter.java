@@ -1,19 +1,19 @@
 package k4unl.minecraft.Hydraulicraft.containers;
 
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineInput;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFilter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMixer extends Container {
+public class ContainerFilter extends Container {
 
-	protected TileHydraulicMixer tileMixer;
+	protected TileHydraulicFilter tileMixer;
 	
 	
-	public ContainerMixer(InventoryPlayer invPlayer, TileHydraulicMixer mixer){
+	public ContainerFilter(InventoryPlayer invPlayer, TileHydraulicFilter mixer){
 		tileMixer = mixer;
 		
 		addSlotToContainer(new SlotMachineInput(mixer, mixer, 0, 64, 17));

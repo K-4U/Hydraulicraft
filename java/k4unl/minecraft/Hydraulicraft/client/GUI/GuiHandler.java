@@ -84,9 +84,9 @@ public class GuiHandler implements IGuiHandler {
 					return new ContainerEmpty(player.inventory);
 				}
 				break;
-			case MIXER:
-				if(ent instanceof TileHydraulicMixer){
-					return new ContainerMixer(player.inventory, (TileHydraulicMixer)ent);
+			case FILTER:
+				if(ent instanceof TileHydraulicFilter){
+					return new ContainerFilter(player.inventory, (TileHydraulicFilter)ent);
 				}
 				break;
 			case PRESSUREVAT:
@@ -188,9 +188,9 @@ public class GuiHandler implements IGuiHandler {
 					return new GuiLavaPump(player.inventory, (TileHydraulicLavaPump) ent);
 				}
 				break;
-			case MIXER:
-				if(ent instanceof TileHydraulicMixer){
-					return new GuiMixer(player.inventory, (TileHydraulicMixer)ent);
+			case FILTER:
+				if(ent instanceof TileHydraulicFilter){
+					return new GuiFilter(player.inventory, (TileHydraulicFilter)ent);
 				}
 				break;
 			case PRESSUREVAT:

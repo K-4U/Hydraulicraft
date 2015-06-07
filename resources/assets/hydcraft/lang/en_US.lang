@@ -21,7 +21,7 @@ tile.oreLead.name=Lead Ore
 #Blocks
 tile.hydraulicOil.name=Hydraulic Oil
 tile.oil.name=Crude oil
-tile.hydraulicMixer.name=Mixer
+tile.hydraulicFilter.name=Filter
 tile.hydraulicFrictionIncinerator.name=Friction Incinerator
 tile.hydraulicCrusher.name=Crusher
 tile.hydraulicWasher.name=Washer

@@ -3,9 +3,9 @@ package k4unl.minecraft.Hydraulicraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.k4lib.lib.Orientation;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -24,12 +24,18 @@ public abstract class HydraulicBlockContainerBase extends BlockContainer {
 	private IIcon topIcon;
 	private IIcon bottomIcon;
 	private IIcon frontIcon;
+	private IIcon leftIcon;
+	private IIcon rightIcon;
+	private IIcon backIcon;
 
 	public Name mName;
 	
 	protected boolean hasBottomIcon = false;
 	protected boolean hasTopIcon = false;
 	protected boolean hasFrontIcon = false;
+	protected boolean hasLeftIcon = false;
+	protected boolean hasRightIcon = false;
+	protected boolean hasBackIcon = false;
 	
 	protected boolean hasTextures = true;
 	
@@ -65,8 +71,11 @@ public abstract class HydraulicBlockContainerBase extends BlockContainer {
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegistry){
 		if(hasTextures){
-			if(hasTopIcon || hasBottomIcon || hasFrontIcon){
-				blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
+			if(hasTopIcon || hasBottomIcon || hasFrontIcon || hasLeftIcon || hasRightIcon){
+				if(!(hasTopIcon && hasBottomIcon && hasFrontIcon && hasLeftIcon && hasRightIcon)) {
+					blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
+				}
+
 				if(hasTopIcon){
 					topIcon = iconRegistry.registerIcon(getTextureName("top"));
 				}else{
@@ -82,17 +91,35 @@ public abstract class HydraulicBlockContainerBase extends BlockContainer {
 				}else{
 					frontIcon = blockIcon;
 				}
+				if(hasLeftIcon){
+					leftIcon = iconRegistry.registerIcon(getTextureName("left"));
+				}else{
+					leftIcon = blockIcon;
+				}
+				if(hasRightIcon){
+					rightIcon = iconRegistry.registerIcon(getTextureName("right"));
+				}else{
+					rightIcon = blockIcon;
+				}
+				if(hasBackIcon){
+					backIcon = iconRegistry.registerIcon(getTextureName("back"));
+				}else{
+					backIcon = blockIcon;
+				}
 			}else{
 				blockIcon = iconRegistry.registerIcon(getTextureName(null));
 				bottomIcon = blockIcon;
 				topIcon = blockIcon;
 				frontIcon = blockIcon;
+				leftIcon = blockIcon;
+				rightIcon = blockIcon;
+				backIcon = blockIcon;
 			}
 		}else{
-			blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
+			/*blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
 			bottomIcon = blockIcon;
 			topIcon = blockIcon;
-			frontIcon = blockIcon;
+			frontIcon = blockIcon;*/
 		}
 	}
 	
@@ -138,8 +165,24 @@ public abstract class HydraulicBlockContainerBase extends BlockContainer {
 	
 	@Override
 	public IIcon getIcon(int side, int metadata){
+		Orientation or = Orientation.calculateOrientation(side, metadata);
+		switch (or){
+			case FRONT:
+				return frontIcon;
+			case LEFT:
+				return leftIcon;
+			case RIGHT:
+				return rightIcon;
+			case BACK:
+				return backIcon;
+			case TOP:
+				return topIcon;
+			case BOTTOM:
+				return bottomIcon;
+		}
+
 		ForgeDirection s = ForgeDirection.getOrientation(side);
-		if(s.equals(ForgeDirection.UP)){
+		/*if(s.equals(ForgeDirection.UP)){
 			return topIcon;
 		}else if(s.equals(ForgeDirection.DOWN)){
 			return bottomIcon;
@@ -155,6 +198,7 @@ public abstract class HydraulicBlockContainerBase extends BlockContainer {
 				}
 			}
 		}
+		*/
 		return blockIcon;
 	}
 	
