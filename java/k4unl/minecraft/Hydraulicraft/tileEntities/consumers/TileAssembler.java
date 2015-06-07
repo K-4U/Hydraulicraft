@@ -5,16 +5,16 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
-public class TileAssembler extends TileHydraulicBase implements IHydraulicConsumer, IFluidInventory, IFluidCraftingMachine {
-    InventoryFluidCrafting inventoryCrafting;
-    InventoryCraftResult   inventoryResult;
+public class TileAssembler extends TileHydraulicBase implements IHydraulicConsumer, IInventory, IFluidCraftingMachine {
+    InventoryFluidCrafting    inventoryCrafting;
+    InventoryFluidCraftResult inventoryResult;
 
     public TileAssembler() {
         super(10);
@@ -24,7 +24,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
         // TODO size of assembler's crafting tank
         tanks[0] = new FluidTank(4000);
         inventoryCrafting = new InventoryFluidCrafting(this, 3, tanks, null);
-        inventoryResult = new InventoryCraftResult();
+        inventoryResult = new InventoryFluidCraftResult(this);
     }
 
     @Override
@@ -111,16 +111,6 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
         return inventoryCrafting.isItemValidForSlot(slot, itemStack);
     }
 
-    @Override
-    public boolean drainFluid(FluidStack fluidStack, boolean pretend) {
-        return inventoryCrafting.drainFluid(fluidStack, pretend);
-    }
-
-    @Override
-    public boolean fillFluid(FluidStack fluidStack, boolean pretend) {
-        return inventoryCrafting.fillFluid(fluidStack, pretend);
-    }
-
     public InventoryFluidCrafting getFluidInventory() {
         return inventoryCrafting;
     }
@@ -146,9 +136,6 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
     public void onCraftingMatrixChanged() {
         //inventoryResult.setRecipe(HydraulicRecipes.getAssemblerRecipe(inventoryCrafting));
         IFluidRecipe recipe = HydraulicRecipes.getAssemblerRecipe(inventoryCrafting);
-        if (recipe == null)
-            inventoryResult.setInventorySlotContents(0, null);
-        else
-            inventoryResult.setInventorySlotContents(0, recipe.getRecipeOutput());
+        inventoryResult.setRecipe(recipe);
     }
 }

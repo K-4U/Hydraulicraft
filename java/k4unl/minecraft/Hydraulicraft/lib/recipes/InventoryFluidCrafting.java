@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.lib.recipes;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -8,24 +9,20 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
 public class InventoryFluidCrafting implements IFluidInventory {
-    protected ItemStack[]           grid;
     protected FluidTank[]           inputTanks;
     protected FluidTank[]           outputTanks;
     protected IFluidCraftingMachine feedback;
+    protected InventoryCrafting     crafting;
 
     public InventoryFluidCrafting(IFluidCraftingMachine cnt, int gridSize) {
         this(cnt, gridSize, null, null);
     }
 
     public InventoryFluidCrafting(IFluidCraftingMachine cnt, int gridSize, FluidTank[] inputTank, FluidTank[] outputTank) {
-        this.grid = new ItemStack[gridSize * gridSize];
+        this.crafting = new InventoryCrafting(new DummyContainer(), gridSize, gridSize);
         inputTanks = inputTank;
         outputTanks = outputTank;
         this.feedback = cnt;
-    }
-
-    public ItemStack[] getGrid() {
-        return grid;
     }
 
     @Override
@@ -64,60 +61,38 @@ public class InventoryFluidCrafting implements IFluidInventory {
     }
 
     @Override
+    public void onMatrixChanged() {
+
+    }
+
+    @Override
+    public InventoryCrafting getInventoryCrafting() {
+        return crafting;
+    }
+
+    @Override
     public int getSizeInventory() {
-        return grid.length + 1;
+        return crafting.getSizeInventory() + 1;
     }
 
     @Override
     public ItemStack getStackInSlot(int slot) {
-        if (slot > grid.length || slot < 0)
-            return null;
-
-        return grid[slot];
+        return crafting.getStackInSlot(slot);
     }
 
     @Override
     public ItemStack decrStackSize(int slot, int decrBy) {
-        if (this.grid[slot] != null) {
-            ItemStack itemstack;
-
-            if (this.grid[slot].stackSize <= decrBy) {
-                itemstack = this.grid[slot];
-                this.grid[slot] = null;
-                this.markDirty();
-                return itemstack;
-            } else {
-                itemstack = this.grid[slot].splitStack(decrBy);
-                if (this.grid[slot].stackSize == 0) {
-                    this.grid[slot] = null;
-                }
-
-                this.markDirty();
-                return itemstack;
-            }
-        } else {
-            return null;
-        }
+        return crafting.decrStackSize(slot, decrBy);
     }
 
     @Override
     public ItemStack getStackInSlotOnClosing(int slot) {
-        if (this.grid[slot] != null) {
-            ItemStack itemstack = this.grid[slot];
-            this.grid[slot] = null;
-            return itemstack;
-        } else {
-            return null;
-        }
+        return crafting.getStackInSlotOnClosing(slot);
     }
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack itemStack) {
-        this.grid[slot] = itemStack;
-
-        if (itemStack != null && itemStack.stackSize > this.getInventoryStackLimit()) {
-            itemStack.stackSize = this.getInventoryStackLimit();
-        }
+        crafting.setInventorySlotContents(slot, itemStack);
 
         this.markDirty();
     }
@@ -168,13 +143,13 @@ public class InventoryFluidCrafting implements IFluidInventory {
     public void save(NBTTagCompound compound) {
         NBTTagList list = new NBTTagList();
 
-        for (int i = 0; i < grid.length; i++) {
-            if (grid[i] == null)
+        for (int i = 0; i < crafting.getSizeInventory(); i++) {
+            if (crafting.getStackInSlot(i) == null)
                 continue;
 
             NBTTagCompound compound1 = new NBTTagCompound();
             compound1.setByte("Slot", (byte) i);
-            grid[i].writeToNBT(compound1);
+            crafting.getStackInSlot(i).writeToNBT(compound1);
             list.appendTag(compound1);
         }
 
@@ -207,13 +182,13 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
     public void load(NBTTagCompound compound) {
         NBTTagList list = compound.getTagList("Items", 10);
-        grid = new ItemStack[grid.length]; // reset the grid
+        crafting = new InventoryCrafting(new DummyContainer(), (int) Math.sqrt(crafting.getSizeInventory()), (int) Math.sqrt(crafting.getSizeInventory()));
 
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound compound1 = list.getCompoundTagAt(i);
             int j = compound1.getByte("Slot") & 255;
-            if (j >= 0 && j < this.grid.length)
-                grid[j] = ItemStack.loadItemStackFromNBT(compound1);
+            if (j >= 0 && j < this.crafting.getSizeInventory())
+                crafting.setInventorySlotContents(j, ItemStack.loadItemStackFromNBT(compound1));
         }
 
         list = compound.getTagList("InputTanks", 10);

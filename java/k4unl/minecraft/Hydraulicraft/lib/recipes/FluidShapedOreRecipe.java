@@ -54,12 +54,15 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
 
     @Override
     public boolean matches(IFluidInventory inventory) {
-        // TODO actually do the recipe matching
-        return false;
+        if (!super.matches(inventory.getInventoryCrafting(), null))
+            return false;
+
+        // TODO check fluids beforehand?
+        return true;
     }
 
     @Override
     public void craft(IFluidInventory inventory) {
-
+        // TODO decrease fluids + items
     }
 }

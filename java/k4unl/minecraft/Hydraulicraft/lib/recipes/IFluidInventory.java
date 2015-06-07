@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.lib.recipes;
 
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraftforge.fluids.FluidStack;
 
 public interface IFluidInventory extends IInventory {
@@ -21,4 +22,16 @@ public interface IFluidInventory extends IInventory {
      * @return whether successful
      */
     boolean fillFluid(FluidStack fluidStack, boolean pretend);
+
+    /**
+     * Called when crafting matrix has changed
+     */
+    void onMatrixChanged();
+
+    /**
+     * Gets inventory crafting for checking recipes
+     *
+     * @return inventory crafting instance with slots
+     */
+    InventoryCrafting getInventoryCrafting();
 }
