@@ -69,6 +69,9 @@ public class HCBlocks {
 
 	public static Block blockJarDirt;
     public static Block blockAssembler;
+	public static Block blockRefinedLonezium;
+
+
 	
 	/*!
 	 * @author Koen Beckers
@@ -103,17 +106,18 @@ public class HCBlocks {
 		
 		blockLead = new BlockLead();
 		blockCopper = new BlockCopper();
-		blockCharger = new BlockHydraulicCharger();
-		
+
 		portalBase = new BlockPortalBase();
 		portalFrame = new BlockPortalFrame();
 		portalTeleporter = new BlockPortalTeleporter();
 
 		blockJarDirt = new BlockJarOfDirt();
 
+		blockCharger = new BlockHydraulicCharger();
         blockChunkLoader = new BlockChunkLoader();
 
         blockAssembler = new BlockAssembler();
+		blockRefinedLonezium = new BlockRefinedMineral(Names.blockRefinedLonezium);
 
 		harvesterTrolley = new BlockHarvesterTrolley();
 		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyCrops());
@@ -168,6 +172,7 @@ public class HCBlocks {
 
 		GameRegistry.registerBlock(blockCopper, ItemBlock.class, Names.blockCopper.unlocalized);
 		GameRegistry.registerBlock(blockLead, ItemBlock.class, Names.blockLead.unlocalized);
+
 		OreDictionary.registerOre(Names.blockCopper.unlocalized, blockCopper);
 		OreDictionary.registerOre(Names.blockLead.unlocalized, blockLead);
 
@@ -177,6 +182,7 @@ public class HCBlocks {
 		GameRegistry.registerBlock(blockInfiniteSource, HandlerHydraulicBlock.class, Names.blockInfiniteSource.unlocalized);
 		GameRegistry.registerBlock(blockChunkLoader, HandlerHydraulicBlock.class, Names.blockChunkLoader.unlocalized);
 		GameRegistry.registerBlock(portalTeleporter, HandlerHydraulicBlock.class, Names.portalTeleporter.unlocalized);
+		GameRegistry.registerBlock(blockRefinedLonezium, ItemBlock.class, Names.blockRefinedLonezium.unlocalized);
 
 	}
 }

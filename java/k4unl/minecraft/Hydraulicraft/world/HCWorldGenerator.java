@@ -66,6 +66,9 @@ public class HCWorldGenerator implements IWorldGenerator {
 		if(HCConfig.INSTANCE.getBool("shouldGenLeadOre", "worldgen")){
             generateOre(Ores.oreLead, world, HCConfig.INSTANCE.getInt("leadVeinSize"), HCConfig.INSTANCE.getInt("leadVeinCount"),HCConfig.INSTANCE.getInt("leadMinY"),HCConfig.INSTANCE.getInt("leadMaxY"), random, chunkX, chunkZ);
 		}
+		if(HCConfig.INSTANCE.getBool("shouldGenMinerals", "worldgen")){
+			generateOre(Ores.oreLonezium, world, HCConfig.INSTANCE.getInt("loneziumVeinSize"), HCConfig.INSTANCE.getInt("loneziumVeinCount"), HCConfig.INSTANCE.getInt("loneziumMinY"), HCConfig.INSTANCE.getInt("loneziumMaxY"), random, chunkX, chunkZ);
+		}
         if(HCConfig.INSTANCE.getBool("shouldGenOil", "worldgen")){
 			//Log.info("Now genning " + (chunkX * 16) + " " + (chunkZ * 16));
             if (random.nextDouble() < HCConfig.INSTANCE.getDouble("oilChance", "worldgen")) {

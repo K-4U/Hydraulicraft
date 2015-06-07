@@ -16,6 +16,7 @@ import k4unl.minecraft.Hydraulicraft.client.renderers.items.*;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererArchimedesScrew;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererJarOfDirt;
+import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererLonezium;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFluidPump;
@@ -79,5 +80,8 @@ public class Renderers {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicFluidPump.class, new RendererArchimedesScrew());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterFrame.class, new RendererHarvesterFrame());
+
+		RenderingRegistry.registerBlockHandler(new RendererLonezium());
+		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Ores.oreLonezium), new RendererLonezium());
 	}
 }

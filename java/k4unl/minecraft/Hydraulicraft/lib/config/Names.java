@@ -108,5 +108,6 @@ public class Names {
     public static final Name itemBucketLubricant    = new Name("Lubricant Bucket", "bucketLubricant");
 
 
-
+    public static final Name oreLonezium = new Name("Lonezium ore", "oreLonezium");
+    public static final Name blockRefinedLonezium = new Name("Refined Lonezium", "refinedLonezium");
 }

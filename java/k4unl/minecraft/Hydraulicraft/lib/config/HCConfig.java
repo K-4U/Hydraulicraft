@@ -49,14 +49,22 @@ public class HCConfig extends Config{
 
         configOptions.add(new ConfigOption("shouldGenCopperOre", true).setCategory("worldgen"));
         configOptions.add(new ConfigOption("shouldGenLeadOre", true).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("shouldGenMinerals", true).setCategory("worldgen"));
         configOptions.add(new ConfigOption("copperMinY", 35).setCategory("worldgen"));
         configOptions.add(new ConfigOption("copperMaxY", 90).setCategory("worldgen"));
         configOptions.add(new ConfigOption("copperVeinSize", 7).setCategory("worldgen"));
         configOptions.add(new ConfigOption("copperVeinCount", 8).setCategory("worldgen"));
+
         configOptions.add(new ConfigOption("leadMinY", 35).setCategory("worldgen"));
         configOptions.add(new ConfigOption("leadMaxY", 90).setCategory("worldgen"));
         configOptions.add(new ConfigOption("leadVeinSize", 4).setCategory("worldgen"));
         configOptions.add(new ConfigOption("leadVeinCount", 8).setCategory("worldgen"));
+
+        //TODO: Come up with several minerals.
+        configOptions.add(new ConfigOption("loneziumMinY", 35).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("loneziumMaxY", 90).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("loneziumVeinSize", 7).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("loneziumVeinCount", 8).setCategory("worldgen"));
 
         configOptions.add(new ConfigOption("shouldGenOil", true).setCategory("worldgen"));
         configOptions.add(new ConfigOption("oilChance", 0.005).setCategory("worldgen"));
