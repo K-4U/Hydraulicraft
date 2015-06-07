@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.blocks;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
+import k4unl.minecraft.k4lib.lib.Orientation;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -11,21 +12,28 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class HydraulicBlockBase extends Block {
 	private IIcon blockIcon;
 	private IIcon topIcon;
 	private IIcon bottomIcon;
 	private IIcon frontIcon;
-	
-	protected Name mName;
-	
+	private IIcon leftIcon;
+	private IIcon rightIcon;
+	private IIcon backIcon;
+
+	public Name mName;
+
 	protected boolean hasBottomIcon = false;
 	protected boolean hasTopIcon = false;
 	protected boolean hasFrontIcon = false;
-	
-	
+	protected boolean hasLeftIcon = false;
+	protected boolean hasRightIcon = false;
+	protected boolean hasBackIcon = false;
+
+	protected boolean hasTextures = true;
+
+
 	protected HydraulicBlockBase(Name machineName) {
 		super(Material.rock);
 		
@@ -61,32 +69,55 @@ public class HydraulicBlockBase extends Block {
 			return ModInfo.LID + ":" + mName.unlocalized;
 		}
 	}
-	
-	
+
+
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegistry){
-		if(hasTopIcon || hasBottomIcon || hasFrontIcon){
-			blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
-			if(hasTopIcon){
-				topIcon = iconRegistry.registerIcon(getTextureName("top"));
+		if(hasTextures){
+			if(hasTopIcon || hasBottomIcon || hasFrontIcon || hasLeftIcon || hasRightIcon){
+				if(!(hasTopIcon && hasBottomIcon && hasFrontIcon && hasLeftIcon && hasRightIcon)) {
+					blockIcon = iconRegistry.registerIcon(getTextureName("sides"));
+				}
+
+				if(hasTopIcon){
+					topIcon = iconRegistry.registerIcon(getTextureName("top"));
+				}else{
+					topIcon = blockIcon;
+				}
+				if(hasBottomIcon){
+					bottomIcon = iconRegistry.registerIcon(getTextureName("bottom"));
+				}else{
+					bottomIcon = blockIcon;
+				}
+				if(hasFrontIcon){
+					frontIcon = iconRegistry.registerIcon(getTextureName("front"));
+				}else{
+					frontIcon = blockIcon;
+				}
+				if(hasLeftIcon){
+					leftIcon = iconRegistry.registerIcon(getTextureName("left"));
+				}else{
+					leftIcon = blockIcon;
+				}
+				if(hasRightIcon){
+					rightIcon = iconRegistry.registerIcon(getTextureName("right"));
+				}else{
+					rightIcon = blockIcon;
+				}
+				if(hasBackIcon){
+					backIcon = iconRegistry.registerIcon(getTextureName("back"));
+				}else{
+					backIcon = blockIcon;
+				}
 			}else{
-				topIcon = blockIcon;
-			}
-			if(hasBottomIcon){
-				bottomIcon = iconRegistry.registerIcon(getTextureName("bottom"));
-			}else{
+				blockIcon = iconRegistry.registerIcon(getTextureName(null));
 				bottomIcon = blockIcon;
-			}
-			if(hasFrontIcon){
-				frontIcon = iconRegistry.registerIcon(getTextureName("front"));
-			}else{
+				topIcon = blockIcon;
 				frontIcon = blockIcon;
+				leftIcon = blockIcon;
+				rightIcon = blockIcon;
+				backIcon = blockIcon;
 			}
-		}else{
-			blockIcon = iconRegistry.registerIcon(getTextureName(null));
-			bottomIcon = blockIcon;
-			topIcon = blockIcon;
-			frontIcon = blockIcon;
 		}
 	}
 	
@@ -94,10 +125,9 @@ public class HydraulicBlockBase extends Block {
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
 		super.onBlockAdded(world, x, y, z);
-		if(hasFrontIcon){
+		if (hasFrontIcon || hasBackIcon || hasLeftIcon || hasRightIcon) {
 			setDefaultDirection(world, x, y, z);
 		}
-		//checkSideBlocks(world, x, y, z);
 	}
 	
 	private void setDefaultDirection(World world, int x, int y, int z){
@@ -128,57 +158,54 @@ public class HydraulicBlockBase extends Block {
 			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
 	}
-	
-	
-	
+
+
+
 	@Override
 	public IIcon getIcon(int side, int metadata){
-		ForgeDirection s = ForgeDirection.getOrientation(side);
-		if(s.equals(ForgeDirection.UP)){
-			return topIcon;
-		}else if(s.equals(ForgeDirection.DOWN)){
-			return bottomIcon;
+		Orientation or = Orientation.calculateOrientation(side, metadata);
+		switch (or){
+			case FRONT:
+				return frontIcon;
+			case LEFT:
+				return leftIcon;
+			case RIGHT:
+				return rightIcon;
+			case BACK:
+				return backIcon;
+			case TOP:
+				return topIcon;
+			case BOTTOM:
+				return bottomIcon;
 		}
-		if(hasFrontIcon){
-			if(metadata > 0){
-				if(side == metadata){
-					return frontIcon; 
-				}
-			}else{
-				if(side == 3){
-					return frontIcon;
-				}
-			}
-		}
+
 		return blockIcon;
 	}
 	
 	
 	@SuppressWarnings("cast")
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
-		if(hasFrontIcon){
-			int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
-			
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack) {
+		if (hasFrontIcon || hasBackIcon || hasLeftIcon || hasRightIcon) {
+			int sideToPlace = MathHelper.floor_double((double) (player.rotationYaw / 90F) + 0.5D) & 3;
+
 			int metaDataToSet = 0;
-			switch(sideToPlace){
-			case 0:
-				metaDataToSet = 2;
-				break;
-			case 1:
-				metaDataToSet = 5;
-				break;
-			case 2:
-				metaDataToSet = 3;
-				break;
-			case 3:
-				metaDataToSet = 4;
-				break;
+			switch (sideToPlace) {
+				case 0:
+					metaDataToSet = 2;
+					break;
+				case 1:
+					metaDataToSet = 5;
+					break;
+				case 2:
+					metaDataToSet = 3;
+					break;
+				case 3:
+					metaDataToSet = 4;
+					break;
 			}
-			
+
 			world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
 		}
 	}
-	
-
 }

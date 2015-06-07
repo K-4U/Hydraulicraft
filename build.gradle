@@ -47,7 +47,7 @@ dependencies {
     compile 'com.mod-buildcraft:buildcraft:6.4.15:dev'
     compile 'net.industrial-craft:industrialcraft-2:2.2.504-experimental:api'
     compile "pneumaticCraft:PneumaticCraft-1.7.10:1.6.9-73:userdev"
-    compile "k4unl:k4lib:1.7.10-0.1.39:deobf"
+    compile "k4unl:k4lib:1.7.10-0.1.41:deobf"
 }
 
 project.ext {
@@ -181,6 +181,11 @@ task("uploadJars", dependsOn:"reobf") {
                                 developer {
                                     id 'K4Unl'
                                     name 'K4Unl'
+                                    roles { role 'developer' }
+                                }
+                                developer {
+                                    id 'Ashlee'
+                                    name 'Ashlee'
                                     roles { role 'developer' }
                                 }
                             }
