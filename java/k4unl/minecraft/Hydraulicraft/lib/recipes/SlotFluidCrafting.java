@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.lib.recipes;
 
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -22,33 +21,6 @@ public class SlotFluidCrafting extends Slot {
     @Override
     protected void onCrafting(ItemStack itemStack) {
         super.onCrafting(itemStack);
-        if (currentRecipe == null) {
-            Log.warning("Tried crafting NULL recipe?! wat...");
-            return;
-        }
-
-        // copypasta from SlotCrafting :X
-        for (int i = 0; i < fluidMatrixInventory.getSizeInventory(); i++) {
-            ItemStack stack = fluidMatrixInventory.getStackInSlot(i);
-            if (stack != null) {
-                fluidMatrixInventory.decrStackSize(i, 1);
-                if (stack.getItem().hasContainerItem(stack)) {
-                    ItemStack containerStack = stack.getItem().getContainerItem(stack);
-                    if (containerStack != null && containerStack.isItemStackDamageable() && containerStack.getItemDamage() > containerStack.getMaxDamage()) {
-                        continue;
-                    }
-
-                    if (stack.getItem().doesContainerItemLeaveCraftingGrid(stack) || !player.inventory.addItemStackToInventory(containerStack)) {
-                        if (fluidMatrixInventory.getStackInSlot(i) == null)
-                            fluidMatrixInventory.setInventorySlotContents(i, containerStack);
-                        else
-                            player.dropPlayerItemWithRandomChoice(containerStack, false);
-                    }
-                }
-            }
-        }
-
-        // TODO decrease input and increase output fluids on crafting
     }
 
     public void setRecipe(IFluidRecipe recipe) {

@@ -43,11 +43,4 @@ public interface IFluidRecipe extends IRecipe {
      * @return whether it is possible to craft with this inventory given result
      */
     boolean matches(IFluidInventory inventory);
-
-    /**
-     * Crafts given recipe in a given inventory
-     *
-     * @param inventory inventory to craft in
-     */
-    void craft(IFluidInventory inventory);
 }

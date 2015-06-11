@@ -23,10 +23,6 @@ public interface IFluidInventory extends IInventory {
      */
     boolean fillFluid(FluidStack fluidStack, boolean pretend);
 
-    /**
-     * Called when crafting matrix has changed
-     */
-    void onMatrixChanged();
 
     /**
      * Gets inventory crafting for checking recipes
@@ -34,4 +30,6 @@ public interface IFluidInventory extends IInventory {
      * @return inventory crafting instance with slots
      */
     InventoryCrafting getInventoryCrafting();
+
+    void eatFluids(IFluidRecipe recipe, float percent);
 }

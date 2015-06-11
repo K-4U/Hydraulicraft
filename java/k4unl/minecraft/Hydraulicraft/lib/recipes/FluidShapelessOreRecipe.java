@@ -47,11 +47,17 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
 
     @Override
     public List<FluidStack> getInputFluids() {
+        if (inputFluids == null)
+            inputFluids = new ArrayList<FluidStack>();
+
         return inputFluids;
     }
 
     @Override
     public List<FluidStack> getOutputFluids() {
+        if (outputFluids == null)
+            outputFluids = new ArrayList<FluidStack>();
+
         return outputFluids;
     }
 
@@ -60,12 +66,21 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
         if (!super.matches(inventory.getInventoryCrafting(), null))
             return false;
 
-        // TODO check for fluids
-        return true;
-    }
+        int fluidsMatched = 0;
+        for (FluidStack fluid : getInputFluids()) {
+            if (inventory.drainFluid(fluid, true))
+                fluidsMatched++;
+        }
 
-    @Override
-    public void craft(IFluidInventory inventory) {
-        // TODO decrease fluids and items in inventory
+        if (fluidsMatched != getInputFluids().size())
+            return false;
+
+        fluidsMatched = 0;
+        for (FluidStack fluidStack : getOutputFluids()) {
+            if (inventory.fillFluid(fluidStack, true))
+                fluidsMatched++;
+        }
+
+        return fluidsMatched == getOutputFluids().size();
     }
 }

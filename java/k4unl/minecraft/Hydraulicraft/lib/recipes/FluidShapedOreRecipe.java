@@ -57,12 +57,21 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
         if (!super.matches(inventory.getInventoryCrafting(), null))
             return false;
 
-        // TODO check fluids beforehand?
-        return true;
-    }
+        int fluidsMatched = 0;
+        for (FluidStack fluid : getInputFluids()) {
+            if (inventory.drainFluid(fluid, true))
+                fluidsMatched++;
+        }
 
-    @Override
-    public void craft(IFluidInventory inventory) {
-        // TODO decrease fluids + items
+        if (fluidsMatched != getInputFluids().size())
+            return false;
+
+        fluidsMatched = 0;
+        for (FluidStack fluidStack : getOutputFluids()) {
+            if (inventory.fillFluid(fluidStack, true))
+                fluidsMatched++;
+        }
+
+        return fluidsMatched == getOutputFluids().size();
     }
 }

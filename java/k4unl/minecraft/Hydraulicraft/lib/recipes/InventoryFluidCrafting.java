@@ -40,6 +40,8 @@ public class InventoryFluidCrafting implements IFluidInventory {
                 }
         }
 
+        markDirty();
+
         return false;
     }
 
@@ -57,17 +59,25 @@ public class InventoryFluidCrafting implements IFluidInventory {
             }
         }
 
+        markDirty();
+
         return false;
-    }
-
-    @Override
-    public void onMatrixChanged() {
-
     }
 
     @Override
     public InventoryCrafting getInventoryCrafting() {
         return crafting;
+    }
+
+    @Override
+    public void eatFluids(IFluidRecipe recipe, float percent) {
+        for (FluidStack inFluid : recipe.getInputFluids()) {
+            drainFluid(inFluid, false);
+        }
+
+        for (FluidStack outFluid : recipe.getOutputFluids()) {
+            fillFluid(outFluid, false);
+        }
     }
 
     @Override
@@ -207,6 +217,30 @@ public class InventoryFluidCrafting implements IFluidInventory {
             int j = compound1.getByte("Tank") & 255;
             if (j >= 0 && j < this.outputTanks.length)
                 outputTanks[i].readFromNBT(compound1);
+        }
+    }
+
+    public void eatItems() {
+        // copypasta from SlotCrafting :X
+
+        for (int i = 0; i < crafting.getSizeInventory(); i++) {
+            ItemStack stack = crafting.getStackInSlot(i);
+            if (stack != null) {
+                crafting.decrStackSize(i, 1);
+                if (stack.getItem().hasContainerItem(stack)) {
+                    ItemStack containerStack = stack.getItem().getContainerItem(stack);
+                    if (containerStack != null && containerStack.isItemStackDamageable() && containerStack.getItemDamage() > containerStack.getMaxDamage()) {
+                        continue;
+                    }
+
+                    if (stack.getItem().doesContainerItemLeaveCraftingGrid(stack)) {
+                        if (crafting.getStackInSlot(i) == null)
+                            crafting.setInventorySlotContents(i, containerStack);
+                        else
+                            feedback.spawnOverflowItemStack(containerStack);
+                    }
+                }
+            }
         }
     }
 }
