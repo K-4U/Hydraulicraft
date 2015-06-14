@@ -60,22 +60,28 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
             return false;
 
         int fluidsMatched = 0;
-        for (FluidStack fluid : getInputFluids()) {
-            FluidStack drained = inventory.craftingDrain(fluid, false);
-            if (drained != null && drained.amount == fluid.amount)
-                fluidsMatched++;
-        }
+        if (inputFluids != null) {
+            for (FluidStack fluid : getInputFluids()) {
+                FluidStack drained = inventory.craftingDrain(fluid, false);
+                if (drained != null && drained.amount == fluid.amount)
+                    fluidsMatched++;
+            }
 
-        if (fluidsMatched != getInputFluids().size())
-            return false;
+            if (fluidsMatched != getInputFluids().size())
+                return false;
+        }
 
         fluidsMatched = 0;
-        for (FluidStack fluidStack : getOutputFluids()) {
-            if (inventory.craftingFill(fluidStack, false) == fluidStack.amount)
-                fluidsMatched++;
+        if (outputFluids != null) {
+            for (FluidStack fluidStack : getOutputFluids()) {
+                if (inventory.craftingFill(fluidStack, false) == fluidStack.amount)
+                    fluidsMatched++;
+            }
+
+            return fluidsMatched == getOutputFluids().size();
         }
 
-        return fluidsMatched == getOutputFluids().size();
+        return true;
     }
 
     @Override

@@ -90,17 +90,19 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
     @Override
     public void eatFluids(IFluidRecipe recipe, float percent) {
-        for (FluidStack inFluid : recipe.getInputFluids()) {
-            FluidStack toDrain = inFluid.copy();
-            toDrain.amount *= percent;
-            craftingDrain(toDrain, true);
-        }
+        if (recipe.getInputFluids() != null)
+            for (FluidStack inFluid : recipe.getInputFluids()) {
+                FluidStack toDrain = inFluid.copy();
+                toDrain.amount *= percent;
+                craftingDrain(toDrain, true);
+            }
 
-        for (FluidStack outFluid : recipe.getOutputFluids()) {
-            FluidStack toFill = outFluid.copy();
-            toFill.amount *= percent;
-            craftingFill(toFill, true);
-        }
+        if (recipe.getOutputFluids() != null)
+            for (FluidStack outFluid : recipe.getOutputFluids()) {
+                FluidStack toFill = outFluid.copy();
+                toFill.amount *= percent;
+                craftingFill(toFill, true);
+            }
     }
 
     @Override
@@ -147,13 +149,22 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
     @Override
     public FluidTankInfo[] getTankInfo() {
-        FluidTankInfo[] info = new FluidTankInfo[inputTanks.length + outputTanks.length];
+        int inputTanksCnt = 0, outputTanksCnt = 0;
+        if (inputTanks != null)
+            inputTanksCnt += inputTanks.length;
 
-        for (int i = 0; i < inputTanks.length; i++)
-            info[i] = inputTanks[i].getInfo();
+        if (outputTanks != null)
+            outputTanksCnt += outputTanks.length;
 
-        for (int i = 0; i < outputTanks.length; i++)
-            info[i + inputTanks.length] = outputTanks[i].getInfo();
+        FluidTankInfo[] info = new FluidTankInfo[inputTanksCnt + outputTanksCnt];
+
+        if (inputTanks != null)
+            for (int i = 0; i < inputTanks.length; i++)
+                info[i] = inputTanks[i].getInfo();
+
+        if (outputTanks != null)
+            for (int i = 0; i < outputTanks.length; i++)
+                info[i + inputTanksCnt] = outputTanks[i].getInfo();
 
         return info;
     }

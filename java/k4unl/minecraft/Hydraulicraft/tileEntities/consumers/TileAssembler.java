@@ -34,6 +34,8 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
     @Override
     public float workFunction(boolean simulate, ForgeDirection from) {
         if (recipe != null) {
+            float usedPressure = recipe.getPressure();
+
             if (inventoryResult.getStackInSlot(0) != null &&
                     !ItemStackUtils.canMergeStacks(inventoryResult.getStackInSlot(0), recipe.getRecipeOutput()))
                 return 0;
@@ -57,7 +59,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
                 onCraftingMatrixChanged();
             }
 
-            return recipe.getPressure();
+            return usedPressure;
         }
 
         return 0;
