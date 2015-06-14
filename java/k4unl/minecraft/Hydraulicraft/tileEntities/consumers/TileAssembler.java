@@ -4,6 +4,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.k4lib.lib.ItemStackUtils;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -34,7 +35,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
     public float workFunction(boolean simulate, ForgeDirection from) {
         if (recipe != null) {
             if (inventoryResult.getStackInSlot(0) != null &&
-                    !Helpers.canMergeStacks(inventoryResult.getStackInSlot(0), recipe.getRecipeOutput()))
+                    !ItemStackUtils.canMergeStacks(inventoryResult.getStackInSlot(0), recipe.getRecipeOutput()))
                 return 0;
 
             if (simulate) {
@@ -51,7 +52,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
             // TODO get assembly time
             if (workProgress == 20) {
                 inventoryResult.setInventorySlotContents(0,
-                        Helpers.mergeStacks(recipe.getCraftingResult(inventoryCrafting.getInventoryCrafting()),
+                        ItemStackUtils.mergeStacks(recipe.getCraftingResult(inventoryCrafting.getInventoryCrafting()),
                                 inventoryResult.getStackInSlot(0)));
                 markDirty();
                 onCraftingMatrixChanged();

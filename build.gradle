@@ -47,7 +47,7 @@ dependencies {
     compile 'com.mod-buildcraft:buildcraft:6.4.16:dev'
     compile 'net.industrial-craft:industrialcraft-2:2.2.727-experimental:api'
     compile "pneumaticCraft:PneumaticCraft-1.7.10:1.7.0-74:userdev"
-    compile "k4unl:k4lib:1.7.10-0.1.40:deobf"
+    compile "k4unl:k4lib:1.7.10-0.1.42:deobf"
 }
 
 project.ext {
