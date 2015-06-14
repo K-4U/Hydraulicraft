@@ -5,8 +5,10 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 public class InventoryFluidCrafting implements IFluidInventory {
     protected FluidTank[]           inputTanks;
@@ -26,42 +28,59 @@ public class InventoryFluidCrafting implements IFluidInventory {
     }
 
     @Override
-    public boolean drainFluid(FluidStack fluidStack, boolean pretend) {
-        if (inputTanks == null)
-            return false;
-
-        for (FluidTank tank : inputTanks) {
-            if (tank.getFluid() != null && tank.getFluid().equals(fluidStack))
-                if (tank.drain(fluidStack.amount, false).amount == fluidStack.amount) {
-                    if (!pretend)
-                        tank.drain(fluidStack.amount, true);
-
-                    return true;
-                }
-        }
-
-        markDirty();
-
-        return false;
-    }
-
-    @Override
-    public boolean fillFluid(FluidStack fluidStack, boolean pretend) {
+    public FluidStack drain(FluidStack fluidStack, boolean doDrain) {
         if (outputTanks == null)
-            return false;
+            return null;
 
         for (FluidTank tank : outputTanks) {
-            if (tank.getFluid() == null || (tank.getFluid().equals(fluidStack) && tank.fill(fluidStack, true) == fluidStack.amount)) {
-                if (!pretend)
-                    tank.fill(fluidStack, false);
-
-                return true;
+            if (tank.getFluid() != null && tank.getFluid().equals(fluidStack)) {
+                return tank.drain(fluidStack.amount, doDrain);
             }
         }
 
-        markDirty();
+        return null;
+    }
 
-        return false;
+    @Override
+    public FluidStack craftingDrain(FluidStack fluidStack, boolean doDrain) {
+        if (inputTanks == null)
+            return null;
+
+        for (FluidTank tank : inputTanks) {
+            if (tank.getFluid() != null && tank.getFluid().equals(fluidStack)) {
+                return tank.drain(fluidStack.amount, doDrain);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public int fill(FluidStack fluidStack, boolean doDrain) {
+        if (inputTanks == null)
+            return 0;
+
+        for (FluidTank tank : inputTanks) {
+            if (tank.getFluid() == null || tank.getFluid().equals(fluidStack)) {
+                return tank.fill(fluidStack, doDrain);
+            }
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int craftingFill(FluidStack fluidStack, boolean doDrain) {
+        if (outputTanks == null)
+            return 0;
+
+        for (FluidTank tank : outputTanks) {
+            if (tank.getFluid() == null || tank.getFluid().equals(fluidStack)) {
+                return tank.fill(fluidStack, doDrain);
+            }
+        }
+
+        return 0;
     }
 
     @Override
@@ -72,12 +91,71 @@ public class InventoryFluidCrafting implements IFluidInventory {
     @Override
     public void eatFluids(IFluidRecipe recipe, float percent) {
         for (FluidStack inFluid : recipe.getInputFluids()) {
-            drainFluid(inFluid, false);
+            FluidStack toDrain = inFluid.copy();
+            toDrain.amount *= percent;
+            craftingDrain(toDrain, true);
         }
 
         for (FluidStack outFluid : recipe.getOutputFluids()) {
-            fillFluid(outFluid, false);
+            FluidStack toFill = outFluid.copy();
+            toFill.amount *= percent;
+            craftingFill(toFill, true);
         }
+    }
+
+    @Override
+    public FluidStack drain(int maxDrain, boolean doDrain) {
+        if (outputTanks == null)
+            return null;
+
+        for (FluidTank tank : outputTanks) {
+            if (tank.getFluid() != null && tank.getFluidAmount() > 0) {
+                return tank.drain(maxDrain, doDrain);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean canFill(Fluid fluid) {
+        if (inputTanks == null)
+            return false;
+
+        for (FluidTank tank : inputTanks) {
+            if (tank.getFluid() == null || tank.getFluid().getFluid() == fluid) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean canDrain(Fluid fluid) {
+        if (outputTanks == null)
+            return false;
+
+        for (FluidTank tank : outputTanks) {
+            if (tank.getFluid() == null || tank.getFluid().getFluid() == fluid) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo() {
+        FluidTankInfo[] info = new FluidTankInfo[inputTanks.length + outputTanks.length];
+
+        for (int i = 0; i < inputTanks.length; i++)
+            info[i] = inputTanks[i].getInfo();
+
+        for (int i = 0; i < outputTanks.length; i++)
+            info[i + inputTanks.length] = outputTanks[i].getInfo();
+
+        return info;
     }
 
     @Override
@@ -243,4 +321,6 @@ public class InventoryFluidCrafting implements IFluidInventory {
             }
         }
     }
+
+
 }

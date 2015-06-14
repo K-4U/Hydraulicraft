@@ -43,4 +43,11 @@ public interface IFluidRecipe extends IRecipe {
      * @return whether it is possible to craft with this inventory given result
      */
     boolean matches(IFluidInventory inventory);
+
+    /**
+     * Gets crafting time of this recipe for machines. 0 by default
+     *
+     * @return crafting time
+     */
+    int getCraftingTime();
 }

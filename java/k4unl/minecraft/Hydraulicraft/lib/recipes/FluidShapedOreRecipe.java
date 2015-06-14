@@ -12,6 +12,7 @@ import java.util.List;
 public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecipe {
     List<FluidStack> inputFluids;
     List<FluidStack> outputFluids;
+    int craftingTime = 0;
 
     public FluidShapedOreRecipe(Block result, Object... recipe) {
         super(result, recipe);
@@ -59,7 +60,8 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
 
         int fluidsMatched = 0;
         for (FluidStack fluid : getInputFluids()) {
-            if (inventory.drainFluid(fluid, true))
+            FluidStack drained = inventory.craftingDrain(fluid, false);
+            if (drained != null && drained.amount == fluid.amount)
                 fluidsMatched++;
         }
 
@@ -68,10 +70,20 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
 
         fluidsMatched = 0;
         for (FluidStack fluidStack : getOutputFluids()) {
-            if (inventory.fillFluid(fluidStack, true))
+            if (inventory.craftingFill(fluidStack, false) == fluidStack.amount)
                 fluidsMatched++;
         }
 
         return fluidsMatched == getOutputFluids().size();
+    }
+
+    @Override
+    public int getCraftingTime() {
+        return craftingTime;
+    }
+
+    public FluidShapedOreRecipe setCraftingTime(int craftingTime) {
+        this.craftingTime = craftingTime;
+        return this;
     }
 }

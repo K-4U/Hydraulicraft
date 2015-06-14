@@ -12,9 +12,9 @@ import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.*;
 
-public class TileAssembler extends TileHydraulicBase implements IHydraulicConsumer, IInventory, IFluidCraftingMachine {
+public class TileAssembler extends TileHydraulicBase implements IHydraulicConsumer, IInventory, IFluidCraftingMachine, IFluidHandler {
     InventoryFluidCrafting    inventoryCrafting;
     InventoryFluidCraftResult inventoryResult;
     IFluidRecipe              recipe;
@@ -47,10 +47,9 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
             }
 
             workProgress++;
-            inventoryCrafting.eatFluids(recipe, 1f / 20);
+            inventoryCrafting.eatFluids(recipe, 1f / recipe.getCraftingTime());
 
-            // TODO get assembly time
-            if (workProgress == 20) {
+            if (workProgress == recipe.getCraftingTime()) {
                 inventoryResult.setInventorySlotContents(0,
                         ItemStackUtils.mergeStacks(recipe.getCraftingResult(inventoryCrafting.getInventoryCrafting()),
                                 inventoryResult.getStackInSlot(0)));
@@ -176,5 +175,37 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
     @Override
     public void spawnOverflowItemStack(ItemStack stack) {
         worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, stack));
+    }
+
+    /* ***** IFLUIDHANDLER */
+
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        return inventoryCrafting.fill(resource, doFill);
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+        return inventoryCrafting.drain(resource, doDrain);
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+        return inventoryCrafting.drain(maxDrain, doDrain);
+    }
+
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
+        return inventoryCrafting.canFill(fluid);
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        return inventoryCrafting.canDrain(fluid);
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+        return inventoryCrafting.getTankInfo();
     }
 }
