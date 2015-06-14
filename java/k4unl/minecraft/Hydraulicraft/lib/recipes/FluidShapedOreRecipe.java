@@ -12,7 +12,8 @@ import java.util.List;
 public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecipe {
     List<FluidStack> inputFluids;
     List<FluidStack> outputFluids;
-    int craftingTime = 0;
+    int   craftingTime = 1;
+    float pressure     = 0.1f;
 
     public FluidShapedOreRecipe(Block result, Object... recipe) {
         super(result, recipe);
@@ -85,5 +86,14 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
     public FluidShapedOreRecipe setCraftingTime(int craftingTime) {
         this.craftingTime = craftingTime;
         return this;
+    }
+
+    @Override
+    public float getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(float pressure) {
+        this.pressure = pressure;
     }
 }

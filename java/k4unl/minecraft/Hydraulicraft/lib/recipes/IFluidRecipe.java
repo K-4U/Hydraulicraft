@@ -45,9 +45,16 @@ public interface IFluidRecipe extends IRecipe {
     boolean matches(IFluidInventory inventory);
 
     /**
-     * Gets crafting time of this recipe for machines. 0 by default
+     * Gets crafting time of this recipe for machines. 1 by default, 0 can cause DivisionByZero exceptions!
      *
      * @return crafting time
      */
     int getCraftingTime();
+
+    /**
+     * Gets presure required for operation
+     *
+     * @return pressure
+     */
+    float getPressure();
 }

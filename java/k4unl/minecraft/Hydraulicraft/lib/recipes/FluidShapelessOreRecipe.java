@@ -12,8 +12,8 @@ import java.util.List;
 public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFluidRecipe {
     List<FluidStack> inputFluids;
     List<FluidStack> outputFluids;
-    int craftingTime = 0;
-
+    int   craftingTime = 1;
+    float pressure     = 0.1f;
 
     public FluidShapelessOreRecipe(Block result, Object... recipe) {
         super(result, recipe);
@@ -89,6 +89,15 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
     @Override
     public int getCraftingTime() {
         return craftingTime;
+    }
+
+    @Override
+    public float getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(float pressure) {
+        this.pressure = pressure;
     }
 
     public FluidShapelessOreRecipe setCraftingTime(int craftingTime) {

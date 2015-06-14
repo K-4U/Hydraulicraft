@@ -39,7 +39,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
                 return 0;
 
             if (simulate) {
-                return 0.1f;
+                return recipe.getPressure();
             }
 
             if (workProgress == 0) {
@@ -57,10 +57,9 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
                 onCraftingMatrixChanged();
             }
 
-            return 0.1f;
+            return recipe.getPressure();
         }
 
-        // TODO get fluid used in assembler
         return 0;
     }
 
