@@ -37,14 +37,44 @@ public interface IFluidInventory extends IInventory {
      */
     InventoryCrafting getInventoryCrafting();
 
+    /**
+     * Eats all the fluids in a recipe
+     *
+     * @param recipe  recipe that is being processed
+     * @param percent how many % to eat (usually relative to recipe's processing time)
+     */
     void eatFluids(IFluidRecipe recipe, float percent);
 
+    /**
+     * Drain from inventory
+     *
+     * @param maxDrain max amount of fluid to drain
+     * @param doDrain  actually drain
+     * @return drained fluid stack
+     */
     FluidStack drain(int maxDrain, boolean doDrain);
 
 
+    /**
+     * Check whether this fluid can be filled in the inventory
+     *
+     * @param fluid Fulid to fill
+     * @return fillable
+     */
     boolean canFill(Fluid fluid);
 
+    /**
+     * Check whether this fluid can be drained from the inventory
+     *
+     * @param fluid Fluid to drain
+     * @return drainable
+     */
     boolean canDrain(Fluid fluid);
 
+    /**
+     * Information about the tank(s)
+     *
+     * @return tank information
+     */
     FluidTankInfo[] getTankInfo();
 }
