@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.ores;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.blocks.IGlowBlock;
-import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererLonezium;
+import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererGlowBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -33,6 +33,6 @@ public class OreLonezium extends OreMineral implements IGlowBlock {
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
 
-        return RendererLonezium.RENDER_ID;
+        return RendererGlowBlock.RENDER_ID;
     }
 }

@@ -7,8 +7,10 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
@@ -16,17 +18,28 @@ import net.minecraft.world.IBlockAccess;
 /**
  * @author K-4U
  */
-public class RendererLonezium implements ISimpleBlockRenderingHandler {
+public class RendererGlowBlock implements ISimpleBlockRenderingHandler {
 
     private static final ResourceLocation resLoc =
-            new ResourceLocation(ModInfo.LID,"textures/model/");
+      new ResourceLocation(ModInfo.LID, "textures/model/");
 
-    public static final int   RENDER_ID         = RenderingRegistry.getNextAvailableRenderId();
+    public static final Block FAKE_RENDER_BLOCK = new Block(Material.rock) {
+
+        @Override
+        public IIcon getIcon(int meta, int side) {
+
+            return currentBlockToRender.getIcon(meta, side);
+        }
+    };
+
+    public static       Block currentBlockToRender = Blocks.stone;
+    public static final int   RENDER_ID            = RenderingRegistry.getNextAvailableRenderId();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
 
-        //renderer.renderBlockAsItem(block, 1, 1.0F);
+        currentBlockToRender = block;
+        renderer.renderBlockAsItem(FAKE_RENDER_BLOCK, 1, 1.0F);
     }
 
     @Override
@@ -34,8 +47,8 @@ public class RendererLonezium implements ISimpleBlockRenderingHandler {
 
         boolean ret = renderer.renderStandardBlock(block, x, y, z);
 
-        if(block instanceof IGlowBlock){
-            IIcon icon = ((IGlowBlock)block).getGlowIcon();
+        if (block instanceof IGlowBlock) {
+            IIcon icon = ((IGlowBlock) block).getGlowIcon();
             //Render it again here, with brightness 0xE000E0
             Tessellator t = Tessellator.instance;
             t.addTranslation(x, y, z);
@@ -50,7 +63,7 @@ public class RendererLonezium implements ISimpleBlockRenderingHandler {
 
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
-        return false;
+        return true;
     }
 
     @Override
