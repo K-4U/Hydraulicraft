@@ -66,17 +66,15 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("loneziumVeinSize", 7).setCategory("worldgen"));
         configOptions.add(new ConfigOption("loneziumVeinCount", 8).setCategory("worldgen"));
 
-        configOptions.add(new ConfigOption("shouldGenNadsiumBicarbinate", true).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("nadsiumBicarbinateMinY", 35).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("nadsiumBicarbinateMaxY", 90).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("nadsiumBicarbinateVeinSize", 7).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("nadsiumBicarbinateVeinCount", 8).setCategory("worldgen"));
-        
-        configOptions.add(new ConfigOption("shouldGenBeachium", true).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("beachiumMinY", 35).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("beachiumMaxY", 90).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("beachiumVeinSize", 7).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("beachiumVeinCount", 8).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("shouldGenNadsiumBicarbinate", true).setCategory("worldgen").setComment("Warning! Disabling this block "
+          + "will disable the top tier blocks! Only do this when there is an ore dictionaried equivalent!"));
+        configOptions.add(new ConfigOption("nadsiumBicarbinateVeinCount", 2).setCategory("worldgen").setComment("How many blocks will spawn per "
+          + "chunk"));
+        configOptions.add(new ConfigOption("nadsiumBicarbinateChance", 0.2).setCategory("worldgen"));
+
+        configOptions.add(new ConfigOption("shouldGenBeachium", true).setCategory("worldgen").setComment("Warning! Disabling this block will "
+          + "disable the crafting of Hydraulic Oil! Only do this when there is an ore dictionaried equivalent!"));
+        configOptions.add(new ConfigOption("beachiumVeinCount", 7).setCategory("worldgen").setComment("How many blocks will spawn per chunk"));
 
         configOptions.add(new ConfigOption("shouldGenOil", true).setCategory("worldgen"));
         configOptions.add(new ConfigOption("oilChance", 0.005).setCategory("worldgen"));
