@@ -25,6 +25,8 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
+import java.util.Random;
+
 public class EventHelper {
 	private static boolean hasShownUpdateInfo = false;
 	
@@ -73,10 +75,13 @@ public class EventHelper {
 	public void onDeathEvent(LivingDeathEvent event){
 		if(event.entity instanceof EntityPig){
 			if(!event.entity.worldObj.isRemote){
-				EntityItem ei = new EntityItem(event.entityLiving.worldObj);
-				ei.setEntityItemStack(new ItemStack(HCItems.itemBacon, 1));
-				ei.setPosition(event.entityLiving.posX,event.entityLiving.posY,event.entityLiving.posZ);
-				event.entityLiving.worldObj.spawnEntityInWorld(ei);
+				//Chance for bacon to drop, config ofcourse
+				if((new Random()).nextDouble() < HCConfig.INSTANCE.getDouble("baconDropChance")) {
+					EntityItem ei = new EntityItem(event.entityLiving.worldObj);
+					ei.setEntityItemStack(new ItemStack(HCItems.itemBacon, 1));
+					ei.setPosition(event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ);
+					event.entityLiving.worldObj.spawnEntityInWorld(ei);
+				}
 			}
 		}
 	}

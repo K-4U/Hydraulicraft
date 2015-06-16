@@ -42,6 +42,7 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("pressurePerTeleport", 10000).setCategory("portals"));
 
         configOptions.add(new ConfigOption("disableBacon", false).setCategory("food"));
+        configOptions.add(new ConfigOption("baconDropChance", 1.0).setCategory("food").setComment("Set to 1 to always drop."));
         configOptions.add(new ConfigOption("baconFoodLevel", 4).setCategory("food"));
         configOptions.add(new ConfigOption("disableEnderLolly", false).setCategory("food"));
         configOptions.add(new ConfigOption("enderLollyFoodLevel", 4).setCategory("food"));
