@@ -66,9 +66,15 @@ public class HCWorldGenerator implements IWorldGenerator {
 		if(HCConfig.INSTANCE.getBool("shouldGenLeadOre", "worldgen")){
             generateOre(Ores.oreLead, world, HCConfig.INSTANCE.getInt("leadVeinSize"), HCConfig.INSTANCE.getInt("leadVeinCount"),HCConfig.INSTANCE.getInt("leadMinY"),HCConfig.INSTANCE.getInt("leadMaxY"), random, chunkX, chunkZ);
 		}
-		if(HCConfig.INSTANCE.getBool("shouldGenMinerals", "worldgen")){
+		if(HCConfig.INSTANCE.getBool("shouldGenLonezium", "worldgen")){
 			generateOre(Ores.oreLonezium, world, HCConfig.INSTANCE.getInt("loneziumVeinSize"), HCConfig.INSTANCE.getInt("loneziumVeinCount"), HCConfig.INSTANCE.getInt("loneziumMinY"), HCConfig.INSTANCE.getInt("loneziumMaxY"), random, chunkX, chunkZ);
 		}
+        if(HCConfig.INSTANCE.getBool("shouldGenNadsiumBicarbinate", "worldgen")){
+            generateOre(Ores.oreNadsiumBicarbinate, world, HCConfig.INSTANCE.getInt("nadsiumBicarbinateVeinSize"), HCConfig.INSTANCE.getInt("nadsiumBicarbinateVeinCount"), HCConfig.INSTANCE.getInt("nadsiumBicarbinateMinY"), HCConfig.INSTANCE.getInt("nadsiumBicarbinateMaxY"), random, chunkX, chunkZ);
+        }
+        if(HCConfig.INSTANCE.getBool("shouldGenBeachium", "worldgen")){
+            generateOre(Ores.oreBeachium, world, HCConfig.INSTANCE.getInt("beachiumVeinSize"), HCConfig.INSTANCE.getInt("beachiumVeinCount"), HCConfig.INSTANCE.getInt("beachiumMinY"), HCConfig.INSTANCE.getInt("beachiumMaxY"), random, chunkX, chunkZ);
+        }
         if(HCConfig.INSTANCE.getBool("shouldGenOil", "worldgen")){
 			//Log.info("Now genning " + (chunkX * 16) + " " + (chunkZ * 16));
             if (random.nextDouble() < HCConfig.INSTANCE.getDouble("oilChance", "worldgen")) {

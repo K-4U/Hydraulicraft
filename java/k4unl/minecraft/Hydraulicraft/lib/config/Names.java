@@ -4,7 +4,7 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 
 public class Names {
 
-    public static final Name blockHydraulicFilter = new Name("Filter", "hydraulicFilter");
+    public static final Name blockHydraulicFilter              = new Name("Filter", "hydraulicFilter");
     public static final Name blockHydraulicFrictionIncinerator = new Name("Friction Incinerator", "hydraulicFrictionIncinerator");
     public static final Name blockHydraulicCrusher             = new Name("Crusher", "hydraulicCrusher");
     public static final Name blockHydraulicPressureGauge       = new Name("Pressure Gauge", "hydraulicPressureGauge");
@@ -35,7 +35,7 @@ public class Names {
       new Name("HP MJ Pump", "HPElectricPump") };
 
     public static final Name blockHydraulicHarvester = new Name("Harvester", "hydraulicHarvesterSource");
-    public static final Name blockHarvesterFrame = new Name("Harvester frame", "hydraulicHarvesterFrame");
+    public static final Name blockHarvesterFrame     = new Name("Harvester frame", "hydraulicHarvesterFrame");
 	
 	/*public static final Name[] blockHarvesterTrolley = {
 		new Name("Wheat Harvester", "wheatHarvester"),
@@ -48,7 +48,7 @@ public class Names {
     public static final Name[] blockCore = { new Name("LP Core", "LPBlockCore"), new Name("MP Core", "MPBlockCore"),
       new Name("HP Core", "HPBlockCore") };
 
-    public static final Name[] partHose                  = { new Name("LP Hydraulic Pressure Pipe", "LPHydraulicPipe"),
+    public static final Name[] partHose = { new Name("LP Hydraulic Pressure Pipe", "LPHydraulicPipe"),
       new Name("MP Hydraulic Pressure Pipe", "MPHydraulicPipe"), new Name("HP Hydraulic Pressure Pipe", "HPHydraulicPipe") };
 
     public static final Name[] blockHydraulicPressurevat = { new Name("LP Hydraulic Pressure Vat", "LPHydraulicPressureVat"),
@@ -63,7 +63,7 @@ public class Names {
     public static final Name[] partValve = { new Name("LP Valve", "LPPartValve"), new Name("MP Valve", "MPPartValve"),
       new Name("HP Valve", "HPPartValve") };
 
-    public static final Name partFluidPipe            = new Name("Fluid Pipe", "fluidPipe");
+    public static final Name partFluidPipe      = new Name("Fluid Pipe", "fluidPipe");
     public static final Name partFluidInterface = new Name("Fluid Interface", "fluidInterface");
 
     public static final Name portalBase       = new Name("Portal Base", "portalBase");
@@ -84,9 +84,9 @@ public class Names {
     public static final Name itemChunk           = new Name("Chunks", "chunk");
     public static final Name itemDust            = new Name("Dusts", "dust");
 
-    public static final Name itemBacon           = new Name("Bacon", "bacon");
-    public static final Name itemEnderLolly      = new Name("Ender Lolly", "enderLolly");
-    public static final Name itemDiamondShard    = new Name("Diamond Shard", "diamondShard");
+    public static final Name itemBacon        = new Name("Bacon", "bacon");
+    public static final Name itemEnderLolly   = new Name("Ender Lolly", "enderLolly");
+    public static final Name itemDiamondShard = new Name("Diamond Shard", "diamondShard");
 
 
     public static final Name blockInfiniteSource    = new Name("Infinite Source", "blockInfiniteSource");
@@ -108,6 +108,9 @@ public class Names {
     public static final Name itemBucketLubricant    = new Name("Lubricant Bucket", "bucketLubricant");
 
 
-    public static final Name oreLonezium = new Name("Lonezium ore", "oreLonezium");
-    public static final Name blockRefinedLonezium = new Name("Refined Lonezium", "refinedLonezium");
+    public static final Name oreLonezium                    = new Name("Lonezium ore", "oreLonezium");
+    public static final Name blockRefinedLonezium           = new Name("Refined Lonezium", "refinedLonezium");
+    public static final Name oreNadsiumBicarbinate          = new Name("Nadsium Bicarbinate", "oreNadsiumBicarbinate");
+    public static final Name blockRefinedNadsiumBicarbinate = new Name("Refined Nadsium Bicarbinate", "refinedNadsiumBicarbinate");
+    public static final Name oreBeachium                    = new Name("Beachium", "oreBeachium");
 }

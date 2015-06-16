@@ -20,6 +20,8 @@ item.enderLolly.name=Ender Lolly
 tile.oreCopper.name=Copper Ore
 tile.oreLead.name=Lead Ore
 tile.oreLonezium.name=Lonezium
+tile.oreBeachium.name=Beachium
+tile.oreNadsiumBicarbinate.name=Nadsium Bicarbinate
 
 #Blocks
 tile.hydraulicOil.name=Hydraulic Oil
@@ -82,6 +84,7 @@ tile.blockLead.name=Lead Block
 
 tile.blockJarDirt.name=Jar of Dirt
 tile.refinedLonezium.name=Refined Lonezium
+tile.refinedNadsiumBicarbinate.name=Refined Nadsium Bicarbinate
 tile.hydraulicAssembler.name=Assembler
 tile.fluidPipe.name=Fluid Pipe
 tile.fluidInterface.name=Fluid Interface
