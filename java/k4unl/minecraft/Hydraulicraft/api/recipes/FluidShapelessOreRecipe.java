@@ -112,4 +112,9 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
         this.pressure = pressure;
         return this;
     }
+
+    @Override
+    public Object[] getInputItems() {
+        return super.getInput().toArray(new Object[super.getInput().size()]);
+    }
 }

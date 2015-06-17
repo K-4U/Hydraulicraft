@@ -58,4 +58,11 @@ public interface IFluidRecipe extends IRecipe {
      * @return pressure
      */
     float getPressure();
+
+    /**
+     * Get input objects (itemstacks)
+     *
+     * @return inputs
+     */
+    Object[] getInputItems();
 }
