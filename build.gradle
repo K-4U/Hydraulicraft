@@ -33,6 +33,10 @@ repositories {
         name "K4Repo"
         url "http://maven.k-4u.nl"
     }
+    ivy {
+        name "BuildCraft"
+        artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-dev.[ext]"
+    }
 }
 
 
@@ -44,10 +48,10 @@ dependencies {
     compile "codechicken:NotEnoughItems:1.7.10-1.0.5.110:dev"
     compile "codechicken:ForgeMultipart:1.7.10-1.2.0.344:dev"
     compile "mcp.mobius.waila:Waila:1.5.10_1.7.10"
-    compile 'com.mod-buildcraft:buildcraft:6.4.16:dev'
     compile 'net.industrial-craft:industrialcraft-2:2.2.727-experimental:api'
     compile "pneumaticCraft:PneumaticCraft-1.7.10:1.7.0-74:userdev"
     compile "k4unl:k4lib:1.7.10-0.1.43:deobf"
+    compile name: "buildcraft", classifier: "dev", version: "7.0.11"
 }
 
 project.ext {
