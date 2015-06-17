@@ -20,8 +20,6 @@ import net.minecraftforge.fluids.*;
 public class TileHydraulicFilter extends TileHydraulicBase implements
   IInventory, IFluidHandler, IHydraulicConsumer, IFluidCraftingMachine {
 
-    private ItemStack outputInventory;
-
     InventoryFluidCrafting    inventoryCrafting;
     IFluidRecipe              recipe;
 

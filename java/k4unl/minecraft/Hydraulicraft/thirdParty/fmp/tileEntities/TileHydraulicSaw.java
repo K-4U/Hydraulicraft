@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities;
 
+import codechicken.microblock.MicroRecipe;
+import codechicken.nei.InventoryCraftingDummy;
+import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -12,9 +14,6 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import codechicken.microblock.MicroRecipe;
-import codechicken.nei.InventoryCraftingDummy;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicConsumer, ISidedInventory {
 	private ItemStack inputUpDownInventory;
@@ -440,13 +439,6 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
         	}
         	return false;
         }
-    }
-
-    private static boolean canSplit(ItemStack inv){
-        return HCConfig.canBeCrushed(inv);
-    }
-    private static boolean canThin(ItemStack inv){
-        return HCConfig.canBeCrushed(inv);
     }
     
 	@Override

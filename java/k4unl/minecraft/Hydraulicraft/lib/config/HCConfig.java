@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.lib.config;
 
-import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
 import k4unl.minecraft.k4lib.lib.config.Config;
 import k4unl.minecraft.k4lib.lib.config.ConfigOption;
@@ -8,7 +7,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class HCConfig extends Config{
@@ -80,11 +81,7 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("oilChance", 0.005).setCategory("worldgen"));
         configOptions.add(new ConfigOption("oilSpoutSize", 1).setCategory("worldgen").setComment("How big the oil spout is, above ground. Set to negative value for harder to find spouts"));
 	}
-	
-	public static boolean canBeCrushed(ItemStack toCrush){
-		return (CrushingRecipes.getCrushingRecipeOutput(toCrush) != null);
-	}
-	
+
 	public static boolean canBeWashed(ItemStack itemStack){
         return (WashingRecipes.getWashingRecipeOutput(itemStack) != null);
 	}

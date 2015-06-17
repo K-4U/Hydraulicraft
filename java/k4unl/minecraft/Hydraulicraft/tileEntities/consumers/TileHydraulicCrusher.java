@@ -1,96 +1,101 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
+import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
 import k4unl.minecraft.Hydraulicraft.items.ItemDusts;
-import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
-import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes.CrushingRecipe;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.IFluidCraftingMachine;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.IFluidInventory;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.InventoryFluidCrafting;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.k4lib.lib.ItemStackUtils;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 import java.util.Random;
 
-public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInventory, IHydraulicConsumer{
-    private ItemStack inputInventory;
-    private ItemStack crushingItem;
-    private ItemStack targetItem;
-    private ItemStack outputInventory;
+public class TileHydraulicCrusher extends TileHydraulicBase implements IInventory, IHydraulicConsumer, IFluidInventory, IFluidCraftingMachine {
+
+    private InventoryFluidCrafting    inventoryCrafting;
+    private ItemStack                 crushingItem;
+    private ItemStack                 targetItem;
+
+    private IFluidRecipe recipe;
+
     private final float requiredPressure = 5F;
-    private int crushingTicks = 0;
-    private int maxCrushingTicks = 0;
+    private       int   crushingTicks    = 0;
+    private       int   maxCrushingTicks = 0;
     private int oldScaledCrushTime;
     private float pressurePerTick = 0F;
 
+    //TODO: Rewrite me to have a different slot as an output slot
 
-    public TileHydraulicCrusher(){
-    	super(5);
-    	super.init(this);
+    public TileHydraulicCrusher() {
+
+        super(5);
+        super.init(this);
+        inventoryCrafting = new InventoryFluidCrafting(this, 2, null, null);
     }
 
-    public int getCrushingTicks(){
+    public int getCrushingTicks() {
+
         return crushingTicks;
     }
 
     @Override
-    public float workFunction(boolean simulate, ForgeDirection from){
-        if(canRun() || isCrushing()) {
-            if(!simulate) {
+    public float workFunction(boolean simulate, ForgeDirection from) {
+
+        if (canRun() || isCrushing()) {
+            if (!simulate) {
                 doCrush();
             }
             //The higher the pressure
             //The higher the speed!
             //But also the more it uses..
-            
+
             return 0.1F + pressurePerTick;
         } else {
             return 0F;
         }
     }
 
-    private void doCrush(){
-        if(isCrushing()) {
-        	float maxPressureThisTier = Functions.getMaxPressurePerTier(pNetwork.getLowestTier(), true);
-			float ratio = getPressure(ForgeDirection.UP) / maxPressureThisTier;
-            crushingTicks = crushingTicks + 1 + (int)((pNetwork.getLowestTier().ordinal() * 4) * ratio);// + (int)(getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F);
-            //Log.info(crushingTicks+ "");
-            if(crushingTicks >= maxCrushingTicks) {
-                //Crushing done!
-                if(outputInventory == null) {
-                    outputInventory = targetItem.copy();
-                } else {
-                    outputInventory.stackSize += targetItem.stackSize;
-                }
+    private void doCrush() {
+        if (isCrushing()) {
+            float maxPressureThisTier = Functions.getMaxPressurePerTier(pNetwork.getLowestTier(), true);
+            float ratio = getPressure(ForgeDirection.UP) / maxPressureThisTier;
+            crushingTicks = crushingTicks + 1 + (int) ((pNetwork.getLowestTier().ordinal() * 4) * ratio);// + (int)(getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F);
 
-                crushingItem = null;
+            if(crushingTicks >= maxCrushingTicks) {
+                inventoryCrafting.setInventorySlotContents(1, ItemStackUtils.mergeStacks(inventoryCrafting.getStackInSlot(1), targetItem));
                 targetItem = null;
-                pressurePerTick = 0;
+                crushingItem = null;
+                crushingTicks = 0;
             }
         } else {
-        	maxCrushingTicks = 200;
             if(canRun()) {
-            	CrushingRecipe currentRecipe = CrushingRecipes.getCrushingRecipe(inputInventory); 
-                targetItem = currentRecipe.output.copy();
+                targetItem = recipe.getRecipeOutput().copy();
                 if(new Random().nextFloat() > 0.80F) {
                 	if(!(targetItem.getItem() instanceof ItemDusts)){
                 		targetItem.stackSize+=1;
                 	}
                 }
-                crushingItem = inputInventory.copy();
-                inputInventory.stackSize--;
-                if(inputInventory.stackSize <= 0) {
-                    inputInventory = null;
-                }
+                crushingItem = getStackInSlot(0).copy();
+
+                inventoryCrafting.decrStackSize(0, 1);
                 crushingTicks = 0;
                 
-                pressurePerTick = (Functions.getMaxGenPerTier(pNetwork.getLowestTier(), true) * 0.75F) * currentRecipe.pressureRatio;
+                pressurePerTick = (Functions.getMaxGenPerTier(pNetwork.getLowestTier(), true) * 0.75F) * recipe.getPressure();
             }
             
         }
@@ -110,104 +115,49 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
 
     /*!
      * Checks if the outputslot is free, if there's enough pressure in the system
-     * and if the item is smeltable
+     * and if the item is Crusheable
      */
     private boolean canRun(){
-        if(inputInventory == null || getPressure(ForgeDirection.UNKNOWN) < requiredPressure) {
-            return false;
-        } else {
-            //Get crushing result:
-            CrushingRecipe targetRecipe = CrushingRecipes.getCrushingRecipe(inputInventory);
-            if(targetRecipe == null) return false;
-            if(outputInventory != null) {
-            	ItemStack target = targetRecipe.getOutput();
-                if(!outputInventory.isItemEqual(target)) return false;
-                if(Float.compare(getPressure(ForgeDirection.UP), targetRecipe.pressureRatio) < 0) return false; 
-                int newItemStackSize = outputInventory.stackSize + target.stackSize + 1; //The random chance..
-                if(outputInventory.getItem() instanceof ItemDusts){
-                	newItemStackSize--;
-                }
-                boolean ret = newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize();
-                return ret;
-            } else {
-                return true;
+        if(inventoryCrafting.getStackInSlot(0) == null) return false;
+        if(getPressure(ForgeDirection.UNKNOWN) < requiredPressure) return false;
+        if(recipe == null) return false;
+        if(getStackInSlot(1) != null){
+            ItemStack target = recipe.getRecipeOutput();
+            if(!getStackInSlot(1).isItemEqual(target)) return false;
+            int newItemStackSize = getStackInSlot(1).stackSize + target.stackSize + 1; //The random chance..
+            if(getStackInSlot(1).getItem() instanceof ItemDusts){
+                newItemStackSize--;
             }
-        }
-    }
-
-    private static boolean canCrush(ItemStack inv){
-        return HCConfig.canBeCrushed(inv);
-    }
-
-    @Override
-    public int getSizeInventory(){
-        return 2;
-    }
-
-    @Override
-    public ItemStack getStackInSlot(int i){
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        switch(i){
-            case 0:
-                return inputInventory;
-            case 1:
-                return outputInventory;
-            default:
-                return null;
-        }
-    }
-
-    @Override
-    public ItemStack decrStackSize(int i, int j){
-        ItemStack inventory = getStackInSlot(i);
-
-        ItemStack ret = null;
-        if(inventory.stackSize < j) {
-            ret = inventory;
-            inventory = null;
-
+            boolean ret = newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize();
+            return ret;
         } else {
-            ret = inventory.splitStack(j);
-            if(inventory.stackSize <= 0) {
-                if(i == 0) {
-                    inputInventory = null;
-                } else {
-                    outputInventory = null;
-                }
-            }
-        }
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-
-        return ret;
-    }
-
-    @Override
-    public ItemStack getStackInSlotOnClosing(int i){
-        ItemStack stack = getStackInSlot(i);
-        if(stack != null) {
-            setInventorySlotContents(i, null);
-        }
-        return stack;
-    }
-
-    @Override
-    public void setInventorySlotContents(int i, ItemStack itemStack){
-        if(i == 0) {
-            inputInventory = itemStack;
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        } else if(i == 1) {
-            outputInventory = itemStack;
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        } else {
-            //Err...
+            return true;
         }
     }
 
-
+    @Override
+    public int getSizeInventory() {
+        return inventoryCrafting.getSizeInventory();
+    }
 
     @Override
-    public int getInventoryStackLimit(){
-        return 64;
+    public ItemStack getStackInSlot(int slot) {
+        return inventoryCrafting.getStackInSlot(slot);
+    }
+
+    @Override
+    public ItemStack decrStackSize(int slot, int amount) {
+        return inventoryCrafting.decrStackSize(slot, amount);
+    }
+
+    @Override
+    public ItemStack getStackInSlotOnClosing(int slot) {
+        return inventoryCrafting.getStackInSlotOnClosing(slot);
+    }
+
+    @Override
+    public void setInventorySlotContents(int slot, ItemStack itemStack) {
+        inventoryCrafting.setInventorySlotContents(slot, itemStack);
     }
 
     @Override
@@ -215,47 +165,22 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
         return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq(xCoord, yCoord, zCoord) < 64;
     }
 
-
     @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemStack){
-        if(i == 0) {
-            if(canCrush(itemStack)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
+    public int getInventoryStackLimit() {
+        return inventoryCrafting.getInventoryStackLimit();
     }
 
-    @Override
-    public int[] getAccessibleSlotsFromSide(int var1){
-        return new int[]{1, 0};
-    }
 
     @Override
-    public boolean canInsertItem(int i, ItemStack itemStack, int j){
-        if(i == 0 && canCrush(itemStack)) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        return inventoryCrafting.isItemValidForSlot(slot, itemStack);
     }
 
-    @Override
-    public boolean canExtractItem(int i, ItemStack itemstack, int j){
-        if(i == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     @Override
     public void onBlockBreaks(){
-        dropItemStackInWorld(inputInventory);
-        dropItemStackInWorld(outputInventory);
+        dropItemStackInWorld(inventoryCrafting.getStackInSlot(0));
+        dropItemStackInWorld(inventoryCrafting.getStackInSlot(1));
     }
 
     @Override
@@ -271,10 +196,6 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
     public void readFromNBT(NBTTagCompound tagCompound){
     	super.readFromNBT(tagCompound);
         NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
-        inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
-
-        inventoryCompound = tagCompound.getCompoundTag("outputInventory");
-        outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 
         inventoryCompound = tagCompound.getCompoundTag("crushingItem");
         crushingItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
@@ -284,21 +205,14 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
         
         crushingTicks = tagCompound.getInteger("crushingTicks");
         maxCrushingTicks = tagCompound.getInteger("maxCrushingTicks");
+
+        inventoryCrafting.load(tagCompound);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound){
     	super.writeToNBT(tagCompound);
-        if(inputInventory != null) {
-            NBTTagCompound inventoryCompound = new NBTTagCompound();
-            inputInventory.writeToNBT(inventoryCompound);
-            tagCompound.setTag("inputInventory", inventoryCompound);
-        }
-        if(outputInventory != null) {
-            NBTTagCompound inventoryCompound = new NBTTagCompound();
-            outputInventory.writeToNBT(inventoryCompound);
-            tagCompound.setTag("outputInventory", inventoryCompound);
-        }
+
         if(crushingItem != null) {
             NBTTagCompound inventoryCompound = new NBTTagCompound();
             crushingItem.writeToNBT(inventoryCompound);
@@ -312,6 +226,8 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
         
         tagCompound.setInteger("crushingTicks", crushingTicks);
         tagCompound.setInteger("maxCrushingTicks", maxCrushingTicks);
+
+        inventoryCrafting.save(tagCompound);
     }
 
     public int getScaledCrushTime(){
@@ -362,4 +278,77 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements ISidedInv
 
 	@Override
 	public void onFluidLevelChanged(int old) { }
+
+    @Override
+    public FluidStack drain(FluidStack fluidStack, boolean doDrain) {
+
+        return null;
+    }
+
+    @Override
+    public FluidStack craftingDrain(FluidStack fluidStack, boolean doDrain) {
+
+        return null;
+    }
+
+    @Override
+    public int fill(FluidStack fluidStack, boolean doDrain) {
+
+        return 0;
+    }
+
+    @Override
+    public int craftingFill(FluidStack fluidStack, boolean doDrain) {
+
+        return 0;
+    }
+
+    @Override
+    public InventoryCrafting getInventoryCrafting() {
+
+        return null;
+    }
+
+    @Override
+    public void eatFluids(IFluidRecipe recipe, float percent) {
+
+    }
+
+    @Override
+    public FluidStack drain(int maxDrain, boolean doDrain) {
+
+        return null;
+    }
+
+    @Override
+    public boolean canFill(Fluid fluid) {
+
+        return false;
+    }
+
+    @Override
+    public boolean canDrain(Fluid fluid) {
+
+        return false;
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo() {
+
+        return new FluidTankInfo[0];
+    }
+
+    @Override
+    public void onCraftingMatrixChanged() {
+        recipe = HydraulicRecipes.getCrusherRecipe(inventoryCrafting);
+        if (recipe != null) {
+            maxCrushingTicks = recipe.getCraftingTime();
+            crushingTicks = 0;
+        }
+    }
+
+    @Override
+    public void spawnOverflowItemStack(ItemStack stack) {
+        worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, stack));
+    }
 }
