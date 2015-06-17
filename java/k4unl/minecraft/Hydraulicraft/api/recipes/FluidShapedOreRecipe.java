@@ -104,4 +104,9 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
         this.pressure = pressure;
         return this;
     }
+
+    @Override
+    public Object[] getInputItems() {
+        return super.getInput();
+    }
 }

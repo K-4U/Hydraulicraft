@@ -10,23 +10,26 @@ import net.minecraft.item.ItemStack;
 
 
 @Optional.Interface(iface = "codechicken.nei.api.API", modid = "NotEnoughItems")
-public class NEIHydraulicraftConfig implements IConfigureNEI{
+public class NEIHydraulicraftConfig implements IConfigureNEI {
 
 
-    @Optional.Method(modid="NotEnoughItems")
+    @Optional.Method(modid = "NotEnoughItems")
     @Override
     public void loadConfig() {
         API.registerRecipeHandler(new NEICrusherRecipeManager());
         API.registerUsageHandler(new NEICrusherRecipeManager());
-        
+
         API.registerRecipeHandler(new NEIWasherRecipeManager());
         API.registerUsageHandler(new NEIWasherRecipeManager());
 
         API.registerRecipeHandler(new NEIFrictionIncineratorRecipeManager());
         API.registerUsageHandler(new NEIFrictionIncineratorRecipeManager());
 
+        API.registerRecipeHandler(new NEIAssemblerRecipeManager());
+        API.registerUsageHandler(new NEIAssemblerRecipeManager());
+
         //Do a check here to see if we're in dev
-        if(!Functions.isInDev()) {
+        if (!Functions.isInDev()) {
             API.hideItem(new ItemStack(HCBlocks.blockChunkLoader));
             API.hideItem(new ItemStack(HCBlocks.movingPane));
             API.hideItem(new ItemStack(HCBlocks.blockLight));
@@ -35,13 +38,13 @@ public class NEIHydraulicraftConfig implements IConfigureNEI{
         }
     }
 
-    @Optional.Method(modid="NotEnoughItems")
+    @Optional.Method(modid = "NotEnoughItems")
     @Override
     public String getName() {
         return ModInfo.NAME;
     }
 
-    @Optional.Method(modid="NotEnoughItems")
+    @Optional.Method(modid = "NotEnoughItems")
     @Override
     public String getVersion() {
         return ModInfo.VERSION;
