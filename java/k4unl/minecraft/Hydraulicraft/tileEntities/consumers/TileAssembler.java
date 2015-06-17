@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.k4lib.lib.ItemStackUtils;
@@ -21,6 +22,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
     int workProgress = 0;
 
     public TileAssembler() {
+
         super(10);
         super.init(this);
         FluidTank[] tanks = new FluidTank[1];
@@ -33,11 +35,12 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public float workFunction(boolean simulate, ForgeDirection from) {
+
         if (recipe != null) {
             float usedPressure = recipe.getPressure();
 
             if (inventoryResult.getStackInSlot(0) != null &&
-                    !ItemStackUtils.canMergeStacks(inventoryResult.getStackInSlot(0), recipe.getRecipeOutput()))
+              !ItemStackUtils.canMergeStacks(inventoryResult.getStackInSlot(0), recipe.getRecipeOutput()))
                 return 0;
 
             if (simulate) {

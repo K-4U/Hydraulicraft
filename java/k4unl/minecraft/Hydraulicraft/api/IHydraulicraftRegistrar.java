@@ -17,9 +17,11 @@ import net.minecraft.item.ItemStack;
  * FMLInterModComms.sendMessage("HydCraft", "aa.bbb.ccc.HydraulicraftHandler", "init");
  * 
  * Hydraulicraft then will invoke this between the preInit and Init phase.
- * 
+ *
+ * Deprecated. Name changed to ITrolleyRegistrar
  */
 
+@Deprecated
 public interface IHydraulicraftRegistrar {
     /**
      * Use this method to register your own Harvester trolley.

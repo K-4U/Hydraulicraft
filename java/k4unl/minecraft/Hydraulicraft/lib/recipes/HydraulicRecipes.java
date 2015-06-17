@@ -1,6 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.lib.recipes;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
+import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapelessOreRecipe;
+import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
+import k4unl.minecraft.Hydraulicraft.api.recipes.IRecipeHandler;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
@@ -15,7 +19,9 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HydraulicRecipes {
+public class HydraulicRecipes implements IRecipeHandler {
+    public static HydraulicRecipes INSTANCE = new HydraulicRecipes();
+
     private static List<IFluidRecipe> recipesCrusher;
     private static List<IFluidRecipe> recipesIncinerator;
     private static List<IFluidRecipe> recipesAssembler;
@@ -101,7 +107,7 @@ public class HydraulicRecipes {
             }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 10))
         );
 
-        ItemStack cropsTrolly = Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem("crops");
+        ItemStack cropsTrolly = Hydraulicraft.trolleyRegistrar.getTrolleyItem("crops");
         cropsTrolly.stackSize = 4;
 
         recipesAssembler.add(new FluidShapedOreRecipe(cropsTrolly, true,
@@ -116,7 +122,7 @@ public class HydraulicRecipes {
             }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 40))
         );
 
-        ItemStack sugarTrolly = Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem("sugarCane");
+        ItemStack sugarTrolly = Hydraulicraft.trolleyRegistrar.getTrolleyItem("sugarCane");
         sugarTrolly.stackSize = 4;
 
         recipesAssembler.add(new FluidShapedOreRecipe(sugarTrolly, true,
@@ -131,7 +137,7 @@ public class HydraulicRecipes {
             }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 40))
         );
 
-        ItemStack cactusTrolly = Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem("cactus");
+        ItemStack cactusTrolly = Hydraulicraft.trolleyRegistrar.getTrolleyItem("cactus");
         cactusTrolly.stackSize = 4;
 
         recipesAssembler.add(new FluidShapedOreRecipe(cactusTrolly, true,
@@ -146,7 +152,7 @@ public class HydraulicRecipes {
             }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 40))
         );
 
-        ItemStack netherWartTrolly = Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem("netherWart");
+        ItemStack netherWartTrolly = Hydraulicraft.trolleyRegistrar.getTrolleyItem("netherWart");
         netherWartTrolly.stackSize = 2;
 
         recipesAssembler.add(new FluidShapedOreRecipe(netherWartTrolly, true,
@@ -207,6 +213,22 @@ public class HydraulicRecipes {
         }
 
         return null;
+    }
+
+    public void addCrushingRecipe(IFluidRecipe toAdd){
+        recipesCrusher.add(toAdd);
+    }
+
+    public void addAssemblerRecipe(IFluidRecipe toAdd){
+        recipesAssembler.add(toAdd);
+    }
+
+    public void addWasherRecipe(IFluidRecipe toAdd){
+        recipesWasher.add(toAdd);
+    }
+
+    public void addFilterRecipe(IFluidRecipe toAdd){
+        recipesFilter.add(toAdd);
     }
 
     public static IFluidRecipe getCrusherRecipe(IFluidInventory inventory) {

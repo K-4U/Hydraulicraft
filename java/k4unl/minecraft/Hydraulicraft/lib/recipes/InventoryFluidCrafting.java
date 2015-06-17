@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.lib.recipes;
 
+import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;

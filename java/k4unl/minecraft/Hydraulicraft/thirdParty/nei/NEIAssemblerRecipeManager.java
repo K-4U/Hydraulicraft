@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
 import codechicken.nei.NEIClientUtils;
-import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.ShapedRecipeHandler;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiAssembler;
 import k4unl.minecraft.Hydraulicraft.lib.CrushingRecipes;
@@ -9,10 +8,9 @@ import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
-import k4unl.minecraft.Hydraulicraft.lib.recipes.IFluidRecipe;
+import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -32,7 +30,7 @@ public class NEIAssemblerRecipeManager extends ShapedRecipeHandler {
         //TODO: Get input items and add them to shape.ingredients as a PositionedStack
 
         //stack.setMaxSize(2);
-        shape.ingredients.add(stack);
+        //shape.ingredients.add(stack);
         shape.result.relx = 116;
         shape.result.rely = 24;
         return shape;
@@ -78,7 +76,7 @@ public class NEIAssemblerRecipeManager extends ShapedRecipeHandler {
                     if(id > 0){
                         String oreName = OreDictionary.getOreName(id);
                         if(recipe.inputString == oreName){
-                            this.arecipes.add(getShape(recipe));
+                            //this.arecipes.add(getShape(recipe));
                             break;
                         }
                     }
@@ -86,7 +84,7 @@ public class NEIAssemblerRecipeManager extends ShapedRecipeHandler {
             }else{
                 if(recipe.input != null && ingredient != null) {
                     if (recipe.input.isItemEqual(ingredient)) {
-                        this.arecipes.add(getShape(recipe));
+                        //this.arecipes.add(getShape(recipe));
                         break;
                     }
                 }
@@ -100,7 +98,7 @@ public class NEIAssemblerRecipeManager extends ShapedRecipeHandler {
     public void loadCraftingRecipes(String outputId, Object... results) {
         if(outputId.equals("crushing")){
             for(CrushingRecipes.CrushingRecipe recipe: CrushingRecipes.crushingRecipes){
-                this.arecipes.add(getShape(recipe));
+                //this.arecipes.add(getShape(recipe));
             }
         }else
             super.loadCraftingRecipes(outputId, results);

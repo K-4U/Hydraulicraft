@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.fluids;
 
+import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -7,7 +8,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 /**
  * @author Koen Beckers (K-4U)
  */
-public class FluidFluoroCarbon extends Fluid {
+public class FluidFluoroCarbon extends Fluid implements ITooltipProvider {
 
     public FluidFluoroCarbon() {
         super(Names.fluidFluoroCarbon.unlocalized);
@@ -18,5 +19,11 @@ public class FluidFluoroCarbon extends Fluid {
         setBlock(Fluids.fluidFluoroCarbonFluidBlock);
 
         FluidRegistry.registerFluid(this);
+    }
+
+    @Override
+    public String getToolTip() {
+
+        return "Used to breathe underwater";
     }
 }

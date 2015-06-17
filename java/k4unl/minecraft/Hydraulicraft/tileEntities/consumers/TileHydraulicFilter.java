@@ -5,7 +5,7 @@ import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.IFluidCraftingMachine;
-import k4unl.minecraft.Hydraulicraft.lib.recipes.IFluidRecipe;
+import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.InventoryFluidCrafting;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.k4lib.lib.Orientation;

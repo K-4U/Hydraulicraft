@@ -7,6 +7,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import k4unl.minecraft.Hydraulicraft.api.HCApi;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicraftRegistrar;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
@@ -55,7 +56,10 @@ public class Hydraulicraft {
     public static TrueTypeFont smallGuiFont;
     public static TrueTypeFont mediumGuiFont;
 
+    @Deprecated
     public static HydraulicraftRegistrar harvesterTrolleyRegistrar = new HydraulicraftRegistrar();
+
+    public static TrolleyRegistrar       trolleyRegistrar          = new TrolleyRegistrar();
     public static IPs                    ipList                    = new IPs();
     public static Tanks                  tankList                  = new Tanks();
 
@@ -73,6 +77,8 @@ public class Hydraulicraft {
 
         HCConfig.INSTANCE.init();
         configHandler.init(HCConfig.INSTANCE, event.getSuggestedConfigurationFile());
+
+        HCApi.init(new HydraulicraftAPI());
 
         CustomTabs.init();
 

@@ -1,11 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public interface IHarvesterTrolley {
 
@@ -18,8 +18,8 @@ public interface IHarvesterTrolley {
 	/**
 	 * Whether or not this trolley can harvest the plant at this location.
 	 * Use this to detect whether the metadata is sufficient for your plant.
-	 * The Y coördinate is the bottom. It links to the location where the crop is located
-	 * If you want something like sugar cane, just change the Y coördinate untill you reach the top 
+	 * The Y coordinate is the bottom. It links to the location where the crop is located
+	 * If you want something like sugar cane, just change the Y coordinate untill you reach the top
 	 * of the sugar cane.
 	 * @param world
 	 * @param x

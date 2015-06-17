@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.lib.recipes;
 
+import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -12,6 +13,7 @@ public class SlotFluidCrafting extends Slot {
     EntityPlayer    player;
 
     public SlotFluidCrafting(EntityPlayer player, IFluidInventory craftMatrix, IInventory craftResult, int slotIndex, int x, int y) {
+
         super(craftResult, slotIndex, x, y);
         this.fluidMatrixInventory = craftMatrix;
         this.resultInventory = craftResult;

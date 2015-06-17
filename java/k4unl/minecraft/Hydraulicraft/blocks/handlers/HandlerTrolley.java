@@ -21,9 +21,9 @@ public class HandlerTrolley extends HandlerHydraulicBlock{
     
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List itemList){
-        Set<String> trolleys = Hydraulicraft.harvesterTrolleyRegistrar.getRegisteredTrolleys();
+        Set<String> trolleys = Hydraulicraft.trolleyRegistrar.getRegisteredTrolleys();
         for(String trolley : trolleys){
-            itemList.add(Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem(trolley));
+            itemList.add(Hydraulicraft.trolleyRegistrar.getTrolleyItem(trolley));
         }
     }
     
@@ -32,7 +32,7 @@ public class HandlerTrolley extends HandlerHydraulicBlock{
         if(tag != null){
             return super.getUnlocalizedName(stack) + "." + tag.getString("name");
         }else{
-            //TODO: Fix meh
+            //TODO: Fix meh. Happens when i look at you with WAILA
             Log.error("Tag of a trolley itemstack was null??");
             return super.getUnlocalizedName(stack);
         }

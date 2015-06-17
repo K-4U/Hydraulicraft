@@ -123,10 +123,10 @@ public class HCBlocks {
         blockDirtyMineral = new BlockRefinedMineral(Names.blockDirtyMineral);
 
 		harvesterTrolley = new BlockHarvesterTrolley();
-		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyCrops());
-		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleySugarCane());
-		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyNetherWart());
-		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyCactus());
+		Hydraulicraft.trolleyRegistrar.registerTrolley(new TrolleyCrops());
+		Hydraulicraft.trolleyRegistrar.registerTrolley(new TrolleySugarCane());
+		Hydraulicraft.trolleyRegistrar.registerTrolley(new TrolleyNetherWart());
+		Hydraulicraft.trolleyRegistrar.registerTrolley(new TrolleyCactus());
 		
 		registerBlocks();
 	}

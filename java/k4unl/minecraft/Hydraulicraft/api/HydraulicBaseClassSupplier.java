@@ -1,20 +1,22 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import java.lang.reflect.Constructor;
-
-import net.minecraft.tileentity.TileEntity;
 import codechicken.multipart.TMultiPart;
+import net.minecraft.tileentity.TileEntity;
+
+import java.lang.reflect.Constructor;
 
 /**
  * 
  * @author minemaarten
  * Original idea and class from PneumaticCraft.
  * Modified by K-4U for Hydraulicraft.
+ * Deprecated in favour of HCApi
  */
+@Deprecated
 public class HydraulicBaseClassSupplier {
 	private static Constructor baseHandlerConstructor;
 	private static Constructor multipartConstructor;
-	
+
     public static IBaseClass getBaseClass(TileEntity target, int maxStorage){
     	IBaseClass baseClassEntity = null;
         try {

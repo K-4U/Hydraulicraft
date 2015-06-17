@@ -28,7 +28,7 @@ public class RendererHarvesterTrolleyItem implements IItemRenderer {
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 	    NBTTagCompound tag = item.getTagCompound();
-	    IHarvesterTrolley trolley = tag != null ? Hydraulicraft.harvesterTrolleyRegistrar.getTrolley(tag.getString("name")) : null;
+	    IHarvesterTrolley trolley = tag != null ? Hydraulicraft.trolleyRegistrar.getTrolley(tag.getString("name")) : null;
 	    if(trolley != null){
     	    ResourceLocation resLoc = trolley.getTexture();
     	    

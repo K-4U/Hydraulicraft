@@ -220,7 +220,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		}else{
 		    plantingItem = null;
 		}
-		trolley = Hydraulicraft.harvesterTrolleyRegistrar.getTrolley(tagCompound.getString("trolley"));
+		trolley = Hydraulicraft.trolleyRegistrar.getTrolley(tagCompound.getString("trolley"));
 	}
 
 	@Override
