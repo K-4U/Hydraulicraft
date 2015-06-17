@@ -107,7 +107,8 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
         return pressure;
     }
 
-    public void setPressure(float pressure) {
+    public FluidShapelessOreRecipe setPressure(float pressure) {
         this.pressure = pressure;
+        return this;
     }
 }

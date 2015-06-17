@@ -99,7 +99,8 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
         return pressure;
     }
 
-    public void setPressure(float pressure) {
+    public FluidShapedOreRecipe setPressure(float pressure) {
         this.pressure = pressure;
+        return this;
     }
 }

@@ -22,9 +22,10 @@ public class HydraulicRecipes {
         recipesWasher = new ArrayList<IFluidRecipe>();
 
         recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(Blocks.dirt), "d  ", " d ", "  d", 'd', Blocks.stone)
-                .setCraftingTime(20).addFluidInput(new FluidStack(Fluids.fluidOil, 1000)));
+                .setCraftingTime(20).addFluidInput(new FluidStack(Fluids.fluidOil, 1000)).setPressure(0.1f));
         recipesAssembler.add(new FluidShapelessOreRecipe(new ItemStack(Blocks.coal_block), Items.coal).addFluidInput(
-                new FluidStack(Fluids.fluidOil, 1000)).setCraftingTime(20));
+                new FluidStack(Fluids.fluidOil, 1000)).setCraftingTime(20).setPressure(0.1f));
+
     }
 
     private static IFluidRecipe getRecipe(List<IFluidRecipe> list, IFluidInventory inventory) {
