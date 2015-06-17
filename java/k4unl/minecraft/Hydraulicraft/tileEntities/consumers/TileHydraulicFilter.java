@@ -25,10 +25,8 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
     InventoryFluidCrafting    inventoryCrafting;
     IFluidRecipe              recipe;
 
-    private boolean isWorking        = false;
     private int     maxTicks         = 500;
     private int     ticksDone        = 0;
-    private float   requiredPressure = 5.0F;
 
     private FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
     private FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 8);
@@ -59,7 +57,7 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
     @Override
     public float workFunction(boolean simulate, ForgeDirection from) {
 
-        if (canRun() || isWorking) {
+        if (canRun()) {
             if (!simulate) {
                 doConvert();
             }
@@ -71,14 +69,14 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
     }
 
     public void doConvert() {
-        FluidTankInfo[] info = inventoryCrafting.getTankInfo();
-        FluidStack drained = inventoryCrafting.craftingDrain(recipe.getInputFluids().get(0), true);
 
+        inventoryCrafting.craftingDrain(recipe.getInputFluids().get(0), true);
         inventoryCrafting.craftingFill(recipe.getOutputFluids().get(0), true);
+
         ticksDone--;
         if(ticksDone == 0){
             //Output the item
-            inventoryCrafting.setInventorySlotContents(1, recipe.getRecipeOutput());
+            inventoryCrafting.setInventorySlotContents(1, recipe.getRecipeOutput().copy());
             recipe = null;
         }
 	}

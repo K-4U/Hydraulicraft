@@ -1,10 +1,16 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion;
 
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
+import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
 import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockRFPump;
@@ -19,14 +25,10 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ThermalExpansion implements IThirdParty {
 	public static Block blockHydraulicDynamo;
@@ -71,17 +73,19 @@ public class ThermalExpansion implements IThirdParty {
 		if(powerTransmissionCoil == null){
 			powerTransmissionCoil = new ItemStack(Items.redstone);
 		}
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockHydraulicDynamo, 1), true,
-				new Object [] {
-					"-C-",
-					"FIK",
-					"IRI",
-					'F', HCItems.itemFrictionPlate,
-					'C', powerTransmissionCoil,
-					'K', HCItems.gasket,
-					'I', "ingotCopper",
-					'R', Items.redstone
-				}));
+
+		HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockHydraulicDynamo, 1), true,
+            new Object[] {
+              "-C-",
+              "FIK",
+              "IRI",
+              'F', HCItems.itemFrictionPlate,
+              'C', powerTransmissionCoil,
+              'K', HCItems.gasket,
+              'I', "ingotCopper",
+              'R', Items.redstone
+            }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 500))
+        );
 		
 		ItemStack powerReceptionCoil = GameRegistry.findItemStack("ThermalExpansion", "powerCoilGold", 1);
 		if(powerReceptionCoil == null){
@@ -111,17 +115,18 @@ public class ThermalExpansion implements IThirdParty {
 					'R', "ingotCopper"
 				}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockRFPump, 1, 2), true,
-				new Object [] {
-					"R-R",
-					"KGC",
-					"WWW",
-					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
-					'W', HCBlocks.hydraulicPressureWall,
-					'C', powerReceptionCoil,
-					'R', "ingotEnrichedCopper"
-				}));
+		HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockRFPump, 1, 2), true,
+            new Object[] {
+              "R-R",
+              "KGC",
+              "WWW",
+              'G', Blocks.glass,
+              'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
+              'W', HCBlocks.hydraulicPressureWall,
+              'C', powerReceptionCoil,
+              'R', "ingotEnrichedCopper"
+            }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 500))
+        );
 		
 	}
 }
