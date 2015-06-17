@@ -159,7 +159,7 @@ task("uploadJars", dependsOn: "reobf") {
                         groupId = project.group
                         version = project.version
                         artifactId = project.archivesBaseName
-                        project {
+                        /*project {
                             name project.archivesBaseName
                             packaging 'jar'
                             description 'Hydraulicraft'
@@ -187,7 +187,7 @@ task("uploadJars", dependsOn: "reobf") {
                                     roles { role 'developer' }
                                 }
                             }
-                        }
+                        }*/
                     }
                 }
             }
