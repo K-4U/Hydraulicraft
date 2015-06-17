@@ -109,16 +109,7 @@ public class Recipes {
 	}
 	
 	private static void initializeBlockRecipes(){
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockValve, 4, 0), true ,
-				new Object[] {
-					"WKW",
-					"K K",
-					"WKW",
-					'W', HCBlocks.hydraulicPressureWall,
-					'K', HCItems.gasket
-			})
-		);
-		
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockInterfaceValve, 4, 0), true ,
 				new Object[] {
 					"WHW",
@@ -152,17 +143,7 @@ public class Recipes {
 			})
 		);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicHarvesterSource, 1, 0), true ,
-				new Object[] {
-					"WWW",
-					"ICK",
-					"WWW",
-					'C', new ItemStack(HCBlocks.blockCore, 1, 1),
-					'W', HCBlocks.hydraulicPressureWall,
-					'K', HCItems.gasket,
-					'I', HCBlocks.blockInterfaceValve
-			})
-		);
+
 		
 		ItemStack cropsTrolly = Hydraulicraft.harvesterTrolleyRegistrar.getTrolleyItem("crops");
 		cropsTrolly.stackSize = 4;

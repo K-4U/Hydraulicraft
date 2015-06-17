@@ -2,9 +2,8 @@ package k4unl.minecraft.Hydraulicraft.lib.recipes;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
+import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -27,10 +26,27 @@ public class HydraulicRecipes {
         recipesFilter = new ArrayList<IFluidRecipe>();
 
 
-        recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(Blocks.dirt), "d  ", " d ", "  d", 'd', Blocks.stone)
-                .setCraftingTime(20).addFluidInput(new FluidStack(Fluids.fluidOil, 1000)).setPressure(0.1f));
-        recipesAssembler.add(new FluidShapelessOreRecipe(new ItemStack(Blocks.coal_block), Items.coal).addFluidInput(
-                new FluidStack(Fluids.fluidOil, 1000)).setCraftingTime(20).setPressure(0.1f));
+        recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.blockValve, 4, 0), true,
+            new Object[] {
+              "WKW",
+              "K K",
+              "WKW",
+              'W', HCBlocks.hydraulicPressureWall,
+              'K', HCItems.gasket
+            }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 500)).setPressure(2.0F).setCraftingTime(200)
+        );
+
+        recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.hydraulicHarvesterSource, 1, 0), true,
+            new Object[] {
+              "WWW",
+              "ICK",
+              "WWW",
+              'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+              'W', HCBlocks.hydraulicPressureWall,
+              'K', HCItems.gasket,
+              'I', HCBlocks.blockInterfaceValve
+            }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 100))
+        );
 
         recipesFilter.add(new FluidShapelessOreRecipe(Item.getItemFromBlock(HCBlocks.blockDirtyMineral), Item.getItemFromBlock(Ores.oreBeachium)).addFluidInput(new
           FluidStack(Fluids.fluidOil, 10)).addFluidOutput(new FluidStack(Fluids.fluidHydraulicOil, 9)).setPressure(5.0F));
@@ -64,11 +80,32 @@ public class HydraulicRecipes {
         return getRecipe(recipesAssembler, inventory);
     }
 
-    public static IFluidRecipe getWasherRecipes(IFluidInventory inventory) {
+    public static IFluidRecipe getWasherRecipe(IFluidInventory inventory) {
         return getRecipe(recipesWasher, inventory);
     }
 
-    public static IFluidRecipe getFilterRecipes(IFluidInventory inventory) {
+    public static IFluidRecipe getFilterRecipe(IFluidInventory inventory) {
         return getRecipe(recipesFilter, inventory);
     }
+
+    public static List<IFluidRecipe> getCrusherRecipes(){
+        return recipesCrusher;
+    }
+
+    public static List<IFluidRecipe> getIncineratorRecipes(){
+        return recipesIncinerator;
+    }
+
+    public static List<IFluidRecipe> getAssemblerRecipes(){
+        return recipesAssembler;
+    }
+
+    public static List<IFluidRecipe> getWasherRecipes(){
+        return recipesWasher;
+    }
+
+    public static List<IFluidRecipe> getFilterRecipes(){
+        return recipesFilter;
+    }
+
 }

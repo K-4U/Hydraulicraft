@@ -249,7 +249,7 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
     @Override
     public void onCraftingMatrixChanged() {
         if(ticksDone == 0 || recipe == null) {
-            recipe = HydraulicRecipes.getFilterRecipes(inventoryCrafting);
+            recipe = HydraulicRecipes.getFilterRecipe(inventoryCrafting);
             if (recipe != null) {
                 ticksDone = maxTicks;
                 //Consume the item
