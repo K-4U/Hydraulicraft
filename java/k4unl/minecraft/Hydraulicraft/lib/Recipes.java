@@ -2,13 +2,17 @@ package k4unl.minecraft.Hydraulicraft.lib;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
+import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapelessOreRecipe;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -18,7 +22,6 @@ import java.util.List;
 
 public class Recipes {
 	public static void init(){
-//		GameRegistry.registerCraftingHandler(new CraftingHandler());
 
 		initializeBlockRecipes();
 		initializeItemRecipes();
@@ -63,43 +66,39 @@ public class Recipes {
             if(oreStack.size() > 0 && ingotStack.size() > 0){
             	int metaId = HCItems.itemChunk.addChunk(item);
                 HCItems.itemDust.addDust(item, metaId);
-                
-		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes
-		                .CrushingRecipe
-		                (oreName, 1.0F, new ItemStack(HCItems.itemChunk, 2, metaId)));
-		        
-		        
-		        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe
-		                (ingotName, 0.5F,
-		                        new ItemStack(HCItems.itemDust, 1, metaId)));
-		
-		        
-		        WashingRecipes.addWashingRecipe(new WashingRecipes.WashingRecipe(
-		               new ItemStack(HCItems.itemChunk, 1, metaId), 400F,
-		                new ItemStack(HCItems.itemDust, 1, metaId)));
+
+                HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(new ItemStack(HCItems.itemChunk, 2, metaId), oreName)
+                  .setPressure(1.0F));
+
+                HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(new ItemStack(HCItems.itemDust, 1, metaId), ingotName)
+                  .setPressure(1.0F));
+
+                HydraulicRecipes.INSTANCE.addWasherRecipe(new FluidShapelessOreRecipe(new ItemStack(HCItems.itemDust, 1, metaId), new ItemStack
+                  (HCItems.itemChunk, 1, metaId)).addFluidInput(new FluidStack(FluidRegistry.WATER, 1000)));
             }
         }
         
         //Other mods. Stuff that doesn't follow the ingot stuff.
         if(Loader.isModLoaded("IC2")){
-        	registerNonStandardCrushRecipe("oreUranium", "crushedUranium", 2);
+        	registerNonStandardCrushRecipe("oreUranium", "crushedUranium");
         }
-        
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Blocks.quartz_ore, 1), 1.0F, new ItemStack(Items.quartz, 3)));
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Blocks.cobblestone, 1), 0.9F, new ItemStack(Blocks.sand, 2)));
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Items.bone, 1), 0.5F, new ItemStack(Items.dye, 5, 15)));
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Items.blaze_rod, 1), 0.5F, new ItemStack(Items.blaze_powder, 5)));
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(new ItemStack(Items.diamond), 1.2F, new ItemStack(HCItems.itemDiamondShards, 9)));
+
+        HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(new ItemStack(Items.quartz, 3), Blocks.quartz_ore).setPressure(1.0F));
+        HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(new ItemStack(Blocks.sand, 2), Blocks.cobblestone).setPressure(0.9F));
+        HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(new ItemStack(Items.dye, 5, 15), Items.bone).setPressure(0.5F));
+        HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(new ItemStack(HCItems.itemDiamondShards, 9), Items.diamond).setPressure(1.2F));
+        HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(new ItemStack(Items.blaze_powder, 5), Items.blaze_rod).setPressure(0.5F));
     }
     
-    private static void registerNonStandardCrushRecipe(String sourceName, String targetName, int number){
+    private static void registerNonStandardCrushRecipe(String sourceName, String targetName){
     	ArrayList<ItemStack> oreStackL = OreDictionary.getOres(sourceName);
         ArrayList<ItemStack> targetStackL = OreDictionary.getOres(targetName);
         if(oreStackL.size() == 0 || targetStackL.size() == 0)
         	return;
         
         ItemStack targetStack = targetStackL.get(0);
-        CrushingRecipes.addCrushingRecipe(new CrushingRecipes.CrushingRecipe(sourceName, 1.1F, targetStack));
+
+        HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(targetStack, sourceName).setPressure(1.1F));
     }
 
     private static void initializeSmeltingRecipes(){
