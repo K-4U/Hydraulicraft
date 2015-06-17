@@ -18,7 +18,7 @@ import java.util.Map;
 
 
 public class RendererPartFluidPipe extends TileEntitySpecialRenderer {
-    private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/model/fluidPipe_tmap.png");
+    public static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/model/fluidPipe_tmap.png");
 
     public void doRender(double x, double y, double z, float f, Map<ForgeDirection, TileEntity> connectedSides){
         GL11.glPushMatrix();

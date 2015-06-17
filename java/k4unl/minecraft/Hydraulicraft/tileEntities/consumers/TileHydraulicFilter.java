@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 
-public class TileHydraulicMixer extends TileHydraulicBase implements
+public class TileHydraulicFilter extends TileHydraulicBase implements
 		ISidedInventory, IFluidHandler, IHydraulicConsumer {
 
 	private ItemStack inputInventory;
@@ -28,7 +28,7 @@ public class TileHydraulicMixer extends TileHydraulicBase implements
 	private FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 	private FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 8);
 
-	public TileHydraulicMixer(){
+	public TileHydraulicFilter(){
 		super(6);
 		super.init(this);
 	}
@@ -324,7 +324,7 @@ public class TileHydraulicMixer extends TileHydraulicBase implements
 
 	@Override
 	public String getInventoryName() {
-		return Localization.getLocalizedName(Names.blockHydraulicMixer.unlocalized);
+		return Localization.getLocalizedName(Names.blockHydraulicFilter.unlocalized);
 	}
 
 	@Override

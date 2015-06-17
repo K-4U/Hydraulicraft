@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.generator;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
@@ -214,7 +213,8 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		return fluid.getID() == FluidRegistry.LAVA.getID();
+        if(fluid == null) return true;
+		return fluid == FluidRegistry.LAVA;
 	}
 
 	@Override

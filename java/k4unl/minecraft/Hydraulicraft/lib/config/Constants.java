@@ -78,6 +78,8 @@ public class Constants {
 
 	public static final int MAX_TANK_SIZE = 15;
 
+    public static final int MAX_FLUID_TRANSFER_T    = 100;
+
     public static Map<Block, Boolean> TANK_BLACKLIST = new HashMap<Block, Boolean>();
     public static Map<Block, Integer> TANK_SCORELIST = new HashMap<Block, Integer>();
 

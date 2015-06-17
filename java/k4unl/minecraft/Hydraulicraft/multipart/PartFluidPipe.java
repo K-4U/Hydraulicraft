@@ -223,7 +223,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
             return false;
         }else{
             if(entity instanceof IFluidHandler){
-                return ((IFluidHandler)entity).canFill(dir.getOpposite(), null);
+                return ((IFluidHandler)entity).canFill(dir.getOpposite(), getFluidStored());
             }else{
                 return false;
             }
@@ -268,7 +268,6 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
             }
         }
         if(connectedSidesHaveChanged){
-            //TODO: Update block
             if(!world().isRemote) {
                 MCDataOutput writeStream = tile().getWriteStream(this);
                 writeDesc(writeStream);
@@ -331,7 +330,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
         if(needToCheckNeighbors) {
             needToCheckNeighbors = false;
             checkConnectedSides();
-            connectedSides = new HashMap<ForgeDirection, TileEntity>();
+            //connectedSides = new HashMap<ForgeDirection, TileEntity>();
             for(int i = 0; i < 6; i++) {
                 if(connectedSideFlags[i]) {
                     ForgeDirection dir = ForgeDirection.getOrientation(i);
@@ -417,13 +416,17 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
         addFluid(avgFluid - getFluidAmountStored());
         for (ForgeDirection dir : ForgeDirection.values()) {
             TileEntity neighbor = connectedSides.get(dir);
+
             if (neighbor != null && neighbor instanceof TileMultipart) {
+
                 if (Multipart.hasPartFluidPipe((TileMultipart) neighbor)) {
+
                     if(Multipart.getFluidPipe((TileMultipart)neighbor).getFluidStored() == null) {
                         Multipart.getFluidPipe((TileMultipart) neighbor).setFluidStored(getFluidStored());
                     }else if(getFluidStored() == null){
                         setFluidStored(Multipart.getFluidPipe((TileMultipart) neighbor).getFluidStored());
                     }
+
                     Multipart.getFluidPipe((TileMultipart) neighbor).addFluid(avgFluid - Multipart.getFluidPipe((TileMultipart)neighbor).getFluidAmountStored());
                 }
             }else if(neighbor != null && neighbor instanceof IFluidHandler){

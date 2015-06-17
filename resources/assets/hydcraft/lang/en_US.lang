@@ -6,6 +6,8 @@ item.ingotCopper.name=Copper Ingot
 item.ingotLead.name=Lead Ingot
 item.ingotEnrichedCopper.name=Enriched Copper Ingot
 item.bucketHydraulicOil.name=Hydraulic Oil Bucket
+item.bucketLubricant.name=Lubricant Bucket
+item.bucketOil.name=Oil Bucket
 item.bacon.name=Bacon
 item.miningHelmet.name=Miners Helmet
 item.itemLamp.name=Miners Helmet Lamp
@@ -17,11 +19,15 @@ item.enderLolly.name=Ender Lolly
 #Ores
 tile.oreCopper.name=Copper Ore
 tile.oreLead.name=Lead Ore
+tile.oreLonezium.name=Lonezium
+tile.oreBeachium.name=Beachium
+tile.oreNadsiumBicarbinate.name=Nadsium Bicarbinate
 
 #Blocks
 tile.hydraulicOil.name=Hydraulic Oil
 tile.oil.name=Crude oil
-tile.hydraulicMixer.name=Mixer
+tile.lubricant.name=Lubricant
+tile.hydraulicFilter.name=Filter
 tile.hydraulicFrictionIncinerator.name=Friction Incinerator
 tile.hydraulicCrusher.name=Crusher
 tile.hydraulicWasher.name=Washer
@@ -53,7 +59,7 @@ tile.HPHydraulicLavaPump.name=High Pressure Lava Pump
 tile.hydraulicHarvesterSource.name=Hydraulic Harvester
 tile.hydraulicHarvesterFrame.name=Harvester Frame
 
-#poorly chosen name. This was done for compatability 
+#poorly chosen name. This was done for compatibility
 tile.wheatHarvester.crops.name=Wheat Harvester Dolley
 tile.wheatHarvester.enderLily.name=Enderlily Harvester Dolley
 tile.wheatHarvester.sugarCane.name=Sugar Cane Harvester Dolley
@@ -77,6 +83,11 @@ tile.blockCopper.name=Copper Block
 tile.blockLead.name=Lead Block
 
 tile.blockJarDirt.name=Jar of Dirt
+tile.refinedLonezium.name=Refined Lonezium
+tile.refinedNadsiumBicarbinate.name=Refined Nadsium Bicarbinate
+tile.hydraulicAssembler.name=Assembler
+tile.fluidPipe.name=Fluid Pipe
+tile.fluidInterface.name=Fluid Interface
 
 #Dust and chunks
 dustGold.name=Gold Dust
@@ -114,6 +125,7 @@ itemGroup.tabHydraulicraft=HydrauliCraft
 lang.pressure=Pressure
 fluid.hydraulicOil=Hydraulic Oil
 fluid.oil=Crude Oil
+fluid.lubricant=Lubricant
 lang.gui.generating=Generating
 lang.gui.max=Max
 lang.gui.using=Using

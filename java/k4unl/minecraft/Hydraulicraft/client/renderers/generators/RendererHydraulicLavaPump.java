@@ -196,8 +196,9 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 	
 	@SuppressWarnings("cast")
 	private void drawLavaTank(TileHydraulicLavaPump t, boolean isItem, float thickness){
-		Vector3fMax vectorFilled = new Vector3fMax(thickness + RenderHelper.pixel, 0.0F, thickness+RenderHelper.pixel, 1.0F - thickness - RenderHelper.pixel*6, 1.005F-thickness, 1.0F - thickness - RenderHelper.pixel);
 		if(!isItem){
+            Vector3fMax vectorFilled = new Vector3fMax(thickness + (RenderHelper.pixel*2), 0.8F, thickness+(RenderHelper.pixel*2), 1.0F - thickness -
+              RenderHelper.pixel*7, 1.005F-thickness, 1.0F - thickness - RenderHelper.pixel*2);
 			float h = vectorFilled.getZMax() - vectorFilled.getZMin();
 			FluidTankInfo[] tankInfo = t.getTankInfo(ForgeDirection.UP);
 			if(tankInfo != null){

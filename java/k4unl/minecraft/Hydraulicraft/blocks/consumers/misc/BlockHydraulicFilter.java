@@ -6,21 +6,23 @@ import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicMixer;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFilter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicMixer extends HydraulicBlockContainerBase implements ITieredBlock {
+public class BlockHydraulicFilter extends HydraulicBlockContainerBase implements ITieredBlock {
 
-	public BlockHydraulicMixer() {
-		super(Names.blockHydraulicMixer);
+	public BlockHydraulicFilter() {
+		super(Names.blockHydraulicFilter);
 		this.hasFrontIcon = true;
+		this.hasLeftIcon = true;
+		this.hasRightIcon = true;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicMixer();
+		return new TileHydraulicFilter();
 	}
 	
 	@Override
@@ -29,12 +31,12 @@ public class BlockHydraulicMixer extends HydraulicBlockContainerBase implements 
 			return false;
 		
 		TileEntity entity = world.getTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileHydraulicMixer)){
+		if(entity == null || !(entity instanceof TileHydraulicFilter)){
 			return false;
 			
 		}
 		
-		player.openGui(Hydraulicraft.instance, GuiIDs.MIXER.ordinal(), world, x, y, z);
+		player.openGui(Hydraulicraft.instance, GuiIDs.FILTER.ordinal(), world, x, y, z);
 		
 		return true;
 	}

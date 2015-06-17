@@ -32,7 +32,7 @@ public class HCBlocks {
 	
 	public static Block hydraulicPump;
 	public static Block hydraulicLavaPump;
-	public static Block hydraulicMixer;
+	public static Block hydraulicFilter;
 	public static Block hydraulicFrictionIncinerator;
 	public static Block hydraulicCrusher;
 	public static Block hydraulicPressureGauge;
@@ -69,6 +69,10 @@ public class HCBlocks {
 
 	public static Block blockJarDirt;
     public static Block blockAssembler;
+	public static Block blockRefinedLonezium;
+    public static Block blockRefinedNadsiumBicarbinate;
+
+
 	
 	/*!
 	 * @author Koen Beckers
@@ -79,7 +83,7 @@ public class HCBlocks {
 		hydraulicPump = new BlockHydraulicPump();
 		hydraulicLavaPump = new BlockHydraulicLavaPump();
 		hydraulicPressurevat = new BlockHydraulicPressureVat();
-		hydraulicMixer = new BlockHydraulicMixer();
+		hydraulicFilter = new BlockHydraulicFilter();
 		hydraulicFrictionIncinerator = new BlockHydraulicFrictionIncinerator();
 		hydraulicCrusher = new BlockHydraulicCrusher();
 		hydraulicPiston = new BlockHydraulicPiston();
@@ -103,17 +107,19 @@ public class HCBlocks {
 		
 		blockLead = new BlockLead();
 		blockCopper = new BlockCopper();
-		blockCharger = new BlockHydraulicCharger();
-		
+
 		portalBase = new BlockPortalBase();
 		portalFrame = new BlockPortalFrame();
 		portalTeleporter = new BlockPortalTeleporter();
 
 		blockJarDirt = new BlockJarOfDirt();
 
+		blockCharger = new BlockHydraulicCharger();
         blockChunkLoader = new BlockChunkLoader();
 
         blockAssembler = new BlockAssembler();
+		blockRefinedLonezium = new BlockRefinedMineral(Names.blockRefinedLonezium);
+        blockRefinedNadsiumBicarbinate = new BlockRefinedMineral(Names.blockRefinedNadsiumBicarbinate);
 
 		harvesterTrolley = new BlockHarvesterTrolley();
 		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyCrops());
@@ -138,7 +144,7 @@ public class HCBlocks {
 
 		GameRegistry.registerBlock(hydraulicPressureWall, ItemBlock.class, Names.blockHydraulicPressureWall.unlocalized);
 		GameRegistry.registerBlock(hydraulicPressureGlass, ItemBlock.class, Names.blockHydraulicPressureGlass.unlocalized);
-		GameRegistry.registerBlock(hydraulicMixer, HandlerHydraulicBlock.class, Names.blockHydraulicMixer.unlocalized);
+		GameRegistry.registerBlock(hydraulicFilter, HandlerHydraulicBlock.class, Names.blockHydraulicFilter.unlocalized);
 
 		GameRegistry.registerBlock(blockValve, HandlerHydraulicBlock.class, Names.blockValve.unlocalized);
 		GameRegistry.registerBlock(blockInterfaceValve, HandlerHydraulicBlock.class, Names.blockInterfaceValve.unlocalized);
@@ -168,6 +174,7 @@ public class HCBlocks {
 
 		GameRegistry.registerBlock(blockCopper, ItemBlock.class, Names.blockCopper.unlocalized);
 		GameRegistry.registerBlock(blockLead, ItemBlock.class, Names.blockLead.unlocalized);
+
 		OreDictionary.registerOre(Names.blockCopper.unlocalized, blockCopper);
 		OreDictionary.registerOre(Names.blockLead.unlocalized, blockLead);
 
@@ -177,6 +184,8 @@ public class HCBlocks {
 		GameRegistry.registerBlock(blockInfiniteSource, HandlerHydraulicBlock.class, Names.blockInfiniteSource.unlocalized);
 		GameRegistry.registerBlock(blockChunkLoader, HandlerHydraulicBlock.class, Names.blockChunkLoader.unlocalized);
 		GameRegistry.registerBlock(portalTeleporter, HandlerHydraulicBlock.class, Names.portalTeleporter.unlocalized);
+		GameRegistry.registerBlock(blockRefinedLonezium, ItemBlock.class, Names.blockRefinedLonezium.unlocalized);
+        GameRegistry.registerBlock(blockRefinedNadsiumBicarbinate, ItemBlock.class, Names.blockRefinedNadsiumBicarbinate.unlocalized);
 
 	}
 }

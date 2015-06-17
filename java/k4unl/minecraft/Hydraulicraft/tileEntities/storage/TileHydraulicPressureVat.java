@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.storage;
 
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
@@ -13,13 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.*;
 
 public class TileHydraulicPressureVat extends TileHydraulicBase implements IInventory, IFluidHandler, IHydraulicStorageWithTank {
 	private ItemStack inputInventory;
@@ -232,12 +225,8 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		if(fluid.getID() == FluidRegistry.WATER.getID() ||
-				fluid.getID() == Fluids.fluidHydraulicOil.getID()){
-			return true;
-		}else{
-			return false;
-		}
+        if(fluid == null) return true;
+		return fluid == FluidRegistry.WATER || fluid == Fluids.fluidHydraulicOil;
 	}
 
 	@Override
