@@ -115,4 +115,6 @@ public class Names {
     public static final Name oreNadsiumBicarbinate          = new Name("Nadsium Bicarbinate", "oreNadsiumBicarbinate");
     public static final Name blockRefinedNadsiumBicarbinate = new Name("Refined Nadsium Bicarbinate", "refinedNadsiumBicarbinate");
     public static final Name oreBeachium                    = new Name("Beachium", "oreBeachium");
+    public static final Name blockDirtyMineral              = new Name("Dirty Mineral", "blockDirtyMineral");
+
 }

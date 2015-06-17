@@ -71,7 +71,7 @@ public class HCBlocks {
     public static Block blockAssembler;
 	public static Block blockRefinedLonezium;
     public static Block blockRefinedNadsiumBicarbinate;
-
+    public static Block blockDirtyMineral;
 
 	
 	/*!
@@ -120,6 +120,7 @@ public class HCBlocks {
         blockAssembler = new BlockAssembler();
 		blockRefinedLonezium = new BlockRefinedMineral(Names.blockRefinedLonezium);
         blockRefinedNadsiumBicarbinate = new BlockRefinedMineral(Names.blockRefinedNadsiumBicarbinate);
+        blockDirtyMineral = new BlockRefinedMineral(Names.blockDirtyMineral);
 
 		harvesterTrolley = new BlockHarvesterTrolley();
 		Hydraulicraft.harvesterTrolleyRegistrar.registerTrolley(new TrolleyCrops());
@@ -186,6 +187,6 @@ public class HCBlocks {
 		GameRegistry.registerBlock(portalTeleporter, HandlerHydraulicBlock.class, Names.portalTeleporter.unlocalized);
 		GameRegistry.registerBlock(blockRefinedLonezium, ItemBlock.class, Names.blockRefinedLonezium.unlocalized);
         GameRegistry.registerBlock(blockRefinedNadsiumBicarbinate, ItemBlock.class, Names.blockRefinedNadsiumBicarbinate.unlocalized);
-
+        GameRegistry.registerBlock(blockDirtyMineral, ItemBlock.class, Names.blockDirtyMineral.unlocalized);
 	}
 }

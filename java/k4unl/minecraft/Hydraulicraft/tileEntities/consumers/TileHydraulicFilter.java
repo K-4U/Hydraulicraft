@@ -1,97 +1,86 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.IFluidCraftingMachine;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.IFluidRecipe;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.InventoryFluidCrafting;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.k4lib.lib.Orientation;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 
 public class TileHydraulicFilter extends TileHydraulicBase implements
-		ISidedInventory, IFluidHandler, IHydraulicConsumer {
+  IInventory, IFluidHandler, IHydraulicConsumer, IFluidCraftingMachine {
 
-	private ItemStack inputInventory;
-	//private ItemStack outputInventory;
-	
-	private boolean isWorking = false;
-	private int maxTicks = 500;
-	private int ticksDone = 0;
-	private float requiredPressure = 5.0F;
-	
-	private FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
-	private FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 8);
+    private ItemStack outputInventory;
 
-	public TileHydraulicFilter(){
-		super(6);
-		super.init(this);
-	}
+    InventoryFluidCrafting    inventoryCrafting;
+    IFluidRecipe              recipe;
 
-	/*!
-	 * Checks if the outputslot is free, if there's enough pressure in the system
-	 * and if the item is smeltable
-	 */
-	private boolean canRun(){
-		if(inputInventory == null || (getPressure(ForgeDirection.UNKNOWN) < requiredPressure) || inputTank == null || inputTank.getFluid() == null){
-			return false;
-		}else{
-			if(outputTank.getFluidAmount() + Constants.OIL_FOR_ONE_SEED < outputTank.getCapacity()){
-				if(inputInventory.getItem().equals(Items.wheat_seeds)){
-					if(inputTank.getFluid().isFluidEqual(new FluidStack(FluidRegistry.WATER, 0)) && inputTank.getFluidAmount() > Constants.WATER_FOR_ONE_SEED){
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-	
-	@Override
-	public float workFunction(boolean simulate, ForgeDirection from) {
-		if(canRun() || isWorking){
-			if(!simulate){
-				doConvert();
-			}
-			//The higher the pressure
-			//The higher the speed!
-			//But also the more it uses..
-			return 5F + (getPressure(ForgeDirection.UNKNOWN) * 0.00005F);
-		}else{
-			return 0F;
-		}
-	}
-	
-	public void doConvert(){
-		if(isWorking){
-			ticksDone = ticksDone + 1 + (int)((getPressure(ForgeDirection.UNKNOWN)/100) * 0.0003F);
-			//Log.info(ticksDone+ "");
-			if(ticksDone >= maxTicks){
-				if(outputTank.getFluidAmount() <= 0){
-					outputTank.setFluid(new FluidStack(Fluids.fluidHydraulicOil, Constants.OIL_FOR_ONE_SEED));
-				}else{
-					outputTank.getFluid().amount+=Constants.OIL_FOR_ONE_SEED;
-				}
-				isWorking = false;
-			}
-		}else{
-			if(canRun()){
-				inputInventory.stackSize--;
-				if(inputInventory.stackSize <= 0){
-					inputInventory = null;
-				}
-				
-				inputTank.drain(Constants.WATER_FOR_ONE_SEED, true);
-				
-				ticksDone = 0;
-				isWorking = true;
-			}
-		}
+    private boolean isWorking        = false;
+    private int     maxTicks         = 500;
+    private int     ticksDone        = 0;
+    private float   requiredPressure = 5.0F;
+
+    private FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
+    private FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 8);
+
+    public TileHydraulicFilter() {
+
+        super(6);
+        super.init(this);
+        FluidTank[] inputTanks = new FluidTank[1];
+        FluidTank[] outputTanks = new FluidTank[1];
+
+        inputTanks[0] = inputTank;
+        outputTanks[0] = outputTank;
+
+        inventoryCrafting = new InventoryFluidCrafting(this, 2, inputTanks, outputTanks);
+    }
+
+    private boolean canRun() {
+        if(maxTicks == 0) return false;
+        if(recipe == null) return false;
+        FluidTankInfo[] info = inventoryCrafting.getTankInfo();
+        if(info[0].fluid == null) return false;
+        if(info[0].fluid.amount < recipe.getInputFluids().get(0).amount) return false;
+        if(info[1].fluid != null && info[1].fluid.amount + recipe.getOutputFluids().get(0).amount > info[1].capacity) return false;
+        return true;
+    }
+
+    @Override
+    public float workFunction(boolean simulate, ForgeDirection from) {
+
+        if (canRun() || isWorking) {
+            if (!simulate) {
+                doConvert();
+            }
+            if(recipe == null) return 0F;
+            return recipe.getPressure();
+        } else {
+            return 0F;
+        }
+    }
+
+    public void doConvert() {
+        FluidTankInfo[] info = inventoryCrafting.getTankInfo();
+        FluidStack drained = inventoryCrafting.craftingDrain(recipe.getInputFluids().get(0), true);
+
+        inventoryCrafting.craftingFill(recipe.getOutputFluids().get(0), true);
+        ticksDone--;
+        if(ticksDone == 0){
+            //Output the item
+            inventoryCrafting.setInventorySlotContents(1, recipe.getRecipeOutput());
+            recipe = null;
+        }
 	}
 
 	@Override
@@ -100,58 +89,27 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 	}
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		switch(i){
-		case 0:
-			return inputInventory;
-		default:
-			return null;
-			
-		}
+		return inventoryCrafting.getStackInSlot(i);
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		ItemStack inventory = getStackInSlot(i);
-		
-		ItemStack ret = null;
-		if(inventory.stackSize < j){
-			ret = inventory;
-			inventory = null;
-			
-		}else{
-			ret = inventory.splitStack(j);
-			if(inventory.stackSize <= 0){
-				if(i == 0){
-					inputInventory = null;
-				}
-			}
-		}
-		
-		return ret;
+		return inventoryCrafting.decrStackSize(i, j);
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		ItemStack stack = getStackInSlot(i);
-		if(stack != null){
-			setInventorySlotContents(i, null);
-		}
-		return stack;
+		return inventoryCrafting.getStackInSlotOnClosing(i);
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		if(i == 0){
-			inputInventory = itemStack;
-		}else{
-			//Err...
-			
-		}
+		inventoryCrafting.setInventorySlotContents(i, itemStack);
 	}
 
 	@Override
 	public int getInventoryStackLimit() {
-		return 64;
+		return inventoryCrafting.getInventoryStackLimit();
 	}
 
 	@Override
@@ -162,133 +120,76 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(i == 0){
-			if(itemStack.getItem().equals(Items.wheat_seeds)){
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			return false;
-		}
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int var1) {
-		return new int[] {1, 0};
-	}
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		if(i == 0 && itemStack.getItem().equals(Items.wheat_seeds)){
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
-		return false;
+		return inventoryCrafting.isItemValidForSlot(i, itemStack);
 	}
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		int filled = inputTank.fill(resource, doFill); 
-		if(doFill && filled > 10){
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		}
-		return filled;
+		return inventoryCrafting.fill(resource, doFill);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource,
 			boolean doDrain) {
 		
-		return null;
+		return inventoryCrafting.drain(resource, doDrain);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		if(outputTank != null){
-			FluidStack drained = outputTank.drain(maxDrain, doDrain);
-			if(drained != null){
-				if(doDrain && drained.amount > 0){
-					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-				}
-			}
-			return drained;
-		}else{
-			return null;
-		}
-		
+		return inventoryCrafting.drain(maxDrain, doDrain);
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		if(fluid == null) return true;
-		if(fluid.equals(FluidRegistry.WATER)){
-			return true;
-		}else{
-			return false;
-		}
+
+        Orientation orientation = Orientation.calculateOrientation(from, getBlockMetadata());
+        if(orientation == Orientation.LEFT){
+            return inventoryCrafting.canFill(fluid);
+        }else{
+            return false;
+        }
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		if(fluid == null) return true;
-		if(fluid.equals(Fluids.fluidHydraulicOil)){
-			return true;			
-		}else{
-			return false;
-		}
-		
+        Orientation orientation = Orientation.calculateOrientation(from, getBlockMetadata());
+        if(orientation == Orientation.RIGHT || orientation == Orientation.LEFT){
+            return inventoryCrafting.canDrain(fluid);
+        }else{
+            return false;
+        }
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		FluidTankInfo[] tankInfo = {new FluidTankInfo(inputTank), new FluidTankInfo(outputTank)};
-		return tankInfo;
+
+        Orientation orientation = Orientation.calculateOrientation(from, getBlockMetadata());
+
+        if(orientation == Orientation.LEFT){
+            return new FluidTankInfo[] {inventoryCrafting.getTankInfo()[0]};
+        }else if(orientation == Orientation.RIGHT){
+            return new FluidTankInfo[] {inventoryCrafting.getTankInfo()[1]};
+        }
+        return inventoryCrafting.getTankInfo();
 	}
 
 
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
-		NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
-		inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		inventoryCompound = tagCompound.getCompoundTag("outputInventory");
-//		outputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
-		
-		inputTank.readFromNBT(tagCompound.getCompoundTag("inputTank"));
-		outputTank.readFromNBT(tagCompound.getCompoundTag("outputTank"));
-		
+
+        inventoryCrafting.load(tagCompound);
+
 		ticksDone = tagCompound.getInteger("ticksDone");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
-		if(inputInventory != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			inputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setTag("inputInventory", inventoryCompound);
-		}
-		/*if(outputInventory != null){
-			NBTTagCompound inventoryCompound = new NBTTagCompound();
-			outputInventory.writeToNBT(inventoryCompound);
-			tagCompound.setCompoundTag("outputInventory", inventoryCompound);
-		}*/
-		
-		NBTTagCompound tankCompound = new NBTTagCompound();
-		inputTank.writeToNBT(tankCompound);
-		tagCompound.setTag("inputTank", tankCompound);
-		
-		tankCompound = new NBTTagCompound();
-		outputTank.writeToNBT(tankCompound);
-		tagCompound.setTag("outputTank", tankCompound);
-		
+
+        inventoryCrafting.save(tagCompound);
+
 		tagCompound.setInteger("ticksDone", ticksDone);
 	}
 
@@ -313,7 +214,7 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 		return dir.equals(ForgeDirection.UP);
 	}
 	
-	public float getScaledMixTime() {
+	public float getScaledFilterTime() {
 		if(maxTicks > 0){
 			return (float)ticksDone / (float)maxTicks;			
 		}else{
@@ -342,6 +243,33 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 	
 	@Override
 	public void onBlockBreaks() {
-		dropItemStackInWorld(inputInventory);
+		dropItemStackInWorld(inventoryCrafting.getStackInSlot(0));
 	}
+
+    @Override
+    public void onCraftingMatrixChanged() {
+        if(ticksDone == 0 || recipe == null) {
+            recipe = HydraulicRecipes.getFilterRecipes(inventoryCrafting);
+            if (recipe != null) {
+                ticksDone = maxTicks;
+                //Consume the item
+                inventoryCrafting.decrStackSize(0, 1);
+            }
+        }
+    }
+
+    @Override
+    public void spawnOverflowItemStack(ItemStack stack) {
+        worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, stack));
+    }
+
+    public int getFilterTicks() {
+
+        return ticksDone;
+    }
+
+    public float getMaxFilterTicks() {
+
+        return maxTicks;
+    }
 }

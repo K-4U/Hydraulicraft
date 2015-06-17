@@ -67,7 +67,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public boolean canWork(ForgeDirection dir) {
-        return true;
+        return dir.equals(ForgeDirection.UP);
     }
 
     @Override

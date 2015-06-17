@@ -87,6 +87,7 @@ tile.blockLead.name=Lead Block
 tile.blockJarDirt.name=Jar of Dirt
 tile.refinedLonezium.name=Refined Lonezium
 tile.refinedNadsiumBicarbinate.name=Refined Nadsium Bicarbinate
+tile.blockDirtyMineral.name=Dirty Mineral
 tile.hydraulicAssembler.name=Assembler
 tile.fluidPipe.name=Fluid Pipe
 tile.fluidInterface.name=Fluid Interface

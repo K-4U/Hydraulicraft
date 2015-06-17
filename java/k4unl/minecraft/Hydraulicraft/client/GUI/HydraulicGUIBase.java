@@ -1,8 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
@@ -17,11 +14,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
-
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
-
 import thirdParty.truetyper.FontHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HydraulicGUIBase extends GuiContainer {
 	private ResourceLocation resLoc;
@@ -146,6 +144,20 @@ public class HydraulicGUIBase extends GuiContainer {
 		GL11.glPopMatrix();
 
 	}
+
+    public void drawHorizontalProgressBar(int xOffset, int yOffset, int h, int w,
+      float value, float max, int color, String toolTipTitle,
+      String toolTipUnit) {
+        float perc = value / max;
+        int width = (int) (w * perc);
+        // drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
+        drawRect(xOffset, yOffset, xOffset + width, yOffset + h,
+          color);
+
+        tooltipList.add(new ToolTip(xOffset, yOffset, w, h, toolTipTitle,
+          toolTipUnit, value, max));
+    }
+
 
 	public static void drawVerticalProgressBar(int xOffset, int yOffset, int h,
 			int w, float value, float max, int color) {
