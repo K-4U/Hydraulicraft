@@ -161,4 +161,10 @@ public class BlockHose extends HydraulicTieredBlockBase implements IMultiTieredB
 
         return PressureTier.fromOrdinal(metadata);
     }
+
+    @Override
+    public PressureTier getTier(IBlockAccess world, int x, int y, int z){
+
+        return PressureTier.fromOrdinal(world.getBlockMetadata(x, y, z));
+    }
 }

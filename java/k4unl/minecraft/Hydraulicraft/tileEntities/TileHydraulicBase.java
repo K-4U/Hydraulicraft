@@ -179,9 +179,8 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 			case MEDIUMPRESSURE:
 				return Constants.MAX_MBAR_OIL_TIER_2;
 			case HIGHPRESSURE:
+            case INVALID:
 				return Constants.MAX_MBAR_OIL_TIER_3;
-			case INVALID:
-				return 0; //BOOM! hehehe
 			}			
 		}else{
 			switch(getPressureTier()){
@@ -190,9 +189,8 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 			case MEDIUMPRESSURE:
 				return Constants.MAX_MBAR_WATER_TIER_2;
 			case HIGHPRESSURE:
+            case INVALID:
 				return Constants.MAX_MBAR_WATER_TIER_3;
-			case INVALID:
-				return 0; //BOOM! hehehe
 			}	
 		}
 		return 0;
@@ -722,7 +720,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
             if (tTarget.getBlockType() instanceof ITieredBlock) {
                 return ((ITieredBlock) tTarget.getBlockType()).getTier();
             } else if (tTarget.getBlockType() instanceof IMultiTieredBlock) {
-                return ((IMultiTieredBlock) tTarget.getBlockType()).getTier(getBlockMetadata());
+                return ((IMultiTieredBlock) tTarget.getBlockType()).getTier(getWorldObj(), xCoord, yCoord, zCoord);
             }
         }
         return PressureTier.INVALID;

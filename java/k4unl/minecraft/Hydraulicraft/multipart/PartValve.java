@@ -337,7 +337,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	
 	@Override
 	public IBaseClass getHandler() {
-		if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this, 2 * (getTier().toInt()+1));
+		if(baseHandler == null) baseHandler = HCApi.getInstance().getBaseClass(this, 2 * (getTier().toInt()+1));
         return baseHandler;
 	}
 

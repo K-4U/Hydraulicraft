@@ -1,6 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
@@ -9,9 +11,10 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements ITooltipProvider {
+public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements ITooltipProvider, IMultiTieredBlock {
 
 	public BlockHydraulicWasher() {
 		super(Names.blockHydraulicWasher);
@@ -46,5 +49,17 @@ public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements
     public String getToolTip() {
 
         return Localization.getString(Localization.GUI_MULTIBLOCK);
+    }
+
+    @Override
+    public PressureTier getTier(int metadata) {
+
+        return PressureTier.fromOrdinal(metadata);
+    }
+
+    @Override
+    public PressureTier getTier(IBlockAccess world, int x, int y, int z) {
+
+        return PressureTier.fromOrdinal(world.getBlockMetadata(x, y, z));
     }
 }

@@ -1,11 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.blocks.storage;
 
-import java.util.Random;
-
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
-import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
@@ -15,6 +13,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implements IMultiTieredBlock {
 	
@@ -95,8 +95,14 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implemen
 
 
     @Override
-    public PressureTier getTier(int metadata) {
+    public PressureTier getTier(int metadata){
 
         return PressureTier.fromOrdinal(metadata);
+    }
+
+    @Override
+    public PressureTier getTier(IBlockAccess world, int x, int y, int z) {
+
+        return PressureTier.fromOrdinal(world.getBlockMetadata(x, y, z));
     }
 }

@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
@@ -93,5 +94,11 @@ public class BlockHydraulicPump extends HydraulicTieredBlockBase implements IMul
     public PressureTier getTier(int metadata) {
 
         return PressureTier.fromOrdinal(metadata);
+    }
+
+    @Override
+    public PressureTier getTier(IBlockAccess world, int x, int y, int z){
+
+        return PressureTier.fromOrdinal(world.getBlockMetadata(x, y, z));
     }
 }

@@ -85,8 +85,14 @@ public class BlockElectricPump extends HydraulicTieredBlockBase implements IMult
     }
 
     @Override
-    public PressureTier getTier(int metadata) {
+    public PressureTier getTier(int metadata){
 
         return PressureTier.fromOrdinal(metadata);
+    }
+
+    @Override
+    public PressureTier getTier(IBlockAccess world, int x, int y, int z) {
+
+        return PressureTier.fromOrdinal(world.getBlockMetadata(x, y, z));
     }
 }
