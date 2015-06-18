@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,6 +18,7 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
 	private List<Integer> enabledHarvesters = new ArrayList<Integer>();
@@ -54,7 +56,24 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
 		return false;
 	}
-	
+    
+    @Override
+    public int quantityDropped(Random p_149745_1_){
+        return 0;
+    }
+
+    @Override
+    public void breakBlock(World w, int x, int y, int z, Block oldBlock, int oldMetaData){
+        //Call TileEntity's onBlockBreaks function
+        TileEntity tile = w.getTileEntity(x, y, z);
+        if(tile instanceof TileHarvesterTrolley){
+            ((TileHarvesterTrolley)tile).onBlockBreaks();
+        }
+
+        super.breakBlock(w, x, y, z, oldBlock, oldMetaData);
+        w.removeTileEntity(x, y, z);
+    }
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
 	    NBTTagCompound tag = iStack.getTagCompound();
@@ -106,9 +125,10 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
         }
     }
 
-	@Override
+	/*@Override
 	public int damageDropped(int damageValue){
 		return damageValue;
 	}
+*/
 
 }

@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.harvester;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.TrolleyEnderlily;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCrops;
@@ -9,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleySuga
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -483,4 +485,23 @@ public class TileHarvesterTrolley extends TileEntity {
 			extendTo(0, locationToHarvest);
 		}
 	}
+
+
+    public void onBlockBreaks() {
+        ItemStack ourEnt = new ItemStack(HCBlocks.harvesterTrolley, 1);
+        NBTTagCompound tCompound = new NBTTagCompound();
+        writeToNBT(tCompound);
+        tCompound.removeTag("x");
+        tCompound.removeTag("y");
+        tCompound.removeTag("z");
+        tCompound.removeTag("id");
+
+        tCompound.setString("name", getTrolley().getName());
+
+        ourEnt.setTagCompound(tCompound);
+        EntityItem ei = new EntityItem(getWorldObj());
+        ei.setEntityItemStack(ourEnt);
+        ei.setPosition(xCoord, yCoord, zCoord);
+        getWorldObj().spawnEntityInWorld(ei);
+    }
 }
