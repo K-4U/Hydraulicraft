@@ -9,18 +9,25 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 public interface IFluidInventory extends IInventory {
     /**
-     * Drains fluid when crafting
+     * Drains fluid from OUTPUT (= machine output drain)
      *
      * @param fluidStack fluid stack to drain
      * @param doDrain    pretend to drain (ie check for whether possible)
-     * @return how much was filled
+     * @return how much was drained
      */
     FluidStack drain(FluidStack fluidStack, boolean doDrain);
 
+    /**
+     * Drains fluid from INPUT (= when crafting)
+     *
+     * @param fluidStack fluid stack to drain
+     * @param doDrain    pretend to drain
+     * @return how much was drained
+     */
     FluidStack craftingDrain(FluidStack fluidStack, boolean doDrain);
 
     /**
-     * Fills fluid when crafting
+     * Fills fluid to INPUT (= machine input drain)
      *
      * @param fluidStack fluid stack to fill
      * @param doDrain    pretend to fill (ie check for whether possible)
@@ -28,6 +35,13 @@ public interface IFluidInventory extends IInventory {
      */
     int fill(FluidStack fluidStack, boolean doDrain);
 
+    /**
+     * Fills fluid to OUTPUT (= when crafting)
+     *
+     * @param fluidStack fluid stack to fill
+     * @param doDrain    pretend to fill
+     * @return how much was filled
+     */
     int craftingFill(FluidStack fluidStack, boolean doDrain);
 
 
@@ -54,7 +68,6 @@ public interface IFluidInventory extends IInventory {
      * @return drained fluid stack
      */
     FluidStack drain(int maxDrain, boolean doDrain);
-
 
     /**
      * Check whether this fluid can be filled in the inventory
