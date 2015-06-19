@@ -13,8 +13,7 @@ public interface IHydraulicTransporter extends IHydraulicMachine {
 	/**
 	 * Called when the block needs to recheck its connections.
 	 * Note, you'll probably only need this if you use a model
-	 * @param caller
 	 */
-	public void checkConnectedSides(Object caller);
+	public void checkConnectedSides();
 	
 }

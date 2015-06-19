@@ -214,7 +214,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     		
     		for (TMultiPart p: t) {
     			if(p instanceof IHydraulicTransporter && caller.equals(this)){
-    				((IHydraulicTransporter)p).checkConnectedSides(this);
+    				((IHydraulicTransporter)p).checkConnectedSides();
     			}
 				if(p instanceof IHydraulicMachine){
 					return ((IHydraulicMachine)p).canConnectTo(dir.getOpposite());
@@ -297,10 +297,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     public void onNeighborChanged(){
         checkConnectedSides();
         checkRedstone();
-        if(!world().isRemote){
-        	//getHandler().updateFluidOnNextTick();
-        	//getHandler().updateNetworkOnNextTick(oldPressure);
-        }
     }
     
     public ItemStack getItem(){
@@ -311,11 +307,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     public void onPartChanged(TMultiPart part){
         checkConnectedSides();
         checkRedstone();
-        //getHandler().updateFluidOnNextTick();
-        if(!world().isRemote){
-        }
-        
-        
     }
     
     @Override

@@ -196,9 +196,9 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 				
 				if(ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart)ent)){
 					IHydraulicTransporter hose = Multipart.getTransporter((TileMultipart)ent);
-					hose.checkConnectedSides(this);
+					hose.checkConnectedSides();
 				}else if(ent instanceof IHydraulicTransporter){
-					((IHydraulicTransporter)ent).checkConnectedSides(this);
+					((IHydraulicTransporter)ent).checkConnectedSides();
 				}
 			}
 			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);

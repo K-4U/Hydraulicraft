@@ -237,19 +237,14 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		}
 	}
 
-	private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir, Object caller){
+	private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir){
 		int opposite = Functions.getIntDirFromDirection(dir.getOpposite());
 		if(entity instanceof TileMultipart){
 			List<TMultiPart> t = ((TileMultipart)entity).jPartList();
 
-			if(Multipart.hasPartHose((TileMultipart)entity)){
-				if(!((TileMultipart)entity).canAddPart(new NormallyOccludedPart(boundingBoxes[opposite]))) return false;
-			}
-
 			for (TMultiPart p: t) {
 				if(p instanceof IHydraulicTransporter){
 					return ((IHydraulicTransporter)p).canConnectTo(dir.getOpposite());
-					//((IHydraulicTransporter)p).checkConnectedSides(this);
 				}
 				if(p instanceof IHydraulicMachine){
 					return ((IHydraulicMachine)p).canConnectTo(dir.getOpposite());
@@ -270,18 +265,15 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
 		if(world() != null && tile() != null){
 			TileEntity te = world().getTileEntity(x() + side.offsetX, y() + side.offsetY, z() + side.offsetZ);
-			return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d])) && shouldConnectTo(te, side, this);
+			return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d])) && shouldConnectTo(te, side);
 		}else{
 			return false;
 		}
 	}
 
 	public void checkConnectedSides(){
-		checkConnectedSides(this);
-	}
-
-	public void checkConnectedSides(Object caller){
 		boolean[] oldSides = new boolean[7];
+		boolean[] checkSides = new boolean[7];
 
 		if(connectedSideFlags != null) {
 			for(int i = 0; i <= 6; i++){
@@ -294,18 +286,44 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			int d = Functions.getIntDirFromDirection(dir);
 
 			TileEntity te = world().getTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
-			if(shouldConnectTo(te, dir, caller)) {
+			if(shouldConnectTo(te, dir)) {
 				if(tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]))){
 					if(!oldSides[dir.ordinal()]){
 						connectedSidesHaveChanged = true;
+						checkSides[dir.ordinal()] = true;
 					}
 					connectedSideFlags[dir.ordinal()] = true;
 				}else{
+					if(oldSides[dir.ordinal()]){
+						connectedSidesHaveChanged = true;
+						checkSides[dir.ordinal()] = true;
+					}
 					connectedSideFlags[dir.ordinal()] = false;
 				}
+			}else if(oldSides[dir.ordinal()]){
+				checkSides[dir.ordinal()] = true;
+				connectedSidesHaveChanged = true;
 			}
 		}
-		if(connectedSidesHaveChanged){
+		if(connectedSidesHaveChanged && !world().isRemote){
+			float pressure = 0.0F;
+			int c = 0;
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				if(oldSides[dir.ordinal()]) {
+					if (getHandler().getPressure(dir) > 0) {
+						pressure += getHandler().getPressure(dir);
+						c++;
+
+					}
+					if (getNetwork(dir) != null) {
+						getNetwork(dir).removeMachine(this);
+					}
+				}
+			}
+			if(c > 1)
+				pressure = pressure / c;
+			
+			getHandler().updateNetworkOnNextTick(pressure);
 			getHandler().updateBlock();
 		}
 	}
@@ -313,16 +331,19 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
 		int d = side.ordinal();
-		return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]));
+		if(tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]))){
+			//Log.info(x() + " " + y() + " " + z() + " CAN connect on " + side);
+			return true;
+		}else{
+			//Log.info(x() + " " + y() + " " + z() + " CANNOT connect on " + side);
+			return false;
+		}
+		//return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]));
 	}
 
 	public void onNeighborChanged(){
+		super.onNeighborChanged();
 		needToCheckNeighbors = true;
-
-		if(!world().isRemote){
-			//getHandler().updateFluidOnNextTick();
-			//getHandler().updateNetworkOnNextTick(oldPressure);
-		}
 	}
 
 	public ItemStack getItem(){
@@ -331,10 +352,8 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
 	@Override
 	public void onPartChanged(TMultiPart part){
+		super.onPartChanged(part);
 		needToCheckNeighbors = true;
-		//getHandler().updateFluidOnNextTick();
-		//getHandler().invalidateI();
-		onRemoved();
 	}
 
 	@Override
@@ -393,10 +412,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(needToCheckNeighbors) {
 			needToCheckNeighbors = false;
 			checkConnectedSides();
-			if(!world().isRemote){
-				connectedSidesHaveChanged = true;
-				getHandler().updateBlock();
-			}
 		}
 	}
 
@@ -420,14 +435,10 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			}
 			TileEntity ent = world().getTileEntity(x() + dir.offsetX, y()+dir.offsetY, z()+ dir.offsetZ);
 			if(ent == null) continue;
-			if(!shouldConnectTo(ent, dir, this)) continue;
+			if(!connectedSideFlags[dir.ordinal()]) continue;
 			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), dir);
 			
 			if(foundNetwork != null){
-				if(connectedSideFlags == null){
-					connectedSideFlags = new boolean[7];
-				}
-				connectedSideFlags[dir.ordinal()] = true;
 
 				if(endNetwork == null){
 					endNetwork = foundNetwork;
@@ -438,7 +449,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			
 			if(newNetwork != null && endNetwork != null){
 				//Hmm.. More networks!? What's this!?
-				//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+				Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 				endNetwork.mergeNetwork(newNetwork);
 				newNetwork = null;
 			}
@@ -448,11 +459,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(endNetwork != null){
 			((TileHydraulicBase)getHandler()).setNetwork(ForgeDirection.UP, endNetwork);
 			endNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
-			//Log.info("Found an existing network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+			Log.info("Found an existing network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}else{
 			endNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
 			((TileHydraulicBase)getHandler()).setNetwork(ForgeDirection.UP, endNetwork);
-			//Log.info("Created a new network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+			Log.info("Created a new network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}
 		hasFoundNetwork = true;
 	}
