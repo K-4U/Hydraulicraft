@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.lib.recipes;
 
 import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
+import k4unl.minecraft.k4lib.lib.ItemStackUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -12,10 +13,11 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 public class InventoryFluidCrafting implements IFluidInventory {
-    protected FluidTank[]           inputTanks;
-    protected FluidTank[]           outputTanks;
-    protected IFluidCraftingMachine feedback;
-    protected InventoryCrafting     crafting;
+    protected FluidTank[]               inputTanks;
+    protected FluidTank[]               outputTanks;
+    protected IFluidCraftingMachine     feedback;
+    protected InventoryCrafting         crafting;
+    protected InventoryFluidCraftResult inventoryResult;
 
     public InventoryFluidCrafting(IFluidCraftingMachine cnt, int gridSize) {
         this(cnt, gridSize, null, null);
@@ -26,6 +28,7 @@ public class InventoryFluidCrafting implements IFluidInventory {
         inputTanks = inputTank;
         outputTanks = outputTank;
         this.feedback = cnt;
+        inventoryResult = new InventoryFluidCraftResult(cnt);
     }
 
     @Override
@@ -87,6 +90,25 @@ public class InventoryFluidCrafting implements IFluidInventory {
     @Override
     public InventoryCrafting getInventoryCrafting() {
         return crafting;
+    }
+
+    public void startRecipe(IFluidRecipe recipe) {
+        eatItems();
+    }
+
+    public void finishRecipe(IFluidRecipe recipe) {
+        inventoryResult.setInventorySlotContents(0,
+                ItemStackUtils.mergeStacks(recipe.getCraftingResult(getInventoryCrafting()),
+                        inventoryResult.getStackInSlot(0)));
+    }
+
+    public boolean canWork(IFluidRecipe recipe) {
+
+        if (inventoryResult.getStackInSlot(0) != null &&
+                !ItemStackUtils.canMergeStacks(inventoryResult.getStackInSlot(0), recipe.getRecipeOutput()))
+            return false;
+
+        return true;
     }
 
     @Override
@@ -172,27 +194,43 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
     @Override
     public int getSizeInventory() {
-        return crafting.getSizeInventory() + 1;
+        return crafting.getSizeInventory() + inventoryResult.getSizeInventory();
+    }
+
+    public int getInternalSizeInventory() {
+        return crafting.getSizeInventory();
     }
 
     @Override
     public ItemStack getStackInSlot(int slot) {
-        return crafting.getStackInSlot(slot);
+        if (slot < getInternalSizeInventory())
+            return crafting.getStackInSlot(slot);
+
+        return inventoryResult.getStackInSlot(slot - getInternalSizeInventory());
     }
 
     @Override
     public ItemStack decrStackSize(int slot, int decrBy) {
-        return crafting.decrStackSize(slot, decrBy);
+        if (slot < getInternalSizeInventory())
+            return crafting.decrStackSize(slot, decrBy);
+
+        return inventoryResult.decrStackSize(slot - getInternalSizeInventory(), decrBy);
     }
 
     @Override
     public ItemStack getStackInSlotOnClosing(int slot) {
-        return crafting.getStackInSlotOnClosing(slot);
+        if (slot < getInternalSizeInventory())
+            return crafting.getStackInSlotOnClosing(slot);
+
+        return inventoryResult.getStackInSlotOnClosing(slot - getInternalSizeInventory());
     }
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack itemStack) {
-        crafting.setInventorySlotContents(slot, itemStack);
+        if (slot < getInternalSizeInventory())
+            crafting.setInventorySlotContents(slot, itemStack);
+        else
+            inventoryResult.setInventorySlotContents(slot - getInternalSizeInventory(), itemStack);
 
         this.markDirty();
     }
@@ -234,7 +272,7 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        if (slot < 9)
+        if (slot < getInternalSizeInventory())
             return true;
 
         return false;
@@ -278,6 +316,8 @@ public class InventoryFluidCrafting implements IFluidInventory {
             }
 
         compound.setTag("OutputTanks", list);
+
+        inventoryResult.save(compound);
     }
 
     public void load(NBTTagCompound compound) {
@@ -308,6 +348,8 @@ public class InventoryFluidCrafting implements IFluidInventory {
             if (j >= 0 && j < this.outputTanks.length)
                 outputTanks[i].readFromNBT(compound1);
         }
+
+        inventoryResult.load(compound);
     }
 
     public void eatItems() {
