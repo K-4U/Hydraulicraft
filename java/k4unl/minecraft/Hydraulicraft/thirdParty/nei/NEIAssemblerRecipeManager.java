@@ -54,7 +54,8 @@ public class NEIAssemblerRecipeManager extends NEIHydraulicRecipePlugin {
 
             for (int x = 0; x < width; x++)
                 for (int y = 0; y < height; y++)
-                    outRecipe.addInput(new PositionedStack(recipe1.getInput()[x * width + y], 48 + x * 18, 6 + y * 18));
+                    if (recipe1.getInput()[x * width + y] != null)
+                        outRecipe.addInput(new PositionedStack(recipe1.getInput()[x * width + y], 48 + x * 18, 6 + y * 18));
 
             outRecipe.addOutput(new PositionedStack(recipe1.getRecipeOutput(), 126, 24));
             outRecipe.addInput(recipe1.getInputFluids().get(0), 42, 42);
@@ -142,10 +143,10 @@ public class NEIAssemblerRecipeManager extends NEIHydraulicRecipePlugin {
     public void drawExtras(int recipe) {
         drawProgressBar(80, 22, 207, 0, 34, 19, 48, 2 | (1 << 3));
         CachedRecipe cachedRecipe = arecipes.get(recipe);
-        if(cachedRecipe instanceof NEIHydraulicRecipe) {
+        if (cachedRecipe instanceof NEIHydraulicRecipe) {
             NEIHydraulicRecipe hydraulicRecipe = (NEIHydraulicRecipe) cachedRecipe;
-            for(NEIWidgetTank tank : hydraulicRecipe.getInputFluid()) {
-                tank.render();
+            for (NEIWidgetTank tank : hydraulicRecipe.getInputFluid()) {
+                tank.render(this);
             }
         }
     }

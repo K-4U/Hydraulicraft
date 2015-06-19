@@ -27,7 +27,7 @@ public class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
 
         public NEIHydraulicRecipe addInput(FluidStack fluidStack, int x, int y) {
 
-            // TODO fluid adding
+            NEIWidgetTank tank = new NEIWidgetTank(fluidStack, x, y);
 
             return this;
         }
