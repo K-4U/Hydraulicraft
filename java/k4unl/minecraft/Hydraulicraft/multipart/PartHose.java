@@ -40,8 +40,8 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     private static int expandBounds = -1;
     
     private IBaseClass baseHandler;
-    private Map<ForgeDirection, TileEntity> connectedSides;
-    private final boolean[] connectedSideFlags = new boolean[6];
+    //private Map<ForgeDirection, TileEntity> connectedSides;
+    private boolean[] connectedSideFlags = new boolean[7];
     private boolean needToCheckNeighbors;
     private boolean connectedSidesHaveChanged = true;
     private boolean hasCheckedSinceStartup;
@@ -109,7 +109,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	@Override
 	 public void load(NBTTagCompound tagCompound){
 		super.load(tagCompound);
-		connectedSides = new HashMap<ForgeDirection, TileEntity>();
+		//connectedSides = new HashMap<ForgeDirection, TileEntity>();
 		if(getHandler() != null){
 			getHandler().validateI();
 			getHandler().readFromNBTI(tagCompound);
@@ -150,21 +150,20 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		NBTTagCompound ourCompound = tagCompound.getCompoundTag("connectedSides");
 
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-			connectedSideFlags[dir.ordinal()] = ourCompound.getBoolean(dir.name());
+			connectedSideFlags[dir.ordinal()] = ourCompound.getBoolean(dir.ordinal()+"");
 		}
 		needToCheckNeighbors = true;
 	}
 
 	private void writeConnectedSidesToNBT(NBTTagCompound tagCompound){
 
-		if(connectedSides == null) {
-			connectedSides = new HashMap<ForgeDirection, TileEntity>();
+		NBTTagCompound ourCompound = new NBTTagCompound();
+		int i=0;
+		for(boolean b : connectedSideFlags) {
+			ourCompound.setBoolean(i+"", b);
+			i++;
 		}
 
-		NBTTagCompound ourCompound = new NBTTagCompound();
-		for(Map.Entry<ForgeDirection, TileEntity> entry : connectedSides.entrySet()) {
-			ourCompound.setBoolean(entry.getKey().name(), true);
-		}
 		tagCompound.setTag("connectedSides", ourCompound);
 	}
 
@@ -215,9 +214,9 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		LinkedList<Cuboid6> list = new LinkedList<Cuboid6>();
 		list.add(boundingBoxes[6]);
 		list.add(boundingBoxes[13]);
-		if(connectedSides == null) return list;
+		if(connectedSideFlags == null) return list;
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			if(connectedSides.containsKey(dir)){
+			if(connectedSideFlags[dir.ordinal()]){
 				list.add(boundingBoxes[Functions.getIntDirFromDirection(dir)]);
 				list.add(boundingBoxes[Functions.getIntDirFromDirection(dir)+7]);
 			}
@@ -233,7 +232,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 				renderer = new RendererPartHose();
 			}
 			GL11.glDisable(GL11.GL_LIGHTING);
-			renderer.doRender(pos.x, pos.y, pos.z, 0, tier.toInt(), connectedSides);
+			renderer.doRender(pos.x, pos.y, pos.z, 0, tier.toInt(), connectedSideFlags);
 			GL11.glEnable(GL11.GL_LIGHTING);
 		}
 	}
@@ -248,8 +247,9 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			}
 
 			for (TMultiPart p: t) {
-				if(p instanceof IHydraulicTransporter && caller.equals(this)){
-					((IHydraulicTransporter)p).checkConnectedSides(this);
+				if(p instanceof IHydraulicTransporter){
+					return ((IHydraulicTransporter)p).canConnectTo(dir.getOpposite());
+					//((IHydraulicTransporter)p).checkConnectedSides(this);
 				}
 				if(p instanceof IHydraulicMachine){
 					return ((IHydraulicMachine)p).canConnectTo(dir.getOpposite());
@@ -281,13 +281,14 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	}
 
 	public void checkConnectedSides(Object caller){
-		HashMap<ForgeDirection, TileEntity> oldSides;
-		if(connectedSides != null) {
-			oldSides = new HashMap<ForgeDirection, TileEntity>(connectedSides);
-		}else{
-			oldSides = new HashMap<ForgeDirection, TileEntity>();
+		boolean[] oldSides = new boolean[7];
+
+		if(connectedSideFlags != null) {
+			for(int i = 0; i <= 6; i++){
+				oldSides[i] = connectedSideFlags[i];
+			}
 		}
-		connectedSides = new HashMap<ForgeDirection, TileEntity>();
+		connectedSideFlags = new boolean[7];
 
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			int d = Functions.getIntDirFromDirection(dir);
@@ -295,10 +296,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			TileEntity te = world().getTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
 			if(shouldConnectTo(te, dir, caller)) {
 				if(tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]))){
-					if(!oldSides.containsKey(dir)){
+					if(!oldSides[dir.ordinal()]){
 						connectedSidesHaveChanged = true;
 					}
-					connectedSides.put(dir, te);
+					connectedSideFlags[dir.ordinal()] = true;
+				}else{
+					connectedSideFlags[dir.ordinal()] = false;
 				}
 			}
 		}
@@ -390,13 +393,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(needToCheckNeighbors) {
 			needToCheckNeighbors = false;
 			checkConnectedSides();
-			connectedSides = new HashMap<ForgeDirection, TileEntity>();
-			for(int i = 0; i < 6; i++) {
-				if(connectedSideFlags[i]) {
-					ForgeDirection dir = ForgeDirection.getOrientation(i);
-					connectedSides.put(dir, world().getTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ));
-				}
-			}
 			if(!world().isRemote){
 				connectedSidesHaveChanged = true;
 				getHandler().updateBlock();
@@ -404,11 +400,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		}
 	}
 
-	public Map<ForgeDirection, TileEntity> getConnectedSides() {
-		if(connectedSides == null){
+	public boolean[] getConnectedSides() {
+		if(connectedSideFlags == null){
 			checkConnectedSides();
 		}
-		return connectedSides;
+		return connectedSideFlags;
 	}
 	
 	
@@ -428,10 +424,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), dir);
 			
 			if(foundNetwork != null){
-				if(connectedSides == null){
-					connectedSides = new HashMap<ForgeDirection, TileEntity>();
+				if(connectedSideFlags == null){
+					connectedSideFlags = new boolean[7];
 				}
-				connectedSides.put(dir, ent);
+				connectedSideFlags[dir.ordinal()] = true;
+
 				if(endNetwork == null){
 					endNetwork = foundNetwork;
 				}else{
@@ -464,9 +461,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	public void onRemoved(){
 		super.onRemoved();
 		if(!world().isRemote){
-			for(Map.Entry<ForgeDirection, TileEntity> entry : connectedSides.entrySet()) {
-				if(getNetwork(entry.getKey()) != null){
-					getNetwork(entry.getKey()).removeMachine(this);
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				if(connectedSideFlags[dir.ordinal()]) {
+					if (getNetwork(dir) != null) {
+						getNetwork(dir).removeMachine(this);
+					}
 				}
 	        }
 		}

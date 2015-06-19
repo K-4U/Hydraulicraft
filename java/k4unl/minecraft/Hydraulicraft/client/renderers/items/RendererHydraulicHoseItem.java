@@ -1,14 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
 
 public class RendererHydraulicHoseItem implements IItemRenderer {
@@ -58,9 +53,9 @@ public class RendererHydraulicHoseItem implements IItemRenderer {
 	private void render(float x, float y, float z, float scale, int metadata){
 		
 		GL11.glScalef(scale, scale, scale);
-		Map<ForgeDirection, TileEntity> connectedSides = new HashMap<ForgeDirection, TileEntity>();
+		boolean[] connectedSides = new boolean[7];
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
-			connectedSides.put(dir, null);
+			connectedSides[dir.ordinal()] = true;
 		}
 		f.doRender(x, y, z, 0, metadata, connectedSides);
 	}
