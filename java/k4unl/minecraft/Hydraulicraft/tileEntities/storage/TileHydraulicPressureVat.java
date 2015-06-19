@@ -133,9 +133,9 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 		if(i == 0){
 			inputInventory = itemStack;
 			onInventoryChanged();
-		}else{
-			//Err...
-			
+		}else if(i == 1){
+			outputInventory = itemStack;
+			onInventoryChanged();
 		}
 	}
 
