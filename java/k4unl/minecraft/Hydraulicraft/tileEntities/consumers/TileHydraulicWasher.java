@@ -719,6 +719,11 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     }
 
 	@Override
+	public PressureTier getPressureTier(){
+		return this.pressureTier;
+	}
+
+	@Override
 	public boolean connectTexture() {
 		return getIsValidMultiblock();
 	}

@@ -48,25 +48,7 @@ public class HydraulicTieredBlockHandler extends HandlerHydraulicBlock {
             Item theItem  = itemstack.getItem();
             Block btH = ((HandlerHydraulicBlock)theItem).blockToHandle;
 
-            if(btH instanceof IMultiTieredBlock){
-                String toTranslate = "";
-                PressureTier pt = ((IMultiTieredBlock)btH).getTier(itemstack.getItemDamageForDisplay());
-                switch(pt){
-                    case LOWPRESSURE:
-                        toTranslate = Localization.MAXPRESSURE_LOW;
-                        break;
-                    case MEDIUMPRESSURE:
-                        toTranslate = Localization.MAXPRESSURE_MEDIUM;
-                        break;
-                    case HIGHPRESSURE:
-                        toTranslate = Localization.MAXPRESSURE_HIGH;
-                        break;
-                    case INVALID:
-                        toTranslate = "ERROR";
-                        break;
-                }
-                list.add(EnumChatFormatting.GREEN + Localization.getString(toTranslate));
-            }
+
 
         }
     }

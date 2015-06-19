@@ -54,7 +54,7 @@ public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements
     @Override
     public PressureTier getTier(int metadata) {
 
-        return PressureTier.fromOrdinal(metadata);
+        return PressureTier.INVALID;
     }
 
     @Override
