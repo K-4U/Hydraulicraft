@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.api.recipes;
 
+import k4unl.minecraft.Hydraulicraft.lib.recipes.ChancedStack;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.IFluidInventory;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -9,12 +11,14 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecipe {
     List<FluidStack> inputFluids;
     List<FluidStack> outputFluids;
     int   craftingTime = 1;
     float pressure     = 0.1f;
+    private ChancedStack resultChancedStack;
 
     public FluidShapedOreRecipe(Block result, Object... recipe) {
         super(result, recipe);
@@ -26,6 +30,11 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
 
     public FluidShapedOreRecipe(ItemStack result, Object... recipe) {
         super(result, recipe);
+    }
+
+    public FluidShapedOreRecipe(ChancedStack result, Object... recipe) {
+        super(new ItemStack(Blocks.cobblestone_wall), recipe); // just to feed it something
+        this.resultChancedStack = result;
     }
 
     public FluidShapedOreRecipe addFluidInput(FluidStack fluidStack) {
@@ -106,7 +115,23 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
     }
 
     @Override
+    public ItemStack getRecipeOutput() {
+        if (resultChancedStack != null)
+            throw new IllegalArgumentException("Tried to access normal recipe output when chanced stack was set up!");
+
+        return super.getRecipeOutput();
+    }
+
+    @Override
     public Object[] getInputItems() {
         return super.getInput();
+    }
+
+    @Override
+    public ItemStack[] getChancedDrops() {
+        if (resultChancedStack == null)
+            throw new IllegalArgumentException("Tried to access chanced stack when they were not set up!");
+
+        return resultChancedStack.getDrops(new Random()); // TODO get world seed?
     }
 }

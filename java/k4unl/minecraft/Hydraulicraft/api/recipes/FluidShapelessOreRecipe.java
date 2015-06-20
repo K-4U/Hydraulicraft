@@ -1,7 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.api.recipes;
 
+import k4unl.minecraft.Hydraulicraft.lib.recipes.ChancedStack;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.IFluidInventory;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -9,12 +11,14 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFluidRecipe {
     List<FluidStack> inputFluids;
     List<FluidStack> outputFluids;
     int   craftingTime = 1;
     float pressure     = 0.1f;
+    private ChancedStack resultChancedStack;
 
     public FluidShapelessOreRecipe(Block result, Object... recipe) {
         super(result, recipe);
@@ -26,6 +30,11 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
 
     public FluidShapelessOreRecipe(ItemStack result, Object... recipe) {
         super(result, recipe);
+    }
+
+    public FluidShapelessOreRecipe(ChancedStack result, Object... recipe) {
+        super(new ItemStack(Blocks.cobblestone_wall), recipe); // just to feed it something
+        this.resultChancedStack = result;
     }
 
     @Override
@@ -114,7 +123,23 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
     }
 
     @Override
+    public ItemStack getRecipeOutput() {
+        if (resultChancedStack != null)
+            throw new IllegalArgumentException("Tried to access normal recipe output when chanced stack was set up!");
+
+        return super.getRecipeOutput();
+    }
+
+    @Override
     public Object[] getInputItems() {
         return super.getInput().toArray(new Object[super.getInput().size()]);
+    }
+
+    @Override
+    public ItemStack[] getChancedDrops() {
+        if (resultChancedStack == null)
+            throw new IllegalArgumentException("Tried to access chanced stack when they were not set up!");
+
+        return resultChancedStack.getDrops(new Random()); // TODO get world seed?
     }
 }
