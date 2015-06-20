@@ -40,12 +40,10 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
     private static int expandBounds = -1;
     
     private IBaseClass baseHandler;
-    //private Map<ForgeDirection, TileEntity> connectedSides;
     private boolean[] connectedSideFlags = new boolean[7];
     private boolean needToCheckNeighbors;
     private boolean connectedSidesHaveChanged = true;
     private boolean hasCheckedSinceStartup;
-    private boolean hasFoundNetwork = false;
 
 	private static float pixel = 1.0F / 16F;
     
@@ -67,8 +65,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         double w = pixel*2;
         boundingBoxes[6] = new Cuboid6(centerFirst - w, centerFirst - w, centerFirst - w, centerFirst + w, centerFirst + w, centerFirst + w);
         boundingBoxes[13] = new Cuboid6(centerSecond - w, centerSecond - w, centerSecond - w, centerSecond + w, centerSecond + w, centerSecond + w);
-        
-        
         
         int i = 0;
     	for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
@@ -109,14 +105,11 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	@Override
 	 public void load(NBTTagCompound tagCompound){
 		super.load(tagCompound);
-		//connectedSides = new HashMap<ForgeDirection, TileEntity>();
 		if(getHandler() != null){
 			getHandler().validateI();
 			getHandler().readFromNBTI(tagCompound);
 		}
 		tier = PressureTier.fromOrdinal(tagCompound.getInteger("tier"));
-		//getHandler().updateNetworkOnNextTick(oldPressure);
-		//checkConnectedSides();
 		readConnectedSidesFromNBT(tagCompound);
 	}
 
@@ -330,15 +323,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
 	@Override
 	public boolean canConnectTo(ForgeDirection side) {
-		int d = side.ordinal();
-		if(tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]))){
-			//Log.info(x() + " " + y() + " " + z() + " CAN connect on " + side);
-			return true;
-		}else{
-			//Log.info(x() + " " + y() + " " + z() + " CANNOT connect on " + side);
-			return false;
-		}
-		//return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]));
+		return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[side.ordinal()]));
 	}
 
 	public void onNeighborChanged(){
@@ -398,15 +383,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 				//Hack hack hack
 				//Temporary bug fix that we will forget about
 			}
-			//if(world().getTotalWorldTime() % 10 == 0 && pNetwork != null && !pNetwork.getMachines().contains(this.getHandler().getBlockLocation())){
-			//Dum tie dum tie dum
-			//If you see this, please step out of this if
-			// *makes jedi hand motion* You never saw this!
-			// TODO: figure out why the fuck this code is auto removing itself, without letting me know.
-			// I Honestly believe it's because of FMP
-			//getHandler().updateNetworkOnNextTick(pNetwork.getPressure());
-			//pNetwork.addMachine(this, pNetwork.getPressure());
-			//}
 		}
 
 		if(needToCheckNeighbors) {
@@ -449,7 +425,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			
 			if(newNetwork != null && endNetwork != null){
 				//Hmm.. More networks!? What's this!?
-				Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+				//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 				endNetwork.mergeNetwork(newNetwork);
 				newNetwork = null;
 			}
@@ -459,13 +435,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(endNetwork != null){
 			((TileHydraulicBase)getHandler()).setNetwork(ForgeDirection.UP, endNetwork);
 			endNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
-			Log.info("Found an existing network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+			//Log.info("Found an existing network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}else{
 			endNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
 			((TileHydraulicBase)getHandler()).setNetwork(ForgeDirection.UP, endNetwork);
-			Log.info("Created a new network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
+			//Log.info("Created a new network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}
-		hasFoundNetwork = true;
 	}
 	
 	@Override
