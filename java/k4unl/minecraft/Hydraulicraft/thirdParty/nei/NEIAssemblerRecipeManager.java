@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 import codechicken.core.ReflectionManager;
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.GuiRecipe;
 import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
 import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapelessOreRecipe;
 import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
@@ -21,6 +22,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.awt.*;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Koen Beckers (K-4U)
@@ -149,5 +151,18 @@ public class NEIAssemblerRecipeManager extends NEIHydraulicRecipePlugin {
                 tank.render();
             }
         }
+    }
+
+
+    @Override
+    public List<String> handleTooltip(GuiRecipe gui, List<String> currenttip, int recipe) {
+        CachedRecipe cachedRecipe = arecipes.get(recipe);
+        if (cachedRecipe instanceof NEIHydraulicRecipe) {
+            NEIHydraulicRecipe hydraulicRecipe = (NEIHydraulicRecipe) cachedRecipe;
+            for (NEIWidgetTank tank : hydraulicRecipe.getInputFluid()) {
+                tank.handletooltip(gui, currenttip, recipe);
+            }
+        }
+        return super.handleTooltip(gui, currenttip, recipe);
     }
 }

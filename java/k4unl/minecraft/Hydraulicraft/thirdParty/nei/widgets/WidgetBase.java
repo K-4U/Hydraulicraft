@@ -1,12 +1,51 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets;
 
+import codechicken.lib.gui.GuiDraw;
+import codechicken.nei.recipe.GuiRecipe;
+
+import java.awt.*;
+import java.util.List;
+
 public abstract class WidgetBase {
 
-    public void render() {
-        renderTooltips();
+    protected int x, y, width, height;
+    private String tooltip;
+
+    public WidgetBase(int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
     }
 
-    private void renderTooltips() {
+    public void render() {
+    }
 
+    // stolen from PneumaticCraft, needed and used for NEI
+    public void handletooltip(GuiRecipe gui, List<String> currenttip, int recipe) {
+        String tooltip = getTooltip();
+        if (tooltip.equals(""))
+            return;
+
+        Point mouse = GuiDraw.getMousePosition();
+        Point offset = gui.getRecipePosition(recipe);
+        Point relMouse = new Point(mouse.x - (gui.width - 176) / 2 - offset.x, mouse.y - (gui.height - 166) / 2 - offset.y);
+
+        if (getBounds().contains(relMouse)) {
+            String[] lines = tooltip.split("\n");
+            for (String line : lines)
+                currenttip.add(line);
+        }
+    }
+
+    protected abstract String getTooltip();
+
+    protected void setTooltip(String tooltip) {
+        this.tooltip = tooltip;
+    }
+
+    // stolen from PneumaticCraft
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
     }
 }

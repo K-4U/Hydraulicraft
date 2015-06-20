@@ -8,16 +8,16 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
+
 public class NEIWidgetTank extends WidgetBase {
     FluidTank tank;
-    private int x, y, width, height;
 
     public NEIWidgetTank(FluidTank tank, int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        super(x, y, width, height);
         this.tank = tank;
+
+        setTooltip(tank.getFluid().getFluid().getLocalizedName(tank.getFluid()) + ": " + tank.getFluidAmount() + "mB");
     }
 
     public NEIWidgetTank(FluidStack fluidStack, int x, int y, int width, int height) {
@@ -48,7 +48,7 @@ public class NEIWidgetTank extends WidgetBase {
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         int o = 0;
-        float zLevel = 0.625f;
+        float zLevel = 0f;
 
         // render (height / iconHeight) times the base texture
         for (o = 0; o < Math.floor(icons); o++) {
@@ -71,5 +71,15 @@ public class NEIWidgetTank extends WidgetBase {
         GL11.glPopMatrix();
 
         super.render();
+    }
+
+    @Override
+    protected String getTooltip() {
+        return tank.getFluid().getFluid().getLocalizedName(tank.getFluid()) + "\n" + tank.getFluidAmount() + "mB";
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return new Rectangle(x, y - height, width, height);
     }
 }
