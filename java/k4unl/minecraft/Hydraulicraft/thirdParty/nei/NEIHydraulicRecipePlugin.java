@@ -25,10 +25,10 @@ public class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
         private List<NEIWidgetTank>   inputFluid  = new ArrayList<NEIWidgetTank>();
         private List<NEIWidgetTank>   outputFluid = new ArrayList<NEIWidgetTank>();
 
-        public NEIHydraulicRecipe addInput(FluidStack fluidStack, int x, int y) {
+        public NEIHydraulicRecipe addInput(FluidStack fluidStack, int x, int y, int width, int height) {
 
-            NEIWidgetTank tank = new NEIWidgetTank(fluidStack, x, y);
-
+            NEIWidgetTank tank = new NEIWidgetTank(fluidStack, x, y, width, height);
+            inputFluid.add(tank);
             return this;
         }
 
