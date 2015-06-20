@@ -36,12 +36,7 @@ public class Names {
 
     public static final Name blockHydraulicHarvester = new Name("Harvester", "hydraulicHarvesterSource");
     public static final Name blockHarvesterFrame     = new Name("Harvester frame", "hydraulicHarvesterFrame");
-	
-	/*public static final Name[] blockHarvesterTrolley = {
-		new Name("Wheat Harvester", "wheatHarvester"),
-		new Name("Ender Lily Harvester", "enderLilyHarvester"),
-		new Name("Sugar Cane Harvester", "sugarCaneHarvester")
-	};*/
+
 
     public static final Name blockHarvesterTrolley = new Name("Harvester Trolley", "wheatHarvester");
 
@@ -116,5 +111,10 @@ public class Names {
     public static final Name blockRefinedNadsiumBicarbinate = new Name("Refined Nadsium Bicarbinate", "refinedNadsiumBicarbinate");
     public static final Name oreBeachium                    = new Name("Beachium", "oreBeachium");
     public static final Name blockDirtyMineral              = new Name("Dirty Mineral", "blockDirtyMineral");
+
+    public static final Name itemScubaHelmet = new Name("Scuba Helmet", "scubaHelmet");
+    public static final Name itemScubaChest = new Name("Scuba Suit Controller", "scubaChest");
+    public static final Name itemScubaLegs = new Name("Scuba Suit Legs", "scubaLegs");
+    public static final Name itemScubaBoots = new Name("Scuba Suit Boots", "scubaBoots");
 
 }
