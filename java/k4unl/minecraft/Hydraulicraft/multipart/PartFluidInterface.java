@@ -16,9 +16,11 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Location;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.lwjgl.opengl.GL11;
@@ -276,6 +278,15 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
                 }
             }
         }
+    }
+
+    @Override
+    public ItemStack pickItem(MovingObjectPosition hit){
+        return getItem();
+    }
+
+    public ItemStack getItem(){
+        return new ItemStack(Multipart.itemPartFluidInterface, 1);
     }
 
     private void drainFluid(IFluidHandler fluidHandler){
