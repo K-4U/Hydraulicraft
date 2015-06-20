@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
+import k4unl.minecraft.Hydraulicraft.items.scubaSuit.ItemScubaSuit;
 import k4unl.minecraft.Hydraulicraft.lib.BucketHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -39,6 +40,11 @@ public class HCItems {
 	public static Item itemBucketLubricant;
     public static Item itemBucketFluoricCarbonFluid;
 
+	public static Item itemScubaHelmet;
+	public static Item itemScubaController;
+	public static Item itemScubaLegs;
+	public static Item itemScubaBoots;
+
 	/*!
 	 * @author Koen Beckers
 	 * @date 13-12-2013
@@ -76,6 +82,10 @@ public class HCItems {
 		
 		itemIPCard = new ItemIPCard();
 
+		itemScubaHelmet = new ItemScubaSuit(0);
+		itemScubaController = new ItemScubaSuit(1);
+		itemScubaLegs = new ItemScubaSuit(2);
+		itemScubaBoots = new ItemScubaSuit(3);
 
 		registerItems();
 	}
@@ -104,6 +114,11 @@ public class HCItems {
 		GameRegistry.registerItem(itemEnrichedCopperDust, Names.itemCopperEnrichedDust.unlocalized);
 
 		GameRegistry.registerItem(itemIPCard, Names.itemIPCard.unlocalized);
+
+		GameRegistry.registerItem(itemScubaHelmet, Names.itemScubaHelmet.unlocalized);
+		GameRegistry.registerItem(itemScubaController, Names.itemScubaChest.unlocalized);
+		GameRegistry.registerItem(itemScubaLegs, Names.itemScubaLegs.unlocalized);
+		GameRegistry.registerItem(itemScubaBoots, Names.itemScubaBoots.unlocalized);
 		
 		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));
 		OreDictionary.registerOre(Names.ingotLead.unlocalized, new ItemStack(ingotLead));

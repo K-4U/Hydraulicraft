@@ -29,7 +29,7 @@ public class ItemMiningHelmet extends ItemArmor {
 
         super(ArmorMaterial.IRON, 0, 0);
 
-        setMaxStackSize(64);
+        setMaxStackSize(1);
         setUnlocalizedName(Names.itemMiningHelmet.unlocalized);
         setTextureName(ModInfo.LID + ":" + Names.itemMiningHelmet.unlocalized);
 
