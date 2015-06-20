@@ -35,4 +35,17 @@ public class InventoryFluidCraftResult extends InventoryCraftResult {
             setInventorySlotContents(0, ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("output")));
         }
     }
+
+    public boolean canExtract(int slot, ItemStack itemStack) {
+        if (slot > 0)
+            return false;
+
+        if (getStackInSlot(0) == null)
+            return false;
+
+        if (getStackInSlot(0).isItemEqual(itemStack))
+            return true;
+
+        return false;
+    }
 }

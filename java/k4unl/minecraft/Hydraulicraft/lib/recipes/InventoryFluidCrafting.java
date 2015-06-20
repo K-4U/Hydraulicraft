@@ -18,6 +18,9 @@ public class InventoryFluidCrafting implements IFluidInventory {
     protected IFluidCraftingMachine     feedback;
     protected InventoryCrafting         crafting;
     protected InventoryFluidCraftResult inventoryResult;
+    protected ItemStack                 outputItem; // used only for saving
+    protected float                     progress;
+    private   boolean                   craftingInProgress;
 
     public InventoryFluidCrafting(IFluidCraftingMachine cnt, int gridSize) {
         this(cnt, gridSize, null, null);
@@ -38,7 +41,11 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
         for (FluidTank tank : outputTanks) {
             if (tank.getFluid() != null && tank.getFluid().equals(fluidStack)) {
-                return tank.drain(fluidStack.amount, doDrain);
+                FluidStack retval = tank.drain(fluidStack.amount, doDrain);
+                if (doDrain)
+                    markDirty();
+
+                return retval;
             }
         }
 
@@ -66,7 +73,11 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
         for (FluidTank tank : inputTanks) {
             if (tank.getFluid() == null || tank.getFluid().equals(fluidStack)) {
-                return tank.fill(fluidStack, doDrain);
+                int retval = tank.fill(fluidStack, doDrain);
+                if (doDrain)
+                    markDirty();
+
+                return retval;
             }
         }
 
@@ -94,16 +105,22 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
     public void startRecipe(IFluidRecipe recipe) {
         eatItems();
+        progress = 0;
+        outputItem = recipe.getRecipeOutput().copy();
+        craftingInProgress = true;
     }
 
     public void finishRecipe(IFluidRecipe recipe) {
         inventoryResult.setInventorySlotContents(0,
-                ItemStackUtils.mergeStacks(recipe.getCraftingResult(getInventoryCrafting()),
-                        inventoryResult.getStackInSlot(0)));
+                ItemStackUtils.mergeStacks(outputItem.copy(), inventoryResult.getStackInSlot(0)));
+
+        outputItem = null;
+        craftingInProgress = false;
+
+        markDirty();
     }
 
     public boolean canWork(IFluidRecipe recipe) {
-
         if (inventoryResult.getStackInSlot(0) != null &&
                 !ItemStackUtils.canMergeStacks(inventoryResult.getStackInSlot(0), recipe.getRecipeOutput()))
             return false;
@@ -112,7 +129,9 @@ public class InventoryFluidCrafting implements IFluidInventory {
     }
 
     @Override
-    public void eatFluids(IFluidRecipe recipe, float percent) {
+    public void recipeTick(IFluidRecipe recipe) {
+        float percent = 1f / recipe.getCraftingTime();
+
         if (recipe.getInputFluids() != null)
             for (FluidStack inFluid : recipe.getInputFluids()) {
                 FluidStack toDrain = inFluid.copy();
@@ -126,6 +145,12 @@ public class InventoryFluidCrafting implements IFluidInventory {
                 toFill.amount *= percent;
                 craftingFill(toFill, true);
             }
+
+        progress++;
+
+        if (progress >= recipe.getCraftingTime()) {
+            finishRecipe(recipe);
+        }
     }
 
     @Override
@@ -318,6 +343,11 @@ public class InventoryFluidCrafting implements IFluidInventory {
         compound.setTag("OutputTanks", list);
 
         inventoryResult.save(compound);
+
+        if (outputItem != null)
+            compound.setTag("OutputItem", outputItem.writeToNBT(new NBTTagCompound()));
+
+        compound.setFloat("Progress", progress);
     }
 
     public void load(NBTTagCompound compound) {
@@ -350,6 +380,11 @@ public class InventoryFluidCrafting implements IFluidInventory {
         }
 
         inventoryResult.load(compound);
+
+        if (compound.getTag("OutputItem") != null && compound.getTag("OutputItem") instanceof NBTTagCompound)
+            outputItem = ItemStack.loadItemStackFromNBT((NBTTagCompound) compound.getTag("OutputItem"));
+
+        progress = compound.getFloat("Progress");
     }
 
     public void eatItems() {
@@ -377,4 +412,27 @@ public class InventoryFluidCrafting implements IFluidInventory {
     }
 
 
+    public boolean isCraftingInProgress() {
+        return craftingInProgress;
+    }
+
+    public boolean canInsertItem(int slot, ItemStack itemStack) {
+        if (getStackInSlot(slot) == null)
+            return false;
+
+        if (itemStack == null)
+            return false;
+
+        if (getStackInSlot(slot) != null && ItemStackUtils.canMergeStacks(getStackInSlot(slot), itemStack))
+            return true;
+
+        return false; // did I forget some possibility?
+    }
+
+    public boolean canExtractItem(int slot, ItemStack itemStack) {
+        if (slot >= getInternalSizeInventory() && inventoryResult.canExtract(slot - getInternalSizeInventory(), itemStack))
+            return true;
+
+        return false;
+    }
 }

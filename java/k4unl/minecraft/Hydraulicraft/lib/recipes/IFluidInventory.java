@@ -55,10 +55,10 @@ public interface IFluidInventory extends IInventory {
     /**
      * Eats all the fluids in a recipe
      *
-     * @param recipe  recipe that is being processed
      * @param percent how many % to eat (usually relative to recipe's processing time)
+     * @param recipe  recipe that is being processed
      */
-    void eatFluids(IFluidRecipe recipe, float percent);
+    void recipeTick(IFluidRecipe recipe);
 
     /**
      * Drain from inventory

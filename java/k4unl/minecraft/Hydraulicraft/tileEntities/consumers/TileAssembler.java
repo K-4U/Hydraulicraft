@@ -47,19 +47,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
                 return recipe.getPressure();
             }
 
-            if (workProgress == 0) {
-                inventoryCrafting.startRecipe(recipe);
-            }
-
-            workProgress++;
-            inventoryCrafting.eatFluids(recipe, 1f / recipe.getCraftingTime());
-
-            if (workProgress == recipe.getCraftingTime()) {
-                inventoryCrafting.finishRecipe(recipe);
-
-                markDirty();
-                onCraftingMatrixChanged();
-            }
+            inventoryCrafting.recipeTick(recipe);
 
             return usedPressure;
         }
@@ -169,10 +157,15 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public void onCraftingMatrixChanged() {
+        if (inventoryCrafting.isCraftingInProgress())
+            return;
+
         recipe = HydraulicRecipes.getAssemblerRecipe(inventoryCrafting);
-        if (recipe != null) {
-            workProgress = 0;
-        }
+
+        if (recipe != null)
+            inventoryCrafting.startRecipe(recipe);
+
+        markDirty();
     }
 
     @Override
@@ -219,11 +212,14 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
-        return false;
+        return inventoryCrafting.canInsertItem(slot, itemStack);
     }
 
     @Override
     public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+        if (inventoryCrafting.canExtractItem(slot, itemStack))
+            return true;
+
         return false;
     }
 }

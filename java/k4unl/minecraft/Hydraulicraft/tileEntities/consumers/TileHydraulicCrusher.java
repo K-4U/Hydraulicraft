@@ -310,7 +310,7 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
     }
 
     @Override
-    public void eatFluids(IFluidRecipe recipe, float percent) {
+    public void recipeTick(IFluidRecipe recipe) {
 
     }
 
