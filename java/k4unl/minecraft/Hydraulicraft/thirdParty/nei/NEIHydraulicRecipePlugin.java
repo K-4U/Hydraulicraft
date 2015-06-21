@@ -80,10 +80,18 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
     @Override
     public void loadCraftingRecipes(ItemStack result) {
         for (IFluidRecipe recipe : getRecipeCollection()) {
-            if (NEIClientUtils.areStacksSameTypeCrafting(recipe.getRecipeOutput(), result)) { // TODO check for ChancedStack
+            if (areItemStacksEqual(recipe.getRecipeOutput(), result, true)) { // TODO check for ChancedStack
                 this.arecipes.add(getShape(recipe));
             }
         }
+    }
+
+    public boolean areItemStacksEqual(ItemStack a, ItemStack b, boolean matchNBT) {
+        boolean tmp = NEIClientUtils.areStacksSameTypeCrafting(a, b);
+        if (!matchNBT || !tmp)
+            return tmp;
+
+        return a.getTagCompound().equals(b.getTagCompound());
     }
 
     public class NEIHydraulicRecipe extends CachedRecipe {
