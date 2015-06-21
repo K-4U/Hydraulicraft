@@ -17,7 +17,7 @@ public class NEIWidgetTank extends WidgetBase {
         super(x, y, width, height);
         this.tank = tank;
 
-        setTooltip(tank.getFluid().getFluid().getLocalizedName(tank.getFluid()) + ": " + tank.getFluidAmount() + "mB");
+        setTooltip(getTooltip());
     }
 
     public NEIWidgetTank(FluidStack fluidStack, int x, int y, int width, int height) {
@@ -75,6 +75,9 @@ public class NEIWidgetTank extends WidgetBase {
 
     @Override
     protected String getTooltip() {
+        if (tank.getFluid() == null)
+            return "empty";
+
         return tank.getFluid().getFluid().getLocalizedName(tank.getFluid()) + "\n" + tank.getFluidAmount() + "mB";
     }
 
