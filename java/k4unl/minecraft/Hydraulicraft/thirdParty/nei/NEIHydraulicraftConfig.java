@@ -2,8 +2,10 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import codechicken.nei.recipe.DefaultOverlayHandler;
 import cpw.mods.fml.common.Optional;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.client.GUI.GuiAssembler;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.k4lib.lib.Functions;
 import net.minecraft.item.ItemStack;
@@ -21,6 +23,8 @@ public class NEIHydraulicraftConfig implements IConfigureNEI {
 
         API.registerRecipeHandler(new NEIWasherRecipeManager());
         API.registerUsageHandler(new NEIWasherRecipeManager());
+        API.registerGuiOverlay(GuiAssembler.class, "hydcraftassembler");
+        API.registerGuiOverlayHandler(GuiAssembler.class, new DefaultOverlayHandler(), "hydcraftassembler");
 
         API.registerRecipeHandler(new NEIFrictionIncineratorRecipeManager());
         API.registerUsageHandler(new NEIFrictionIncineratorRecipeManager());

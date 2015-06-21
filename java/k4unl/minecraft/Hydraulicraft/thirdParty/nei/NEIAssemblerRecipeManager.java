@@ -83,7 +83,7 @@ public class NEIAssemblerRecipeManager extends NEIHydraulicRecipePlugin {
 
     @Override
     public boolean hasOverlay(GuiContainer gui, Container container, int recipe) {
-        return false;
+        return true;
     }
 
 
@@ -107,5 +107,10 @@ public class NEIAssemblerRecipeManager extends NEIHydraulicRecipePlugin {
     public void drawExtras(int recipe) {
         //drawProgressBar(104, 27, 207, 0, 34, 19, 48, 2 | (1 << 3));
         super.drawExtras(recipe);
+    }
+
+    @Override
+    public String getOverlayIdentifier() {
+        return "hydcraftassembler";
     }
 }
