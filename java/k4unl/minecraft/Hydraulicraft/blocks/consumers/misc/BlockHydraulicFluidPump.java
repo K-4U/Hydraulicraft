@@ -41,7 +41,7 @@ public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase impleme
 			
 		}
 		
-		return true;
+		return false;
 	}
 
 	@Override

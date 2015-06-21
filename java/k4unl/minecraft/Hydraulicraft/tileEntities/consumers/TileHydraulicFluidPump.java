@@ -31,9 +31,10 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 	private Block blockPumping;
     private List<Location> blocksToScan;
     private List<Location> fluidBlocks;
+	private boolean hasPumped_old;
 
 
-    public TileHydraulicFluidPump() {
+	public TileHydraulicFluidPump() {
 
         super(2);
         super.init(this);
@@ -100,7 +101,6 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 			//But also the more it uses..
 			//TODO: Fix this goddamn algorithm so that it makes more sense.
 			if (hasPumped){
-				hasPumped = false;
 				return 0.5F + (getPressure(ForgeDirection.UNKNOWN) * 0.00005F);
 			}else {
 				return 0.0000001F;
@@ -114,7 +114,8 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 	public void updateEntity(){
 		super.updateEntity();
 		if(worldObj.isRemote){
-			rotational+=0.01F;
+			if(hasPumped)
+				rotational+=0.01F;
 			if(rotational >= 1.0F){
 				rotational = 0.0F;
 			}
@@ -122,10 +123,16 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 
         //See if we need to scan blocks
         if(!worldObj.isRemote){
+			if(hasPumped != hasPumped_old){
+				hasPumped_old = hasPumped;
+				getHandler().updateBlock();
+			}
+
             //If the ammount of fluid blocks we have isn't filled yet, and we have no list to scan, we're either done
             //Or we haven't started yet.
             //If the fluidPumping block is not null, that means we have found a block earlier.
             if(fluidPumping == null){
+				hasPumped = false;
                 Block block = getWorldObj().getBlock(xCoord + (facing.offsetX * 2), yCoord - 1, zCoord + (facing.offsetZ * 2));
 				Fluid blockFluid = FluidRegistry.lookupFluidForBlock(block);
 				if((block == Blocks.flowing_lava || block == Blocks.lava) && blockFluid == null){
@@ -199,7 +206,7 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 				fluidBlocks.remove(fluidBlocks.size()-1);
 				hasPumped = true;
 			}else if(toDrain.getBlock(getWorld()) instanceof BlockLiquid){
-				if(!(toDrain.getBlock(getWorld()) == Blocks.water) && fluidBlocks.size() < 3) {
+				if(!(toDrain.getBlock(getWorld()) == Blocks.water)) {
 					getWorld().setBlock(toDrain.getX(), toDrain.getY(), toDrain.getZ(), Blocks.air, 0, 2);
 					fluidBlocks.remove(fluidBlocks.size()-1);
 				}
@@ -226,7 +233,7 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 		super.readFromNBT(tagCompound);
         tank.readFromNBT(tagCompound);
         setFacing(ForgeDirection.getOrientation(tagCompound.getInteger("facing")));
-
+		hasPumped = tagCompound.getBoolean("hasPumped");
 	}
 
 	@Override
@@ -234,6 +241,7 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 		super.writeToNBT(tagCompound);
         tank.writeToNBT(tagCompound);
         tagCompound.setInteger("facing", getFacing().ordinal());
+		tagCompound.setBoolean("hasPumped", hasPumped);
 	}
 
 	@Override
@@ -296,8 +304,11 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 
 	public double getRotational(float f) {
 
+
 		float diff = Math.abs(rotational - oldRotational) * f;
 		oldRotational = rotational;
-		return rotational + diff;
+		if(hasPumped)
+			return rotational + diff;
+		return rotational;
 	}
 }
