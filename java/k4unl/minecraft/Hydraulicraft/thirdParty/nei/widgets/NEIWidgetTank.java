@@ -34,6 +34,9 @@ public class NEIWidgetTank extends WidgetBase {
     @Override
     public void render() {
         int scaledHeight = (int) (this.height * ((float) tank.getFluidAmount() / tank.getCapacity()));
+        if (tank.getFluid() == null)
+            return;
+
         IIcon icon = tank.getFluid().getFluid().getIcon();
         float uMin = icon.getMinU();
         float uMax = icon.getMaxU();
