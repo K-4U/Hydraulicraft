@@ -7,21 +7,18 @@ import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.IFluidCraftingMachine;
-import k4unl.minecraft.Hydraulicraft.lib.recipes.IFluidInventory;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.InventoryFluidCrafting;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
 
-public class TileHydraulicCrusher extends TileHydraulicBase implements IInventory, IHydraulicConsumer, IFluidInventory, IFluidCraftingMachine {
+public class TileHydraulicCrusher extends TileHydraulicBase implements IInventory, IHydraulicConsumer,
+        ISidedInventory, IFluidCraftingMachine {
 
     private final float requiredPressure = 5F;
     private InventoryFluidCrafting inventory;
@@ -46,6 +43,7 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
             float maxPressure = Functions.getMaxPressurePerTier(pNetwork.getLowestTier(), true);
             float ratio = getPressure(ForgeDirection.UP) / maxPressure;
             //int ticks = (int) ((float) pNetwork.getLowestTier().ordinal() * 16 * ratio);
+            // TODO CRUSHER used pressure based on the amount of it inside (same for speed)
             int ticks = 1;
 
             if (!simulate)
@@ -165,65 +163,6 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
     }
 
     @Override
-    public FluidStack drain(FluidStack fluidStack, boolean doDrain) {
-
-        return null;
-    }
-
-    @Override
-    public FluidStack craftingDrain(FluidStack fluidStack, boolean doDrain) {
-
-        return null;
-    }
-
-    @Override
-    public int fill(FluidStack fluidStack, boolean doDrain) {
-
-        return 0;
-    }
-
-    @Override
-    public int craftingFill(FluidStack fluidStack, boolean doDrain) {
-
-        return 0;
-    }
-
-    @Override
-    public InventoryCrafting getInventory() {
-
-        return null;
-    }
-
-    @Override
-    public void recipeTick(IFluidRecipe recipe) {
-
-    }
-
-    @Override
-    public FluidStack drain(int maxDrain, boolean doDrain) {
-
-        return null;
-    }
-
-    @Override
-    public boolean canFill(Fluid fluid) {
-
-        return false;
-    }
-
-    @Override
-    public boolean canDrain(Fluid fluid) {
-
-        return false;
-    }
-
-    @Override
-    public FluidTankInfo[] getTankInfo() {
-
-        return new FluidTankInfo[0];
-    }
-
-    @Override
     public void onCraftingMatrixChanged() {
         if (inventory.isCraftingInProgress())
             return;
@@ -246,5 +185,20 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
     @Override
     public void spawnOverflowItemStack(ItemStack stack) {
         worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, stack));
+    }
+
+    @Override
+    public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+        return new int[]{0, 1};
+    }
+
+    @Override
+    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+        return inventory.canInsertItem(slot, itemStack);
+    }
+
+    @Override
+    public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+        return inventory.canExtractItem(slot, itemStack);
     }
 }
