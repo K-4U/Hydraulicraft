@@ -91,6 +91,9 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
         if (!matchNBT || !tmp)
             return tmp;
 
+        if (a.getTagCompound() == null)
+            return b.getTagCompound() == null;
+
         return a.getTagCompound().equals(b.getTagCompound());
     }
 
