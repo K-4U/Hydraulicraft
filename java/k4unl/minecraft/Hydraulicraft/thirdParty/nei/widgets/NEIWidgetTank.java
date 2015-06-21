@@ -25,6 +25,9 @@ public class NEIWidgetTank extends WidgetBase {
     }
 
     public void updateAmount(int newAmount) {
+        if (tank.getFluid() == null)
+            return;
+
         tank.getFluid().amount = newAmount;
     }
 

@@ -97,7 +97,7 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
                 if (recipe1.getInput()[x * width + y] != null)
-                    outRecipe.addInput(new PositionedStack(recipe1.getInput()[x * width + y], 48 + x * 18, 6 + y * 18));
+                    outRecipe.addInput(new PositionedStack(recipe1.getInput()[x * width + y], 48 + y * 18, 6 + x * 18));
 
         outRecipe.addOutput(new PositionedStack(recipe1.getRecipeOutput(), 126, 24));
         outRecipe.addInput(recipe1.getInputFluids().get(0), 26, 59, 16, 54);
