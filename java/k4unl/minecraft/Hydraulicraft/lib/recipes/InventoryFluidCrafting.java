@@ -99,11 +99,14 @@ public class InventoryFluidCrafting implements IFluidInventory {
     }
 
     @Override
-    public InventoryCrafting getInventoryCrafting() {
+    public InventoryCrafting getInventory() {
         return crafting;
     }
 
     public void startRecipe(IFluidRecipe recipe) {
+        if (!canWork(recipe) || craftingInProgress)
+            return;
+
         eatItems();
         progress = 0;
         outputItem = recipe.getRecipeOutput().copy();
@@ -116,6 +119,7 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
         outputItem = null;
         craftingInProgress = false;
+        progress = 0;
 
         markDirty();
     }
@@ -130,6 +134,14 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
     @Override
     public void recipeTick(IFluidRecipe recipe) {
+        if (!canWork(recipe))
+            return;
+
+        if (!craftingInProgress) {
+            startRecipe(recipe);
+            return;
+        }
+
         float percent = 1f / recipe.getCraftingTime();
 
         if (recipe.getInputFluids() != null)
@@ -434,5 +446,9 @@ public class InventoryFluidCrafting implements IFluidInventory {
             return true;
 
         return false;
+    }
+
+    public float getProgress() {
+        return progress;
     }
 }

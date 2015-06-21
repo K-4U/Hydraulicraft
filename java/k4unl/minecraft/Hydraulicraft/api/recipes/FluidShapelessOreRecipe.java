@@ -74,7 +74,7 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
 
     @Override
     public boolean matches(IFluidInventory inventory) {
-        if (!super.matches(inventory.getInventoryCrafting(), null))
+        if (!super.matches(inventory.getInventory(), null))
             return false;
 
         int fluidsMatched = 0;

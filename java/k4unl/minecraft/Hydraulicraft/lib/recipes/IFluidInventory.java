@@ -50,7 +50,7 @@ public interface IFluidInventory extends IInventory {
      *
      * @return inventory crafting instance with slots
      */
-    InventoryCrafting getInventoryCrafting();
+    InventoryCrafting getInventory();
 
     /**
      * Eats all the fluids in a recipe
