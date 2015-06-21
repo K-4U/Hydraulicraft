@@ -18,6 +18,7 @@ import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.*;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
@@ -127,7 +128,7 @@ public class Hydraulicraft {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
 
-        Recipes.init();
+        HydraulicRecipes.init();
 
         ThirdPartyManager.instance().postInit();
         configHandler.loadTank();
