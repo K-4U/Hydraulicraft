@@ -18,7 +18,7 @@ public class ContainerAssembler extends ContainerBase {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                addSlotToContainer(new Slot(assembler.getFluidInventory(), i * 3 + j, 53 + 18 * i, 17 + 18 * j));
+                addSlotToContainer(new Slot(assembler.getFluidInventory(), i * 3 + j, 53 + 18 * j, 17 + 18 * i));
             }
         }
 

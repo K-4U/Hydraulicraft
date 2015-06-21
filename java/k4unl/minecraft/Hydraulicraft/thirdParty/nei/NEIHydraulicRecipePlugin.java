@@ -1,19 +1,15 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
-import codechicken.core.ReflectionManager;
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
 import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets.NEIWidgetTank;
 import k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets.WidgetBase;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,31 +76,6 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
             }
         }
     }
-
-    protected CachedRecipe processFluidShapedRecipe(IFluidRecipe recipe) {
-        int width, height;
-        try {
-            width = ((Integer) ReflectionManager.getField(ShapedOreRecipe.class, Integer.class, recipe, 4)).intValue();
-            height = ((Integer) ReflectionManager.getField(ShapedOreRecipe.class, Integer.class, recipe, 5)).intValue();
-        } catch (IllegalAccessException e) {
-            Log.error("Error accessing recipe size!");
-            return null;
-        }
-
-        FluidShapedOreRecipe recipe1 = (FluidShapedOreRecipe) recipe;
-        NEIHydraulicRecipe outRecipe = new NEIHydraulicRecipe();
-
-        for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
-                if (recipe1.getInput()[x * width + y] != null)
-                    outRecipe.addInput(new PositionedStack(recipe1.getInput()[x * width + y], 48 + y * 18, 6 + x * 18));
-
-        outRecipe.addOutput(new PositionedStack(recipe1.getRecipeOutput(), 126, 24));
-        outRecipe.addInput(recipe1.getInputFluids().get(0), 26, 59, 16, 54);
-
-        return outRecipe;
-    }
-
 
     @Override
     public void loadCraftingRecipes(ItemStack result) {
