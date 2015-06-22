@@ -1,9 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.ores;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.k4lib.lib.OreDictionaryHelper;
 import net.minecraft.block.Block;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class Ores {
 	public static Block oreCopper;
@@ -34,17 +33,12 @@ public class Ores {
 	 * Registers the ores to the GameRegistry
 	 */
 	public static void registerOres(){
-		GameRegistry.registerBlock(oreCopper, Names.oreCopper.unlocalized);
-		GameRegistry.registerBlock(oreLead, Names.oreLead.unlocalized);
-		GameRegistry.registerBlock(oreLonezium, Names.oreLonezium.unlocalized);
-        GameRegistry.registerBlock(oreNadsiumBicarbinate, Names.oreNadsiumBicarbinate.unlocalized);
-        GameRegistry.registerBlock(oreBeachium, Names.oreBeachium.unlocalized);
-		
-		OreDictionary.registerOre(Names.oreCopper.unlocalized, oreCopper);
-		OreDictionary.registerOre(Names.oreLead.unlocalized, oreLead);
-		OreDictionary.registerOre(Names.oreLonezium.unlocalized, oreLonezium);
-        OreDictionary.registerOre(Names.oreNadsiumBicarbinate.unlocalized, oreNadsiumBicarbinate);
-        OreDictionary.registerOre(Names.oreBeachium.unlocalized, oreBeachium);
+
+		oreCopper = OreDictionaryHelper.registerBlock(oreCopper, Names.oreCopper.unlocalized);
+		oreLead = OreDictionaryHelper.registerBlock(oreLead, Names.oreLead.unlocalized);
+		oreLonezium = OreDictionaryHelper.registerBlock(oreLonezium, Names.oreLonezium.unlocalized);
+		oreNadsiumBicarbinate = OreDictionaryHelper.registerBlock(oreNadsiumBicarbinate, Names.oreNadsiumBicarbinate.unlocalized);
+		oreBeachium = OreDictionaryHelper.registerBlock(oreBeachium, Names.oreBeachium.unlocalized);
 	}
 }
 

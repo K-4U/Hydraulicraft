@@ -5,6 +5,7 @@ import k4unl.minecraft.Hydraulicraft.items.scubaSuit.ItemScubaSuit;
 import k4unl.minecraft.Hydraulicraft.lib.BucketHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.k4lib.lib.OreDictionaryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -97,9 +98,11 @@ public class HCItems {
 	 */
 	public static void registerItems(){
 		GameRegistry.registerItem(gasket, Names.itemGasket.unlocalized);
-		GameRegistry.registerItem(ingotCopper, Names.ingotCopper.unlocalized);
-		GameRegistry.registerItem(ingotEnrichedCopper, Names.ingotEnrichedCopper.unlocalized);
-		GameRegistry.registerItem(ingotLead, Names.ingotLead.unlocalized);
+
+		ingotCopper = OreDictionaryHelper.registerItem(ingotCopper, Names.ingotCopper.unlocalized);
+		ingotEnrichedCopper = OreDictionaryHelper.registerItem(ingotEnrichedCopper, Names.ingotEnrichedCopper.unlocalized);
+		ingotLead = OreDictionaryHelper.registerItem(ingotLead, Names.ingotLead.unlocalized);
+
 		GameRegistry.registerItem(itemFrictionPlate, Names.itemFrictionPlate.unlocalized);
 		GameRegistry.registerItem(itemDebugger, Names.itemDebugger.unlocalized);
 
@@ -120,9 +123,6 @@ public class HCItems {
 		GameRegistry.registerItem(itemScubaLegs, Names.itemScubaLegs.unlocalized);
 		GameRegistry.registerItem(itemScubaBoots, Names.itemScubaBoots.unlocalized);
 		
-		OreDictionary.registerOre(Names.ingotCopper.unlocalized, new ItemStack(ingotCopper));
-		OreDictionary.registerOre(Names.ingotLead.unlocalized, new ItemStack(ingotLead));
-		OreDictionary.registerOre(Names.ingotEnrichedCopper.unlocalized, new ItemStack(ingotEnrichedCopper));
 		OreDictionary.registerOre(Names.itemBacon.unlocalized, new ItemStack(itemBacon));
 		OreDictionary.registerOre(Names.itemDiamondShard.unlocalized, new ItemStack(itemDiamondShards));
 		OreDictionary.registerOre(Names.itemCopperEnrichedDust.unlocalized, new ItemStack(itemEnrichedCopperDust));
