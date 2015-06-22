@@ -8,7 +8,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFilter;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 public class GuiFilter extends HydraulicGUIBase {
@@ -20,14 +19,9 @@ public class GuiFilter extends HydraulicGUIBase {
     public GuiFilter(InventoryPlayer invPlayer, TileHydraulicFilter _filter) {
         super(_filter, new ContainerFilter(invPlayer, _filter), resLoc);
 
-        FluidTank tank = new FluidTank(_filter.getInventoryCrafting().getTankInfo()[0].fluid,
-                _filter.getInventoryCrafting().getTankInfo()[0].capacity);
-
         filter = _filter;
-        widgetInput = new NEIWidgetTank(tank, 38, 70, 16, 54, this);
-        tank = new FluidTank(_filter.getInventoryCrafting().getTankInfo()[1].fluid,
-                _filter.getInventoryCrafting().getTankInfo()[1].capacity);
-        widgetOutput = new NEIWidgetTank(tank, 126, 70, 16, 54, this);
+        widgetInput = new NEIWidgetTank(_filter.getInventoryCrafting().getTankInfo()[0], 38, 70, 16, 54, this);
+        widgetOutput = new NEIWidgetTank(_filter.getInventoryCrafting().getTankInfo()[1], 126, 70, 16, 54, this);
     }
 
     @Override
@@ -41,14 +35,8 @@ public class GuiFilter extends HydraulicGUIBase {
         drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.hydraulicFilter.getLocalizedName(), true);
 
         FluidTankInfo[] tankInfo = filter.getTankInfo(ForgeDirection.UP);
-        if (tankInfo[0].fluid != null) {
-            widgetInput.updateAmount(tankInfo[0].fluid.amount);
-            widgetInput.render();
-        }
-        if (tankInfo[1].fluid != null) {
-            widgetOutput.updateAmount(tankInfo[1].fluid.amount);
-            widgetOutput.render();
-        }
+        widgetInput.render(tankInfo[0]);
+        widgetOutput.render(tankInfo[1]);
 
 
         double ft = filter.getScaledFilterTime();

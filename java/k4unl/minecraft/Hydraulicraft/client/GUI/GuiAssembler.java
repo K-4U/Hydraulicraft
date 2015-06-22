@@ -8,7 +8,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileAssembler;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import org.lwjgl.opengl.GL11;
 
@@ -21,10 +20,8 @@ public class GuiAssembler extends HydraulicGUIBase {
 
         super(_assembler, new ContainerAssembler(invPlayer, _assembler), resLoc);
         assembler = _assembler;
-        FluidTank tank = new FluidTank(assembler.getFluidInventory().getTankInfo()[0].fluid,
-                assembler.getFluidInventory().getTankInfo()[0].capacity);
 
-        tankFluid = new NEIWidgetTank(tank, 31, 70, 16, 54, this);
+        tankFluid = new NEIWidgetTank(assembler.getFluidInventory().getTankInfo()[0], 31, 70, 16, 54, this);
 
     }
 
@@ -47,11 +44,7 @@ public class GuiAssembler extends HydraulicGUIBase {
         drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.blockAssembler.getLocalizedName(), true);
 
         FluidTankInfo[] tankInfo = assembler.getTankInfo(ForgeDirection.UP);
-        if (tankInfo[0].fluid != null) {
-            tankFluid.updateAmount(tankInfo[0].fluid.amount);
-            tankFluid.render();
-        }
-
+        tankFluid.render(tankInfo[0]);
 
         drawFluidAndPressure();
         checkTooltips(mouseX, mouseY);

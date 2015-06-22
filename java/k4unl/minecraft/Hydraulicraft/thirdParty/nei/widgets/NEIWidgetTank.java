@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -15,6 +16,15 @@ import java.awt.*;
 public class NEIWidgetTank extends WidgetBase {
     FluidTank        tank;
     HydraulicGUIBase gui;
+
+    public NEIWidgetTank(FluidTankInfo info, int x, int y, int width, int height) {
+        this(new FluidTank(info.fluid, info.capacity), x, y, width, height);
+    }
+
+    public NEIWidgetTank(FluidTankInfo info, int x, int y, int width, int height, HydraulicGUIBase gui) {
+        this(info, x, y, width, height);
+        this.gui = gui;
+    }
 
     public NEIWidgetTank(FluidTank tank, int x, int y, int width, int height, HydraulicGUIBase gui) {
         this(tank, x, y, width, height);
@@ -37,6 +47,13 @@ public class NEIWidgetTank extends WidgetBase {
             return;
 
         tank.getFluid().amount = newAmount;
+    }
+
+    public void render(FluidTankInfo info) {
+        if (info != null && info.fluid != null)
+            updateAmount(info.fluid.amount);
+
+        render();
     }
 
     @Override
