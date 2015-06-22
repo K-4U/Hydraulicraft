@@ -1,9 +1,16 @@
-package k4unl.minecraft.Hydraulicraft.items.scubaSuit;
+package k4unl.minecraft.Hydraulicraft.items.divingSuit;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.client.models.ModelDivingSuit;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -12,20 +19,20 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class ItemScubaSuit extends ItemArmor {
+public class ItemDivingSuit extends ItemArmor {
 
-    public ItemScubaSuit(int type) {
+    public ItemDivingSuit(int type) {
         super(ArmorMaterial.CLOTH, 0, type);
         setMaxStackSize(1);
 
         if(type == 0) {
-            setUnlocalizedName(Names.itemScubaHelmet.unlocalized);
+            setUnlocalizedName(Names.itemDivingHelmet.unlocalized);
         }else if(type == 1){
-            setUnlocalizedName(Names.itemScubaChest.unlocalized);
+            setUnlocalizedName(Names.itemDivingChest.unlocalized);
         }else if(type == 2){
-            setUnlocalizedName(Names.itemScubaLegs.unlocalized);
+            setUnlocalizedName(Names.itemDivingLegs.unlocalized);
         }else if(type == 3){
-            setUnlocalizedName(Names.itemScubaBoots.unlocalized);
+            setUnlocalizedName(Names.itemDivingBoots.unlocalized);
         }
 
         setCreativeTab(CustomTabs.tabHydraulicraft);
@@ -39,7 +46,7 @@ public class ItemScubaSuit extends ItemArmor {
         if(entityData.getBoolean("isWearingFullScubaSuit")) {
             //Do 10 damage
             if(HCConfig.INSTANCE.getBool("doScubaDamage")) {
-                if (itemStack.getItem() == HCItems.itemScubaHelmet) {
+                if (itemStack.getItem() == HCItems.itemDivingHelmet) {
                     doDamage(player);
                 }
             }
@@ -84,25 +91,38 @@ public class ItemScubaSuit extends ItemArmor {
         boolean legs = false;
         boolean boots = false;
         if (player.getCurrentArmor(0) != null){
-            if (player.getCurrentArmor(0).getItem() instanceof ItemScubaSuit) {
+            if (player.getCurrentArmor(0).getItem() instanceof ItemDivingSuit) {
                 helmet = true;
             }
         }
         if (player.getCurrentArmor(1) != null){
-            if (player.getCurrentArmor(1).getItem() instanceof ItemScubaSuit) {
+            if (player.getCurrentArmor(1).getItem() instanceof ItemDivingSuit) {
                 chest = true;
             }
         }
         if (player.getCurrentArmor(2) != null){
-            if (player.getCurrentArmor(2).getItem() instanceof ItemScubaSuit) {
+            if (player.getCurrentArmor(2).getItem() instanceof ItemDivingSuit) {
                 legs = true;
             }
         }
         if (player.getCurrentArmor(3) != null){
-            if (player.getCurrentArmor(3).getItem() instanceof ItemScubaSuit) {
+            if (player.getCurrentArmor(3).getItem() instanceof ItemDivingSuit) {
                 boots = true;
             }
         }
         return helmet && chest && legs && boots;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
+        return ModelDivingSuit.getModel(entityLiving, itemStack);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
+    {
+        return ModInfo.LID + ":textures/model/divingSuit.png";
     }
 }

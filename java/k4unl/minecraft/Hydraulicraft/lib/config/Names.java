@@ -112,9 +112,9 @@ public class Names {
     public static final Name oreBeachium                    = new Name("Beachium", "oreBeachium");
     public static final Name blockDirtyMineral              = new Name("Dirty Mineral", "blockDirtyMineral");
 
-    public static final Name itemScubaHelmet = new Name("Scuba Helmet", "scubaHelmet");
-    public static final Name itemScubaChest = new Name("Scuba Suit Controller", "scubaChest");
-    public static final Name itemScubaLegs = new Name("Scuba Suit Legs", "scubaLegs");
-    public static final Name itemScubaBoots = new Name("Scuba Suit Boots", "scubaBoots");
+    public static final Name itemDivingHelmet = new Name("Diving Suit Helmet", "divingHelmet");
+    public static final Name itemDivingChest = new Name("Diving Suit Controller", "divingChest");
+    public static final Name itemDivingLegs = new Name("Diving Suit Legs", "divingLegs");
+    public static final Name itemDivingBoots = new Name("Diving Suit Boots", "divingBoots");
 
 }

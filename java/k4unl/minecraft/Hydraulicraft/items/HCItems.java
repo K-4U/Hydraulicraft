@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
-import k4unl.minecraft.Hydraulicraft.items.scubaSuit.ItemScubaSuit;
+import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingSuit;
 import k4unl.minecraft.Hydraulicraft.lib.BucketHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -41,10 +41,10 @@ public class HCItems {
 	public static Item itemBucketLubricant;
     public static Item itemBucketFluoricCarbonFluid;
 
-	public static Item itemScubaHelmet;
-	public static Item itemScubaController;
-	public static Item itemScubaLegs;
-	public static Item itemScubaBoots;
+	public static Item itemDivingHelmet;
+	public static Item itemDivingController;
+	public static Item itemDivingLegs;
+	public static Item itemDivingBoots;
 
 	/*!
 	 * @author Koen Beckers
@@ -83,10 +83,10 @@ public class HCItems {
 		
 		itemIPCard = new ItemIPCard();
 
-		itemScubaHelmet = new ItemScubaSuit(0);
-		itemScubaController = new ItemScubaSuit(1);
-		itemScubaLegs = new ItemScubaSuit(2);
-		itemScubaBoots = new ItemScubaSuit(3);
+		itemDivingHelmet = new ItemDivingSuit(0);
+		itemDivingController = new ItemDivingSuit(1);
+		itemDivingLegs = new ItemDivingSuit(2);
+		itemDivingBoots = new ItemDivingSuit(3);
 
 		registerItems();
 	}
@@ -118,10 +118,10 @@ public class HCItems {
 
 		GameRegistry.registerItem(itemIPCard, Names.itemIPCard.unlocalized);
 
-		GameRegistry.registerItem(itemScubaHelmet, Names.itemScubaHelmet.unlocalized);
-		GameRegistry.registerItem(itemScubaController, Names.itemScubaChest.unlocalized);
-		GameRegistry.registerItem(itemScubaLegs, Names.itemScubaLegs.unlocalized);
-		GameRegistry.registerItem(itemScubaBoots, Names.itemScubaBoots.unlocalized);
+		GameRegistry.registerItem(itemDivingHelmet, Names.itemDivingHelmet.unlocalized);
+		GameRegistry.registerItem(itemDivingController, Names.itemDivingChest.unlocalized);
+		GameRegistry.registerItem(itemDivingLegs, Names.itemDivingLegs.unlocalized);
+		GameRegistry.registerItem(itemDivingBoots, Names.itemDivingBoots.unlocalized);
 		
 		OreDictionary.registerOre(Names.itemBacon.unlocalized, new ItemStack(itemBacon));
 		OreDictionary.registerOre(Names.itemDiamondShard.unlocalized, new ItemStack(itemDiamondShards));
