@@ -19,12 +19,12 @@ import net.minecraftforge.fluids.*;
 
 public class TileHydraulicFilter extends TileHydraulicBase implements
         IInventory, IFluidHandler, IHydraulicConsumer, IFluidCraftingMachine {
-    
-    InventoryFluidCrafting    inventoryCrafting;
-    IFluidRecipe              recipe;
 
-    private int     maxTicks         = 500;
-    private int     ticksDone        = 0;
+    InventoryFluidCrafting inventoryCrafting;
+    IFluidRecipe           recipe;
+
+    private int maxTicks  = 500;
+    private int ticksDone = 0;
 
     private FluidTank inputTank  = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
     private FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 8);
@@ -157,6 +157,10 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
         } else {
             return false;
         }
+    }
+
+    public InventoryFluidCrafting getInventoryCrafting() {
+        return inventoryCrafting;
     }
 
     @Override

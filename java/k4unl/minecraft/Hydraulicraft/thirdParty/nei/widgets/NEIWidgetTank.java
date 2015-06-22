@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets;
 
+import k4unl.minecraft.Hydraulicraft.client.GUI.HydraulicGUIBase;
+import k4unl.minecraft.Hydraulicraft.client.GUI.ToolTip;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -11,7 +13,13 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 
 public class NEIWidgetTank extends WidgetBase {
-    FluidTank tank;
+    FluidTank        tank;
+    HydraulicGUIBase gui;
+
+    public NEIWidgetTank(FluidTank tank, int x, int y, int width, int height, HydraulicGUIBase gui) {
+        this(tank, x, y, width, height);
+        this.gui = gui;
+    }
 
     public NEIWidgetTank(FluidTank tank, int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -77,14 +85,18 @@ public class NEIWidgetTank extends WidgetBase {
         GL11.glPopMatrix();
 
         super.render();
+
+        if (gui != null)
+            gui.addTooltip(new ToolTip(x, y - height, width, height, getTooltip()));
     }
 
     @Override
-    protected String getTooltip() {
+    protected String[] getTooltip() {
         if (tank.getFluid() == null)
-            return "empty";
+            return new String[]{"empty"};
 
-        return tank.getFluid().getFluid().getLocalizedName(tank.getFluid()) + "\n" + tank.getFluidAmount() + "mB";
+        return new String[]{tank.getFluid().getFluid().getLocalizedName(tank.getFluid()), tank.getFluidAmount() + "mB" +
+                (gui != null ? "/" + tank.getCapacity() + "mB" : "")};
     }
 
     @Override
