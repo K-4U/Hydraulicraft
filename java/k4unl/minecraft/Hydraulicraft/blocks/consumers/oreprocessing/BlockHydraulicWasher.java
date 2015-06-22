@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.IGUIMultiBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
@@ -14,7 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements ITooltipProvider, IMultiTieredBlock {
+public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements ITooltipProvider, IMultiTieredBlock, IGUIMultiBlock {
 
 	public BlockHydraulicWasher() {
 		super(Names.blockHydraulicWasher);
@@ -68,4 +69,9 @@ public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements
 
         return PressureTier.fromOrdinal(world.getBlockMetadata(x, y, z));
     }
+
+	@Override
+	public boolean isValid(IBlockAccess world, int x, int y, int z) {
+		return ((TileHydraulicWasher)world.getTileEntity(x, y, z)).getIsValidMultiblock();
+	}
 }
