@@ -61,7 +61,6 @@ public class NEIFilterRecipeManager extends NEIHydraulicRecipePlugin {
         return ModInfo.LID + ":textures/gui/filter.png";
     }
 
-
     @Override
     public boolean hasOverlay(GuiContainer gui, Container container, int recipe) {
         return false;
@@ -82,12 +81,6 @@ public class NEIFilterRecipeManager extends NEIHydraulicRecipePlugin {
     public void loadTransferRects() {
         transferRects = new LinkedList<RecipeTransferRect>();
         transferRects.add(new RecipeTransferRect(new Rectangle(50, 5, 25, 60), "filtering"));
-        transferRects.add(new RecipeTransferRect(new Rectangle(90, 5, 25, 60), "filtering"));
-    }
-
-    @Override
-    public void drawExtras(int recipe) {
-        //drawProgressBar(104, 27, 207, 0, 34, 19, 48, 2 | (1 << 3));
-        super.drawExtras(recipe);
+        transferRects.add(new RecipeTransferRect(new Rectangle(95, 5, 25, 60), "filtering"));
     }
 }
