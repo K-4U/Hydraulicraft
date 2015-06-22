@@ -32,6 +32,9 @@ public class NEIHydraulicraftConfig implements IConfigureNEI {
         API.registerRecipeHandler(new NEIAssemblerRecipeManager());
         API.registerUsageHandler(new NEIAssemblerRecipeManager());
 
+        API.registerUsageHandler(new NEIFilterRecipeManager());
+        API.registerRecipeHandler(new NEIFilterRecipeManager());
+
         //Do a check here to see if we're in dev
         if (!Functions.isInDev()) {
             API.hideItem(new ItemStack(HCBlocks.blockChunkLoader));
