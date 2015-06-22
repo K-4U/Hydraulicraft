@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
 
+import buildcraft.api.tools.IToolWrench;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
@@ -52,6 +53,13 @@ public abstract class HydraulicBlockContainerBase extends HydraulicBlockBase imp
 		TileEntity entity = world.getTileEntity(x, y, z);
 		if (entity == null) {
 			return false;
+		}
+
+		if(this instanceof IRotateableBlock){
+			//TODO: Fix me for dependency on BC
+			if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
+				return false;
+			}
 		}
 
 		if(getGUIID() != GuiIDs.INVALID) {

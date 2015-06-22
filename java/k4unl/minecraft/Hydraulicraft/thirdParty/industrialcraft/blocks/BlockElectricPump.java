@@ -1,20 +1,18 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks;
 
-import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
-import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
+import k4unl.minecraft.Hydraulicraft.blocks.IRotateableBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import buildcraft.api.tools.IToolWrench;
 
-public class BlockElectricPump extends HydraulicTieredBlockBase implements IMultiTieredBlock {
+public class BlockElectricPump extends HydraulicTieredBlockBase implements IMultiTieredBlock, IRotateableBlock {
 	public BlockElectricPump() {
 		super(Names.blockElectricPump);
 		
@@ -53,27 +51,6 @@ public class BlockElectricPump extends HydraulicTieredBlockBase implements IMult
     public boolean renderAsNormalBlock(){
         return false;
     }
-	
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		if(player.isSneaking())
-			return false;
-		
-		TileEntity entity = world.getTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileElectricPump)){
-			return false;
-		}
-
-        //TODO: Fix me for dependency on BC
-		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
-			return false;
-		}
-
-		player.openGui(Hydraulicraft.instance, getGUIID().ordinal(), world, x, y, z);
-		
-		return true;
-	}
 	
 	@Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side) {

@@ -1,10 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
-import buildcraft.api.tools.IToolWrench;
 import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.IRotateableBlock;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -12,7 +12,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -25,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BlockMovingPane extends HydraulicBlockContainerBase implements ITieredBlock{
+public class BlockMovingPane extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock {
 
 	public BlockMovingPane() {
 		super(Names.blockMovingPane);
@@ -112,21 +111,6 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
     public boolean renderAsNormalBlock(){
         return false;
     }
-    
-    @Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		if(player.isSneaking())
-			return false;
-
-		//TODO: Fix me for dependency on BC
-		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
-			return false;
-		}
-		
-
-		return true;
-	}
     
 	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
 		return true;

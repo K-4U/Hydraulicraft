@@ -56,7 +56,7 @@ public interface IBaseClass {
 	 * Sets the amount of fluid stored 
 	 * @param maxStorage
 	 * @param isOil
-	 * @param doNotify TODO
+	 * @param doNotify Whether or not to tell the client block that the fluid has changed
 	 */
 	public void setStored(int maxStorage, boolean isOil, boolean doNotify);
 	

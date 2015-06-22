@@ -1,21 +1,19 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
 
-import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
-import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
+import k4unl.minecraft.Hydraulicraft.blocks.IRotateableBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import buildcraft.api.tools.IToolWrench;
 
-public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements ITieredBlock{
+public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock {
 
 	public BlockHydraulicDynamo() {
 		super(Names.blockHydraulicDynamo);
@@ -51,29 +49,6 @@ public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements
     public boolean renderAsNormalBlock(){
         return false;
     }
-	
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		
-		 
-		if(player.isSneaking()){
-			return false;
-		}
-
-		//TODO: FIX Me to work with multiple wrenches, remove dependency on buildcraft
-		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
-			return false;
-		}
-		
-		TileEntity entity = world.getTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileHydraulicDynamo)){
-			return false;
-		}
-		player.openGui(Hydraulicraft.instance, getGUIID().ordinal(), world, x, y, z);
-		
-		return true;
-	}
 	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y,
