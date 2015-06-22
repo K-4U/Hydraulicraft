@@ -2,16 +2,16 @@ package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
-import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererArchimedesScrew;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFluidPump;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
@@ -29,19 +29,11 @@ public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase impleme
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileHydraulicFluidPump();
 	}
-	
+
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
-		if(player.isSneaking())
-			return false;
-		
-		TileEntity entity = world.getTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileHydraulicFluidPump)){
-			return false;
-			
-		}
-		
-		return false;
+	public GuiIDs getGUIID() {
+
+		return GuiIDs.INVALID;
 	}
 
 	@Override

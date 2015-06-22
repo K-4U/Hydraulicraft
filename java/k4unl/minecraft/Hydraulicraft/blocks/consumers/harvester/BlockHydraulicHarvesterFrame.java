@@ -1,12 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -30,8 +30,9 @@ public class BlockHydraulicHarvesterFrame extends HydraulicBlockContainerBase {
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
-        return false;
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.INVALID;
     }
 
     @Override

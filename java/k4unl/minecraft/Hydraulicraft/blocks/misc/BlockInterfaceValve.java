@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.blocks.BlockConnectedTextureContainer;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererInterfaceValve;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +24,12 @@ public class BlockInterfaceValve extends BlockConnectedTextureContainer {
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileInterfaceValve();
+	}
+
+	@Override
+	public GuiIDs getGUIID() {
+
+		return GuiIDs.INVALID;
 	}
 
 	@Override

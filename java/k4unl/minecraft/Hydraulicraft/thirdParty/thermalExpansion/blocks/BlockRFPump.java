@@ -29,7 +29,13 @@ public class BlockRFPump extends HydraulicTieredBlockBase implements IMultiTiere
 		return new TileRFPump(getTier(metadata));
 	}
 
-	
+	@Override
+	public GuiIDs getGUIID() {
+
+		return GuiIDs.RFPUMP;
+	}
+
+
 	@Override
     public int getRenderType(){
         return -1;
@@ -50,17 +56,13 @@ public class BlockRFPump extends HydraulicTieredBlockBase implements IMultiTiere
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
 		if(player.isSneaking())
 			return false;
-		
+
+		//TODO: Fix dependency on BC
 		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
 			return false;
 		}
-		
-		TileEntity entity = world.getTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileRFPump)){
-			return false;
-		}
-		//TileRFPump compressor = (TileRFPump) entity;
-		player.openGui(Hydraulicraft.instance, GuiIDs.RFPUMP.ordinal(), world, x, y, z);
+
+		player.openGui(Hydraulicraft.instance, getGUIID().ordinal(), world, x, y, z);
 		
 		return true;
 	}

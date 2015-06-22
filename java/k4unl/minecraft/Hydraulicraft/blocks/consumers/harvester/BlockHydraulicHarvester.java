@@ -28,6 +28,12 @@ public class BlockHydraulicHarvester extends HydraulicBlockContainerBase impleme
     }
 
     @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.INVALID;
+    }
+
+    @Override
     public boolean onBlockActivated(World world, int x, int y, int z,
       EntityPlayer player, int par6, float par7, float par8, float par9) {
 
@@ -42,7 +48,7 @@ public class BlockHydraulicHarvester extends HydraulicBlockContainerBase impleme
             player.openGui(Hydraulicraft.instance, GuiIDs.HARVESTER.ordinal(), world, x, y, z);
             return true;
 		}
-		
+
 		return false;
 	}
 

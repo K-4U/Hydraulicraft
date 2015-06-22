@@ -1,6 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
 
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.block.Block;
@@ -14,8 +16,7 @@ public abstract class HydraulicBlockContainerBase extends HydraulicBlockBase imp
 	@Override
 	public abstract TileEntity createNewTileEntity(World world, int var2);
 
-	@Override
-	public abstract boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9);
+	public abstract GuiIDs getGUIID();
 	
 	protected HydraulicBlockContainerBase(Name machineName) {
 		super(machineName);
@@ -43,6 +44,21 @@ public abstract class HydraulicBlockContainerBase extends HydraulicBlockBase imp
 		TileEntity tileentity = p_149696_1_.getTileEntity(p_149696_2_, p_149696_3_, p_149696_4_);
 		return tileentity != null ? tileentity.receiveClientEvent(p_149696_5_, p_149696_6_) : false;
 	}
-	
-	
+
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z,
+									EntityPlayer player, int par6, float par7, float par8, float par9) {
+
+		TileEntity entity = world.getTileEntity(x, y, z);
+		if (entity == null) {
+			return false;
+		}
+
+		if(getGUIID() != GuiIDs.INVALID) {
+			player.openGui(Hydraulicraft.instance, getGUIID().ordinal(), world, x, y, z);
+			return true;
+		}
+
+		return false;
+	}
 }

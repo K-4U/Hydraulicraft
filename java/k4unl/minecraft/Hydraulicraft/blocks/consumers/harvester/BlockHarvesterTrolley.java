@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import net.minecraft.block.Block;
@@ -50,12 +51,11 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
 		return new TileHarvesterTrolley();
 	}
 
+    @Override
+    public GuiIDs getGUIID() {
 
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		return false;
-	}
+        return GuiIDs.INVALID;
+    }
     
     @Override
     public int quantityDropped(Random p_149745_1_){

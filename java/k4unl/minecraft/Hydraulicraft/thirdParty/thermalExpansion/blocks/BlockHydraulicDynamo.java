@@ -27,6 +27,12 @@ public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements
 		return new TileHydraulicDynamo();
 	}
 
+	@Override
+	public GuiIDs getGUIID() {
+
+		return GuiIDs.DYNAMO;
+	}
+
 	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
 		return true;
     }
@@ -54,7 +60,8 @@ public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements
 		if(player.isSneaking()){
 			return false;
 		}
-		
+
+		//TODO: FIX Me to work with multiple wrenches, remove dependency on buildcraft
 		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
 			return false;
 		}
@@ -62,10 +69,8 @@ public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements
 		TileEntity entity = world.getTileEntity(x, y, z);
 		if(entity == null || !(entity instanceof TileHydraulicDynamo)){
 			return false;
-			
 		}
-		//TileHydraulicDynamo dyn = (TileHydraulicDynamo) entity;
-		player.openGui(Hydraulicraft.instance, GuiIDs.DYNAMO.ordinal(), world, x, y, z);
+		player.openGui(Hydraulicraft.instance, getGUIID().ordinal(), world, x, y, z);
 		
 		return true;
 	}

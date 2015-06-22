@@ -25,6 +25,12 @@ public class BlockInfiniteSource extends HydraulicBlockContainerBase {
 	}
 
 	@Override
+	public GuiIDs getGUIID() {
+
+		return GuiIDs.INFINITESOURCE;
+	}
+
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
 		if(player.isSneaking())
 			return false;
@@ -49,7 +55,7 @@ public class BlockInfiniteSource extends HydraulicBlockContainerBase {
 			}
 		}
 		
-		player.openGui(Hydraulicraft.instance, GuiIDs.INFINITESOURCE.ordinal(), world, x, y, z);
+		player.openGui(Hydraulicraft.instance, getGUIID().ordinal(), world, x, y, z);
 		return true;
 	}
 }

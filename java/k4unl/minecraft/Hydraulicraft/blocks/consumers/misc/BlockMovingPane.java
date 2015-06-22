@@ -1,13 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
 import buildcraft.api.tools.IToolWrench;
+import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
-import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
@@ -35,7 +35,13 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileMovingPane();
 	}
-	
+
+	@Override
+	public GuiIDs getGUIID() {
+
+		return GuiIDs.INVALID;
+	}
+
 	@Override
     public boolean canRenderInPass(int pass){
         return true;
@@ -112,18 +118,13 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
 		if(player.isSneaking())
 			return false;
-		
+
+		//TODO: Fix me for dependency on BC
 		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
 			return false;
 		}
 		
-		TileEntity entity = world.getTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileRFPump)){
-			return false;
-		}
-		//TileRFPump compressor = (TileRFPump) entity;
-		//player.openGui(Hydraulicraft.instance, GuiIDs.GUIRFPump, world, x, y, z);
-		
+
 		return true;
 	}
     

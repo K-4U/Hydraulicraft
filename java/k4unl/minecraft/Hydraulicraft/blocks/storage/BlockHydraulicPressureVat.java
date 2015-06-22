@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.blocks.storage;
 
-import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
@@ -8,7 +7,6 @@ import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -31,24 +29,13 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implemen
 		TileHydraulicPressureVat pVat = new TileHydraulicPressureVat(metadata);
 		return pVat;
     }
-	
-	
+
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
-		if(player.isSneaking())
-			return false;
-		
-		TileEntity entity = world.getTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileHydraulicPressureVat)){
-			return false;
-			
-		}
-		
-		player.openGui(Hydraulicraft.instance, GuiIDs.PRESSUREVAT.ordinal(), world, x, y, z);
-		
-		return true;
+	public GuiIDs getGUIID() {
+
+		return GuiIDs.PRESSUREVAT;
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
 		super.onBlockPlacedBy(world, x, y, z, player, iStack);

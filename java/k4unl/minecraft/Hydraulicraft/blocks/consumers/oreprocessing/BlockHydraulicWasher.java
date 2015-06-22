@@ -25,7 +25,13 @@ public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileHydraulicWasher();
 	}
-	
+
+	@Override
+	public GuiIDs getGUIID() {
+
+		return GuiIDs.WASHER;
+	}
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
 		if(player.isSneaking())
@@ -38,7 +44,7 @@ public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements
 		}
 		TileHydraulicWasher washer = (TileHydraulicWasher) entity;
 		if(washer.getIsValidMultiblock()){
-			player.openGui(Hydraulicraft.instance, GuiIDs.WASHER.ordinal(), world, x, y, z);
+			player.openGui(Hydraulicraft.instance, getGUIID().ordinal(), world, x, y, z);
 			return true;
 		}
 		

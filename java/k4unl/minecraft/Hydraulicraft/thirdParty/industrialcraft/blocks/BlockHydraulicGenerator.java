@@ -31,6 +31,12 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase impleme
 		return new TileHydraulicGenerator();
 	}
 
+	@Override
+	public GuiIDs getGUIID() {
+
+		return GuiIDs.GENERATOR;
+	}
+
 	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
 		return true;
     }
@@ -61,7 +67,8 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase impleme
 		if(entity == null || !(entity instanceof TileHydraulicGenerator)){
 			return false;
 		}
-		
+
+		//Todo: rewrite me to fix BC Dependency
 		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
 			return false;
 		}

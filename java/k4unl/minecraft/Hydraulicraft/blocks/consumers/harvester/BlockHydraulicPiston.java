@@ -1,18 +1,18 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockHydraulicPiston extends HydraulicBlockContainerBase {
 
@@ -27,11 +27,11 @@ public class BlockHydraulicPiston extends HydraulicBlockContainerBase {
 		return new TileHydraulicPiston();
 	}
 
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		return false;
-	}
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.INVALID;
+    }
 	
 	@Override
 	@SideOnly(Side.CLIENT)

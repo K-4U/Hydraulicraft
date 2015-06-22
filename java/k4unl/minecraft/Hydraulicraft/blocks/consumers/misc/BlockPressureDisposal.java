@@ -1,10 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.misc;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TilePressureDisposal;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -22,9 +22,9 @@ public class BlockPressureDisposal extends HydraulicBlockContainerBase {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		return false;
+	public GuiIDs getGUIID() {
+
+		return GuiIDs.INVALID;
 	}
 	
 	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){

@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.transporter.TilePressureHose;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
@@ -33,6 +34,11 @@ public class BlockHose extends HydraulicTieredBlockBase implements IMultiTieredB
 
         TilePressureHose pHose = new TilePressureHose();
         return pHose;
+    }
+
+    @Override
+    public GuiIDs getGUIID() {
+        return GuiIDs.INVALID;
     }
 
     @Override

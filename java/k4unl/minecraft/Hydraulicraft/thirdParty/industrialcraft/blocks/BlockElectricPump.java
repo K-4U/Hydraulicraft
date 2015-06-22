@@ -27,8 +27,14 @@ public class BlockElectricPump extends HydraulicTieredBlockBase implements IMult
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileElectricPump(getTier(metadata));
 	}
-	
-	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
+
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.ELECTRICPUMP;
+    }
+
+    public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
 		return true;
     }
 
@@ -58,11 +64,13 @@ public class BlockElectricPump extends HydraulicTieredBlockBase implements IMult
 		if(entity == null || !(entity instanceof TileElectricPump)){
 			return false;
 		}
+
+        //TODO: Fix me for dependency on BC
 		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IToolWrench){
 			return false;
 		}
 
-		player.openGui(Hydraulicraft.instance, GuiIDs.ELECTRICPUMP.ordinal(), world, x, y, z);
+		player.openGui(Hydraulicraft.instance, getGUIID().ordinal(), world, x, y, z);
 		
 		return true;
 	}
