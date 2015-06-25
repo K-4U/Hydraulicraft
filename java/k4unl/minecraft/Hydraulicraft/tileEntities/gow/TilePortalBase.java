@@ -98,7 +98,11 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 	}
 	
 	private void readFramesFromNBT(NBTTagCompound tCompound){
-		frames.clear();
+		if(frames != null)
+			frames.clear();
+		if(frames == null){
+			frames = new ArrayList<Location>();
+		}
 		NBTTagCompound list = tCompound.getCompoundTag("portalFrames");
 		int i = 0;
 		for(i = 0; i < list.getInteger("max"); i++){
