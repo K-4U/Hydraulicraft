@@ -2,7 +2,7 @@ Hydraulicraft
 =============
 [![Build Status](http://jenkins.k-4u.nl/buildStatus/icon?job=Hydraulicraft)](http://jenkins.k-4u.nl/job/Hydraulicraft/)
 
-Not much to say about the mod here. Sorry, i've never been good at writing stuff.
+Welcome to the source code of Hydraulicraft, the mod that works with fluids!
 
 If you have bugs, please report them in the [issue tracker](https://github.com/K-4U/Hydraulicraft/issues). Please look in the closed issues, or other issues before opening a new one! Somebody may have had the same bug you have!
 
