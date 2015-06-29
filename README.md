@@ -1,5 +1,6 @@
 Hydraulicraft
 =============
+[![Build Status](http://jenkins.k-4u.nl/buildStatus/icon?job=Hydraulicraft)](http://jenkins.k-4u.nl/job/Hydraulicraft/)
 
 Not much to say about the mod here. Sorry, i've never been good at writing stuff.
 
