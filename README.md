@@ -8,6 +8,9 @@ If you have bugs, please report them in the [issue tracker](https://github.com/K
 
 Also, if you want to contact me, come join me on IRC: #Hydraulicraft on esper.net
 
+## License ##
+This mod is released under the MMPLv2
+
 ## Using my API ##
 
 Mod devs: Using my mod is easier than ever thanks to maven:
@@ -61,3 +64,8 @@ The pressure is how much pressure it should use. 1 is the normal amount of press
 Make a normal class and implement [`IHarvesterTrolley`](https://github.com/K-4U/Hydraulicraft/blob/master/java/k4unl/minecraft/Hydraulicraft/api/IHarvesterTrolley.java) (example: [Flax trolley](https://github.com/K-4U/Hydraulicraft/blob/master/java/k4unl/minecraft/Hydraulicraft/thirdParty/bluepower/TrolleyFlax.java))
 
 Then, register it in the Trolley Registrar, of which you can get an instance of through HCApi.
+
+## Links ##
+Curse: [http://minecraft.curseforge.com/mc-mods/223036-hydraulicraft](http://minecraft.curseforge.com/mc-mods/223036-hydraulicraft)
+
+Website: [http://www.hydraulicraft.eu](http://www.hydraulicraft.eu) (May be outdated!)
