@@ -48,8 +48,8 @@ public class Hydraulicraft {
     public static Hydraulicraft instance;
 
     @SidedProxy(
-            clientSide = ModInfo.PROXY_LOCATION + ".ClientProxy",
-            serverSide = ModInfo.PROXY_LOCATION + ".CommonProxy"
+      clientSide = ModInfo.PROXY_LOCATION + ".ClientProxy",
+      serverSide = ModInfo.PROXY_LOCATION + ".CommonProxy"
     )
     public static CommonProxy proxy;
     public static Multipart   mp;
@@ -60,9 +60,9 @@ public class Hydraulicraft {
     @Deprecated
     public static HydraulicraftRegistrar harvesterTrolleyRegistrar = new HydraulicraftRegistrar();
 
-    public static TrolleyRegistrar       trolleyRegistrar          = new TrolleyRegistrar();
-    public static IPs                    ipList                    = new IPs();
-    public static Tanks                  tankList                  = new Tanks();
+    public static TrolleyRegistrar trolleyRegistrar = new TrolleyRegistrar();
+    public static IPs              ipList           = new IPs();
+    public static Tanks            tankList         = new Tanks();
 
     public static HCConfigHandler configHandler = new HCConfigHandler();
 
@@ -147,24 +147,24 @@ public class Hydraulicraft {
                     NBTTagCompound toRegister = message.getNBTValue();
 
                     ItemStack from = ItemStack.loadItemStackFromNBT
-                            (toRegister.getCompoundTag("itemFrom"));
+                      (toRegister.getCompoundTag("itemFrom"));
                     ItemStack to = ItemStack.loadItemStackFromNBT
-                            (toRegister.getCompoundTag("itemTo"));
+                      (toRegister.getCompoundTag("itemTo"));
                     float pressureRatio = toRegister.getFloat("pressureRatio");
                     CrushingRecipes.addCrushingRecipe(new CrushingRecipes
-                            .CrushingRecipe(from, pressureRatio,
-                            to));
+                      .CrushingRecipe(from, pressureRatio,
+                      to));
                 } else if (message.key.equals("registerWashingRecipe")) {
                     NBTTagCompound toRegister = message.getNBTValue();
 
                     ItemStack from = ItemStack.loadItemStackFromNBT
-                            (toRegister.getCompoundTag("itemFrom"));
+                      (toRegister.getCompoundTag("itemFrom"));
                     ItemStack to = ItemStack.loadItemStackFromNBT
-                            (toRegister.getCompoundTag("itemTo"));
+                      (toRegister.getCompoundTag("itemTo"));
                     float pressureRatio = toRegister.getFloat("pressureRatio");
                     WashingRecipes.addWashingRecipe(new WashingRecipes
-                            .WashingRecipe(from, pressureRatio,
-                            to));
+                      .WashingRecipe(from, pressureRatio,
+                      to));
                 } else {
                     Class clazz = Class.forName(message.key);
                     try {
@@ -196,16 +196,34 @@ public class Hydraulicraft {
 
     @EventHandler
     public void serverStart(FMLServerStartingEvent event) {
+
         ipList.readFromFile(DimensionManager.getCurrentSaveRootDirectory());
         tankList.readFromFile(DimensionManager.getCurrentSaveRootDirectory());
     }
 
     @EventHandler
     public void serverStop(FMLServerStoppingEvent event) {
+
         ipList.saveToFile(DimensionManager.getCurrentSaveRootDirectory());
         tankList.saveToFile(DimensionManager.getCurrentSaveRootDirectory());
     }
 
+
+    @EventHandler
+    public void convert(FMLMissingMappingsEvent event) {
+
+        //TODO: FIX ME
+        for (FMLMissingMappingsEvent.MissingMapping mapping : event.get()) {
+            String name = mapping.name;
+
+            if(name.startsWith("HydCraft:wheatHarvester")){
+                name = name.replaceAll("wheatHarvester", "harvesterTrolley");
+
+                //mapping.remap(GameData.getBlockRegistry().getObject(name));
+            }
+        }
+
+    }
 }
 
 
