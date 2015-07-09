@@ -19,6 +19,7 @@ import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.*;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
@@ -237,6 +238,15 @@ public class Hydraulicraft {
                     mapping.remap(Block.getBlockFromItem(OreDictionary.getOres(name).get(0).getItem()));
                 }else{
                     mapping.remap(OreDictionary.getOres(name).get(0).getItem());
+                }
+            }
+            if(name.startsWith("HydCraft:hydraulicMixer")){
+                name = name.replaceAll("hydraulicMixer", Names.blockHydraulicFilter.unlocalized);
+
+                if(mapping.type == GameRegistry.Type.BLOCK) {
+                    mapping.remap(GameData.getBlockRegistry().getObject(name));
+                }else{
+                    mapping.remap(GameData.getItemRegistry().getObject(name));
                 }
             }
         }
