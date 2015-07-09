@@ -50,6 +50,12 @@ public class HydraulicRecipes implements IRecipeHandler {
         initializeCrushingRecipes();
         initializeAssemblerRecipes();
         initializeFilterRecipes();
+        initializeWashingRecipes();
+    }
+
+    private static void initializeWashingRecipes() {
+        recipesWasher.add(new FluidShapelessOreRecipe(HCBlocks.blockRefinedLonezium, Ores.oreLonezium));
+        recipesWasher.add(new FluidShapelessOreRecipe(HCBlocks.blockRefinedNadsiumBicarbinate, Ores.oreNadsiumBicarbinate));
     }
 
     private static IFluidRecipe getRecipe(List<IFluidRecipe> list, IFluidInventory inventory) {
@@ -373,7 +379,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         })
         );
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicHarvesterSource, 18, 1), true,
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicHarvesterFrame, 18), true,
                         new Object[]{
                                 "SSS",
                                 "-S-",
@@ -448,7 +454,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                                 'K', HCItems.gasket,
                                 'G', Blocks.glass,
                                 'W', HCBlocks.hydraulicPressureWall,
-                                'C', new ItemStack(HCBlocks.blockCore, 1, 2),
+                                'C', new ItemStack(HCBlocks.blockCore, 1, 1),
                                 'I', HCBlocks.blockInterfaceValve
                         })
         );
@@ -655,6 +661,19 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'E', Items.ender_pearl
                 }));
 
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockAssembler, 1), true,
+                new Object[]{
+                        "WGW",
+                        "STI",
+                        "WCW",
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+                        'G', Blocks.glass,
+                        'T', Blocks.crafting_table,
+                        'I', HCBlocks.blockInterfaceValve,
+                        'S', HCItems.gasket
+                }));
+
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockJarDirt, 1), true,
                 new Object[]{
                         "-S-",
@@ -664,6 +683,8 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'D', Blocks.dirt,
                         'S', "slabWood"
                 }));
+
+
 
 
     }
