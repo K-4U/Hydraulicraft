@@ -6,6 +6,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.api.HCApi;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicraftRegistrar;
@@ -26,9 +27,11 @@ import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.world.HCWorldGenerator;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.oredict.OreDictionary;
 import thirdParty.truetyper.TrueTypeFont;
 
 import java.lang.reflect.InvocationTargetException;
@@ -212,14 +215,29 @@ public class Hydraulicraft {
     @EventHandler
     public void convert(FMLMissingMappingsEvent event) {
 
-        //TODO: FIX ME
         for (FMLMissingMappingsEvent.MissingMapping mapping : event.get()) {
             String name = mapping.name;
 
             if(name.startsWith("HydCraft:wheatHarvester")){
                 name = name.replaceAll("wheatHarvester", "harvesterTrolley");
 
-                //mapping.remap(GameData.getBlockRegistry().getObject(name));
+                if(mapping.type == GameRegistry.Type.BLOCK) {
+                    mapping.remap(GameData.getBlockRegistry().getObject(name));
+                }else{
+                    mapping.remap(GameData.getItemRegistry().getObject(name));
+                }
+            }
+            if(name.startsWith("HydCraft:ingot")){
+                name = name.replaceAll("HydCraft:","");
+                mapping.remap(OreDictionary.getOres(name).get(0).getItem());
+            }
+            if(name.startsWith("HydCraft:ore")){
+                name = name.replaceAll("HydCraft:","");
+                if(mapping.type == GameRegistry.Type.BLOCK) {
+                    mapping.remap(Block.getBlockFromItem(OreDictionary.getOres(name).get(0).getItem()));
+                }else{
+                    mapping.remap(OreDictionary.getOres(name).get(0).getItem());
+                }
             }
         }
 
