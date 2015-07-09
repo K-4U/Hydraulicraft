@@ -50,6 +50,8 @@ public class NEIHydraulicraftConfig implements IConfigureNEI {
             API.hideItem(new ItemStack(HCItems.itemDivingBoots));
             API.hideItem(new ItemStack(Multipart.itemPartFluidInterface));
             API.hideItem(new ItemStack(Multipart.itemPartFluidPipe));
+            API.hideItem(new ItemStack(HCBlocks.blockInfiniteSource));
+            API.hideItem(new ItemStack(HCBlocks.pressureDisposal));
         }
     }
 
