@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.lib.config;
 
-import k4unl.minecraft.Hydraulicraft.lib.WashingRecipes;
+import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
 import k4unl.minecraft.k4lib.lib.config.Config;
 import k4unl.minecraft.k4lib.lib.config.ConfigOption;
 import net.minecraft.block.Block;
@@ -84,7 +85,16 @@ public class HCConfig extends Config{
 	}
 
 	public static boolean canBeWashed(ItemStack itemStack){
-        return (WashingRecipes.getWashingRecipeOutput(itemStack) != null);
+        for(IFluidRecipe recipe : HydraulicRecipes.getWasherRecipes()){
+            for(Object item : recipe.getInputItems()){
+                if(item instanceof ItemStack){
+                    if(((ItemStack)item).isItemEqual(itemStack)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
 	}
 
     public static void loadTankOptions(Configuration c){
