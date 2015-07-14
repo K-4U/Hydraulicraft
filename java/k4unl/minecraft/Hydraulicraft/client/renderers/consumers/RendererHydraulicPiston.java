@@ -1,42 +1,80 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.consumers;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.k4lib.client.RenderHelper;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import org.lwjgl.opengl.GL11;
 
-public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
-	private static final ResourceLocation resLoc =
-			new ResourceLocation(ModInfo.LID,"textures/model/hydraulicPiston_tmap.png");
-	
-	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
-			double z, float f) {
-		
-		int metadata = tileentity.getBlockMetadata();
-		doRender((TileHydraulicPiston) tileentity, x, y, z, f, metadata);
-	}
-	
-	public static void doRender(TileHydraulicPiston tileentity , double x, double y,
-			double z, float f, int metadata){
+public class RendererHydraulicPiston extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler {
+
+    public static final int   RENDER_ID         = RenderingRegistry.getNextAvailableRenderId();
+    public static final Block FAKE_RENDER_BLOCK = new Block(Material.rock) {
+
+        @Override
+        public IIcon getIcon(int meta, int side) {
+
+            return HCBlocks.hydraulicPiston.getIcon(meta, side);
+        }
+    };
+
+    @Override
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+
+        renderer.renderBlockAsItem(FAKE_RENDER_BLOCK, 1, 1.0F);
+    }
+
+    @Override
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+
+        return renderer.renderStandardBlock(FAKE_RENDER_BLOCK, x, y, z);
+    }
+
+    @Override
+    public boolean shouldRender3DInInventory(int modelId) {
+
+        return true;
+    }
+
+    @Override
+    public int getRenderId() {
+
+        return RENDER_ID;
+    }
+
+    @Override
+    public void renderTileEntityAt(TileEntity tileentity, double x, double y,
+      double z, float f) {
+
+        int metadata = tileentity.getBlockMetadata();
+        doRender((TileHydraulicPiston) tileentity, x, y, z, f, metadata);
+    }
+
+    public static void doRender(TileHydraulicPiston tileentity, double x, double y,
+	  double z, float f, int metadata) {
+
 		GL11.glPushMatrix();
-		
-		GL11.glTranslatef((float) x, (float) y, (float)z);
-		
+
+		GL11.glTranslatef((float) x, (float) y, (float) z);
+
 		//Get metadata for rotation:
-		if(tileentity != null){
-			switch(tileentity.getFacing()){
-			case WEST:
-				GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
-				GL11.glTranslatef(-1.0F, 0.0F, -1.0F);
-				break;
-			case SOUTH:
-				GL11.glRotatef(-90F, 0.0F, 1.0F, 0F);
-				GL11.glTranslatef(0.0F, 0.0F, -1.0F);
+		if (tileentity != null) {
+			switch (tileentity.getFacing()) {
+				case WEST:
+					GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+					GL11.glTranslatef(-1.0F, 0.0F, -1.0F);
+					break;
+				case SOUTH:
+					GL11.glRotatef(-90F, 0.0F, 1.0F, 0F);
+					GL11.glTranslatef(0.0F, 0.0F, -1.0F);
 				break;
 			case NORTH:
 				GL11.glRotatef(90F, 0.0F, 1.0F, 0F);
@@ -46,24 +84,12 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 				break;
 			}
 		}
-		
-		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
+
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		GL11.glPushMatrix();
-		
-		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
-		//Do rendering
-		drawBase(tileentity);
-		if(tileentity != null){
-			if(!tileentity.getIsHarvesterPart()){
-				drawPistonHead(tileentity);
-			}
-		}else{
-			drawPistonHead(null);
-		}
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		
+
 		drawPistonArm(tileentity, f);
 		
 		
@@ -73,115 +99,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 		
 	}
-	
-	public static void drawBase(TileHydraulicPiston tileentity){
-		float half = 1.0F - RenderHelper.pixel * 2;
-		float textureWidth = 0.5F - ((1.0F / 32.0F) * 2);
-		if(tileentity != null){
-			if(tileentity.getIsHarvesterPart()){
-				half = 1F;
-				textureWidth = 0.5F;
-			}
-		}
-		//Draw TOP side.
-		GL11.glBegin(GL11.GL_QUADS);
-		RenderHelper.vertexWithTexture(0.0F, 1.0F, 1.0F, 0.0F, 0.0F);
-		RenderHelper.vertexWithTexture(half, 1.0F, 1.0F, textureWidth, 0.0F);
-		RenderHelper.vertexWithTexture(half, 1.0F, 0.0F, textureWidth, 0.5F);
-		RenderHelper.vertexWithTexture(0.0F, 1.0F, 0.0F, 0.0F, 0.5F);
-		
-		//Draw bottom side.
-		RenderHelper.vertexWithTexture(half, 0.0F, 1.0F, 0.0F, 0.0F); // TR
-		RenderHelper.vertexWithTexture(0.0F, 0.0F, 1.0F, 0.5F, 0.0F); //BR
-		RenderHelper.vertexWithTexture(0.0F, 0.0F, 0.0F, 0.5F, 0.5F); //TL
-		RenderHelper.vertexWithTexture(half, 0.0F, 0.0F, 0.0F, 0.5F); //BL
-		
 
-		//Draw back side:
-		RenderHelper.vertexWithTexture(0.0F, 0.0F, 1.0F, 0.0F, 0.0F); // BR
-		RenderHelper.vertexWithTexture(0.0F, 1.0F, 1.0F, 0.5F, 0.0F); //TR
-		RenderHelper.vertexWithTexture(0.0F, 1.0F, 0.0F, 0.5F, 0.5F); //TL
-		RenderHelper.vertexWithTexture(0.0F, 0.0F, 0.0F, 0.0F, 0.5F); //BL
-
-		//Draw front side:
-		RenderHelper.vertexWithTexture(half, 0.0F, 0.0F, 0.5F, 0.0F); // BR
-		RenderHelper.vertexWithTexture(half, 1.0F, 0.0F, 1.0F, 0.0F); //TR
-		RenderHelper.vertexWithTexture(half, 1.0F, 1.0F, 1.0F, 0.5F); //TL
-		RenderHelper.vertexWithTexture(half, 0.0F, 1.0F, 0.5F, 0.5F); //BL
-
-		
-		//Draw right side:
-		RenderHelper.vertexWithTexture(0.0F, 0.0F, 0.0F, 0.0F, 0.0F); // BR
-		RenderHelper.vertexWithTexture(0.0F, 1.0F, 0.0F, textureWidth, 0.0F); //TR
-		RenderHelper.vertexWithTexture(half, 1.0F, 0.0F, textureWidth, 0.5F); //TL
-		RenderHelper.vertexWithTexture(half, 0.0F, 0.0F, 0.0F, 0.5F); //BL
-
-		//Draw left side:
-		RenderHelper.vertexWithTexture(0.0F, 0.0F, 1.0F, 0.0F, 0.0F); // BR
-		RenderHelper.vertexWithTexture(half, 0.0F, 1.0F, textureWidth, 0.0F); //TR
-		RenderHelper.vertexWithTexture(half, 1.0F, 1.0F, textureWidth, 0.5F); //TL
-		RenderHelper.vertexWithTexture(0.0F, 1.0F, 1.0F, 0.0F, 0.5F); //BL
-		
-		GL11.glEnd();
-	}
-	
-	public static void drawPistonHead(TileHydraulicPiston tileentity){
-		float half = 1.0F - RenderHelper.pixel * 2;
-		float startCoord = half;
-		float textureWidth = RenderHelper.renderPixel;
-		
-		if(tileentity != null){
-			if(tileentity.getIsHarvesterPart()){
-				half = 1F;
-			}
-			startCoord += tileentity.getExtendedLength();
-		}
-		
-
-		float headThickness = RenderHelper.pixel * 2;
-		float endCoord = startCoord + headThickness;
-		//Draw TOP side.
-		GL11.glBegin(GL11.GL_QUADS);
-		
-		RenderHelper.vertexWithTexture(startCoord, 1.0F, 1.0F, 0F, 0.5F);
-		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, textureWidth, 0.5F);
-		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, textureWidth, 1.0F);
-		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, 0.0F, 1.0F);
-
-		//Draw bottom side.
-		RenderHelper.vertexWithTexture(endCoord, 0.0F, 1.0F, 0F, 0.5F);
-		RenderHelper.vertexWithTexture(startCoord, 0.0F, 1.0F, textureWidth, 0.5F);
-		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, textureWidth, 1.0F);
-		RenderHelper.vertexWithTexture(endCoord, 0.0F, 0.0F, 0.0F, 1.0F);
-		
-		//Draw back side:
-		RenderHelper.vertexWithTexture(startCoord, 0.0F, 1.0F, textureWidth, 0.5F);
-		RenderHelper.vertexWithTexture(startCoord, 1.0F, 1.0F, textureWidth + 0.5F, 0.5F);
-		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, textureWidth + 0.5F, 1.0F);
-		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, textureWidth, 1.0F);
-
-		//Draw front side:
-		RenderHelper.vertexWithTexture(endCoord, 0.0F, 0.0F, textureWidth, 0.5F);
-		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, textureWidth + 0.5F, 0.5F);
-		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, textureWidth + 0.5F, 1.0F);
-		RenderHelper.vertexWithTexture(endCoord, 0.0F, 1.0F, textureWidth, 1.0F);
-
-		
-		//Draw right side:
-		RenderHelper.vertexWithTexture(startCoord, 0.0F, 0.0F, textureWidth, 1.0F); //BR
-		RenderHelper.vertexWithTexture(startCoord, 1.0F, 0.0F, textureWidth, 0.5F); // TR
-		RenderHelper.vertexWithTexture(endCoord, 1.0F, 0.0F, 0.0F, 0.5F); //TL
-		RenderHelper.vertexWithTexture(endCoord, 0.0F, 0.0F, 0.0F, 1.0F); //BL
-		
-		//Draw left side:
-		
-		RenderHelper.vertexWithTexture(startCoord, 0.0F, 1.0F, 0.0F, 0.5F); 
-		RenderHelper.vertexWithTexture(endCoord, 0.0F, 1.0F, textureWidth, 0.5F);
-		RenderHelper.vertexWithTexture(endCoord, 1.0F, 1.0F, textureWidth, 1.0F);
-		RenderHelper.vertexWithTexture(startCoord, 1.0F, 1.0F, 0.0F, 1.0F); 
-		GL11.glEnd();
-	}
-	
 	public static void drawPistonArm(TileHydraulicPiston tileentity, float f){
 		float half = 1.0F - RenderHelper.pixel * 2;
 		float totalLength = 0F;

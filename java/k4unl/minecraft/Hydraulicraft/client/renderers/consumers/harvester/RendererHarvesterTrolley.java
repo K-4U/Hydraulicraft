@@ -154,10 +154,10 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 		RenderHelper.vertexWithTexture(beginCenter, endCoord, beginCenter, RenderHelper.renderPixel*6, RenderHelper.renderPixel*6); //BL
 
 		//Draw bottom side
-		RenderHelper.vertexWithTexture(endCenter, beginCoord, endCenter, 0.5F+RenderHelper.renderPixel*6, RenderHelper.renderPixel*6); //BR
-		RenderHelper.vertexWithTexture(beginCenter, beginCoord, endCenter, 0.5F+RenderHelper.renderPixel*6, 0.0F);  //TR
-		RenderHelper.vertexWithTexture(beginCenter, beginCoord, beginCenter, 0.5F, 0.0F); //TL
-		RenderHelper.vertexWithTexture(endCenter, beginCoord, beginCenter, 0.5F, RenderHelper.renderPixel*6); //BL
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, endCenter, RenderHelper.renderPixel*12, RenderHelper.renderPixel*6); //BR
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, endCenter, RenderHelper.renderPixel*12, 0.0F);  //TR
+		RenderHelper.vertexWithTexture(beginCenter, beginCoord, beginCenter, RenderHelper.renderPixel*6, 0.0F); //TL
+		RenderHelper.vertexWithTexture(endCenter, beginCoord, beginCenter, RenderHelper.renderPixel*6, RenderHelper.renderPixel*6); //BL
 
 		
 		//Draw back side.

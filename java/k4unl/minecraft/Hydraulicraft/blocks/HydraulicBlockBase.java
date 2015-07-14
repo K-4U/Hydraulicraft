@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import k4unl.minecraft.k4lib.lib.Orientation;
 import net.minecraft.block.Block;
@@ -118,6 +119,8 @@ public class HydraulicBlockBase extends Block {
 				rightIcon = blockIcon;
 				backIcon = blockIcon;
 			}
+		}else{
+			blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
 		}
 	}
 	
