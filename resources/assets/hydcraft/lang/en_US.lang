@@ -143,6 +143,17 @@ lang.gui.releasedAt=Released on: %s
 lang.gui.upToDate=Hydraulicraft up to date
 lang.tooltip.multiblock=Multiblock. Max pressure depends on the core used.
 
+#Harvester
+lang.harvester.notFormingError.trolleyExpected=Expected a trolley at %s
+lang.harvester.notFormingError.frameRotationWrong=Frame at %s is rotated wrong
+lang.harvester.notFormingError.frameExpected=Expected a frame at %s
+lang.harvester.notFormingError.verticalFrameExpected=Expected a vertical frame at %s
+lang.harvester.notFormingError.pistonExpected=Expected a piston at %s
+lang.harvester.notFormingError.endBlockExpected=Expected a pressure wall at %s
+lang.harvester.notFormingError.tooShort=The harvester is too short(%s)
+lang.harvester.notFormingError.tooLong=The harvester is too long(%s)
+lang.harvester.notFormingError.tooWide=The harvester is too wide(%s)
+
 
 ####Third party
 #PneumaticCraft

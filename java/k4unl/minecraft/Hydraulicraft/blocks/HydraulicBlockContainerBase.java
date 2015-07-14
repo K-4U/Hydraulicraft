@@ -64,8 +64,9 @@ public abstract class HydraulicBlockContainerBase extends HydraulicBlockBase imp
 
 		if(getGUIID() != GuiIDs.INVALID) {
 			if(this instanceof IGUIMultiBlock){
-				if(!((IGUIMultiBlock)this).isValid(world, x, y, z))
+				if(!((IGUIMultiBlock)this).isValid(world, x, y, z)) {
 					return false;
+				}
 			}
 			player.openGui(Hydraulicraft.instance, getGUIID().ordinal(), world, x, y, z);
 			return true;
