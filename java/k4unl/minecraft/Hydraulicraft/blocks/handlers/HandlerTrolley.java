@@ -3,7 +3,6 @@ package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -32,8 +31,7 @@ public class HandlerTrolley extends HandlerHydraulicBlock{
         if(tag != null){
             return super.getUnlocalizedName(stack) + "." + tag.getString("name");
         }else{
-            //TODO: Fix meh. Happens when i look at you with WAILA
-            Log.error("Tag of a trolley itemstack was null??");
+            //Log.error("Tag of a trolley itemstack was null??");
             return super.getUnlocalizedName(stack);
         }
     }

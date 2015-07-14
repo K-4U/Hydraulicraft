@@ -3,9 +3,11 @@ package k4unl.minecraft.Hydraulicraft.thirdParty;
 import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.k4lib.lib.Functions;
 import mcp.mobius.waila.api.*;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -27,6 +29,7 @@ public class WailaProvider implements IWailaDataProvider {
         registrar.registerBodyProvider(new WailaProvider(), IHydraulicMachine.class);
         registrar.registerTailProvider(new WailaProvider(), IHydraulicMachine.class);
         registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
+        registrar.registerStackProvider(new WailaProvider(), BlockHarvesterTrolley.class);
 
         //registrar.registerBodyProvider(new WailaProvider(), Ids.blockHydraulicPump.act);
     }
@@ -34,6 +37,16 @@ public class WailaProvider implements IWailaDataProvider {
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor,
                                    IWailaConfigHandler config) {
+        if(accessor.getTileEntity() instanceof TileHarvesterTrolley){
+            TileHarvesterTrolley harvesterTrolley = (TileHarvesterTrolley)accessor.getTileEntity();
+            String name = harvesterTrolley.getTrolley().getName();
+            NBTTagCompound tagCompound = new NBTTagCompound();
+            tagCompound.setString("name", name);
+
+            ItemStack ret = new ItemStack(accessor.getBlock());
+            ret.setTagCompound(tagCompound);
+            return ret;
+        }
         return null;
     }
 
