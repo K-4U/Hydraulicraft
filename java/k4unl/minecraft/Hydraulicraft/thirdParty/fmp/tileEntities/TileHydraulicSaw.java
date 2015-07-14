@@ -1,12 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities;
 
 import codechicken.microblock.MicroRecipe;
-import codechicken.nei.InventoryCraftingDummy;
 import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.InventoryCraftingDummy;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
