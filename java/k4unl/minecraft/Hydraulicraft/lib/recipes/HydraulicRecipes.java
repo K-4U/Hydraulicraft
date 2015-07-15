@@ -109,14 +109,14 @@ public class HydraulicRecipes implements IRecipeHandler {
 
     private static void initializeFilterRecipes() {
         recipesFilter.add(new FluidShapelessOreRecipe(Item.getItemFromBlock(HCBlocks.blockDirtyMineral), Item.getItemFromBlock(Ores.oreBeachium)).addFluidInput(new
-                FluidStack(Fluids.fluidOil, 10)).addFluidOutput(new FluidStack(Fluids.fluidHydraulicOil, 9)).setPressure(5.0F));
+                FluidStack(Fluids.fluidOil, 5000)).addFluidOutput(new FluidStack(Fluids.fluidHydraulicOil, 4500)).setPressure(5.0F).setCraftingTime(500));
 
         recipesFilter.add(new FluidShapelessOreRecipe(Item.getItemFromBlock(HCBlocks.blockDirtyMineral), Item.getItemFromBlock(HCBlocks.blockRefinedNadsiumBicarbinate))
-                .addFluidInput(new FluidStack(Fluids.fluidOil, 10)).addFluidOutput(new FluidStack(Fluids.fluidLubricant, 5)).setPressure(10.0F));
+                .addFluidInput(new FluidStack(Fluids.fluidOil, 5000)).addFluidOutput(new FluidStack(Fluids.fluidLubricant, 2500)).setPressure(10.0F).setCraftingTime(500));
 
         recipesFilter.add(new FluidShapelessOreRecipe(Item.getItemFromBlock(HCBlocks.blockDirtyMineral), Item.getItemFromBlock(HCBlocks
-                .blockRefinedLonezium)).addFluidInput(new FluidStack(Fluids.fluidOil, 20)).addFluidOutput(new FluidStack(Fluids.fluidFluoroCarbonFluid, 5))
-                .setPressure(50.0F));
+                .blockRefinedLonezium)).addFluidInput(new FluidStack(Fluids.fluidOil, 10000)).addFluidOutput(new FluidStack(Fluids.fluidFluoroCarbonFluid, 2500))
+                .setPressure(50.0F).setCraftingTime(500));
     }
 
     private static void initializeAssemblerRecipes() {
@@ -683,8 +683,6 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'D', Blocks.dirt,
                         'S', "slabWood"
                 }));
-
-
 
 
     }

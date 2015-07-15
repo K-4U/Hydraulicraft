@@ -23,9 +23,6 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
     InventoryFluidCrafting inventoryCrafting;
     IFluidRecipe           recipe;
 
-    private int maxTicks  = 500;
-    private int ticksDone = 0;
-
     private FluidTank inputTank  = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
     private FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 8);
 
@@ -39,45 +36,28 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
         inputTanks[0] = inputTank;
         outputTanks[0] = outputTank;
 
-        inventoryCrafting = new InventoryFluidCrafting(this, 2, inputTanks, outputTanks);
+        inventoryCrafting = new InventoryFluidCrafting(this, 1, inputTanks, outputTanks);
     }
 
-    private boolean canRun() {
-        if (maxTicks == 0) return false;
-        if (recipe == null) return false;
-        FluidTankInfo[] info = inventoryCrafting.getTankInfo();
-        if (info[0].fluid == null) return false;
-        if (info[0].fluid.amount < recipe.getInputFluids().get(0).amount) return false;
-        if (info[1].fluid != null && info[1].fluid.amount + recipe.getOutputFluids().get(0).amount > info[1].capacity)
-            return false;
-        return true;
-    }
 
     @Override
     public float workFunction(boolean simulate, ForgeDirection from) {
+        if (recipe != null) {
+            float usedPressure = recipe.getPressure();
 
-        if (canRun()) {
-            if (!simulate) {
-                doConvert();
+            if (!inventoryCrafting.canWork(recipe))
+                return 0;
+
+            if (simulate) {
+                return recipe.getPressure();
             }
-            if (recipe == null) return 0F;
-            return recipe.getPressure();
-        } else {
-            return 0F;
+
+            inventoryCrafting.recipeTick(recipe);
+
+            return usedPressure;
         }
-    }
 
-    public void doConvert() {
-
-        inventoryCrafting.craftingDrain(recipe.getInputFluids().get(0), true);
-        inventoryCrafting.craftingFill(recipe.getOutputFluids().get(0), true);
-
-        ticksDone--;
-        if (ticksDone == 0) {
-            //Output the item
-            inventoryCrafting.setInventorySlotContents(1, recipe.getRecipeOutput().copy());
-            recipe = null;
-        }
+        return 0;
     }
 
     @Override
@@ -180,19 +160,13 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
         super.readFromNBT(tagCompound);
-
         inventoryCrafting.load(tagCompound);
-
-        ticksDone = tagCompound.getInteger("ticksDone");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
-
         inventoryCrafting.save(tagCompound);
-
-        tagCompound.setInteger("ticksDone", ticksDone);
     }
 
     @Override
@@ -218,8 +192,11 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
     }
 
     public float getScaledFilterTime() {
-        if (maxTicks > 0) {
-            return (float) ticksDone / (float) maxTicks;
+        if (recipe == null)
+            return 0;
+
+        if (recipe.getCraftingTime() > 0) {
+            return inventoryCrafting.getProgress() / (float) recipe.getCraftingTime();
         } else {
             return 0;
         }
@@ -251,14 +228,15 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 
     @Override
     public void onCraftingMatrixChanged() {
-        if (ticksDone == 0 || recipe == null) {
-            recipe = HydraulicRecipes.getFilterRecipe(inventoryCrafting);
-            if (recipe != null) {
-                ticksDone = maxTicks;
-                //Consume the item
-                inventoryCrafting.decrStackSize(0, 1);
-            }
-        }
+        if (inventoryCrafting.isCraftingInProgress())
+            return;
+
+        recipe = HydraulicRecipes.getFilterRecipe(inventoryCrafting);
+
+        if (recipe != null)
+            inventoryCrafting.startRecipe(recipe);
+
+        markDirty();
     }
 
     @Override
@@ -267,12 +245,13 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
     }
 
     public int getFilterTicks() {
-
-        return ticksDone;
+        return (int) inventoryCrafting.getProgress();
     }
 
     public float getMaxFilterTicks() {
+        if (recipe == null)
+            return 500; // MAGIC
 
-        return maxTicks;
+        return recipe.getCraftingTime();
     }
 }
