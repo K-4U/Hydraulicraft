@@ -264,6 +264,8 @@ public class ModelDivingSuit extends ModelBiped {
         this.bipedBody.addChild(FrontBottomBar);
         this.bipedBody.addChild(FrontTopBar);
         this.bipedBody.addChild(BackBottomBar);
+        this.bipedBody.addChild(BottomRightLeg);
+        this.bipedBody.addChild(BottomLeftLeg);
 
         this.bipedLeftArm.addChild(FrontLeftShoulderBar);
         this.bipedLeftArm.addChild(BackLeftShoulderBar);
@@ -283,19 +285,19 @@ public class ModelDivingSuit extends ModelBiped {
         this.bipedRightArm.addChild(RightArmPanel);
         this.bipedRightArm.addChild(RightHand);
 
-        this.bipedLeftLeg.addChild(BottomLeftLeg);
         this.bipedLeftLeg.addChild(FrontLeftUpperLeg);
         this.bipedLeftLeg.addChild(BackLeftUpperLeg);
         this.bipedLeftLeg.addChild(FrontLeftLowerLeg);
         this.bipedLeftLeg.addChild(BackLeftLowerLeg);
         this.bipedLeftLeg.addChild(LeftLegPanel);
+        this.bipedLeftLeg.addChild(LeftFoot);
 
-        this.bipedRightLeg.addChild(BottomRightLeg);
         this.bipedRightLeg.addChild(FrontRightUpperLeg);
         this.bipedRightLeg.addChild(BackRightUpperLeg);
         this.bipedRightLeg.addChild(FrontRightLowerLeg);
         this.bipedRightLeg.addChild(BackRightLowerLeg);
         this.bipedRightLeg.addChild(RightLegPanel);
+        this.bipedRightLeg.addChild(RightFoot);
     }
 
     public static ModelBiped getModel(EntityLivingBase entity, ItemStack stack) {
@@ -324,18 +326,13 @@ public class ModelDivingSuit extends ModelBiped {
         armor.bipedLeftLeg.isHidden = true;
         armor.bipedRightLeg.isHidden = true;
 
-        armor.LeftFoot.isHidden = true;
-        armor.RightFoot.isHidden = true;
-
         switch (slot) {
             case 0:
-
                 armor.bipedHead.isHidden = false;
                 modelHelm = armor;
                 break;
 
             case 1:
-
                 armor.bipedBody.isHidden = false;
                 armor.bipedLeftArm.isHidden = false;
                 armor.bipedRightArm.isHidden = false;
@@ -343,16 +340,13 @@ public class ModelDivingSuit extends ModelBiped {
                 break;
 
             case 2:
-
                 armor.bipedLeftLeg.isHidden = false;
                 armor.bipedRightLeg.isHidden = false;
                 modelLegs = armor;
                 break;
 
             case 3:
-
-                armor.LeftFoot.isHidden = false;
-                armor.RightFoot.isHidden = false;
+                // this wouldn't work... shouldn't there be some sort of flippers?
                 modelBoots = armor;
                 break;
 
