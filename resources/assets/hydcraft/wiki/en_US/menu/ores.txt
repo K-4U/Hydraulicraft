@@ -1,0 +1,2 @@
+[prefix{l}]Ores [prefix{}]
+This'll be a page of the two ores that Hydraulicraft adds.

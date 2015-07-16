@@ -1,0 +1,7 @@
+A normal pressure network consists of a pressure vat, a pump and a machine using the pressure.
+To get started, pump water into the pressure vat. It'll automatically spread to nearby machines.
+
+The higher the pressure, the faster your machines will run.
+
+Whenever your network runs on water, it'll leak water. So you're going to be continously resupplying your network with water.
+That's why you're better off filling your network with [link{hydcraft:menu/oil}]Hydraulic Oil[link{}]. This can take a higher pressure and won't leak.

@@ -1,0 +1,3 @@
+[prefix{l}]Oil [prefix{}]
+Here we'll put a nice screenshot of a small oil spout.
+Also talk about where it spawns.

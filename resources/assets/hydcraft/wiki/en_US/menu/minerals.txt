@@ -1,0 +1,14 @@
+[prefix{l}]Minerals [prefix{}]
+The different minerals are used as a filter in the actual [link{hydcraft:blocks/filter}]filter block[link{}]
+
+[prefix{l}]Beachium [prefix{}]
+TODO: Add screenshot of beachium in it's natural habitat.
+Scour the beaches for this mineral, you'll need it to filter the crude oil into the much required hydraulic oil.
+
+[prefix{l}]Lonezium [prefix{}]
+TODO: Add screenshot of lonezium in it's natural habitat.
+Lonezium can be found underground and will, when refined, filter the crude oil into [link{hydcraft:menu/diving}]Perfluoro fluid[link{}]
+
+[prefix{l}]Nadsium Bicarbinate[prefix{}]
+TODO: Add screenshot of Nadsium Bicarbinate in it's natural habitat.
+Found on the bottom of the oceans, Nadsium Bicarbinate, when refined, will filter crude oil into [link{hydcraft:menu/crafting}]Lubricant [link{}]

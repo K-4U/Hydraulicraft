@@ -16,7 +16,15 @@ public class HydraulicraftWikiTab extends BaseWikiTab {
 
     public HydraulicraftWikiTab(){
 
-        pageEntries.add(ModInfo.ID + ":baseConcepts");
+        pageEntries.add("baseConcepts");
+        pageEntries.add("pressureNetwork");
+        skipLine();
+        pageEntries.add("oil");
+        pageEntries.add("minerals");
+        pageEntries.add("ores");
+        skipLine();
+        pageEntries.add("crafting");
+
 
         Log.info("IGW support for Hydraulicraft Loaded");
     }
@@ -26,14 +34,14 @@ public class HydraulicraftWikiTab extends BaseWikiTab {
         if(pageEntry.startsWith("item") || pageEntry.startsWith("block")) {
             return I18n.format(pageEntry.replace("/", ".").replace("block", "tile") + ".name");
         } else {
-            return I18n.format(ModInfo.ID + ".wiki.entry." + pageEntry);
+            return I18n.format(ModInfo.LID + ".wiki.entry." + pageEntry);
         }
     }
 
     @Override
     protected String getPageLocation(String pageEntry){
-        if(pageEntry.startsWith("item") || pageEntry.startsWith("block")) return ModInfo.ID + ":" + pageEntry;
-        return ModInfo.ID + ":" + "menu/" + pageEntry;
+        if(pageEntry.startsWith("item") || pageEntry.startsWith("block")) return ModInfo.LID + ":" + pageEntry;
+        return ModInfo.LID + ":" + "menu/" + pageEntry;
     }
     @Override
     public String getName() {

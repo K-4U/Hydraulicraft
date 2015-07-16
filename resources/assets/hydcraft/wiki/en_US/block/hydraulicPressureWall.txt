@@ -1,0 +1,12 @@
+[crafting{200,10,key=block/hydraulicPressureWall}]
+
+
+
+
+
+
+
+
+
+The wall is used for most of the crafting recipes.
+It can also be used as a decorative block.
