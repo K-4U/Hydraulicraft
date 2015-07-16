@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.thirdParty.bluepower.BluePower;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.FMP;
+import k4unl.minecraft.Hydraulicraft.thirdParty.igwmod.IGWMod;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.IndustrialCraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
@@ -35,6 +36,7 @@ public class ThirdPartyManager{
         thirdPartyClasses.put("IC2", IndustrialCraft.class);
         thirdPartyClasses.put("ThermalExpansion", ThermalExpansion.class);
         thirdPartyClasses.put("bluepower", BluePower.class);
+        thirdPartyClasses.put("IGWMod", IGWMod.class);
 
         for(Map.Entry<String, Class<? extends IThirdParty>> entry : thirdPartyClasses.entrySet()) {
             if(Loader.isModLoaded(entry.getKey()) || (entry.getKey().equals("ThermalExpansion") && HCConfig.INSTANCE.getBool("enableRF"))) {
