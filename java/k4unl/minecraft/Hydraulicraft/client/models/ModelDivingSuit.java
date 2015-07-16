@@ -91,7 +91,7 @@ public class ModelDivingSuit extends ModelBiped {
         this.LeftYellowTank.addBox(3.25F, 2.5F, 3.0F, 2, 10, 2, 0.0F);
         this.LefttankPipe = new ModelRenderer(this, 4, 0);
         this.LefttankPipe.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.LefttankPipe.addBox(2.0F, 0.5F, 3.5F, 1, 3, 1, 0.0F);
+        this.LefttankPipe.addBox(0.5F, 2.5F, 3.5F, 1, 3, 1, 0.0F);
         this.setRotateAngle(LefttankPipe, 0.0F, 0.0F, -0.7853981633974483F);
         this.BackLeftLowerLeg = new ModelRenderer(this, 18, 20);
         this.BackLeftLowerLeg.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -237,9 +237,8 @@ public class ModelDivingSuit extends ModelBiped {
         this.BackRightUpperLeg.addBox(-3.1F, 1.0F, 0.9F, 1, 4, 1, 0.0F);
         this.RightTankPipe = new ModelRenderer(this, 0, 0);
         this.RightTankPipe.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.RightTankPipe.addBox(-2.0F, 0.5F, 3.5F, 1, 3, 1, 0.0F);
+        this.RightTankPipe.addBox(-1.5F, 2.5F, 3.5F, 1, 3, 1, 0.0F);
         this.setRotateAngle(RightTankPipe, 0.0F, 0.0F, 0.7853981633974483F);
-
 
         this.bipedHead.addChild(HelmetLeftBack);
         this.bipedHead.addChild(HelmetRighBack);
