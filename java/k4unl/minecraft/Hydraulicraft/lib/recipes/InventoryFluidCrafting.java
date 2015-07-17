@@ -148,6 +148,12 @@ public class InventoryFluidCrafting implements IFluidInventory {
             for (FluidStack inFluid : recipe.getInputFluids()) {
                 FluidStack toDrain = inFluid.copy();
                 toDrain.amount *= percent;
+                FluidStack drained = craftingDrain(toDrain, false);
+                if (drained == null)
+                    return;
+                if (drained.amount < toDrain.amount)
+                    return;
+
                 craftingDrain(toDrain, true);
             }
 
@@ -155,6 +161,9 @@ public class InventoryFluidCrafting implements IFluidInventory {
             for (FluidStack outFluid : recipe.getOutputFluids()) {
                 FluidStack toFill = outFluid.copy();
                 toFill.amount *= percent;
+                if (craftingFill(toFill, false) < toFill.amount)
+                    return;
+
                 craftingFill(toFill, true);
             }
 

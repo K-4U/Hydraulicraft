@@ -80,8 +80,10 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
         int fluidsMatched = 0;
         if (inputFluids != null) {
             for (FluidStack fluid : getInputFluids()) {
-                FluidStack drained = inventory.craftingDrain(fluid, false);
-                if (drained != null && drained.amount == fluid.amount)
+                FluidStack fluidCopy = fluid.copy();
+                fluidCopy.amount /= craftingTime;
+                FluidStack drained = inventory.craftingDrain(fluidCopy, false);
+                if (drained != null && drained.amount == fluidCopy.amount)
                     fluidsMatched++;
             }
 
@@ -92,7 +94,9 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
         fluidsMatched = 0;
         if (outputFluids != null) {
             for (FluidStack fluidStack : getOutputFluids()) {
-                if (inventory.craftingFill(fluidStack, false) == fluidStack.amount)
+                FluidStack fluidCopy = fluidStack.copy();
+                fluidCopy.amount /= craftingTime;
+                if (inventory.craftingFill(fluidCopy, false) == fluidCopy.amount)
                     fluidsMatched++;
             }
 
