@@ -18,7 +18,9 @@ public class HydraulicraftWikiTab extends BaseWikiTab {
 
         pageEntries.add("baseConcepts");
         pageEntries.add("pressureNetwork");
-        skipLine();
+
+        addSectionHeader("worldgen");
+
         pageEntries.add("oil");
         pageEntries.add("minerals");
         pageEntries.add("ores");
@@ -31,17 +33,15 @@ public class HydraulicraftWikiTab extends BaseWikiTab {
 
     @Override
     protected String getPageName(String pageEntry){
-        if(pageEntry.startsWith("item") || pageEntry.startsWith("block")) {
-            return I18n.format(pageEntry.replace("/", ".").replace("block", "tile") + ".name");
-        } else {
-            return I18n.format(ModInfo.LID + ".wiki.entry." + pageEntry);
-        }
+        if(pageEntry.startsWith("item") || pageEntry.startsWith("block")) return I18n.format(pageEntry.replace("/", ".").replace("block", "tile") + ".name");
+        if(pageEntry.startsWith("#")) return I18n.format(ModInfo.LID + ".wiki.section." + pageEntry.replace("#",""));
+        return I18n.format(ModInfo.LID + ".wiki.entry." + pageEntry);
     }
 
     @Override
     protected String getPageLocation(String pageEntry){
         if(pageEntry.startsWith("item") || pageEntry.startsWith("block")) return ModInfo.LID + ":" + pageEntry;
-        return ModInfo.LID + ":" + "menu/" + pageEntry;
+        return ModInfo.LID + ":menu/" + pageEntry;
     }
     @Override
     public String getName() {
