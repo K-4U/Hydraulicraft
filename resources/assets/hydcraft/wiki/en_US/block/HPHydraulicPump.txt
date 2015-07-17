@@ -1,0 +1,18 @@
+[crafting{200,10,key=block/HPHydraulicPump}]
+
+
+
+
+
+
+
+
+
+
+The pump is the main block that will generate pressure in a network.
+This block will not generate any more pressure than possible in a High Pressure Network
+
+It will accept any type of solid fuel.
+
+
+[prefix{l}]Max pressure:    [prefix{4l}]medium
