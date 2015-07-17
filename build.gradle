@@ -48,10 +48,10 @@ dependencies {
     compile "codechicken:NotEnoughItems:1.7.10-1.0.5.110:dev"
     compile "codechicken:ForgeMultipart:1.7.10-1.2.0.344:dev"
     compile "mcp.mobius.waila:Waila:1.5.10_1.7.10"
-    compile 'net.industrial-craft:industrialcraft-2:2.2.727-experimental:api'
-    compile "pneumaticCraft:PneumaticCraft-1.7.10:1.7.0-74:userdev"
-    compile "k4unl:k4lib:1.7.10-0.1.47:deobf"
-    compile name: "buildcraft", classifier: "dev", version: "7.0.11"
+    compile 'net.industrial-craft:industrialcraft-2:2.2.750-experimental:api'
+    compile "pneumaticCraft:PneumaticCraft-1.7.10:1.9.6-93:userdev"
+    compile "k4unl:k4lib:1.7.10-0.1.51:deobf"
+    compile name: "buildcraft", classifier: "dev", version: "7.0.16"
     compile "igwmod:IGW-Mod-1.7.10:1.1.6-23:userdev"
 }
 
@@ -65,7 +65,7 @@ group = "k4unl"
 archivesBaseName = "HydCraft"
 
 minecraft {
-    version = "${project.ext.mcVersion}-10.13.4.1448-${project.ext.mcVersion}"
+    version = "${project.ext.mcVersion}-10.13.4.1490-${project.ext.mcVersion}"
 
     // replacing stuff in the source
     replace '@VERSION@', project.version
