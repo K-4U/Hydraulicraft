@@ -1,0 +1,4 @@
+[prefix{l}]Crafting [prefix{}]
+Talking about the new crafting mechanic in Hydraulicraft, also put all the recipes in here as well.
+
+[assembler{200,200,block/HPHydraulicPressureVat}]

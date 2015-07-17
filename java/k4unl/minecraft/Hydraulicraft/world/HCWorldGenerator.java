@@ -146,8 +146,7 @@ public class HCWorldGenerator implements IWorldGenerator {
               block.getMaterial() != Material.wood &&
               block.getMaterial() != Material.gourd &&
               block.getMaterial() != Material.ice &&
-              !block.isFoliage(world, x, y, z) &&
-              block.isBlockNormalCube())
+              !block.isFoliage(world, x, y, z))
             {
                 return y + 1;
             }

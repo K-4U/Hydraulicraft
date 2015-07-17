@@ -1,0 +1,5 @@
+General talk here about how to setup a basic network.
+
+Tell people about the worldgen (maybe in a seperate menu item)
+
+And links to how the assembler and filter work.

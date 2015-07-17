@@ -1,0 +1,20 @@
+[crafting{200,10,key=block/hydraulicFrictionIncinerator}]
+
+
+
+
+
+
+
+
+
+
+
+Eventhough the name says Friction Incinerator, it doesn't remove your blocks from the world.
+
+
+It's just another name(in my perspective) for a furnace! 
+It uses hydraulic pressure to spin two friction plates around, creating very high temperature, instantaneously!
+
+
+[prefix{l}]Max pressure:    [prefix{el}]medium

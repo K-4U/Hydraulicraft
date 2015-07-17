@@ -52,6 +52,7 @@ dependencies {
     compile "pneumaticCraft:PneumaticCraft-1.7.10:1.7.0-74:userdev"
     compile "k4unl:k4lib:1.7.10-0.1.47:deobf"
     compile name: "buildcraft", classifier: "dev", version: "7.0.11"
+    compile "igwmod:IGW-Mod-1.7.10:1.1.6-23:userdev"
 }
 
 project.ext {
@@ -64,7 +65,7 @@ group = "k4unl"
 archivesBaseName = "HydCraft"
 
 minecraft {
-    version = "${project.ext.mcVersion}-10.13.3.1424-${project.ext.mcVersion}"
+    version = "${project.ext.mcVersion}-10.13.4.1448-${project.ext.mcVersion}"
 
     // replacing stuff in the source
     replace '@VERSION@', project.version
