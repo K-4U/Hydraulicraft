@@ -19,6 +19,6 @@ public enum GuiIDs {
     INFINITESOURCE,
     PORTALBASE,
     ASSEMBLER,
-    CHARGER
-	
+    CHARGER,
+    FILLER
 }

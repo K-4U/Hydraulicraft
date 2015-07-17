@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
+import cpw.mods.fml.common.network.IGuiHandler;
 import k4unl.minecraft.Hydraulicraft.containers.*;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.client.GUI.GuiSaw;
@@ -26,214 +27,222 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureV
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
 
-	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
-			int x, int y, int z) {
-		
-		TileEntity ent = world.getTileEntity(x, y, z);
-		if(ent != null){
-			switch(GuiIDs.values()[ID]){
-			case COMPRESSOR:
-				if(ent instanceof TileHydraulicPneumaticCompressor){
-					return new ContainerPneumaticCompressor(player.inventory, (TileHydraulicPneumaticCompressor)ent);
-				}
-				break;
-			case CRUSHER:
-				if(ent instanceof TileHydraulicCrusher){
-					return new ContainerCrusher(player.inventory, (TileHydraulicCrusher)ent);
-				}
-				break;
-			case DYNAMO:
-				if(ent instanceof TileHydraulicDynamo){
-					return new ContainerEmpty(player.inventory);
-				}
-				break;
-			case ELECTRICPUMP:
-				if(ent instanceof TileElectricPump){
-					return new ContainerEmpty(player.inventory);
-				}
-				break;
-			case GENERATOR:
-				if(ent instanceof TileHydraulicGenerator){
-					return new ContainerEmpty(player.inventory);
-				}
-				break;
-			case HARVESTER:
-				if(ent instanceof TileHydraulicHarvester){
-					return new ContainerHarvester(player.inventory, (TileHydraulicHarvester)ent);
-				}
-				break;
-			case INCINERATOR:
-				if(ent instanceof TileHydraulicFrictionIncinerator){
-					return new ContainerIncinerator(player.inventory, (TileHydraulicFrictionIncinerator)ent);
-				}
-				break;
-			case INFINITESOURCE:
-				if(ent instanceof TileInfiniteSource){
-					return new ContainerInfiniteSource(player.inventory, (TileInfiniteSource)ent);
-				}
-				break;
-			case INVALID:
-				break;
-			case LAVAPUMP:
-				if(ent instanceof TileHydraulicLavaPump){
-					return new ContainerEmpty(player.inventory);
-				}
-				break;
-			case FILTER:
-				if(ent instanceof TileHydraulicFilter){
-					return new ContainerFilter(player.inventory, (TileHydraulicFilter)ent);
-				}
-				break;
-			case PRESSUREVAT:
-				if(ent instanceof TileHydraulicPressureVat){
-					return new ContainerPressureVat(player.inventory, (TileHydraulicPressureVat)ent);
-				}
-				break;
-			case PUMP:
-				if(ent instanceof TileHydraulicPump){
-					return new ContainerPump(player.inventory, (TileHydraulicPump) ent);
-				}
-				break;
-			case RFPUMP:
-				if(ent instanceof TileRFPump){
-					return new ContainerEmpty(player.inventory);
-				}
-				break;
-			case SAW:
-				if(ent instanceof TileHydraulicSaw){
-					return new ContainerSaw(player.inventory, (TileHydraulicSaw)ent);
-				}
-				break;
-			case WASHER:
-				if(ent instanceof TileHydraulicWasher){
-					return new ContainerWasher(player.inventory, (TileHydraulicWasher)ent);
-				}
-				break;
-			case PORTALBASE:
-				if(ent instanceof TilePortalBase){
-					return new ContainerPortalBase(player.inventory, (TilePortalBase) ent);
-				}
-				break;
-            case ASSEMBLER:
-                if(ent instanceof TileAssembler){
-                    return new ContainerAssembler(player.inventory, (TileAssembler) ent);
-                }
-                break;
-			default:
-				break;
-			
-			}
-		}
-		
-		return null;
-	}
+    @Override
+    public Object getServerGuiElement(int ID, EntityPlayer player, World world,
+                                      int x, int y, int z) {
 
-	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
-			int x, int y, int z) {
-		
-		TileEntity ent = world.getTileEntity(x, y, z);
-		
-		if(ent != null){
-			switch(GuiIDs.values()[ID]){
-			case COMPRESSOR:
-				if(ent instanceof TileHydraulicPneumaticCompressor){
-					return new GuiPneumaticCompressor(player.inventory, (TileHydraulicPneumaticCompressor)ent);
-				}
-				break;
-			case CRUSHER:
-				if(ent instanceof TileHydraulicCrusher){
-					return new GuiCrusher(player.inventory, (TileHydraulicCrusher) ent);
-				}
-				break;
-			case DYNAMO:
-				if(ent instanceof TileHydraulicDynamo){
-					return new GuiHydraulicDynamo(player.inventory, ent);
-				}
-				break;
-			case ELECTRICPUMP:
-				if(ent instanceof TileElectricPump){
-					return new GuiElectricPump(player.inventory, ent);
-				}
-				break;
-			case GENERATOR:
-				if(ent instanceof TileHydraulicGenerator){
-					return new GuiHydraulicGenerator(player.inventory, ent);
-				}
-				break;
-			case HARVESTER:
-				if(ent instanceof TileHydraulicHarvester){
-					return new GuiHarvester(player.inventory, (TileHydraulicHarvester)ent);
-				}
-				break;
-			case INCINERATOR:
-				if(ent instanceof TileHydraulicFrictionIncinerator){
-					return new GuiIncinerator(player.inventory, (TileHydraulicFrictionIncinerator)ent);
-				}
-				break;
-			case INFINITESOURCE:
-				if(ent instanceof TileInfiniteSource){
-					return new GuiInfiniteSource(player.inventory, (TileInfiniteSource)ent);
-				}
-				break;
-			case INVALID:
-				break;
-			case LAVAPUMP:
-				if(ent instanceof TileHydraulicLavaPump){
-					return new GuiLavaPump(player.inventory, (TileHydraulicLavaPump) ent);
-				}
-				break;
-			case FILTER:
-				if(ent instanceof TileHydraulicFilter){
-					return new GuiFilter(player.inventory, (TileHydraulicFilter)ent);
-				}
-				break;
-			case PRESSUREVAT:
-				if(ent instanceof TileHydraulicPressureVat){
-					return new GuiPressureVat(player.inventory, (TileHydraulicPressureVat)ent);
-				}
-				break;
-			case PUMP:
-				if(ent instanceof TileHydraulicPump){
-					return new GuiPump(player.inventory, (TileHydraulicPump) ent);
-				}
-				break;
-			case RFPUMP:
-				if(ent instanceof TileRFPump){
-					return new GuiRFPump(player.inventory, ent);
-				}
-				break;
-			case SAW:
-				if(ent instanceof TileHydraulicSaw){
-					return new GuiSaw(player.inventory, (TileHydraulicSaw)ent);
-				}
-				break;
-			case WASHER:
-				if(ent instanceof TileHydraulicWasher){
-					return new GuiWasher(player.inventory, (TileHydraulicWasher)ent);
-				}
-				break;
-			case PORTALBASE:
-				if(ent instanceof TilePortalBase){
-					return new GuiPortalBase(player.inventory, (TilePortalBase) ent);
-				}
-				break;
-            case ASSEMBLER:
-                if(ent instanceof TileAssembler){
-                    return new GuiAssembler(player.inventory, (TileAssembler) ent);
-                }
-			default:
-				break;
-			
-			}
-		}
-		
-		return null;
-	}
+        TileEntity ent = world.getTileEntity(x, y, z);
+        if (ent != null) {
+            switch (GuiIDs.values()[ID]) {
+                case COMPRESSOR:
+                    if (ent instanceof TileHydraulicPneumaticCompressor) {
+                        return new ContainerPneumaticCompressor(player.inventory, (TileHydraulicPneumaticCompressor) ent);
+                    }
+                    break;
+                case CRUSHER:
+                    if (ent instanceof TileHydraulicCrusher) {
+                        return new ContainerCrusher(player.inventory, (TileHydraulicCrusher) ent);
+                    }
+                    break;
+                case DYNAMO:
+                    if (ent instanceof TileHydraulicDynamo) {
+                        return new ContainerEmpty(player.inventory);
+                    }
+                    break;
+                case ELECTRICPUMP:
+                    if (ent instanceof TileElectricPump) {
+                        return new ContainerEmpty(player.inventory);
+                    }
+                    break;
+                case GENERATOR:
+                    if (ent instanceof TileHydraulicGenerator) {
+                        return new ContainerEmpty(player.inventory);
+                    }
+                    break;
+                case HARVESTER:
+                    if (ent instanceof TileHydraulicHarvester) {
+                        return new ContainerHarvester(player.inventory, (TileHydraulicHarvester) ent);
+                    }
+                    break;
+                case INCINERATOR:
+                    if (ent instanceof TileHydraulicFrictionIncinerator) {
+                        return new ContainerIncinerator(player.inventory, (TileHydraulicFrictionIncinerator) ent);
+                    }
+                    break;
+                case INFINITESOURCE:
+                    if (ent instanceof TileInfiniteSource) {
+                        return new ContainerInfiniteSource(player.inventory, (TileInfiniteSource) ent);
+                    }
+                    break;
+                case INVALID:
+                    break;
+                case LAVAPUMP:
+                    if (ent instanceof TileHydraulicLavaPump) {
+                        return new ContainerEmpty(player.inventory);
+                    }
+                    break;
+                case FILTER:
+                    if (ent instanceof TileHydraulicFilter) {
+                        return new ContainerFilter(player.inventory, (TileHydraulicFilter) ent);
+                    }
+                    break;
+                case PRESSUREVAT:
+                    if (ent instanceof TileHydraulicPressureVat) {
+                        return new ContainerPressureVat(player.inventory, (TileHydraulicPressureVat) ent);
+                    }
+                    break;
+                case PUMP:
+                    if (ent instanceof TileHydraulicPump) {
+                        return new ContainerPump(player.inventory, (TileHydraulicPump) ent);
+                    }
+                    break;
+                case RFPUMP:
+                    if (ent instanceof TileRFPump) {
+                        return new ContainerEmpty(player.inventory);
+                    }
+                    break;
+                case SAW:
+                    if (ent instanceof TileHydraulicSaw) {
+                        return new ContainerSaw(player.inventory, (TileHydraulicSaw) ent);
+                    }
+                    break;
+                case WASHER:
+                    if (ent instanceof TileHydraulicWasher) {
+                        return new ContainerWasher(player.inventory, (TileHydraulicWasher) ent);
+                    }
+                    break;
+                case PORTALBASE:
+                    if (ent instanceof TilePortalBase) {
+                        return new ContainerPortalBase(player.inventory, (TilePortalBase) ent);
+                    }
+                    break;
+                case ASSEMBLER:
+                    if (ent instanceof TileAssembler) {
+                        return new ContainerAssembler(player.inventory, (TileAssembler) ent);
+                    }
+                    break;
+                case FILLER:
+                    if (ent instanceof TileHydraulicFiller) {
+                        return new ContainerFiller(player.inventory, (TileHydraulicFiller) ent);
+                    }
+                    break;
+                default:
+                    break;
+
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Object getClientGuiElement(int ID, EntityPlayer player, World world,
+                                      int x, int y, int z) {
+
+        TileEntity ent = world.getTileEntity(x, y, z);
+
+        if (ent != null) {
+            switch (GuiIDs.values()[ID]) {
+                case COMPRESSOR:
+                    if (ent instanceof TileHydraulicPneumaticCompressor) {
+                        return new GuiPneumaticCompressor(player.inventory, (TileHydraulicPneumaticCompressor) ent);
+                    }
+                    break;
+                case CRUSHER:
+                    if (ent instanceof TileHydraulicCrusher) {
+                        return new GuiCrusher(player.inventory, (TileHydraulicCrusher) ent);
+                    }
+                    break;
+                case DYNAMO:
+                    if (ent instanceof TileHydraulicDynamo) {
+                        return new GuiHydraulicDynamo(player.inventory, ent);
+                    }
+                    break;
+                case ELECTRICPUMP:
+                    if (ent instanceof TileElectricPump) {
+                        return new GuiElectricPump(player.inventory, ent);
+                    }
+                    break;
+                case GENERATOR:
+                    if (ent instanceof TileHydraulicGenerator) {
+                        return new GuiHydraulicGenerator(player.inventory, ent);
+                    }
+                    break;
+                case HARVESTER:
+                    if (ent instanceof TileHydraulicHarvester) {
+                        return new GuiHarvester(player.inventory, (TileHydraulicHarvester) ent);
+                    }
+                    break;
+                case INCINERATOR:
+                    if (ent instanceof TileHydraulicFrictionIncinerator) {
+                        return new GuiIncinerator(player.inventory, (TileHydraulicFrictionIncinerator) ent);
+                    }
+                    break;
+                case INFINITESOURCE:
+                    if (ent instanceof TileInfiniteSource) {
+                        return new GuiInfiniteSource(player.inventory, (TileInfiniteSource) ent);
+                    }
+                    break;
+                case INVALID:
+                    break;
+                case LAVAPUMP:
+                    if (ent instanceof TileHydraulicLavaPump) {
+                        return new GuiLavaPump(player.inventory, (TileHydraulicLavaPump) ent);
+                    }
+                    break;
+                case FILTER:
+                    if (ent instanceof TileHydraulicFilter) {
+                        return new GuiFilter(player.inventory, (TileHydraulicFilter) ent);
+                    }
+                    break;
+                case PRESSUREVAT:
+                    if (ent instanceof TileHydraulicPressureVat) {
+                        return new GuiPressureVat(player.inventory, (TileHydraulicPressureVat) ent);
+                    }
+                    break;
+                case PUMP:
+                    if (ent instanceof TileHydraulicPump) {
+                        return new GuiPump(player.inventory, (TileHydraulicPump) ent);
+                    }
+                    break;
+                case RFPUMP:
+                    if (ent instanceof TileRFPump) {
+                        return new GuiRFPump(player.inventory, ent);
+                    }
+                    break;
+                case SAW:
+                    if (ent instanceof TileHydraulicSaw) {
+                        return new GuiSaw(player.inventory, (TileHydraulicSaw) ent);
+                    }
+                    break;
+                case WASHER:
+                    if (ent instanceof TileHydraulicWasher) {
+                        return new GuiWasher(player.inventory, (TileHydraulicWasher) ent);
+                    }
+                    break;
+                case PORTALBASE:
+                    if (ent instanceof TilePortalBase) {
+                        return new GuiPortalBase(player.inventory, (TilePortalBase) ent);
+                    }
+                    break;
+                case ASSEMBLER:
+                    if (ent instanceof TileAssembler) {
+                        return new GuiAssembler(player.inventory, (TileAssembler) ent);
+                    }
+                case FILLER:
+                    if (ent instanceof TileHydraulicFiller)
+                        return new GuiFiller(player.inventory, (TileHydraulicFiller) ent);
+                    break;
+                default:
+                    break;
+
+            }
+        }
+
+        return null;
+    }
 
 }
