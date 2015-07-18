@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
+import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
@@ -11,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +77,15 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean mouseClicked(GuiRecipe gui, int button, int recipe) {
+        boolean retval = ((NEIHydraulicRecipe) this.arecipes.get(recipe)).mouseClicked(gui, button, recipe);
+        if (retval)
+            return retval;
+
+        return super.mouseClicked(gui, button, recipe);
     }
 
     @Override
@@ -163,6 +174,21 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
 
         public List<WidgetBase> getWidgets() {
             return widgets;
+        }
+
+        public boolean mouseClicked(GuiRecipe guiRecipe, int button, int recipe) {
+            Point mousepos = GuiDraw.getMousePosition();
+            Point offset = guiRecipe.getRecipePosition(recipe);
+            Point relMouse = new Point(mousepos.x - ((guiRecipe.width - 176) / 2) - offset.x, mousepos.y - ((guiRecipe.height - 166) / 2) - offset.y);
+
+            for (WidgetBase widgetBase : widgets) {
+                if (widgetBase.getBounds().contains(relMouse)) {
+                    boolean retval = widgetBase.clicked(button);
+                    if (retval)
+                        return retval;
+                }
+            }
+            return false;
         }
     }
 }

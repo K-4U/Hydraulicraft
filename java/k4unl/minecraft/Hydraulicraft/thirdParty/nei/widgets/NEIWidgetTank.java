@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets;
 
+import codechicken.nei.recipe.GuiCraftingRecipe;
+import codechicken.nei.recipe.GuiUsageRecipe;
 import k4unl.minecraft.Hydraulicraft.client.GUI.HydraulicGUIBase;
 import k4unl.minecraft.Hydraulicraft.client.GUI.ToolTip;
 import net.minecraft.client.Minecraft;
@@ -119,5 +121,18 @@ public class NEIWidgetTank extends WidgetBase {
     @Override
     public Rectangle getBounds() {
         return new Rectangle(x, y - height, width, height);
+    }
+
+    @Override
+    public boolean clicked(int button) {
+        if (tank.getFluid() == null)
+            return false;
+
+        if (button == 0) { // left click
+            return GuiCraftingRecipe.openRecipeGui("liquid", tank.getFluid().getFluid());
+        } else if (button == 1) { // right click
+            return GuiUsageRecipe.openRecipeGui("liquid", tank.getFluid().getFluid());
+        }
+        return false;
     }
 }
