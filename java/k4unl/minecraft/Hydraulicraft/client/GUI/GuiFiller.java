@@ -19,7 +19,7 @@ public class GuiFiller extends HydraulicGUIBase {
         super(filler, new ContainerFiller(inventoryPlayer, filler), resLoc);
 
         this.filler = filler;
-        tankFluid = new NEIWidgetTank(filler.getTankInfo(ForgeDirection.UNKNOWN)[0], 126, 70, 16, 54, this);
+        tankFluid = new NEIWidgetTank(filler.getTankInfo(ForgeDirection.UNKNOWN)[0], 120, 70, 16, 54, this);
     }
 
     @Override
