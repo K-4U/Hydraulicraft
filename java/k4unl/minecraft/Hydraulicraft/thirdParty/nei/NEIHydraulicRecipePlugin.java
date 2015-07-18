@@ -27,6 +27,8 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
         return null;
     }
 
+    protected abstract CachedRecipe processRecipe(IFluidRecipe recipe);
+
     @Override
     public List<String> handleTooltip(GuiRecipe gui, List<String> currenttip, int recipe) {
         CachedRecipe cachedRecipe = arecipes.get(recipe);
@@ -86,6 +88,42 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
             return retval;
 
         return super.mouseClicked(gui, button, recipe);
+    }
+
+    public void loadCraftingRecipes(FluidStack stack) {
+        for (IFluidRecipe recipe : getRecipeCollection()) {
+            if (recipe.getOutputFluids() != null)
+                for (FluidStack fluidStack : recipe.getOutputFluids()) {
+                    if (fluidStack.equals(stack))
+                        this.arecipes.add(processRecipe(recipe));
+                }
+        }
+    }
+
+    public void loadUsageRecipes(FluidStack stack) {
+        for (IFluidRecipe recipe : getRecipeCollection()) {
+            if (recipe.getInputFluids() != null)
+                for (FluidStack fluidStack : recipe.getInputFluids()) {
+                    if (fluidStack.equals(stack))
+                        this.arecipes.add(processRecipe(recipe));
+                }
+        }
+    }
+
+    @Override
+    public void loadCraftingRecipes(String outputId, Object... results) {
+        if (outputId.equals("fluid") && results.length >= 1 && results[0] instanceof FluidStack) {
+            loadCraftingRecipes((FluidStack) results[0]);
+        }
+        super.loadCraftingRecipes(outputId, results);
+    }
+
+    @Override
+    public void loadUsageRecipes(String inputId, Object... ingredients) {
+        if (inputId.equals("fluid") && ingredients.length >= 1 && ingredients[0] instanceof FluidStack) {
+            loadUsageRecipes((FluidStack) ingredients[0]);
+        }
+        super.loadUsageRecipes(inputId, ingredients);
     }
 
     @Override

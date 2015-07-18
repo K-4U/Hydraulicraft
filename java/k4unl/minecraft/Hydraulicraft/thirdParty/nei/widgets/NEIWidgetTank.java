@@ -129,9 +129,9 @@ public class NEIWidgetTank extends WidgetBase {
             return false;
 
         if (button == 0) { // left click
-            return GuiCraftingRecipe.openRecipeGui("liquid", tank.getFluid().getFluid());
+            return GuiCraftingRecipe.openRecipeGui("fluid", tank.getFluid());
         } else if (button == 1) { // right click
-            return GuiUsageRecipe.openRecipeGui("liquid", tank.getFluid().getFluid());
+            return GuiUsageRecipe.openRecipeGui("fluid", tank.getFluid());
         }
         return false;
     }
