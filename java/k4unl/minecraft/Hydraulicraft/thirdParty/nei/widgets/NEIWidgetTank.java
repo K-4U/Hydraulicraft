@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets;
 
+import codechicken.nei.recipe.GuiCraftingRecipe;
+import codechicken.nei.recipe.GuiUsageRecipe;
 import k4unl.minecraft.Hydraulicraft.client.GUI.HydraulicGUIBase;
 import k4unl.minecraft.Hydraulicraft.client.GUI.ToolTip;
 import net.minecraft.client.Minecraft;
@@ -42,16 +44,16 @@ public class NEIWidgetTank extends WidgetBase {
         this(new FluidTank(fluidStack, fluidStack.amount), x, y, width, height);
     }
 
-    public void updateAmount(int newAmount) {
-        if (tank.getFluid() == null)
-            return;
-
-        tank.getFluid().amount = newAmount;
+    public void updateAmount(FluidStack newAmount) {
+        tank.setFluid(newAmount);
     }
 
     public void render(FluidTankInfo info) {
-        if (info != null && info.fluid != null)
-            updateAmount(info.fluid.amount);
+        if (info != null && info.fluid != null) {
+            updateAmount(info.fluid);
+        } else if (info.fluid == null) {
+            tank.setFluid(null);
+        }
 
         render();
     }
@@ -119,5 +121,18 @@ public class NEIWidgetTank extends WidgetBase {
     @Override
     public Rectangle getBounds() {
         return new Rectangle(x, y - height, width, height);
+    }
+
+    @Override
+    public boolean clicked(int button) {
+        if (tank.getFluid() == null)
+            return false;
+
+        if (button == 0) { // left click
+            return GuiCraftingRecipe.openRecipeGui("fluid", tank.getFluid());
+        } else if (button == 1) { // right click
+            return GuiUsageRecipe.openRecipeGui("fluid", tank.getFluid());
+        }
+        return false;
     }
 }

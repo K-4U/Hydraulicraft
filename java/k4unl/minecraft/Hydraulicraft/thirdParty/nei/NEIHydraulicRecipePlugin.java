@@ -1,16 +1,22 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
+import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
+import k4unl.minecraft.Hydraulicraft.fluids.BlockBaseFluid;
+import k4unl.minecraft.Hydraulicraft.items.ItemBucketBase;
 import k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets.NEIWidgetTank;
 import k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets.WidgetBase;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +30,8 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
     public String getRecipeName() {
         return null;
     }
+
+    protected abstract CachedRecipe processRecipe(IFluidRecipe recipe);
 
     @Override
     public List<String> handleTooltip(GuiRecipe gui, List<String> currenttip, int recipe) {
@@ -75,6 +83,89 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean mouseClicked(GuiRecipe gui, int button, int recipe) {
+        boolean retval = ((NEIHydraulicRecipe) this.arecipes.get(recipe)).mouseClicked(gui, button, recipe);
+        if (retval)
+            return retval;
+
+        return super.mouseClicked(gui, button, recipe);
+    }
+
+    public void loadCraftingRecipes(FluidStack stack) {
+        for (IFluidRecipe recipe : getRecipeCollection()) {
+            if (recipe.getOutputFluids() != null)
+                for (FluidStack fluidStack : recipe.getOutputFluids()) {
+                    if (fluidStack.equals(stack))
+                        this.arecipes.add(processRecipe(recipe));
+                }
+        }
+    }
+
+    public void loadUsageRecipes(FluidStack stack) {
+        for (IFluidRecipe recipe : getRecipeCollection()) {
+            if (recipe.getInputFluids() != null)
+                for (FluidStack fluidStack : recipe.getInputFluids()) {
+                    if (fluidStack.equals(stack))
+                        this.arecipes.add(processRecipe(recipe));
+                }
+        }
+    }
+
+    @Override
+    public void loadCraftingRecipes(String outputId, Object... results) {
+        if (outputId.equals("fluid") && results.length >= 1 && results[0] instanceof FluidStack) {
+            loadCraftingRecipes((FluidStack) results[0]);
+        } else if (outputId.equals("item") && results.length >= 1 && results[0] instanceof ItemStack) {
+            ItemStack itemStack = (ItemStack) results[0];
+            if (itemStack.getItem() instanceof ItemBlock) {
+                FluidStack stack = tryLoadingItemBlock((ItemBlock) (itemStack.getItem()));
+                if (stack != null)
+                    loadCraftingRecipes(stack);
+            } else if (itemStack.getItem() instanceof ItemBucketBase) {
+                ItemBucketBase bucketBase = (ItemBucketBase) itemStack.getItem();
+                FluidStack stack = tryLoadingBlock(bucketBase.getFluidBlock());
+                if (stack != null)
+                    loadCraftingRecipes(stack);
+            }
+        }
+        super.loadCraftingRecipes(outputId, results);
+    }
+
+    private FluidStack tryLoadingItemBlock(ItemBlock itemBlock) {
+        return tryLoadingBlock(itemBlock.field_150939_a);
+    }
+
+    private FluidStack tryLoadingBlock(Block block) {
+        if (block instanceof BlockBaseFluid) {
+            BlockBaseFluid bbf = (BlockBaseFluid) block;
+            return new FluidStack(bbf.getFluid(), 0);
+        }
+
+        return null;
+    }
+
+    @Override
+    public void loadUsageRecipes(String inputId, Object... ingredients) {
+        if (inputId.equals("fluid") && ingredients.length >= 1 && ingredients[0] instanceof FluidStack) {
+            loadUsageRecipes((FluidStack) ingredients[0]);
+        } else if (inputId.equals("item") && ingredients.length >= 1 && ingredients[0] instanceof ItemStack) {
+            ItemStack itemStack = (ItemStack) ingredients[0];
+            if (itemStack.getItem() instanceof ItemBlock) {
+                FluidStack stack = tryLoadingItemBlock((ItemBlock) (itemStack.getItem()));
+                if (stack != null)
+                    loadUsageRecipes(stack);
+            } else if (itemStack.getItem() instanceof ItemBucketBase) {
+                ItemBucketBase bucketBase = (ItemBucketBase) itemStack.getItem();
+                FluidStack stack = tryLoadingBlock(bucketBase.getFluidBlock());
+                if (stack != null)
+                    loadUsageRecipes(stack);
+            }
+
+        }
+        super.loadUsageRecipes(inputId, ingredients);
     }
 
     @Override
@@ -163,6 +254,21 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
 
         public List<WidgetBase> getWidgets() {
             return widgets;
+        }
+
+        public boolean mouseClicked(GuiRecipe guiRecipe, int button, int recipe) {
+            Point mousepos = GuiDraw.getMousePosition();
+            Point offset = guiRecipe.getRecipePosition(recipe);
+            Point relMouse = new Point(mousepos.x - ((guiRecipe.width - 176) / 2) - offset.x, mousepos.y - ((guiRecipe.height - 166) / 2) - offset.y);
+
+            for (WidgetBase widgetBase : widgets) {
+                if (widgetBase.getBounds().contains(relMouse)) {
+                    boolean retval = widgetBase.clicked(button);
+                    if (retval)
+                        return retval;
+                }
+            }
+            return false;
         }
     }
 }

@@ -47,4 +47,8 @@ public abstract class WidgetBase {
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
     }
+
+    public boolean clicked(int button) {
+        return false;
+    }
 }

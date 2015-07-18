@@ -181,3 +181,15 @@ tile.portalTeleporter.name=Portal
 item.portalIPCard.name=Portal IP Card
 itemGroup.tabGOW=Glowing Octo Wallhack
 
+### WIKI
+hydcraft.wiki.entry.baseConcepts=Base Concepts
+hydcraft.wiki.entry.pressureNetwork=Pressure Network
+hydcraft.wiki.section.worldgen=Worldgen
+hydcraft.wiki.entry.oil=- Oil
+hydcraft.wiki.entry.minerals=- Minerals
+hydcraft.wiki.entry.ores=- Ores
+hydcraft.wiki.entry.crafting=Crafting
+hydcraft.wiki.section.multiblocks=Multiblocks
+hydcraft.wiki.entry.farms=- Farms
+hydcraft.wiki.entry.washer=- Washer
+hydcraft.wiki.entry.tanks=- Tanks

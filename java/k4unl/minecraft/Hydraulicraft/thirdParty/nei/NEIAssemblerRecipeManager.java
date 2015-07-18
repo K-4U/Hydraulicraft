@@ -27,16 +27,16 @@ public class NEIAssemblerRecipeManager extends NEIHydraulicRecipePlugin {
     @Override
     public CachedRecipe getShape(IFluidRecipe recipe) {
         if (recipe instanceof FluidShapedOreRecipe) {
-            return processAssemblerRecipe(recipe);
+            return processRecipe(recipe);
         } else if (recipe instanceof FluidShapelessOreRecipe) {
-            // TODO processAssemblerRecipe SHAPELESS
+            // TODO processRecipe SHAPELESS
         }
 
         return null;
     }
 
-
-    protected CachedRecipe processAssemblerRecipe(IFluidRecipe recipe) {
+    @Override
+    protected CachedRecipe processRecipe(IFluidRecipe recipe) {
         int width, height;
         try {
             width = ((Integer) ReflectionManager.getField(ShapedOreRecipe.class, Integer.class, recipe, 4)).intValue();

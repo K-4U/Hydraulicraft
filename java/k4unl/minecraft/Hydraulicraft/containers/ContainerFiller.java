@@ -1,0 +1,15 @@
+package k4unl.minecraft.Hydraulicraft.containers;
+
+import k4unl.minecraft.Hydraulicraft.slots.SlotFluidContainer;
+import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFiller;
+import net.minecraft.entity.player.InventoryPlayer;
+
+public class ContainerFiller extends ContainerBase {
+    public ContainerFiller(InventoryPlayer invPlayer, TileHydraulicFiller filler) {
+        super(filler);
+
+        addSlotToContainer(new SlotFluidContainer(filler, 0, 64, 34));
+
+        bindPlayerInventory(invPlayer);
+    }
+}
