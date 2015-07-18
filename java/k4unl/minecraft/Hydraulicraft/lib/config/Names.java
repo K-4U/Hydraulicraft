@@ -112,6 +112,7 @@ public class Names {
     public static final Name blockRefinedNadsiumBicarbinate = new Name("Refined Nadsium Bicarbinate", "refinedNadsiumBicarbinate");
     public static final Name oreBeachium                    = new Name("Beachium", "oreBeachium");
     public static final Name blockDirtyMineral              = new Name("Dirty Mineral", "blockDirtyMineral");
+    public static final Name oreFoxium                      = new Name("Foxium", "oreFoxium");
 
     public static final Name itemDivingHelmet = new Name("Diving Suit Helmet", "divingHelmet");
     public static final Name itemDivingChest  = new Name("Diving Suit Controller", "divingChest");

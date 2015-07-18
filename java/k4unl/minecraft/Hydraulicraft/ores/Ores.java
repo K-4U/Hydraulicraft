@@ -10,6 +10,7 @@ public class Ores {
 	public static Block oreLonezium;
     public static Block oreNadsiumBicarbinate;
     public static Block oreBeachium;
+	public static Block oreFoxium;
 	
 	/*!
 	 * @author Koen Beckers
@@ -22,7 +23,8 @@ public class Ores {
 		oreLonezium = new OreLonezium();
         oreNadsiumBicarbinate = new OreNadsiumBicarbinate();
         oreBeachium = new OreBeachium();
-		
+		oreFoxium = new OreFoxium();
+
 		registerOres();
 	}
 	
@@ -39,6 +41,7 @@ public class Ores {
 		oreLonezium = OreDictionaryHelper.registerBlock(oreLonezium, Names.oreLonezium.unlocalized);
 		oreNadsiumBicarbinate = OreDictionaryHelper.registerBlock(oreNadsiumBicarbinate, Names.oreNadsiumBicarbinate.unlocalized);
 		oreBeachium = OreDictionaryHelper.registerBlock(oreBeachium, Names.oreBeachium.unlocalized);
+		oreFoxium = OreDictionaryHelper.registerBlock(oreFoxium, Names.oreFoxium.unlocalized);
 	}
 }
 
