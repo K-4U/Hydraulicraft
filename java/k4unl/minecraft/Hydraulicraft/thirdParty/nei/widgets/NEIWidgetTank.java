@@ -42,16 +42,16 @@ public class NEIWidgetTank extends WidgetBase {
         this(new FluidTank(fluidStack, fluidStack.amount), x, y, width, height);
     }
 
-    public void updateAmount(int newAmount) {
-        if (tank.getFluid() == null)
-            return;
-
-        tank.getFluid().amount = newAmount;
+    public void updateAmount(FluidStack newAmount) {
+        tank.setFluid(newAmount);
     }
 
     public void render(FluidTankInfo info) {
-        if (info != null && info.fluid != null)
-            updateAmount(info.fluid.amount);
+        if (info != null && info.fluid != null) {
+            updateAmount(info.fluid);
+        } else if (info.fluid == null) {
+            tank.setFluid(null);
+        }
 
         render();
     }
