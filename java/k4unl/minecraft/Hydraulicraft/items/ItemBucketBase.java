@@ -9,8 +9,11 @@ import net.minecraft.item.ItemBucket;
 
 public class ItemBucketBase extends ItemBucket {
 
+    private Block fluidBlock;
+
     public ItemBucketBase(Block fluidBlock, Name itemName) {
         super(fluidBlock);
+        this.fluidBlock = fluidBlock;
 
         setUnlocalizedName(itemName.unlocalized);
         setTextureName(ModInfo.LID + ":" + itemName.unlocalized);
@@ -18,5 +21,9 @@ public class ItemBucketBase extends ItemBucket {
         setContainerItem((Item) Item.itemRegistry.getObject("bucket"));
 
         setCreativeTab(CustomTabs.tabHydraulicraft);
+    }
+
+    public Block getFluidBlock() {
+        return fluidBlock;
     }
 }

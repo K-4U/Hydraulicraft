@@ -96,6 +96,11 @@ public class NEIWasherRecipeManager extends NEIHydraulicRecipePlugin {
 
     @Override
     public CachedRecipe getShape(IFluidRecipe recipe) {
+        return processRecipe(recipe);
+    }
+
+    @Override
+    protected CachedRecipe processRecipe(IFluidRecipe recipe) {
         NEIHydraulicRecipe nei = new NEIHydraulicRecipe();
         nei.addInput(new PositionedStack(recipe.getInputItems()[0], 52, 6));
         nei.addOutput(new PositionedStack(recipe.getRecipeOutput(), 101, 46));

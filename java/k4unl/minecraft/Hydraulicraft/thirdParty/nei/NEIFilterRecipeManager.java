@@ -23,14 +23,14 @@ public class NEIFilterRecipeManager extends NEIHydraulicRecipePlugin {
         if (recipe instanceof FluidShapedOreRecipe) {
             // TODO Filter shaped recipes?
         } else if (recipe instanceof FluidShapelessOreRecipe) {
-            return processFilterRecipe(recipe);
+            return processRecipe(recipe);
         }
 
         return null;
     }
 
-
-    protected CachedRecipe processFilterRecipe(IFluidRecipe recipe) {
+    @Override
+    protected CachedRecipe processRecipe(IFluidRecipe recipe) {
         NEIHydraulicRecipe nei = new NEIHydraulicRecipe();
 
         nei.addInput(recipe.getInputFluids().get(0), 33, 60, 16, 54);

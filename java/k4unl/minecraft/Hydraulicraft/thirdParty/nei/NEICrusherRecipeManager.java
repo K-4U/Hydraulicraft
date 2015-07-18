@@ -65,17 +65,18 @@ public class NEICrusherRecipeManager extends NEIHydraulicRecipePlugin {
     @Override
     public CachedRecipe getShape(IFluidRecipe recipe) {
         if (recipe instanceof FluidShapedOreRecipe) {
-            // TODO processCrusherRecipe SHAPED
+            // TODO processRecipe SHAPED
         } else if (recipe instanceof FluidShapelessOreRecipe) {
-            return processCrusherRecipe((FluidShapelessOreRecipe) recipe);
+            return processRecipe((FluidShapelessOreRecipe) recipe);
         }
 
         return null;
     }
 
-    private CachedRecipe processCrusherRecipe(FluidShapelessOreRecipe recipe) {
+    @Override
+    protected CachedRecipe processRecipe(IFluidRecipe recipe) {
         NEIHydraulicRecipe nei = new NEIHydraulicRecipe();
-        nei.addInput(new PositionedStack(recipe.getInput().get(0), 42, 24));
+        nei.addInput(new PositionedStack(recipe.getInputItems()[0], 42, 24));
         nei.addOutput(new PositionedStack(recipe.getRecipeOutput(), 116, 24));
 
         return nei;
