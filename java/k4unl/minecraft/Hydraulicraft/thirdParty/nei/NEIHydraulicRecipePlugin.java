@@ -6,8 +6,12 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
+import k4unl.minecraft.Hydraulicraft.fluids.BlockBaseFluid;
+import k4unl.minecraft.Hydraulicraft.items.ItemBucketBase;
 import k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets.NEIWidgetTank;
 import k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets.WidgetBase;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -114,14 +118,52 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
     public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals("fluid") && results.length >= 1 && results[0] instanceof FluidStack) {
             loadCraftingRecipes((FluidStack) results[0]);
+        } else if (outputId.equals("item") && results.length >= 1 && results[0] instanceof ItemStack) {
+            ItemStack itemStack = (ItemStack) results[0];
+            if (itemStack.getItem() instanceof ItemBlock) {
+                FluidStack stack = tryLoadingItemBlock((ItemBlock) (itemStack.getItem()));
+                if (stack != null)
+                    loadCraftingRecipes(stack);
+            } else if (itemStack.getItem() instanceof ItemBucketBase) {
+                ItemBucketBase bucketBase = (ItemBucketBase) itemStack.getItem();
+                FluidStack stack = tryLoadingBlock(bucketBase.getFluidBlock());
+                if (stack != null)
+                    loadCraftingRecipes(stack);
+            }
         }
         super.loadCraftingRecipes(outputId, results);
+    }
+
+    private FluidStack tryLoadingItemBlock(ItemBlock itemBlock) {
+        return tryLoadingBlock(itemBlock.field_150939_a);
+    }
+
+    private FluidStack tryLoadingBlock(Block block) {
+        if (block instanceof BlockBaseFluid) {
+            BlockBaseFluid bbf = (BlockBaseFluid) block;
+            return new FluidStack(bbf.getFluid(), 0);
+        }
+
+        return null;
     }
 
     @Override
     public void loadUsageRecipes(String inputId, Object... ingredients) {
         if (inputId.equals("fluid") && ingredients.length >= 1 && ingredients[0] instanceof FluidStack) {
             loadUsageRecipes((FluidStack) ingredients[0]);
+        } else if (inputId.equals("item") && ingredients.length >= 1 && ingredients[0] instanceof ItemStack) {
+            ItemStack itemStack = (ItemStack) ingredients[0];
+            if (itemStack.getItem() instanceof ItemBlock) {
+                FluidStack stack = tryLoadingItemBlock((ItemBlock) (itemStack.getItem()));
+                if (stack != null)
+                    loadUsageRecipes(stack);
+            } else if (itemStack.getItem() instanceof ItemBucketBase) {
+                ItemBucketBase bucketBase = (ItemBucketBase) itemStack.getItem();
+                FluidStack stack = tryLoadingBlock(bucketBase.getFluidBlock());
+                if (stack != null)
+                    loadUsageRecipes(stack);
+            }
+
         }
         super.loadUsageRecipes(inputId, ingredients);
     }
