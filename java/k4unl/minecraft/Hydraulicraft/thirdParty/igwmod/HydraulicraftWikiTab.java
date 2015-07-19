@@ -26,6 +26,10 @@ public class HydraulicraftWikiTab extends BaseWikiTab {
         pageEntries.add("ores");
         skipLine();
         pageEntries.add("crafting");
+        addSectionHeader("multiblocks");
+        pageEntries.add("farms");
+        pageEntries.add("washer");
+        pageEntries.add("tanks");
 
 
         Log.info("IGW support for Hydraulicraft Loaded");

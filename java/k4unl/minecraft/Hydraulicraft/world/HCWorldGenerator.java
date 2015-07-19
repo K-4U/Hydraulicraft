@@ -42,18 +42,33 @@ public class HCWorldGenerator implements IWorldGenerator {
 	}
 	
 	private void generateNether(World world, Random random, int chunkX, int chunkZ){
-		//Do nothing here, we don't want ores in the nether!
+        if(HCConfig.INSTANCE.getBool("shouldGenFoxium", "worldgen")){
+            generateOre(Ores.oreFoxium, world, HCConfig.INSTANCE.getInt("foxiumVeinSize", "worldgen"), HCConfig.INSTANCE.getInt
+                    ("foxiumVeinCount", "worldgen"), HCConfig.INSTANCE.getInt("foxiumMinY", "worldgen"), HCConfig.INSTANCE.getInt("foxiumMaxY", "worldgen"), random, chunkX, chunkZ, Blocks.netherrack);
+        }
 	}
 	
 	private void generateOre(Block ore, World world, int veinSize, int veinCount, int minY, int maxY, Random random, int chunkX, int chunkZ){
+        WorldGenMinable worldGenMinable = new WorldGenMinable(ore, veinSize);
 		for(int i = 0; i < veinCount; i++){
 			int firstBlockXCoord = chunkX + random.nextInt(16);
 			int firstBlockYCoord = minY + random.nextInt(maxY - minY); // From +18 to 70
 			int firstBlockZCoord = chunkZ + random.nextInt(16);
 			
-			(new WorldGenMinable(ore, veinSize)).generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
+			worldGenMinable.generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
 		}
 	}
+
+    private void generateOre(Block ore, World world, int veinSize, int veinCount, int minY, int maxY, Random random, int chunkX, int chunkZ, Block toReplace){
+        WorldGenMinable worldGenMinable = new WorldGenMinable(ore, veinSize, toReplace);
+        for(int i = 0; i < veinCount; i++){
+            int firstBlockXCoord = chunkX + random.nextInt(16);
+            int firstBlockYCoord = minY + random.nextInt(maxY - minY); // From +18 to 70
+            int firstBlockZCoord = chunkZ + random.nextInt(16);
+
+            worldGenMinable.generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
+        }
+    }
 
     public static void generateBeachium(World world, Random random, int x, int z) {
         //Check biome

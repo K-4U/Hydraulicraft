@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
@@ -10,16 +9,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.*;
 
 public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandler,
 		IInventory, IHydraulicGenerator {
 	private ItemStack itemInventory;
-	private FluidTank tank = new FluidTank(2000);
+	private FluidTank tank = new FluidTank(20000);
 
 	public TileInfiniteSource(){
 		super(1);

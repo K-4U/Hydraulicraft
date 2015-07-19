@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.world;
 
 
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import net.minecraft.world.World;
 
@@ -17,7 +16,7 @@ public class WorldGenOil {
             minY = 1;
         }
         //int worldHeight = getTopGroundBlock(world, middleX, middleZ);
-        Log.info(middleX + " " + middleZ + " WH: " + worldHeight);
+        //Log.info(middleX + " " + middleZ + " WH: " + worldHeight);
         int radius = rand.nextInt(6) + 2;
         int middleY = minY + (rand.nextInt(maxY - minY));
         maxY = middleY + radius;
