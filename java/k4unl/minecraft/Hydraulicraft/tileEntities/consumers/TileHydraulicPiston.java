@@ -1,9 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileHydraulicPiston extends TileHydraulicBase implements IHydraulicConsumer {
+public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
     private float oldExtendedLength;
     private float extendedLength;
     private float   maxLength       = 4F;
@@ -25,9 +23,7 @@ public class TileHydraulicPiston extends TileHydraulicBase implements IHydraulic
     private ForgeDirection facing = ForgeDirection.NORTH;
 
     public TileHydraulicPiston() {
-
-        super(5);
-        super.init(this);
+		super();
     }
 
     public float getExtendTarget() {
@@ -114,9 +110,7 @@ public class TileHydraulicPiston extends TileHydraulicBase implements IHydraulic
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
-	
-	
-	@Override
+    //Called from harvester
 	public float workFunction(boolean simulate, ForgeDirection from) {
 		oldExtendedLength = extendedLength;
 		
@@ -138,17 +132,6 @@ public class TileHydraulicPiston extends TileHydraulicBase implements IHydraulic
 		}
 		return 0;
 	}
-	
-/*
-	@Override
-	public IBaseClass getHandler() {
-		if(harvesterPart && getHarvester() != null){
-			if(baseHandler == null) baseHandler = getHarvester().getHandler();
-		}else{
-			if(baseHandler == null) baseHandler = HydraulicBaseClassSupplier.getBaseClass(this);
-		}
-        return baseHandler;
-	}*/
 
 	public TileHydraulicHarvester getHarvester(){
 		if(harvesterPart){
@@ -164,9 +147,7 @@ public class TileHydraulicPiston extends TileHydraulicBase implements IHydraulic
 	
 	@Override
 	public void updateEntity() {
-		if(!harvesterPart){
-			//getHandler().updateEntity();
-		}
+
 	}
 	
 	@Override
@@ -191,24 +172,6 @@ public class TileHydraulicPiston extends TileHydraulicBase implements IHydraulic
         
         return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
     }
-	
-	@Override
-	public void validate(){
-		super.validate();
-	}
-
-	@Override
-	public void onFluidLevelChanged(int old) { }
-	
-	@Override
-	public boolean canConnectTo(ForgeDirection side) {
-		return true;
-	}
-
-	@Override
-	public boolean canWork(ForgeDirection dir) {
-		return dir.equals(ForgeDirection.UP);
-	}
 	
 	public float getOldExtendedLength(){
 	    return oldExtendedLength;
