@@ -1,3 +1,12 @@
-[prefix{l}]Oil [prefix{}]
-Here we'll put a nice screenshot of a small oil spout.
+[comment{James 7-17 lets get started!}]
+During Worldgen Hydraulicraft generates 2 Ore's and 1 fluid. These are fully configurable in the .cfg file. It's commented and fairly self explanitory.
+
+[prefix{l}]Oil [prefix{}] will be found on the surface, look for an Oil Spout!
+
+[comment{Remember to fix x,y}]
+[prefix{n}]Oil{200,10,hydcraft:wiki/oil.png} [prefix{}]
+
+
+
+[prefix{1}]Ores [{prefix}]The 2 Ore's (by default) will generate between level 30 and level 90.
 Also talk about where it spawns.

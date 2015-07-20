@@ -9,7 +9,7 @@
 
 
 
-The medium pressure vat is like the controller for the system. Eventhough you CAN have a system without one, you still need this machine to pump fluid (either Water or Hydraulic Oil) in the system.
+The medium pressure vat is like the controller for the system. Even though you CAN have a system without one, you still need this machine to pump fluid (either Water or Hydraulic Oil) in the system.
 
 When broken it will retain its pressure and fluid level. But when placed down, you need to realize that it needs to equalize the pressure over the entire network!
 This machine will output a redstone signal depending on how full it is.
