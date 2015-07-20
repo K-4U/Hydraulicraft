@@ -1,20 +1,18 @@
 [comment{General talk here about how to setup a basic network.
-James 1-19 added Hydraulic's explanation, mostly coppied form widipedia, don't know if that's ok, will find out, also using MineMaarten's examples in pnumaticcraft}]
+James 1-19 added Hydraulic's explanation, mostly copied form wikipedia, don't know if that's ok, will find out, also using MineMaarten's examples in pnumaticcraft}]
 
-Hydraulics is a topic of applied science and engineering dealing with the mechanical properties of liquids or fluids. At a very basic level it is a liquid version of pneumatics. Fluid mechanics provides the foundation for hydraulics, fluids can not be compressed so they are very good at transferring pressure. Hydraulics can be used for the generation, control and transmission of power through the use of pressurized liquids. Units of measure for HydrauliCraft are mB (milliBuckets) and Bar. You should be familiar with mB's 1000mB = 1 Bucket, and Bar is a measurement of pressure. So for example the air pressure at sea level is equal to about 1 bar, which is equal to about 14 pounds per square inch.
+[prefix{l}Basics [prefix{}]
+In HydrauliCraft you will need the following to get started, Iron, Copper, Lead, and Paper. These raw materials will start you on a journey through Hydraulics. You'll start with a basic network of machines that can be used to generate power, crush ore's (doubling them), and smelt them. HydrauliCraft has 3 tiers that increase efficency as you progress. This will all be explained later.
 
-Here is an example of a basic entry level network, a low pressure reservoir on the left, a low pressure pump in the center, and in this case an induction incinerator to the right. And of course some pipes to connect them all together.
-The Reservoir is for storing and inputting your fluid's into the network. The Pump to provide pressure to the network. And a machine to put your fluid and pressure to work, in this example an Induction Incinerator to smelt Ore.
-There are 3 tier's in Hydraulicraft, LP is Low Pressure, MP is Medium Pressure, and HP is High Pressure. Note! Trying to put more pressure into anything that isn't rated for it is a very bad idea, it will result in an explosion! So be careful! For Example putting a medium pressure through a low pressure pipe will burst the pipe, and if it's a machine the machine will explode. It may not happen instantly, however when the pressure in the system reaches the limit of the pipe/machine it will burst, resulting in the loss of the item and it's contents.
-
-[comment{Remember to fix x,y,putting "r" I think is a ratio, from example in pnumaticcraft}]
-[image{x,y,r,hydcraft:textures/basicnetwork.pgn}]
+[prefix{l}Hydraulic Concepts [prefix{}]
+[image{100,20,0.25,wiki.en_US/logo.png}]
+Hydraulics is a topic of applied science and engineering dealing with the mechanical properties of liquids or fluids. At a very basic level it is a liquid version of pneumatics. Fluid mechanics provides the foundation for hydraulics, fluids can not be compressed so they are very good at transferring pressure or [prefix{0}]power [prefix{}]. Hydraulics can be used for the generation, control and transmission of [prefix{o}]power [prefix{}]through the use of pressurized liquids. Units of measure for HydrauliCraft are mB (milliBuckets) and Bar. You should be familiar with mB's 1000mB = 1 Bucket, and Bar is a measurement of pressure. So for example, the air pressure at sea level is equal to about 1 Bar, which is equal to roughly 14 pounds per square inch.
 
 [comment{Tell people about the WorldGen maybe in a separate menu item}]
-[link{hydcraft:menu/worldgen}]WorldGen [link{}]
+[link{hydcraft:menu/worldgen}]WorldGen [link{}]Info here.
 
 [comment{And links to how the assembler and filter work.
-James 1-19 added links and brief explaition}]
+James 1-19 added links and brief explaition, I would like ot add images of the machines, need to find out were they are...}]
 You will need the following machines to build the higher tier machines.
 [link{hydcraft:block/hydFilter}]Hydraulic Filter [link{}]
-[link{hydcraft:block/hydAssembler}]Hydraulic Assembler[link{}]
+[link{hydcraft:block/hydAssembler}]Hydraulic Assembler [link{}]

@@ -1,2 +1,3 @@
 [prefix{l}]Ores [prefix{}]
-This'll be a page of the two ores that Hydraulicraft adds.
+[comment{This'll be a page of the two ores that Hydraulicraft adds.}]
+The 2 ores added by HydrauliCraft are Copper [image{200,10,hydcraft:textures/copper.png}] and Lead. [image{220,10,hydcraft:textures/lead.png}]

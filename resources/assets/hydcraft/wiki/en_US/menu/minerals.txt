@@ -10,10 +10,14 @@ Scour the beaches for this mineral, you'll need it to filter the crude oil into 
 [prefix{l}]Lonezium [prefix{}]
 [comment{TODO: Add screenshot of lonezium in it's natural habitat.
 James 7-18 added link to png}]
-[prefix{n}] Lonezium {400,20,hydcraft:wiki/lonezium.png} [prefix{}]
+[prefix{n}] Lonezium {400,10,hydcraft:wiki/lonezium.png} [prefix{}]
 Lonezium can be found underground and will, when refined, filter the crude oil into [link{hydcraft:menu/diving}]Perfluoro fluid[link{}]
 
 [prefix{l}]Nadsium Bicarbinate[prefix{}]
 [commment{TODO: Add screenshot of Nadsium Bicarbinate in it's natural habitat.
 James 7-18 added link to png}]
 Found on the bottom of the oceans, Nadsium Bicarbinate, when refined, will filter crude oil into [link{hydcraft:menu/crafting}]Lubricant [link{}]
+
+[comment{TODO: Add screen shot of foxium and find out what it's for}]
+[prefix{l}]Foxium [prefix{}]
+Found in the Nether, Foxium, when refined, will filter crude oil into [link{hydcraft:menu/crafting}]more info needed [link{}]
