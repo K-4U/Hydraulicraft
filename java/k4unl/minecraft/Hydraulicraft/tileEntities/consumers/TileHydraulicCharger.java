@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IPressurizableItem;
+import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.k4lib.lib.SimpleInventory;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,10 +10,13 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 public class TileHydraulicCharger extends TileHydraulicBase implements IInventory, IHydraulicConsumer {
     public static final float MAX_PRESSURE_PER_TICK = 200f;
     public static final float TOLERANCE             = 1f;
+    public static final float MAX_FLUID_PER_TICK    = 2f;
 
     SimpleInventory inventory;
 
@@ -67,6 +71,27 @@ public class TileHydraulicCharger extends TileHydraulicBase implements IInventor
                 inventory.setInventorySlotContents(0, null);
                 worldObj.createExplosion(null, xCoord, yCoord, zCoord, 2, false);
             }
+
+            FluidStack currentFluid = pressurizableItem.getFluid(itemStack);
+            float maxFluid = pressurizableItem.getMaxFluid();
+
+            if (currentFluid == null) {
+                if (getStored() > 0) {
+                    float toAdd = Math.min(Math.min(maxFluid, MAX_FLUID_PER_TICK), getStored());
+                    FluidStack toFill = new FluidStack(isOilStored() ? Fluids.fluidHydraulicOil : FluidRegistry.WATER, (int) toAdd);
+                    pressurizableItem.setFluid(itemStack, toFill);
+                    setStored((int) (getStored() - toAdd), isOilStored(), true);
+                }
+            } else if (currentFluid.amount < maxFluid && getStored() > 0) {
+                if ((isOilStored() && currentFluid.getFluid().equals(Fluids.fluidHydraulicOil)) || (!isOilStored() && currentFluid.getFluid().equals(FluidRegistry.WATER))) {
+                    float toAdd = Math.min(Math.min(maxFluid - currentFluid.amount, MAX_FLUID_PER_TICK), getStored());
+                    currentFluid.amount += toAdd;
+                    pressurizableItem.setFluid(itemStack, currentFluid);
+                    setStored((int) (getStored() - toAdd), isOilStored(), true);
+                }
+            }
+
+            //if(currentFluid.amount < maxFluid && currentFluid.getFluid().equals())
         }
 
         return 0.5f;
