@@ -3,9 +3,7 @@ package k4unl.minecraft.Hydraulicraft.items.divingSuit;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.client.models.ModelDivingSuit;
-import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
-import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.client.model.ModelBiped;
@@ -15,9 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 
 public class ItemDivingSuit extends ItemArmor {
 
@@ -38,23 +34,7 @@ public class ItemDivingSuit extends ItemArmor {
         setCreativeTab(CustomTabs.tabHydraulicraft);
     }
 
-    @Override
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        super.onArmorTick(world, player, itemStack);
-        //Log.info("Tick");
-        NBTTagCompound entityData = player.getEntityData();
-        if(entityData.getBoolean("isWearingFullScubaSuit")) {
-            //Do 10 damage
-            if(HCConfig.INSTANCE.getBool("doScubaDamage")) {
-                if (itemStack.getItem() == HCItems.itemDivingHelmet) {
-                    doDamage(player);
-                }
-            }
-            //TODO: Check if there's still enough oxygen in the fluid.
-            player.setAir(300);
-            player.addPotionEffect(new PotionEffect(16,100));
-        }
-    }
+
 
     public static void checkArmour(EntityPlayer player){
         NBTTagCompound entityData = player.getEntityData();
@@ -72,12 +52,13 @@ public class ItemDivingSuit extends ItemArmor {
                 entityData.setInteger("damageDone", 0);
                 //Person was NOT wearing one before
             }else{
+                //TODO: Check if the helmet was filled.
                 doDamage(player);
             }
         }
     }
 
-    private static void doDamage(EntityPlayer player){
+    protected static void doDamage(EntityPlayer player){
         NBTTagCompound entityData = player.getEntityData();
         if (entityData.getInteger("damageDone") < 100) {
             player.attackEntityFrom(DamageSource.drown, 1.0F);
