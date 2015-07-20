@@ -8,8 +8,9 @@ public class ContainerCharger extends ContainerBase {
     public ContainerCharger(InventoryPlayer invPlayer, TileHydraulicCharger charger) {
         super(charger);
 
-        addSlotToContainer(new SlotPressure(charger, 0, 64, 34));
+        addSlotToContainer(new SlotPressure(charger, 0, 32, 16));
 
         bindPlayerInventory(invPlayer);
+        bindPlayerArmorSlots(invPlayer, 44, 56);
     }
 }
