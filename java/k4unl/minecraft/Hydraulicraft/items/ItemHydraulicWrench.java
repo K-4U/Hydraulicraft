@@ -4,9 +4,12 @@ import buildcraft.api.tools.IToolWrench;
 import cpw.mods.fml.common.Optional;
 import k4unl.minecraft.Hydraulicraft.api.IPressurizableItem;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -56,6 +59,32 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
     @Override
     public int getItemStackLimit(ItemStack stack) {
         return 1;
+    }
+
+    @Override
+    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+        Block block = world.getBlock(x, y, z);
+        if (block == null)
+            return false;
+
+        if (player.isSneaking())
+            return false;
+
+        if (!canWrench(player, x, y, z))
+            return false;
+
+        if (block.rotateBlock(world, x, y, z, ForgeDirection.getOrientation(side))) {
+            player.swingItem();
+            wrenchUsed(player, x, y, z);
+            return !world.isRemote;
+        }
+
+        return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+    }
+
+    @Override
+    public boolean doesSneakBypassUse(World world, int x, int y, int z, EntityPlayer player) {
+        return true;
     }
 
     private float fetchPressure(ItemStack container) {
