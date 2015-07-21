@@ -1,9 +1,11 @@
 [comment{James 7-17 lets get started! Remember to fix x,y,s after I see them in pages}]
-[prefix{l}]Oil [prefix{}] will be found on the surface, look for an Oil Spout!
-[image{200,10,hydcraft:textures/oil.png}]
+[prefix{l}]Oil [prefix{}] can be found on the surface, look for an Oil Spout!
+[image{200,10,0.05,hydcraft:textures/oil.png}]
 Crude Oil is used to create the other fluids needed in HydrauliCraft, they are Hydraulic Oil, Lubricant, Fluoro Carbon Fluid, and foxium/fluid...
 This is achived by use of the [link{hydcraft:block/hydFilter}]Hydraulic Filter[link{}]
 Hydraulic Oil is used to run your network and is better than water, as it won't leak, and therefore can run at much higher pressures.
 Lubricant is used in the [link{hydcraft:block/hydAssembler}]Hydraulic Assembler [link{}]
-Fluoro Carbon Fluid is used to ???
+Perfluorocarbon Fluid is a breathable liquid (yes, it's a real thing!)used to help you breath at extreme depths of the
+ocean. 8 buckets of the fluid in the [link{hydcraft:menu/diving}]Diving Suit [link{}] will allow you to breath under
+water for about 6 minutes.
 Foxium/fluid is used for ???

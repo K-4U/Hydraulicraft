@@ -9,13 +9,20 @@
 
 
 
-The high pressure vat is like the controller for the system. Eventhough you CAN have a system without one, you still need this machine to pump fluid (either Water or Hydraulic Oil) in the system.
+The high pressure reservoir is like a controller for the system. Even though you CAN have a system without one, you still need this machine to pump fluid (either Water or Hydraulic Oil) into the system.
 
-When broken it will retain its pressure and fluid level. But when placed down, you need to realize that it needs to equalize the pressure over the entire network!
-This machine will output a redstone signal depending on how full it is.
+When broken it will retain its pressure and fluid level.
+[comment{James 1-20 This is now covered in the pressurenetwork page not sure if it should be covered here as well
+But when placed down, you need to realize that it needs to equalize the pressure over the entire network!}]
 
-When using Hydraulic Oil, the network will not lose any fluid. However, when you're still on water, you might need to think about giving it a steady supply of water.
-Also. You cannot compress water that much. So the maximum pressure of a water based network lies lower than one powered by Oil.
+[comment{James 1-20 In my test world it changes based on pressure, not volume}]
+This machine will output a redstone signal depending on how much pressure there is.
 
-[prefix{l}]Max pressure:    [prefix{4l}]high
+[comment{James 1-20 This is now mentioned on the baseconcepts briefly and in pressurenetwork pages
+When using Hydraulic Oil, the network will not lose any fluid.
+However, when you're still on water, you might need to think about giving it a steady supply of water.
+Also. You cannot compress water that much. So the maximum pressure of a water based network lies lower than one
+powered by Oil.}]
+
+[prefix{l}]Max pressure:    [prefix{4l}]High
 

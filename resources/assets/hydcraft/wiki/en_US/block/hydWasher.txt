@@ -1,0 +1,12 @@
+[comment{James 7-20 Added, explain how to build it and what it does, maybe show recipes or images and list the
+recipes{]
+
+The Washer is a multi-block machine used to refine [link{hydcraft:menu/minerals]}Minerals [link{}] so they can be
+used as filter media. It is also used to process ore chunks into dusts thus increasing ore yields. The maximum pressure
+ it can use is based on the core used when building the structure.So you can start with a low pressure core, and
+ then just upgrade the core to a higher tier to run at higher pressures. You will need the following blocks to build a
+Washer. 1 Interface Valve, 1 Hydraulic Block Valve, 1 Washer, 1 Core (low, medium, or high) and 23 Pressure Walls.
+The structure is a 3x3x3, and the bottom layer consists of a 3x3 with the Valve Interface block on an edge, and the
+Hydraulic Block Valve on an edge, the rest of the layer is Pressure Walls. The second layer is a Core in the center,
+and the Washer on an edge, the balance is Pressure Walls, The top row is all Pressure Walls. If you have done it
+properly a multi-block structure will form and you can open the UI by right clicking on the washer block.

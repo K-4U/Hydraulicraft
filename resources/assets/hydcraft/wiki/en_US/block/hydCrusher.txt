@@ -1,0 +1,8 @@
+[comment{James 7-20 Added, explain the crusher and add pictures find out if I need to add crafting tags}]
+
+
+
+
+The Crusher is the machine used to double your ore's by crushing them into ore chunks.
+
+[prefix{l}]Max pressure:    [prefix{el}]Medium [prefix{}]

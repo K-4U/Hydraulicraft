@@ -2,11 +2,18 @@
 James 1-19 added Hydraulic's explanation, mostly copied form wikipedia, don't know if that's ok, will find out, also using MineMaarten's examples in pnumaticcraft}]
 
 [prefix{l}Basics [prefix{}]
-In HydrauliCraft you will need the following to get started, Iron, Copper, Lead, and Paper. These raw materials will start you on a journey through Hydraulics. You'll start with a basic network of machines that can be used to generate power, crush ore's (doubling them), and smelt them. HydrauliCraft has 3 tiers that increase efficency as you progress. This will all be explained later.
+In HydrauliCraft you will need the following to get started, Iron, Copper, Lead, and Paper. These raw materials will start you on a journey through Hydraulics. You'll start with a basic network of machines that can be used to generate power, crush ore's (doubling them), and smelt them. HydrauliCraft has 3 tiers that increase efficiency as you progress. This will all be explained later. Most all
+ of the machines in HydrauliCraft are used to create the higher tier of the same machine. For example, a Low Pressure Pump is required
+to create a Medium Pressure Pump, so you don't have to worry about having machines that have no use when you start
+upgrading your network.
 
 [prefix{l}Hydraulic Concepts [prefix{}]
 [image{100,20,0.25,wiki.en_US/logo.png}]
-Hydraulics is a topic of applied science and engineering dealing with the mechanical properties of liquids or fluids. At a very basic level it is a liquid version of pneumatics. Fluid mechanics provides the foundation for hydraulics, fluids can not be compressed so they are very good at transferring pressure or [prefix{0}]power [prefix{}]. Hydraulics can be used for the generation, control and transmission of [prefix{o}]power [prefix{}]through the use of pressurized liquids. Units of measure for HydrauliCraft are mB (milliBuckets) and Bar. You should be familiar with mB's 1000mB = 1 Bucket, and Bar is a measurement of pressure. So for example, the air pressure at sea level is equal to about 1 Bar, which is equal to roughly 14 pounds per square inch.
+Hydraulics is a topic of applied science and engineering dealing with the mechanical properties of liquids or fluids. At a very basic level it is a liquid version of pneumatics. Fluid mechanics provides the foundation for hydraulics, fluids can not be compressed so they are very good at transferring pressure or [prefix{o}]power [prefix{}]. Hydraulics can be used for the generation, control and transmission of [prefix{o}]power [prefix{}]through the use of pressurized liquids. Units of measure for HydrauliCraft are mB (milliBuckets) and Bar. You should be familiar with mB's 1000mB = 1 Bucket, and Bar is a measurement of pressure. So for example, the air pressure at sea level is equal to about 1 Bar, which is equal to roughly 14 pounds per square inch. Fluid [prefix{o}viscosity [prefix{}] (how "thick" a fluid is) plays a part
+ as well. Thin fluids like water are harder to seal and tend to "squeeze" between surfaces especial when it's under
+ pressure thus it tends to leak out of a system. Were as Hydraulic Oil is much thicker and won't leak like the thinner
+ fluids so it's easier to seal when it's under pressure. Making it possible to get much higher pressures without
+ fluid loss.
 
 [comment{Tell people about the WorldGen maybe in a separate menu item}]
 [link{hydcraft:menu/worldgen}]WorldGen [link{}]Info here.
