@@ -91,6 +91,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void addInformation(ItemStack itemStack, EntityPlayer player, List lines, boolean noIdea) {
         super.addInformation(itemStack, player, lines, noIdea);
         FluidStack stack = fetchFluidOrCreate(itemStack);
@@ -103,16 +104,16 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
         super.onArmorTick(world, player, itemStack);
         //Log.info("Tick");
         NBTTagCompound entityData = player.getEntityData();
-        if(entityData.getBoolean("isWearingFullScubaSuit")) {
+        if (entityData.getBoolean("isWearingFullScubaSuit")) {
             //Do 10 damage
-            if(HCConfig.INSTANCE.getBool("doScubaDamage")) {
+            if (HCConfig.INSTANCE.getBool("doScubaDamage")) {
                 FluidStack fluidStack = fetchFluidOrCreate(itemStack);
-                if(fluidStack.amount > 0) {
+                if (fluidStack.amount > 0) {
                     doDamage(player);
                 }
             }
 
-            if(world.getTotalWorldTime() % 10 == 0) {
+            if (world.getTotalWorldTime() % 10 == 0) {
                 FluidStack fluidStack = fetchFluidOrCreate(itemStack);
                 //Drain 1 millibucket every tick?
                 int drained = drain(itemStack, 10, false).amount;
@@ -120,9 +121,9 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
                     drain(itemStack, drained, true);
                 }
                 float percentage = ((float) fluidStack.amount) / ((float) TANK_CAPACITY);
-                if(percentage >= 0.0F){
+                if (percentage >= 0.0F) {
                     //TODO: Kill the player, really quick
-                }else {
+                } else {
                     player.setAir((int) (300F * percentage));
                     player.addPotionEffect(new PotionEffect(16, 10));
                 }

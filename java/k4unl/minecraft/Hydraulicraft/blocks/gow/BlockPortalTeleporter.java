@@ -63,54 +63,54 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
                 }
                 if (teleporter.getPortalDir().equals(ForgeDirection.UP)) {
                     vector.setYMin(0.0F);
-					vector.setYMax(1.0F);
-				}
-				if(teleporter.getBaseDir().equals(ForgeDirection.EAST) || teleporter.getPortalDir().equals(ForgeDirection.EAST)){
-					vector.setXMin(0.0F);
-					vector.setXMax(1.0F);
-				}
-			}
-			
-			this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
-		}
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void addCollisionBoxesToList(World w, int x, int y, int z, AxisAlignedBB axigAlignedBB, List arrayList, Entity entity){
-		
-	}
-	
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if(!world.isRemote){
-			NBTTagCompound entCompound = entity.getEntityData();
-			Location teLocation = new Location(x,y,z);
-			TilePortalTeleporter teleporter = (TilePortalTeleporter)teLocation.getTE(world);
-            if(teleporter == null){
+                    vector.setYMax(1.0F);
+                }
+                if (teleporter.getBaseDir().equals(ForgeDirection.EAST) || teleporter.getPortalDir().equals(ForgeDirection.EAST)) {
+                    vector.setXMin(0.0F);
+                    vector.setXMax(1.0F);
+                }
+            }
+
+            this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void addCollisionBoxesToList(World w, int x, int y, int z, AxisAlignedBB axigAlignedBB, List arrayList, Entity entity) {
+
+    }
+
+    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+        if (!world.isRemote) {
+            NBTTagCompound entCompound = entity.getEntityData();
+            Location teLocation = new Location(x, y, z);
+            TilePortalTeleporter teleporter = (TilePortalTeleporter) teLocation.getTE(world);
+            if (teleporter == null) {
                 return;
             }
-            if(teleporter.getPortalBase() == null){
+            if (teleporter.getPortalBase() == null) {
                 return;
             }
-			Location teleportLocation = teleporter.getPortalBase().getTarget();
-			long lastInPortal = entCompound.getLong("lastInPortal" + teleporter.getPortalBase().getIPLong());
-			if(world.getTotalWorldTime() - lastInPortal > (HCConfig.INSTANCE.getInt("portalTimeoutInSeconds") * 20)){
-				if(teleportLocation != null){
-					teleporter.usePressure();
-					TeleportHelper.teleportEntity(entity, teleportLocation);
-					Random rnd = new Random(System.currentTimeMillis()/1000);
-					double dx = 0.0D;
-		            double dy = 0.0D;
-		            double dz = 0.0D;
-		            for(int i = 0; i <= 5; i++){
-			            dx = (rnd.nextFloat() - 0.6D) * 0.1D;
-			            dy = (rnd.nextFloat() - 0.6D) * 0.1D;
-			            dz = (rnd.nextFloat() - 0.6D) * 0.1D;
-			            
-			            //world.spawnParticle("cloud", x, y, z, d3, d4, d5);
-			            PacketPipeline.instance.sendToAllAround(new PacketSpawnParticle("cloud", x+.5, y+.5, z+.5, dx, dy, dz), world);
-		            }
-					/*if(teleportLocation.getDimension() != world.provider.dimensionId){
+            Location teleportLocation = teleporter.getPortalBase().getTarget();
+            long lastInPortal = entCompound.getLong("lastInPortal" + teleporter.getPortalBase().getIPLong());
+            if (world.getTotalWorldTime() - lastInPortal > (HCConfig.INSTANCE.getInt("portalTimeoutInSeconds") * 20)) {
+                if (teleportLocation != null) {
+                    teleporter.usePressure();
+                    TeleportHelper.teleportEntity(entity, teleportLocation);
+                    Random rnd = new Random(System.currentTimeMillis() / 1000);
+                    double dx = 0.0D;
+                    double dy = 0.0D;
+                    double dz = 0.0D;
+                    for (int i = 0; i <= 5; i++) {
+                        dx = (rnd.nextFloat() - 0.6D) * 0.1D;
+                        dy = (rnd.nextFloat() - 0.6D) * 0.1D;
+                        dz = (rnd.nextFloat() - 0.6D) * 0.1D;
+
+                        //world.spawnParticle("cloud", x, y, z, d3, d4, d5);
+                        PacketPipeline.instance.sendToAllAround(new PacketSpawnParticle("cloud", x + .5, y + .5, z + .5, dx, dy, dz), world);
+                    }
+                    /*if(teleportLocation.getDimension() != world.provider.dimensionId){
 						
 					}else{
 						if(entity instanceof EntityPlayer){
@@ -119,19 +119,19 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
 							entity.setLocationAndAngles(teleportLocation.getX()+0.5, teleportLocation.getY()+0.5, teleportLocation.getZ()+0.5, entity.rotationYaw, entity.rotationPitch);
 						}
 					}*/
-					
-					entCompound.setLong("lastInPortal" + teleporter.getPortalBase().getIPLong(), world.getTotalWorldTime());
-				}
-			}
-		}
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void randomDisplayTick(World w, int x, int y, int z, Random rnd){
+
+                    entCompound.setLong("lastInPortal" + teleporter.getPortalBase().getIPLong(), world.getTotalWorldTime());
+                }
+            }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void randomDisplayTick(World w, int x, int y, int z, Random rnd) {
 		/*for (int l = 0; l < 1; ++l)
         {*/
-		if(rnd.nextInt(100) <= 50){
+        if (rnd.nextInt(100) <= 50) {
             double d0 = x + rnd.nextFloat();
             double d1 = y + rnd.nextFloat();
             double d2 = z + rnd.nextFloat();
@@ -143,14 +143,13 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
             d5 = (rnd.nextFloat() - 0.6D) * 0.1D;
 
             w.spawnParticle("portal", d0, d1, d2, d3, d4, d5);
-		}
+        }
         //}
-	}
-	
-	
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
-		return null;
+    }
+
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+        return null;
     }
 
     @Override
