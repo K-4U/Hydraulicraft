@@ -99,7 +99,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 	}
 	
 	public IFluidHandler getFluidTarget(){
-		if(targetHasChanged == true && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
+		if(targetHasChanged && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
 			TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
 			if(t instanceof IHydraulicConsumer){
 				target = (IHydraulicConsumer) t;
@@ -112,7 +112,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             }
             targetHasChanged = false;
 			//}
-		}else if(targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
+		}else if(targetHasChanged && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
 			target = null;
 			fluidTarget = null;
 			inventoryTarget = null;
@@ -121,7 +121,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 	}
 	
 	public ISidedInventory getInventoryTarget(){
-		if(targetHasChanged == true && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
+		if(targetHasChanged && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
 			TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
 			if(t instanceof IHydraulicConsumer){
 				target = (IHydraulicConsumer) t;
@@ -133,7 +133,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 				}
 				targetHasChanged = false;
 			}
-		}else if(targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
+		}else if(targetHasChanged && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
 			target = null;
 			fluidTarget = null;
 			inventoryTarget = null;
@@ -273,28 +273,12 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		if(!isTank) {
-			if (getFluidTarget() != null) {
-				return getFluidTarget().canFill(from, fluid);
-			} else {
-				return false;
-			}
-		}else{
-			return true;
-		}
+		return isTank || getFluidTarget() != null && getFluidTarget().canFill(from, fluid);
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		if(!isTank) {
-			if (getFluidTarget() != null) {
-				return getFluidTarget().canDrain(from, fluid);
-			} else {
-				return false;
-			}
-		}else{
-			return true;
-		}
+		return isTank || getFluidTarget() != null && getFluidTarget().canDrain(from, fluid);
 	}
 
 	@Override
@@ -306,8 +290,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 				return null;
 			}
 		}else{
-			FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
-			return tankInfo;
+			return new FluidTankInfo[]{new FluidTankInfo(tank)};
 		}
 	}
 
@@ -360,18 +343,12 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().isUseableByPlayer(entityplayer);
-		}
-		return false;
+		return getInventoryTarget() != null && getInventoryTarget().isUseableByPlayer(entityplayer);
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().isItemValidForSlot(i, itemstack);
-		}
-		return false;
+		return getInventoryTarget() != null && getInventoryTarget().isItemValidForSlot(i, itemstack);
 	}
 
 	@Override
@@ -384,18 +361,12 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().canInsertItem(i, itemstack, j);
-		}
-		return false;
+		return getInventoryTarget() != null && getInventoryTarget().canInsertItem(i, itemstack, j);
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().canExtractItem(i, itemstack, j);
-		}
-		return false;
+		return getInventoryTarget() != null && getInventoryTarget().canExtractItem(i, itemstack, j);
 	}
 
 	@Override
@@ -408,10 +379,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().hasCustomInventoryName();
-		}
-		return false;
+		return getInventoryTarget() != null && getInventoryTarget().hasCustomInventoryName();
 	}
 
 	@Override
@@ -442,7 +410,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             int maxZ = 0;
 
             Location otherSide = new Location(xCoord, yCoord, zCoord, tankDir);
-            int offset = 0;
+            int offset;
             int size = 0;
             for(offset = 0; offset < Constants.MAX_TANK_SIZE; offset++){
                 Location testLoc = new Location(otherSide, tankDir, offset);
@@ -485,7 +453,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                 minZ = new Location(otherSide, tankDir, offset-1).getZ();
             }
 
-            int sizeRemaining = Constants.MAX_TANK_SIZE;
+            int sizeRemaining;
             ForgeDirection rotated;
             if(!tankDir.equals(ForgeDirection.UP) && !tankDir.equals(ForgeDirection.DOWN)){
                 rotated = tankDir.getRotation(ForgeDirection.UP);
@@ -541,9 +509,8 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                     break;
                 }
             }
-            sizeRemaining = Constants.MAX_TANK_SIZE - offset;
 
-            if(size == Constants.MAX_TANK_SIZE){
+			if(size == Constants.MAX_TANK_SIZE){
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
                 if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
@@ -626,9 +593,8 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                     break;
                 }
             }
-            sizeRemaining = Constants.MAX_TANK_SIZE - offset;
 
-            if(size == Constants.MAX_TANK_SIZE){
+			if(size == Constants.MAX_TANK_SIZE){
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
                 if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
@@ -764,9 +730,9 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
         float maxZ = 1.0F + zCoord;
 
         if(isValidTank()){
-            int outerXDifference = 0;
-            int outerYDifference = 0;
-            int outerZDifference = 0;
+            int outerXDifference;
+            int outerYDifference;
+            int outerZDifference;
 
             outerXDifference = tankCorner2.getX() - tankCorner1.getX();
             outerYDifference = tankCorner2.getY() - tankCorner1.getY();
@@ -786,15 +752,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
 	@Override
 	public boolean connectTexture() {
-		if(isValidTank())
-			return true;
-		if(getFluidTarget() != null)
-			return true;
-		if(getInventoryTarget() != null)
-			return true;
-		if(getTarget() != null)
-			return true;
-		return false;
+		return isValidTank() || getFluidTarget() != null || getInventoryTarget() != null || getTarget() != null;
 	}
 
 	@Override

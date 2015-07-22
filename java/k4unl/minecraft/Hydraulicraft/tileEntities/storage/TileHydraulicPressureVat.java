@@ -97,7 +97,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	public ItemStack decrStackSize(int i, int j) {
 		ItemStack inventory = getStackInSlot(i);
 		
-		ItemStack ret = null;
+		ItemStack ret;
 		if(inventory.stackSize < j){
 			ret = inventory;
 			if(i == 0){

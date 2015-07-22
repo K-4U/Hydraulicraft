@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.generator;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -55,7 +54,6 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 				}
 			}
 			if(!worldObj.isRemote){
-                Boolean isItemFuel = TileEntityFurnace.isItemFuel(inventory);
 				if(currentBurnTime <= 0 && TileEntityFurnace.isItemFuel(inventory) && getPressure(from) < getMaxPressure(getHandler().isOilStored(), from)){
 					//Put new item in
 					currentBurnTime = maxBurnTime = TileEntityFurnace.getItemBurnTime(inventory)+1;
@@ -162,7 +160,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if(i < 1){
-			ItemStack ret = null;
+			ItemStack ret;
 			if(inventory.stackSize < j){
 				ret = inventory;
 				inventory = null;

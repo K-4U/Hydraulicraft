@@ -44,38 +44,21 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-	    Tessellator tes = Tessellator.instance;
 
+		boolean ret = renderer.renderStandardBlock(block, x, y, z);
 
-
-        boolean ret = renderer.renderStandardBlock(block, x, y, z);
-
-	    int innerXDifference = 0;
-	    int innerYDifference = 0;
-	    int innerZDifference = 0;
-
-	    int outerXDifference = 0;
-	    int outerYDifference = 0;
-	    int outerZDifference = 0;
+	    int outerXDifference;
+	    int outerYDifference;
+	    int outerZDifference;
 	    TileInterfaceValve valve = (TileInterfaceValve)world.getTileEntity(x, y, z);
-	    boolean isValidTank = valve.isValidTank();
 	    //Log.info("Render: isTank = " + isValidTank);
 	    if(valve.isValidTank()) {
-		    Location corner1 = valve.getTankCorner1();
 		    Location corner1_out = new Location(valve.getTankCorner1());
-		    //corner1_out.addX(-1);
-		    //corner1_out.addY(-1);
-		    //corner1_out.addZ(-1);
 
-		    Location corner2 = valve.getTankCorner2();
 		    Location corner2_out = new Location(valve.getTankCorner2());
 		    corner2_out.addX(1);
 		    corner2_out.addY(1);
 		    corner2_out.addZ(1);
-
-		    innerXDifference = corner2.getX() - corner1.getX();
-		    innerYDifference = corner2.getY() - corner1.getY();
-		    innerZDifference = corner2.getZ() - corner1.getZ();
 
 		    outerXDifference = corner2_out.getX() - corner1_out.getX();
 		    outerYDifference = corner2_out.getY() - corner1_out.getY();
@@ -195,9 +178,9 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer implements
 			Location corner1 = t.getTankCorner1();
 			Location corner2 = t.getTankCorner2();
 
-			int innerXDifference = 0;
-			int innerYDifference = 0;
-			int innerZDifference = 0;
+			int innerXDifference;
+			int innerYDifference;
+			int innerZDifference;
 			int locationDifferenceX = t.xCoord - corner1.getX();
 			int locationDifferenceY = t.yCoord - corner1.getY();
 			int locationDifferenceZ = t.zCoord - corner1.getZ();

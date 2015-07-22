@@ -65,7 +65,7 @@ public class WailaProvider implements IWailaDataProvider {
 
         TileEntity ent = accessor.getTileEntity();
         if (accessor.getTileEntity() instanceof IHydraulicMachine || ent instanceof TileMultipart) {
-            IHydraulicMachine mEnt = null;
+            IHydraulicMachine mEnt;
             Map<String, String> values = new HashMap<String, String>();
 
             if (ent instanceof TileMultipart) {

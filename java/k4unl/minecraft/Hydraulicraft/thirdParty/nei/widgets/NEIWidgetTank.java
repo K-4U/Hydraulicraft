@@ -80,7 +80,7 @@ public class NEIWidgetTank extends WidgetBase {
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        int o = 0;
+        int o;
         float zLevel = 0f;
 
         // render (height / iconHeight) times the base texture

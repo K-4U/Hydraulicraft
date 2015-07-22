@@ -139,12 +139,11 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 	public ItemStack decrStackSize(int i, int j) {
 		ItemStack inventory = getStackInSlot(i);
 
-        ItemStack ret = null;
+        ItemStack ret;
         if(inventory.stackSize < j) {
             ret = inventory;
-            inventory = null;
 
-        } else {
+		} else {
             ret = inventory.splitStack(j);
             if(inventory.stackSize <= 0) {
                 switch(i){
@@ -335,7 +334,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
         }
         
         
-        boolean scanForNext = false;
+        boolean scanForNext;
         if(HCConfig.INSTANCE.getBool("canSawTwoMicroblocksAtOnce")){
         	scanForNext = (!getIsSawingLeftRight() || !getIsSawingUpDown());
         }else{

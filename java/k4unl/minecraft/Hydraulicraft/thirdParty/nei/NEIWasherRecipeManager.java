@@ -68,10 +68,10 @@ public class NEIWasherRecipeManager extends NEIHydraulicRecipePlugin {
         ItemStack targetItem = recipe.getResult().item;
         int startY = 5;
         int startX = 51;
-        int targetX = 101;
-        int targetY = 0;
-        int travelPath = 0;
-        int xPos = startX;
+        int targetX;
+        int targetY;
+        int travelPath;
+        int xPos;
         int yPos = startY;
 
         if (percentage < 0.25F) {

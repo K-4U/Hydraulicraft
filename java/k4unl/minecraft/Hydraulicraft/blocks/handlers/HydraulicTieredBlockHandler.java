@@ -2,15 +2,11 @@ package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
-import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 
 import java.util.List;
 
@@ -47,7 +43,7 @@ public class HydraulicTieredBlockHandler extends HandlerHydraulicBlock {
         if(itemstack != null){
             Item theItem  = itemstack.getItem();
             Block btH = ((HandlerHydraulicBlock)theItem).blockToHandle;
-
+			//TODO: Handle me? I think there's something missing here, but no idea what.
 
 
         }

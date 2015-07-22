@@ -51,7 +51,7 @@ public class BlockHydraulicPressureGlass extends BlockConnectedTexture {
             }
         }
 
-        return block == this ? false : super.shouldSideBeRendered(w, x, y, z, side);
+        return block != this && super.shouldSideBeRendered(w, x, y, z, side);
     }
 
 }

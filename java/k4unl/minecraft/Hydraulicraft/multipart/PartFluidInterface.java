@@ -44,8 +44,6 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
     private static IIcon breakIcon;
 
     static {
-        float center = 0.5F;
-        double w = pixel * 4;
         //boundingBoxes[6] = new Cuboid6(center - w, center - w, center - w, center + w, center + w, center + w);
 
         float thickness = 2 * RenderHelper.pixel;

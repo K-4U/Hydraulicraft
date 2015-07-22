@@ -99,9 +99,9 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
                     teleporter.usePressure();
                     TeleportHelper.teleportEntity(entity, teleportLocation);
                     Random rnd = new Random(System.currentTimeMillis() / 1000);
-                    double dx = 0.0D;
-                    double dy = 0.0D;
-                    double dz = 0.0D;
+                    double dx;
+                    double dy;
+                    double dz;
                     for (int i = 0; i <= 5; i++) {
                         dx = (rnd.nextFloat() - 0.6D) * 0.1D;
                         dy = (rnd.nextFloat() - 0.6D) * 0.1D;
@@ -135,9 +135,9 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
             double d0 = x + rnd.nextFloat();
             double d1 = y + rnd.nextFloat();
             double d2 = z + rnd.nextFloat();
-            double d3 = 0.0D;
-            double d4 = 0.0D;
-            double d5 = 0.0D;
+            double d3;
+            double d4;
+            double d5;
             d3 = (rnd.nextFloat() - 0.6D) * 0.1D;
             d4 = (rnd.nextFloat() - 0.6D) * 0.1D;
             d5 = (rnd.nextFloat() - 0.6D) * 0.1D;

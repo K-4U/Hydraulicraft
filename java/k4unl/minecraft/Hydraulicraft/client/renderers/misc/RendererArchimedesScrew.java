@@ -166,9 +166,7 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer implement
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 
-        boolean ret = renderer.renderStandardBlock(FAKE_RENDER_BLOCK, x, y, z);
-
-        return true;
+        return renderer.renderStandardBlock(FAKE_RENDER_BLOCK, x, y, z);
     }
 
     @Override

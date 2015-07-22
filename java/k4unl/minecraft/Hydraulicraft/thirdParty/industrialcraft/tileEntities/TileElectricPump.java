@@ -51,7 +51,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 			return;
 		}
 		//This function gets called every tick.
-		boolean needsUpdate = false;
+		boolean needsUpdate;
 		needsUpdate = true;
 		if(Float.compare(getGenerating(ForgeDirection.UP), 0.0F) > 0){
 			renderingPercentage+= renderingDir;
@@ -226,7 +226,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 	
 	@Override
 	public void updateNetwork(float oldPressure) {
-		PressureNetwork endNetwork = null;
+		PressureNetwork endNetwork;
 
 		endNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, getFacing());
 			

@@ -8,8 +8,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.*;
 import k4unl.minecraft.Hydraulicraft.blocks.IHydraulicMultiBlock;
-import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
-import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -307,7 +305,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 			return mainList;
 		}
 		
-		List<networkEntry> entryList = new ArrayList<networkEntry>();
+		List<networkEntry> entryList;
 		entryList = getNetwork(ForgeDirection.UP).getMachines();
 		
 		for (networkEntry entry : entryList) {
@@ -370,7 +368,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 		if(chain){
 			for (IHydraulicMachine machineEntity : callList) {
 				//if(machineEntity instanceof TileTransporter){
-					List<IHydraulicMachine> tempList = new ArrayList<IHydraulicMachine>();
+					List<IHydraulicMachine> tempList;
 					tempList = ((TileHydraulicBase)machineEntity.getHandler()).getConnectedBlocks(mainList);
 					mainList = Functions.mergeList(tempList, mainList);
 				//}
@@ -653,7 +651,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
 	public void updateNetwork(float oldPressure) {
 		PressureNetwork newNetwork = null;
-		PressureNetwork foundNetwork = null;
+		PressureNetwork foundNetwork;
 		PressureNetwork endNetwork = null;
 		//This block can merge networks!
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
@@ -668,7 +666,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 					connectedSides.add(dir);
 				}
 				
-				if(newNetwork != null && endNetwork != null){
+				if(newNetwork != null){
 					//Hmm.. More networks!? What's this!?
 					endNetwork.mergeNetwork(newNetwork);
 					newNetwork = null;

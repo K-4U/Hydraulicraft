@@ -408,7 +408,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 			pNetwork1 = new PressureNetwork(this, oldPressure, getFacing());
 			pNetwork2 = new PressureNetwork(this, oldPressure, getFacing().getOpposite());
 		}else{
-			PressureNetwork foundNetwork = null;
+			PressureNetwork foundNetwork;
 			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), getFacing());
 			if(foundNetwork != null){
 				if(pNetwork1 != null){
@@ -420,7 +420,6 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 			}else{
 				pNetwork1 = new PressureNetwork(this, oldPressure, getFacing());
 			}
-			foundNetwork = null;
 			foundNetwork = PressureNetwork.getNetworkInDir(world(), x(), y(), z(), getFacing().getOpposite());
 			if(foundNetwork != null){
 				if(pNetwork2 != null){

@@ -145,7 +145,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
             return inventory.decrStackSize(slot, decrBy);
 
         if (slot == 2) {
-            ItemStack ret = null;
+            ItemStack ret;
             if (fluidInputInventory.stackSize < decrBy) {
                 ret = fluidInputInventory;
                 fluidInputInventory = null;
@@ -160,7 +160,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
                 return ret;
             }
         } else {
-            ItemStack ret = null;
+            ItemStack ret;
             if (fluidOutputInventory.stackSize < decrBy) {
                 ret = fluidOutputInventory;
                 fluidOutputInventory = null;

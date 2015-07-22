@@ -237,7 +237,6 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 	}
 	
 	private void drawMovingPart(float p){
-		float c = 0.5F;
 		float base = RenderHelper.pixel*4;
 		float w = RenderHelper.pixel*4;
 

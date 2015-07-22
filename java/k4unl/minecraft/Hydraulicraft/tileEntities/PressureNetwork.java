@@ -70,7 +70,7 @@ public class PressureNetwork {
 	}
 	
 	private int contains(IHydraulicMachine machine){
-		int i = 0;
+		int i;
 		for(i=0; i< machines.size(); i++){
 			if(machines.get(i).getLocation().equals(((TileHydraulicBase)machine.getHandler()).getBlockLocation())){
 				return i;

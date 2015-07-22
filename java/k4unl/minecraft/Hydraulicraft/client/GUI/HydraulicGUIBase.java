@@ -171,7 +171,7 @@ public class HydraulicGUIBase extends GuiContainer {
         mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        int o = 0;
+        int o;
         for (o = 0; o < Math.floor(icons); o++) {
             tessellator.addVertexWithUV(xOffset + 0, yOffset + h
                     - (iconHeight * o), this.zLevel, uMin, vMin); // BL
@@ -206,15 +206,13 @@ public class HydraulicGUIBase extends GuiContainer {
     }
 
     protected void drawFluidAndPressure() {
-        int color = 0xFFFFFFFF;
-        String fluidName = "";
-        IIcon icon = null;
+        int color;
+        String fluidName;
+        IIcon icon;
         if (!mEnt.getHandler().isOilStored()) {
-            color = Constants.COLOR_WATER;
             icon = FluidRegistry.WATER.getIcon();
             fluidName = FluidRegistry.WATER.getLocalizedName(new FluidStack(FluidRegistry.WATER, 1));
         } else {
-            color = Constants.COLOR_OIL;
             icon = Fluids.fluidHydraulicOil.getIcon();
             fluidName = Fluids.fluidHydraulicOil.getLocalizedName(new FluidStack(Fluids.fluidHydraulicOil, 1));
         }
