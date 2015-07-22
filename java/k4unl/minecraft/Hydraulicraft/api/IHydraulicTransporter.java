@@ -8,12 +8,12 @@ public interface IHydraulicTransporter extends IHydraulicMachine {
 	 * @param dir
 	 * @return Whether or not the machine is connected. It is different to canConnectTo
 	 */
-	public boolean isConnectedTo(ForgeDirection dir);
+	boolean isConnectedTo(ForgeDirection dir);
 	
 	/**
 	 * Called when the block needs to recheck its connections.
 	 * Note, you'll probably only need this if you use a model
 	 */
-	public void checkConnectedSides();
+	void checkConnectedSides();
 	
 }

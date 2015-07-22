@@ -10,7 +10,7 @@ public interface IHydraulicGenerator extends IHydraulicMachine {
      * @date 14-12-2013
      * @param from TODO
      */
-    public abstract void workFunction(ForgeDirection from);
+    void workFunction(ForgeDirection from);
     
 	/**
 	 * Returns whether or not this block can do work on this side.
@@ -21,7 +21,7 @@ public interface IHydraulicGenerator extends IHydraulicMachine {
 	 * @param dir
 	 * @return Whether or not this block can do work from this side.
 	 */
-	public boolean canWork(ForgeDirection dir);
+	boolean canWork(ForgeDirection dir);
     
     /**
      * @author Koen Beckers
@@ -29,7 +29,7 @@ public interface IHydraulicGenerator extends IHydraulicMachine {
      * @param from TODO
      * @return How much the generator can max output
      */
-    public abstract int getMaxGenerating(ForgeDirection from);
+    int getMaxGenerating(ForgeDirection from);
     
     
     /**
@@ -38,5 +38,5 @@ public interface IHydraulicGenerator extends IHydraulicMachine {
      * @param from TODO
      * @return How much the generator is currently generating
      */
-    public abstract float getGenerating(ForgeDirection from);
+    float getGenerating(ForgeDirection from);
 }

@@ -18,13 +18,13 @@ public class HCApi {
     }
 
     public static interface IHCApi {
-        public IRecipeHandler getRecipeHandler();
+        IRecipeHandler getRecipeHandler();
 
-        public ITrolleyRegistrar getTrolleyRegistrar();
+        ITrolleyRegistrar getTrolleyRegistrar();
 
-        public IBaseClass getBaseClass(TileEntity target, int maxStorage);
+        IBaseClass getBaseClass(TileEntity target, int maxStorage);
 
-        public IBaseClass getBaseClass(TMultiPart target, int maxStorage);
+        IBaseClass getBaseClass(TMultiPart target, int maxStorage);
     }
 
     /**
