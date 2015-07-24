@@ -73,11 +73,12 @@ public class HCConfig extends Config{
           + "will disable the top tier blocks! Only do this when there is an ore dictionaried equivalent!"));
         configOptions.add(new ConfigOption("nadsiumBicarbinateVeinCount", 2).setCategory("worldgen").setComment("How many blocks will spawn per "
           + "chunk"));
-        configOptions.add(new ConfigOption("nadsiumBicarbinateChance", 0.2).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("nadsiumBicarbinateChance", 0.2).setCategory("worldgen").setComment("How great the chance is that Nadsium Bicarbinate spawns in an ocean chunk"));
 
         configOptions.add(new ConfigOption("shouldGenBeachium", true).setCategory("worldgen").setComment("Warning! Disabling this block will "
           + "disable the crafting of Hydraulic Oil! Only do this when there is an ore dictionaried equivalent!"));
-        configOptions.add(new ConfigOption("beachiumVeinCount", 7).setCategory("worldgen").setComment("How many blocks will spawn per chunk"));
+        configOptions.add(new ConfigOption("beachiumChance", 0.6).setCategory("worldgen").setComment("How great the chance is that Beachium spawns in a beach chunk"));
+        configOptions.add(new ConfigOption("beachiumVeinCount", 5).setCategory("worldgen").setComment("How many blocks will spawn per chunk"));
 
         configOptions.add(new ConfigOption("shouldGenFoxium", true).setCategory("worldgen"));
         configOptions.add(new ConfigOption("foxiumMinY", 10).setCategory("worldgen"));
