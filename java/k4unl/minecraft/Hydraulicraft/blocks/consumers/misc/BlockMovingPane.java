@@ -28,6 +28,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 
 	public BlockMovingPane() {
 		super(Names.blockMovingPane);
+		hasTextures = false;
 	}
 
 	@Override
