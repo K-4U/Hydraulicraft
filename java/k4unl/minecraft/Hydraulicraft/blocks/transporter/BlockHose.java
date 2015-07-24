@@ -2,9 +2,9 @@ package k4unl.minecraft.Hydraulicraft.blocks.transporter;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
-import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.transporter.TilePressureHose;
@@ -32,8 +32,7 @@ public class BlockHose extends HydraulicTieredBlockBase implements IMultiTieredB
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
 
-        TilePressureHose pHose = new TilePressureHose();
-        return pHose;
+        return new TilePressureHose();
     }
 
     @Override
@@ -62,7 +61,7 @@ public class BlockHose extends HydraulicTieredBlockBase implements IMultiTieredB
 
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z,
-      Block block) {
+                                      Block block) {
 
         super.onNeighborBlockChange(world, x, y, z, block);
         TileEntity t = world.getTileEntity(x, y, z);
@@ -71,89 +70,89 @@ public class BlockHose extends HydraulicTieredBlockBase implements IMultiTieredB
         }
     }
 
-    private boolean isDir(Map<ForgeDirection, TileEntity> connectedSides, ForgeDirection dir){
-		return connectedSides.containsKey(dir);
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y,
-			int z) {
-		TileEntity tileEntity = world.getTileEntity(x, y, z);
+    private boolean isDir(Map<ForgeDirection, TileEntity> connectedSides, ForgeDirection dir) {
+        return connectedSides.containsKey(dir);
+    }
 
-		if (tileEntity instanceof TilePressureHose) {
-			Map<ForgeDirection, TileEntity> connectedSides = ((TilePressureHose) tileEntity).getConnectedSides();
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y,
+                                           int z) {
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
-			if (connectedSides != null) {
-				float minX = blockBounds.getXMin();
-				float minY = blockBounds.getYMin();
-				float minZ = blockBounds.getZMin();
-				float maxX = blockBounds.getXMax();
-				float maxY = blockBounds.getYMax();
-				float maxZ = blockBounds.getZMax();
+        if (tileEntity instanceof TilePressureHose) {
+            Map<ForgeDirection, TileEntity> connectedSides = ((TilePressureHose) tileEntity).getConnectedSides();
 
-				if (isDir(connectedSides, ForgeDirection.UP))
-					maxY = 1.0F;
-				if (isDir(connectedSides, ForgeDirection.DOWN))
-					minY = 0.0F;
+            if (connectedSides != null) {
+                float minX = blockBounds.getXMin();
+                float minY = blockBounds.getYMin();
+                float minZ = blockBounds.getZMin();
+                float maxX = blockBounds.getXMax();
+                float maxY = blockBounds.getYMax();
+                float maxZ = blockBounds.getZMax();
 
-				if (isDir(connectedSides, ForgeDirection.WEST))
-					minX = 0.0F;
-				if (isDir(connectedSides, ForgeDirection.EAST))
-					maxX = 1.0F;
+                if (isDir(connectedSides, ForgeDirection.UP))
+                    maxY = 1.0F;
+                if (isDir(connectedSides, ForgeDirection.DOWN))
+                    minY = 0.0F;
 
-				if (isDir(connectedSides, ForgeDirection.NORTH))
-					minZ = 0.0F;
-				if (isDir(connectedSides, ForgeDirection.SOUTH))
-					maxZ = 1.0F;
+                if (isDir(connectedSides, ForgeDirection.WEST))
+                    minX = 0.0F;
+                if (isDir(connectedSides, ForgeDirection.EAST))
+                    maxX = 1.0F;
 
-				this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
-			}
-		}
-	}
+                if (isDir(connectedSides, ForgeDirection.NORTH))
+                    minZ = 0.0F;
+                if (isDir(connectedSides, ForgeDirection.SOUTH))
+                    maxZ = 1.0F;
+
+                this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+            }
+        }
+    }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity){
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
 
-        if(tileEntity instanceof TilePressureHose) {
-            Map<ForgeDirection, TileEntity> connectedSides = ((TilePressureHose)tileEntity).getConnectedSides();
-            if(connectedSides != null) {
-            	float minX = blockBounds.getXMin();
-				float minY = blockBounds.getYMin();
-				float minZ = blockBounds.getZMin();
-				float maxX = blockBounds.getXMax();
-				float maxY = blockBounds.getYMax();
-				float maxZ = blockBounds.getZMax();
+        if (tileEntity instanceof TilePressureHose) {
+            Map<ForgeDirection, TileEntity> connectedSides = ((TilePressureHose) tileEntity).getConnectedSides();
+            if (connectedSides != null) {
+                float minX = blockBounds.getXMin();
+                float minY = blockBounds.getYMin();
+                float minZ = blockBounds.getZMin();
+                float maxX = blockBounds.getXMax();
+                float maxY = blockBounds.getYMax();
+                float maxZ = blockBounds.getZMax();
 
                 setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
                 super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
 
-                if(isDir(connectedSides, ForgeDirection.EAST)) {
+                if (isDir(connectedSides, ForgeDirection.EAST)) {
                     setBlockBounds(0.0F, minY, minZ, maxX, maxY, maxZ);
                     super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
                 }
 
-                if(isDir(connectedSides, ForgeDirection.WEST)) {
+                if (isDir(connectedSides, ForgeDirection.WEST)) {
                     setBlockBounds(minX, minY, minZ, 1.0F, maxY, maxZ);
                     super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
                 }
 
-                if(isDir(connectedSides, ForgeDirection.SOUTH)) {
-                	setBlockBounds(minX, minY, minZ, maxX, maxY, 1.0F);
-                    
+                if (isDir(connectedSides, ForgeDirection.SOUTH)) {
+                    setBlockBounds(minX, minY, minZ, maxX, maxY, 1.0F);
+
                     super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
                 }
-                if(isDir(connectedSides, ForgeDirection.NORTH)) {
-                	setBlockBounds(minX, minY, 0.0F, maxX, maxY, maxZ);
+                if (isDir(connectedSides, ForgeDirection.NORTH)) {
+                    setBlockBounds(minX, minY, 0.0F, maxX, maxY, maxZ);
                     super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
                 }
-                if(isDir(connectedSides, ForgeDirection.UP)) {
+                if (isDir(connectedSides, ForgeDirection.UP)) {
                     setBlockBounds(minX, minY, minZ, maxX, 1.0F, maxZ);
                     super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
                 }
-                if(isDir(connectedSides, ForgeDirection.DOWN)) {
+                if (isDir(connectedSides, ForgeDirection.DOWN)) {
                     setBlockBounds(minX, 0.0F, minZ, maxX, maxY, maxZ);
                     super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, arraylist, par7Entity);
                 }
@@ -169,7 +168,7 @@ public class BlockHose extends HydraulicTieredBlockBase implements IMultiTieredB
     }
 
     @Override
-    public PressureTier getTier(IBlockAccess world, int x, int y, int z){
+    public PressureTier getTier(IBlockAccess world, int x, int y, int z) {
 
         return PressureTier.fromOrdinal(world.getBlockMetadata(x, y, z));
     }

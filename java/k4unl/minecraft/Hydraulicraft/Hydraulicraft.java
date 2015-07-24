@@ -114,7 +114,7 @@ public class Hydraulicraft {
         ThirdPartyManager.instance().init();
 
         GameRegistry.registerWorldGenerator(new HCWorldGenerator(), 0);
-        NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new GuiHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
         PacketPipeline.init();
 
         //  UPDATE CHECKER DISABLED FOR NOW (2nd June 2015)

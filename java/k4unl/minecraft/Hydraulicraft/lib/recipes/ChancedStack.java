@@ -58,19 +58,19 @@ public class ChancedStack {
     public ItemStack[] getDrops(Random random) {
         List<ItemStack> drops = new ArrayList<ItemStack>();
 
-        for (int i = 0; i < chancedStacks.size(); i++) {
+        for (ChancedDropStack chancedStack : chancedStacks) {
             int tmpDrops = 0;
 
             // for each possible chance
-            for (int j = 0; j < chancedStacks.get(i).chances.size(); j++) {
+            for (int j = 0; j < chancedStack.chances.size(); j++) {
                 float nextone = random.nextFloat();
-                if (nextone >= chancedStacks.get(i).chances.get(j)) // if we got that chance
+                if (nextone >= chancedStack.chances.get(j)) // if we got that chance
                     tmpDrops++; // drop it
             }
 
             // if any drops are to happen
             if (tmpDrops > 0) {
-                ItemStack toAdd = chancedStacks.get(i).itemStack.copy(); // copy the stack
+                ItemStack toAdd = chancedStack.itemStack.copy(); // copy the stack
                 toAdd.stackSize = tmpDrops; // set the new stacksize
                 drops.add(toAdd);
             }

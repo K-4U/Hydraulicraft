@@ -83,7 +83,7 @@ public class TilePressureHose extends TileHydraulicBase implements IHydraulicTra
     		Log.error("PartHose does not have a handler!");
     	}
     	if(getWorldObj() != null){
-	    	if(getWorldObj().getTotalWorldTime() % 10 == 0 && hasCheckedSinceStartup == false){
+	    	if(getWorldObj().getTotalWorldTime() % 10 == 0 && !hasCheckedSinceStartup){
 	    		checkConnectedSides();
 	    		hasCheckedSinceStartup = true;
 	    		//Hack hack hack

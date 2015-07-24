@@ -105,7 +105,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 				}
 			}
 		}
-		if(!worldObj.isRemote && isPane == false){
+		if(!worldObj.isRemote && !isPane){
 			if(getChild() == null){
 				return;
 			}
@@ -255,7 +255,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 			TileEntity te = new Location(xCoord, yCoord, zCoord).getTE(getWorldObj(), dir);
 			if(te instanceof TileMovingPane){
 				if(!called.contains(te)){
-					if(((TileMovingPane) te).getRedstonePowered(called) == true){
+					if(((TileMovingPane) te).getRedstonePowered(called)){
 						oneTrue = true;
 						allFalse = false;
 					}

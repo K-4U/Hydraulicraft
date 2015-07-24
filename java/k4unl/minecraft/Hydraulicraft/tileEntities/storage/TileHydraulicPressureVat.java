@@ -237,8 +237,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 		if(tank != null){
-			FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
-			return tankInfo;
+			return new FluidTankInfo[]{new FluidTankInfo(tank)};
 		}else{
 			return null;
 		}

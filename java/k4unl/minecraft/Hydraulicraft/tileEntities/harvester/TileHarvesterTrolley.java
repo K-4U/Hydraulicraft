@@ -239,11 +239,11 @@ public class TileHarvesterTrolley extends TileEntity {
 		tagCompound.setBoolean("harvesterPart", harvesterPart);
 		
 		NBTTagList tagList = new NBTTagList();
-        for(int currentIndex = 0; currentIndex < harvestedItems.size(); ++currentIndex) {
-            NBTTagCompound itemTag = new NBTTagCompound();
-            harvestedItems.get(currentIndex).writeToNBT(itemTag);
-            tagList.appendTag(itemTag);
-        }
+		for (ItemStack harvestedItem : harvestedItems) {
+			NBTTagCompound itemTag = new NBTTagCompound();
+			harvestedItem.writeToNBT(itemTag);
+			tagList.appendTag(itemTag);
+		}
 	    tagCompound.setTag("HarvestedItems", tagList);
 	    
 	    if(plantingItem != null){

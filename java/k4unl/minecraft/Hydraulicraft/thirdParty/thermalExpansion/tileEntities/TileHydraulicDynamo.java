@@ -86,7 +86,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 	public float workFunction(boolean simulate, ForgeDirection from) {
 		pressureRequired = createPower(simulate);
 
-		if(simulate == true && storage.getEnergyStored() > 0 && Float.compare(pressureRequired, 0.0F) == 0){
+		if(simulate && storage.getEnergyStored() > 0 && Float.compare(pressureRequired, 0.0F) == 0){
 			pressureRequired += 0.1F;
 		}
 		

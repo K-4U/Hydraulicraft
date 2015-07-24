@@ -345,7 +345,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     		Log.error("PartValve does not have a handler!");
     	}
     	if(world() != null){
-	    	if(world().getTotalWorldTime() % 10 == 0 && hasCheckedSinceStartup == false){
+	    	if(world().getTotalWorldTime() % 10 == 0 && !hasCheckedSinceStartup){
 	    		checkConnectedSides();
 	    		hasCheckedSinceStartup = true;
 	    		//Hack hack hack
@@ -362,10 +362,10 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	    	//}
     	}
     	
-    	if(((TileHydraulicBase) getHandler()).getRedstonePowered() && hasMerged == false && pNetwork1 != null && pNetwork2 != null){
+    	if(((TileHydraulicBase) getHandler()).getRedstonePowered() && !hasMerged && pNetwork1 != null && pNetwork2 != null){
 			pNetwork1.mergeNetwork(pNetwork2);
 			hasMerged = true;
-		}else if(hasMerged == true && !((TileHydraulicBase) getHandler()).getRedstonePowered() && pNetwork1 != null){
+		}else if(hasMerged && !((TileHydraulicBase) getHandler()).getRedstonePowered() && pNetwork1 != null){
 			hasMerged = false;
 			getHandler().updateNetworkOnNextTick(pNetwork1.getPressure());
 			pNetwork1.removeMachine(this);

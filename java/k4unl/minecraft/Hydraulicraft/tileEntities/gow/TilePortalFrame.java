@@ -20,7 +20,7 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower{
     public void updateEntity() {
 
         super.updateEntity();
-        if (!getWorldObj().isRemote && hasSendPacket == false) {
+        if (!getWorldObj().isRemote && !hasSendPacket) {
             hasSendPacket = true;
             PacketPipeline.instance.sendToAllAround(new PacketPortalStateChanged(xCoord, yCoord, zCoord, isActive), getWorldObj());
         }

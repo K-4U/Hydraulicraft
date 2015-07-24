@@ -35,9 +35,8 @@ public class ItemPartFluidPipe extends JItemMultiPart {
 
     @Override
     public TMultiPart newPart(ItemStack item, EntityPlayer player, World world, BlockCoord pos, int side, Vector3 vhit) {
-        PartFluidPipe w = (PartFluidPipe) MultiPartRegistry.createPart("tile." + Names.partFluidPipe.unlocalized, false);
 
-        return w;
+        return (PartFluidPipe) MultiPartRegistry.createPart("tile." + Names.partFluidPipe.unlocalized, false);
     }
 
     @Override

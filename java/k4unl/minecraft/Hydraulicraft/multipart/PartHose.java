@@ -369,7 +369,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			Log.error("PartHose does not have a handler!");
 		}
 		if(world() != null){
-			if(world().getTotalWorldTime() % 2 == 0 && hasCheckedSinceStartup == false){
+			if(world().getTotalWorldTime() % 2 == 0 && !hasCheckedSinceStartup){
 				checkConnectedSides();
 				hasCheckedSinceStartup = true;
 				//Hack hack hack

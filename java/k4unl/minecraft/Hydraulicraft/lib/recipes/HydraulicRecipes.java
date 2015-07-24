@@ -688,27 +688,25 @@ public class HydraulicRecipes implements IRecipeHandler {
     }
 
     private static void initializeItemRecipes() {
-        GameRegistry.addRecipe(new ItemStack(HCItems.itemFrictionPlate, 1),
-                new Object[]{
-                        "-SS",
-                        "S-S",
-                        "SS-",
-                        'S', Blocks.stone
-                });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.itemFrictionPlate, 1),
+                "-SS",
+                "S-S",
+                "SS-",
+                'S', Blocks.stone
+        ));
 
 
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(HCItems.itemEnrichedCopperDust, 2), "diamondShard", "dustCopper"));
 
 
-        GameRegistry.addRecipe(new ItemStack(HCItems.gasket, 4),
-                new Object[]{
-                        "P P",
-                        " B ",
-                        "P P",
-                        'P', Items.paper,
-                        'B', Blocks.iron_bars
-                }
-        );
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.gasket, 4),
+                "P P",
+                " B ",
+                "P P",
+                'P', Items.paper,
+                'B', Blocks.iron_bars
+
+        ));
 
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.itemLamp, 1), true,
                 new Object[]{

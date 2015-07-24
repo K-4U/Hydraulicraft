@@ -311,7 +311,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
     @Override
     public void update(){
         if(world() != null){
-            if(world().getTotalWorldTime() % 2 == 0 && hasCheckedSinceStartup == false){
+            if(world().getTotalWorldTime() % 2 == 0 && !hasCheckedSinceStartup){
                 checkConnectedSides();
                 hasCheckedSinceStartup = true;
                 //Hack hack hack
@@ -427,7 +427,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
             }else if(neighbor != null && neighbor instanceof IFluidHandler){
                 if(getFluidStored() != null) {
                     int toFill = ((IFluidHandler) neighbor).fill(dir.getOpposite(), new FluidStack(getFluidStored(), (int) getFluidAmountStored()), false);
-                    ((IFluidHandler) neighbor).fill(dir.getOpposite(), new FluidStack(getFluidStored(), (int) toFill), true);
+                    ((IFluidHandler) neighbor).fill(dir.getOpposite(), new FluidStack(getFluidStored(), toFill), true);
                     addFluid(-toFill);
                 }
             }

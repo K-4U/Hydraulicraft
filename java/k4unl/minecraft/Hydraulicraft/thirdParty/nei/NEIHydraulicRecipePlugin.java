@@ -18,6 +18,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
@@ -201,8 +202,7 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
         }
 
         public NEIHydraulicRecipe addInput(PositionedStack[] itemStacks) {
-            for (PositionedStack stack : itemStacks)
-                input.add(stack);
+            Collections.addAll(input, itemStacks);
 
             return this;
         }
@@ -226,8 +226,7 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
         }
 
         public NEIHydraulicRecipe addOutput(PositionedStack[] stacks) {
-            for (PositionedStack stack : stacks)
-                output.add(stack);
+            Collections.addAll(output, stacks);
 
             return this;
         }

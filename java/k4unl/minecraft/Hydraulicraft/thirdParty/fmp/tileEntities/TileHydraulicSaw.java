@@ -226,11 +226,9 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 			otherSlot = 1;
 		}
 		if(otherSlot == -1){
-			int[] ret = new int[]{2,3}; //Output slots can be accessed from every side!
-			return ret;
+			return new int[]{2,3};
 		}else{
-			int[] ret = new int[]{otherSlot, 2,3}; //Output slots can be accessed from every side!
-			return ret;
+			return new int[]{otherSlot, 2,3};
 		}
 	}
 
@@ -280,8 +278,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 		int posOfBlock = 0 + 1 * 3;
 		ic.setInventorySlotContents(posOfSaw, saw);
 		ic.setInventorySlotContents(posOfBlock, input);
-		ItemStack thinResult = MicroRecipe.getThinningResult(ic);
-		return thinResult;
+		return MicroRecipe.getThinningResult(ic);
 		//return null;
 	}
 	
@@ -294,8 +291,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 		int posOfBlock = 1 + 0 * 3;
 		ic.setInventorySlotContents(posOfSaw, saw);
 		ic.setInventorySlotContents(posOfBlock, input);
-		ItemStack splitResult = MicroRecipe.getSplittingResult(ic);
-		return splitResult;
+		return MicroRecipe.getSplittingResult(ic);
 		//return null;
 	}
 	
@@ -418,8 +414,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
                 if(outputUpDownInventory != null) {
                     if(!outputUpDownInventory.isItemEqual(target)) return false; 
                     int newItemStackSize = outputUpDownInventory.stackSize + target.stackSize;
-                    boolean ret = newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize();
-                    return ret;
+					return newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize();
                 } else {
                     return true;
                 }
@@ -430,8 +425,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
                 if(outputLeftRightInventory != null) {
                     if(!outputLeftRightInventory.isItemEqual(target)) return false; 
                     int newItemStackSize = outputLeftRightInventory.stackSize + target.stackSize;
-                    boolean ret = newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize();
-                    return ret;
+					return newItemStackSize <= getInventoryStackLimit() && newItemStackSize <= target.getMaxStackSize();
                 } else {
                     return true;
                 }
