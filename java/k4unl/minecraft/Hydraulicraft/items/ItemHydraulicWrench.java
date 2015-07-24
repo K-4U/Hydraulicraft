@@ -2,10 +2,15 @@ package k4unl.minecraft.Hydraulicraft.items;
 
 import buildcraft.api.tools.IToolWrench;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.IPressurizableItem;
+import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -24,6 +29,9 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
 
     public ItemHydraulicWrench() {
         super(Names.itemHydraulicWrench);
+        setNoRepair();
+        maxStackSize = 1;
+
     }
 
     @Override
@@ -169,5 +177,18 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
             else
                 saveFluid(itemStack, fluidStack);
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    /**
+     * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
+     */
+    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+        par3List.add(new ItemStack(par1, 1, 0));
+        ItemStack filled = new ItemStack(par1, 1);
+        savePressure(filled, getMaxPressure());
+        setFluid(filled, new FluidStack(Fluids.fluidHydraulicOil, (int)getMaxFluid()));
+        par3List.add(filled);
     }
 }
