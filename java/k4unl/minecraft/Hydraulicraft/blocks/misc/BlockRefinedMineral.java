@@ -21,6 +21,7 @@ public class BlockRefinedMineral extends BlockFalling {
         setBlockTextureName(name.unlocalized);
         setStepSound(Block.soundTypeSand);
         setCreativeTab(CustomTabs.tabHydraulicraft);
+        setHardness(0.5F);
     }
 
     @Override
