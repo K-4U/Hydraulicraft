@@ -1,8 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
@@ -12,6 +9,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SubBlockBase extends HydraulicBlockBase {
 	private List<IIcon> icons;
@@ -51,7 +51,7 @@ public class SubBlockBase extends HydraulicBlockBase {
 	
 	
 	private String getTextureName(String side, int subId){
-		if(side != ""){
+		if(!side.equals("")){
 			return ModInfo.LID + ":" + mName[subId].unlocalized + "_" + side;
 		}else{
 			return ModInfo.LID + ":" + mName[subId].unlocalized;

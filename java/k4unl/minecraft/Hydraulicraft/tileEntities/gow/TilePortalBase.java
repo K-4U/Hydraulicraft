@@ -104,7 +104,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 			frames = new ArrayList<Location>();
 		}
 		NBTTagCompound list = tCompound.getCompoundTag("portalFrames");
-		int i = 0;
+		int i;
 		for(i = 0; i < list.getInteger("max"); i++){
 			Location frameLocation = new Location(list.getIntArray(""+i));
 			frames.add(frameLocation);
@@ -477,8 +477,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 		if(linkingCard.getTagCompound().getLong("linked") == 0) return null;
 		long linked = linkingCard.getTagCompound().getLong("linked");
 		if(Hydraulicraft.ipList.getLocation(linked) == null) return null;
-		Location l = new Location(Hydraulicraft.ipList.getLocation(linked), portalDir, 1);
-		return l;
+		return new Location(Hydraulicraft.ipList.getLocation(linked), portalDir, 1);
 	}
 
 	public void dye(int i) {

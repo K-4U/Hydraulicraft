@@ -108,8 +108,7 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
-		return tankInfo;
+		return new FluidTankInfo[]{new FluidTankInfo(tank)};
 	}
 	
 	@Override

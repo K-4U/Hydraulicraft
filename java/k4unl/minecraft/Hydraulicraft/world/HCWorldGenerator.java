@@ -76,13 +76,14 @@ public class HCWorldGenerator implements IWorldGenerator {
         if(!BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH)){
             return;
         }
-
-        for (int j = 0; j < HCConfig.INSTANCE.getInt("beachiumVeinCount", "worldgen"); j++) {
-            int randX = x + random.nextInt(16);
-            int randZ = z + random.nextInt(16);
-            int blockY = world.getTopSolidOrLiquidBlock(randX, randZ)-1;
-            if(world.getBlock(randX, blockY, randZ) == Blocks.sand) {
-                world.setBlock(randX, blockY, randZ, Ores.oreBeachium);
+        if(random.nextDouble() < HCConfig.INSTANCE.getDouble("beachiumChance", "worldgen")) {
+            for (int j = 0; j < HCConfig.INSTANCE.getInt("beachiumVeinCount", "worldgen"); j++) {
+                int randX = x + random.nextInt(16);
+                int randZ = z + random.nextInt(16);
+                int blockY = world.getTopSolidOrLiquidBlock(randX, randZ) - 1;
+                if (world.getBlock(randX, blockY, randZ) == Blocks.sand) {
+                    world.setBlock(randX, blockY, randZ, Ores.oreBeachium);
+                }
             }
         }
     }
@@ -95,8 +96,8 @@ public class HCWorldGenerator implements IWorldGenerator {
             return;
         }
 
-        for (int j = 0; j < HCConfig.INSTANCE.getInt("nadsiumBicarbinateVeinCount", "worldgen"); j++) {
-            if(random.nextDouble() < HCConfig.INSTANCE.getDouble("nadsiumBicarbinateChance", "worldgen")){
+        if(random.nextDouble() < HCConfig.INSTANCE.getDouble("nadsiumBicarbinateChance", "worldgen")){
+            for (int j = 0; j < HCConfig.INSTANCE.getInt("nadsiumBicarbinateVeinCount", "worldgen"); j++) {
                 int randX = x + random.nextInt(16);
                 int randZ = z + random.nextInt(16);
                 int blockY = world.getTopSolidOrLiquidBlock(randX, randZ)-1;

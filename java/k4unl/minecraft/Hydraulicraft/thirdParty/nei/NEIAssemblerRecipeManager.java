@@ -39,8 +39,8 @@ public class NEIAssemblerRecipeManager extends NEIHydraulicRecipePlugin {
     protected CachedRecipe processRecipe(IFluidRecipe recipe) {
         int width, height;
         try {
-            width = ((Integer) ReflectionManager.getField(ShapedOreRecipe.class, Integer.class, recipe, 4)).intValue();
-            height = ((Integer) ReflectionManager.getField(ShapedOreRecipe.class, Integer.class, recipe, 5)).intValue();
+            width = ReflectionManager.getField(ShapedOreRecipe.class, Integer.class, recipe, 4);
+            height = ReflectionManager.getField(ShapedOreRecipe.class, Integer.class, recipe, 5);
         } catch (IllegalAccessException e) {
             Log.error("Error accessing recipe size!");
             return null;

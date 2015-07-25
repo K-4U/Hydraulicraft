@@ -23,7 +23,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class TileHarvesterTrolley extends TileEntity {
@@ -114,7 +114,7 @@ public class TileHarvesterTrolley extends TileEntity {
 		float blocksToMoveSideways = Math.abs(sideTarget - sideLength);
 		float blocksToExtendDown = Math.abs(extendTarget - extendedLength);
 		
-		float movingSpeedPercentage = 0F;
+		float movingSpeedPercentage;
 		if(isRetracting){
 			movingSpeedPercentage = movingSpeedSidewaysBack / blocksToMoveSideways;
 		}else{
@@ -239,11 +239,11 @@ public class TileHarvesterTrolley extends TileEntity {
 		tagCompound.setBoolean("harvesterPart", harvesterPart);
 		
 		NBTTagList tagList = new NBTTagList();
-        for(int currentIndex = 0; currentIndex < harvestedItems.size(); ++currentIndex) {
-            NBTTagCompound itemTag = new NBTTagCompound();
-            harvestedItems.get(currentIndex).writeToNBT(itemTag);
-            tagList.appendTag(itemTag);
-        }
+		for (ItemStack harvestedItem : harvestedItems) {
+			NBTTagCompound itemTag = new NBTTagCompound();
+			harvestedItem.writeToNBT(itemTag);
+			tagList.appendTag(itemTag);
+		}
 	    tagCompound.setTag("HarvestedItems", tagList);
 	    
 	    if(plantingItem != null){
@@ -421,7 +421,7 @@ public class TileHarvesterTrolley extends TileEntity {
 	
 	public List<ItemStack> getRenderedItems(){
 	    if(plantingItem != null){
-	        return Arrays.asList(new ItemStack[]{plantingItem});
+	        return Collections.singletonList(plantingItem);
 	    }else{
 	        return harvestedItems;
 	    }

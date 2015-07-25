@@ -10,7 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 public abstract class ContainerBase extends Container {
     protected TileEntity tileEntity;
     private int internalSlots = 0;
-    private int totalSlots = 0;
+    private int totalSlots    = 0;
 
     public ContainerBase(TileEntity tileEntity) {
         this.tileEntity = tileEntity;
@@ -34,6 +34,14 @@ public abstract class ContainerBase extends Container {
         }
 
         totalSlots += 36;
+    }
+
+    protected void bindPlayerArmorSlots(InventoryPlayer player, int offX, int offY) {
+        for (int i = 0; i < 4; i++) {
+            super.addSlotToContainer(new Slot(player, 36 + i, offX + i * 18, offY));
+        }
+
+        totalSlots += 4;
     }
 
     @Override

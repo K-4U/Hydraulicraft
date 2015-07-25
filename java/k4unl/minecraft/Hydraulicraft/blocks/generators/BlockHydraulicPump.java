@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.client.renderers.generators.RendererHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
@@ -16,68 +17,75 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockHydraulicPump extends HydraulicTieredBlockBase implements IMultiTieredBlock{
+public class BlockHydraulicPump extends HydraulicTieredBlockBase implements IMultiTieredBlock {
 
-	public BlockHydraulicPump() {
+    public BlockHydraulicPump() {
+
         super(Names.blockHydraulicPump);
         this.hasTextures = false;
+        //setLightOpacity(255);
     }
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicPump(metadata);
-	}
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
 
-	@Override
-	public GuiIDs getGUIID() {
-
-		return GuiIDs.PUMP;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getRenderType(){
-        return -1;
+        return new TileHydraulicPump(metadata);
     }
-	
-	@Override
-    public boolean isOpaqueCube(){
+
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.PUMP;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getRenderType() {
+
+        return RendererHydraulicPump.RENDER_ID;
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+
         return false;
     }
 
     @Override
-    public boolean renderAsNormalBlock(){
-        return false;
+    public boolean renderAsNormalBlock() {
+
+        return true;
     }
-	
+
     @Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
-		int sideToPlace = MathHelper.floor_double(player.rotationYaw / 90F + 0.5D) & 3;
-		
-		int metaDataToSet = 0;
-		switch(sideToPlace){
-		case 0:
-			metaDataToSet = 2;
-			break;
-		case 1:
-			metaDataToSet = 5;
-			break;
-		case 2:
-			metaDataToSet = 3;
-			break;
-		case 3:
-			metaDataToSet = 4;
-			break;
-		}
-		ForgeDirection facing = ForgeDirection.getOrientation(metaDataToSet);
-		TileEntity entity = world.getTileEntity(x, y, z);
-		if(entity != null && entity instanceof TileHydraulicPump){
-			((TileHydraulicPump)entity).setFacing(facing);
-		}
-		
-		//world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
-	}
-    
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack) {
+
+        int sideToPlace = MathHelper.floor_double(player.rotationYaw / 90F + 0.5D) & 3;
+
+        int metaDataToSet = 0;
+        switch (sideToPlace) {
+            case 0:
+                metaDataToSet = 2;
+                break;
+            case 1:
+                metaDataToSet = 5;
+                break;
+            case 2:
+                metaDataToSet = 3;
+                break;
+            case 3:
+                metaDataToSet = 4;
+                break;
+        }
+        ForgeDirection facing = ForgeDirection.getOrientation(metaDataToSet);
+        TileEntity     entity = world.getTileEntity(x, y, z);
+        if (entity != null && entity instanceof TileHydraulicPump) {
+            ((TileHydraulicPump) entity).setFacing(facing);
+        }
+
+        //world.setBlockMetadataWithNotify(x, y, z, metaDataToSet, 2);
+    }
+
     @Override
     public PressureTier getTier(int metadata) {
 
@@ -85,7 +93,7 @@ public class BlockHydraulicPump extends HydraulicTieredBlockBase implements IMul
     }
 
     @Override
-    public PressureTier getTier(IBlockAccess world, int x, int y, int z){
+    public PressureTier getTier(IBlockAccess world, int x, int y, int z) {
 
         return PressureTier.fromOrdinal(world.getBlockMetadata(x, y, z));
     }

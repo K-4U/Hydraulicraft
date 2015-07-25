@@ -63,7 +63,7 @@ public class ItemMiningHelmet extends ItemArmor {
 		if(itemStack.getTagCompound().getBoolean("powered")){
 			if(world.getTotalWorldTime() % 10 == 0){
 				MovingObjectPosition blockLookedAt = Functions.getEntityLookedObject(player, 12);
-				Location blockLocation = null;
+				Location blockLocation;
 				Location playerLocation = new Location((int)Math.floor(player.posX), (int)Math.floor(player.posY)+1, (int)Math.floor(player.posZ));
 				if(blockLookedAt != null){
 					ForgeDirection dir = ForgeDirection.getOrientation(blockLookedAt.sideHit);

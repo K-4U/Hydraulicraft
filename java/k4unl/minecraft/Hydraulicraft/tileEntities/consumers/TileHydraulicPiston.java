@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
@@ -121,7 +120,7 @@ public class TileHydraulicPiston extends TileHydraulicBase implements IHydraulic
 		oldExtendedLength = extendedLength;
 		
 		int compResult = Float.compare(extendTarget, extendedLength);
-		if(simulate == false){
+		if(!simulate){
 			if(compResult > 0 && !isRetracting){
 				extendedLength += movingSpeed;
 			}else if(compResult < 0 && isRetracting){

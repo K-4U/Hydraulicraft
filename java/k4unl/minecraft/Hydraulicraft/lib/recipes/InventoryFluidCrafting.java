@@ -369,6 +369,7 @@ public class InventoryFluidCrafting implements IFluidInventory {
             compound.setTag("OutputItem", outputItem.writeToNBT(new NBTTagCompound()));
 
         compound.setFloat("Progress", progress);
+        compound.setBoolean("craftingInProgress", craftingInProgress);
     }
 
     public void load(NBTTagCompound compound) {
@@ -406,6 +407,7 @@ public class InventoryFluidCrafting implements IFluidInventory {
             outputItem = ItemStack.loadItemStackFromNBT((NBTTagCompound) compound.getTag("OutputItem"));
 
         progress = compound.getFloat("Progress");
+        craftingInProgress = compound.getBoolean("craftingInProgress");
     }
 
     public void eatItems() {

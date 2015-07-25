@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.k4lib.lib.Location;
@@ -106,7 +105,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 				}
 			}
 		}
-		if(!worldObj.isRemote && isPane == false){
+		if(!worldObj.isRemote && !isPane){
 			if(getChild() == null){
 				return;
 			}
@@ -256,7 +255,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 			TileEntity te = new Location(xCoord, yCoord, zCoord).getTE(getWorldObj(), dir);
 			if(te instanceof TileMovingPane){
 				if(!called.contains(te)){
-					if(((TileMovingPane) te).getRedstonePowered(called) == true){
+					if(((TileMovingPane) te).getRedstonePowered(called)){
 						oneTrue = true;
 						allFalse = false;
 					}

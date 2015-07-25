@@ -48,13 +48,17 @@ public class RendererGlowBlock implements ISimpleBlockRenderingHandler {
         boolean ret = renderer.renderStandardBlock(block, x, y, z);
 
         if (block instanceof IGlowBlock) {
+
             IIcon icon = ((IGlowBlock) block).getGlowIcon();
             //Render it again here, with brightness 0xE000E0
             Tessellator t = Tessellator.instance;
-            t.addTranslation(x, y, z);
             t.setBrightness(0xE000E0);
+            t.setColorRGBA(255, 255, 255, 255);
+            t.addTranslation(x, y, z);
+            //OpenGlHelper.setLightmapTextureCoords(OpenGlHelper
+             //       .lightmapTexUnit, 240f, 240f);
             RenderHelper.drawTesselatedCubeWithTexture(new Vector3fMax(-0.001F, -0.001F, -0.001F, 1.001F, 1.001F, 1.001F), icon);
-            t.setBrightness(0xFFFFFF);
+            //t.setBrightness(0xFFFFFF);
             t.addTranslation(-x, -y, -z);
         }
 

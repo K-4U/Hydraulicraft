@@ -67,7 +67,7 @@ public class NEICrusherRecipeManager extends NEIHydraulicRecipePlugin {
         if (recipe instanceof FluidShapedOreRecipe) {
             // TODO processRecipe SHAPED
         } else if (recipe instanceof FluidShapelessOreRecipe) {
-            return processRecipe((FluidShapelessOreRecipe) recipe);
+            return processRecipe(recipe);
         }
 
         return null;

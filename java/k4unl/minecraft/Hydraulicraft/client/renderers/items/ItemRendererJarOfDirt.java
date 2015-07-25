@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererJarOfDirt;
-import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;

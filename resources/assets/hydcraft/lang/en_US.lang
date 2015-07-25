@@ -15,6 +15,11 @@ item.itemLamp.name=Miners Helmet Lamp
 item.diamondShard.name=Diamond Shard
 item.dustDiamondCopper.name=Enriched Copper Dust
 item.enderLolly.name=Ender Lolly
+item.divingHelmet.name=Diving Suit Helmet
+item.divingChest.name=Diving Suit Chestplate
+item.divingLegs.name=Diving Suit Legs
+item.divingBoots.name=Diving Suit Boots
+item.hydraulicWrench.name=Hydraulic Wrench
 
 
 #Ores
@@ -23,6 +28,7 @@ tile.oreLead.name=Lead Ore
 tile.oreLonezium.name=Lonezium
 tile.oreBeachium.name=Beachium
 tile.oreNadsiumBicarbinate.name=Nadsium Bicarbinate
+tile.oreFoxium.name=Foxium
 
 #Blocks
 tile.hydraulicOil.name=Hydraulic Oil
@@ -90,6 +96,9 @@ tile.blockDirtyMineral.name=Dirty Mineral
 tile.hydraulicAssembler.name=Assembler
 tile.fluidPipe.name=Fluid Pipe
 tile.fluidInterface.name=Fluid Interface
+tile.hydraulicCharger.name=Hydraulic Charger
+tile.hydraulicFiller.name=Hydraulic Filler
+
 
 #Dust and chunks
 dustGold.name=Gold Dust

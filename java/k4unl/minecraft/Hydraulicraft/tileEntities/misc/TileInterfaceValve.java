@@ -78,7 +78,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     public IHydraulicConsumer getTarget() {
 
-        if (targetHasChanged == true && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)) {
+        if (targetHasChanged && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)) {
             TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
             if (t instanceof IHydraulicConsumer) {
                 target = (IHydraulicConsumer) t;
@@ -90,346 +90,314 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             if (t instanceof ISidedInventory) {
                 inventoryTarget = (ISidedInventory) t;
             }
-        } else if (targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord) {
+        } else if (targetHasChanged && targetX == xCoord && targetY == yCoord && targetZ == zCoord) {
             target = null;
             fluidTarget = null;
-			inventoryTarget = null;
-		}
-		return target;
-	}
-	
-	public IFluidHandler getFluidTarget(){
-		if(targetHasChanged == true && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
-			TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
-			if(t instanceof IHydraulicConsumer){
-				target = (IHydraulicConsumer) t;
+            inventoryTarget = null;
+        }
+        return target;
+    }
+
+    public IFluidHandler getFluidTarget() {
+        if (targetHasChanged && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)) {
+            TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
+            if (t instanceof IHydraulicConsumer) {
+                target = (IHydraulicConsumer) t;
             }
-            if(t instanceof IFluidHandler){
+            if (t instanceof IFluidHandler) {
                 fluidTarget = (IFluidHandler) t;
             }
-            if(t instanceof ISidedInventory){
+            if (t instanceof ISidedInventory) {
                 inventoryTarget = (ISidedInventory) t;
             }
             targetHasChanged = false;
-			//}
-		}else if(targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
-			target = null;
-			fluidTarget = null;
-			inventoryTarget = null;
-		}
-		return fluidTarget;
-	}
-	
-	public ISidedInventory getInventoryTarget(){
-		if(targetHasChanged == true && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
-			TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
-			if(t instanceof IHydraulicConsumer){
-				target = (IHydraulicConsumer) t;
-				if(t instanceof IFluidHandler){
-					fluidTarget = (IFluidHandler) t;
-				}
-				if(t instanceof ISidedInventory){
-					inventoryTarget = (ISidedInventory) t;
-				}
-				targetHasChanged = false;
-			}
-		}else if(targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
-			target = null;
-			fluidTarget = null;
-			inventoryTarget = null;
-		}
-		return inventoryTarget;
-	}
-	
+            //}
+        } else if (targetHasChanged && targetX == xCoord && targetY == yCoord && targetZ == zCoord) {
+            target = null;
+            fluidTarget = null;
+            inventoryTarget = null;
+        }
+        return fluidTarget;
+    }
 
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound) {
-		super.readFromNBT(tagCompound);
-		targetX = tagCompound.getInteger("targetX");
-		targetY = tagCompound.getInteger("targetY");
-		targetZ = tagCompound.getInteger("targetZ");
-		if(tagCompound.getBoolean("isTargetNull")){
-			target = null;
-		}
-		if(worldObj != null && worldObj.isRemote){
-			if(tagCompound.getBoolean("clientNeedsToResetTarget")){
-				resetTarget();
-			}
-			if(tagCompound.getBoolean("clientNeedsToSetTarget")){
-				targetHasChanged = true;
-				getTarget();
-			}
-		}
-		isTank = tagCompound.getBoolean("isTank");
-		tankCorner1 = new Location(tagCompound.getIntArray("tankCorner1"));
-		tankCorner2 = new Location(tagCompound.getIntArray("tankCorner2"));
-		if(tankScore != tagCompound.getInteger("tankScore")) {
-            if(tankScore == 0){
+    public ISidedInventory getInventoryTarget() {
+        if (targetHasChanged && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)) {
+            TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
+            if (t instanceof IHydraulicConsumer) {
+                target = (IHydraulicConsumer) t;
+                if (t instanceof IFluidHandler) {
+                    fluidTarget = (IFluidHandler) t;
+                }
+                if (t instanceof ISidedInventory) {
+                    inventoryTarget = (ISidedInventory) t;
+                }
+                targetHasChanged = false;
+            }
+        } else if (targetHasChanged && targetX == xCoord && targetY == yCoord && targetZ == zCoord) {
+            target = null;
+            fluidTarget = null;
+            inventoryTarget = null;
+        }
+        return inventoryTarget;
+    }
+
+
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
+        targetX = tagCompound.getInteger("targetX");
+        targetY = tagCompound.getInteger("targetY");
+        targetZ = tagCompound.getInteger("targetZ");
+        if (tagCompound.getBoolean("isTargetNull")) {
+            target = null;
+        }
+        if (worldObj != null && worldObj.isRemote) {
+            if (tagCompound.getBoolean("clientNeedsToResetTarget")) {
+                resetTarget();
+            }
+            if (tagCompound.getBoolean("clientNeedsToSetTarget")) {
+                targetHasChanged = true;
+                getTarget();
+            }
+        }
+        isTank = tagCompound.getBoolean("isTank");
+        tankCorner1 = new Location(tagCompound.getIntArray("tankCorner1"));
+        tankCorner2 = new Location(tagCompound.getIntArray("tankCorner2"));
+        if (tankScore != tagCompound.getInteger("tankScore")) {
+            if (tankScore == 0) {
                 tankScore = tagCompound.getInteger("tankScore");
                 tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
             }
-		}
-		if(tank == null){
-			tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
-		}
-		NBTTagCompound tankCompound = tagCompound.getCompoundTag("tank");
-		if(tankCompound != null){
-			if(tank != null){
-				tank.readFromNBT(tankCompound);
-			}
-		}
-	}
-	
-	
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		NBTTagCompound tagCompound = packet.func_148857_g();
-		this.readFromNBT(tagCompound);
-	}
-	
-	@Override
-	public Packet getDescriptionPacket(){
-		NBTTagCompound tagCompound = new NBTTagCompound();
-		this.writeToNBT(tagCompound);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 5, tagCompound);
-	}
-	
+        }
+        if (tank == null) {
+            tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
+        }
+        NBTTagCompound tankCompound = tagCompound.getCompoundTag("tank");
+        if (tankCompound != null) {
+            if (tank != null) {
+                tank.readFromNBT(tankCompound);
+            }
+        }
+    }
 
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound) {
-		super.writeToNBT(tagCompound);
-		tagCompound.setInteger("targetX", targetX);
-		tagCompound.setInteger("targetY", targetY);
-		tagCompound.setInteger("targetZ", targetZ);
-		tagCompound.setBoolean("isTargetNull", (target == null));
-		if(target == null){
-			tagCompound.setBoolean("isTargetNull", (target == null));			
-		}
-		if(worldObj != null && !worldObj.isRemote){
-			tagCompound.setBoolean("clientNeedsToResetTarget", clientNeedsToResetTarget);
-			tagCompound.setBoolean("clientNeedsToSetTarget", clientNeedsToSetTarget);
-			clientNeedsToResetTarget = false;
-			clientNeedsToSetTarget = false;
-		}
-		tagCompound.setBoolean("targetHasChanged", targetHasChanged);
 
-		tagCompound.setBoolean("isTank", isTank);
-		if(isTank == true) {
-			tagCompound.setIntArray("tankCorner1", tankCorner1.getIntArray());
-			tagCompound.setIntArray("tankCorner2", tankCorner2.getIntArray());
-			tagCompound.setInteger("tankScore", tankScore);
-		}else{
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+        NBTTagCompound tagCompound = packet.func_148857_g();
+        this.readFromNBT(tagCompound);
+    }
+
+    @Override
+    public Packet getDescriptionPacket() {
+        NBTTagCompound tagCompound = new NBTTagCompound();
+        this.writeToNBT(tagCompound);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 5, tagCompound);
+    }
+
+
+    @Override
+    public void writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
+        tagCompound.setInteger("targetX", targetX);
+        tagCompound.setInteger("targetY", targetY);
+        tagCompound.setInteger("targetZ", targetZ);
+        tagCompound.setBoolean("isTargetNull", (target == null));
+        if (target == null) {
+            tagCompound.setBoolean("isTargetNull", (target == null));
+        }
+        if (worldObj != null && !worldObj.isRemote) {
+            tagCompound.setBoolean("clientNeedsToResetTarget", clientNeedsToResetTarget);
+            tagCompound.setBoolean("clientNeedsToSetTarget", clientNeedsToSetTarget);
+            clientNeedsToResetTarget = false;
+            clientNeedsToSetTarget = false;
+        }
+        tagCompound.setBoolean("targetHasChanged", targetHasChanged);
+
+        tagCompound.setBoolean("isTank", isTank);
+        if (isTank) {
+            tagCompound.setIntArray("tankCorner1", tankCorner1.getIntArray());
+            tagCompound.setIntArray("tankCorner2", tankCorner2.getIntArray());
+            tagCompound.setInteger("tankScore", tankScore);
+        } else {
             tagCompound.setInteger("tankScore", 0);
         }
-		NBTTagCompound tankCompound = new NBTTagCompound();
-		if(tank != null){
-			tank.writeToNBT(tankCompound);
-			tagCompound.setTag("tank", tankCompound);
-		}
-	}
-	
-	@Override
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		if(!isTank) {
-			if (getFluidTarget() != null) {
-				return getFluidTarget().fill(from, resource, doFill);
-			} else {
-				return 0;
-			}
-		}else{
-			getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-			return tank.fill(resource, doFill);
+        NBTTagCompound tankCompound = new NBTTagCompound();
+        if (tank != null) {
+            tank.writeToNBT(tankCompound);
+            tagCompound.setTag("tank", tankCompound);
+        }
+    }
 
-		}
-	}
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        if (!isTank) {
+            if (getFluidTarget() != null) {
+                return getFluidTarget().fill(from, resource, doFill);
+            } else {
+                return 0;
+            }
+        } else {
+            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+            return tank.fill(resource, doFill);
 
-	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource,
-			boolean doDrain) {
-		if(!isTank) {
-			if (getFluidTarget() != null) {
-				return getFluidTarget().drain(from, resource, doDrain);
-			} else {
-				return null;
-			}
-		}else{
-			return null;
-		}
-	}
+        }
+    }
 
-	@Override
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		if(!isTank) {
-			if (getFluidTarget() != null) {
-				return getFluidTarget().drain(from, maxDrain, doDrain);
-			} else {
-				return null;
-			}
-		}else{
-			getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-			return tank.drain(maxDrain, doDrain);
-		}
-	}
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource,
+                            boolean doDrain) {
+        if (!isTank) {
+            if (getFluidTarget() != null) {
+                return getFluidTarget().drain(from, resource, doDrain);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
-	@Override
-	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		if(!isTank) {
-			if (getFluidTarget() != null) {
-				return getFluidTarget().canFill(from, fluid);
-			} else {
-				return false;
-			}
-		}else{
-			return true;
-		}
-	}
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+        if (!isTank) {
+            if (getFluidTarget() != null) {
+                return getFluidTarget().drain(from, maxDrain, doDrain);
+            } else {
+                return null;
+            }
+        } else {
+            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+            return tank.drain(maxDrain, doDrain);
+        }
+    }
 
-	@Override
-	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		if(!isTank) {
-			if (getFluidTarget() != null) {
-				return getFluidTarget().canDrain(from, fluid);
-			} else {
-				return false;
-			}
-		}else{
-			return true;
-		}
-	}
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
+        return isTank || getFluidTarget() != null && getFluidTarget().canFill(from, fluid);
+    }
 
-	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		if(!isTank) {
-			if (getFluidTarget() != null) {
-				return getFluidTarget().getTankInfo(from);
-			} else {
-				return null;
-			}
-		}else{
-			FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
-			return tankInfo;
-		}
-	}
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        return isTank || getFluidTarget() != null && getFluidTarget().canDrain(from, fluid);
+    }
 
-	@Override
-	public int getSizeInventory() {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().getSizeInventory();
-		}
-		return 0;
-	}
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+        if (!isTank) {
+            if (getFluidTarget() != null) {
+                return getFluidTarget().getTankInfo(from);
+            } else {
+                return null;
+            }
+        } else {
+            return new FluidTankInfo[]{new FluidTankInfo(tank)};
+        }
+    }
 
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().getStackInSlot(i);
-		}
-		return null;
-	}
+    @Override
+    public int getSizeInventory() {
+        if (getInventoryTarget() != null) {
+            return getInventoryTarget().getSizeInventory();
+        }
+        return 0;
+    }
 
-	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().decrStackSize(i, j);
-		}
-		return null;
-	}
+    @Override
+    public ItemStack getStackInSlot(int i) {
+        if (getInventoryTarget() != null) {
+            return getInventoryTarget().getStackInSlot(i);
+        }
+        return null;
+    }
 
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().getStackInSlotOnClosing(i);
-		}
-		return null;
-	}
+    @Override
+    public ItemStack decrStackSize(int i, int j) {
+        if (getInventoryTarget() != null) {
+            return getInventoryTarget().decrStackSize(i, j);
+        }
+        return null;
+    }
 
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		if(getInventoryTarget() != null){
-			getInventoryTarget().setInventorySlotContents(i, itemstack);
-		}
-	}
+    @Override
+    public ItemStack getStackInSlotOnClosing(int i) {
+        if (getInventoryTarget() != null) {
+            return getInventoryTarget().getStackInSlotOnClosing(i);
+        }
+        return null;
+    }
 
-	@Override
-	public int getInventoryStackLimit() {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().getInventoryStackLimit();
-		}
-		return 0;
-	}
+    @Override
+    public void setInventorySlotContents(int i, ItemStack itemstack) {
+        if (getInventoryTarget() != null) {
+            getInventoryTarget().setInventorySlotContents(i, itemstack);
+        }
+    }
 
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().isUseableByPlayer(entityplayer);
-		}
-		return false;
-	}
+    @Override
+    public int getInventoryStackLimit() {
+        if (getInventoryTarget() != null) {
+            return getInventoryTarget().getInventoryStackLimit();
+        }
+        return 0;
+    }
 
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().isItemValidForSlot(i, itemstack);
-		}
-		return false;
-	}
+    @Override
+    public boolean isUseableByPlayer(EntityPlayer entityplayer) {
+        return getInventoryTarget() != null && getInventoryTarget().isUseableByPlayer(entityplayer);
+    }
 
-	@Override
-	public int[] getAccessibleSlotsFromSide(int var1) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().getAccessibleSlotsFromSide(var1);
-		}
-		return new int[0];
-	}
+    @Override
+    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+        return getInventoryTarget() != null && getInventoryTarget().isItemValidForSlot(i, itemstack);
+    }
 
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().canInsertItem(i, itemstack, j);
-		}
-		return false;
-	}
+    @Override
+    public int[] getAccessibleSlotsFromSide(int var1) {
+        if (getInventoryTarget() != null) {
+            return getInventoryTarget().getAccessibleSlotsFromSide(var1);
+        }
+        return new int[0];
+    }
 
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().canExtractItem(i, itemstack, j);
-		}
-		return false;
-	}
+    @Override
+    public boolean canInsertItem(int i, ItemStack itemstack, int j) {
+        return getInventoryTarget() != null && getInventoryTarget().canInsertItem(i, itemstack, j);
+    }
 
-	@Override
-	public String getInventoryName() {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().getInventoryName();
-		}
-		return null;
-	}
+    @Override
+    public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+        return getInventoryTarget() != null && getInventoryTarget().canExtractItem(i, itemstack, j);
+    }
 
-	@Override
-	public boolean hasCustomInventoryName() {
-		if(getInventoryTarget() != null){
-			return getInventoryTarget().hasCustomInventoryName();
-		}
-		return false;
-	}
+    @Override
+    public String getInventoryName() {
+        if (getInventoryTarget() != null) {
+            return getInventoryTarget().getInventoryName();
+        }
+        return null;
+    }
 
-	@Override
-	public void openInventory() {
-		if(getInventoryTarget() != null){
-			getInventoryTarget().openInventory();
-		}		
-	}
+    @Override
+    public boolean hasCustomInventoryName() {
+        return getInventoryTarget() != null && getInventoryTarget().hasCustomInventoryName();
+    }
 
-	@Override
-	public void closeInventory() {
-		if(getInventoryTarget() != null){
-			getInventoryTarget().closeInventory();
-		}	
-	}
+    @Override
+    public void openInventory() {
+        if (getInventoryTarget() != null) {
+            getInventoryTarget().openInventory();
+        }
+    }
 
-	public void checkTank(ForgeDirection sideClicked) {
-        if(getFluidTarget() == null){
+    @Override
+    public void closeInventory() {
+        if (getInventoryTarget() != null) {
+            getInventoryTarget().closeInventory();
+        }
+    }
+
+    public void checkTank(ForgeDirection sideClicked) {
+        if (getFluidTarget() == null) {
             Log.info("Checking tank. Clicked on side " + sideClicked);
             ForgeDirection tankDir = sideClicked.getOpposite();
 
@@ -442,217 +410,215 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             int maxZ = 0;
 
             Location otherSide = new Location(xCoord, yCoord, zCoord, tankDir);
-            int offset = 0;
+            int offset;
             int size = 0;
-            for(offset = 0; offset < Constants.MAX_TANK_SIZE; offset++){
+            for (offset = 0; offset < Constants.MAX_TANK_SIZE; offset++) {
                 Location testLoc = new Location(otherSide, tankDir, offset);
-                if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
+                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
                     size++;
-                }else{
+                } else {
                     break;
                 }
             }
 
-            if(size == Constants.MAX_TANK_SIZE){
+            if (size == Constants.MAX_TANK_SIZE) {
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
-                if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
+                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
                     return;
                 }
             }
-            if(tankDir.offsetX == 1){
+            if (tankDir.offsetX == 1) {
                 minX = otherSide.getX();
-                maxX = new Location(otherSide, tankDir, offset-1).getX();
+                maxX = new Location(otherSide, tankDir, offset - 1).getX();
             }
-            if(tankDir.offsetX == -1){
+            if (tankDir.offsetX == -1) {
                 maxX = otherSide.getX();
-                minX = new Location(otherSide, tankDir, offset-1).getX();
+                minX = new Location(otherSide, tankDir, offset - 1).getX();
             }
-            if(tankDir.offsetY == 1){
+            if (tankDir.offsetY == 1) {
                 minY = otherSide.getY();
-                maxY = new Location(otherSide, tankDir, offset-1).getY();
+                maxY = new Location(otherSide, tankDir, offset - 1).getY();
             }
-            if(tankDir.offsetY == -1){
+            if (tankDir.offsetY == -1) {
                 maxY = otherSide.getY();
-                minY = new Location(otherSide, tankDir, offset-1).getY();
+                minY = new Location(otherSide, tankDir, offset - 1).getY();
             }
-            if(tankDir.offsetZ == 1){
+            if (tankDir.offsetZ == 1) {
                 minZ = otherSide.getZ();
-                maxZ = new Location(otherSide, tankDir, offset-1).getZ();
+                maxZ = new Location(otherSide, tankDir, offset - 1).getZ();
             }
-            if(tankDir.offsetZ == -1){
+            if (tankDir.offsetZ == -1) {
                 maxZ = otherSide.getZ();
-                minZ = new Location(otherSide, tankDir, offset-1).getZ();
+                minZ = new Location(otherSide, tankDir, offset - 1).getZ();
             }
 
-            int sizeRemaining = Constants.MAX_TANK_SIZE;
+            int sizeRemaining;
             ForgeDirection rotated;
-            if(!tankDir.equals(ForgeDirection.UP) && !tankDir.equals(ForgeDirection.DOWN)){
+            if (!tankDir.equals(ForgeDirection.UP) && !tankDir.equals(ForgeDirection.DOWN)) {
                 rotated = tankDir.getRotation(ForgeDirection.UP);
-            }else{
+            } else {
                 rotated = tankDir.getRotation(ForgeDirection.NORTH);
             }
 
             size = 0;
-            for(offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++){
+            for (offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++) {
                 Location testLoc = new Location(otherSide, rotated, offset);
-                if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
+                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
                     size++;
-                }else{
+                } else {
                     break;
                 }
             }
             sizeRemaining = Constants.MAX_TANK_SIZE - offset;
 
-            if(size == Constants.MAX_TANK_SIZE){
+            if (size == Constants.MAX_TANK_SIZE) {
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
-                if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
+                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
                     return;
                 }
             }
 
-            if(rotated.offsetX == 1){
-                maxX = new Location(otherSide, rotated, size-1).getX();
+            if (rotated.offsetX == 1) {
+                maxX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if(rotated.offsetX == -1){
-                minX = new Location(otherSide, rotated, size-1).getX();
+            if (rotated.offsetX == -1) {
+                minX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if(rotated.offsetY == 1){
-                maxY = new Location(otherSide, rotated, size-1).getY();
+            if (rotated.offsetY == 1) {
+                maxY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if(rotated.offsetY == -1){
-                minY = new Location(otherSide, rotated, size-1).getY();
+            if (rotated.offsetY == -1) {
+                minY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if(rotated.offsetZ == 1){
-                maxZ = new Location(otherSide, rotated, size-1).getZ();
+            if (rotated.offsetZ == 1) {
+                maxZ = new Location(otherSide, rotated, size - 1).getZ();
             }
-            if(rotated.offsetZ == -1){
-                minZ = new Location(otherSide, rotated, size-1).getZ();
+            if (rotated.offsetZ == -1) {
+                minZ = new Location(otherSide, rotated, size - 1).getZ();
             }
 
             rotated = rotated.getOpposite();
             size = 0;
-            for(offset = 0; offset <= sizeRemaining; offset++){
+            for (offset = 0; offset <= sizeRemaining; offset++) {
                 Location testLoc = new Location(otherSide, rotated, offset);
-                if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
+                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
                     size++;
-                }else{
+                } else {
                     break;
                 }
             }
-            sizeRemaining = Constants.MAX_TANK_SIZE - offset;
 
-            if(size == Constants.MAX_TANK_SIZE){
+            if (size == Constants.MAX_TANK_SIZE) {
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
-                if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
+                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
                     return;
                 }
             }
 
-            if(rotated.offsetX == 1){
-                maxX = new Location(otherSide, rotated, size-1).getX();
+            if (rotated.offsetX == 1) {
+                maxX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if(rotated.offsetX == -1){
-                minX = new Location(otherSide, rotated, size-1).getX();
+            if (rotated.offsetX == -1) {
+                minX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if(rotated.offsetY == 1){
-                maxY = new Location(otherSide, rotated, size-1).getY();
+            if (rotated.offsetY == 1) {
+                maxY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if(rotated.offsetY == -1){
-                minY = new Location(otherSide, rotated, size-1).getY();
+            if (rotated.offsetY == -1) {
+                minY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if(rotated.offsetZ == 1){
-                maxZ = new Location(otherSide, rotated, size-1).getZ();
+            if (rotated.offsetZ == 1) {
+                maxZ = new Location(otherSide, rotated, size - 1).getZ();
             }
-            if(rotated.offsetZ == -1){
-                minZ = new Location(otherSide, rotated, size-1).getZ();
+            if (rotated.offsetZ == -1) {
+                minZ = new Location(otherSide, rotated, size - 1).getZ();
             }
 
             //Now, rotate it the OTHER way
-            if(!tankDir.equals(ForgeDirection.EAST) && !tankDir.equals
-                    (ForgeDirection.WEST)){
+            if (!tankDir.equals(ForgeDirection.EAST) && !tankDir.equals
+                    (ForgeDirection.WEST)) {
                 rotated = tankDir.getRotation(ForgeDirection.EAST);
-            }else{
+            } else {
                 rotated = tankDir.getRotation(ForgeDirection.NORTH);
             }
 
             size = 0;
-            for(offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++){
+            for (offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++) {
                 Location testLoc = new Location(otherSide, rotated, offset);
-                if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
+                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
                     size++;
-                }else{
+                } else {
                     break;
                 }
             }
             sizeRemaining = Constants.MAX_TANK_SIZE - offset;
 
-            if(size == Constants.MAX_TANK_SIZE){
+            if (size == Constants.MAX_TANK_SIZE) {
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
-                if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
+                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
                     return;
                 }
             }
 
-            if(rotated.offsetX == 1){
-                maxX = new Location(otherSide, rotated, size-1).getX();
+            if (rotated.offsetX == 1) {
+                maxX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if(rotated.offsetX == -1){
-                minX = new Location(otherSide, rotated, size-1).getX();
+            if (rotated.offsetX == -1) {
+                minX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if(rotated.offsetY == 1){
-                maxY = new Location(otherSide, rotated, size-1).getY();
+            if (rotated.offsetY == 1) {
+                maxY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if(rotated.offsetY == -1){
-                minY = new Location(otherSide, rotated, size-1).getY();
+            if (rotated.offsetY == -1) {
+                minY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if(rotated.offsetZ == 1){
-                maxZ = new Location(otherSide, rotated, size-1).getZ();
+            if (rotated.offsetZ == 1) {
+                maxZ = new Location(otherSide, rotated, size - 1).getZ();
             }
-            if(rotated.offsetZ == -1){
-                minZ = new Location(otherSide, rotated, size-1).getZ();
+            if (rotated.offsetZ == -1) {
+                minZ = new Location(otherSide, rotated, size - 1).getZ();
             }
 
             rotated = rotated.getOpposite();
             size = 0;
-            for(offset = 0; offset <= sizeRemaining; offset++){
+            for (offset = 0; offset <= sizeRemaining; offset++) {
                 Location testLoc = new Location(otherSide, rotated, offset);
-                if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
+                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
                     size++;
-                }else{
+                } else {
                     break;
                 }
             }
-            sizeRemaining = Constants.MAX_TANK_SIZE - offset;
 
-            if(size == Constants.MAX_TANK_SIZE){
+            if (size == Constants.MAX_TANK_SIZE) {
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
-                if(testLoc.getBlock(getWorldObj()).getMaterial() == Material.air){
+                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
                     return;
                 }
             }
 
-            if(rotated.offsetX == 1){
-                maxX = new Location(otherSide, rotated, size-1).getX();
+            if (rotated.offsetX == 1) {
+                maxX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if(rotated.offsetX == -1){
-                minX = new Location(otherSide, rotated, size-1).getX();
+            if (rotated.offsetX == -1) {
+                minX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if(rotated.offsetY == 1){
-                maxY = new Location(otherSide, rotated, size-1).getY();
+            if (rotated.offsetY == 1) {
+                maxY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if(rotated.offsetY == -1){
-                minY = new Location(otherSide, rotated, size-1).getY();
+            if (rotated.offsetY == -1) {
+                minY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if(rotated.offsetZ == 1){
-                maxZ = new Location(otherSide, rotated, size-1).getZ();
+            if (rotated.offsetZ == 1) {
+                maxZ = new Location(otherSide, rotated, size - 1).getZ();
             }
-            if(rotated.offsetZ == -1){
-                minZ = new Location(otherSide, rotated, size-1).getZ();
+            if (rotated.offsetZ == -1) {
+                minZ = new Location(otherSide, rotated, size - 1).getZ();
             }
             //Log.info("X-: " + minX + " X+:" + maxX + " Y-: " + minY + " Y+:" + maxY + " Z-: " + minZ + " Z+:" + maxZ);
 
@@ -660,30 +626,30 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             List<Location> valveBlocks = new ArrayList<Location>();
             tankScore = 0;
             //Now.. Get all the blocks that are there:
-            for(int x = minX-1; x <= maxX+1; x++){
-                for(int y = minY-1; y <= maxY+1; y++){
-                    for(int z = minZ-1; z <= maxZ+1; z++){
-                        Block bl = getWorldObj().getBlock(x,y,z);
-                        if((x >= minX && x <= maxX) && (y >= minY && y <= maxY) && (z >= minZ && z <= maxZ)){
-                            if(bl.getMaterial() == Material.air){
-                                airBlocks.add(new Location(x,y,z));
-                            }else{
+            for (int x = minX - 1; x <= maxX + 1; x++) {
+                for (int y = minY - 1; y <= maxY + 1; y++) {
+                    for (int z = minZ - 1; z <= maxZ + 1; z++) {
+                        Block bl = getWorldObj().getBlock(x, y, z);
+                        if ((x >= minX && x <= maxX) && (y >= minY && y <= maxY) && (z >= minZ && z <= maxZ)) {
+                            if (bl.getMaterial() == Material.air) {
+                                airBlocks.add(new Location(x, y, z));
+                            } else {
                                 return;
                             }
-                        }else{
-                            if(bl.getMaterial() == Material.air){
+                        } else {
+                            if (bl.getMaterial() == Material.air) {
                                 Log.info("Block at " + x + ", " + y + ", " + z + " is air!");
                                 return;
-                            }else if(HCConfig.isTankBlockBlacklisted(bl)){
+                            } else if (HCConfig.isTankBlockBlacklisted(bl)) {
                                 Log.info("Block (" + bl.getUnlocalizedName() + ") at " + x + ", " + y + ", " + z + " is blacklisted!");
                                 return;
-                            }else{
-                                if(bl == HCBlocks.blockInterfaceValve){
-                                    Location vBlock =new Location(x, y, z);
-                                    if(!vBlock.compare(xCoord, yCoord, zCoord)){
+                            } else {
+                                if (bl == HCBlocks.blockInterfaceValve) {
+                                    Location vBlock = new Location(x, y, z);
+                                    if (!vBlock.compare(xCoord, yCoord, zCoord)) {
                                         valveBlocks.add(vBlock);
                                     }
-                                }else{
+                                } else {
                                     //Check what material this tank is made of, it adds to the tankScore.
                                     //We should make an array here
                                     tankScore += HCConfig.getTankBlockScore(bl);
@@ -703,16 +669,16 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             maxY += 1;
             maxZ += 1;
 
-            for(Location valveLoc : valveBlocks){
-                ((TileInterfaceValve)valveLoc.getTE(getWorldObj())).setTarget(xCoord, yCoord, zCoord);
+            for (Location valveLoc : valveBlocks) {
+                ((TileInterfaceValve) valveLoc.getTE(getWorldObj())).setTarget(xCoord, yCoord, zCoord);
             }
 
             tankCorner1 = new Location(minX, minY, minZ);
             tankCorner2 = new Location(maxX, maxY, maxZ);
             isTank = true;
-            if(tank == null){
+            if (tank == null) {
                 tank = new FluidTank(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
-            }else{
+            } else {
                 tank.setCapacity(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
             }
             //We should save this tank to an array.
@@ -720,9 +686,9 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
             getWorldObj().markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
         }
-	}
+    }
 
-    public void breakTank(){
+    public void breakTank() {
         isTank = false;
         Hydraulicraft.tankList.deleteTank(tankCorner1, tankCorner2);
         tankCorner1 = null;
@@ -731,28 +697,28 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
         getWorldObj().markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
     }
 
-	public Location getTankCorner1(){
-		return tankCorner1;
-	}
+    public Location getTankCorner1() {
+        return tankCorner1;
+    }
 
-	public Location getTankCorner2(){
-		return tankCorner2;
-	}
+    public Location getTankCorner2() {
+        return tankCorner2;
+    }
 
-	public boolean isValidTank() {
-		return isTank;
-	}
+    public boolean isValidTank() {
+        return isTank;
+    }
 
     @Override
-    public void invalidate(){
+    public void invalidate() {
         super.invalidate();
-        if(isTank){
+        if (isTank) {
             breakTank();
         }
     }
 
     @Override
-    public AxisAlignedBB getRenderBoundingBox(){
+    public AxisAlignedBB getRenderBoundingBox() {
         /*float extendedLength = getExtendedLength();
         float sidewaysMovement = getSideLength();*/
 
@@ -763,10 +729,10 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
         float maxY = 1.0F + yCoord;
         float maxZ = 1.0F + zCoord;
 
-        if(isValidTank()){
-            int outerXDifference = 0;
-            int outerYDifference = 0;
-            int outerZDifference = 0;
+        if (isValidTank()) {
+            int outerXDifference;
+            int outerYDifference;
+            int outerZDifference;
 
             outerXDifference = tankCorner2.getX() - tankCorner1.getX();
             outerYDifference = tankCorner2.getY() - tankCorner1.getY();
@@ -784,22 +750,14 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
         return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
-	@Override
-	public boolean connectTexture() {
-		if(isValidTank())
-			return true;
-		if(getFluidTarget() != null)
-			return true;
-		if(getInventoryTarget() != null)
-			return true;
-		if(getTarget() != null)
-			return true;
-		return false;
-	}
+    @Override
+    public boolean connectTexture() {
+        return isValidTank() || getFluidTarget() != null || getInventoryTarget() != null || getTarget() != null;
+    }
 
-	@Override
-	public boolean connectTextureTo(Block type) {
-		return connectTexture() && ( type instanceof BlockHydraulicPressureWall || type instanceof BlockHydraulicPressureValve);
-	}
+    @Override
+    public boolean connectTextureTo(Block type) {
+        return connectTexture() && (type instanceof BlockHydraulicPressureWall || type instanceof BlockHydraulicPressureValve);
+    }
 }
 

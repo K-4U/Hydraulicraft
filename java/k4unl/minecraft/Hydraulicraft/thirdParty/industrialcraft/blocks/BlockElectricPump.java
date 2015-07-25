@@ -54,15 +54,16 @@ public class BlockElectricPump extends HydraulicTieredBlockBase implements IMult
 	
 	@Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side) {
-
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof TileElectricPump) {
-            if (side.equals(ForgeDirection.UP) || side.equals(ForgeDirection.DOWN)) {
-                TileElectricPump e = (TileElectricPump) te;
-                ForgeDirection facing = e.getFacing();
-                e.setFacing(facing.getRotation(side));
-                e.getHandler().updateBlock();
-                world.notifyBlocksOfNeighborChange(x, y, z, this);
+        if(!world.isRemote) {
+            TileEntity te = world.getTileEntity(x, y, z);
+            if (te instanceof TileElectricPump) {
+                if (side.equals(ForgeDirection.UP) || side.equals(ForgeDirection.DOWN)) {
+                    TileElectricPump e = (TileElectricPump) te;
+                    ForgeDirection facing = e.getFacing();
+                    e.setFacing(facing.getRotation(side));
+                    e.getHandler().updateBlock();
+                    world.notifyBlocksOfNeighborChange(x, y, z, this);
+                }
             }
         }
 

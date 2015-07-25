@@ -304,7 +304,7 @@ public class ModelDivingSuit extends ModelBiped {
             return null;
         int slot = ((ItemArmor) stack.getItem()).armorType;
 
-        ModelDivingSuit armor = null;
+        ModelDivingSuit armor;
         if (slot == 0 && modelHelm != null) {
             return modelHelm;
         } else if (slot == 1 && modelChest != null) {

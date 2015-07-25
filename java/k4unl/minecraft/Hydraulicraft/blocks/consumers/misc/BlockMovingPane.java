@@ -28,6 +28,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 
 	public BlockMovingPane() {
 		super(Names.blockMovingPane);
+		hasTextures = false;
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 		TileMovingPane tileEntity = (TileMovingPane) world.getTileEntity(x, y,
 				z);
 		if (tileEntity != null) {			
-			Location l = new Location(x,y,z);
+			Location l;
 			if(tileEntity.getIsPane()){
 				l = tileEntity.getParentLocation();
 			}else{

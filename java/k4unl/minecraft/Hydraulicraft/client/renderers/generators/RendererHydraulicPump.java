@@ -1,67 +1,83 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.generators;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
-public class RendererHydraulicPump extends TileEntitySpecialRenderer {
-	private static final ResourceLocation resLoc =
-			new ResourceLocation(ModInfo.LID,"textures/model/hydraulicPump.png");
-	
+public class RendererHydraulicPump extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler {
 
-	private RenderBlocks renderer;
-	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
-			double z, float f) {
-		TileHydraulicPump t = (TileHydraulicPump)tileentity;
-		//Get metadata for rotation:
-		int rotation = 0;//t.getDir();
-		int metadata = t.getBlockMetadata();
-		
-		renderer = new RenderBlocks(tileentity.getWorldObj());
-		
-		doRender(t, (float)x, (float)y, (float)z, f, rotation, metadata);
-	}
-	
-	public void itemRender(float x, float y,
-			float z, float f, int tier){
-		
-		renderer = new RenderBlocks();
-		GL11.glPushMatrix();
-		
-		GL11.glTranslatef(x, y, z);
-		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
-		
-		GL11.glPushMatrix();
-		GL11.glTranslatef(0.0F, 1.0F, 1.0F);
-		GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
-		GL11.glRotatef(90F, 0.0F, 0.0F, -1.0F);
-		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
-		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
-		GL11.glColor3f(0.8F, 0.8F, 0.8F);
-		//Do rendering
-        
-		float thickness = RenderHelper.pixel;
-		renderTieredBars(tier, thickness);
-		renderInsidesWithoutLighting(thickness);
-		renderGauges(thickness);
-		
-		//GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_LIGHTING); 
-		GL11.glPopMatrix();
-		GL11.glPopMatrix();
-	}
-	
-	public void doRender(TileHydraulicPump t, float x, float y,
+    private static final ResourceLocation resLoc =
+            new ResourceLocation(ModInfo.LID, "textures/model/hydraulicPump.png");
+
+    public static final int   RENDER_ID         = RenderingRegistry.getNextAvailableRenderId();
+    public static final Block FAKE_RENDER_BLOCK = new Block(Material.rock) {
+
+        @Override
+        public IIcon getIcon(int meta, int side) {
+
+            return HCBlocks.hydraulicPressureWall.getIcon(meta, side);
+        }
+    };
+
+
+    @Override
+    public void renderTileEntityAt(TileEntity tileentity, double x, double y,
+                                   double z, float f) {
+
+        TileHydraulicPump t = (TileHydraulicPump) tileentity;
+        //Get metadata for rotation:
+        int rotation = 0;//t.getDir();
+        int metadata = t.getBlockMetadata();
+
+        doRender(t, (float) x, (float) y, (float) z, f, rotation, metadata);
+    }
+
+    public void itemRender(float x, float y,
+                           float z, float f, int tier) {
+
+        GL11.glPushMatrix();
+
+        GL11.glTranslatef(x, y, z);
+        FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
+
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0.0F, 1.0F, 1.0F);
+        GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(90F, 0.0F, 0.0F, -1.0F);
+        //GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
+        GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
+        GL11.glColor3f(0.8F, 0.8F, 0.8F);
+        //Do rendering
+
+        float thickness = RenderHelper.pixel;
+        renderTieredBars(tier, thickness);
+        //renderInsidesWithoutLighting(thickness);
+        renderGauges(thickness);
+
+        //GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glPopMatrix();
+        GL11.glPopMatrix();
+    }
+
+    public void doRender(TileHydraulicPump t, float x, float y,
 			float z, float f, int rotation, int metadata){
 		GL11.glPushMatrix();
 		
@@ -107,8 +123,9 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		//Do rendering
 		GL11.glColor3f(0.9F, 0.9F, 0.9F);
 		float thickness = RenderHelper.pixel;
+
 		renderTieredBars(t.getTier(), thickness);
-		renderInsides(thickness, t);
+		//renderInsides(thickness, t);
 		renderGaugesContents(thickness, t);
 		renderGauges(thickness);
 		
@@ -177,7 +194,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		//thickness -= 0.025F;
 		GL11.glBegin(GL11.GL_QUADS);
 		Vector3fMax insides = new Vector3fMax(thickness, thickness, thickness, 1.0F-thickness, 1.0F-thickness, 1.0F-thickness);	
-		RenderHelper.drawTexturedCubeWithLight(insides, t);
+		//RenderHelper.drawTexturedCubeWithLight(insides, t);
 		
 		GL11.glEnd();
 	}	
@@ -289,4 +306,32 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
 		GL11.glEnd();
 	}
 
+    @Override
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+        FAKE_RENDER_BLOCK.setBlockBounds(RenderHelper.pixel, RenderHelper.pixel, RenderHelper.pixel, 1.0F - RenderHelper.pixel, 1.0F - RenderHelper.pixel, 1.0F - RenderHelper.pixel);
+        renderer.renderBlockAsItem(FAKE_RENDER_BLOCK, 1, 1.0F);
+        GL11.glRotatef(90F, 0.0F, -1.0F, 0.0F);
+        itemRender(-0.5F, -0.5F, -0.5F, 0, metadata);
+        renderer.setRenderBoundsFromBlock(Blocks.stone);
+    }
+
+    @Override
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+
+        renderer.setRenderBounds(RenderHelper.pixel, RenderHelper.pixel, RenderHelper.pixel, 1.0F-RenderHelper.pixel, 1.0F-RenderHelper.pixel, 1.0F-RenderHelper.pixel);
+        boolean ret = renderer.renderStandardBlock(FAKE_RENDER_BLOCK, x, y, z);
+        renderer.setRenderBoundsFromBlock(Blocks.stone);
+
+        return ret;
+    }
+
+    @Override
+    public boolean shouldRender3DInInventory(int modelId) {
+        return true;
+    }
+
+    @Override
+    public int getRenderId() {
+        return RENDER_ID;
+    }
 }

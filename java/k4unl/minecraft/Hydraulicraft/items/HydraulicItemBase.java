@@ -67,11 +67,11 @@ public class HydraulicItemBase extends Item {
 
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
-        if (defaultInfo != "") {
+        if (!defaultInfo.equals("")) {
             list.add(defaultInfo);
         }
         if (itemStack.getTagCompound() != null) {
-            if (itemStack.getTagCompound().getString("defaultInfo") != "") {
+            if (!itemStack.getTagCompound().getString("defaultInfo").equals("")) {
                 list.add(itemStack.getTagCompound().getString("defaultInfo"));
             }
         }

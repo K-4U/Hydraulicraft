@@ -33,12 +33,6 @@ public class Constants {
 	public static final int COLOR_EU = 0x7FEE0000;
 	public static final int COLOR_TEXT = 0xFFFFFFFF;
 
-	//Mixer
-	public final static int OIL_FOR_ONE_SEED	=	100;
-	public final static int WATER_FOR_ONE_SEED  = 	50;
-	//Washer
-	public static final int MIN_REQUIRED_WATER_FOR_WASHER = 10000;
-	
 	//Harvester
 	public static final float MIN_REQUIRED_PRESSURE_HARVESTER = 100.0F;
 	public static final float PRESSURE_USAGE_PISTON = 50;

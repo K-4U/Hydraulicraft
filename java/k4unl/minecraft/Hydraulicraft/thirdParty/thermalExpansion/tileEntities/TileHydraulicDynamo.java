@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
@@ -87,7 +86,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 	public float workFunction(boolean simulate, ForgeDirection from) {
 		pressureRequired = createPower(simulate);
 
-		if(simulate == true && storage.getEnergyStored() > 0 && Float.compare(pressureRequired, 0.0F) == 0){
+		if(simulate && storage.getEnergyStored() > 0 && Float.compare(pressureRequired, 0.0F) == 0){
 			pressureRequired += 0.1F;
 		}
 		

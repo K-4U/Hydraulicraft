@@ -156,10 +156,9 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     public ItemStack decrStackSize(int i, int j) {
         ItemStack inventory = getStackInSlot(i);
 
-        ItemStack ret = null;
+        ItemStack ret;
         if (inventory.stackSize < j) {
             ret = inventory;
-            inventory = null;
 
         } else {
             ret = inventory.splitStack(j);

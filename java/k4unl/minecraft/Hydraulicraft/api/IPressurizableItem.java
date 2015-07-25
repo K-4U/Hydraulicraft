@@ -1,16 +1,18 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 public interface IPressurizableItem {
-	public float getPressure(ItemStack itemStack);
-	public void setPressure(ItemStack itemStack, float newPressure);
-	
-	
-	public PressureTier getMaxPressure();
-	public int getMaxStorage();
-	
-	public void setStorage(ItemStack itemStack, int newStored);
-	public int getStorage(ItemStack itemStack);
-	
+    float getPressure(ItemStack itemStack);
+
+    void setPressure(ItemStack itemStack, float newStored);
+
+    float getMaxPressure();
+
+    FluidStack getFluid(ItemStack itemStack);
+
+    void setFluid(ItemStack itemStack, FluidStack fluidStack);
+
+    float getMaxFluid();
 }

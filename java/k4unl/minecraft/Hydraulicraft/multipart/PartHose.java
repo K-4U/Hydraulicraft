@@ -12,7 +12,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.*;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
@@ -231,7 +230,6 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	}
 
 	private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir){
-		int opposite = Functions.getIntDirFromDirection(dir.getOpposite());
 		if(entity instanceof TileMultipart){
 			List<TMultiPart> t = ((TileMultipart)entity).jPartList();
 
@@ -266,12 +264,9 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
 	public void checkConnectedSides(){
 		boolean[] oldSides = new boolean[7];
-		boolean[] checkSides = new boolean[7];
 
 		if(connectedSideFlags != null) {
-			for(int i = 0; i <= 6; i++){
-				oldSides[i] = connectedSideFlags[i];
-			}
+			System.arraycopy(connectedSideFlags, 0, oldSides, 0, 7);
 		}
 		connectedSideFlags = new boolean[7];
 
@@ -283,18 +278,15 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 				if(tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]))){
 					if(!oldSides[dir.ordinal()]){
 						connectedSidesHaveChanged = true;
-						checkSides[dir.ordinal()] = true;
 					}
 					connectedSideFlags[dir.ordinal()] = true;
 				}else{
 					if(oldSides[dir.ordinal()]){
 						connectedSidesHaveChanged = true;
-						checkSides[dir.ordinal()] = true;
 					}
 					connectedSideFlags[dir.ordinal()] = false;
 				}
 			}else if(oldSides[dir.ordinal()]){
-				checkSides[dir.ordinal()] = true;
 				connectedSidesHaveChanged = true;
 			}
 		}
@@ -377,7 +369,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 			Log.error("PartHose does not have a handler!");
 		}
 		if(world() != null){
-			if(world().getTotalWorldTime() % 2 == 0 && hasCheckedSinceStartup == false){
+			if(world().getTotalWorldTime() % 2 == 0 && !hasCheckedSinceStartup){
 				checkConnectedSides();
 				hasCheckedSinceStartup = true;
 				//Hack hack hack
@@ -402,7 +394,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	@Override
 	public void updateNetwork(float oldPressure) {
 		PressureNetwork newNetwork = null;
-		PressureNetwork foundNetwork = null;
+		PressureNetwork foundNetwork;
 		PressureNetwork endNetwork = null;
 		//This block can merge networks!
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
@@ -423,7 +415,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 				}
 			}
 			
-			if(newNetwork != null && endNetwork != null){
+			if(newNetwork != null){
 				//Hmm.. More networks!? What's this!?
 				//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 				endNetwork.mergeNetwork(newNetwork);

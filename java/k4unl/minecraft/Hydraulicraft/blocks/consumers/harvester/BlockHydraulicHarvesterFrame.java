@@ -21,6 +21,7 @@ public class BlockHydraulicHarvesterFrame extends HydraulicBlockContainerBase {
 
     public BlockHydraulicHarvesterFrame() {
         super(Names.blockHarvesterFrame);
+        hasTextures = false;
 
     }
 

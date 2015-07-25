@@ -217,7 +217,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 	
 	@Override
 	public void updateNetwork(float oldPressure) {
-		PressureNetwork endNetwork = null;
+		PressureNetwork endNetwork;
 
 		endNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, getFacing());
 			
