@@ -1,1 +1,2 @@
 [comment{James 7-20 Added}]
+The Hydraulic Dynamo is used to generate Redstone Flux (rf)power

@@ -3,6 +3,7 @@
 
 
 
-The Crusher is the machine used to double your ore's by crushing them into ore chunks.
+The Crusher is the machine used to double your ores by crushing them into ore chunks. You will also need this
+machine to create Diamonds Shards to create Enriched Copper.
 
 [prefix{l}]Max pressure:    [prefix{el}]Medium [prefix{}]

@@ -21,7 +21,7 @@ This machine will output a redstone signal depending on how much pressure there 
 [comment{James 1-20 This is now mentioned on the baseconcepts briefly and in pressurenetwork pages
 When using Hydraulic Oil, the network will not lose any fluid.
 However, when you're still on water, you might need to think about giving it a steady supply of water.
-Also. You cannot compress water that much. So the maximum pressure of a water based network lies lower than one
+Also, You cannot compress water that much. So the maximum pressure of a water based network lies lower than one
 powered by Oil.}]
 
 [prefix{l}]Max pressure:    [prefix{4l}]High

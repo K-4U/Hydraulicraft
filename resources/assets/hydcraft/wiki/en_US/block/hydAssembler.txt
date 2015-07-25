@@ -1,0 +1,8 @@
+[comment{I'll cover the assembler here with some pics}]
+The Hydraulic Assembler is used to create higher tier machines. And will need to have Lubricant pumped into it, usually from a reservoir or a filter .
+[comment{James 7-20 this doesn't do what I was thinking, I need to figure out the craft tag location info
+.[image{150,10,hydcraft:textures/blocks/hydraulicAssembler_front.png}]
+}]
+[image{200,10,hydcraft:wiki/guiAssembler.png}]
+
+[prefix{l}]Max pressure:    [prefix{el}]Medium [prefix{}]

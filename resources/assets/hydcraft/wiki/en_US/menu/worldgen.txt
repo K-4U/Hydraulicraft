@@ -1,0 +1,4 @@
+[comment{this is where I'll talk about worldgen}]
+
+There are 4 minerals 2 ores and 1 fluid that are created at worldgen, they are [link{menu/ores.txt}[Copper [link{}]  and [link{menu/ores.txt}[Lead [link{}], 4 [link{menu/minerals.txt}[Beachium, Lonezium, Nadsium Bicarbinate, and Foxium. [link{}], and [link{menu/oil.txt}[Crude Oil [link{}]
+In general all of them will be spawned between level 30 and level 90. All of these can be configured in the .cfg file it's commented and is fairly self explanitory.

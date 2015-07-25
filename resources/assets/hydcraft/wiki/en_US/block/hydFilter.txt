@@ -1,0 +1,6 @@
+[comment{James added, cover the filter here with some pics}]
+
+The[prefix{1}Hydraulic Filter [prefix{}]is needed to filter one [link{menu/oil}]Fluid[link{}] from another fluid through the use of [link{menu/minerals}]Minerals [link{}]. A mineral is used as a [prefix{o}]Filter Media [prefix{}], each mineral will
+ filter crude oil into another fluid type. For instance, A Beachium filter will net you Hydraulic Oil. They are
+ explained on the Fluid and Minerals pages.
+[prefix{l}]Max pressure:    [prefix{el}]Medium [prefix{}]

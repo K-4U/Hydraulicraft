@@ -1,0 +1,11 @@
+[comment{James 7-25 Added}]
+There are 3 tiers of Pipes, one for each tier of [prefix{1l}[link{hydcraft:presureNetwork.txt}]Network [prefix{}].
+Low Pressure Pipe
+[image{200,10,0.25,hydcraft:textures/lp_pipe.png}]
+
+Medium Pressure Pipe
+[image{300,10,0.25,hydcraft:textures/mp_pipe.png}]
+
+
+High Pressure Pipe
+[image{400,10,0.25,hydcraft:textures/hp_pipe.png}]
