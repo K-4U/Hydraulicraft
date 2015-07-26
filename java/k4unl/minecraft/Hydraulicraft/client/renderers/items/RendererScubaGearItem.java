@@ -97,8 +97,18 @@ public class RendererScubaGearItem implements IItemRenderer {
             GL11.glTranslatef(0.0F, -1.1F, 0.0F);
             modelDivingSuit.bipedLeftLeg.isHidden = false;
             modelDivingSuit.bipedRightLeg.isHidden = false;
+            modelDivingSuit.flipperLeft.isHidden = true;
+            modelDivingSuit.flipperRight.isHidden = true;
             modelDivingSuit.bipedLeftLeg.render(0.0625F);
             modelDivingSuit.bipedRightLeg.render(0.0625F);
+        }
+        if(whichPart == type.BOOTS){
+            GL11.glTranslatef(-0.15F, -2.4F, -0.0F);
+            GL11.glScalef(1.70F, 1.70F, 1.70F);
+            modelDivingSuit.flipperLeft.isHidden = false;
+            modelDivingSuit.flipperRight.isHidden = false;
+            modelDivingSuit.flipperLeft.render(0.0625F);
+            modelDivingSuit.flipperRight.render(0.0625F);
         }
         GL11.glPopMatrix();
     }
