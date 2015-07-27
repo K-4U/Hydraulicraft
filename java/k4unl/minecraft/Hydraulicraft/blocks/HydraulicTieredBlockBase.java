@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -17,6 +15,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.List;
 
 public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBase {
 		private IIcon[] tieredIcon;
@@ -60,7 +60,7 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
 		}
 		
 		private String getTieredTextureName(String side, int tier){
-			if(side != ""){
+			if(!side.equals("")){
 				return ModInfo.LID + ":" + mName[0].unlocalized + "_" + tier + "_" + side;
 			}else{
 				return ModInfo.LID + ":" + mName[0].unlocalized + "_" + tier;

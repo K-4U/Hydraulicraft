@@ -24,6 +24,7 @@ public class OreMineral extends BlockFalling {
         setBlockTextureName(name.unlocalized);
         setStepSound(Block.soundTypeGravel);
         setCreativeTab(CustomTabs.tabHydraulicraft);
+        setHardness(0.5F);
     }
 
     @Override
@@ -35,5 +36,4 @@ public class OreMineral extends BlockFalling {
     public IIcon getIcon(int side, int metadata){
         return blockIcon;
     }
-
 }

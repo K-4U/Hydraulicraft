@@ -115,7 +115,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
 		oldExtendedLength = extendedLength;
 		
 		int compResult = Float.compare(extendTarget, extendedLength);
-		if(simulate == false){
+		if(!simulate){
 			if(compResult > 0 && !isRetracting){
 				extendedLength += movingSpeed;
 			}else if(compResult < 0 && isRetracting){

@@ -14,6 +14,7 @@ public class BlockJarOfDirt extends HydraulicBlockContainerBase implements ITool
     public BlockJarOfDirt() {
 
         super(Names.blockJarDirt);
+        hasTextures=false;
     }
 
     @Override

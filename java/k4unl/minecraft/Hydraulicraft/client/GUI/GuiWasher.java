@@ -34,7 +34,7 @@ public class GuiWasher extends HydraulicGUIBase {
         if (tankInfo[0].fluid != null) {
             if (tankInfo[0].fluid.amount > 0) {
                 //Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);
-                int color = 0xFFFFFFFF;
+                int color;
                 color = Constants.COLOR_WATER | 0x7F000000;
 
 
@@ -52,11 +52,11 @@ public class GuiWasher extends HydraulicGUIBase {
             int startY = 17;
             int startX = 56;
             int maxTicks = washer.getMaximumTicks();
-            int targetX = 106;
-            int targetY = 0;
+            int targetX;
+            int targetY;
             float percentage = (float) done / (float) maxTicks;
-            int travelPath = 0;
-            int xPos = startX;
+            int travelPath;
+            int xPos;
             int yPos = startY;
 
             if (percentage < 0.25F) {

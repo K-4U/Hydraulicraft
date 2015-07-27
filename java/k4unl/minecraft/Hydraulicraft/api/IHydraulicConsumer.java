@@ -12,7 +12,7 @@ public interface IHydraulicConsumer extends IHydraulicMachine {
 	 * @return The amount of pressure that gets lost when doing this.
 	 */
 	
-	public float workFunction(boolean simulate, ForgeDirection from);
+	float workFunction(boolean simulate, ForgeDirection from);
 	
 	/**
 	 * Returns whether or not this block can do work on this side.
@@ -23,5 +23,5 @@ public interface IHydraulicConsumer extends IHydraulicMachine {
 	 * @param dir
 	 * @return Whether or not this block can do work from this side.
 	 */
-	public boolean canWork(ForgeDirection dir);
+	boolean canWork(ForgeDirection dir);
 }

@@ -82,7 +82,7 @@ public class Multipart implements IPartFactory, IPartConverter {
 		boolean ret = false;
 		List<TMultiPart> t = mp.jPartList();
 		for (TMultiPart p : t) {
-			if (ret == false) {
+			if (!ret) {
 				if (p instanceof IHydraulicTransporter) {
 					ret = true;
 				}
@@ -95,7 +95,7 @@ public class Multipart implements IPartFactory, IPartConverter {
 		boolean ret = false;
 		List<TMultiPart> t = mp.jPartList();
 		for (TMultiPart p : t) {
-			if (ret == false) {
+			if (!ret) {
 				if (p instanceof PartHose) {
 					ret = true;
 				}
@@ -105,14 +105,11 @@ public class Multipart implements IPartFactory, IPartConverter {
 	}
 
 	public static PartHose getHose(TileMultipart mp) {
-		boolean ret = false;
 		List<TMultiPart> t = mp.jPartList();
 		for (TMultiPart p : t) {
-			if (ret == false) {
-				if (p instanceof PartHose) {
-					return (PartHose) p;
-				}
-			}
+			if (p instanceof PartHose) {
+                return (PartHose) p;
+            }
 		}
 		return null;
 	}
@@ -121,7 +118,7 @@ public class Multipart implements IPartFactory, IPartConverter {
 		boolean ret = false;
 		List<TMultiPart> t = mp.jPartList();
 		for (TMultiPart p : t) {
-			if (ret == false) {
+			if (!ret) {
 				if (p instanceof PartValve) {
 					ret = true;
 				}
@@ -131,28 +128,22 @@ public class Multipart implements IPartFactory, IPartConverter {
 	}
 
 	public static PartValve getValve(TileMultipart mp) {
-		boolean ret = false;
 		List<TMultiPart> t = mp.jPartList();
 		for (TMultiPart p : t) {
-			if (ret == false) {
-				if (p instanceof PartValve) {
-					return (PartValve) p;
-				}
-			}
+			if (p instanceof PartValve) {
+                return (PartValve) p;
+            }
 		}
 		return null;
 	}
 
 
 	public static IHydraulicTransporter getTransporter(TileMultipart mp) {
-		boolean ret = false;
 		List<TMultiPart> t = mp.jPartList();
 		for (TMultiPart p : t) {
-			if (ret == false) {
-				if (p instanceof IHydraulicTransporter) {
-					return (IHydraulicTransporter) p;
-				}
-			}
+			if (p instanceof IHydraulicTransporter) {
+                return (IHydraulicTransporter) p;
+            }
 		}
 		return null;
 	}

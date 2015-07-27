@@ -68,10 +68,10 @@ public class NEIWasherRecipeManager extends NEIHydraulicRecipePlugin {
         ItemStack targetItem = recipe.getResult().item;
         int startY = 5;
         int startX = 51;
-        int targetX = 101;
-        int targetY = 0;
-        int travelPath = 0;
-        int xPos = startX;
+        int targetX;
+        int targetY;
+        int travelPath;
+        int xPos;
         int yPos = startY;
 
         if (percentage < 0.25F) {
@@ -102,8 +102,8 @@ public class NEIWasherRecipeManager extends NEIHydraulicRecipePlugin {
     @Override
     protected CachedRecipe processRecipe(IFluidRecipe recipe) {
         NEIHydraulicRecipe nei = new NEIHydraulicRecipe();
-        nei.addInput(new PositionedStack(recipe.getInputItems()[0], 52, 6));
-        nei.addOutput(new PositionedStack(recipe.getRecipeOutput(), 101, 46));
+        nei.addInput(new PositionedStack(recipe.getInputItems()[0], 51, 5));
+        nei.addOutput(new PositionedStack(recipe.getRecipeOutput(), 101, 45));
         return nei;
     }
 

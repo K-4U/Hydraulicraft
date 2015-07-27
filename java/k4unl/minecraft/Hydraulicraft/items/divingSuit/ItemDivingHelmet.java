@@ -1,9 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.items.divingSuit;
 
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
@@ -88,10 +91,44 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void addInformation(ItemStack itemStack, EntityPlayer player, List lines, boolean noIdea) {
         super.addInformation(itemStack, player, lines, noIdea);
         FluidStack stack = fetchFluidOrCreate(itemStack);
         if (stack.getFluid() != null)
             lines.add(stack.getFluid().getLocalizedName(stack) + ": " + stack.amount + "mB/" + TANK_CAPACITY + "mB");
+    }
+
+    @Override
+    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+        super.onArmorTick(world, player, itemStack);
+        //Log.info("Tick");
+        NBTTagCompound entityData = player.getEntityData();
+        if (entityData.getBoolean("isWearingFullScubaSuit")) {
+            //Do 10 damage
+            if (HCConfig.INSTANCE.getBool("doScubaDamage")) {
+                FluidStack fluidStack = fetchFluidOrCreate(itemStack);
+                if (fluidStack.amount > 0) {
+                    doDamage(player);
+                }
+            }
+
+            if (world.getTotalWorldTime() % 10 == 0) {
+                FluidStack fluidStack = fetchFluidOrCreate(itemStack);
+                //Drain 1 millibucket every tick?
+                int drained = drain(itemStack, 10, false).amount;
+                if (drained > 0) {
+                    drain(itemStack, drained, true);
+                }
+                float percentage = ((float) fluidStack.amount) / ((float) TANK_CAPACITY);
+                if (percentage >= 0.0F) {
+                    //TODO: Kill the player, really quick
+                } else {
+                    player.setAir((int) (300F * percentage));
+                    player.addPotionEffect(new PotionEffect(16, 10));
+                }
+
+            }
+        }
     }
 }

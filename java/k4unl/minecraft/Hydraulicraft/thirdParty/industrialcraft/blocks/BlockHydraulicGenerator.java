@@ -95,14 +95,16 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase impleme
 	}
 	@Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){
-		TileEntity te = world.getTileEntity(x, y, z);
-		if(te instanceof TileHydraulicGenerator){
-			if(side.equals(ForgeDirection.UP) || side.equals(ForgeDirection.DOWN)){
-				TileHydraulicGenerator e = (TileHydraulicGenerator) te;
-				ForgeDirection facing = e.getFacing();
-				e.setFacing(facing.getRotation(side));
-				e.getHandler().updateBlock();
-				world.notifyBlocksOfNeighborChange(x, y, z, this);
+		if(!world.isRemote) {
+			TileEntity te = world.getTileEntity(x, y, z);
+			if (te instanceof TileHydraulicGenerator) {
+				if (side.equals(ForgeDirection.UP) || side.equals(ForgeDirection.DOWN)) {
+					TileHydraulicGenerator e = (TileHydraulicGenerator) te;
+					ForgeDirection facing = e.getFacing();
+					e.setFacing(facing.getRotation(side));
+					e.getHandler().updateBlock();
+					world.notifyBlocksOfNeighborChange(x, y, z, this);
+				}
 			}
 		}
 		

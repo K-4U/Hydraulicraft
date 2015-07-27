@@ -62,13 +62,13 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 	}
 	
 	public IHydraulicConsumer getTarget(){
-		if(targetHasChanged == true && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
+		if(targetHasChanged && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)){
 			TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
 			if(t instanceof IHydraulicConsumer){
 				target = (IHydraulicConsumer) t;
 				targetHasChanged = false;
 			}
-		}else if(targetHasChanged == true && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
+		}else if(targetHasChanged && targetX == xCoord && targetY == yCoord && targetZ == zCoord){
 			target = null;
 			//targetHasChanged = false;
 		}
@@ -161,7 +161,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 			return;
 		}
 		PressureNetwork newNetwork = null;
-		PressureNetwork foundNetwork = null;
+		PressureNetwork foundNetwork;
 		PressureNetwork endNetwork = null;
 		//This block can merge networks!
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
@@ -175,7 +175,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 				connectedSides.add(dir);
 			}
 			
-			if(newNetwork != null && endNetwork != null){
+			if(newNetwork != null){
 				//Hmm.. More networks!? What's this!?
 				endNetwork.mergeNetwork(newNetwork);
 				newNetwork = null;

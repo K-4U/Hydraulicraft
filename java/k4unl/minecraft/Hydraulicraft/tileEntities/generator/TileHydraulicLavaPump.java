@@ -191,9 +191,8 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 		}else if(tank == null){
 			setTier(getTier());
 		}
-		
-		int filled = tank.fill(resource, doFill);
-		return filled;
+
+		return tank.fill(resource, doFill);
 	}
 
 	@Override
@@ -225,8 +224,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 		if(tank != null){
-			FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
-			return tankInfo;
+			return new FluidTankInfo[]{new FluidTankInfo(tank)};
 		}else{
 			return null;
 		}

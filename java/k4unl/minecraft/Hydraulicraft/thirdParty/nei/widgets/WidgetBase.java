@@ -4,6 +4,7 @@ import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.recipe.GuiRecipe;
 
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class WidgetBase {
@@ -32,8 +33,7 @@ public abstract class WidgetBase {
         Point relMouse = new Point(mouse.x - (gui.width - 176) / 2 - offset.x, mouse.y - (gui.height - 166) / 2 - offset.y);
 
         if (getBounds().contains(relMouse)) {
-            for (String tt : tooltip)
-                currenttip.add(tt);
+            Collections.addAll(currenttip, tooltip);
         }
     }
 

@@ -10,6 +10,7 @@ import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.api.HCApi;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicraftRegistrar;
+import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapelessOreRecipe;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiHandler;
 import k4unl.minecraft.Hydraulicraft.events.EventHelper;
@@ -53,8 +54,8 @@ public class Hydraulicraft {
     public static Hydraulicraft instance;
 
     @SidedProxy(
-      clientSide = ModInfo.PROXY_LOCATION + ".ClientProxy",
-      serverSide = ModInfo.PROXY_LOCATION + ".CommonProxy"
+            clientSide = ModInfo.PROXY_LOCATION + ".ClientProxy",
+            serverSide = ModInfo.PROXY_LOCATION + ".CommonProxy"
     )
     public static CommonProxy proxy;
     public static Multipart   mp;
@@ -113,7 +114,7 @@ public class Hydraulicraft {
         ThirdPartyManager.instance().init();
 
         GameRegistry.registerWorldGenerator(new HCWorldGenerator(), 0);
-        NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new GuiHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
         PacketPipeline.init();
 
         //  UPDATE CHECKER DISABLED FOR NOW (2nd June 2015)
@@ -153,24 +154,26 @@ public class Hydraulicraft {
                     NBTTagCompound toRegister = message.getNBTValue();
 
                     ItemStack from = ItemStack.loadItemStackFromNBT
-                      (toRegister.getCompoundTag("itemFrom"));
+                            (toRegister.getCompoundTag("itemFrom"));
                     ItemStack to = ItemStack.loadItemStackFromNBT
-                      (toRegister.getCompoundTag("itemTo"));
+                            (toRegister.getCompoundTag("itemTo"));
                     float pressureRatio = toRegister.getFloat("pressureRatio");
-                    CrushingRecipes.addCrushingRecipe(new CrushingRecipes
-                      .CrushingRecipe(from, pressureRatio,
-                      to));
+                    //CrushingRecipes.addCrushingRecipe(new CrushingRecipes
+                    //  .CrushingRecipe(from, pressureRatio,
+                    //  to));
+                    HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(to, from).setPressure(pressureRatio));
                 } else if (message.key.equals("registerWashingRecipe")) {
                     NBTTagCompound toRegister = message.getNBTValue();
 
                     ItemStack from = ItemStack.loadItemStackFromNBT
-                      (toRegister.getCompoundTag("itemFrom"));
+                            (toRegister.getCompoundTag("itemFrom"));
                     ItemStack to = ItemStack.loadItemStackFromNBT
-                      (toRegister.getCompoundTag("itemTo"));
+                            (toRegister.getCompoundTag("itemTo"));
                     float pressureRatio = toRegister.getFloat("pressureRatio");
-                    WashingRecipes.addWashingRecipe(new WashingRecipes
-                      .WashingRecipe(from, pressureRatio,
-                      to));
+                    //WashingRecipes.addWashingRecipe(new WashingRecipes
+                    //        .WashingRecipe(from, pressureRatio,
+                    //        to));
+                    HydraulicRecipes.INSTANCE.addWasherRecipe(new FluidShapelessOreRecipe(to, from).setPressure(pressureRatio));
                 } else {
                     Class clazz = Class.forName(message.key);
                     try {
@@ -221,33 +224,33 @@ public class Hydraulicraft {
         for (FMLMissingMappingsEvent.MissingMapping mapping : event.get()) {
             String name = mapping.name;
 
-            if(name.startsWith("HydCraft:wheatHarvester")){
+            if (name.startsWith("HydCraft:wheatHarvester")) {
                 name = name.replaceAll("wheatHarvester", "harvesterTrolley");
 
-                if(mapping.type == GameRegistry.Type.BLOCK) {
+                if (mapping.type == GameRegistry.Type.BLOCK) {
                     mapping.remap(GameData.getBlockRegistry().getObject(name));
-                }else{
+                } else {
                     mapping.remap(GameData.getItemRegistry().getObject(name));
                 }
             }
-            if(name.startsWith("HydCraft:ingot")){
-                name = name.replaceAll("HydCraft:","");
+            if (name.startsWith("HydCraft:ingot")) {
+                name = name.replaceAll("HydCraft:", "");
                 mapping.remap(OreDictionary.getOres(name).get(0).getItem());
             }
-            if(name.startsWith("HydCraft:ore")){
-                name = name.replaceAll("HydCraft:","");
-                if(mapping.type == GameRegistry.Type.BLOCK) {
+            if (name.startsWith("HydCraft:ore")) {
+                name = name.replaceAll("HydCraft:", "");
+                if (mapping.type == GameRegistry.Type.BLOCK) {
                     mapping.remap(Block.getBlockFromItem(OreDictionary.getOres(name).get(0).getItem()));
-                }else{
+                } else {
                     mapping.remap(OreDictionary.getOres(name).get(0).getItem());
                 }
             }
-            if(name.startsWith("HydCraft:hydraulicMixer")){
+            if (name.startsWith("HydCraft:hydraulicMixer")) {
                 name = name.replaceAll("hydraulicMixer", Names.blockHydraulicFilter.unlocalized);
 
-                if(mapping.type == GameRegistry.Type.BLOCK) {
+                if (mapping.type == GameRegistry.Type.BLOCK) {
                     mapping.remap(GameData.getBlockRegistry().getObject(name));
-                }else{
+                } else {
                     mapping.remap(GameData.getItemRegistry().getObject(name));
                 }
             }

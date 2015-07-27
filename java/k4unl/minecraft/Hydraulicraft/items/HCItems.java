@@ -47,6 +47,8 @@ public class HCItems {
     public static Item itemDivingLegs;
     public static Item itemDivingBoots;
 
+    public static Item itemhydraulicWrench;
+
     /*!
      * @author Koen Beckers
      * @date 13-12-2013
@@ -88,6 +90,8 @@ public class HCItems {
         itemDivingController = new ItemDivingSuit(1);
         itemDivingLegs = new ItemDivingSuit(2);
         itemDivingBoots = new ItemDivingSuit(3);
+
+        itemhydraulicWrench = new ItemHydraulicWrench();
 
         registerItems();
     }
@@ -140,6 +144,8 @@ public class HCItems {
         if (!HCConfig.INSTANCE.getBool("disableEnderLolly")) {
             GameRegistry.registerItem(itemEnderLolly, Names.itemEnderLolly.unlocalized);
         }
+
+        GameRegistry.registerItem(itemhydraulicWrench, Names.itemHydraulicWrench.unlocalized);
 
 
         FluidStack st = FluidRegistry.getFluidStack(Names.fluidHydraulicOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);

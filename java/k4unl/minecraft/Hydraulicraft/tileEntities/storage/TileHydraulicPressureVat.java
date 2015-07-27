@@ -97,7 +97,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	public ItemStack decrStackSize(int i, int j) {
 		ItemStack inventory = getStackInSlot(i);
 		
-		ItemStack ret = null;
+		ItemStack ret;
 		if(inventory.stackSize < j){
 			ret = inventory;
 			if(i == 0){
@@ -237,8 +237,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 		if(tank != null){
-			FluidTankInfo[] tankInfo = {new FluidTankInfo(tank)};
-			return tankInfo;
+			return new FluidTankInfo[]{new FluidTankInfo(tank)};
 		}else{
 			return null;
 		}

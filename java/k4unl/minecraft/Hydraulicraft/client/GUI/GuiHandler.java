@@ -129,6 +129,10 @@ public class GuiHandler implements IGuiHandler {
                         return new ContainerFiller(player.inventory, (TileHydraulicFiller) ent);
                     }
                     break;
+                case CHARGER:
+                    if (ent instanceof TileHydraulicCharger) {
+                        return new ContainerCharger(player.inventory, (TileHydraulicCharger) ent);
+                    }
                 default:
                     break;
 
@@ -236,6 +240,10 @@ public class GuiHandler implements IGuiHandler {
                     if (ent instanceof TileHydraulicFiller)
                         return new GuiFiller(player.inventory, (TileHydraulicFiller) ent);
                     break;
+                case CHARGER:
+                    if (ent instanceof TileHydraulicCharger) {
+                        return new GuiCharger(player.inventory, (TileHydraulicCharger) ent);
+                    }
                 default:
                     break;
 

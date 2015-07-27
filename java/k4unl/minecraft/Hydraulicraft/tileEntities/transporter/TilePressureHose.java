@@ -1,17 +1,16 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.transporter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TilePressureHose extends TileHydraulicBase implements IHydraulicTransporter {
 	private Map<ForgeDirection, TileEntity> connectedSides = new HashMap<ForgeDirection, TileEntity>();
@@ -84,7 +83,7 @@ public class TilePressureHose extends TileHydraulicBase implements IHydraulicTra
     		Log.error("PartHose does not have a handler!");
     	}
     	if(getWorldObj() != null){
-	    	if(getWorldObj().getTotalWorldTime() % 10 == 0 && hasCheckedSinceStartup == false){
+	    	if(getWorldObj().getTotalWorldTime() % 10 == 0 && !hasCheckedSinceStartup){
 	    		checkConnectedSides();
 	    		hasCheckedSinceStartup = true;
 	    		//Hack hack hack
@@ -192,7 +191,7 @@ public class TilePressureHose extends TileHydraulicBase implements IHydraulicTra
 	@Override
 	public void updateNetwork(float oldPressure) {
 		PressureNetwork newNetwork = null;
-		PressureNetwork foundNetwork = null;
+		PressureNetwork foundNetwork;
 		PressureNetwork endNetwork = null;
 		//This block can merge networks!
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
@@ -211,7 +210,7 @@ public class TilePressureHose extends TileHydraulicBase implements IHydraulicTra
 				}
 			}
 			
-			if(newNetwork != null && endNetwork != null){
+			if(newNetwork != null){
 				//Hmm.. More networks!? What's this!?
 				//Log.info("Found an existing network (" + newNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 				endNetwork.mergeNetwork(newNetwork);

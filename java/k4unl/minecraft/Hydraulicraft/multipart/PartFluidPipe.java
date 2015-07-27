@@ -142,7 +142,6 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
     public void readDesc(MCDataInput packet){
 
         NBTTagCompound mainCompound = packet.readNBTTagCompound();
-        NBTTagCompound handlerCompound = mainCompound.getCompoundTag("handler");
         if(mainCompound.getBoolean("connectedSidesHaveChanged")){
             hasCheckedSinceStartup = false;
         }
@@ -175,9 +174,9 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
     @Override
     public Iterable<Cuboid6> getOcclusionBoxes(){
         if (expandBounds >= 0)
-            return Arrays.asList(boundingBoxes[expandBounds]);
+            return Collections.singletonList(boundingBoxes[expandBounds]);
 
-        return Arrays.asList(boundingBoxes[6]);
+        return Collections.singletonList(boundingBoxes[6]);
     }
 
     @Override
@@ -221,12 +220,8 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
                 }
             }
             return false;
-        }else{
-            if(entity instanceof IFluidHandler){
-                return ((IFluidHandler)entity).canFill(dir.getOpposite(), getFluidStored());
-            }else{
-                return false;
-            }
+        }else {
+            return entity instanceof IFluidHandler && ((IFluidHandler) entity).canFill(dir.getOpposite(), getFluidStored());
         }
     }
 
@@ -316,7 +311,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
     @Override
     public void update(){
         if(world() != null){
-            if(world().getTotalWorldTime() % 2 == 0 && hasCheckedSinceStartup == false){
+            if(world().getTotalWorldTime() % 2 == 0 && !hasCheckedSinceStartup){
                 checkConnectedSides();
                 hasCheckedSinceStartup = true;
                 //Hack hack hack
@@ -432,7 +427,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
             }else if(neighbor != null && neighbor instanceof IFluidHandler){
                 if(getFluidStored() != null) {
                     int toFill = ((IFluidHandler) neighbor).fill(dir.getOpposite(), new FluidStack(getFluidStored(), (int) getFluidAmountStored()), false);
-                    ((IFluidHandler) neighbor).fill(dir.getOpposite(), new FluidStack(getFluidStored(), (int) toFill), true);
+                    ((IFluidHandler) neighbor).fill(dir.getOpposite(), new FluidStack(getFluidStored(), toFill), true);
                     addFluid(-toFill);
                 }
             }

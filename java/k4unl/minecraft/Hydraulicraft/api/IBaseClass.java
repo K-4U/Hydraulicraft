@@ -18,39 +18,39 @@ public interface IBaseClass {
 	 * Set the max ammount of fluid this block can handle during runtime
 	 * @param maxFluid The ammount of BUCKETS this block can handle
 	 */
-	public void setMaxStorage(int maxFluid);
+	void setMaxStorage(int maxFluid);
 	
 	
 	/**
 	 * Forward this function to the Base class
 	 * @param tagCompound
 	 */
-	public void readFromNBTI(NBTTagCompound tagCompound);
+	void readFromNBTI(NBTTagCompound tagCompound);
 	
 	/**
 	 * Forward this function to the Base class
 	 * @param tagCompound
 	 */
-	public void writeToNBTI(NBTTagCompound tagCompound);
-	
+	void writeToNBTI(NBTTagCompound tagCompound);
+
 	/**
 	 * Forward this function to the Base class
 	 * @param net
 	 * @param packet
 	 */
-	public void onDataPacketI(NetworkManager net, S35PacketUpdateTileEntity packet);
+	void onDataPacketI(NetworkManager net, S35PacketUpdateTileEntity packet);
 	
 	/**
 	 * Forward this function to the Base class
 	 * @return
 	 */
-	public Packet getDescriptionPacketI();
+	Packet getDescriptionPacketI();
 
 	/**
 	 * Gets the ammount of fluid stored
 	 * @return the ammount of fluid stored
 	 */
-	public int getStored();
+	int getStored();
 
 	/**
 	 * Sets the amount of fluid stored 
@@ -58,52 +58,52 @@ public interface IBaseClass {
 	 * @param isOil
 	 * @param doNotify Whether or not to tell the client block that the fluid has changed
 	 */
-	public void setStored(int maxStorage, boolean isOil, boolean doNotify);
+	void setStored(int maxStorage, boolean isOil, boolean doNotify);
 	
 	/**
 	 * 
 	 * @return if Oil is stored in the tank.
 	 */
-	public boolean isOilStored();
+	boolean isOilStored();
 	
 	/**
 	 * Sets if oil is stored or not
 	 * @param b
 	 */
-	public void setIsOilStored(boolean b);
+	void setIsOilStored(boolean b);
 
 	/**
 	 * Forward this function the the Base class
 	 */
-	public void updateEntityI();
+	void updateEntityI();
 	
 	/**
 	 * Triggers a world.markBlockForUpdate()
 	 */
-	public void updateBlock();
+	void updateBlock();
 	
 	/**
 	 * Forward this to the base class
 	 */
-	public void invalidateI();
+	void invalidateI();
 
 	/**
 	 * Call this function if you want the network to be updated
 	 * @param oldPressure
 	 */
-	public void updateNetworkOnNextTick(float oldPressure);
+	void updateNetworkOnNextTick(float oldPressure);
 
 	/**
 	 * Call this function if you want the fluids to be equalized troughout the network
 	 */
-	public void updateFluidOnNextTick();
+	void updateFluidOnNextTick();
 
 	/**
 	 * Returns the current pressure
 	 * @param dir
 	 * @return
 	 */
-	public float getPressure(ForgeDirection dir);
+	float getPressure(ForgeDirection dir);
 
 	/**
 	 * Returns the max ammount of pressure this machine can handle
@@ -111,35 +111,35 @@ public interface IBaseClass {
 	 * @param from
 	 * @return
 	 */
-	public float getMaxPressure(boolean isOilStored, ForgeDirection from);
+	float getMaxPressure(boolean isOilStored, ForgeDirection from);
 
 	/**
 	 * Returns the max amount of fluid storage for this block
 	 * @return
 	 */
-	public int getMaxStorage();
+	int getMaxStorage();
 
 	/**
 	 * Sets the pressure in the network
 	 * @param f
 	 * @param facing
 	 */
-	public void setPressure(float f, ForgeDirection facing);
+	void setPressure(float f, ForgeDirection facing);
 
 	/**
 	 * Use this to tell the base class to tell its target.
 	 * Just use init(this);
 	 * @param target
 	 */
-	public void init(TileEntity target);
-	public void init(TMultiPart target);
+	void init(TileEntity target);
+	void init(TMultiPart target);
 	
 	/**
 	 * Takes the pressure to add and checks if there is oil in the system.
 	 * Use this function to add pressure from a generator
 	 * @param pressureToAdd
 	 */
-	public void addPressureWithRatio(float pressureToAdd, ForgeDirection from);
+	void addPressureWithRatio(float pressureToAdd, ForgeDirection from);
 
 	/**
 	 * Forward this to the handler.

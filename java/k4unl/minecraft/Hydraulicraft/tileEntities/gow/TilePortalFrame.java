@@ -20,7 +20,7 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower{
     public void updateEntity() {
 
         super.updateEntity();
-        if (!getWorldObj().isRemote && hasSendPacket == false) {
+        if (!getWorldObj().isRemote && !hasSendPacket) {
             hasSendPacket = true;
             PacketPipeline.instance.sendToAllAround(new PacketPortalStateChanged(xCoord, yCoord, zCoord, isActive), getWorldObj());
         }
@@ -36,15 +36,8 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower{
 
     public boolean isConnectedTo(ForgeDirection dir) {
 
-        Location thatLocation = new Location(xCoord, yCoord, zCoord, dir);
-        if (thatLocation == null || getWorldObj() == null){
-			return false;
-		}
-		if(thatLocation.getTE(getWorldObj()) instanceof TilePortalFrame ||  thatLocation.getTE(getWorldObj()) instanceof TilePortalBase){
-			return true;
-		}else{
-			return false;
-		}
+		Location thatLocation = new Location(xCoord, yCoord, zCoord, dir);
+		return !(thatLocation == null || getWorldObj() == null) && (thatLocation.getTE(getWorldObj()) instanceof TilePortalFrame || thatLocation.getTE(getWorldObj()) instanceof TilePortalBase);
 	}
 	
 	@Override

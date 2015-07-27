@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ToolTip {
@@ -22,8 +23,7 @@ public class ToolTip {
 
     public ToolTip(int x, int y, int width, int height, String[] text) {
         this(x, y, width, height);
-        for (String t : text)
-            this.text.add(t);
+        Collections.addAll(this.text, text);
     }
 
     public List<String> getText() {

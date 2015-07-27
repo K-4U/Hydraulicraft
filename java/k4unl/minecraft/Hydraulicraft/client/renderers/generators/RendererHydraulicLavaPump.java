@@ -1,58 +1,77 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.generators;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
 import org.lwjgl.opengl.GL11;
 
-public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
+public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler {
+
 	private static final ResourceLocation resLoc =
-			new ResourceLocation(ModInfo.LID,"textures/model/hydraulicLavaPump.png");
-	
+			new ResourceLocation(ModInfo.LID, "textures/model/hydraulicLavaPump.png");
+
+	public static final int   RENDER_ID         = RenderingRegistry.getNextAvailableRenderId();
+	public static final Block FAKE_RENDER_BLOCK = new Block(Material.rock) {
+
+		@Override
+		public IIcon getIcon(int meta, int side) {
+
+			return HCBlocks.hydraulicPressureWall.getIcon(meta, side);
+		}
+	};
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
-			double z, float f) {
-		TileHydraulicLavaPump t = (TileHydraulicLavaPump)tileentity;
+								   double z, float f) {
+
+		TileHydraulicLavaPump t = (TileHydraulicLavaPump) tileentity;
 		//Get metadata for rotation:
 		int rotation = 0;//t.getDir();
 		int metadata = t.getBlockMetadata();
-		
-		doRender(t, (float)x, (float)y, (float)z, f, rotation, metadata);
+
+		doRender(t, (float) x, (float) y, (float) z, f, rotation, metadata);
 	}
-	
+
 	public void itemRender(float x, float y,
-			float z, float f, int tier){
-		
+						   float z, float f, int tier) {
+
 		GL11.glPushMatrix();
-		
+
 		GL11.glTranslatef(x, y, z);
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
-		
+
 		GL11.glPushMatrix();
-		
+
 		GL11.glTranslatef(0.0F, 1.0F, 1.0F);
 		GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
 		GL11.glRotatef(90F, 0.0F, 0.0F, -1.0F);
-		
+
 		//GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
 		GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		//Do rendering
-        
+
 		float thickness = RenderHelper.pixel;
 		renderTieredBars(tier, thickness);
-		renderInsidesWithoutLighting(thickness);
+		//renderInsidesWithoutLighting(thickness);
 		renderGauges(thickness);
 		
 		//GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -106,7 +125,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
 		float thickness = RenderHelper.pixel;
 		renderTieredBars(t.getTier(), thickness);
-		renderInsides(thickness, t);
+		//renderInsides(thickness, t);
 		renderGaugesContents(thickness, t);
 		renderGauges(thickness);
 		
@@ -133,7 +152,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		//RenderHelper.startTesselating();
 		float texturePixel = RenderHelper.renderPixel;
 		Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - RenderHelper.pixel*6, 0.0F, thickness+RenderHelper.pixel, 1.0F - thickness - RenderHelper.pixel, 1.0002F-thickness, 1.0F - thickness - RenderHelper.pixel);
-
+        
 		RenderHelper.vertexWithTexture(vectorPressure.getXMin(), vectorPressure.getYMax(), vectorPressure.getZMax(), texturePixel*19, texturePixel*14); //BL
 		RenderHelper.vertexWithTexture(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMax(), texturePixel*24, texturePixel*14);	//BR
 		RenderHelper.vertexWithTexture(vectorPressure.getXMax(), vectorPressure.getYMax(), vectorPressure.getZMin(), texturePixel*24, 0.0F); //TR
@@ -250,7 +269,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXe[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), tXb[tier], 0.0F);
-		
+
 		//Bottom side:
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), tXe[tier], 0.0F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMax(), tXe[tier], 0.5F);
@@ -262,13 +281,13 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMax(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), tXb[tier], 0.0F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXe[tier], 0.0F);
-		
+
 		//Draw east side:
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMin(), tXe[tier], 0.0F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMin(), tXe[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMax(), vector.getZMax(), tXb[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMax(), vector.getYMin(), vector.getZMax(), tXb[tier], 0.0F);
-		
+
 		//Draw north side
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMin(), vector.getZMin(), tXe[tier], 0.5F);
 		RenderHelper.vertexWithTexture(vector.getXMin(), vector.getYMax(), vector.getZMin(), tXb[tier], 0.5F);
@@ -329,4 +348,32 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
 		GL11.glEnd();
 	}
 
+	@Override
+	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+		FAKE_RENDER_BLOCK.setBlockBounds(RenderHelper.pixel, RenderHelper.pixel, RenderHelper.pixel, 1.0F - RenderHelper.pixel, 1.0F - RenderHelper.pixel, 1.0F - RenderHelper.pixel);
+		renderer.renderBlockAsItem(FAKE_RENDER_BLOCK, 1, 1.0F);
+		GL11.glRotatef(90F, 0.0F, -1.0F, 0.0F);
+		itemRender(-0.5F, -0.5F, -0.5F, 0, metadata);
+		renderer.setRenderBoundsFromBlock(Blocks.stone);
+	}
+
+	@Override
+	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+
+		renderer.setRenderBounds(RenderHelper.pixel, RenderHelper.pixel, RenderHelper.pixel, 1.0F-RenderHelper.pixel, 1.0F-RenderHelper.pixel, 1.0F-RenderHelper.pixel);
+		boolean ret = renderer.renderStandardBlock(FAKE_RENDER_BLOCK, x, y, z);
+		renderer.setRenderBoundsFromBlock(Blocks.stone);
+
+		return ret;
+	}
+
+	@Override
+	public boolean shouldRender3DInInventory(int modelId) {
+		return true;
+	}
+
+	@Override
+	public int getRenderId() {
+		return RENDER_ID;
+	}
 }

@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.client.renderers.generators.RendererHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
@@ -21,6 +22,7 @@ public class BlockHydraulicLavaPump extends HydraulicTieredBlockBase implements 
 	public BlockHydraulicLavaPump() {
         super(Names.blockHydraulicLavaPump);
         this.hasTextures = false;
+		//setLightOpacity(255);
     }
 
 	@Override
@@ -37,7 +39,7 @@ public class BlockHydraulicLavaPump extends HydraulicTieredBlockBase implements 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getRenderType(){
-        return -1;
+        return RendererHydraulicLavaPump.RENDER_ID;
     }
 	
 	@Override

@@ -74,6 +74,15 @@ public class ModelDivingSuit extends ModelBiped {
     public         ModelRenderer   BackRightLowerLeg;
     public         ModelRenderer   RightFoot;
     public         ModelRenderer   LeftFoot;
+    public         ModelRenderer   flipRightTop;
+    public         ModelRenderer   flipLeftTop;
+    public         ModelRenderer   flipRightBottom;
+    public         ModelRenderer   flipLeftBottom;
+    public         ModelRenderer   flipRightBack;
+    public         ModelRenderer   flipLeftBack;
+
+    public ModelRenderer flipperLeft;
+    public ModelRenderer flipperRight;
 
     public ModelDivingSuit() {
 
@@ -240,6 +249,29 @@ public class ModelDivingSuit extends ModelBiped {
         this.RightTankPipe.addBox(-1.5F, 2.5F, 3.5F, 1, 3, 1, 0.0F);
         this.setRotateAngle(RightTankPipe, 0.0F, 0.0F, 0.7853981633974483F);
 
+        this.flipRightBottom = new ModelRenderer(this, 0, 0);
+        this.flipRightBottom.setRotationPoint(-1.9F, 12.0F, 0.1F);
+        this.flipRightBottom.addBox(-2.0F, 11.0F, -8.0F, 4, 1, 12, 0.0F);
+        this.flipRightBack = new ModelRenderer(this, 0, 0);
+        this.flipRightBack.setRotationPoint(-1.9F, 12.0F, 0.1F);
+        this.flipRightBack.addBox(-1.5F, 10.5F, -1.0F, 3, 1, 3, 0.0F);
+        this.setRotateAngle(flipRightBack, 0.17453292519943295F, 0.0F, 0.0F);
+        this.flipLeftTop = new ModelRenderer(this, 0, 0);
+        this.flipLeftTop.setRotationPoint(1.9F, 12.0F, 0.1F);
+        this.flipLeftTop.addBox(-1.5F, 10.0F, -6.0F, 3, 1, 8, 0.0F);
+        this.setRotateAngle(flipLeftTop, 0.17453292519943295F, 0.0F, 0.0F);
+        this.flipLeftBottom = new ModelRenderer(this, 0, 0);
+        this.flipLeftBottom.setRotationPoint(1.9F, 12.0F, 0.1F);
+        this.flipLeftBottom.addBox(-2.0F, 11.0F, -8.0F, 4, 1, 12, 0.0F);
+        this.flipLeftBack = new ModelRenderer(this, 0, 0);
+        this.flipLeftBack.setRotationPoint(1.9F, 12.0F, 0.1F);
+        this.flipLeftBack.addBox(-1.5F, 10.5F, -1.0F, 3, 1, 3, 0.0F);
+        this.setRotateAngle(flipLeftBack, 0.17453292519943295F, 0.0F, 0.0F);
+        this.flipRightTop = new ModelRenderer(this, 0, 0);
+        this.flipRightTop.setRotationPoint(-1.9F, 12.0F, 0.1F);
+        this.flipRightTop.addBox(-1.5F, 10.0F, -6.0F, 3, 1, 8, 0.0F);
+        this.setRotateAngle(flipRightTop, 0.17453292519943295F, 0.0F, 0.0F);
+
         this.bipedHead.addChild(HelmetLeftBack);
         this.bipedHead.addChild(HelmetRighBack);
         this.bipedHead.addChild(HelmetTop);
@@ -297,6 +329,22 @@ public class ModelDivingSuit extends ModelBiped {
         this.bipedRightLeg.addChild(BackRightLowerLeg);
         this.bipedRightLeg.addChild(RightLegPanel);
         this.bipedRightLeg.addChild(RightFoot);
+
+        flipperLeft = new ModelRenderer(this, 0, 0);
+        flipperRight = new ModelRenderer(this, 0, 0);
+
+        flipperLeft.addChild(flipLeftBack);
+        flipperLeft.addChild(flipLeftBottom);
+        flipperLeft.addChild(flipLeftTop);
+
+        flipperRight.addChild(flipRightBack);
+        flipperRight.addChild(flipRightBottom);
+        flipperRight.addChild(flipRightTop);
+
+        bipedLeftLeg.addChild(flipperLeft);
+        bipedRightLeg.addChild(flipperRight);
+
+
     }
 
     public static ModelBiped getModel(EntityLivingBase entity, ItemStack stack) {
@@ -304,7 +352,7 @@ public class ModelDivingSuit extends ModelBiped {
             return null;
         int slot = ((ItemArmor) stack.getItem()).armorType;
 
-        ModelDivingSuit armor = null;
+        ModelDivingSuit armor;
         if (slot == 0 && modelHelm != null) {
             return modelHelm;
         } else if (slot == 1 && modelChest != null) {
@@ -324,6 +372,9 @@ public class ModelDivingSuit extends ModelBiped {
 
         armor.bipedLeftLeg.isHidden = true;
         armor.bipedRightLeg.isHidden = true;
+
+        armor.flipperRight.isHidden = true;
+        armor.flipperLeft.isHidden = true;
 
         switch (slot) {
             case 0:
@@ -345,7 +396,8 @@ public class ModelDivingSuit extends ModelBiped {
                 break;
 
             case 3:
-                // this wouldn't work... shouldn't there be some sort of flippers?
+                armor.flipperLeft.isHidden = false;
+                armor.flipperRight.isHidden = false;
                 modelBoots = armor;
                 break;
 
@@ -417,6 +469,10 @@ public class ModelDivingSuit extends ModelBiped {
             this.bipedLeftArm.render(f5);
             this.bipedRightLeg.render(f5);
             this.bipedLeftLeg.render(f5);
+            flipperLeft.rotateAngleX = bipedLeftLeg.rotateAngleX;
+            flipperLeft.render(f5);
+            flipperRight.rotateAngleX = bipedRightLeg.rotateAngleX;
+            flipperRight.render(f5);
         }
     }
 
