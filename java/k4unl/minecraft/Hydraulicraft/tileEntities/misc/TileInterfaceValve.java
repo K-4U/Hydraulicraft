@@ -26,7 +26,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISidedInventory, IFluidHandler, IConnectTexture {
     private int targetX;
@@ -625,6 +627,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             List<Location> airBlocks = new ArrayList<Location>();
             List<Location> valveBlocks = new ArrayList<Location>();
             tankScore = 0;
+            HashMap<Block, Integer> blocks = new HashMap<Block, Integer>();
             //Now.. Get all the blocks that are there:
             for (int x = minX - 1; x <= maxX + 1; x++) {
                 for (int y = minY - 1; y <= maxY + 1; y++) {
@@ -652,15 +655,26 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                                 } else {
                                     //Check what material this tank is made of, it adds to the tankScore.
                                     //We should make an array here
-                                    tankScore += HCConfig.getTankBlockScore(bl);
+                                    int c = 0;
+                                    if(blocks.containsKey(bl)){
+                                        c = blocks.get(bl);
+                                        blocks.remove(bl);
+                                    }
+                                    blocks.put(bl, c+1);
+                                    //tankScore += HCConfig.getTankBlockScore(bl);
                                 }
                             }
-
                         }
                     }
                 }
             }
-            tankScore = airBlocks.size() + tankScore;
+
+            for(Map.Entry<Block, Integer> block : blocks.entrySet()){
+                tankScore += HCConfig.getTankBlockScore(block.getKey()) * block.getValue();
+                Log.info(block.getKey().getLocalizedName() + "=" + block.getValue() + "=" + HCConfig.getTankBlockScore(block.getKey()));
+            }
+            Log.info("TankScore = " + tankScore + " AB = " + airBlocks.size());
+            tankScore = airBlocks.size() * tankScore;
             //Now. modify the locations so that it actually uses the BLOCKS
             minX -= 1;
             minY -= 1;
