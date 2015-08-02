@@ -1,0 +1,171 @@
+### Main Mod
+#Items
+item.gasket.name=Uszczelka
+item.frictionPlate.name=Płytka Tarcia
+item.ingotCopper.name=Sztabka Miedźi
+item.ingotLead.name=Sztabka Ołowiu
+item.ingotEnrichedCopper.name=Ubogacona Sztabka Miedźi
+item.bucketHydraulicOil.name=Wiadro Oleju Hydraulicznego
+item.bucketLubricant.name=Wiadro Wazeliny
+item.bucketOil.name=Wiadro Oleju
+item.bucketFluoroCarbonFluid.name=Wiadro Płynnego Fluorowęgla
+item.bacon.name=Bekon
+item.miningHelmet.name=Hełm Górnika
+item.itemLamp.name=Lampa od Hełmu Górnika
+item.diamondShard.name=Odłamek Diamentu
+item.dustDiamondCopper.name=Ubogacony Pył Miedźi
+item.enderLolly.name=Lizak Enderu
+
+#Ores
+tile.oreCopper.name=Ruda Miedźi
+tile.oreLead.name=Ruda Ołowiu
+tile.oreLonezium.name=Lonezium
+tile.oreBeachium.name=Beachium
+tile.oreNadsiumBicarbinate.name=Nadsium Bicarbinate
+
+#Blocks
+tile.hydraulicOil.name=Olej Hydrauliczny
+tile.oil.name=Ropa Naftowa
+tile.lubricant.name=Smar
+tile.fluoroCarbonFluid.name=Płynny Fuoro Węgiel
+tile.hydraulicFilter.name=Filtr
+tile.hydraulicFrictionIncinerator.name=Friction Incinerator
+tile.hydraulicCrusher.name=Rozdrabiarka
+tile.hydraulicWasher.name=Myjnia
+tile.hydraulicPressureWall.name=Ściana Ciśnieniowa
+tile.hydraulicPressureGlass.name=Szkło Ciśnieniowe
+tile.pressureDisposal.name=Wylot Ciśnienia
+tile.blockTransparentLight.name=Świetlówka
+
+tile.LPHydraulicPipe.name=Rura Niskociśnieniowa
+tile.MPHydraulicPipe.name=Rura Średniociśnieniowa
+tile.HPHydraulicPipe.name=Rura Wysokociśnieniowa
+
+tile.LPPartValve.name=Zawór Niskociśnieniowy
+tile.MPPartValve.name=Zawór Średniociśnieniowy
+tile.HPPartValve.name=Zawór Wysokociśnieniowy
+
+tile.LPHydraulicPressureVat.name=Cysterna Niskociśnieniowa
+tile.MPHydraulicPressureVat.name=Cysterna Średniociśnieniowa
+tile.HPHydraulicPressureVat.name=Cysterna Wysokociśnieniowa
+
+tile.LPHydraulicPump.name=Pompa Niskociśnieniowa
+tile.MPHydraulicPump.name=Pompa Średniociśnieniowa
+tile.HPHydraulicPump.name=Pompa Wysokociśnieniowa
+
+tile.LPHydraulicLavaPump.name=Niskociśnieniowa Pompa Lawy
+tile.MPHydraulicLavaPump.name=Średniociśnieniowa Pompa Lawy
+tile.HPHydraulicLavaPump.name=Wysokociśnieniowa Pompa Lawy
+
+tile.hydraulicHarvesterSource.name=Hydrauliczny Zbieracz
+tile.hydraulicHarvesterFrame.name=Rama Zbieracza
+
+tile.harvesterTrolley.crops.name=Wózek na Zboże Zbieracza
+tile.harvesterTrolley.enderLily.name=Wózek na Lilie Enderu Zbieracza
+tile.harvesterTrolley.sugarCane.name=Wózek na Trzcine Cukrową Zbieracza
+tile.harvesterTrolley.cactus.name=Wózek na Kaktus Zbieracza
+tile.harvesterTrolley.netherWart.name=Wózek na Brodawkę Zbieracza
+tile.harvesterTrolley.flax.name=Wózek na Len Zbieracza
+
+tile.hydraulicPiston.name=Tłok Hydrauliczny
+tile.interfaceValve.name=Zawór z Interfejsem
+tile.valve.name=Zawór Bloku Hydraulicznego
+
+tile.LPBlockCore.name=Rdzeń Niskociśnieniowy
+tile.MPBlockCore.name=Rdzeń Średniociśnieniowy
+tile.HPBlockCore.name=Rdzeń Wysokociśnieniowy
+
+tile.blockInfiniteSource.name=Nieskończone Źródło
+tile.hydraulicFluidPump.name=Hydrauliczna Śruba Archimedesa
+desc.hydraulicFluidPump=Pompa do pompowania płynów
+
+tile.blockCopper.name=Blok Miedzi
+tile.blockLead.name=Blok Ołowiu
+
+tile.blockJarDirt.name=Słój Ziemi
+tile.refinedLonezium.name=Ubogacone Lonezium
+tile.refinedNadsiumBicarbinate.name=Ubogacone Nadsium Bicarbinate
+tile.blockDirtyMineral.name=Brudny Minerał
+tile.hydraulicAssembler.name=Monter
+tile.fluidPipe.name=Rura na Płyny
+tile.fluidInterface.name=Interfejs Płynów
+
+#Dust and chunks
+dustGold.name=Złoty Pył
+dustIron.name=Żelazny Pył
+dustArdite.name=Pył Arditu
+dustCopper.name=Miedziany Pył
+dustLead.name=Ołowiany Pył
+dustFzDarkIron.name=Pył Ciemnego Żelaza
+dustTin.name=Cynowy Pył
+dustCobalt.name=Kobaltowy Pył
+dustSilver.name=Srebrny Pył
+dustNickel.name=Niklowy Pył
+chunkGold.name=Bryłka Złota
+chunkIron.name=Bryłka Żelaza
+chunkArdite.name=Bryłka Arditu
+chunkCopper.name=Bryłka Miedzi
+chunkLead.name=Bryłka Ołowiu
+chunkFzDarkIron.name=Bryłka Ciemnego Żelaza
+chunkTin.name=Bryłka Cyny
+chunkCobalt.name=Bryłka Kobaltu
+chunkSilver.name=Bryłka Srebra
+chunkNickel.name=Bryłka Niklu
+
+item.itemDebug.name=Przedmiot Debugujący
+
+key.hydcraft.category=Hydraulicraft
+key.mining_helmet.desc=Włączony/Wyłączony Hełm Górnika
+
+tile.movingPane.name=Ruchoma Tafla
+item.movingPane.name=Ruchoma Tafla
+
+
+####MISC
+itemGroup.tabHydraulicraft=HydrauliCraft
+lang.pressure=Ciśnienie
+fluid.hydraulicOil=Olej Hydrauliczny
+fluid.oil=Crude Oil
+fluid.lubricant=Lubricant
+fluid.fluoroCarbonFluid=Płyn Fluoro Węglowy
+lang.gui.generating=Generuje
+lang.gui.max=Max
+lang.gui.using=Działa
+lang.gui.output=Wyjście
+lang.gui.burnLeft=Burn left
+lang.gui.maxHighPressure=Max: Wysokie Ciśnienie
+lang.gui.maxMediumPressure=Max: Średnie Ciśnienie
+lang.gui.maxLowPressure=Max: Niskie Ciśnienie
+lang.warn.wip=Notka: Then blok działa ale będzie wymieniony w przyszłości!
+lang.gui.updateAvailable=Wesja Hydraulicraft %s jest dostępna
+lang.gui.releasedAt=Dostępne w: %s
+lang.gui.upToDate=Hydraulicraft jest aktualne.
+lang.tooltip.multiblock=Multiblock. Maksymalne ciśnienie zależne od użytego rdzenia.
+
+
+####Third party
+#PneumaticCraft
+tile.hydraulicPneumaticCompressor.name=Pneumatycznty Kompresor
+
+
+#Industrialcraft
+tile.hydraulicGenerator.name=Generator Hydrauliczny
+tile.LPElectricPump.name=Niskociśnieniowa Pompa Elektryczna
+tile.MPElectricPump.name=Średniociśnieniowa Pompa Elektryczna
+tile.HPElectricPump.name=Wysokociśnieniowa Pompa Elektryczna
+
+#Thermal Expansion
+tile.hydraulicDynamo.name=Dynamo Hydrauliczne
+tile.LPRFPump.name=Niskociśnieniowa Pompa Czerwonego Kamienia
+tile.MPRFPump.name=Średniociśnieniowa Pompa Czerwonego Kamienia
+tile.HPRFPump.name=Wysokociśnieniowa Pompa Czerwonego Kamienia
+
+#FMP
+tile.hydraulicSaw.name=Piła Hydrauliczna
+
+tile.portalBase.name=Baza Portalu
+tile.portalFrame.name=Rama Portalu
+tile.portalTeleporter.name=Portal
+item.portalIPCard.name=Karta Indentyfikacyjna Portalu
+itemGroup.tabGOW=Świecący Octo Wallhack
+
