@@ -1,0 +1,5 @@
+[comment{James 7-20 Added, I need to get one working again so I can explain it}]
+
+The Portal is a multiblock structure that can teleport you around your world. You will need the following resources
+to build the minimum size portal (2x3): Iron, Ender Pearls, Gaskets, and High Pressure Cores.
+ [image{200,10,0.25,hydcraft:textures/portal.png}]

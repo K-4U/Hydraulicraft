@@ -15,4 +15,4 @@ This block will not generate any more pressure than possible in a High Pressure 
 It will accept any type of solid fuel.
 
 
-[prefix{l}]Max pressure:    [prefix{4l}]medium
+[prefix{l}]Max pressure:    [prefix{4l}]High

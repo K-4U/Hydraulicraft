@@ -1,0 +1,3 @@
+[comment{James 7-23 added as per WikiTab.java, Add image of washer and link to the block/hydWasher.txt}]
+[prefix{l}]Hydraulic Washer [prefix{}]
+[link{hydcraft:block/hydWasher.txt}][image{150,20,0.25,hydcraft:textures/wash3.png}]

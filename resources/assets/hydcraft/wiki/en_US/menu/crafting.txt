@@ -1,4 +1,6 @@
+[comment{Talking about the new crafting mechanic in Hydraulicraft, also put all the recipes in here as well.}]
 [prefix{l}]Crafting [prefix{}]
-Talking about the new crafting mechanic in Hydraulicraft, also put all the recipes in here as well.
-
+[comment{James /What I think this does, put's the block together so I get a 3d view of the block, just don't know
+where to point it yet.
+}]
 [assembler{200,200,block/HPHydraulicPressureVat}]

@@ -15,4 +15,4 @@ This block will not generate any more pressure than possible in a Low Pressure N
 It will accept any type of solid fuel.
 
 
-[prefix{l}]Max pressure:    [prefix{2l}]low
+[prefix{l}]Max pressure:    [prefix{2l}]Low [prefix{}]
