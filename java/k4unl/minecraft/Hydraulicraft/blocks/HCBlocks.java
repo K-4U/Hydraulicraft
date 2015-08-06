@@ -181,6 +181,7 @@ public class HCBlocks {
 
         OreDictionary.registerOre(Names.blockCopper.unlocalized, blockCopper);
         OreDictionary.registerOre(Names.blockLead.unlocalized, blockLead);
+        OreDictionary.registerOre("blockGlass", hydraulicPressureGlass);
 
 
         GameRegistry.registerBlock(blockLight, HandlerHydraulicBlock.class, Names.blockLight.unlocalized);

@@ -33,7 +33,11 @@ public class GuiCharger extends HydraulicGUIBase {
             if (filler.getStackInSlot(0).getItem() instanceof IPressurizableItem) {
                 ItemStack pressurizingItemStack = filler.getStackInSlot(0);
                 IPressurizableItem item = (IPressurizableItem) pressurizingItemStack.getItem();
-                String fluidName = item.getFluid(pressurizingItemStack).getLocalizedName();
+                String fluidName = "";
+                if(item.getFluid(pressurizingItemStack) != null){
+                    fluidName = item.getFluid(pressurizingItemStack).getUnlocalizedName();
+                }
+
                 IIcon icon = item.getFluid(pressurizingItemStack).getFluid().getIcon();
 
                 drawVerticalProgressBarWithTexture(54, 16, 27, 7, item.getFluid(pressurizingItemStack).amount, item.getMaxFluid(), icon, fluidName, "mB");

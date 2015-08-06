@@ -48,6 +48,7 @@ public class HCItems {
     public static Item itemDivingBoots;
 
     public static Item itemhydraulicWrench;
+    public static Item itemCannister;
 
     /*!
      * @author Koen Beckers
@@ -92,6 +93,7 @@ public class HCItems {
         itemDivingBoots = new ItemDivingSuit(3);
 
         itemhydraulicWrench = new ItemHydraulicWrench();
+        itemCannister = new ItemCannister();
 
         registerItems();
     }
@@ -146,6 +148,7 @@ public class HCItems {
         }
 
         GameRegistry.registerItem(itemhydraulicWrench, Names.itemHydraulicWrench.unlocalized);
+        GameRegistry.registerItem(itemCannister, Names.itemCannister.unlocalized);
 
 
         FluidStack st = FluidRegistry.getFluidStack(Names.fluidHydraulicOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);

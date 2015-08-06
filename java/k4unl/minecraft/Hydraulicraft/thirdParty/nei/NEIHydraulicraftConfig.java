@@ -6,7 +6,6 @@ import codechicken.nei.recipe.DefaultOverlayHandler;
 import cpw.mods.fml.common.Optional;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.GUI.GuiAssembler;
-import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.k4lib.lib.Functions;
@@ -43,11 +42,7 @@ public class NEIHydraulicraftConfig implements IConfigureNEI {
             API.hideItem(new ItemStack(HCBlocks.movingPane));
             API.hideItem(new ItemStack(HCBlocks.blockLight));
             API.hideItem(new ItemStack(HCBlocks.portalTeleporter));
-            API.hideItem(new ItemStack(HCBlocks.blockCharger));
-            API.hideItem(new ItemStack(HCItems.itemDivingHelmet));
-            API.hideItem(new ItemStack(HCItems.itemDivingController));
-            API.hideItem(new ItemStack(HCItems.itemDivingLegs));
-            API.hideItem(new ItemStack(HCItems.itemDivingBoots));
+
             API.hideItem(new ItemStack(Multipart.itemPartFluidInterface));
             API.hideItem(new ItemStack(Multipart.itemPartFluidPipe));
             API.hideItem(new ItemStack(HCBlocks.blockInfiniteSource));

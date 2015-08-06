@@ -119,4 +119,5 @@ public class Names {
     public static final Name itemDivingLegs      = new Name("Diving Suit Legs", "divingLegs");
     public static final Name itemDivingBoots     = new Name("Diving Suit Boots", "divingBoots");
     public static final Name itemHydraulicWrench = new Name("Hydraulic Wrench", "hydraulicWrench");
+    public static final Name itemCannister       = new Name("Pressure Cannister", "itemCannister");
 }
