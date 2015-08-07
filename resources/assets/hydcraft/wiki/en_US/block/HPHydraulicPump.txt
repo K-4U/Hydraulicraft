@@ -1,4 +1,4 @@
-[crafting{200,10,key=block/HPHydraulicPump}]
+[assembler{200,10,block/HPHydraulicPump}]
 
 
 

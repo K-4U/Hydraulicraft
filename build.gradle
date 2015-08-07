@@ -53,7 +53,7 @@ dependencies {
     compile "k4unl:k4lib:1.7.10-0.1.51:deobf"
     //compile name: "buildcraft", classifier: "dev", version: "7.0.16"
     compile 'com.mod-buildcraft:buildcraft:6.4.16:dev'
-    compile "igwmod:IGW-Mod-1.7.10:1.1.6-23:userdev"
+    compile "igwmod:IGW-Mod-1.7.10:1.1.8-28:userdev"
 }
 
 project.ext {

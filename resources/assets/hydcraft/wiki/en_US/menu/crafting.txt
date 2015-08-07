@@ -1,6 +1,23 @@
 [comment{Talking about the new crafting mechanic in Hydraulicraft, also put all the recipes in here as well.}]
 [prefix{l}]Crafting [prefix{}]
-[comment{James /What I think this does, put's the block together so I get a 3d view of the block, just don't know
-where to point it yet.
-}]
+All of the higher tier recipes now require you to use the Assembler:
+
+[crafting{200,50,key=block/hydraulicAssembler}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+[prefix{l}]High Pressure vat [prefix{}]
 [assembler{200,200,block/HPHydraulicPressureVat}]
+
+[prefix{l}]High Pressure pump [prefix{}]
+[assembler{200,320,block/HPHydraulicPump}]

@@ -37,9 +37,26 @@ public class IntegratorAssembler implements IRecipeIntegrator {
 
         IFluidRecipe foundRecipe = findRecipe(HydraulicRecipes.getAssemblerRecipes(), arguments[2]);
 
+        Object[] inputItems = (Object[]) foundRecipe.getInputItems();
+        int xItem = 0;
+        int yItem = 0;
+        for(Object item: inputItems){
+            if(item instanceof ItemStack) {
+                locatedStacks.add(new LocatedStack((ItemStack)item, (int) (GuiWiki.TEXT_SCALE * x) + 23 + (xItem * 18), (int) (GuiWiki.TEXT_SCALE * y) + 1 + (yItem * 18)));
+            }
 
-        //locatedStacks.add(new LocatedStack(foundRecipe.getInputItems(), (int)(GuiWiki.TEXT_SCALE * x) + 1, (int)(GuiWiki.TEXT_SCALE * y) + 46));
-        locatedStacks.add(new LocatedStack(foundRecipe.getRecipeOutput(), (int)(GuiWiki.TEXT_SCALE * x) + 68, (int)(GuiWiki.TEXT_SCALE * y) + 46));
+            xItem += 1;
+            if(xItem == 3){
+                xItem = 0;
+                yItem+=1;
+            }
+        }
+
+        //locatedTextures.add(new LocatedTexture(TextureSupplier.getTexture(ModInfo.LID + ":textures/blocks/lubricant_still.png"), x, y, 36, 110));
+        locatedStrings.add(new LocatedString("Fluid required: ",  x + 160, y + 5, 0xFF000000, false));
+        locatedStrings.add(new LocatedString(foundRecipe.getInputFluids().get(0).getLocalizedName(), x + 160, y + 15, 0xFF000000, false));
+        locatedStrings.add(new LocatedString(foundRecipe.getInputFluids().get(0).amount + "mB", x + 160, y + 25, 0xFF000000, false));
+        locatedStacks.add(new LocatedStack(foundRecipe.getRecipeOutput(), (int)(GuiWiki.TEXT_SCALE * x) + 97, (int)(GuiWiki.TEXT_SCALE * y) + 19));
         //Tell fluids..
     }
 

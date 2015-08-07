@@ -1,3 +1,35 @@
 [prefix{l}]Ores [prefix{}]
-[comment{This'll be a page of the two ores that Hydraulicraft adds.}]
-The 2 ores added by HydrauliCraft are Copper [image{200,10,hydcraft:textures/copper.png}] and Lead. [image{220,10,hydcraft:textures/lead.png}]
+Hydraulicraft adds two ores:
+- Copper
+- Lead
+Apart from that it also generates [link{hydcraft:menu/minerals.txt}]minerals [link{}]
+
+[prefix{l}]Copper [prefix{}]
+[image{200,90,0.27,hydcraft:textures/wiki/copper.png}] 
+
+
+
+
+
+
+
+
+In your config, copper is [variable{hydcraft:config:bs:worldgen:shouldGenCopperOre}]. 
+Copper generates from y [variable{hydcraft:config:i:worldgen:copperMinY}]
+to [variable{hydcraft:config:i:worldgen:copperMaxY}]
+
+[prefix{l}]Lead [prefix{}]
+[image{200,230,0.27,hydcraft:textures/wiki/lead.png}]
+
+
+
+
+
+
+
+
+
+In your config, lead is [variable{hydcraft:config:bs:worldgen:shouldGenLeadOre}]. 
+Lead generates from y [variable{hydcraft:config:i:worldgen:leadMinY}]
+to [variable{hydcraft:config:i:worldgen:leadMaxY}]
+
