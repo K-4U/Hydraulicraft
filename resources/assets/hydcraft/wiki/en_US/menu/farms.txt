@@ -1,4 +1,4 @@
-[comment{James 7-22 Added}]
+
 The Harvester is a multi-block machine that can plant and harvest crops like Wheat, Sugar Cane, Cactus, and Netherwart. Cross-Mod compatibility with Enderlilies, Flax and PneumaticCraft plants. You will need an Assembler to craft the Harvester, Pistons and Dollies needed. The maximum size for the harvester is your standard 9x9. You will need the following items to get started in farming with HydrauliCraft, 1 harvester, 9 pressure walls, 9 hydraulic pistons, and 9 dollies. As well as 11 fence posts and 81 harvester frames. Start by laying out your 9x9 [comment{add screenshots}]. Then place the Harvester on one corner with 2 fence posts on it. Then put fence posts 3 high on the other 3 corners. Above the Harvester place the 9 pistons facing the 9x9. on the other end of the field put up 9 pressure walls. Place the harvester frames between the pistons and the pressure walls. Then place your dollies on the harvester frames next to the pistons. Now just run your HydrauliCraft pipes to the harvester and put your seeds into the harvester.
 
 [comment{James 7-23 remember to adjust these, if they are ok'd}]

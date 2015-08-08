@@ -19,5 +19,93 @@ All of the higher tier recipes now require you to use the Assembler:
 [prefix{l}]High Pressure vat [prefix{}]
 [assembler{200,200,block/HPHydraulicPressureVat}]
 
+
+
+
+
+
+
+
+
+
+
 [prefix{l}]High Pressure pump [prefix{}]
 [assembler{200,320,block/HPHydraulicPump}]
+
+
+
+
+
+
+
+
+
+
+
+[prefix{l}]High Pressure lava pump [prefix{}]
+[assembler{200,440,block/HPHydraulicLavaPump}]
+
+
+
+
+
+
+
+
+
+
+
+[prefix{l}]Harvester [prefix{}]
+[assembler{200,560,block/hydraulicHarvesterSource}]
+
+
+
+
+
+
+
+
+
+
+
+[prefix{l}]High Pressure core [prefix{}]
+[assembler{200,680,block/HPBlockCore}]
+
+
+
+
+
+
+
+
+
+
+
+[prefix{l}]High pressure pipe [prefix{}]
+[assembler{200,800,block/HPHydraulicPipe}]
+
+
+
+
+
+
+
+
+
+
+
+[prefix{l}]Moving pane [prefix{}]
+[assembler{200,920,item/movingPane}]
+
+
+
+
+
+
+
+
+
+
+
+[prefix{l}]Piston [prefix{}]
+[assembler{200,1040,block/hydraulicPiston}]

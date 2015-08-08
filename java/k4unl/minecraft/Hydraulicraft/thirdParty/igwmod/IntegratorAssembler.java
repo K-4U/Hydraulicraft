@@ -41,8 +41,9 @@ public class IntegratorAssembler implements IRecipeIntegrator {
         int xItem = 0;
         int yItem = 0;
         for(Object item: inputItems){
-            if(item instanceof ItemStack) {
-                locatedStacks.add(new LocatedStack((ItemStack)item, (int) (GuiWiki.TEXT_SCALE * x) + 23 + (xItem * 18), (int) (GuiWiki.TEXT_SCALE * y) + 1 + (yItem * 18)));
+            if(item != null) {
+                ItemStack[] itemStacks = extractRecipeItems(item);
+                locatedStacks.add(new LocatedStack(itemStacks[0], (int) (GuiWiki.TEXT_SCALE * x) + 23 + (xItem * 18), (int) (GuiWiki.TEXT_SCALE * y) + 1 + (yItem * 18)));
             }
 
             xItem += 1;
@@ -78,5 +79,17 @@ public class IntegratorAssembler implements IRecipeIntegrator {
             }
         }
         return null;
+    }
+
+    public static ItemStack[] extractRecipeItems(Object obj) {
+        if(obj instanceof ItemStack) {
+            return new ItemStack[]{(ItemStack)obj};
+        } else if(obj instanceof ItemStack[]) {
+            return (ItemStack[])((ItemStack[])obj);
+        } else if(obj instanceof List) {
+            return (ItemStack[])((List)obj).toArray(new ItemStack[0]);
+        } else {
+            throw new ClassCastException(obj + " not an ItemStack, ItemStack[] or List<ItemStack?");
+        }
     }
 }

@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.igwmod;
 
+import cpw.mods.fml.common.Loader;
 import igwmod.gui.GuiWiki;
 import igwmod.gui.tabs.BaseWikiTab;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
@@ -18,19 +19,32 @@ public class HydraulicraftWikiTab extends BaseWikiTab {
 
         pageEntries.add("baseConcepts");
         pageEntries.add("pressureNetwork");
+        pageEntries.add("crafting");
+        pageEntries.add("diving");
 
         addSectionHeader("worldgen");
-
         pageEntries.add("oil");
         pageEntries.add("minerals");
         pageEntries.add("ores");
         skipLine();
-        pageEntries.add("crafting");
+
         addSectionHeader("multiblocks");
         pageEntries.add("farms");
         pageEntries.add("washer");
         pageEntries.add("tanks");
 
+        skipLine();
+
+        addSectionHeader("thirdparty");
+        if(Loader.isModLoaded("IC2"))
+            pageEntries.add("thirdparty:ic2");
+        if(Loader.isModLoaded("ExtraUtilities"))
+            pageEntries.add("thirdparty:extrautilities");
+        if(Loader.isModLoaded("bluepower"))
+            pageEntries.add("thirdparty:bluepower");
+        if(Loader.isModLoaded("PneumaticCraft"))
+            pageEntries.add("thirdparty:pneumaticcraft");
+        pageEntries.add("thirdparty:rf");
 
         Log.info("IGW support for Hydraulicraft Loaded");
     }

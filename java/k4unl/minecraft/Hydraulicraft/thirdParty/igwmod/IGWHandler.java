@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.igwmod;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import igwmod.api.VariableRetrievalEvent;
 import igwmod.api.WikiRegistry;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -13,6 +14,8 @@ public class IGWHandler {
         WikiRegistry.registerWikiTab(new HydraulicraftWikiTab());
 
         WikiRegistry.registerRecipeIntegrator(new IntegratorAssembler());
+
+        WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.blockAssembler, "hydcraft:menu/crafting");
 
         MinecraftForge.EVENT_BUS.register(new IGWHandler());
     }

@@ -193,6 +193,7 @@ itemGroup.tabGOW=Glowing Octo Wallhack
 ### WIKI
 hydcraft.wiki.entry.baseConcepts=Base Concepts
 hydcraft.wiki.entry.pressureNetwork=Pressure Network
+hydcraft.wiki.entry.diving=Diving
 hydcraft.wiki.section.worldgen=Worldgen
 hydcraft.wiki.entry.oil=- Oil
 hydcraft.wiki.entry.minerals=- Minerals
@@ -202,3 +203,9 @@ hydcraft.wiki.section.multiblocks=Multiblocks
 hydcraft.wiki.entry.farms=- Farms
 hydcraft.wiki.entry.washer=- Washer
 hydcraft.wiki.entry.tanks=- Tanks
+hydcraft.wiki.section.thirdparty=Third Party
+hydcraft.wiki.entry.thirdparty:bluepower=- BluePower
+hydcraft.wiki.entry.thirdparty:ic2=- Industrialcraft 2
+hydcraft.wiki.entry.thirdparty:extrautilities=- Extra Utilities
+hydcraft.wiki.entry.thirdparty:pneumaticcraft=- PneumaticCraft
+hydcraft.wiki.entry.thirdparty:rf=- Redstone Flux

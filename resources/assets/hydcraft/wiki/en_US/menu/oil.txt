@@ -6,7 +6,7 @@ Crude Oil is used to create the other fluids needed in Hydraulicraft:
 - Lubricant
 [comment{- foxium/fluid}] 
 
-This is achived by use of the [link{hydcraft:block/hydFilter}]Hydraulic Filter[link{}]
+This is achieved by use of the [link{hydcraft:block/hydFilter}]Hydraulic Filter[link{}]
 [prefix{o}]Hydraulic Oil [prefix{}]is used to run your network and is better than water, as it won't leak, and therefore can run at much higher pressures.
 
 [prefix{o}]Lubricant [prefix{}]is used in the [link{hydcraft:block/hydAssembler}]Hydraulic Assembler [link{}] for different recipes
