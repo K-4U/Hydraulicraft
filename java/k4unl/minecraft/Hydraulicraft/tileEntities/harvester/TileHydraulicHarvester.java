@@ -705,8 +705,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-
-        return i >= 9;
+        return true;
     }
 
 	@Override

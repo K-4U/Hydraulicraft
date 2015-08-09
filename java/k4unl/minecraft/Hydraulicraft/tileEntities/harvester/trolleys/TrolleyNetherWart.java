@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys;
 
-import java.util.ArrayList;
-
+import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -9,8 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
-import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+
+import java.util.ArrayList;
 
 public class TrolleyNetherWart implements IHarvesterTrolley {
 	private static final ResourceLocation resLoc =
@@ -51,7 +51,7 @@ public class TrolleyNetherWart implements IHarvesterTrolley {
 	public boolean canHarvest(World world, int x, int y, int z) {
 		for(ItemStack s : getHandlingSeeds()){
 			if(world.getBlock(x, y, z).equals(getBlockForSeed(s))){
-				if(world.getBlockMetadata(x, y, z) == 7){
+				if(world.getBlockMetadata(x, y, z) == 3){
 					return true;
 				}
 			}

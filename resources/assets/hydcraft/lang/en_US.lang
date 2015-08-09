@@ -67,12 +67,12 @@ tile.HPHydraulicLavaPump.name=High Pressure Lava Pump
 tile.hydraulicHarvesterSource.name=Hydraulic Harvester
 tile.hydraulicHarvesterFrame.name=Harvester Frame
 
-tile.harvesterTrolley.crops.name=Wheat Harvester Dolley
-tile.harvesterTrolley.enderLily.name=Enderlily Harvester Dolley
-tile.harvesterTrolley.sugarCane.name=Sugar Cane Harvester Dolley
-tile.harvesterTrolley.cactus.name=Cactus Harvester Dolley
-tile.harvesterTrolley.netherWart.name=Netherwart Harvester Dolley
-tile.harvesterTrolley.flax.name=Flax Harvester Dolley
+tile.harvesterTrolley.crops.name=Wheat Harvester Trolley
+tile.harvesterTrolley.enderLily.name=Enderlily Harvester Trolley
+tile.harvesterTrolley.sugarCane.name=Sugar Cane Harvester Trolley
+tile.harvesterTrolley.cactus.name=Cactus Harvester Trolley
+tile.harvesterTrolley.netherWart.name=Netherwart Harvester Trolley
+tile.harvesterTrolley.flax.name=Flax Harvester Trolley
 
 tile.hydraulicPiston.name=Hydraulic Piston
 tile.interfaceValve.name=Interface Valve

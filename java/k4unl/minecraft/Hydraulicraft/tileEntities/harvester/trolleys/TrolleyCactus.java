@@ -1,15 +1,17 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys;
 
-import java.util.ArrayList;
-
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 
 public class TrolleyCactus implements IHarvesterTrolley {
@@ -56,7 +58,12 @@ public class TrolleyCactus implements IHarvesterTrolley {
 
 	@Override
 	public int getPlantHeight(World world, int x, int y, int z) {
-		return 3;
+		y = y + 3;
+		if(world.getBlock(x, y, z).getMaterial() == Material.air || world.getBlock(x, y, z) instanceof BlockHarvesterTrolley) {
+			return 2;
+		}else{
+			return 3;
+		}
 	}
 
 }

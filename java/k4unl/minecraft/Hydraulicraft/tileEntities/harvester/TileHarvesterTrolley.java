@@ -182,7 +182,9 @@ public class TileHarvesterTrolley extends TileEntity {
 			}else if(isHarvesting){
 				actuallyHarvest();
 			}else if(HCConfig.INSTANCE.getBool("shouldDolleyInHarvesterGoBack") && harvestedItems != null){
-				harvester.putInInventory(harvestedItems);
+				if(harvestedItems.size() > 0) {
+						harvester.putInInventory(harvestedItems);
+				}
 				harvestedItems = new ArrayList<ItemStack>();
 			}
 		    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
