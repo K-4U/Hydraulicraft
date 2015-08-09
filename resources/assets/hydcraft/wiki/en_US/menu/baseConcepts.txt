@@ -7,8 +7,6 @@ Hydraulicraft has 3 tiers that increase efficiency as you progress. This will al
 [image{200,20,0.2,hydcraft:logo.png}]
 Hydraulics is a topic of applied science and engineering dealing with the mechanical properties of liquids or fluids. At a very basic level it is a liquid version of pneumatics. Fluid mechanics provides the foundation for hydraulics, fluids cannot be compressed so they are very good at transferring pressure or [prefix{o}]power [prefix{}]. Hydraulics can be used for the generation, control and transmission of [prefix{o}]power [prefix{}]through the use of pressurized liquids. Units of measure for Hydraulicraft are mB (milliBuckets) and Bar. You should be familiar with mB's 1000mB = 1 Bucket, and Bar is a measurement of pressure. So for example, the air pressure at sea level is equal to about 1 Bar, which is equal to roughly 14 pounds per square inch. Fluid [prefix{o}]viscosity [prefix{}] (how "thick" a fluid is) plays a part as well. Thin fluids like water are harder to seal and tend to [prefix{o}]"squeeze" [prefix{}]between surfaces especially when it's under pressure. It tends to leak out of a system. Whereas Hydraulic Oil is much thicker and won't leak like water, so it's easier to seal when it's under pressure, Making it possible to get much higher pressures without fluid loss. Remember that in Hydraulics pressure is [prefix{lo}]Power [prefix{}] and higher pressure means more efficient and faster machines.
 
-[link{hydcraft:menu/worldgen}]WorldGen [link{}]Info here.
-
 You will need the following machines to build the higher tier machines.
 [link{hydcraft:block/hydFilter}]Hydraulic Filter [link{}]
 [link{hydcraft:block/hydAssembler}]Hydraulic Assembler [link{}]

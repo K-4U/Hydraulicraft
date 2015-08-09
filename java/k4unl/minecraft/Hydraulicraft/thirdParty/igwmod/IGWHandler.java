@@ -16,6 +16,7 @@ public class IGWHandler {
         WikiRegistry.registerRecipeIntegrator(new IntegratorAssembler());
 
         WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.blockAssembler, "hydcraft:menu/crafting");
+        WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.hydraulicHarvesterSource, "hydcraft:menu/farms");
 
         MinecraftForge.EVENT_BUS.register(new IGWHandler());
     }

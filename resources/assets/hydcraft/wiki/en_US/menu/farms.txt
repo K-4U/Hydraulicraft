@@ -1,11 +1,125 @@
+[image{200,0,0.20,hydcraft:textures/wiki/harvester.png}]
+[prefix{l}]Harvester [prefix{}]
+The Harvester is a multi-block machine that can plant and harvest crops like Wheat, Sugar Cane, Cactus, and Netherwart. There's also trolleys for [link{hydcraft:menu/thirdparty/bluepower}]Bluepower Flax[link{}] and [link{hydcraft:menu/thirdparty/extrautilities}]Extra Utilities[link{}] enderlilly-seeds.
 
-The Harvester is a multi-block machine that can plant and harvest crops like Wheat, Sugar Cane, Cactus, and Netherwart. Cross-Mod compatibility with Enderlilies, Flax and PneumaticCraft plants. You will need an Assembler to craft the Harvester, Pistons and Dollies needed. The maximum size for the harvester is your standard 9x9. You will need the following items to get started in farming with HydrauliCraft, 1 harvester, 9 pressure walls, 9 hydraulic pistons, and 9 dollies. As well as 11 fence posts and 81 harvester frames. Start by laying out your 9x9 [comment{add screenshots}]. Then place the Harvester on one corner with 2 fence posts on it. Then put fence posts 3 high on the other 3 corners. Above the Harvester place the 9 pistons facing the 9x9. on the other end of the field put up 9 pressure walls. Place the harvester frames between the pistons and the pressure walls. Then place your dollies on the harvester frames next to the pistons. Now just run your HydrauliCraft pipes to the harvester and put your seeds into the harvester.
+[prefix{l}]Recipe: [prefix{}]
+[assembler{200,270,block/hydraulicHarvesterSource}]
 
-[comment{James 7-23 remember to adjust these, if they are ok'd}]
-[image{100,10,0.5,hydcraft:textures/9x9.png}]
-[image{200,10,0.5,hydcraft:textures/farm1.png}]
-[image{300,10,0.5,hydcraft:textures/farm2.png}]
-[image{400,10,0.5,hydcraft:textures/farm3.png}]
-[image{500,10,0.5,hydcraft:textures/farm4.png}]
-[image{600,10,0.5,hydcraft:textures/farm5.png}]
-[image{700,10,0.5,hydcraft:textures/farm6.png}]
+
+
+
+
+
+
+
+
+
+
+See below for the recipes of the trollies.
+
+The maximum size for the harvester is a 9x9, as this is the maximum size farm you can make with 1 water puddle. 
+Required for a 9x9 farm is:
+- 1 harvester
+- 9 pressure walls
+- 9 hydraulic pistons
+- 9 trollies (Doesn't matter which one)
+- 11 fence posts
+- 81 harvester frames.
+
+[prefix{l}]How to build it[prefix{}]
+Start by laying out your 9x9.
+[image{200,530,0.37,hydcraft:textures/wiki/9x9.png}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Place the Harvester on the bottom left corner with 2 fence posts on it. Put fence posts 3 high on the other 3 corners.
+[image{200,690,0.37,hydcraft:textures/wiki/farm1.png}]
+
+
+
+
+
+
+
+
+
+
+
+
+Above the Harvester place the 9 pistons facing the 9x9 going to the right. 
+[image{200,830,0.37,hydcraft:textures/wiki/farm2.png}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+On the other end of the field put up 9 pressure walls. 
+[image{200,980,0.37,hydcraft:textures/wiki/farm3.png}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Place the harvester frames between the pistons and the pressure walls.
+[image{200,1140,0.37,hydcraft:textures/wiki/farm4.png}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Then place your dollies on the harvester frames next to the pistons.
+[image{200,1300,0.37,hydcraft:textures/wiki/farm5.png}]
+
+
+
+
+
+
+
+
+
+
+
+
+Now just run your Hydraulicraft pipes to the harvester and put your seeds into the harvester.
+If you did it wrong, you won't be able to open the gui of the harvester. Instead, you'll get a message printed in chat why it wasn't able to form.
+
+
+You can pipe items in and out of the harvester. Ofcourse, make sure to always keep one of the seeds supplied
