@@ -32,6 +32,7 @@ public class HydraulicraftWikiTab extends BaseWikiTab {
         pageEntries.add("farms");
         pageEntries.add("washer");
         pageEntries.add("tanks");
+        pageEntries.add("portal");
 
         skipLine();
 

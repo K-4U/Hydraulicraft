@@ -17,8 +17,8 @@ The Harvester is a multi-block machine that can plant and harvest crops like Whe
 
 See below for the recipes of the trollies.
 
-The maximum size for the harvester is a 9x9, as this is the maximum size farm you can make with 1 water puddle. 
-Required for a 9x9 farm is:
+The maximum size for the harvester is a 11x9, as this is the maximum size farm you can make with 1 water puddle. The smallest is 2x6 
+Required for a 11x9 farm is:
 - 1 harvester
 - 9 pressure walls
 - 9 hydraulic pistons
@@ -123,3 +123,9 @@ If you did it wrong, you won't be able to open the gui of the harvester. Instead
 
 
 You can pipe items in and out of the harvester. Ofcourse, make sure to always keep one of the seeds supplied
+
+[prefix{l}]Trolleys [prefix{}]
+[assembler{200,1560,block/harvesterTrolley.crops}]
+[assembler{200,1680,block/harvesterTrolley.cactus}]
+[assembler{200,1800,block/harvesterTrolley.sugarCane}]
+[assembler{200,1920,block/harvesterTrolley.netherWart}]

@@ -4,6 +4,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import igwmod.api.VariableRetrievalEvent;
 import igwmod.api.WikiRegistry;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -16,7 +17,15 @@ public class IGWHandler {
         WikiRegistry.registerRecipeIntegrator(new IntegratorAssembler());
 
         WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.blockAssembler, "hydcraft:menu/crafting");
+
         WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.hydraulicHarvesterSource, "hydcraft:menu/farms");
+        WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.harvesterTrolley, "hydcraft:menu/farms");
+        WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.hydraulicHarvesterFrame, "hydcraft:menu/farms");
+        WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.hydraulicPiston, "hydcraft:menu/farms");
+
+        WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.portalBase, "hydcraft:menu/portal");
+        WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.portalFrame, "hydcraft:menu/portal");
+        WikiRegistry.registerBlockAndItemPageEntry(HCItems.itemIPCard, "hydcraft:menu/portal");
 
         MinecraftForge.EVENT_BUS.register(new IGWHandler());
     }
