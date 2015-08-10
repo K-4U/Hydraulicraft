@@ -71,7 +71,10 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
     }
 
     public int getScaledAssembleTime() {
-        return 0;
+        if (recipe == null)
+            return 0;
+
+        return (int) ((inventoryCrafting.getProgress() / (float) recipe.getCraftingTime()) * 18);
     }
 
     @Override

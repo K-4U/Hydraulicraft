@@ -27,14 +27,13 @@ public class GuiAssembler extends HydraulicGUIBase {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-
         super.drawGuiContainerBackgroundLayer(f, i, j);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         int scaledProgress = assembler.getScaledAssembleTime();
-        drawTexturedModalRect(xStart + 85, yStart + 34, 207, 0, scaledProgress, 18);
+        drawTexturedModalRect(xStart + 109, yStart + 37, 177, 0, scaledProgress, 18);
         GL11.glDisable(GL11.GL_BLEND);
     }
 
