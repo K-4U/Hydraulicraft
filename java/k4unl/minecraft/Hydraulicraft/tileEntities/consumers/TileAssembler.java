@@ -18,10 +18,11 @@ import net.minecraftforge.fluids.*;
 
 public class TileAssembler extends TileHydraulicBase implements IHydraulicConsumer, IInventory,
         IFluidCraftingMachine, IFluidHandler, ISidedInventory {
-    InventoryFluidCrafting inventoryCrafting;
+    public static final int   MAX_RECIPE_TICKS_AT_MAX_PRESSURE = 4;
+    public static final float PRESSURE_USAGE_MULTIPLIER        = 1.2f;
 
-    IFluidRecipe recipe;
-    int workProgress = 0;
+    InventoryFluidCrafting inventoryCrafting;
+    IFluidRecipe           recipe;
 
     public TileAssembler() {
 
@@ -36,18 +37,20 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public float workFunction(boolean simulate, ForgeDirection from) {
+        int maxTicks = (int) (((float) getPressure(from) / getMaxPressure(isOilStored(), from)) * MAX_RECIPE_TICKS_AT_MAX_PRESSURE);
 
         if (recipe != null) {
-            float usedPressure = recipe.getPressure();
+            float usedPressure = recipe.getPressure() * (maxTicks * PRESSURE_USAGE_MULTIPLIER);
 
             if (!inventoryCrafting.canWork(recipe))
                 return 0;
 
             if (simulate) {
-                return recipe.getPressure();
+                return usedPressure;
             }
 
-            inventoryCrafting.recipeTick(recipe);
+            while (maxTicks-- > 0)
+                inventoryCrafting.recipeTick(recipe);
 
             return usedPressure;
         }
