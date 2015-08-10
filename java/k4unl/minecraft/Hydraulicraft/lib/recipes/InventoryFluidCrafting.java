@@ -125,6 +125,9 @@ public class InventoryFluidCrafting implements IFluidInventory {
     }
 
     public boolean canWork(IFluidRecipe recipe) {
+        if (recipe == null)
+            return false;
+
         if (inventoryResult.getStackInSlot(0) != null &&
                 !ItemStackUtils.canMergeStacks(inventoryResult.getStackInSlot(0), recipe.getRecipeOutput()))
             return false;
