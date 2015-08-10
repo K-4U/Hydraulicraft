@@ -1,3 +1,56 @@
-[comment{James 7-23 added as per WikiTab.java, Add image of washer and link to the block/hydWasher.txt}]
-[prefix{l}]Hydraulic Washer [prefix{}]
-[link{hydcraft:block/hydWasher.txt}][image{150,20,0.25,hydcraft:textures/wash3.png}]
+[prefix{l}]Washer [prefix{}]
+The Washer is a multi-block machine used to refine [link{hydcraft:menu/minerals}]Minerals [link{}] so they can be used as filter media. It is also used to process ore chunks into dusts thus increasing ore yields. The maximum pressure it can use is based on the core used when building the structure. So you can start with a low pressure core, and then just upgrade the core to a higher tier to run at higher pressures. 
+[prefix{l}]Required blocks to build a Washer:[prefix{}]
+- at least 1 Interface Valve
+- 1 Hydraulic Block Valve
+- 1 Washer
+- 1 Core (low, medium, or high)
+- 23 Pressure Walls
+
+[prefix{l}]Recipe [prefix{}]
+[crafting{200,190,key=block/hydraulicWasher}]
+
+
+
+
+
+
+
+
+
+
+
+[prefix{l}]How to build the multiblock[prefix{}]
+The structure is a 3x3x3. In the example the interface valve and block valve are on the bottom level in the screenshot, but they can be anywhere in the structure.
+The second layer is a Core in the center, the Washer on one of the edges, in the middle.
+The rest needs to be filled with pressure walls.
+
+[prefix{1l}]First Layer [prefix{}]
+[image{200,400,0.25,hydcraft:textures/wiki/washer1.png}]
+[prefix{1l}]Second Layer [prefix{}]
+[image{200,610,0.25,hydcraft:textures/wiki/washer2.png}]
+[prefix{1l}]Third Layer [prefix{}]
+[image{200,820,0.25,hydcraft:textures/wiki/washer3.png}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The interface valves can be used to pump water and items in, and items out.
+Therefore you can have up to 3 interface valves on your multiblock.
+

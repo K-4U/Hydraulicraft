@@ -1,4 +1,3 @@
-[comment{Talking about the new crafting mechanic in Hydraulicraft, also put all the recipes in here as well.}]
 [prefix{l}]Crafting [prefix{}]
 All of the higher tier recipes now require you to use the Assembler:
 

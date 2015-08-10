@@ -17,6 +17,8 @@ public class IGWHandler {
         WikiRegistry.registerRecipeIntegrator(new IntegratorAssembler());
 
         WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.blockAssembler, "hydcraft:menu/crafting");
+        WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.hydraulicWasher, "hydcraft:menu/washer");
+
 
         WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.hydraulicHarvesterSource, "hydcraft:menu/farms");
         WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.harvesterTrolley, "hydcraft:menu/farms");

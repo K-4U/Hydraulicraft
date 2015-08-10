@@ -18,7 +18,7 @@ The Harvester is a multi-block machine that can plant and harvest crops like Whe
 See below for the recipes of the trollies.
 
 The maximum size for the harvester is a 11x9, as this is the maximum size farm you can make with 1 water puddle. The smallest is 2x6 
-Required for a 11x9 farm is:
+[prefix{l}]Required for a 11x9 farm is:[prefix{}]
 - 1 harvester
 - 9 pressure walls
 - 9 hydraulic pistons
