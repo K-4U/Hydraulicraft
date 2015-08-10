@@ -18,6 +18,7 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
     private FillerDirection fillerDirection;
     private SimpleInventory inventory;
     private FluidTank       internalTank;
+    private boolean checkForWork = false;
 
     public TileHydraulicFiller() {
         super(6);
@@ -60,6 +61,52 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
 
     @Override
     public float workFunction(boolean simulate, ForgeDirection from) {
+        if (inventory.getStackInSlot(0) == null)
+            return 0;
+
+        if (inventory.getStackInSlot(0).getItem() instanceof IFluidContainerItem)
+            return workFunctionFluidHandler(simulate, from);
+        else if (FluidContainerRegistry.isContainer(inventory.getStackInSlot(0)))
+            return workFunctionFluidContainer(simulate, from);
+
+        return 0;
+    }
+
+    private float workFunctionFluidContainer(boolean simulate, ForgeDirection from) {
+        if (checkForWork) {
+            ItemStack itemStack = getStackInSlot(0);
+            if (fillerDirection == FillerDirection.FILLING && internalTank.getFluid() != null) {
+                int capacity = FluidContainerRegistry.getContainerCapacity(internalTank.getFluid(), itemStack);
+                if (internalTank.getFluidAmount() >= capacity) {
+                    if (!simulate) {
+                        itemStack = FluidContainerRegistry.fillFluidContainer(new FluidStack(internalTank.getFluid(), capacity), itemStack);
+                        setInventorySlotContents(0, itemStack);
+                        internalTank.drain(capacity, true);
+
+                        checkForWork = false;
+                    }
+
+                    return PRESSURE_PER_TICK;
+                }
+            } else if (fillerDirection == FillerDirection.EMPTYING) {
+                int capacity = FluidContainerRegistry.getContainerCapacity(itemStack);
+                FluidStack theFluid = FluidContainerRegistry.getFluidForFilledItem(itemStack);
+                if ((theFluid.isFluidEqual(internalTank.getFluid()) &&
+                        internalTank.getCapacity() - internalTank.getFluidAmount() >= capacity) ||
+                        internalTank.getFluid() == null) {
+                    internalTank.fill(theFluid, true);
+                    setInventorySlotContents(0, FluidContainerRegistry.drainFluidContainer(itemStack));
+                    checkForWork = false;
+
+                    return PRESSURE_PER_TICK;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    public float workFunctionFluidHandler(boolean simulate, ForgeDirection from) {
         if (inventory.getStackInSlot(0) == null)
             return 0;
         if (!(inventory.getStackInSlot(0).getItem() instanceof IFluidContainerItem))
@@ -217,7 +264,7 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
         if (stack == null)
             return true;
 
-        return stack.getItem() instanceof IFluidContainerItem;
+        return stack.getItem() instanceof IFluidContainerItem || FluidContainerRegistry.isContainer(stack);
 
     }
 
@@ -227,6 +274,16 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
         ItemStack stack = inventory.getStackInSlot(0);
         if (stack == null)
             return;
+
+        if (FluidContainerRegistry.isContainer(stack)) {
+            checkForWork = true;
+            if (FluidContainerRegistry.isFilledContainer(stack))
+                fillerDirection = FillerDirection.EMPTYING;
+            else
+                fillerDirection = FillerDirection.FILLING;
+
+            return;
+        }
 
         if (!(stack.getItem() instanceof IFluidContainerItem))
             return;
