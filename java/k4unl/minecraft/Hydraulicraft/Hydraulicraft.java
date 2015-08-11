@@ -158,10 +158,11 @@ public class Hydraulicraft {
                     ItemStack to = ItemStack.loadItemStackFromNBT
                             (toRegister.getCompoundTag("itemTo"));
                     float pressureRatio = toRegister.getFloat("pressureRatio");
-                    //CrushingRecipes.addCrushingRecipe(new CrushingRecipes
-                    //  .CrushingRecipe(from, pressureRatio,
-                    //  to));
-                    HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(to, from).setPressure(pressureRatio));
+                    if(from != null && to != null) {
+                        HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(to, from).setPressure(pressureRatio));
+                    }else{
+                        Log.error("Cannot add crushing recipe from " + message.getSender() + ". One of the item stacks is null");
+                    }
                 } else if (message.key.equals("registerWashingRecipe")) {
                     NBTTagCompound toRegister = message.getNBTValue();
 
@@ -170,10 +171,11 @@ public class Hydraulicraft {
                     ItemStack to = ItemStack.loadItemStackFromNBT
                             (toRegister.getCompoundTag("itemTo"));
                     float pressureRatio = toRegister.getFloat("pressureRatio");
-                    //WashingRecipes.addWashingRecipe(new WashingRecipes
-                    //        .WashingRecipe(from, pressureRatio,
-                    //        to));
-                    HydraulicRecipes.INSTANCE.addWasherRecipe(new FluidShapelessOreRecipe(to, from).setPressure(pressureRatio));
+                    if(from != null && to != null) {
+                        HydraulicRecipes.INSTANCE.addWasherRecipe(new FluidShapelessOreRecipe(to, from).setPressure(pressureRatio));
+                    }else{
+                        Log.error("Cannot add washing recipe from " + message.getSender() + ". One of the item stacks is null");
+                    }
                 } else {
                     Class clazz = Class.forName(message.key);
                     try {
@@ -247,6 +249,15 @@ public class Hydraulicraft {
             }
             if (name.startsWith("HydCraft:hydraulicMixer")) {
                 name = name.replaceAll("hydraulicMixer", Names.blockHydraulicFilter.unlocalized);
+
+                if (mapping.type == GameRegistry.Type.BLOCK) {
+                    mapping.remap(GameData.getBlockRegistry().getObject(name));
+                } else {
+                    mapping.remap(GameData.getItemRegistry().getObject(name));
+                }
+            }
+            if (name.startsWith("HydCraft:hydraulicWaterPump")){
+                name = name.replaceAll("hydraulicWaterPump", Names.blockHydraulicFluidPump.unlocalized);
 
                 if (mapping.type == GameRegistry.Type.BLOCK) {
                     mapping.remap(GameData.getBlockRegistry().getObject(name));
