@@ -29,8 +29,10 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
-import java.util.*;
-
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 
 public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusion, ISidedHollowConnect, IHydraulicTransporter, ICustomNetwork,
@@ -374,6 +376,20 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 				hasCheckedSinceStartup = true;
 				//Hack hack hack
 				//Temporary bug fix that we will forget about
+			}
+			if(world().isRemote && world().getTotalWorldTime() % 20 == 0) {
+				if (!getHandler().isOilStored() && getHandler().getPressure(ForgeDirection.UP) > 0) {
+					//Do the particle thingie!
+					//world.spawnParticle("cloud", x, y, z, d3, d4, d5);
+					Random random = new Random();
+					if (random.nextDouble() < 0.4){
+						double x = x() + (((random.nextDouble()*.2)-.1) + 0.5);
+						double z = z() + (((random.nextDouble()*.2)-.1) + 0.5);
+						world().spawnParticle("dripWater", x, y(), z + 0.0, 0.0D, 0.0D, 0.0D);
+					}
+					//PacketPipeline.instance.sendToAllAround(new PacketSpawnParticle("dripwater", x() + .5, y() + .5, z() + .5, 0.0D, 0.0D, 0.0D),
+					//  world());
+				}
 			}
 		}
 
