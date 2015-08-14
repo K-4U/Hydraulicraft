@@ -30,11 +30,9 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
 import k4unl.minecraft.Hydraulicraft.thirdParty.igwmod.IGWSupportNotifier;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.world.HCWorldGenerator;
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.oredict.OreDictionary;
 import thirdParty.truetyper.TrueTypeFont;
 
 import java.lang.reflect.InvocationTargetException;
@@ -233,18 +231,6 @@ public class Hydraulicraft {
                     mapping.remap(GameData.getBlockRegistry().getObject(name));
                 } else {
                     mapping.remap(GameData.getItemRegistry().getObject(name));
-                }
-            }
-            if (name.startsWith("HydCraft:ingot")) {
-                name = name.replaceAll("HydCraft:", "");
-                mapping.remap(OreDictionary.getOres(name).get(0).getItem());
-            }
-            if (name.startsWith("HydCraft:ore")) {
-                name = name.replaceAll("HydCraft:", "");
-                if (mapping.type == GameRegistry.Type.BLOCK) {
-                    mapping.remap(Block.getBlockFromItem(OreDictionary.getOres(name).get(0).getItem()));
-                } else {
-                    mapping.remap(OreDictionary.getOres(name).get(0).getItem());
                 }
             }
             if (name.startsWith("HydCraft:hydraulicMixer")) {
