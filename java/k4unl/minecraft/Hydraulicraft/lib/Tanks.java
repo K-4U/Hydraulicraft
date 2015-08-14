@@ -81,9 +81,6 @@ public class Tanks {
             String p = dir.getAbsolutePath();
             p += "/tanks.json";
             File f = new File(p);
-            if(f.exists()){
-                f.delete();
-            }
             if(!f.exists()){
                 try {
                     f.createNewFile();
