@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import k4unl.minecraft.k4lib.lib.ItemStackUtils;
 import k4unl.minecraft.k4lib.lib.SimpleInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -18,13 +19,12 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
     private FillerDirection fillerDirection;
     private SimpleInventory inventory;
     private FluidTank       internalTank;
-    private boolean checkForWork = false;
 
     public TileHydraulicFiller() {
         super(6);
         init(this);
         fillerDirection = FillerDirection.NONE;
-        inventory = new SimpleInventory(1);
+        inventory = new SimpleInventory(2);
         internalTank = new FluidTank(TANK_CAPACITY);
     }
 
@@ -73,30 +73,34 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
     }
 
     private float workFunctionFluidContainer(boolean simulate, ForgeDirection from) {
-        if (checkForWork) {
-            ItemStack itemStack = getStackInSlot(0);
-            if (fillerDirection == FillerDirection.FILLING && internalTank.getFluid() != null) {
-                int capacity = FluidContainerRegistry.getContainerCapacity(internalTank.getFluid(), itemStack);
-                if (internalTank.getFluidAmount() >= capacity) {
+        ItemStack itemStack = getStackInSlot(0);
+
+        if (fillerDirection == FillerDirection.FILLING && internalTank.getFluid() != null) {
+            int capacity = FluidContainerRegistry.getContainerCapacity(internalTank.getFluid(), itemStack);
+            if (internalTank.getFluidAmount() >= capacity) {
+                if (ItemStackUtils.canMergeStacks(inventory.getStackInSlot(1), FluidContainerRegistry.fillFluidContainer(new FluidStack(internalTank.getFluid(), capacity), itemStack))) {
                     if (!simulate) {
                         itemStack = FluidContainerRegistry.fillFluidContainer(new FluidStack(internalTank.getFluid(), capacity), itemStack);
-                        setInventorySlotContents(0, itemStack);
+                        inventory.setInventorySlotContents(1, ItemStackUtils.mergeStacks(itemStack, inventory.getStackInSlot(1)));
                         internalTank.drain(capacity, true);
-
-                        checkForWork = false;
+                        decrStackSize(0, 1);
                     }
 
                     return PRESSURE_PER_TICK;
                 }
-            } else if (fillerDirection == FillerDirection.EMPTYING) {
-                int capacity = FluidContainerRegistry.getContainerCapacity(itemStack);
-                FluidStack theFluid = FluidContainerRegistry.getFluidForFilledItem(itemStack);
-                if ((theFluid.isFluidEqual(internalTank.getFluid()) &&
-                        internalTank.getCapacity() - internalTank.getFluidAmount() >= capacity) ||
-                        internalTank.getFluid() == null) {
-                    internalTank.fill(theFluid, true);
-                    setInventorySlotContents(0, FluidContainerRegistry.drainFluidContainer(itemStack));
-                    checkForWork = false;
+            }
+        } else if (fillerDirection == FillerDirection.EMPTYING) {
+            int capacity = FluidContainerRegistry.getContainerCapacity(itemStack);
+            FluidStack theFluid = FluidContainerRegistry.getFluidForFilledItem(itemStack);
+            if ((theFluid.isFluidEqual(internalTank.getFluid()) &&
+                    internalTank.getCapacity() - internalTank.getFluidAmount() >= capacity) ||
+                    internalTank.getFluid() == null) {
+                if (ItemStackUtils.canMergeStacks(inventory.getStackInSlot(1), FluidContainerRegistry.drainFluidContainer(itemStack))) {
+                    if (!simulate) {
+                        internalTank.fill(theFluid, true);
+                        inventory.setInventorySlotContents(1, ItemStackUtils.mergeStacks(FluidContainerRegistry.drainFluidContainer(itemStack), inventory.getStackInSlot(1)));
+                        decrStackSize(0, 1);
+                    }
 
                     return PRESSURE_PER_TICK;
                 }
@@ -107,18 +111,20 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
     }
 
     public float workFunctionFluidHandler(boolean simulate, ForgeDirection from) {
-        if (inventory.getStackInSlot(0) == null)
-            return 0;
-        if (!(inventory.getStackInSlot(0).getItem() instanceof IFluidContainerItem))
+        ItemStack stack = inventory.getStackInSlot(0);
+        if (!(stack.getItem() instanceof IFluidContainerItem))
             return 0;
 
-        ItemStack stack = inventory.getStackInSlot(0);
+
         IFluidContainerItem fluid = (IFluidContainerItem) stack.getItem();
 
 
         if (fillerDirection == FillerDirection.EMPTYING) {
-            if (fluid.getFluid(stack) == null || fluid.getFluid(stack).amount == 0)
+            if (fluid.getFluid(stack) == null || fluid.getFluid(stack).amount == 0 || fluid.getFluid(stack).amount == fluid.getCapacity(stack)) {
+                setInventorySlotContents(1, getStackInSlot(0).copy());
+                setInventorySlotContents(0, null);
                 return 0;
+            }
 
             if (internalTank.getFluid() == null || internalTank.getFluidAmount() == 0) {
                 FluidStack drained = fluid.drain(stack, TRANSFER_PER_TICK, false);
@@ -139,8 +145,11 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
             }
 
         } else if (fillerDirection == FillerDirection.FILLING) {
-            if (internalTank.getFluid() == null || internalTank.getFluidAmount() == 0)
+            if (internalTank.getFluid() == null || internalTank.getFluidAmount() == 0 || internalTank.getCapacity() == internalTank.getFluidAmount()) {
+                setInventorySlotContents(1, getStackInSlot(0).copy());
+                setInventorySlotContents(0, null);
                 return 0;
+            }
 
             if (fluid.getFluid(stack) == null || fluid.getFluid(stack).amount == 0) {
                 FluidStack drained = internalTank.drain(TRANSFER_PER_TICK, false);
@@ -187,7 +196,7 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
     /* ISidedInventory */
     @Override
     public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-        return new int[]{0};
+        return new int[]{0, 1};
     }
 
     @Override
@@ -197,19 +206,17 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
 
     @Override
     public boolean canExtractItem(int slot, ItemStack stack, int side) {
-        return slot == 0;
+        return slot == 1;
     }
 
     @Override
     public int getSizeInventory() {
-        return 1;
+        return inventory.getSizeInventory();
     }
 
     @Override
     public ItemStack getStackInSlot(int slot) {
-        if (slot > 0)
-            return null;
-        return inventory.getStackInSlot(0);
+        return inventory.getStackInSlot(slot);
     }
 
     @Override
@@ -225,7 +232,8 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
     @Override
     public void setInventorySlotContents(int slot, ItemStack stack) {
         inventory.setInventorySlotContents(slot, stack);
-        if (stack != null)
+
+        if (stack != null && slot == 0)
             updateDirection();
     }
 
@@ -261,6 +269,9 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
+        if (slot == 1)
+            return false;
+
         if (stack == null)
             return true;
 
@@ -276,7 +287,6 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
             return;
 
         if (FluidContainerRegistry.isContainer(stack)) {
-            checkForWork = true;
             if (FluidContainerRegistry.isFilledContainer(stack))
                 fillerDirection = FillerDirection.EMPTYING;
             else
