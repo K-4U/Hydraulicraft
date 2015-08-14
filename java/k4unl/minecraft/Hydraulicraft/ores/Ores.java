@@ -11,6 +11,9 @@ public class Ores {
     public static Block oreNadsiumBicarbinate;
     public static Block oreBeachium;
 	public static Block oreFoxium;
+
+	public static Block oreCopperReplacement;
+	public static Block oreLeadReplacement;
 	
 	/*!
 	 * @author Koen Beckers
@@ -36,8 +39,8 @@ public class Ores {
 	 */
 	public static void registerOres(){
 
-		oreCopper = OreDictionaryHelper.registerBlock(oreCopper, Names.oreCopper.unlocalized);
-		oreLead = OreDictionaryHelper.registerBlock(oreLead, Names.oreLead.unlocalized);
+		oreCopperReplacement = OreDictionaryHelper.registerBlock(oreCopper, Names.oreCopper.unlocalized);
+		oreLeadReplacement = OreDictionaryHelper.registerBlock(oreLead, Names.oreLead.unlocalized);
 		oreLonezium = OreDictionaryHelper.registerBlock(oreLonezium, Names.oreLonezium.unlocalized);
 		oreNadsiumBicarbinate = OreDictionaryHelper.registerBlock(oreNadsiumBicarbinate, Names.oreNadsiumBicarbinate.unlocalized);
 		oreBeachium = OreDictionaryHelper.registerBlock(oreBeachium, Names.oreBeachium.unlocalized);
