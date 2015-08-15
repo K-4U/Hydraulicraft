@@ -469,9 +469,11 @@ public class ModelDivingSuit extends ModelBiped {
             this.bipedLeftArm.render(f5);
             this.bipedRightLeg.render(f5);
             this.bipedLeftLeg.render(f5);
-            flipperLeft.rotateAngleX = bipedLeftLeg.rotateAngleX;
+            flipperLeft.rotateAngleX = bipedLeftLeg.rotateAngleX / 2;
+            flipperLeft.rotationPointY = -Math.abs((float) Math.sin(bipedLeftLeg.rotateAngleX) * 4);
             flipperLeft.render(f5);
-            flipperRight.rotateAngleX = bipedRightLeg.rotateAngleX;
+            flipperRight.rotateAngleX = bipedRightLeg.rotateAngleX / 2;
+            flipperRight.rotationPointY = -Math.abs((float) Math.sin(bipedRightLeg.rotateAngleX) * 4);
             flipperRight.render(f5);
         }
     }
