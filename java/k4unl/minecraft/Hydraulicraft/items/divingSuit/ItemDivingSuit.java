@@ -51,11 +51,10 @@ public class ItemDivingSuit extends ItemArmor {
                 entityData.setInteger("damageDone", 0);
                 //Person was NOT wearing one before
             }else{
-                //TODO: Check if the helmet was filled.
-                if(player.getCurrentArmor(0) != null){
-                    if(player.getCurrentArmor(0).getItem() instanceof ItemDivingHelmet){
-                        ItemDivingHelmet helmet = (ItemDivingHelmet) player.getCurrentArmor(0).getItem();
-                        if(helmet.getFluid(player.getCurrentArmor(0)).amount > 0) {
+                if(player.getCurrentArmor(3) != null){
+                    if(player.getCurrentArmor(3).getItem() instanceof ItemDivingHelmet){
+                        ItemDivingHelmet helmet = (ItemDivingHelmet) player.getCurrentArmor(3).getItem();
+                        if(helmet.getFluid(player.getCurrentArmor(3)).amount > 0) {
                             doDamage(player);
                         }
                     }
@@ -80,22 +79,22 @@ public class ItemDivingSuit extends ItemArmor {
         boolean boots = false;
         if (player.getCurrentArmor(0) != null){
             if (player.getCurrentArmor(0).getItem() instanceof ItemDivingSuit) {
-                helmet = true;
+                boots = true;
             }
         }
         if (player.getCurrentArmor(1) != null){
             if (player.getCurrentArmor(1).getItem() instanceof ItemDivingSuit) {
-                chest = true;
+                legs = true;
             }
         }
         if (player.getCurrentArmor(2) != null){
             if (player.getCurrentArmor(2).getItem() instanceof ItemDivingSuit) {
-                legs = true;
+                chest = true;
             }
         }
         if (player.getCurrentArmor(3) != null){
             if (player.getCurrentArmor(3).getItem() instanceof ItemDivingSuit) {
-                boots = true;
+                helmet = true;
             }
         }
         return helmet && chest && legs && boots;

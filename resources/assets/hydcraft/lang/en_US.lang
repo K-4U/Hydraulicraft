@@ -210,3 +210,9 @@ hydcraft.wiki.entry.thirdparty:ic2=- Industrialcraft 2
 hydcraft.wiki.entry.thirdparty:extrautilities=- Extra Utilities
 hydcraft.wiki.entry.thirdparty:pneumaticcraft=- PneumaticCraft
 hydcraft.wiki.entry.thirdparty:rf=- Redstone Flux
+
+
+# Death Messages
+hydcraft:death.attack.pressure1=%s forgot his diving suit
+hydcraft:death.attack.pressure2=%s was killed by the pressure of the water
+hydcraft:death.attack.pressure3=Fluid dynamics got the best of %s
