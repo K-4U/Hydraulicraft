@@ -132,7 +132,7 @@ task deobfJar(type: Jar) {
 
 // Create API library zip
 task apiJar(type: Jar) {
-    from(sourceSets.main.java) {
+    from(sourceSets.main.output) {
         include 'k4unl/minecraft/Hydraulicraft/api/**'
 
         classifier = "api"
