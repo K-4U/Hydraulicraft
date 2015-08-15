@@ -44,7 +44,6 @@ public class ItemDivingSuit extends ItemArmor {
                 entityData.setInteger("damageDone", 0);
                 //person WAS wearing one before.
                 //Do damage!
-
             }
         }else{
             if(isWearingFullSuit(player)){
@@ -53,7 +52,15 @@ public class ItemDivingSuit extends ItemArmor {
                 //Person was NOT wearing one before
             }else{
                 //TODO: Check if the helmet was filled.
-                doDamage(player);
+                if(player.getCurrentArmor(0) != null){
+                    if(player.getCurrentArmor(0).getItem() instanceof ItemDivingHelmet){
+                        ItemDivingHelmet helmet = (ItemDivingHelmet) player.getCurrentArmor(0).getItem();
+                        if(helmet.getFluid(player.getCurrentArmor(0)).amount > 0) {
+                            doDamage(player);
+                        }
+                    }
+                }
+
             }
         }
     }

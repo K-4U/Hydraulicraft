@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -122,7 +123,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
                 }
                 float percentage = ((float) fluidStack.amount) / ((float) TANK_CAPACITY);
                 if (percentage >= 0.0F) {
-                    //TODO: Kill the player, really quick
+                    player.attackEntityFrom(DamageSource.drown, 100.0F);
                 } else {
                     player.setAir((int) (300F * percentage));
                     player.addPotionEffect(new PotionEffect(16, 10));
