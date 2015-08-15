@@ -53,7 +53,7 @@ public class TickHandler {
                         y++;
                         pressure++;
                     }
-                    if(pressure > 18) {
+                    if(pressure > 15) {
                         //Do damage, unless wearing a diving suit
                         if(!isWearingADivingSuit(event.player)){
                             event.player.attackEntityFrom(DamageSourceHydraulicraft.pressure, pressure / 2);
@@ -67,10 +67,6 @@ public class TickHandler {
     }
 
     private boolean isWearingADivingSuit(EntityPlayer player){
-        //Check for HC, IC2, SC and mariculture
-        // mariculture:diving_helmet mariculture:diving_top mariculture:diving_pants mariculture:diving_boots
-        // steamcraft:ItemDivingHelmet
-        //
         boolean helmet = false;
         boolean chest  = false;
         boolean legs   = false;

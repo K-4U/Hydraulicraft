@@ -122,11 +122,11 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
                     drain(itemStack, drained, true);
                 }
                 float percentage = ((float) fluidStack.amount) / ((float) TANK_CAPACITY);
-                if (percentage >= 0.0F) {
+                if (percentage == 0.0F) {
                     player.attackEntityFrom(DamageSource.drown, 100.0F);
                 } else {
                     player.setAir((int) (300F * percentage));
-                    player.addPotionEffect(new PotionEffect(16, 10));
+                    player.addPotionEffect(new PotionEffect(16, 800));
                 }
 
             }
