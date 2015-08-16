@@ -222,9 +222,8 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
 
     protected void func_150124_c(World p_150124_1_, int p_150124_2_, int p_150124_3_, int p_150124_4_, int p_150124_5_, int p_150124_6_) {}
 
-    protected int func_150123_b(int p_150123_1_)
-    {
-        return 20;
+    protected int func_150123_b(int p_150123_1_) {
+        return 10;
     }
 
     /**
