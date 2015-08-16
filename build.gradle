@@ -131,22 +131,20 @@ task deobfJar(type: Jar) {
 }
 
 // Create API library zip
-task apiZip(type: Zip) {
-    from(sourceSets.main.java) {
+task apiJar(type: Jar) {
+    from(sourceSets.main.output) {
         include 'k4unl/minecraft/Hydraulicraft/api/**'
-
-        destinationDir = file 'output'
 
         classifier = "api"
     }
 }
 
-apiZip.mustRunAfter deobfJar
+apiJar.mustRunAfter deobfJar
 
 
 artifacts {
     archives deobfJar
-    archives apiZip
+    archives apiJar
 }
 
 task("uploadJars", dependsOn: "reobf") {

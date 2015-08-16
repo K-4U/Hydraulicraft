@@ -25,7 +25,9 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("explosions", true));
         configOptions.add(new ConfigOption("canSawTwoMicroblocksAtOnce", true));
         configOptions.add(new ConfigOption("checkForUpdates", true));
-        configOptions.add(new ConfigOption("enableRF", false));
+        configOptions.add(new ConfigOption("enableRF", true));
+        configOptions.add(new ConfigOption("waterPressureKills", true).setComment("Basically a method to forcing players to build the diving suit. "
+          + "It'll start damaging you when you're under 18 blocks of fluid, unless you're wearing a diving suit"));
         configOptions.add(new ConfigOption("waterPumpPerTick", 100));
         configOptions.add(new ConfigOption("maxMBarGenWaterT1", 25));
         configOptions.add(new ConfigOption("maxMBarGenWaterT2", 75));
