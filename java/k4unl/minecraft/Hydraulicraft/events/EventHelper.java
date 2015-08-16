@@ -25,11 +25,19 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class EventHelper {
-    private static boolean hasShownUpdateInfo = false;
+    private static boolean   hasShownUpdateInfo = false;
+    private static ItemStack itemDust           = null;
 
 
     public static void init() {
         MinecraftForge.EVENT_BUS.register(new EventHelper());
+    }
+
+    public static void postinit() {
+        if (OreDictionary.doesOreNameExist("dustStone")) {
+            itemDust = OreDictionary.getOres("dustStone").get(0).copy();
+            itemDust.stackSize = 1;
+        }
     }
 
     @SubscribeEvent
@@ -93,7 +101,12 @@ public class EventHelper {
                         ItemStack toAdd = oreDusts.get(0).copy();
                         toAdd.stackSize = 2;
                         newDrops.add(toAdd); // drop 2 dusts
+                        if (itemDust != null)
+                            newDrops.add(itemDust.copy());
                     }
+                } else if (oreName.equals("cobblestone") && itemDust != null) {
+                    newDrops.add(itemDust.copy());
+                    iterator.remove();
                 }
             }
         }

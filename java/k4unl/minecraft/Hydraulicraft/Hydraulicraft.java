@@ -133,6 +133,7 @@ public class Hydraulicraft {
     public void postInit(FMLPostInitializationEvent event) {
 
         HydraulicRecipes.init();
+        EventHelper.postinit();
 
         ThirdPartyManager.instance().postInit();
         configHandler.loadTank();
@@ -156,9 +157,9 @@ public class Hydraulicraft {
                     ItemStack to = ItemStack.loadItemStackFromNBT
                             (toRegister.getCompoundTag("itemTo"));
                     float pressureRatio = toRegister.getFloat("pressureRatio");
-                    if(from != null && to != null) {
+                    if (from != null && to != null) {
                         HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(to, from).setPressure(pressureRatio));
-                    }else{
+                    } else {
                         Log.error("Cannot add crushing recipe from " + message.getSender() + ". One of the item stacks is null");
                     }
                 } else if (message.key.equals("registerWashingRecipe")) {
@@ -169,9 +170,9 @@ public class Hydraulicraft {
                     ItemStack to = ItemStack.loadItemStackFromNBT
                             (toRegister.getCompoundTag("itemTo"));
                     float pressureRatio = toRegister.getFloat("pressureRatio");
-                    if(from != null && to != null) {
+                    if (from != null && to != null) {
                         HydraulicRecipes.INSTANCE.addWasherRecipe(new FluidShapelessOreRecipe(to, from).setPressure(pressureRatio));
-                    }else{
+                    } else {
                         Log.error("Cannot add washing recipe from " + message.getSender() + ". One of the item stacks is null");
                     }
                 } else {
@@ -242,7 +243,7 @@ public class Hydraulicraft {
                     mapping.remap(GameData.getItemRegistry().getObject(name));
                 }
             }
-            if (name.startsWith("HydCraft:hydraulicWaterPump")){
+            if (name.startsWith("HydCraft:hydraulicWaterPump")) {
                 name = name.replaceAll("hydraulicWaterPump", Names.blockHydraulicFluidPump.unlocalized);
 
                 if (mapping.type == GameRegistry.Type.BLOCK) {
