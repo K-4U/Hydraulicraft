@@ -97,7 +97,7 @@ public class HCItems {
         itemhydraulicWrench = new ItemHydraulicWrench();
         itemCannister = new ItemCannister();
 
-        itemDrill = new ItemDrill();
+        itemDrill = new ItemHydraulicDrill();
 
         registerItems();
     }

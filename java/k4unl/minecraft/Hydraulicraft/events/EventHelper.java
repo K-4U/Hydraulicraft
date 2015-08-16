@@ -5,7 +5,7 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
-import k4unl.minecraft.Hydraulicraft.items.ItemDrill;
+import k4unl.minecraft.Hydraulicraft.items.ItemHydraulicDrill;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
@@ -82,7 +82,7 @@ public class EventHelper {
             return;
 
         ItemStack heldItem = event.harvester.getHeldItem();
-        if (heldItem == null || !(heldItem.getItem() instanceof ItemDrill))
+        if (heldItem == null || !(heldItem.getItem() instanceof ItemHydraulicDrill))
             return;
 
         ArrayList<ItemStack> drops = event.drops;

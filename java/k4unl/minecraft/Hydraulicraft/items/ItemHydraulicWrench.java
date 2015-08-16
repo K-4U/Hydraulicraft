@@ -104,14 +104,14 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-        if (stack == null || !(stack.getItem() instanceof ItemDrill))
+        if (stack == null || !(stack.getItem() instanceof ItemHydraulicWrench))
             return 1;
 
-        ItemDrill drill = (ItemDrill) stack.getItem();
-        if (drill.getFluid(stack) == null || drill.getFluid(stack).amount == 0)
+        ItemHydraulicWrench wrench = (ItemHydraulicWrench) stack.getItem();
+        if (wrench.getFluid(stack) == null || wrench.getFluid(stack).amount == 0)
             return 1;
 
-        return 1 - drill.getPressure(stack) / drill.getMaxPressure();
+        return 1 - wrench.getPressure(stack) / wrench.getMaxPressure();
     }
 
     @Override
