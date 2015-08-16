@@ -5,6 +5,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.thirdParty.bluepower.BluePower;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.BuildcraftCompat;
 import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.ExtraUtilities;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.FMP;
 import k4unl.minecraft.Hydraulicraft.thirdParty.igwmod.IGWMod;
@@ -17,18 +18,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ThirdPartyManager{
+public class ThirdPartyManager {
 
-    private static ThirdPartyManager INSTANCE = new ThirdPartyManager();
-    private final List<IThirdParty> thirdPartyMods = new ArrayList<IThirdParty>();
-    
-    public static ThirdPartyManager instance(){
+    private static ThirdPartyManager INSTANCE       = new ThirdPartyManager();
+    private final  List<IThirdParty> thirdPartyMods = new ArrayList<IThirdParty>();
+
+    public static ThirdPartyManager instance() {
         return INSTANCE;
     }
 
-    public void preInit(){
+    public void preInit() {
         FMLInterModComms.sendMessage("Waila", "register", "k4unl.minecraft.Hydraulicraft.thirdParty.WailaProvider.callbackRegister");
-        
+
+        new BuildcraftCompat();
+
         Map<String, Class<? extends IThirdParty>> thirdPartyClasses = new HashMap<String, Class<? extends IThirdParty>>();
         thirdPartyClasses.put("ExtraUtilities", ExtraUtilities.class);
         thirdPartyClasses.put("ForgeMicroblock", FMP.class);
@@ -38,54 +41,54 @@ public class ThirdPartyManager{
         thirdPartyClasses.put("bluepower", BluePower.class);
         thirdPartyClasses.put("IGWMod", IGWMod.class);
 
-        for(Map.Entry<String, Class<? extends IThirdParty>> entry : thirdPartyClasses.entrySet()) {
-            if(Loader.isModLoaded(entry.getKey()) || (entry.getKey().equals("ThermalExpansion") && HCConfig.INSTANCE.getBool("enableRF"))) {
+        for (Map.Entry<String, Class<? extends IThirdParty>> entry : thirdPartyClasses.entrySet()) {
+            if (Loader.isModLoaded(entry.getKey()) || (entry.getKey().equals("ThermalExpansion") && HCConfig.INSTANCE.getBool("enableRF"))) {
                 try {
                     thirdPartyMods.add(entry.getValue().newInstance());
-                } catch(Exception e) {
+                } catch (Exception e) {
                     Log.error("Failed to instantiate third party handler!");
                     e.printStackTrace();
                 }
             }
-        }      
-        
-        for(IThirdParty thirdParty : thirdPartyMods) {
+        }
+
+        for (IThirdParty thirdParty : thirdPartyMods) {
             try {
                 thirdParty.preInit();
-            } catch(Exception e) {
-                Log.error("Hydraulicraft wasn't able to load third party content from the third party class " + thirdParty.getClass()+ " in the PreInit phase!");
+            } catch (Exception e) {
+                Log.error("Hydraulicraft wasn't able to load third party content from the third party class " + thirdParty.getClass() + " in the PreInit phase!");
                 e.printStackTrace();
             }
         }
     }
 
-    public void init(){
-        for(IThirdParty thirdParty : thirdPartyMods) {
+    public void init() {
+        for (IThirdParty thirdParty : thirdPartyMods) {
             try {
                 thirdParty.init();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 Log.error("Hydraulicraft wasn't able to load third party content from the third party class " + thirdParty.getClass() + " in the Init phase!");
                 e.printStackTrace();
             }
         }
     }
 
-    public void postInit(){
-        for(IThirdParty thirdParty : thirdPartyMods) {
+    public void postInit() {
+        for (IThirdParty thirdParty : thirdPartyMods) {
             try {
                 thirdParty.postInit();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 Log.error("Hydraulicraft wasn't able to load third party content from the third party class " + thirdParty.getClass() + " in the PostInit phase!");
                 e.printStackTrace();
             }
         }
     }
 
-    public void clientSide(){
-        for(IThirdParty thirdParty : thirdPartyMods) {
+    public void clientSide() {
+        for (IThirdParty thirdParty : thirdPartyMods) {
             try {
                 thirdParty.clientSide();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 Log.error("Hydraulicraft wasn't able to load third party content from the third party class " + thirdParty.getClass() + " clientside!");
                 e.printStackTrace();
             }
