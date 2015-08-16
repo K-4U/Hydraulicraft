@@ -5,6 +5,7 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
+import k4unl.minecraft.Hydraulicraft.items.ItemDrill;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
@@ -15,8 +16,12 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class EventHelper {
@@ -64,6 +69,39 @@ public class EventHelper {
     }
 
     @SubscribeEvent
+    public void onBlockBreakDrill(BlockEvent.HarvestDropsEvent event) {
+        if (event.harvester == null)
+            return;
+
+        ItemStack heldItem = event.harvester.getHeldItem();
+        if (heldItem == null || !(heldItem.getItem() instanceof ItemDrill))
+            return;
+
+        ArrayList<ItemStack> drops = event.drops;
+        ArrayList<ItemStack> newDrops = new ArrayList<ItemStack>();
+        Iterator<ItemStack> iterator = drops.iterator();
+        while (iterator.hasNext()) {
+            ItemStack stack = iterator.next();
+            int[] ores = OreDictionary.getOreIDs(stack);
+            for (int oreId : ores) {
+                String oreName = OreDictionary.getOreName(oreId);
+                if (oreName.startsWith("ore")) {
+                    String oreType = oreName.substring(3);
+                    ArrayList<ItemStack> oreDusts = OreDictionary.getOres("dust" + oreType);
+                    if (oreDusts.size() != 0) {
+                        iterator.remove();
+                        ItemStack toAdd = oreDusts.get(0).copy();
+                        toAdd.stackSize = 2;
+                        newDrops.add(toAdd); // drop 2 dusts
+                    }
+                }
+            }
+        }
+
+        drops.addAll(newDrops);
+    }
+
+    @SubscribeEvent
     public void onDeathEvent(LivingDeathEvent event) {
         if (event.entity instanceof EntityPig) {
             if (!event.entity.worldObj.isRemote) {
@@ -79,7 +117,7 @@ public class EventHelper {
     }
 
 	/*@SubscribeEvent
-	public void onEntityJoinEvent(EntityJoinWorldEvent event){
+    public void onEntityJoinEvent(EntityJoinWorldEvent event){
 		if(hasShownUpdateInfo || !HCConfig.INSTANCE.getBool("checkForUpdates")) return;
 		if(event.entity instanceof EntityPlayer){
 			if(event.world.isRemote){
