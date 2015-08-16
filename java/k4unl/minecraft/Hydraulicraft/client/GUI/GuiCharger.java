@@ -29,21 +29,20 @@ public class GuiCharger extends HydraulicGUIBase {
         drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.blockCharger.getLocalizedName(), true);
 
         //See if there's an item in the charging slot
-        if(filler.getStackInSlot(0) != null) {
+        if (filler.getStackInSlot(0) != null) {
             if (filler.getStackInSlot(0).getItem() instanceof IPressurizableItem) {
                 ItemStack pressurizingItemStack = filler.getStackInSlot(0);
                 IPressurizableItem item = (IPressurizableItem) pressurizingItemStack.getItem();
                 String fluidName = "";
-                if(item.getFluid(pressurizingItemStack) != null){
+                if (item.getFluid(pressurizingItemStack) != null) {
                     fluidName = item.getFluid(pressurizingItemStack).getUnlocalizedName();
+
+                    IIcon icon = item.getFluid(pressurizingItemStack).getFluid().getIcon();
+
+                    drawVerticalProgressBarWithTexture(54, 16, 27, 7, item.getFluid(pressurizingItemStack).amount, item.getMaxFluid(), icon, fluidName, "mB");
+                    drawVerticalProgressBar(64, 16, 27, 7, (item.getPressure(pressurizingItemStack) / 1000),
+                            (item.getMaxPressure() / 1000), Constants.COLOR_PRESSURE, Localization.getString(Localization.PRESSURE_ENTRY), "Bar");
                 }
-
-                IIcon icon = item.getFluid(pressurizingItemStack).getFluid().getIcon();
-
-                drawVerticalProgressBarWithTexture(54, 16, 27, 7, item.getFluid(pressurizingItemStack).amount, item.getMaxFluid(), icon, fluidName, "mB");
-
-                drawVerticalProgressBar(64, 16, 27, 7, (item.getPressure(pressurizingItemStack) / 1000),
-                        (item.getMaxPressure() / 1000), Constants.COLOR_PRESSURE, Localization.getString(Localization.PRESSURE_ENTRY), "Bar");
             }
         }
 
