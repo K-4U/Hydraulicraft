@@ -20,6 +20,9 @@ import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.*;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.*;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberLeaves;
+import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberSapling;
+import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberWood;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCactus;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCrops;
@@ -75,6 +78,9 @@ public class HCBlocks {
     public static Block blockRefinedNadsiumBicarbinate;
     public static Block blockDirtyMineral;
 
+    public static Block blockRubberWood;
+    public static Block blockRubberLeaves;
+    public static Block blockRubberSapling;
 
     /*!
      * @author Koen Beckers
@@ -130,6 +136,10 @@ public class HCBlocks {
         Hydraulicraft.trolleyRegistrar.registerTrolley(new TrolleySugarCane());
         Hydraulicraft.trolleyRegistrar.registerTrolley(new TrolleyNetherWart());
         Hydraulicraft.trolleyRegistrar.registerTrolley(new TrolleyCactus());
+
+        blockRubberWood = new BlockRubberWood();
+        blockRubberLeaves = new BlockRubberLeaves();
+        blockRubberSapling = new BlockRubberSapling();
 
         registerBlocks();
     }
@@ -192,5 +202,9 @@ public class HCBlocks {
         GameRegistry.registerBlock(blockRefinedLonezium, ItemBlock.class, Names.blockRefinedLonezium.unlocalized);
         GameRegistry.registerBlock(blockRefinedNadsiumBicarbinate, ItemBlock.class, Names.blockRefinedNadsiumBicarbinate.unlocalized);
         GameRegistry.registerBlock(blockDirtyMineral, ItemBlock.class, Names.blockDirtyMineral.unlocalized);
+
+        GameRegistry.registerBlock(blockRubberWood, ItemBlock.class, Names.blockRubberWood.unlocalized);
+        GameRegistry.registerBlock(blockRubberLeaves, ItemBlock.class, Names.blockRubberLeaves.unlocalized);
+        GameRegistry.registerBlock(blockRubberSapling, ItemBlock.class, Names.blockRubberSapling.unlocalized);
     }
 }
