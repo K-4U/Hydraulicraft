@@ -51,6 +51,7 @@ public class HCItems {
     public static Item itemCannister;
 
     public static Item itemDrill;
+    public static Item itemSaw;
 
     /*!
      * @author Koen Beckers
@@ -98,6 +99,7 @@ public class HCItems {
         itemCannister = new ItemCannister();
 
         itemDrill = new ItemHydraulicDrill();
+        itemSaw = new ItemHydraulicSaw();
 
         registerItems();
     }
@@ -155,6 +157,7 @@ public class HCItems {
         GameRegistry.registerItem(itemCannister, Names.itemCannister.unlocalized);
 
         GameRegistry.registerItem(itemDrill, Names.itemDrill.unlocalized);
+        GameRegistry.registerItem(itemSaw, Names.itemSaw.unlocalized);
 
 
         FluidStack st = FluidRegistry.getFluidStack(Names.fluidHydraulicOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);

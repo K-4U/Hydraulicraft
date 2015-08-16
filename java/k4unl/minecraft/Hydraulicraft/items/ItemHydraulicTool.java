@@ -102,11 +102,11 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
         if (stack == null || !(stack.getItem() instanceof ItemHydraulicTool))
             return 1;
 
-        ItemHydraulicTool drill = (ItemHydraulicTool) stack.getItem();
-        if (drill.getFluid(stack) == null || drill.getFluid(stack).amount == 0)
+        ItemHydraulicTool tool = (ItemHydraulicTool) stack.getItem();
+        if (tool.getFluid(stack) == null || tool.getFluid(stack).amount == 0)
             return 1;
 
-        return 1 - drill.getPressure(stack) / drill.getMaxPressure();
+        return 1 - tool.getPressure(stack) / tool.getMaxPressure();
     }
 
     @Override
