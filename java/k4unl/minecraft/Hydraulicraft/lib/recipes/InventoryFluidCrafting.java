@@ -444,7 +444,7 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
     public boolean canInsertItem(int slot, ItemStack itemStack) {
         if (getStackInSlot(slot) == null)
-            return false;
+            return true;
 
         if (itemStack == null)
             return false;
