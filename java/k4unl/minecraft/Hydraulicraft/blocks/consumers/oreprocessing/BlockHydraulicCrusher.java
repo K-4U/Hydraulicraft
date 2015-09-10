@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicCrusher extends HydraulicBlockContainerBase implements ITieredBlock{
 
 	public BlockHydraulicCrusher() {
-		super(Names.blockHydraulicCrusher);
+		super(Names.blockHydraulicCrusher, true);
 		this.hasFrontIcon = true;
 	}
 

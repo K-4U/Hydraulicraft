@@ -14,8 +14,8 @@ import net.minecraft.world.World;
 
 public abstract class HydraulicBlockContainerBase extends HydraulicBlockBase implements ITileEntityProvider {
 
-    protected HydraulicBlockContainerBase(Name machineName) {
-        super(machineName);
+    protected HydraulicBlockContainerBase(Name machineName, boolean addToTab) {
+        super(machineName, addToTab);
     }
 
     @Override

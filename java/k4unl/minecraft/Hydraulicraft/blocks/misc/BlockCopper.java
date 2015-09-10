@@ -6,7 +6,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 public class BlockCopper extends HydraulicBlockBase {
 
 	public BlockCopper() {
-		super(Names.blockCopper);
+		super(Names.blockCopper, true);
 	}
 
 }

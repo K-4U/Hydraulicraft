@@ -20,7 +20,7 @@ public class BlockHydraulicHarvesterFrame extends HydraulicBlockContainerBase {
     public Vector3fMax blockBounds = new Vector3fMax(0.2f, 0.2f, 0.2f, 0.8F, 0.8F, 0.8F);
 
     public BlockHydraulicHarvesterFrame() {
-        super(Names.blockHarvesterFrame);
+        super(Names.blockHarvesterFrame, true);
         hasTextures = false;
 
     }

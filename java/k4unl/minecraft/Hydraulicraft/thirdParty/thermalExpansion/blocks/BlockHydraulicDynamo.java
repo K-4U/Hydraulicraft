@@ -16,7 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock {
 
 	public BlockHydraulicDynamo() {
-		super(Names.blockHydraulicDynamo);
+		super(Names.blockHydraulicDynamo, true);
 		hasTextures = false;
 	}
 

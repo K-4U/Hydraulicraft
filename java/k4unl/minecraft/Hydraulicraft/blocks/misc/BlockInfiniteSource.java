@@ -16,7 +16,7 @@ import net.minecraftforge.fluids.FluidStack;
 public class BlockInfiniteSource extends HydraulicBlockContainerBase {
 
 	public BlockInfiniteSource() {
-		super(Names.blockInfiniteSource);
+		super(Names.blockInfiniteSource, false);
 	}
 
 	@Override

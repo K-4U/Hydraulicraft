@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicPneumaticCompressor extends HydraulicBlockContainerBase implements ITieredBlock{
 
 	public BlockHydraulicPneumaticCompressor() {
-		super(Names.blockHydraulicPneumaticCompressor);
+		super(Names.blockHydraulicPneumaticCompressor, true);
 		this.hasFrontIcon = true;
 	}
 

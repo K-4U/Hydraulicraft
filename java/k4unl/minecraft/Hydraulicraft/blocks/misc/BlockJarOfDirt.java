@@ -13,7 +13,7 @@ public class BlockJarOfDirt extends HydraulicBlockContainerBase implements ITool
 
     public BlockJarOfDirt() {
 
-        super(Names.blockJarDirt);
+        super(Names.blockJarDirt, true);
         hasTextures=false;
     }
 

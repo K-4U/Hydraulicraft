@@ -25,7 +25,7 @@ public abstract class BlockConnectedTextureContainer extends HydraulicBlockConta
             10, 8, 8, 36, 35, 8, 8, 34, 11 };
 
     protected BlockConnectedTextureContainer(Name machineName) {
-        super(machineName);
+        super(machineName, true);
     }
 
     @Override

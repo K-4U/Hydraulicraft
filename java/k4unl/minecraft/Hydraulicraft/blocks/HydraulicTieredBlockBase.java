@@ -35,7 +35,7 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
 
 		
 		protected HydraulicTieredBlockBase(Name[] machineName) {
-			super(machineName[0]);
+			super(machineName[0], true);
 			
 			mName = machineName;
 			

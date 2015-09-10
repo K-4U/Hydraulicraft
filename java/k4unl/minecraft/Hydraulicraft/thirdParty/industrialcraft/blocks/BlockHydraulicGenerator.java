@@ -19,7 +19,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BlockHydraulicGenerator extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock {
 
 	public BlockHydraulicGenerator() {
-		super(Names.blockHydraulicGenerator);
+		super(Names.blockHydraulicGenerator, true);
 		hasFrontIcon = true;
 		hasTextures = false;
 	}

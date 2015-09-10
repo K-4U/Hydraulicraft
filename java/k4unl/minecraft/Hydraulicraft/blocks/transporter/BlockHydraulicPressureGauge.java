@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicPressureGauge extends HydraulicBlockContainerBase {
 
 	protected BlockHydraulicPressureGauge() {
-		super(Names.blockHydraulicPressureGauge);
+		super(Names.blockHydraulicPressureGauge, true);
 	}
 
 	@Override

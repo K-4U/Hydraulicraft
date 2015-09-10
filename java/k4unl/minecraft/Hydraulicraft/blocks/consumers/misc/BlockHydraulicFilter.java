@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicFilter extends HydraulicBlockContainerBase implements ITieredBlock {
 
 	public BlockHydraulicFilter() {
-		super(Names.blockHydraulicFilter);
+		super(Names.blockHydraulicFilter, true);
 		this.hasFrontIcon = true;
 		this.hasLeftIcon = true;
 		this.hasRightIcon = true;

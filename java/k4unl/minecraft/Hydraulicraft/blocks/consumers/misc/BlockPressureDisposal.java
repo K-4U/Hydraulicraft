@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockPressureDisposal extends HydraulicBlockContainerBase {
 
 	public BlockPressureDisposal() {
-		super(Names.blockPressureDisposal);
+		super(Names.blockPressureDisposal, false);
 		
 	}
 

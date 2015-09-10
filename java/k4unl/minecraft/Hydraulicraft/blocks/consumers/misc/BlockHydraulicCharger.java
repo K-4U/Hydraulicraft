@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicCharger extends HydraulicBlockContainerBase implements ITieredBlock{
 
 	public BlockHydraulicCharger() {
-		super(Names.blockHydraulicCharger);
+		super(Names.blockHydraulicCharger, true);
 		hasFrontIcon = true;
 	}
 

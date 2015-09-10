@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicSaw extends HydraulicBlockContainerBase implements ITieredBlock {
 
 	public BlockHydraulicSaw() {
-		super(Names.blockHydraulicSaw);
+		super(Names.blockHydraulicSaw, true);
 		this.hasFrontIcon = true;
 	}
 

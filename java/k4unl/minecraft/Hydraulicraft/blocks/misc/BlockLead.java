@@ -6,7 +6,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 public class BlockLead extends HydraulicBlockBase {
 
 	public BlockLead() {
-		super(Names.blockLead);
+		super(Names.blockLead, true);
 	}
 
 }

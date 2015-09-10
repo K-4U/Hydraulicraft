@@ -25,7 +25,7 @@ public class BlockConnectedTexture extends HydraulicBlockBase {
             10, 8, 8, 36, 35, 8, 8, 34, 11 };
 
     protected BlockConnectedTexture(Name machineName, Material material) {
-        super(machineName, material);
+        super(machineName, material, true);
     }
 
     @Override

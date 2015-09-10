@@ -25,7 +25,7 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
 	private List<Integer> enabledHarvesters = new ArrayList<Integer>();
 	
 	public BlockHarvesterTrolley() {
-		super(Names.blockHarvesterTrolley);
+		super(Names.blockHarvesterTrolley, true);
 		
 		mName = Names.blockHarvesterTrolley;
 		hasTextures = false;

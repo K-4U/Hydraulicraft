@@ -17,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BlockHydraulicPiston extends HydraulicBlockContainerBase {
 
 	public BlockHydraulicPiston() {
-		super(Names.blockHydraulicPiston);
+		super(Names.blockHydraulicPiston, true);
 		hasFrontIcon = true;
 	}
 

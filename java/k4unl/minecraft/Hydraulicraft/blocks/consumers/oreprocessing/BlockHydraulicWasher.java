@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements ITooltipProvider, IMultiTieredBlock, IGUIMultiBlock {
 
 	public BlockHydraulicWasher() {
-		super(Names.blockHydraulicWasher);
+		super(Names.blockHydraulicWasher, true);
 		this.hasFrontIcon = true;
 	}
 

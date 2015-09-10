@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public class BlockHydraulicFiller extends HydraulicBlockContainerBase implements ITieredBlock {
     public BlockHydraulicFiller() {
-        super(Names.blockHydraulicFiller);
+        super(Names.blockHydraulicFiller, true);
         this.hasFrontIcon = true;
     }
 

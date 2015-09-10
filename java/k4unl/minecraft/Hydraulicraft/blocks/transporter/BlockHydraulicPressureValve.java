@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicPressureValve extends HydraulicBlockContainerBase {
 
 	protected BlockHydraulicPressureValve() {
-		super(Names.blockHydraulicPressureValve);
+		super(Names.blockHydraulicPressureValve, true);
 	}
 
 	@Override

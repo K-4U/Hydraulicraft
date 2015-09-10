@@ -35,21 +35,12 @@ public class HydraulicBlockBase extends Block {
 	protected boolean hasTextures = true;
 
 
-	protected HydraulicBlockBase(Name machineName) {
-		super(Material.rock);
-		
-		mName = machineName;
-		
-		setBlockName(mName.unlocalized);
-		setStepSound(Block.soundTypeStone);
-		setHardness(3.5F);
-		setResistance(10F);
-		
-		setCreativeTab(CustomTabs.tabHydraulicraft);
+	protected HydraulicBlockBase(Name machineName, boolean addToTab) {
+		this(machineName, Material.rock, addToTab);
 	}
 	
 	
-	public HydraulicBlockBase(Name machineName, Material material) {
+	public HydraulicBlockBase(Name machineName, Material material, boolean addToTab) {
 		super(material);
 		
 		mName = machineName;
@@ -58,8 +49,10 @@ public class HydraulicBlockBase extends Block {
 		setStepSound(Block.soundTypeStone);
 		setHardness(3.5F);
 		setResistance(10F);
-		
-		setCreativeTab(CustomTabs.tabHydraulicraft);
+
+		if(addToTab) {
+			setCreativeTab(CustomTabs.tabHydraulicraft);
+		}
 	}
 
 

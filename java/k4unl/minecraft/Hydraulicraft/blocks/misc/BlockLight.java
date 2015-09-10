@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.blocks.misc;
 
-import java.util.Random;
-
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
@@ -13,12 +11,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class BlockLight extends HydraulicBlockBase {
 	public static final int maxLightLevel = (int)(0.9F * 15);
 	
 	
 	public BlockLight(){
-		super(Names.blockLight, Material.rock);
+		super(Names.blockLight, Material.rock, false);
 		setLightOpacity(15);
 		setTickRandomly(false);
 	}

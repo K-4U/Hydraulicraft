@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 public class BlockChunkLoader extends HydraulicBlockContainerBase {
 
     public BlockChunkLoader(){
-        super(Names.blockChunkLoader);
+        super(Names.blockChunkLoader, false);
     }
 
     @Override

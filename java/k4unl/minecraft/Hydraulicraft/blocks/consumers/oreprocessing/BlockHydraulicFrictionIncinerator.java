@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicFrictionIncinerator extends HydraulicBlockContainerBase implements ITieredBlock {
 
 	public BlockHydraulicFrictionIncinerator() {
-		super(Names.blockHydraulicFrictionIncinerator);
+		super(Names.blockHydraulicFrictionIncinerator, true);
 		this.hasFrontIcon = true;
 		this.hasTopIcon = true;
 		this.hasBottomIcon = true;

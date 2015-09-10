@@ -22,7 +22,7 @@ public class SubBlockBase extends HydraulicBlockBase {
 	
 	
 	protected SubBlockBase(Name[] machineName) {
-		super(machineName[0]);
+		super(machineName[0], true);
 		
 		mName = machineName;
 		

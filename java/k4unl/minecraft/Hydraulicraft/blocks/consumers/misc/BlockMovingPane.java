@@ -27,7 +27,7 @@ import java.util.Random;
 public class BlockMovingPane extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock {
 
 	public BlockMovingPane() {
-		super(Names.blockMovingPane);
+		super(Names.blockMovingPane, true);
 		hasTextures = false;
 	}
 

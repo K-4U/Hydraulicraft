@@ -17,7 +17,7 @@ public class BlockHydraulicHarvester extends HydraulicBlockContainerBase impleme
 
     public BlockHydraulicHarvester() {
 
-        super(Names.blockHydraulicHarvester);
+        super(Names.blockHydraulicHarvester, true);
 
         hasFrontIcon = true;
     }

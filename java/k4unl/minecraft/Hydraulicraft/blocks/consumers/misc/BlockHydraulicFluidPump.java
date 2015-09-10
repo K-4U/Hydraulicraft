@@ -21,7 +21,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase implements ITieredBlock, ITooltipProvider{
 
 	public BlockHydraulicFluidPump() {
-		super(Names.blockHydraulicFluidPump);
+		super(Names.blockHydraulicFluidPump, true);
 		//this.hasFrontIcon = true;
 	}
 
