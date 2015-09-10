@@ -541,7 +541,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                                 'K', HCItems.gasket,
                                 'G', "blockGlass",
                                 'W', HCBlocks.hydraulicPressureWall,
-                                'C', new ItemStack(HCBlocks.blockCore, 1, 2)
+                                'C', new ItemStack(HCBlocks.blockCore, 1, 1)
                         })
         );
 
