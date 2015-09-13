@@ -6,20 +6,36 @@ item.ingotCopper.name=铜锭
 item.ingotLead.name=铅锭
 item.ingotEnrichedCopper.name=浓缩铜锭
 item.bucketHydraulicOil.name=液压油桶
+item.bucketLubricant.name=Lubricant Bucket
+item.bucketOil.name=Oil Bucket
+item.bucketFluoroCarbonFluid.name=Fluoro Carbon Fluid Bucket
 item.bacon.name=培根
 item.miningHelmet.name=矿工头盔
 item.itemLamp.name=矿工头盔灯
 item.diamondShard.name=钻石碎片
 item.dustDiamondCopper.name=浓缩铜粉
 item.enderLolly.name=末影棒棒糖
+item.divingHelmet.name=Diving Suit Helmet
+item.divingChest.name=Diving Suit Chestplate
+item.divingLegs.name=Diving Suit Legs
+item.divingBoots.name=Diving Suit Boots
+item.hydraulicWrench.name=Hydraulic Wrench
+
 
 #Ores
 tile.oreCopper.name=铜矿
 tile.oreLead.name=铅矿
+tile.oreLonezium.name=Lonezium
+tile.oreBeachium.name=Beachium
+tile.oreNadsiumBicarbinate.name=Nadsium Bicarbinate
+tile.oreFoxium.name=Foxium
 
 #Blocks
 tile.hydraulicOil.name=液压油
-tile.hydraulicMixer.name=混合机
+tile.oil.name=原油
+tile.lubricant.name=Lubricant
+tile.fluoroCarbonFluid.name=Fluoro Carbon Fluid
+tile.hydraulicFilter.name=Filter
 tile.hydraulicFrictionIncinerator.name=摩擦焚烧炉
 tile.hydraulicCrusher.name=磨粉机
 tile.hydraulicWasher.name=洗矿机
@@ -51,12 +67,12 @@ tile.HPHydraulicLavaPump.name=高压岩浆泵
 tile.hydraulicHarvesterSource.name=液压收割机
 tile.hydraulicHarvesterFrame.name=收割机框架
 
-#poorly chosen name. This was done for compatability 
-tile.wheatHarvester.crops.name=小麦收割机
-tile.wheatHarvester.enderLily.name=末影百合收割机
-tile.wheatHarvester.sugarCane.name=甘蔗收割机
-tile.wheatHarvester.cactus.name=仙人掌收割机
-tile.wheatHarvester.netherWart.name=地狱疣收割机
+tile.harvesterTrolley.crops.name=小麦收割机
+tile.harvesterTrolley.enderLily.name=末影百合收割机
+tile.harvesterTrolley.sugarCane.name=甘蔗收割机
+tile.harvesterTrolley.cactus.name=仙人掌收割机
+tile.harvesterTrolley.netherWart.name=地狱疣收割机
+tile.harvesterTrolley.flax.name=亚麻收割机
 
 tile.hydraulicPiston.name=液压活塞
 tile.interfaceValve.name=接口阀门
@@ -67,19 +83,44 @@ tile.MPBlockCore.name=中压核心
 tile.HPBlockCore.name=高压核心
 
 tile.blockInfiniteSource.name=无线能源
-tile.hydraulicWaterPump.name=阿基米德螺旋泵 (WIP)
+tile.hydraulicWaterPump.name=阿基米德螺旋泵
+desc.hydraulicFluidPump=Pump for pumping up fluids
 
 tile.blockCopper.name=铜块
 tile.blockLead.name=铅块
 
-Gold.name=金粉
-Iron.name=铁粉
-Copper.name=铜粉
-Lead.name=铅粉
+tile.blockJarDirt.name=Jar of Dirt
+tile.refinedLonezium.name=Refined Lonezium
+tile.refinedNadsiumBicarbinate.name=Refined Nadsium Bicarbinate
+tile.blockDirtyMineral.name=Dirty Mineral
+tile.hydraulicAssembler.name=Assembler
+tile.fluidPipe.name=Fluid Pipe
+tile.fluidInterface.name=Fluid Interface
+tile.hydraulicCharger.name=Hydraulic Charger
+tile.hydraulicFiller.name=Hydraulic Filler
+
+
+#Dust and chunks
+dustGold.name=金粉
+dustIron.name=铁粉
+dustArdite.name=阿迪特粉
+dustCopper.name=铜粉
+dustLead.name=铅粉
+dustFzDarkIron.name=玄铁粉
+dustTin.name=锡粉
+dustCobalt.name=钴粉
+dustSilver.name=银粉
+dustNickel.name=镍粉
 chunkGold.name=金块
 chunkIron.name=铁块
+chunkArdite.name=阿迪特块
 chunkCopper.name=铜块
 chunkLead.name=铅块
+chunkFzDarkIron.name=玄铁块
+chunkTin.name=锡块
+chunkCobalt.name=钴块
+chunkSilver.name=银块
+chunkNickel.name=镍块
 
 item.itemDebug.name=调试物品
 
@@ -94,6 +135,9 @@ item.movingPane.name=移动板
 itemGroup.tabHydraulicraft=液压工艺
 lang.pressure=压力
 fluid.hydraulicOil=液压油
+fluid.oil=原油
+fluid.lubricant=Lubricant
+fluid.fluoroCarbonFluid=Fluoro Carbon Fluid
 lang.gui.generating=正在产生
 lang.gui.max=最大
 lang.gui.using=正在使用
@@ -103,17 +147,27 @@ lang.gui.maxHighPressure=最大: 高压
 lang.gui.maxMediumPressure=最大: 中压
 lang.gui.maxLowPressure=最大: 低压
 lang.warn.wip=注意: 这个方块现在仍能正常使用,但以后会被其它取代!
+lang.gui.updateAvailable=Hydraulicraft version %s available
+lang.gui.releasedAt=Released on: %s
+lang.gui.upToDate=Hydraulicraft up to date
+lang.tooltip.multiblock=Multiblock. Max pressure depends on the core used.
+
+#Harvester
+lang.harvester.notFormingError.trolleyExpected=Expected a trolley at %s
+lang.harvester.notFormingError.frameRotationWrong=Frame at %s is rotated wrong
+lang.harvester.notFormingError.frameExpected=Expected a frame at %s
+lang.harvester.notFormingError.verticalFrameExpected=Expected a vertical frame at %s
+lang.harvester.notFormingError.pistonExpected=Expected a piston at %s
+lang.harvester.notFormingError.endBlockExpected=Expected a pressure wall at %s
+lang.harvester.notFormingError.tooShort=The harvester is too short(%s)
+lang.harvester.notFormingError.tooLong=The harvester is too long(%s)
+lang.harvester.notFormingError.tooWide=The harvester is too wide(%s)
+
 
 ####Third party
 #PneumaticCraft
 tile.hydraulicPneumaticCompressor.name=气动压缩机
 
-
-#Buildcraft
-tile.hydraulicEngine.name=液压引擎
-tile.LPKineticPump.name=低压动力泵
-tile.MPKineticPump.name=中压动力泵
-tile.HPKineticPump.name=高压动力泵
 
 #Industrialcraft
 tile.hydraulicGenerator.name=液压发电机
@@ -135,3 +189,30 @@ tile.portalFrame.name=传送门框架
 tile.portalTeleporter.name=传送门
 item.portalIPCard.name=传送门IP卡
 itemGroup.tabGOW=Glowing Octo Wallhack
+
+### WIKI
+hydcraft.wiki.entry.baseConcepts=Base Concepts
+hydcraft.wiki.entry.pressureNetwork=Pressure Network
+hydcraft.wiki.entry.diving=Diving
+hydcraft.wiki.section.worldgen=Worldgen
+hydcraft.wiki.entry.oil=- Oil
+hydcraft.wiki.entry.minerals=- Minerals
+hydcraft.wiki.entry.ores=- Ores
+hydcraft.wiki.entry.crafting=Crafting
+hydcraft.wiki.section.multiblocks=Multiblocks
+hydcraft.wiki.entry.farms=- Farms
+hydcraft.wiki.entry.washer=- Washer
+hydcraft.wiki.entry.tanks=- Tanks
+hydcraft.wiki.entry.portal=- Portal
+hydcraft.wiki.section.thirdparty=Third Party
+hydcraft.wiki.entry.thirdparty:bluepower=- BluePower
+hydcraft.wiki.entry.thirdparty:ic2=- Industrialcraft 2
+hydcraft.wiki.entry.thirdparty:extrautilities=- Extra Utilities
+hydcraft.wiki.entry.thirdparty:pneumaticcraft=- PneumaticCraft
+hydcraft.wiki.entry.thirdparty:rf=- Redstone Flux
+
+
+# Death Messages
+hydcraft:death.attack.pressure1=%s forgot his diving suit
+hydcraft:death.attack.pressure2=%s was killed by the pressure of the water
+hydcraft:death.attack.pressure3=Fluid dynamics got the best of %s
