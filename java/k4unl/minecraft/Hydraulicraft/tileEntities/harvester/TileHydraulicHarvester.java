@@ -48,7 +48,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
     private static final Block piston          = HCBlocks.hydraulicPiston;
     private static final Block endBlock        = HCBlocks.hydraulicPressureWall;
 
-    private HarvesterReasonForNotForming error;
+    private HarvesterReasonForNotForming error = HarvesterReasonForNotForming.OTHER;
     private String extraErrorInfo;
 
     public TileHydraulicHarvester() {
