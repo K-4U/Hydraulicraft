@@ -145,18 +145,18 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
             }
 
         } else if (fillerDirection == FillerDirection.FILLING) {
-            if (internalTank.getFluid() == null || internalTank.getFluidAmount() == 0 || fluid.getFluid(stack).amount == fluid.getCapacity(stack)) {
-                setInventorySlotContents(1, getStackInSlot(0).copy());
-                setInventorySlotContents(0, null);
-                return 0;
-            }
-
             if (fluid.getFluid(stack) == null || fluid.getFluid(stack).amount == 0) {
                 FluidStack drained = internalTank.drain(TRANSFER_PER_TICK, false);
                 int actuallyFilled = fluid.fill(stack, drained, true);
                 internalTank.drain(actuallyFilled, true);
 
                 return PRESSURE_PER_TICK;
+            }
+
+            if (internalTank.getFluid() == null || internalTank.getFluidAmount() == 0 || fluid.getFluid(stack).amount == fluid.getCapacity(stack)) {
+                setInventorySlotContents(1, getStackInSlot(0).copy());
+                setInventorySlotContents(0, null);
+                return 0;
             }
 
             if (internalTank.getFluid().equals(fluid.getFluid(stack))) {

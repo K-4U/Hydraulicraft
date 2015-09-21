@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
 import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingHelmet;
 import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingSuit;
 import k4unl.minecraft.Hydraulicraft.lib.DamageSourceHydraulicraft;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -53,7 +54,7 @@ public class TickHandler {
                         y++;
                         pressure++;
                     }
-                    if(pressure > 15) {
+                    if(pressure > HCConfig.INSTANCE.getInt("maxWaterPressureWithoutSuit")) {
                         //Do damage, unless wearing a diving suit
                         if(!isWearingADivingSuit(event.player)){
                             event.player.attackEntityFrom(DamageSourceHydraulicraft.pressure, pressure / 2);

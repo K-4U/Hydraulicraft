@@ -5,7 +5,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.harvester;
  */
 public enum HarvesterReasonForNotForming {
     TROLLEY_EXPECTED, FRAME_ROTATION_WRONG, FRAME_EXPECTED, END_BLOCK_EXPECTED, TOO_SHORT, TOO_LONG, VERTICAL_FRAME_EXPECTED,
-    TOO_WIDE, PISTON_EXPECTED;
+    TOO_WIDE, PISTON_EXPECTED, OTHER;
 
     private String translationKey;
 

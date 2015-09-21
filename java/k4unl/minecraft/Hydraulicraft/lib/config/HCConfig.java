@@ -27,7 +27,9 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("checkForUpdates", true));
         configOptions.add(new ConfigOption("enableRF", true));
         configOptions.add(new ConfigOption("waterPressureKills", true).setComment("Basically a method to forcing players to build the diving suit. "
-          + "It'll start damaging you when you're under 18 blocks of fluid, unless you're wearing a diving suit"));
+          + "It'll start damaging you when you're under 15 blocks of fluid, unless you're wearing a diving suit"));
+        configOptions.add(new ConfigOption("maxWaterPressureWithoutSuit", 15).setComment("The amount of fluid blocks you need to be under before "
+          + "you start taking damage, when not wearing a diving suit"));
         configOptions.add(new ConfigOption("waterPumpPerTick", 100));
         configOptions.add(new ConfigOption("maxMBarGenWaterT1", 25));
         configOptions.add(new ConfigOption("maxMBarGenWaterT2", 75));
@@ -39,6 +41,7 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("conversionRatioLavaHydraulic", 100));
         configOptions.add(new ConfigOption("maxFluidMultiplier", 10));
         configOptions.add(new ConfigOption("doScubaDamage", true).setComment("Whether or not the scuba gear does damage to you when you put it on and off, by forgetting to breathe!"));
+
 
         configOptions.add(new ConfigOption("maxPortalHeight", 10).setCategory("portals"));
         configOptions.add(new ConfigOption("maxPortalWidth", 10).setCategory("portals"));
