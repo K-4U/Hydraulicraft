@@ -35,8 +35,10 @@ public class EventHelper {
 
     public static void postinit() {
         if (OreDictionary.doesOreNameExist("dustStone")) {
-            itemDust = OreDictionary.getOres("dustStone").get(0).copy();
-            itemDust.stackSize = 1;
+            if(OreDictionary.getOres("dustStone").size() > 0){
+                itemDust = OreDictionary.getOres("dustStone").get(0).copy();
+                itemDust.stackSize = 1;
+            }
         }
     }
 
