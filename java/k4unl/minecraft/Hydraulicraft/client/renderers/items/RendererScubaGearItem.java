@@ -75,6 +75,7 @@ public class RendererScubaGearItem implements IItemRenderer {
         //GL11.glScalef(scale, scale, scale);
         FMLClientHandler.instance().getClient().getTextureManager().bindTexture(new ResourceLocation(HCItems.itemDivingHelmet.getArmorTexture(null, null, 0, null)));
 
+        GL11.glEnable(GL11.GL_BLEND);
         modelDivingSuit.isChild = false;
         if(whichPart == type.HELMET){
             GL11.glScalef(1.8F, 1.8F, 1.8F);
@@ -110,6 +111,7 @@ public class RendererScubaGearItem implements IItemRenderer {
             modelDivingSuit.flipperLeft.render(0.0625F);
             modelDivingSuit.flipperRight.render(0.0625F);
         }
+        GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
 }
