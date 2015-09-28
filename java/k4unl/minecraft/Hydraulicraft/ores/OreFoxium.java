@@ -27,6 +27,7 @@ public class OreFoxium extends Block implements IGlowBlock {
         setBlockTextureName(oName.unlocalized);
         setStepSound(Block.soundTypeStone);
         setCreativeTab(CustomTabs.tabHydraulicraft);
+        setHarvestLevel("pickaxe", 3);
         setHardness(0.4F); //Same as netherrack
     }
 

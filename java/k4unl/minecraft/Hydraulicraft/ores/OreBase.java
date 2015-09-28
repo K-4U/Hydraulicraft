@@ -21,6 +21,8 @@ public class OreBase extends Block {
 		setHardness(3.5F);
 		
 		setCreativeTab(CustomTabs.tabHydraulicraft);
+
+		setHarvestLevel("pickaxe", 1);
 	}
 	
 	@Override

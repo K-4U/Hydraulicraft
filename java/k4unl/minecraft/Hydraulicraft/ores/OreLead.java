@@ -10,6 +10,7 @@ public class OreLead extends OreBase {
 
 	public OreLead() {
 		super(Names.oreLead);
+		setHarvestLevel("pickaxe", 2);
 	}
 
 	@Override
