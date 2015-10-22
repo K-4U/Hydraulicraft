@@ -40,7 +40,7 @@ public class TickHandler {
                     }
                 }
 
-                if(event.player.isInWater() && tickCount >= 20){
+                if(event.player.isInWater() && tickCount >= 20 && HCConfig.INSTANCE.getBool("waterPressureKills")){
                     tickCount=0;
                     //OMG THIS MAKES IT SO MUCH EASIER
                     //Check how many blocks of water are above the player
