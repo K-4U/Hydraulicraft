@@ -47,12 +47,12 @@ public class Constants {
 	public static final float MIN_REQUIRED_PRESSURE_COMPRESSOR = 100F;
 
 	//Thermal Expansion
-	public static final int[] RF_USAGE_PER_TICK = {500, 1500, 2000};
+	public static final int[] RF_USAGE_PER_TICK = {50, 150, 200};
 	public static final float CONVERSION_RATIO_HYDRAULIC_RF = 0.8F;
-	public static final float CONVERSION_RATIO_RF_HYDRAULIC = 0.8F;
+	public static final float CONVERSION_RATIO_RF_HYDRAULIC = 0.9F;
 	
 	
-	public static final int MAX_TRANSFER_RF = 100;
+	public static final int MAX_TRANSFER_RF = 200;
 	public static final int MIN_REQUIRED_RF = 1000;
 	
 	public static final float MIN_REQUIRED_PRESSURE_DYNAMO = 10000F;
