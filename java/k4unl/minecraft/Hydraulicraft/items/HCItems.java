@@ -136,7 +136,7 @@ public class HCItems {
         GameRegistry.registerItem(itemDivingLegs, Names.itemDivingLegs.unlocalized);
         GameRegistry.registerItem(itemDivingBoots, Names.itemDivingBoots.unlocalized);
 
-        OreDictionary.registerOre(Names.itemBacon.unlocalized, new ItemStack(itemBacon));
+        
         OreDictionary.registerOre(Names.itemDiamondShard.unlocalized, new ItemStack(itemDiamondShards));
         OreDictionary.registerOre(Names.itemCopperEnrichedDust.unlocalized, new ItemStack(itemEnrichedCopperDust));
 
@@ -147,6 +147,7 @@ public class HCItems {
         GameRegistry.registerItem(itemBucketFluoricCarbonFluid, Names.itemBucketFluoroCarbon.unlocalized);
 
         if (!HCConfig.INSTANCE.getBool("disableBacon")) {
+            OreDictionary.registerOre(Names.itemBacon.unlocalized, new ItemStack(itemBacon));
             GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);
         }
         if (!HCConfig.INSTANCE.getBool("disableEnderLolly")) {
