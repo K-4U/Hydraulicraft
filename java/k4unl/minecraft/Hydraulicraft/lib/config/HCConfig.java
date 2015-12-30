@@ -38,7 +38,7 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("maxMBarGenOilT1", 50));
         configOptions.add(new ConfigOption("maxMBarGenOilT2", 150));
         configOptions.add(new ConfigOption("maxMBarGenOilT3", 250));
-        configOptions.add(new ConfigOption("conversionRatioLavaHydraulic", 100));
+        configOptions.add(new ConfigOption("conversionRatioLavaHydraulic", 5000));
         configOptions.add(new ConfigOption("maxFluidMultiplier", 10));
         configOptions.add(new ConfigOption("doScubaDamage", true).setComment("Whether or not the scuba gear does damage to you when you put it on and off, by forgetting to breathe!"));
 
