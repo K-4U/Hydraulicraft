@@ -8,6 +8,7 @@ import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -36,6 +37,21 @@ public class PressureNetwork {
         isOilStored = machine.getHandler().isOilStored();
 
         lowestTier = machine.getHandler().getPressureTier();
+    }
+
+    public PressureNetwork(NBTTagCompound compoundTag) {
+        randomNumber = compoundTag.getInteger("randomNumber");
+        machines = new ArrayList<networkEntry>();
+        for(int i = 0; i <= compoundTag.getTagList("machines", 10).tagCount(); i++){
+            machines.add(new networkEntry(compoundTag.getTagList("machines", 10).getCompoundTagAt(i)));
+        }
+        pressure = compoundTag.getFloat("pressure");
+        isOilStored = compoundTag.getBoolean("isOilStored");
+        lowestTier = PressureTier.fromOrdinal(compoundTag.getInteger("lowestTier"));
+    }
+
+    public void setWorld(IBlockAccess world) {
+        this.world = world;
     }
 
     public static PressureNetwork getNetworkInDir(IBlockAccess iba, int x, int y, int z, ForgeDirection dir) {
@@ -110,8 +126,10 @@ public class PressureNetwork {
     private int contains(IHydraulicMachine machine) {
         int i;
         for (i = 0; i < machines.size(); i++) {
-            if (machines.get(i).getLocation().equals(((TileHydraulicBase) machine.getHandler()).getBlockLocation())) {
-                return i;
+            if(machines.get(i) != null) {
+                if (machines.get(i).getLocation().equals(((TileHydraulicBase) machine.getHandler()).getBlockLocation())) {
+                    return i;
+                }
             }
         }
         return -1;
@@ -119,10 +137,10 @@ public class PressureNetwork {
 
     public void addMachine(IHydraulicMachine machine, float pressureToAdd, ForgeDirection from) {
         if (contains(machine) == -1) {
-            float oPressure = pressure * machines.size();
-            oPressure += pressureToAdd;
+            //float oPressure = pressure * machines.size();
+            //oPressure += pressureToAdd;
             machines.add(new networkEntry(((TileHydraulicBase) machine.getHandler()).getBlockLocation(), from));
-            pressure = oPressure / machines.size();
+            //pressure = oPressure / machines.size();
             machine.getHandler().updateFluidOnNextTick();
             if (world == null) {
                 world = ((TileHydraulicBase) machine.getHandler()).getWorld();
@@ -183,7 +201,7 @@ public class PressureNetwork {
         //Log.info("Trying to merge network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
         if (toMerge.equals(this)) return;
 
-        float newPressure = ((pressure - toMerge.getPressure()) / 2) + toMerge.getPressure();
+        float newPressure = (pressure + toMerge.getPressure()) / 2;
         setPressure(newPressure);
 
         List<networkEntry> otherList = toMerge.getMachines();
@@ -206,11 +224,28 @@ public class PressureNetwork {
     }
 
     public void writeToNBT(NBTTagCompound tagCompound) {
+
+        tagCompound.setInteger("randomNumber", randomNumber);
+
+        NBTTagList machinesList = new NBTTagList();
+        for(int i = 0; i < machines.size(); i++){
+            machinesList.appendTag(machines.get(i).saveEntry());
+        }
         tagCompound.setFloat("pressure", pressure);
+
+        tagCompound.setBoolean("isOilStored", isOilStored);
+        tagCompound.setInteger("lowestTier", lowestTier.ordinal());
     }
 
     public void readFromNBT(NBTTagCompound tagCompound) {
+        randomNumber = tagCompound.getInteger("randomNumber");
+        machines = new ArrayList<networkEntry>();
+        for(int i = 0; i <= tagCompound.getTagList("machines", 10).tagCount(); i++){
+            machines.add(new networkEntry(tagCompound.getTagList("machines", 10).getCompoundTagAt(i)));
+        }
         pressure = tagCompound.getFloat("pressure");
+        isOilStored = tagCompound.getBoolean("isOilStored");
+        lowestTier = PressureTier.fromOrdinal(tagCompound.getInteger("lowestTier"));
     }
 
     public int getFluidCapacity() {
@@ -310,6 +345,21 @@ public class PressureNetwork {
 
             blockLocation = nLocation;
             from = nFrom;
+        }
+
+        public networkEntry(NBTTagCompound compoundTag) {
+
+            blockLocation = new Location(compoundTag.getIntArray("blockLocation"));
+            from = ForgeDirection.getOrientation(compoundTag.getInteger("from"));
+        }
+
+        public NBTTagCompound saveEntry(){
+            NBTTagCompound ret = new NBTTagCompound();
+
+            ret.setIntArray("blockLocation", blockLocation.getIntArray());
+            ret.setInteger("from", from.ordinal());
+
+            return ret;
         }
 
         public Location getLocation() {

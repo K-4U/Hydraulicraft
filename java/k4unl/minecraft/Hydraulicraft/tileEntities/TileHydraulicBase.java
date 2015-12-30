@@ -61,6 +61,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     private int maxStorage = 0;
     private int fluidInNetwork;
     private int networkCapacity;
+    private boolean shouldUpdateWorld = false;
 
     /**
      * @param _maxStorage The max ammount of Fluid/10 this machine can store.
@@ -395,7 +396,10 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
                 if (getNetwork(dir) != null) {
                     getNetwork(dir).readFromNBT(tagCompound.getCompoundTag("network" + dir.ordinal()));
                 } else {
-                    //updateNetworkOnNextTick(oldPressure);
+                    //get pressure from the network in this dir:
+                    float pressureT = tagCompound.getCompoundTag("network" + dir.ordinal()).getFloat("pressure");
+                    setNetwork(dir, new PressureNetwork(tagCompound.getCompoundTag("network" + dir.ordinal())));
+                    setWorldOnNextTick();
                 }
             }
         } else if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
@@ -462,6 +466,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
         }
         if (getWorld() != null) {
             if (!getWorld().isRemote) {
+
                 if (shouldUpdateNetwork) {
                     shouldUpdateNetwork = false;
                     if (tMp instanceof ICustomNetwork || tTarget instanceof ICustomNetwork) {
@@ -485,6 +490,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
                 for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
                     if (getNetwork(dir) != null) {
+                        if (shouldUpdateWorld) {
+                            getNetwork(dir).setWorld(getWorld());
+                        }
                         if (getWorld().getTotalWorldTime() % 2 == 0 && HCConfig.INSTANCE.getBool("explosions")) {
                             checkPressure(dir);
                         }
@@ -595,6 +603,10 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
             //markDirty();
             updateBlock();
         }
+    }
+
+    private void setWorldOnNextTick() {
+        shouldUpdateWorld = true;
     }
 
     @Override
