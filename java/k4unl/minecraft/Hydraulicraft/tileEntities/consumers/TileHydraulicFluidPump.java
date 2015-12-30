@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.k4lib.lib.Location;
@@ -167,7 +166,7 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
                     scanFluidBlocks(loc);
                 }
                 if(blocksToScan.size() == 0){
-                    Log.info("Done with scanning. " + fluidBlocks.size() + " blocks found!");
+                    //Log.info("Done with scanning. " + fluidBlocks.size() + " blocks found!");
                 }
             }
         }

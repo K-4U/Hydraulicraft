@@ -11,10 +11,6 @@ import net.minecraft.item.ItemStack;
 
 public class HydraulicraftWikiTab extends BaseWikiTab {
 
-    static {
-        Log.info("IF YOU SEE ME, SHIT GONE AWRY");
-    }
-
     public HydraulicraftWikiTab(){
 
         pageEntries.add("baseConcepts");

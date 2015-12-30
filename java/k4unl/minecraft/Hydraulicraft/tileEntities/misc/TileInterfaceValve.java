@@ -5,7 +5,6 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
 import k4unl.minecraft.Hydraulicraft.blocks.transporter.BlockHydraulicPressureValve;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
@@ -400,7 +399,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     public void checkTank(ForgeDirection sideClicked) {
         if (getFluidTarget() == null) {
-            Log.info("Checking tank. Clicked on side " + sideClicked);
+            //Log.info("Checking tank. Clicked on side " + sideClicked);
             ForgeDirection tankDir = sideClicked.getOpposite();
 
 
@@ -641,10 +640,10 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                             }
                         } else {
                             if (bl.getMaterial() == Material.air) {
-                                Log.info("Block at " + x + ", " + y + ", " + z + " is air!");
+                                //Log.info("Block at " + x + ", " + y + ", " + z + " is air!");
                                 return;
                             } else if (HCConfig.isTankBlockBlacklisted(bl)) {
-                                Log.info("Block (" + bl.getUnlocalizedName() + ") at " + x + ", " + y + ", " + z + " is blacklisted!");
+                                //Log.info("Block (" + bl.getUnlocalizedName() + ") at " + x + ", " + y + ", " + z + " is blacklisted!");
                                 return;
                             } else {
                                 if (bl == HCBlocks.blockInterfaceValve) {
@@ -671,9 +670,9 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
             for(Map.Entry<Block, Integer> block : blocks.entrySet()){
                 tankScore += HCConfig.getTankBlockScore(block.getKey()) * block.getValue();
-                Log.info(block.getKey().getLocalizedName() + "=" + block.getValue() + "=" + HCConfig.getTankBlockScore(block.getKey()));
+                //Log.info(block.getKey().getLocalizedName() + "=" + block.getValue() + "=" + HCConfig.getTankBlockScore(block.getKey()));
             }
-            Log.info("TankScore = " + tankScore + " AB = " + airBlocks.size());
+            //Log.info("TankScore = " + tankScore + " AB = " + airBlocks.size());
             tankScore = airBlocks.size() * tankScore;
             //Now. modify the locations so that it actually uses the BLOCKS
             minX -= 1;
