@@ -260,7 +260,9 @@ public class TileHarvesterTrolley extends TileEntity {
         tagCompound.setBoolean("harvesterPart", harvesterPart);
         tagCompound.setFloat("movingSpeedSideways", movingSpeedSideways);
         tagCompound.setFloat("movingSpeedSidewaysBack", movingSpeedSidewaysBack);
-        tagCompound.setIntArray("harvesterLocation", harvesterLocation.getIntArray());
+        if(harvesterLocation != null) {
+            tagCompound.setIntArray("harvesterLocation", harvesterLocation.getIntArray());
+        }
 
         NBTTagList tagList = new NBTTagList();
         for (ItemStack harvestedItem : harvestedItems) {
@@ -521,11 +523,6 @@ public class TileHarvesterTrolley extends TileEntity {
     public void onBlockBreaks() {
         ItemStack ourEnt = new ItemStack(HCBlocks.harvesterTrolley, 1);
         NBTTagCompound tCompound = new NBTTagCompound();
-        writeToNBT(tCompound);
-        tCompound.removeTag("x");
-        tCompound.removeTag("y");
-        tCompound.removeTag("z");
-        tCompound.removeTag("id");
 
         tCompound.setString("name", getTrolley().getName());
 
