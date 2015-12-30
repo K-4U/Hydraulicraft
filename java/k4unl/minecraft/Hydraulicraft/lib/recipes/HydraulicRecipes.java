@@ -129,7 +129,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                                 'W', HCBlocks.hydraulicPressureWall,
                                 'K', HCItems.gasket,
                                 'I', HCBlocks.blockInterfaceValve
-                        }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 100))
+                        }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 100)).setCraftingTime(1000)
         );
 
         recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.blockCore, 1, 2), true,
