@@ -13,6 +13,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
     private int tier = -1;
     private boolean isRunning = false;
     private int lavaUsage = 0;
+    private int runningTicks = 0;
 
     private int fluidInNetwork;
     private int networkCapacity;
@@ -49,7 +50,11 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
             needsUpdate = true;
             if (Float.compare(getGenerating(ForgeDirection.UP), 0.0F) > 0) {
                 getHandler().setPressure(getPressure(getFacing()) + getGenerating(ForgeDirection.UP), getFacing());
-                tank.drain(Constants.MAX_LAVA_USAGE, true);
+                runningTicks++;
+                if (runningTicks == 10) {
+                    tank.drain((int) (Constants.MAX_LAVA_USAGE * 10), true);
+                    runningTicks = 0;
+                }
                 isRunning = true;
             } else {
                 isRunning = false;
@@ -63,7 +68,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 
     @Override
     public int getMaxGenerating(ForgeDirection from) {
-        float tiered = (getTier()+1) / 3.0F;
+        float tiered = (getTier() + 1) / 3.0F;
         return (int) (Constants.MAX_LAVA_USAGE * (HCConfig.INSTANCE.getInt("conversionRatioLavaHydraulic") * tiered) * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
     }
 
@@ -83,11 +88,13 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
         }
 
         if (tank.getFluidAmount() >= Constants.MAX_LAVA_USAGE) {
-            FluidStack drained = tank.drain(Constants.MAX_LAVA_USAGE, false);
+            lavaUsage = (int)Math.max(Constants.MAX_LAVA_USAGE, 1F);
+            FluidStack drained = tank.drain(lavaUsage, false);
             if (drained == null) return 0F;
             lavaUsage = drained.amount;
 
-            float tiered = (getTier()+1) / 3.0F;
+
+            float tiered = (getTier() + 1) / 3.0F;
 
             float gen = lavaUsage * (HCConfig.INSTANCE.getInt("conversionRatioLavaHydraulic") * tiered) * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
             gen = gen * ((float) getFluidInNetwork(from) / (float) getFluidCapacity(from));
@@ -96,9 +103,9 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
                 //This means the pressure we are generating is too much!
                 gen = getMaxPressure(getHandler().isOilStored(), from) - getPressure(from);
             }
-            if(Float.compare(gen, getMaxGenerating(from)) > 0){
-				gen = getMaxGenerating(from);
-			}
+            if (Float.compare(gen, getMaxGenerating(from)) > 0) {
+                gen = getMaxGenerating(from);
+            }
 
             lavaUsage = (int) (gen * ((float) getFluidInNetwork(from) / (float) getFluidCapacity(from)) / HCConfig.INSTANCE.getInt("conversionRatioLavaHydraulic") * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
             return gen;
