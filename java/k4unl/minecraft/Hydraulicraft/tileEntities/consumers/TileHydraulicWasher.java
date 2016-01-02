@@ -233,7 +233,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public int[] getAccessibleSlotsFromSide(int var1) {
-        return new int[]{0, 2};
+        return new int[]{0, 1, 2};
     }
 
     @Override
