@@ -122,4 +122,5 @@ public class Names {
     public static final Name itemCannister       = new Name("Pressure Cannister", "itemCannister");
     public static final Name itemDrill           = new Name("Drill", "itemDrill");
     public static final Name itemSaw             = new Name("Saw", "itemSaw");
+    public static final Name itemPressureGauge   = new Name("Pressure Gauge", "itemPressureGauge");
 }

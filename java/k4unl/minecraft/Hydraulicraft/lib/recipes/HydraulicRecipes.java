@@ -817,6 +817,17 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'L', "ingotLead",
                         'G', HCItems.gasket
                 }));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.itemPressureGauge, 1), true,
+                new Object[] {
+                        "LLL",
+                        "GCW",
+                        "LLL",
+                        'C', "ingotCopper",
+                        'L', "ingotLead",
+                        'G', "paneGlass",
+                        'W', Items.redstone
+                }));
     }
 
     public void addCrushingRecipe(IFluidRecipe toAdd) {
