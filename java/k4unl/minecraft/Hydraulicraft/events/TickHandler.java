@@ -1,16 +1,25 @@
 package k4unl.minecraft.Hydraulicraft.events;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import k4unl.minecraft.Hydraulicraft.api.IPressureDivingSuit;
 import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
-import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingHelmet;
+import k4unl.minecraft.Hydraulicraft.items.ItemPressureGauge;
 import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingSuit;
 import k4unl.minecraft.Hydraulicraft.lib.DamageSourceHydraulicraft;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
+import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
+import k4unl.minecraft.Hydraulicraft.network.packets.PacketSetPressure;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TickHandler {
 
@@ -40,99 +49,93 @@ public class TickHandler {
                     }
                 }
 
-                if(event.player.isInWater() && tickCount >= 20 && HCConfig.INSTANCE.getBool("waterPressureKills")){
-                    tickCount=0;
+                if (event.player.isInWater() && tickCount >= 20 && HCConfig.INSTANCE.getBool("waterPressureKills")) {
+                    tickCount = 0;
                     //OMG THIS MAKES IT SO MUCH EASIER
                     //Check how many blocks of water are above the player
-                    int x = (int)Math.round(event.player.posX);
-                    int y = (int)Math.round(event.player.posY);
-                    int z = (int)Math.round(event.player.posZ);
+                    int x = (int) Math.floor(event.player.posX);
+                    int y = (int) Math.floor(event.player.posY);
+                    int z = (int) Math.floor(event.player.posZ);
 
                     int pressure = 0;
-                    while(event.player.worldObj.getBlock(x, y, z) == Blocks.water){
+                    while (event.player.worldObj.getBlock(x, y, z) == Blocks.water) {
                         Block block = event.player.worldObj.getBlock(x, y, z);
                         y++;
                         pressure++;
                     }
-                    if(pressure > HCConfig.INSTANCE.getInt("maxWaterPressureWithoutSuit")) {
+                    if(event.player.getEntityData().getInteger("pressure") != pressure){
+                        boolean pressureGauge = false;
+                        for (ItemStack itemStack: event.player.inventory.mainInventory) {
+                            if(itemStack != null && itemStack.getItem() instanceof ItemPressureGauge){
+                                pressureGauge = true;
+                            }
+                        }
+                        PacketPipeline.instance.sendTo(new PacketSetPressure(pressure, pressureGauge), (EntityPlayerMP) event.player);
+                    }
+                    event.player.getEntityData().setInteger("pressure", pressure);
+                    if (pressure > HCConfig.INSTANCE.getInt("maxWaterPressureWithoutSuit")) {
                         //Do damage, unless wearing a diving suit
-                        if(!isWearingADivingSuit(event.player)){
-                            event.player.attackEntityFrom(DamageSourceHydraulicraft.pressure, pressure / 2);
+                        if (!isWearingADivingSuit(event.player, pressure)) {
+                            event.player.attackEntityFrom(DamageSourceHydraulicraft.pressure, (float)(pressure / HCConfig.INSTANCE.getDouble("pressureDamageFactor")));
                         }
                         //Log.info(event.player.getDisplayName() + " is under " + pressure + " bar");
                     }
                 }
-                tickCount ++;
+                tickCount++;
             }
         }
     }
 
-    private boolean isWearingADivingSuit(EntityPlayer player){
-        boolean helmet = false;
-        boolean chest  = false;
-        boolean legs   = false;
-        boolean boots  = false;
-        boolean ic2helmet = false;
-        boolean ic2chest  = false;
-        boolean ic2legs   = false;
-        boolean ic2boots  = false;
-        for(int i = 0; i <= 3; i++){
-            if(player.getCurrentArmor(i) != null) {
-                if(i == 0){
-                    if(player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorRubBoots")){
-                        boots = true;
-                        ic2boots = true;
+    private boolean isWearingADivingSuit(EntityPlayer player, int pressure) {
+        List<Boolean> armour = new ArrayList<Boolean>();
+        if (Loader.isModLoaded("IC2")) {
+            boolean ic2helmet = false;
+            boolean ic2chest = false;
+            boolean ic2legs = false;
+            boolean ic2boots = false;
+            for (int i = 0; i <= 3; i++) {
+                if (player.getCurrentArmor(i) != null) {
+                    if (player.getCurrentArmor(i).getItem() instanceof IPressureDivingSuit) {
+                        armour.add(((IPressureDivingSuit) player.getCurrentArmor(i).getItem()).isPressureSafe(player, player.getCurrentArmor(i), pressure));
                     }
-                    if(player.getCurrentArmor(i).getUnlocalizedName().equals("diving_boots")){
-                        boots = true;
+                    if (i == 0) {
+                        if (player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorRubBoots")) {
+                            ic2boots = true;
+                        }
                     }
-                }
-                if(i == 1){
-                    if(player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorHazmatLeggings")){
-                        legs = true;
-                        ic2legs = true;
+                    if (i == 1) {
+                        if (player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorHazmatLeggings")) {
+                            ic2legs = true;
+                        }
+
                     }
-                    if(player.getCurrentArmor(i).getUnlocalizedName().equals("diving_pants")) {
-                        legs = true;
+                    if (i == 2) {
+                        if (player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorHazmatChestplate")) {
+                            ic2chest = true;
+                        }
                     }
-                }
-                if(i == 2){
-                    if(player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorHazmatChestplate")){
-                        ic2chest = true;
-                        chest = true;
-                    }
-                    if(player.getCurrentArmor(i).getUnlocalizedName().equals("diving_top")){
-                        chest = true;
-                    }
-                }
-                if(i == 3){
-                    if(player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorHazmatHelmet")){
-                        ic2helmet = true;
-                        helmet = true;
-                    }
-                    if(player.getCurrentArmor(i).getUnlocalizedName().equals("diving_helmet")){
-                        helmet = true;
-                    }
-                    if(player.getCurrentArmor(i).getUnlocalizedName().equals("item.itemDivingHelmet")){
-                        //Steamcraft
-                        helmet = true;
-                        chest = true;
-                        legs = true;
-                        boots = true;
+                    if (i == 3) {
+                        if (player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorHazmatHelmet")) {
+                            ic2helmet = true;
+                        }
                     }
                 }
             }
-        }
-        if(ic2boots && ic2helmet && ic2chest && ic2legs){
-            //Check inventory for filled air canisters.
+            if (ic2boots && ic2helmet && ic2chest && ic2legs) {
+                //Check inventory for filled air canisters.
 
-            return true;
-        }
-        if(helmet && chest && legs && boots){
-            return true;
+                return true;
+            }
         }
 
-        if(ItemDivingSuit.isWearingFullSuit(player)){
+        for (boolean armourEntry : armour) {
+            if (!armourEntry) {
+                return false;
+            }
+        }
+        return true;
+
+        /*if(ItemDivingSuit.isWearingFullSuit(player)){
             if(player.getCurrentArmor(3) != null) {
                 if (player.getCurrentArmor(3).getItem() instanceof ItemDivingHelmet) {
                     ItemDivingHelmet dHelmet = (ItemDivingHelmet) player.getCurrentArmor(3).getItem();
@@ -141,7 +144,7 @@ public class TickHandler {
                     }
                 }
             }
-        }
-        return false;
+        }*/
+        //return false;
     }
 }

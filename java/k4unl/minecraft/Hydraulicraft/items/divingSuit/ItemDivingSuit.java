@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.items.divingSuit;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import k4unl.minecraft.Hydraulicraft.api.IPressureDivingSuit;
 import k4unl.minecraft.Hydraulicraft.client.models.ModelDivingSuit;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -15,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 
-public class ItemDivingSuit extends ItemArmor {
+public class ItemDivingSuit extends ItemArmor implements IPressureDivingSuit{
 
     public ItemDivingSuit(int type) {
         super(ArmorMaterial.CLOTH, 0, type);
@@ -111,5 +112,10 @@ public class ItemDivingSuit extends ItemArmor {
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
     {
         return ModInfo.LID + ":textures/model/divingSuit.png";
+    }
+
+    @Override
+    public boolean isPressureSafe(EntityPlayer player, ItemStack stack, int pressure) {
+        return isWearingFullSuit(player);
     }
 }

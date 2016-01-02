@@ -1,19 +1,20 @@
 package k4unl.minecraft.Hydraulicraft.items.divingSuit;
 
+import k4unl.minecraft.Hydraulicraft.api.IPressureDivingSuit;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
+import k4unl.minecraft.Hydraulicraft.lib.DamageSourceHydraulicraft;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
 import java.util.List;
 
-public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerItem {
+public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerItem, IPressureDivingSuit {
     private static final int TANK_CAPACITY = 8000;
 
     public ItemDivingHelmet() {
@@ -123,7 +124,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
                 }
                 float percentage = ((float) fluidStack.amount) / ((float) TANK_CAPACITY);
                 if (percentage == 0.0F) {
-                    player.attackEntityFrom(DamageSource.drown, 100.0F);
+                    player.attackEntityFrom(DamageSourceHydraulicraft.noFluid, 100.0F);
                 } else {
                     player.setAir((int) (300F * percentage));
                     player.addPotionEffect(new PotionEffect(16, 800));
@@ -131,5 +132,11 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
 
             }
         }
+    }
+
+    @Override
+    public boolean isPressureSafe(EntityPlayer player, ItemStack stack, int pressure) {
+        FluidStack fluidStack = fetchFluidOrCreate(stack);
+        return (fluidStack.getFluid() != null && fluidStack.amount > 0);
     }
 }
