@@ -30,6 +30,7 @@ public class HCConfig extends Config{
           + "It'll start damaging you when you're under 15 blocks of fluid, unless you're wearing a diving suit"));
         configOptions.add(new ConfigOption("maxWaterPressureWithoutSuit", 15).setComment("The amount of fluid blocks you need to be under before "
           + "you start taking damage, when not wearing a diving suit"));
+        configOptions.add(new ConfigOption("pressureDamageFactor", 0.5D).setComment("The factor or pressure to damage ratio applied: damage = pressure * pressureDamageFactor"));
         configOptions.add(new ConfigOption("waterPumpPerTick", 100));
         configOptions.add(new ConfigOption("maxMBarGenWaterT1", 25));
         configOptions.add(new ConfigOption("maxMBarGenWaterT2", 75));
@@ -38,7 +39,7 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("maxMBarGenOilT1", 50));
         configOptions.add(new ConfigOption("maxMBarGenOilT2", 150));
         configOptions.add(new ConfigOption("maxMBarGenOilT3", 250));
-        configOptions.add(new ConfigOption("conversionRatioLavaHydraulic", 100));
+        configOptions.add(new ConfigOption("conversionRatioLavaHydraulic", 5000));
         configOptions.add(new ConfigOption("maxFluidMultiplier", 10));
         configOptions.add(new ConfigOption("doScubaDamage", true).setComment("Whether or not the scuba gear does damage to you when you put it on and off, by forgetting to breathe!"));
 
@@ -94,6 +95,11 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("shouldGenOil", true).setCategory("worldgen"));
         configOptions.add(new ConfigOption("oilChance", 0.005).setCategory("worldgen"));
         configOptions.add(new ConfigOption("oilSpoutSize", 1).setCategory("worldgen").setComment("How big the oil spout is, above ground. Set to negative value for harder to find spouts"));
+
+
+        configOptions.add(new ConfigOption("x", 0).setCategory("pressureUI").setComment("The X coordinate on your screen to render the pressure"));
+        configOptions.add(new ConfigOption("y", 40).setCategory("pressureUI").setComment("The Y coordinate on your screen to render the pressure"));
+        configOptions.add(new ConfigOption("scale", 0.8F).setCategory("pressureUI").setComment("The scale at which to render the pressure UI"));
 	}
 
 	public static boolean canBeWashed(ItemStack itemStack){

@@ -3,9 +3,9 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -17,12 +17,14 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
     private float   movingSpeed     = 0.05F;
     private float   movingSpeedBack = 0.1F;
     private boolean harvesterPart   = false;
-    private Location harvesterLocation;
+
 
     private boolean isRetracting;
     private ForgeDirection facing = ForgeDirection.NORTH;
+	private Location harvesterLocation;
+	private TileHydraulicHarvester harvester;
 
-    public TileHydraulicPiston() {
+	public TileHydraulicPiston() {
 		super();
     }
 
@@ -41,6 +43,8 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
         harvesterPart = tagCompound.getBoolean("harvesterPart");
         isRetracting = tagCompound.getBoolean("isMoving");
         oldExtendedLength = tagCompound.getFloat("oldExtendedLength");
+		movingSpeed = tagCompound.getFloat("movingSpeed");
+		movingSpeedBack = tagCompound.getFloat("movingSpeedBack");
 
         harvesterLocation = new Location(tagCompound.getIntArray("harvesterLocation"));
         facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
@@ -58,6 +62,8 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
 		if(harvesterLocation != null){
 			tagCompound.setIntArray("harvesterLocation", harvesterLocation.getLocation());
 		}
+		tagCompound.setFloat("movingSpeed", movingSpeed);
+		tagCompound.setFloat("movingSpeedBack", movingSpeedBack);
 		tagCompound.setInteger("facing", facing.ordinal());
 	}
 
@@ -91,6 +97,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
 	}
 	
 	public void extendTo(float blocksToExtend){
+
 		if(blocksToExtend > maxLength){
 			blocksToExtend = maxLength;
 		}
@@ -116,6 +123,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
 		
 		int compResult = Float.compare(extendTarget, extendedLength);
 		if(!simulate){
+			recheckSpeed();
 			if(compResult > 0 && !isRetracting){
 				extendedLength += movingSpeed;
 			}else if(compResult < 0 && isRetracting){
@@ -133,18 +141,25 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
 		return 0;
 	}
 
-	public TileHydraulicHarvester getHarvester(){
-		if(harvesterPart){
-			if(harvesterLocation != null){
-				TileEntity t = worldObj.getTileEntity(harvesterLocation.getX(), harvesterLocation.getY(), harvesterLocation.getZ());
-				if(t instanceof TileHydraulicHarvester){
-					return (TileHydraulicHarvester)t;
-				}
-			}
+	private IHarvester getHarvester(){
+		if(harvesterPart && harvester == null && harvesterLocation != null){
+			harvester = (TileHydraulicHarvester) harvesterLocation.getTE(getWorldObj());
 		}
-		return null;
+		return harvester;
 	}
-	
+
+
+	private void recheckSpeed() {
+		if (getHarvester() != null) {
+			TileHydraulicHarvester harv = (TileHydraulicHarvester)getHarvester();
+
+			float pressurePercentage = harv.getPressure(ForgeDirection.UP) / harv.getMaxPressure(harv.isOilStored(), ForgeDirection.UP);
+			float factor = (harv.getPressureTier().ordinal() + 1) * (harv.isOilStored() ? 3.0F : 1.0F) * pressurePercentage;
+			movingSpeed = 0.05F * factor;
+			movingSpeedBack = 0.1F * factor;
+		}
+	}
+
 	@Override
 	public void updateEntity() {
 
@@ -183,5 +198,9 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
 	
 	public void setFacing(ForgeDirection nFacing){
 		facing = nFacing;
+	}
+
+	public void setHarvester(TileHydraulicHarvester harvester) {
+		this.harvester = harvester;
 	}
 }

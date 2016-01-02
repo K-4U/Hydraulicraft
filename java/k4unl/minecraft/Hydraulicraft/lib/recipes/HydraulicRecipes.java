@@ -129,7 +129,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                                 'W', HCBlocks.hydraulicPressureWall,
                                 'K', HCItems.gasket,
                                 'I', HCBlocks.blockInterfaceValve
-                        }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 100))
+                        }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 100)).setCraftingTime(1000)
         );
 
         recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.blockCore, 1, 2), true,
@@ -816,6 +816,17 @@ public class HydraulicRecipes implements IRecipeHandler {
                         "L L",
                         'L', "ingotLead",
                         'G', HCItems.gasket
+                }));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.itemPressureGauge, 1), true,
+                new Object[] {
+                        "LLL",
+                        "GCW",
+                        "LLL",
+                        'C', "ingotCopper",
+                        'L', "ingotLead",
+                        'G', "paneGlass",
+                        'W', Items.redstone
                 }));
     }
 

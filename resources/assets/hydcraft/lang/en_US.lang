@@ -20,6 +20,7 @@ item.divingChest.name=Diving Suit Chestplate
 item.divingLegs.name=Diving Suit Legs
 item.divingBoots.name=Diving Suit Boots
 item.hydraulicWrench.name=Hydraulic Wrench
+item.itemPressureGauge.name=Pressure Gauge
 
 
 #Ores
@@ -151,6 +152,7 @@ lang.gui.updateAvailable=Hydraulicraft version %s available
 lang.gui.releasedAt=Released on: %s
 lang.gui.upToDate=Hydraulicraft up to date
 lang.tooltip.multiblock=Multiblock. Max pressure depends on the core used.
+lang.tooltip.pressureGauge=Shows how much pressure you're under. Does not apply to daily life.
 
 #Harvester
 lang.harvester.notFormingError.trolleyExpected=Expected a trolley at %s
@@ -216,3 +218,4 @@ hydcraft.wiki.entry.thirdparty:rf=- Redstone Flux
 hydcraft:death.attack.pressure1=%s forgot his diving suit
 hydcraft:death.attack.pressure2=%s was killed by the pressure of the water
 hydcraft:death.attack.pressure3=Fluid dynamics got the best of %s
+hydcraft:death.attack.noFluid1=%s forgot to fill up his diving suit

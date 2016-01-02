@@ -53,6 +53,8 @@ public class HCItems {
     public static Item itemDrill;
     public static Item itemSaw;
 
+    public static Item itemPressureGauge;
+
     /*!
      * @author Koen Beckers
      * @date 13-12-2013
@@ -101,6 +103,8 @@ public class HCItems {
         itemDrill = new ItemHydraulicDrill();
         itemSaw = new ItemHydraulicSaw();
 
+        itemPressureGauge = new ItemPressureGauge();
+
         registerItems();
     }
 
@@ -136,7 +140,7 @@ public class HCItems {
         GameRegistry.registerItem(itemDivingLegs, Names.itemDivingLegs.unlocalized);
         GameRegistry.registerItem(itemDivingBoots, Names.itemDivingBoots.unlocalized);
 
-        OreDictionary.registerOre(Names.itemBacon.unlocalized, new ItemStack(itemBacon));
+        
         OreDictionary.registerOre(Names.itemDiamondShard.unlocalized, new ItemStack(itemDiamondShards));
         OreDictionary.registerOre(Names.itemCopperEnrichedDust.unlocalized, new ItemStack(itemEnrichedCopperDust));
 
@@ -147,6 +151,7 @@ public class HCItems {
         GameRegistry.registerItem(itemBucketFluoricCarbonFluid, Names.itemBucketFluoroCarbon.unlocalized);
 
         if (!HCConfig.INSTANCE.getBool("disableBacon")) {
+            OreDictionary.registerOre(Names.itemBacon.unlocalized, new ItemStack(itemBacon));
             GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);
         }
         if (!HCConfig.INSTANCE.getBool("disableEnderLolly")) {
@@ -159,6 +164,7 @@ public class HCItems {
         GameRegistry.registerItem(itemDrill, Names.itemDrill.unlocalized);
         GameRegistry.registerItem(itemSaw, Names.itemSaw.unlocalized);
 
+        GameRegistry.registerItem(itemPressureGauge, Names.itemPressureGauge.unlocalized);
 
         FluidStack st = FluidRegistry.getFluidStack(Names.fluidHydraulicOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
         FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketHydraulicOil), new ItemStack((Item) Item.itemRegistry.getObject("bucket")));

@@ -8,6 +8,8 @@ import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.HCApi;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicraftRegistrar;
 import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapelessOreRecipe;
@@ -69,6 +71,11 @@ public class Hydraulicraft {
     public static Tanks            tankList         = new Tanks();
 
     public static HCConfigHandler configHandler = new HCConfigHandler();
+
+    @SideOnly(Side.CLIENT)
+    public static int pressure = 0;
+    @SideOnly(Side.CLIENT)
+    public static boolean hasPressureGaugeInInventory = false;
 
     /*!
      * @author Koen Beckers

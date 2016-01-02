@@ -12,7 +12,7 @@ import net.minecraft.util.StatCollector;
  */
 public class DamageSourceHydraulicraft extends DamageSource {
     public static final DamageSourceHydraulicraft pressure = (DamageSourceHydraulicraft) new DamageSourceHydraulicraft("pressure", 3).setDamageBypassesArmor();
-
+    public static final DamageSourceHydraulicraft noFluid = (DamageSourceHydraulicraft) new DamageSourceHydraulicraft("noFluid").setDamageBypassesArmor();
 
     private int deathMessages = 1;
     public DamageSourceHydraulicraft(String damageType) {

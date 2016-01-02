@@ -56,7 +56,7 @@ public class HydraulicBlockBase extends Block {
 	}
 
 
-	private String getTextureName(String side){
+	protected String getTextureName(String side){
 		if(side != null){
 			return ModInfo.LID + ":" + mName.unlocalized + "_" + side;
 		}else{
