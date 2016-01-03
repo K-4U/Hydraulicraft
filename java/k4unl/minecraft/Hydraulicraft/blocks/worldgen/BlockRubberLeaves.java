@@ -30,7 +30,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
 
     public BlockRubberLeaves() {
 
-        super(Names.blockRubberLeaves, Material.leaves);
+        super(Names.blockRubberLeaves, Material.leaves, false);
         this.setTickRandomly(true);
         this.setHardness(0.2F);
         this.setLightOpacity(1);

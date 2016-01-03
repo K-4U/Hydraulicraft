@@ -123,7 +123,7 @@ public class Names {
     public static final Name itemDrill           = new Name("Drill", "itemDrill");
     public static final Name itemSaw             = new Name("Saw", "itemSaw");
     public static final Name itemPressureGauge   = new Name("Pressure Gauge", "itemPressureGauge");
-    
+
     public static final Name blockRubberWood    = new Name("Rubber wood", "rubberWood");
     public static final Name blockRubberLeaves  = new Name("Rubber leaves", "rubberLeaves");
     public static final Name blockRubberSapling = new Name("Rubber sapling", "saplingRubber");

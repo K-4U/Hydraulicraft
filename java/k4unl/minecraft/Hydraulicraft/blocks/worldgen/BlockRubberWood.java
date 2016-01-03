@@ -21,7 +21,7 @@ public class BlockRubberWood extends HydraulicBlockBase {
 
     public BlockRubberWood() {
 
-        super(Names.blockRubberWood, Material.wood);
+        super(Names.blockRubberWood, Material.wood, false);
 
         this.setHardness(2.0F);
         this.setStepSound(soundTypeWood);
