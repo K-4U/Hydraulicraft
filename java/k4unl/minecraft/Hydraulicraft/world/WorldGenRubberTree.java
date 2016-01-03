@@ -1,12 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.world;
 
-import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSapling;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
@@ -14,7 +10,9 @@ import java.util.Random;
  * @author Koen Beckers (K-4U)
  */
 public class WorldGenRubberTree extends WorldGenAbstractTree {
-    /** The minimum height of a generated tree. */
+    /**
+     * The minimum height of a generated tree.
+     */
     private final int minTreeHeight;
 
     public WorldGenRubberTree(boolean doBlockNotify) {
@@ -26,9 +24,8 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
         this.minTreeHeight = minTreeHeight;
     }
 
-    public boolean generate(World world, Random random, int x, int y, int z)
-    {
-        int treeHeight = random.nextInt(3) + this.minTreeHeight;
+    public boolean generate(World world, Random random, int x, int y, int z) {
+        /*int treeHeight = random.nextInt(3) + this.minTreeHeight;
         boolean flag = true;
 
         if (y >= 1 && y + treeHeight + 1 <= 256) {
@@ -74,7 +71,7 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
 
                     //First on top.
                     setAndCheckBlock(world, x, treeHeight + y, z, HCBlocks.blockRubberLeaves);
-                    for(int i = 0; i<=3; i++){
+                    for (int i = 0; i <= 3; i++) {
                         setAndCheckBlock(world, x + i, treeHeight + y - 1, z, HCBlocks.blockRubberLeaves);
                         setAndCheckBlock(world, x - i, treeHeight + y - 1, z, HCBlocks.blockRubberLeaves);
                         setAndCheckBlock(world, x, treeHeight + y - 1, z + i, HCBlocks.blockRubberLeaves);
@@ -102,10 +99,11 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
             }
         } else {
             return false;
-        }
+        }*/
+        return false;
     }
 
-    private void setAndCheckBlock(World world, int x, int y, int z, Block toSet){
+    private void setAndCheckBlock(World world, int x, int y, int z, Block toSet) {
         Block block1 = world.getBlock(x, y, z);
         if (block1.isAir(world, x, y, z) || block1.isLeaves(world, x, y, z)) {
             this.setBlockAndNotifyAdequately(world, x, y, z, toSet, 0);

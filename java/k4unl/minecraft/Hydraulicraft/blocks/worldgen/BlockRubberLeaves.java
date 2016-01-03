@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.blocks.worldgen;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
@@ -209,7 +208,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
     }
 
     public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-        return Item.getItemFromBlock(HCBlocks.blockRubberSapling);
+        return null;//Item.getItemFromBlock(HCBlocks.blockRubberSapling);
     }
 
     /**
