@@ -1,5 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
-
+/*
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
@@ -21,7 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.common.util.EnumFacing;
 import net.minecraftforge.fluids.*;
 import org.lwjgl.opengl.GL11;
 
@@ -31,7 +31,7 @@ import java.util.LinkedList;
 public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFacePart, TSlottedPart, JNormalOcclusion, ISidedHollowConnect {
     private static float          pixel        = 1.0F / 16F;
     private static int            expandBounds = -1;
-    private        ForgeDirection side         = ForgeDirection.DOWN;
+    private        EnumFacing side         = EnumFacing.DOWN;
 
     public static Cuboid6[] boundingBoxes = new Cuboid6[6];
 
@@ -54,19 +54,19 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
         float tMin = 0.0F + thickness;
         Vector3fMax vector;
         int i = 0;
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+        for (EnumFacing dir : EnumFacing.VALID_DIRECTIONS) {
 
-            if(dir.equals(ForgeDirection.UP)){
+            if(dir.equals(EnumFacing.UP)){
                 vector = new Vector3fMax(min, tMax, min, max, 1.0F, max);
-            }else if(dir.equals(ForgeDirection.DOWN)){
+            }else if(dir.equals(EnumFacing.DOWN)){
                 vector = new Vector3fMax(min, 0.0F, min, max, tMin, max);
-            }else if(dir.equals(ForgeDirection.NORTH)){
+            }else if(dir.equals(EnumFacing.NORTH)){
                 vector = new Vector3fMax(min, min, 0.0F, max, max, tMin);
-            }else if(dir.equals(ForgeDirection.SOUTH)){
+            }else if(dir.equals(EnumFacing.SOUTH)){
                 vector = new Vector3fMax(min, min, tMax, max, max, 1.0F);
-            }else if(dir.equals(ForgeDirection.WEST)){
+            }else if(dir.equals(EnumFacing.WEST)){
                 vector = new Vector3fMax(0.0F, min, min, tMin, max, max);
-            }else if(dir.equals(ForgeDirection.EAST)){
+            }else if(dir.equals(EnumFacing.EAST)){
                 vector = new Vector3fMax(tMax, min, min, 1.0F, max, max);
             }else{
                 vector = new Vector3fMax(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
@@ -79,13 +79,13 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
 
     private boolean isRedstonePowered;
 
-    public void preparePlacement(ForgeDirection side_) {
+    public void preparePlacement(EnumFacing side_) {
 
         side = side_;
     }
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
 
         if (!from.equals(side))
             return 0;
@@ -93,7 +93,7 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
 
         if (!from.equals(side))
             return null;
@@ -102,7 +102,7 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
 
         if (!from.equals(side))
             return null;
@@ -111,19 +111,19 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
+    public boolean canFill(EnumFacing from, Fluid fluid) {
 
         return from.equals(side);
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+    public boolean canDrain(EnumFacing from, Fluid fluid) {
 
         return from.equals(side);
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(EnumFacing from) {
 
         return new FluidTankInfo[] { new FluidTankInfo(tank) };
     }
@@ -180,11 +180,11 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
     public void load(NBTTagCompound tagCompound) {
 
         super.load(tagCompound);
-        //connectedSides = new HashMap<ForgeDirection, TileEntity>();
+        //connectedSides = new HashMap<EnumFacing, TileEntity>();
         //getHandler().updateNetworkOnNextTick(oldPressure);
         //checkConnectedSides();
         //readConnectedSidesFromNBT(tagCompound);
-        side = ForgeDirection.getOrientation(tagCompound.getInteger("side"));
+        side = EnumFacing.getOrientation(tagCompound.getInteger("side"));
         tank.readFromNBT(tagCompound);
     }
 
@@ -215,7 +215,7 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
 
         NBTTagCompound mainCompound = packet.readNBTTagCompound();
 
-        side = ForgeDirection.getOrientation(mainCompound.getInteger("side"));
+        side = EnumFacing.getOrientation(mainCompound.getInteger("side"));
         tank.readFromNBT(mainCompound);
     }
 
@@ -348,3 +348,4 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
         return 0;
     }
 }
+*/

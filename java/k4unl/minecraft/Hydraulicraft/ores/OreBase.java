@@ -1,12 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.ores;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
 
 public class OreBase extends Block {
 	private Name oName;
@@ -16,7 +13,7 @@ public class OreBase extends Block {
 		
 		oName = oreName;
 		
-		setBlockName(oName.unlocalized);
+		setUnlocalizedName(oName.unlocalized);
 		setStepSound(Block.soundTypeStone);
 		setHardness(3.5F);
 		
@@ -24,7 +21,7 @@ public class OreBase extends Block {
 
 		setHarvestLevel("pickaxe", 1);
 	}
-	
+	/*
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegistry){
 		blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + oName.unlocalized);
@@ -34,7 +31,7 @@ public class OreBase extends Block {
 	public IIcon getIcon(int side, int metadata){
 		return blockIcon;
 	}
-	
+	*/
 	
 
 }

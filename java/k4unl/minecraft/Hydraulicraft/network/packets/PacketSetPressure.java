@@ -1,17 +1,16 @@
 package k4unl.minecraft.Hydraulicraft.network.packets;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.network.AbstractPacket;
+import k4unl.minecraft.k4lib.network.messages.AbstractPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 /**
  * @author Koen Beckers (K-4U)
  */
-public class PacketSetPressure extends AbstractPacket {
+public class PacketSetPressure extends AbstractPacket<PacketSetPressure> {
 
     private int pressure;
     private boolean hasPressureGaugeInInventory;
@@ -24,7 +23,7 @@ public class PacketSetPressure extends AbstractPacket {
     }
 
     @Override
-    public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer){
+    public void toBytes(ByteBuf buffer){
         NBTTagCompound toSend = new NBTTagCompound();
         toSend.setInteger("pressure", pressure);
         toSend.setBoolean("hasPressureGaugeInInventory", hasPressureGaugeInInventory);
@@ -32,20 +31,20 @@ public class PacketSetPressure extends AbstractPacket {
     }
 
     @Override
-    public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer){
+    public void fromBytes(ByteBuf buffer){
         NBTTagCompound received = ByteBufUtils.readTag(buffer);
         pressure = received.getInteger("pressure");
         hasPressureGaugeInInventory = received.getBoolean("hasPressureGaugeInInventory");
     }
 
     @Override
-    public void handleClientSide(EntityPlayer player) {
-        Hydraulicraft.pressure = pressure;
-        Hydraulicraft.hasPressureGaugeInInventory = hasPressureGaugeInInventory;
+    public void handleClientSide(PacketSetPressure message, EntityPlayer player) {
+        Hydraulicraft.pressure = message.pressure;
+        Hydraulicraft.hasPressureGaugeInInventory = message.hasPressureGaugeInInventory;
     }
 
     @Override
-    public void handleServerSide(EntityPlayer player) { }
+    public void handleServerSide(PacketSetPressure message, EntityPlayer player) { }
 
 
 }

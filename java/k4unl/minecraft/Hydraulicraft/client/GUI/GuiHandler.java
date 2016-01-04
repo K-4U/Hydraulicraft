@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
-import cpw.mods.fml.common.network.IGuiHandler;
 import k4unl.minecraft.Hydraulicraft.containers.*;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.client.GUI.GuiSaw;
@@ -26,7 +25,9 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInfiniteSource;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
 
@@ -34,7 +35,7 @@ public class GuiHandler implements IGuiHandler {
     public Object getServerGuiElement(int ID, EntityPlayer player, World world,
                                       int x, int y, int z) {
 
-        TileEntity ent = world.getTileEntity(x, y, z);
+        TileEntity ent = world.getTileEntity(new BlockPos(x, y, z));
         if (ent != null) {
             switch (GuiIDs.values()[ID]) {
                 case COMPRESSOR:
@@ -146,7 +147,7 @@ public class GuiHandler implements IGuiHandler {
     public Object getClientGuiElement(int ID, EntityPlayer player, World world,
                                       int x, int y, int z) {
 
-        TileEntity ent = world.getTileEntity(x, y, z);
+        TileEntity ent = world.getTileEntity(new BlockPos(x, y, z));
 
         if (ent != null) {
             switch (GuiIDs.values()[ID]) {

@@ -1,17 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
-import pneumaticCraft.api.tileentity.AirHandlerSupplier;
-import pneumaticCraft.api.tileentity.IAirHandler;
-import pneumaticCraft.api.tileentity.IPneumaticMachine;
+import net.minecraft.util.EnumFacing;
 
-public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implements
-		IPneumaticMachine, IHydraulicConsumer {
-    private IAirHandler airHandler;
+public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implements /*IPneumaticMachine, */IHydraulicConsumer {
+    //private IAirHandler airHandler;
     private static int dangerPressure = 5;
 
     
@@ -19,37 +14,37 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
     	super(20);
     	super.init(this);
     }
-    
+    /*
     @Override
     public IAirHandler getAirHandler(){
         if(airHandler == null) airHandler = AirHandlerSupplier.getAirHandler(dangerPressure, 7, 2000);
         return airHandler;
     }
-    
-    @Override
-    public boolean isConnectedTo(ForgeDirection side){
+    */
+    /*@Override
+    public boolean isConnectedTo(EnumFacing side){
         return true;
-    }
+    }*/
 
     @Override
-    public void updateEntity(){
-    	super.updateEntity();
-        getAirHandler().updateEntityI();
+    public void update(){
+    	super.update();
+        //getAirHandler().updateEntityI();
     }
 
     @Override
     public void validate(){
         super.validate();
-        getAirHandler().validateI(this);
+        //getAirHandler().validateI(this);
     }
 	
     
     public float getPneumaticPressure(){
-    	return getAirHandler().getPressure(ForgeDirection.UNKNOWN);
+    	return 0.0F;//getAirHandler().getPressure(EnumFacing.UNKNOWN);
     }
     
     public float getPneumaticMaxPressure(){
-    	return getAirHandler().getMaxPressure();
+    	return 1.0F;//getAirHandler().getMaxPressure();
     }
     
     public float getPneumaticDangerPressure(){
@@ -60,7 +55,7 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
 	 * HYDRAULICRAFT
 	 */
 	@Override
-	public float workFunction(boolean simulate, ForgeDirection from) {
+	public float workFunction(boolean simulate, EnumFacing from) {
 		if(canRun()){
 			if(!simulate){
 				doCompress();
@@ -68,7 +63,7 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
 			//The higher the pressure
 			//The higher the speed!
 			//But also the more it uses..
-			float usage = (getPressure(ForgeDirection.UNKNOWN) / 10000); 
+			float usage = (getPressure(EnumFacing.UP) / 10000);
 			return usage;
 		}else{
 			return 0F;
@@ -77,8 +72,8 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
 
 	private void doCompress() {
 		//Simplest function EVER!
-		float usage = (getPressure(ForgeDirection.UNKNOWN) / 10000);
-		getAirHandler().addAir((int)usage * (int)Constants.CONVERSION_RATIO_HYDRAULIC_AIR, ForgeDirection.UNKNOWN);
+		float usage = (getPressure(EnumFacing.UP) / 10000);
+		//getAirHandler().addAir((int)usage * (int)Constants.CONVERSION_RATIO_HYDRAULIC_AIR, EnumFacing.UP);
 	}
 
 	private boolean canRun() {
@@ -86,32 +81,32 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
 			return false;
 		}
 		//Get minimal pressure
-		return (getPressure(ForgeDirection.UNKNOWN) > Constants.MIN_REQUIRED_PRESSURE_COMPRESSOR && getAirHandler().getPressure(ForgeDirection.UNKNOWN) < dangerPressure);
+		return true;//(getPressure(EnumFacing.UP) > Constants.MIN_REQUIRED_PRESSURE_COMPRESSOR && getAirHandler().getPressure(EnumFacing.UP) < dangerPressure);
 	}
 
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
-		getAirHandler().readFromNBTI(tagCompound);
+		//getAirHandler().readFromNBTI(tagCompound);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
-		getAirHandler().writeToNBTI(tagCompound);
+		//getAirHandler().writeToNBTI(tagCompound);
 	}
 
 	@Override
 	public void onFluidLevelChanged(int old) {	}
 	
 	@Override
-	public boolean canConnectTo(ForgeDirection side) {
+	public boolean canConnectTo(EnumFacing side) {
 		return true;
 	}
 
 	@Override
-	public boolean canWork(ForgeDirection dir) {
-		return dir.equals(ForgeDirection.UP);
+	public boolean canWork(EnumFacing dir) {
+		return dir.equals(EnumFacing.UP);
 	}
 }

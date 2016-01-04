@@ -5,8 +5,11 @@ import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileJarOfDirt;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class BlockJarOfDirt extends HydraulicBlockContainerBase implements ITooltipProvider {
@@ -30,12 +33,6 @@ public class BlockJarOfDirt extends HydraulicBlockContainerBase implements ITool
     }
 
     @Override
-    public boolean renderAsNormalBlock() {
-
-        return false;
-    }
-
-    @Override
     public TileEntity createNewTileEntity(World world, int var2) {
 
         return new TileJarOfDirt();
@@ -48,8 +45,7 @@ public class BlockJarOfDirt extends HydraulicBlockContainerBase implements ITool
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
-
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
         return false;
     }
 

@@ -1,13 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartValve;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
-
-import org.lwjgl.opengl.GL11;
-
-public class RendererPartValveItem implements IItemRenderer {
-
+public class RendererPartValveItem {//implements IItemRenderer {
+/*
 	private static RendererPartValve f = new RendererPartValve();
 	
 	@Override
@@ -53,11 +47,11 @@ public class RendererPartValveItem implements IItemRenderer {
 	private void render(float x, float y, float z, float scale, int metadata){
 		
 		GL11.glScalef(scale, scale, scale);/*
-		Map<ForgeDirection, TileEntity> connectedSides = new HashMap<ForgeDirection, TileEntity>();
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+		Map<EnumFacing, TileEntity> connectedSides = new HashMap<EnumFacing, TileEntity>();
+		for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
 			connectedSides.put(dir, null);
 		}*/
-		f.doRender(x, y, z, 0, metadata, null);
-	}
+//		f.doRender(x, y, z, 0, metadata, null);
+//	}
 
 }

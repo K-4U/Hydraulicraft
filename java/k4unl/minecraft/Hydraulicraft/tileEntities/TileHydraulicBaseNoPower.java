@@ -6,16 +6,16 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.ITickable;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileHydraulicBaseNoPower extends TileEntity {
+public class TileHydraulicBaseNoPower extends TileEntity implements ITickable {
 	protected boolean isRedstonePowered;
 	
 	
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
 		checkRedstonePower();
 	}
 	
@@ -32,7 +32,7 @@ public class TileHydraulicBaseNoPower extends TileEntity {
 	}
 	
 	public void checkRedstonePower(){
-		boolean isIndirectlyPowered = getWorldObj().isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+		boolean isIndirectlyPowered = (getWorld().isBlockIndirectlyGettingPowered(getPos())>0);
 		if(isIndirectlyPowered && !isRedstonePowered){
 			isRedstonePowered = true;
 			redstoneChanged();
@@ -49,7 +49,7 @@ public class TileHydraulicBaseNoPower extends TileEntity {
 	
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet){
-		NBTTagCompound tagCompound = packet.func_148857_g();
+		NBTTagCompound tagCompound = packet.getNbtCompound();
 		this.readFromNBT(tagCompound);
 	}
 	
@@ -57,12 +57,16 @@ public class TileHydraulicBaseNoPower extends TileEntity {
 	public Packet getDescriptionPacket(){
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 4, tagCompound);
+		return new S35PacketUpdateTileEntity(getPos(), 4, tagCompound);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getRenderBoundingBox(){
-		return AxisAlignedBB.getBoundingBox(xCoord,yCoord,zCoord, xCoord+1,yCoord+ 1, zCoord + 1);
+	public AxisAlignedBB getRenderBoundingBox() {
+		double xCoord = getPos().getX();
+		double yCoord = getPos().getY();
+		double zCoord = getPos().getZ();
+		return AxisAlignedBB.fromBounds(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
 	}
+
 }

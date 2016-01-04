@@ -1,17 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartFluidPipe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.lwjgl.opengl.GL11;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class RendererPartFluidPipeItem implements IItemRenderer {
-    private static RendererPartFluidPipe f = new RendererPartFluidPipe();
+public class RendererPartFluidPipeItem {//implements IItemRenderer {
+/*    private static RendererPartFluidPipe f = new RendererPartFluidPipe();
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -56,10 +46,11 @@ public class RendererPartFluidPipeItem implements IItemRenderer {
     private void render(float x, float y, float z, float scale, int metadata){
 
         GL11.glScalef(scale, scale, scale);
-        Map<ForgeDirection, TileEntity> connectedSides = new HashMap<ForgeDirection, TileEntity>();
-        for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+        Map<EnumFacing, TileEntity> connectedSides = new HashMap<EnumFacing, TileEntity>();
+        for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
             connectedSides.put(dir, null);
         }
         f.doRender(x, y, z, 0, connectedSides);
     }
+    */
 }

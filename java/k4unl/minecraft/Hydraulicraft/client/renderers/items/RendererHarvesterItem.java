@@ -1,13 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.RendererHarvesterFrame;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
-
-import org.lwjgl.opengl.GL11;
-
-public class RendererHarvesterItem implements IItemRenderer {
-
+public class RendererHarvesterItem {//implements IItemRenderer {
+/*
 	private static RendererHarvesterFrame fFrame = new RendererHarvesterFrame();
 	
 	@Override
@@ -54,5 +48,5 @@ public class RendererHarvesterItem implements IItemRenderer {
 		GL11.glScalef(scale, scale, scale);
 		fFrame.renderTileEntityAt(null, x, y, z, 0);
 	}
-
+*/
 }

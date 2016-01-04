@@ -1,20 +1,18 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IConnectTexture;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockConnectedTexture extends HydraulicBlockBase {
 
     @SideOnly(Side.CLIENT)
-    public IIcon[] icons;
+    //public IIcon[] icons;
     public static int[] iconRefByID = { 0, 0, 6, 6, 0, 0, 6, 6, 3, 3, 19, 15, 3, 3, 19, 15, 1, 1, 18, 18, 1, 1, 13, 13, 2, 2, 23, 31, 2, 2,
             27, 14, 0, 0, 6, 6, 0, 0, 6, 6, 3, 3, 19, 15, 3, 3, 19, 15, 1, 1, 18, 18, 1, 1, 13, 13, 2, 2, 23, 31, 2, 2, 27, 14, 4, 4, 5, 5,
             4, 4, 5, 5, 17, 17, 22, 26, 17, 17, 22, 26, 16, 16, 20, 20, 16, 16, 28, 28, 21, 21, 46, 42, 21, 21, 43, 38, 4, 4, 5, 5, 4, 4,
@@ -28,19 +26,21 @@ public class BlockConnectedTexture extends HydraulicBlockBase {
         super(machineName, material, true);
     }
 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
 
         return icons[0];
-    }
+    }*/
 
     @SideOnly(Side.CLIENT)
     public boolean connectTo(IBlockAccess world, int x, int y, int z){
-        if(world.getBlock(x, y, z) == this){
+        BlockPos pos = new BlockPos(x, y, z);
+        if(world.getBlockState(pos).getBlock() == this){
             return true;
         }
-        TileEntity te = world.getTileEntity(x, y, z);
+        TileEntity te = world.getTileEntity(pos);
         if(te != null){
             if(te instanceof IConnectTexture){
                 return ((IConnectTexture)te).connectTexture();
@@ -48,7 +48,7 @@ public class BlockConnectedTexture extends HydraulicBlockBase {
         }
         return false;
     }
-
+/*
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
@@ -94,9 +94,9 @@ public class BlockConnectedTexture extends HydraulicBlockBase {
                     : 128))))))) : 0);
 
         return idBuilder > 255 || idBuilder < 0 ? icons[0] : icons[iconRefByID[idBuilder]];
+    }*/
 
-    }
-
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
@@ -106,4 +106,5 @@ public class BlockConnectedTexture extends HydraulicBlockBase {
         for (int i = 0; i < 47; i++)
             icons[i] = iconRegister.registerIcon(ModInfo.ID + ":" + mName.unlocalized + "/" + mName.unlocalized + "_" + (i + 1));
     }
+    */
 }

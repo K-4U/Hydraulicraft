@@ -7,6 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -19,20 +21,20 @@ public class ItemIPCard extends HydraulicItemBase {
     }
 
     @Override
-    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float par7, float par8, float par9) {
-        if (!world.isRemote) {
-            TileEntity ent = world.getTileEntity(x, y, z);
+    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (!worldIn.isRemote) {
+            TileEntity ent = worldIn.getTileEntity(pos);
             if (ent instanceof TilePortalBase) {
-                if (itemStack.getTagCompound() == null) {
-                    itemStack.setTagCompound(new NBTTagCompound());
+                if (stack.getTagCompound() == null) {
+                    stack.setTagCompound(new NBTTagCompound());
                 }
-                NBTTagCompound stackCompound = itemStack.getTagCompound();
-                ((ItemIPCard) HCItems.itemIPCard).setDefaultInfo(itemStack, "Linked to: " + ((TilePortalBase) ent).getIPString());
+                NBTTagCompound stackCompound = stack.getTagCompound();
+                ((ItemIPCard) HCItems.itemIPCard).setDefaultInfo(stack, "Linked to: " + ((TilePortalBase) ent).getIPString());
 
                 stackCompound.setLong("linked", ((TilePortalBase) ent).getIPLong());
-                ((ItemIPCard) HCItems.itemIPCard).setEffect(itemStack, true);
+                ((ItemIPCard) HCItems.itemIPCard).setEffect(stack, true);
 
-                itemStack.setTagCompound(stackCompound);
+                stack.setTagCompound(stackCompound);
                 return true;
             }
         }

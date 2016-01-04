@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.events;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicWasher;
@@ -14,14 +13,17 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 public class EventHelper {
@@ -34,28 +36,26 @@ public class EventHelper {
     }
 
     public static void postinit() {
-        if (OreDictionary.doesOreNameExist("dustStone")) {
-            if(OreDictionary.getOres("dustStone").size() > 0){
-                itemDust = OreDictionary.getOres("dustStone").get(0).copy();
-                itemDust.stackSize = 1;
-            }
+        if(OreDictionary.getOres("dustStone").size() > 0){
+            itemDust = OreDictionary.getOres("dustStone").get(0).copy();
+            itemDust.stackSize = 1;
         }
     }
 
     @SubscribeEvent
     public void onBlockBreak(BreakEvent event) {
-        if (event.block == HCBlocks.hydraulicPressureWall || event.block == HCBlocks.blockValve) {
+        if (event.state.getBlock() == HCBlocks.hydraulicPressureWall || event.state.getBlock() == HCBlocks.blockValve) {
             //check all directions for a hydraulic washer
             boolean breakAll = false;
             for (int horiz = -2; horiz <= 2; horiz++) {
                 for (int vert = -2; vert <= 2; vert++) {
                     for (int depth = -2; depth <= 2; depth++) {
-                        int x = event.x + horiz;
-                        int y = event.y + vert;
-                        int z = event.z + depth;
-                        Block block = event.world.getBlock(x, y, z);
+                        int x = event.pos.getX() + horiz;
+                        int y = event.pos.getY() + vert;
+                        int z = event.pos.getZ() + depth;
+                        Block block = event.world.getBlockState(new BlockPos(x, y, z)).getBlock();
                         if (block instanceof BlockHydraulicWasher) {
-                            TileHydraulicWasher washer = (TileHydraulicWasher) event.world.getTileEntity(x, y, z);
+                            TileHydraulicWasher washer = (TileHydraulicWasher) event.world.getTileEntity(new BlockPos(x, y, z));
                             washer.invalidateMultiblock();
                             breakAll = true;
                             break;
@@ -71,7 +71,7 @@ public class EventHelper {
                 }
             }
         } else {
-            Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.x, event.y, event.z);
+            Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.pos);
             if (vLocation != null) {
                 ((TileInterfaceValve) vLocation.getTE(event.world)).breakTank();
             }
@@ -87,8 +87,8 @@ public class EventHelper {
         if (heldItem == null || !(heldItem.getItem() instanceof ItemHydraulicDrill))
             return;
 
-        ArrayList<ItemStack> drops = event.drops;
-        ArrayList<ItemStack> newDrops = new ArrayList<ItemStack>();
+        List<ItemStack> drops = event.drops;
+        List<ItemStack> newDrops = new ArrayList<ItemStack>();
         Iterator<ItemStack> iterator = drops.iterator();
         while (iterator.hasNext()) {
             ItemStack stack = iterator.next();
@@ -97,7 +97,7 @@ public class EventHelper {
                 String oreName = OreDictionary.getOreName(oreId);
                 if (oreName.startsWith("ore")) {
                     String oreType = oreName.substring(3);
-                    ArrayList<ItemStack> oreDusts = OreDictionary.getOres("dust" + oreType);
+                    List<ItemStack> oreDusts = OreDictionary.getOres("dust" + oreType);
                     if (oreDusts.size() != 0) {
                         iterator.remove();
                         ItemStack toAdd = oreDusts.get(0).copy();

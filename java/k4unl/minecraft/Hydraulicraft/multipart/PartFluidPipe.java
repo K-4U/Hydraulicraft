@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.multipart;
+/*package k4unl.minecraft.Hydraulicraft.multipart;
 
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
@@ -21,7 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.common.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -37,7 +37,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
     private static float pixel = 1.0F / 16F;
     private static int expandBounds = -1;
 
-    private Map<ForgeDirection, TileEntity> connectedSides;
+    private Map<EnumFacing, TileEntity> connectedSides;
     private final boolean[] connectedSideFlags = new boolean[6];
     private boolean needToCheckNeighbors;
     private boolean connectedSidesHaveChanged = true;
@@ -56,7 +56,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
         boundingBoxes[6] = new Cuboid6(center - w, center - w, center - w, center + w, center + w, center + w);
 
         int i = 0;
-        for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+        for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
             double xMin1 = (dir.offsetX < 0 ? 0.0 : (dir.offsetX == 0 ? center - w : center + w));
             double xMax1 = (dir.offsetX > 0 ? 1.0 : (dir.offsetX == 0 ? center + w : center - w));
 
@@ -80,7 +80,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
     @Override
     public void load(NBTTagCompound tagCompound){
         super.load(tagCompound);
-        connectedSides = new HashMap<ForgeDirection, TileEntity>();
+        connectedSides = new HashMap<EnumFacing, TileEntity>();
         fluidAmountStored = tagCompound.getDouble("fluidAmountStored");
         fluidStored = FluidRegistry.getFluid(tagCompound.getString("fluidName"));
         //getHandler().updateNetworkOnNextTick(oldPressure);
@@ -119,7 +119,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
 
         NBTTagCompound ourCompound = tagCompound.getCompoundTag("connectedSides");
 
-        for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+        for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS) {
             connectedSideFlags[dir.ordinal()] = ourCompound.getBoolean(dir.name());
         }
         needToCheckNeighbors = true;
@@ -128,11 +128,11 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
     private void writeConnectedSidesToNBT(NBTTagCompound tagCompound){
 
         if(connectedSides == null) {
-            connectedSides = new HashMap<ForgeDirection, TileEntity>();
+            connectedSides = new HashMap<EnumFacing, TileEntity>();
         }
 
         NBTTagCompound ourCompound = new NBTTagCompound();
-        for(Map.Entry<ForgeDirection, TileEntity> entry : connectedSides.entrySet()) {
+        for(Map.Entry<EnumFacing, TileEntity> entry : connectedSides.entrySet()) {
             ourCompound.setBoolean(entry.getKey().name(), true);
         }
         tagCompound.setTag("connectedSides", ourCompound);
@@ -184,7 +184,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
         LinkedList<Cuboid6> list = new LinkedList<Cuboid6>();
         list.add(boundingBoxes[6]);
         if(connectedSides == null) return list;
-        for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+        for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
             if(connectedSides.containsKey(dir)){
                 list.add(boundingBoxes[Functions.getIntDirFromDirection(dir)]);
             }
@@ -205,7 +205,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
         }
     }
 
-    private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir, Object caller){
+    private boolean shouldConnectTo(TileEntity entity, EnumFacing dir, Object caller){
         int opposite = Functions.getIntDirFromDirection(dir.getOpposite());
         if(entity instanceof TileMultipart){
             List<TMultiPart> t = ((TileMultipart)entity).jPartList();
@@ -225,7 +225,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
         }
     }
 
-    public boolean isConnectedTo(ForgeDirection side){
+    public boolean isConnectedTo(EnumFacing side){
         int d = side.ordinal();
 
         if(world() != null && tile() != null){
@@ -241,15 +241,15 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
     }
 
     public void checkConnectedSides(Object caller){
-        HashMap<ForgeDirection, TileEntity> oldSides;
+        HashMap<EnumFacing, TileEntity> oldSides;
         if(connectedSides != null) {
-            oldSides = new HashMap<ForgeDirection, TileEntity>(connectedSides);
+            oldSides = new HashMap<EnumFacing, TileEntity>(connectedSides);
         }else{
-            oldSides = new HashMap<ForgeDirection, TileEntity>();
+            oldSides = new HashMap<EnumFacing, TileEntity>();
         }
-        connectedSides = new HashMap<ForgeDirection, TileEntity>();
+        connectedSides = new HashMap<EnumFacing, TileEntity>();
 
-        for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+        for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
             int d = Functions.getIntDirFromDirection(dir);
 
             TileEntity te = world().getTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
@@ -270,7 +270,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
         }
     }
 
-    public boolean canConnectTo(ForgeDirection side) {
+    public boolean canConnectTo(EnumFacing side) {
         int d = side.ordinal();
         return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[d]));
     }
@@ -325,10 +325,10 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
         if(needToCheckNeighbors) {
             needToCheckNeighbors = false;
             checkConnectedSides();
-            //connectedSides = new HashMap<ForgeDirection, TileEntity>();
+            //connectedSides = new HashMap<EnumFacing, TileEntity>();
             for(int i = 0; i < 6; i++) {
                 if(connectedSideFlags[i]) {
-                    ForgeDirection dir = ForgeDirection.getOrientation(i);
+                    EnumFacing dir = EnumFacing.getOrientation(i);
                     connectedSides.put(dir, world().getTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ));
                 }
             }
@@ -339,7 +339,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
 
     }
 
-    public Map<ForgeDirection, TileEntity> getConnectedSides() {
+    public Map<EnumFacing, TileEntity> getConnectedSides() {
         if(connectedSides == null){
             checkConnectedSides();
         }
@@ -397,7 +397,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
         if(connectedSides == null) return;
         double avgFluid = getFluidAmountStored();
         int neighbourCount = 1;
-        for (ForgeDirection dir : ForgeDirection.values()) {
+        for (EnumFacing dir : EnumFacing.values()) {
             TileEntity neighbor = connectedSides.get(dir);
             if (neighbor != null && neighbor instanceof TileMultipart) {
                 if (Multipart.hasPartFluidPipe((TileMultipart) neighbor)) {
@@ -409,7 +409,7 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
         avgFluid = avgFluid / neighbourCount;
 
         addFluid(avgFluid - getFluidAmountStored());
-        for (ForgeDirection dir : ForgeDirection.values()) {
+        for (EnumFacing dir : EnumFacing.values()) {
             TileEntity neighbor = connectedSides.get(dir);
 
             if (neighbor != null && neighbor instanceof TileMultipart) {
@@ -460,3 +460,4 @@ public class PartFluidPipe extends TMultiPart implements TSlottedPart, JNormalOc
         this.fluidStored = fluidStored;
     }
 }
+*/

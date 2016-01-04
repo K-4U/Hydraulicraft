@@ -7,6 +7,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
@@ -267,11 +268,8 @@ public class InventoryFluidCrafting implements IFluidInventory {
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int slot) {
-        if (slot < getInternalSizeInventory())
-            return crafting.getStackInSlotOnClosing(slot);
-
-        return inventoryResult.getStackInSlotOnClosing(slot - getInternalSizeInventory());
+    public ItemStack removeStackFromSlot(int index) {
+        return decrStackSize(index, getStackInSlot(index).stackSize);
     }
 
     @Override
@@ -282,16 +280,6 @@ public class InventoryFluidCrafting implements IFluidInventory {
             inventoryResult.setInventorySlotContents(slot - getInternalSizeInventory(), itemStack);
 
         this.markDirty();
-    }
-
-    @Override
-    public String getInventoryName() {
-        return null;
-    }
-
-    @Override
-    public boolean hasCustomInventoryName() {
-        return false;
     }
 
     @Override
@@ -310,12 +298,12 @@ public class InventoryFluidCrafting implements IFluidInventory {
     }
 
     @Override
-    public void openInventory() {
+    public void openInventory(EntityPlayer player) {
 
     }
 
     @Override
-    public void closeInventory() {
+    public void closeInventory(EntityPlayer player) {
 
     }
 
@@ -325,6 +313,26 @@ public class InventoryFluidCrafting implements IFluidInventory {
             return true;
 
         return false;
+    }
+
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
     }
 
     public void save(NBTTagCompound compound) {
@@ -426,12 +434,13 @@ public class InventoryFluidCrafting implements IFluidInventory {
                         continue;
                     }
 
-                    if (stack.getItem().doesContainerItemLeaveCraftingGrid(stack)) {
+                    //TODO: UPDATE ME
+                    /*if (stack.getItem().doesContainerItemLeaveCraftingGrid(stack)) {
                         if (crafting.getStackInSlot(i) == null)
                             crafting.setInventorySlotContents(i, containerStack);
                         else
                             feedback.spawnOverflowItemStack(containerStack);
-                    }
+                    }*/
                 }
             }
         }
@@ -464,5 +473,20 @@ public class InventoryFluidCrafting implements IFluidInventory {
 
     public float getProgress() {
         return progress;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
     }
 }

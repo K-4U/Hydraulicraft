@@ -3,18 +3,16 @@ package k4unl.minecraft.Hydraulicraft.events;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Key;
-import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
+import k4unl.minecraft.Hydraulicraft.network.NetworkHandler;
 import k4unl.minecraft.Hydraulicraft.network.packets.PacketKeyPressed;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.settings.KeyBinding;
-
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 
 public class KeyHandler {
 	/** Key index for easy handling */
@@ -36,11 +34,11 @@ public class KeyHandler {
 	}
 	
 	@SubscribeEvent
-	public void onKeyInput(KeyInputEvent event) {
+	public void onKeyInput(InputEvent.KeyInputEvent event) {
 		// FMLClientHandler.instance().getClient().inGameHasFocus
 		if (!FMLClientHandler.instance().isGUIOpen(GuiChat.class)) {
 			if (keys[Constants.KEYS_MINING_HELMET].isPressed()) {
-				PacketPipeline.instance.sendToServer(new PacketKeyPressed(Constants.KEYS_MINING_HELMET));
+				NetworkHandler.sendToServer(new PacketKeyPressed(Constants.KEYS_MINING_HELMET));
 			}
 		}
 	}

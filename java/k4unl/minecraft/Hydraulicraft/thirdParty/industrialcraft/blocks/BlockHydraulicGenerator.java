@@ -8,107 +8,85 @@ import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockHydraulicGenerator extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock {
 
-	public BlockHydraulicGenerator() {
-		super(Names.blockHydraulicGenerator, true);
-		hasFrontIcon = true;
-		hasTextures = false;
-	}
-
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicGenerator();
-	}
-
-	@Override
-	public GuiIDs getGUIID() {
-
-		return GuiIDs.GENERATOR;
-	}
-
-	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
-		return true;
+    public BlockHydraulicGenerator() {
+        super(Names.blockHydraulicGenerator, true);
+        hasFrontIcon = true;
+        hasTextures = false;
     }
-	
-	@Override
-    public int getRenderType(){
+
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
+        return new TileHydraulicGenerator();
+    }
+
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.GENERATOR;
+    }
+
+    public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir) {
+        return true;
+    }
+
+    @Override
+    public int getRenderType() {
         return -1;
     }
 
     @Override
-    public boolean isOpaqueCube(){
+    public boolean isOpaqueCube() {
         return false;
     }
 
     @Override
-    public boolean renderAsNormalBlock(){
-        return false;
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+        TileEntity ent = worldIn.getTileEntity(pos);
+        if (ent instanceof TileHydraulicGenerator) {
+            if (stack != null) {
+                ((TileHydraulicGenerator) ent).setFacing(placer.getHorizontalFacing());
+            }
+        }
     }
-	
-	@SuppressWarnings("cast")
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
-		super.onBlockPlacedBy(world, x, y, z, player, iStack);
-		TileEntity ent = world.getTileEntity(x, y, z);
-		if(ent instanceof TileHydraulicGenerator){
-			if(iStack != null){
-				
-				int sideToPlace = MathHelper.floor_double((double)(player.rotationYaw / 90F) + 0.5D) & 3;
-				int metaDataToSet = 0;
-				switch(sideToPlace){
-				case 0:
-					metaDataToSet = 2;
-					break;
-				case 1:
-					metaDataToSet = 5;
-					break;
-				case 2:
-					metaDataToSet = 3;
-					break;
-				case 3:
-					metaDataToSet = 4;
-					break;
-				}
-				((TileHydraulicGenerator)ent).setFacing(ForgeDirection.getOrientation(metaDataToSet));
-			}
-		}
-	}
-	
-	@Override
-	public void onNeighborBlockChange(World world, int x, int y,
-				int z, Block blockId) {
-		super.onNeighborBlockChange(world, x, y, z, blockId);
-		
-		TileEntity tile = world.getTileEntity(x, y, z);
-		if(tile instanceof TileHydraulicGenerator){
-			((TileHydraulicGenerator)tile).checkRedstonePower();			
-		}
-	}
-	@Override
-    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side){
-		if(!world.isRemote) {
-			TileEntity te = world.getTileEntity(x, y, z);
-			if (te instanceof TileHydraulicGenerator) {
-				if (side.equals(ForgeDirection.UP) || side.equals(ForgeDirection.DOWN)) {
-					TileHydraulicGenerator e = (TileHydraulicGenerator) te;
-					ForgeDirection facing = e.getFacing();
-					e.setFacing(facing.getRotation(side));
-					e.getHandler().updateBlock();
-					world.notifyBlocksOfNeighborChange(x, y, z, this);
-				}
-			}
-		}
-		
-		return true;
+
+    @Override
+    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+
+        TileEntity tile = worldIn.getTileEntity(pos);
+        if (tile instanceof TileHydraulicGenerator) {
+            ((TileHydraulicGenerator) tile).checkRedstonePower();
+        }
+    }
+
+    @Override
+    public boolean rotateBlock(World world, BlockPos pos, EnumFacing side) {
+        if (!world.isRemote) {
+            TileEntity te = world.getTileEntity(pos);
+            if (te instanceof TileHydraulicGenerator) {
+                if (side.equals(EnumFacing.UP) || side.equals(EnumFacing.DOWN)) {
+                    TileHydraulicGenerator e = (TileHydraulicGenerator) te;
+                    EnumFacing facing = e.getFacing();
+                    e.setFacing(facing.rotateAround(side.getAxis()));
+                    e.getHandler().updateBlock();
+                    world.notifyNeighborsOfStateChange(pos, this);
+                }
+            }
+        }
+
+        return true;
     }
 
     @Override

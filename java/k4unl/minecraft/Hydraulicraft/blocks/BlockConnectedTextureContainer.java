@@ -1,20 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
-import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IConnectTexture;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 
 public abstract class BlockConnectedTextureContainer extends HydraulicBlockContainerBase {
 
-    @SideOnly(Side.CLIENT)
-    public IIcon[] icons;
+    //@SideOnly(Side.CLIENT)
+    //public IIcon[] icons;
     public static int[] iconRefByID = { 0, 0, 6, 6, 0, 0, 6, 6, 3, 3, 19, 15, 3, 3, 19, 15, 1, 1, 18, 18, 1, 1, 13, 13, 2, 2, 23, 31, 2, 2,
             27, 14, 0, 0, 6, 6, 0, 0, 6, 6, 3, 3, 19, 15, 3, 3, 19, 15, 1, 1, 18, 18, 1, 1, 13, 13, 2, 2, 23, 31, 2, 2, 27, 14, 4, 4, 5, 5,
             4, 4, 5, 5, 17, 17, 22, 26, 17, 17, 22, 26, 16, 16, 20, 20, 16, 16, 28, 28, 21, 21, 46, 42, 21, 21, 43, 38, 4, 4, 5, 5, 4, 4,
@@ -27,14 +19,14 @@ public abstract class BlockConnectedTextureContainer extends HydraulicBlockConta
     protected BlockConnectedTextureContainer(Name machineName) {
         super(machineName, true);
     }
-
+/*
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
 
         return icons[0];
-    }
-
+    }*/
+/*
     @SideOnly(Side.CLIENT)
     public boolean connectTo(IConnectTexture it, IBlockAccess world, int x, int y, int z){
         if(world.getBlock(x, y, z) == this){
@@ -113,6 +105,6 @@ public abstract class BlockConnectedTextureContainer extends HydraulicBlockConta
 
         for (int i = 0; i < 47; i++)
             icons[i] = iconRegister.registerIcon(ModInfo.ID + ":" + mName.unlocalized + "/" + mName.unlocalized + "_" + (i + 1));
-    }
+    }*/
 
 }

@@ -15,7 +15,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 
 public class TileHydraulicCrusher extends TileHydraulicBase implements IInventory, IHydraulicConsumer,
         ISidedInventory, IFluidCraftingMachine {
@@ -32,7 +33,7 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
     }
 
     @Override
-    public float workFunction(boolean simulate, ForgeDirection from) {
+    public float workFunction(boolean simulate, EnumFacing from) {
 
         if (recipe != null) {
             float usedPressure = recipe.getPressure();
@@ -41,7 +42,7 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
                 return 0;
 
             float maxPressure = Functions.getMaxPressurePerTier(pNetwork.getLowestTier(), true);
-            float ratio = getPressure(ForgeDirection.UP) / maxPressure;
+            float ratio = getPressure(EnumFacing.UP) / maxPressure;
             //int ticks = (int) ((float) pNetwork.getLowestTier().ordinal() * 16 * ratio);
             // TODO CRUSHER used pressure based on the amount of it inside (same for speed)
             int ticks = 1;
@@ -72,8 +73,8 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int slot) {
-        return inventory.getStackInSlotOnClosing(slot);
+    public ItemStack removeStackFromSlot(int index) {
+        return inventory.removeStackFromSlot(index);
     }
 
     @Override
@@ -83,7 +84,17 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq(xCoord, yCoord, zCoord) < 64;
+        return worldObj.getTileEntity(getPos()) == this && player.getDistanceSq(getPos()) < 64;
+    }
+
+    @Override
+    public void openInventory(EntityPlayer player) {
+
+    }
+
+    @Override
+    public void closeInventory(EntityPlayer player) {
+
     }
 
     @Override
@@ -95,6 +106,26 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
         return inventory.isItemValidForSlot(slot, itemStack);
+    }
+
+    @Override
+    public int getField(int id) {
+        return inventory.getField(id);
+    }
+
+    @Override
+    public void setField(int id, int value) {
+        inventory.setField(id, value);
+    }
+
+    @Override
+    public int getFieldCount() {
+        return inventory.getFieldCount();
+    }
+
+    @Override
+    public void clear() {
+        inventory.clear();
     }
 
 
@@ -123,16 +154,16 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
     }
 
     @Override
-    public boolean canConnectTo(ForgeDirection side) {
+    public boolean canConnectTo(EnumFacing side) {
         return true;
     }
 
     @Override
-    public boolean canWork(ForgeDirection dir) {
+    public boolean canWork(EnumFacing dir) {
         if (getNetwork(dir) == null) {
             return false;
         }
-        return dir.equals(ForgeDirection.UP);
+        return dir.equals(EnumFacing.UP);
     }
 
     @Override
@@ -141,21 +172,18 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
     }
 
     @Override
-    public String getInventoryName() {
+    public String getName() {
         return Localization.getLocalizedName(Names.blockHydraulicCrusher.unlocalized);
     }
 
     @Override
-    public boolean hasCustomInventoryName() {
+    public boolean hasCustomName() {
         return true;
     }
 
     @Override
-    public void openInventory() {
-    }
-
-    @Override
-    public void closeInventory() {
+    public IChatComponent getDisplayName() {
+        return null;
     }
 
     @Override
@@ -184,21 +212,21 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
 
     @Override
     public void spawnOverflowItemStack(ItemStack stack) {
-        worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, stack));
+        worldObj.spawnEntityInWorld(new EntityItem(worldObj, getPos().getX(), getPos().getY(), getPos().getZ(), stack));
     }
 
     @Override
-    public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+    public int[] getSlotsForFace(EnumFacing side) {
         return new int[]{0, 1};
     }
 
     @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
-        return inventory.canInsertItem(slot, itemStack);
+    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+        return inventory.canInsertItem(index, itemStackIn);
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
-        return inventory.canExtractItem(slot, itemStack);
+    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+        return inventory.canExtractItem(index, stack);
     }
 }

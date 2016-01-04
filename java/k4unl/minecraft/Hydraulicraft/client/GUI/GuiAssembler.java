@@ -6,8 +6,8 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets.NEIWidgetTank;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileAssembler;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTankInfo;
 import org.lwjgl.opengl.GL11;
 
@@ -42,7 +42,7 @@ public class GuiAssembler extends HydraulicGUIBase {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.blockAssembler.getLocalizedName(), true);
 
-        FluidTankInfo[] tankInfo = assembler.getTankInfo(ForgeDirection.UP);
+        FluidTankInfo[] tankInfo = assembler.getTankInfo(EnumFacing.UP);
         tankFluid.render(tankInfo[0]);
 
         drawFluidAndPressure();

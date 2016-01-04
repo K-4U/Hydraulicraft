@@ -39,7 +39,7 @@ public class GuiHydraulicGenerator extends HydraulicGUIBase {
 		drawSmallerString(61, startY + (step * 0), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_GENERATING_ENTRY) + ":", false);
 		drawSmallerString(65, startY + (step * 1), EnumChatFormatting.GREEN + "" + generator.getEnergyToAdd() + "EU/t", false);
 		drawSmallerString(61, startY + (step * 2), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_OUTPUT_ENTRY) + ":", false);
-		drawSmallerString(65, startY + (step * 3), EnumChatFormatting.GREEN + "" + generator.getOfferedEnergy() + "EU/t", false);
+		//drawSmallerString(65, startY + (step * 3), EnumChatFormatting.GREEN + "" + generator.getOfferedEnergy() + "EU/t", false);
 		drawSmallerString(61, startY + (step * 4), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_USING_ENTRY) + ":", false);
 		drawSmallerString(65, startY + (step * 5), EnumChatFormatting.GREEN + "" + generator.getPressureRequired() + "mBar/t", false);
 		

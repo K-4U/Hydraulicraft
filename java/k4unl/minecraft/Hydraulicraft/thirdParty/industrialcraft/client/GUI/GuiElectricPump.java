@@ -5,7 +5,6 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.client.GUI.HydraulicGUIBase;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerEmpty;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
@@ -31,7 +30,7 @@ public class GuiElectricPump extends HydraulicGUIBase {
 		
 		
 		drawHorizontalAlignedString(7, 3, xSize - 14, Localization.getLocalizedName(Names.blockElectricPump[pump.getTier()].unlocalized), true);
-		drawVerticalProgressBar(124, 16, 54, 16, pump.getEUStored(), pump.getMaxEUStorage(), Constants.COLOR_EU, "Energy Units", "EU");
+		//drawVerticalProgressBar(124, 16, 54, 16, pump.getEUStored(), pump.getMaxEUStorage(), Constants.COLOR_EU, "Energy Units", "EU");
 				
 		
 		int startY = 17;

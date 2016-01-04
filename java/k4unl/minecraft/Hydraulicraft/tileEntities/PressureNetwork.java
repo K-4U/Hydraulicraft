@@ -1,17 +1,15 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities;
 
-import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,7 @@ public class PressureNetwork {
     private int          fluidCapacity  = 0;
     private boolean      isOilStored    = false;
     private PressureTier lowestTier     = PressureTier.INVALID;
-    public PressureNetwork(IHydraulicMachine machine, float beginPressure, ForgeDirection from) {
+    public PressureNetwork(IHydraulicMachine machine, float beginPressure, EnumFacing from) {
 
         randomNumber = new Random().nextInt();
         machines = new ArrayList<networkEntry>();
@@ -54,21 +52,21 @@ public class PressureNetwork {
         this.world = world;
     }
 
-    public static PressureNetwork getNetworkInDir(IBlockAccess iba, int x, int y, int z, ForgeDirection dir) {
-        TileEntity t = iba.getTileEntity(x, y, z);
-        if (t instanceof IHydraulicMachine || t instanceof TileMultipart) {
+    public static PressureNetwork getNetworkInDir(IBlockAccess iba, BlockPos pos, EnumFacing dir) {
+        TileEntity t = iba.getTileEntity(pos);
+        if (t instanceof IHydraulicMachine/* || t instanceof TileMultipart*/) {
             IHydraulicMachine mEnt;
             boolean isMultipart = false;
-            if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
+            /*if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
                 mEnt = Multipart.getTransporter((TileMultipart) t);
                 isMultipart = true;
-            } else {
+            } else {*/
                 mEnt = (IHydraulicMachine) t;
-            }
+//            }
 
             //List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
             PressureNetwork foundNetwork = null;
-            if (isMultipart) {
+            /*if (isMultipart) {
                 if (mEnt instanceof IHydraulicTransporter) {
                     if (((IHydraulicTransporter) mEnt).isConnectedTo(dir)) {
                         int xn = x + dir.offsetX;
@@ -98,17 +96,15 @@ public class PressureNetwork {
                         }
                     }
                 }
-            } else {
-                int xn = x + dir.offsetX;
-                int yn = y + dir.offsetY;
-                int zn = z + dir.offsetZ;
-                TileEntity tn = iba.getTileEntity(xn, yn, zn);
-                if (tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) tn)) {
+            } else {*/
+                BlockPos offset = pos.offset(dir);
+                TileEntity tn = iba.getTileEntity(offset);
+                /*if (tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) tn)) {
                     if (Multipart.getTransporter((TileMultipart) tn).isConnectedTo(dir.getOpposite())) {
                         foundNetwork = ((TileHydraulicBase) (Multipart.getTransporter((TileMultipart) tn)).getHandler()).getNetwork(dir.getOpposite());
                     }
-                }
-            }
+                }*/
+            //}
             return foundNetwork;
         } else {
             return null;
@@ -135,7 +131,7 @@ public class PressureNetwork {
         return -1;
     }
 
-    public void addMachine(IHydraulicMachine machine, float pressureToAdd, ForgeDirection from) {
+    public void addMachine(IHydraulicMachine machine, float pressureToAdd, EnumFacing from) {
         if (contains(machine) == -1) {
             //float oPressure = pressure * machines.size();
             //oPressure += pressureToAdd;
@@ -167,16 +163,16 @@ public class PressureNetwork {
         //There should be a better way to do this..
         for (networkEntry entry : machines) {
             Location loc = entry.getLocation();
-            TileEntity ent = world.getTileEntity(loc.getX(), loc.getY(), loc.getZ());
+            TileEntity ent = world.getTileEntity(loc.toBlockPos());
             if (ent instanceof IHydraulicMachine) {
                 IHydraulicMachine machine = (IHydraulicMachine) ent;
                 ((TileHydraulicBase) machineToRemove.getHandler()).setNetwork(entry.getFrom(), null);
                 machine.getHandler().updateNetworkOnNextTick(getPressure());
-            } else if (ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) ent)) {
+            }/* else if (ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) ent)) {
                 IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
                 ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), null);
                 machine.getHandler().updateNetworkOnNextTick(getPressure());
-            }
+            }*/
         }
 
     }
@@ -208,15 +204,15 @@ public class PressureNetwork {
 
         for (networkEntry entry : otherList) {
             Location loc = entry.getLocation();
-            TileEntity ent = world.getTileEntity(loc.getX(), loc.getY(), loc.getZ());
+            TileEntity ent = world.getTileEntity(loc.toBlockPos());
             if (ent instanceof IHydraulicMachine) {
                 IHydraulicMachine machine = (IHydraulicMachine) ent;
                 ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), this);
                 this.addMachine(machine, newPressure, entry.getFrom());
-            } else if (ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) ent)) {
+            /*} else if (ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) ent)) {
                 IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
                 ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), this);
-                this.addMachine(machine, newPressure, entry.getFrom());
+                this.addMachine(machine, newPressure, entry.getFrom());*/
             }
         }
 
@@ -275,13 +271,13 @@ public class PressureNetwork {
 
         for (networkEntry entry : machines) {
             Location loc = entry.getLocation();
-            TileEntity ent = world.getTileEntity(loc.getX(), loc.getY(), loc.getZ());
+            TileEntity ent = world.getTileEntity(loc.toBlockPos());
             IHydraulicMachine machine = null;
             if (ent instanceof IHydraulicMachine) {
                 machine = (IHydraulicMachine) ent;
-            } else if (ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) ent)) {
+            }/* else if (ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) ent)) {
                 machine = Multipart.getTransporter((TileMultipart) ent);
-            }
+            }*/
 
             if (machine != null) {
                 if (((getIsOilStored() && machine.getHandler().isOilStored()) || canOilBeStored) || (!getIsOilStored() && !machine.getHandler().isOilStored()) || machine.getHandler().getStored() == 0) { //Otherwise we would be turning water into oil
@@ -339,9 +335,9 @@ public class PressureNetwork {
 
     public static class networkEntry {
         private Location       blockLocation;
-        private ForgeDirection from;
+        private EnumFacing from;
 
-        public networkEntry(Location nLocation, ForgeDirection nFrom) {
+        public networkEntry(Location nLocation, EnumFacing nFrom) {
 
             blockLocation = nLocation;
             from = nFrom;
@@ -350,7 +346,7 @@ public class PressureNetwork {
         public networkEntry(NBTTagCompound compoundTag) {
 
             blockLocation = new Location(compoundTag.getIntArray("blockLocation"));
-            from = ForgeDirection.getOrientation(compoundTag.getInteger("from"));
+            from = EnumFacing.byName(compoundTag.getString("from"));
         }
 
         public NBTTagCompound saveEntry(){
@@ -367,7 +363,7 @@ public class PressureNetwork {
             return blockLocation;
         }
 
-        public ForgeDirection getFrom() {
+        public EnumFacing getFrom() {
 
             return from;
         }

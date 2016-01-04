@@ -2,11 +2,10 @@ package k4unl.minecraft.Hydraulicraft.blocks.worldgen;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -17,11 +16,11 @@ import java.util.Random;
  */
 public class BlockRubberWood extends HydraulicBlockBase {
 
-    private IIcon rubberPatch;
+    //private IIcon rubberPatch;
 
     public BlockRubberWood() {
 
-        super(Names.blockRubberWood, Material.wood);
+        super(Names.blockRubberWood, Material.wood, true);
 
         this.setHardness(2.0F);
         this.setStepSound(soundTypeWood);
@@ -29,6 +28,7 @@ public class BlockRubberWood extends HydraulicBlockBase {
         hasBottomIcon = true;
     }
 
+    /*
     @Override
     public void registerBlockIcons(IIconRegister iconRegistry) {
 
@@ -39,12 +39,7 @@ public class BlockRubberWood extends HydraulicBlockBase {
     public IIcon getRubberPatch() {
 
         return rubberPatch;
-    }
-
-    public static int func_150165_c(int p_150165_0_)
-    {
-        return p_150165_0_ & 3;
-    }
+    }*/
 
     /**
      * Returns the quantity of items to drop on block destruction.
@@ -54,28 +49,27 @@ public class BlockRubberWood extends HydraulicBlockBase {
         return 1;
     }
 
-    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-    {
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Item.getItemFromBlock(this);
     }
 
-    public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
-    {
-        byte b0 = 4;
-        int i1 = b0 + 1;
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        int i = 1;
+        int j = i + 1;
+        int k = pos.getX();
+        int l = pos.getY();
+        int i1 = pos.getZ();
 
-        if (p_149749_1_.checkChunksExist(p_149749_2_ - i1, p_149749_3_ - i1, p_149749_4_ - i1, p_149749_2_ + i1, p_149749_3_ + i1, p_149749_4_ + i1))
-        {
-            for (int j1 = -b0; j1 <= b0; ++j1)
-            {
-                for (int k1 = -b0; k1 <= b0; ++k1)
-                {
-                    for (int l1 = -b0; l1 <= b0; ++l1)
-                    {
-                        Block block = p_149749_1_.getBlock(p_149749_2_ + j1, p_149749_3_ + k1, p_149749_4_ + l1);
-                        if (block.isLeaves(p_149749_1_, p_149749_2_ + j1, p_149749_3_ + k1, p_149749_4_ + l1))
-                        {
-                            block.beginLeavesDecay(p_149749_1_, p_149749_2_ + j1, p_149749_3_ + k1, p_149749_4_ + l1);
+        if (worldIn.isAreaLoaded(new BlockPos(k - j, l - j, i1 - j), new BlockPos(k + j, l + j, i1 + j))) {
+            for (int j1 = -i; j1 <= i; ++j1) {
+                for (int k1 = -i; k1 <= i; ++k1) {
+                    for (int l1 = -i; l1 <= i; ++l1) {
+                        BlockPos blockpos = pos.add(j1, k1, l1);
+                        IBlockState iblockstate = worldIn.getBlockState(blockpos);
+
+                        if (iblockstate.getBlock().isLeaves(worldIn, blockpos)) {
+                            iblockstate.getBlock().beginLeavesDecay(worldIn, blockpos);
                         }
                     }
                 }
@@ -83,15 +77,14 @@ public class BlockRubberWood extends HydraulicBlockBase {
         }
     }
 
+
     @Override
-    public boolean canSustainLeaves(IBlockAccess world, int x, int y, int z)
-    {
+    public boolean canSustainLeaves(IBlockAccess world, BlockPos pos) {
         return true;
     }
 
     @Override
-    public boolean isWood(IBlockAccess world, int x, int y, int z)
-    {
+    public boolean isWood(IBlockAccess world, BlockPos pos) {
         return true;
     }
 }

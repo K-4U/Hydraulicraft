@@ -1,10 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
 import com.google.gson.Gson;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

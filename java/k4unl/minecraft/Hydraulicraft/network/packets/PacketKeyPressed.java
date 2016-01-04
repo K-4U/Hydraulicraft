@@ -1,14 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.network.packets;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
 import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.network.AbstractPacket;
+import k4unl.minecraft.k4lib.network.messages.AbstractPacket;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class PacketKeyPressed extends AbstractPacket{
+public class PacketKeyPressed extends AbstractPacket<PacketKeyPressed> {
 	private int keyIndex;
 
     public PacketKeyPressed(){}
@@ -18,21 +17,21 @@ public class PacketKeyPressed extends AbstractPacket{
     }
 
     @Override
-    public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer){
+    public void toBytes(ByteBuf buffer){
         buffer.writeInt(keyIndex);
     }
 
     @Override
-    public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer){
+    public void fromBytes(ByteBuf buffer){
         keyIndex = buffer.readInt();
     }
 
     @Override
-    public void handleClientSide(EntityPlayer player){}
+    public void handleClientSide(PacketKeyPressed message, EntityPlayer player){}
 
     @Override
-    public void handleServerSide(EntityPlayer player){
-		switch(keyIndex){
+    public void handleServerSide(PacketKeyPressed message, EntityPlayer player){
+		switch(message.keyIndex){
 		case Constants.KEYS_MINING_HELMET:
 			if(player.getCurrentArmor(3) != null){
 				if(player.getCurrentArmor(3).getItem() instanceof ItemMiningHelmet){
@@ -43,5 +42,4 @@ public class PacketKeyPressed extends AbstractPacket{
 			break;
 		}
     }
-
 }

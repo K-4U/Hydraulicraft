@@ -72,11 +72,11 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
 
     private FluidStack fetchFluidOrCreate(ItemStack container) {
         if (container.getTagCompound() == null || container.getTagCompound().getTag("internalStorage") == null) {
-            container.stackTagCompound = new NBTTagCompound();
-            container.stackTagCompound.setTag("internalStorage", new NBTTagCompound());
+            container.setTagCompound(new NBTTagCompound());
+            container.getTagCompound().setTag("internalStorage", new NBTTagCompound());
         }
 
-        FluidStack existing = FluidStack.loadFluidStackFromNBT((NBTTagCompound) container.stackTagCompound.getTag("internalStorage"));
+        FluidStack existing = FluidStack.loadFluidStackFromNBT((NBTTagCompound) container.getTagCompound().getTag("internalStorage"));
         if (existing == null)
             existing = new FluidStack(Fluids.fluidFluoroCarbonFluid, 0);
 
@@ -89,7 +89,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
         if (container.getTagCompound() == null)
             container.setTagCompound(new NBTTagCompound());
 
-        container.stackTagCompound.setTag("internalStorage", newFluid.writeToNBT(new NBTTagCompound()));
+        container.getTagCompound().setTag("internalStorage", newFluid.writeToNBT(new NBTTagCompound()));
     }
 
     @Override

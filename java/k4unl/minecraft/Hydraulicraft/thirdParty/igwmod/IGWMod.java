@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.igwmod;
 
-import cpw.mods.fml.common.event.FMLInterModComms;
 import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 /**
  * Created by K-4U on 16-7-2015.

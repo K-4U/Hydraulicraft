@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft;
 
-import codechicken.multipart.TMultiPart;
 import k4unl.minecraft.Hydraulicraft.api.HCApi.IHCApi;
 import k4unl.minecraft.Hydraulicraft.api.IBaseClass;
 import k4unl.minecraft.Hydraulicraft.api.ITrolleyRegistrar;
@@ -34,12 +33,12 @@ public class HydraulicraftAPI implements IHCApi {
         return newBase;
     }
 
-    @Override
+    /*@Override
     public IBaseClass getBaseClass(TMultiPart target, int maxStorage) {
 
         TileHydraulicBase newBase = new TileHydraulicBase(maxStorage);
         newBase.init(target);
 
         return newBase;
-    }
+    }*/
 }

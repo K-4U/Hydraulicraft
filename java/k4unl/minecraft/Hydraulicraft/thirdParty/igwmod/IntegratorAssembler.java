@@ -1,20 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.igwmod;
 
-import codechicken.nei.NEIClientUtils;
-import igwmod.TextureSupplier;
-import igwmod.WikiUtils;
-import igwmod.api.IRecipeIntegrator;
-import igwmod.gui.*;
-import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
-import net.minecraft.item.ItemStack;
-
-import java.util.List;
-
-public class IntegratorAssembler implements IRecipeIntegrator {
-    @Override
+public class IntegratorAssembler {//implements IRecipeIntegrator {
+    /*@Override
     public String getCommandKey() {
         return "assembler";
     }
@@ -96,4 +83,5 @@ public class IntegratorAssembler implements IRecipeIntegrator {
             throw new ClassCastException(obj + " not an ItemStack, ItemStack[] or List<ItemStack?");
         }
     }
+    */
 }

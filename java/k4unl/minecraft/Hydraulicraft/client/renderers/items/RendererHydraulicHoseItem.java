@@ -1,13 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.lwjgl.opengl.GL11;
-
-public class RendererHydraulicHoseItem implements IItemRenderer {
-
+public class RendererHydraulicHoseItem {//implements IItemRenderer {
+/*
 	private static RendererPartHose f = new RendererPartHose();
 	
 	@Override
@@ -54,10 +48,10 @@ public class RendererHydraulicHoseItem implements IItemRenderer {
 		
 		GL11.glScalef(scale, scale, scale);
 		boolean[] connectedSides = new boolean[7];
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+		for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
 			connectedSides[dir.ordinal()] = true;
 		}
 		f.doRender(x, y, z, 0, metadata, connectedSides);
 	}
-
+*/
 }

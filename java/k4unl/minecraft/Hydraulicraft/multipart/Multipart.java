@@ -1,33 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
-import codechicken.lib.data.MCDataOutput;
-import codechicken.lib.vec.BlockCoord;
-import codechicken.multipart.MultiPartRegistry;
-import codechicken.multipart.MultiPartRegistry.IPartConverter;
-import codechicken.multipart.MultiPartRegistry.IPartFactory;
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.common.registry.GameRegistry;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.k4lib.lib.Location;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.IFluidHandler;
-
-import java.util.List;
-
-
-public class Multipart implements IPartFactory, IPartConverter {
-	public static ItemPartHose itemPartHose;
+public class Multipart /*implements IPartFactory, IPartConverter */{
+	/*public static ItemPartHose itemPartHose;
 	public static ItemPartValve itemPartValve;
 	public static ItemPartFluidPipe itemPartFluidPipe;
 	public static ItemPartFluidInterface itemPartFluidInterface;
-
+*/
 	public static void init() {
-		MultiPartRegistry.registerParts(new Multipart(), new String[]{
+		/*MultiPartRegistry.registerParts(new Multipart(), new String[]{
 				"tile." + Names.partHose[0].unlocalized,
 				"tile." + Names.partHose[1].unlocalized,
 				"tile." + Names.partHose[2].unlocalized,
@@ -47,9 +27,9 @@ public class Multipart implements IPartFactory, IPartConverter {
 		GameRegistry.registerItem(itemPartHose, Names.partHose[0].unlocalized);
 		GameRegistry.registerItem(itemPartValve, Names.partValve[0].unlocalized);
 		GameRegistry.registerItem(itemPartFluidPipe, Names.partFluidPipe.unlocalized);
-		GameRegistry.registerItem(itemPartFluidInterface, Names.partFluidInterface.unlocalized);
+		GameRegistry.registerItem(itemPartFluidInterface, Names.partFluidInterface.unlocalized);*/
 	}
-
+/*
 	@Override
 	public TMultiPart createPart(String id, boolean client) {
 		if (id.equals("tile." + Names.partHose[0].unlocalized) || id.equals("tile." + Names.partHose[1].unlocalized) || id.equals("tile." + Names.partHose[2].unlocalized)) {
@@ -204,5 +184,5 @@ public class Multipart implements IPartFactory, IPartConverter {
 		MCDataOutput writeStream = tMp.tile().getWriteStream(tMp);
 		tMp.writeDesc(writeStream);
 	}
-
+*/
 }

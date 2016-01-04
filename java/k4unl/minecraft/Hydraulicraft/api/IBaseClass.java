@@ -1,12 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import codechicken.multipart.TMultiPart;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 /**
  * DO NOT IMPLEMENT THIS INTERFACE!
@@ -103,7 +102,7 @@ public interface IBaseClass {
 	 * @param dir
 	 * @return
 	 */
-	float getPressure(ForgeDirection dir);
+	float getPressure(EnumFacing dir);
 
 	/**
 	 * Returns the max ammount of pressure this machine can handle
@@ -111,7 +110,7 @@ public interface IBaseClass {
 	 * @param from
 	 * @return
 	 */
-	float getMaxPressure(boolean isOilStored, ForgeDirection from);
+	float getMaxPressure(boolean isOilStored, EnumFacing from);
 
 	/**
 	 * Returns the max amount of fluid storage for this block
@@ -124,7 +123,7 @@ public interface IBaseClass {
 	 * @param f
 	 * @param facing
 	 */
-	void setPressure(float f, ForgeDirection facing);
+	void setPressure(float f, EnumFacing facing);
 
 	/**
 	 * Use this to tell the base class to tell its target.
@@ -132,14 +131,14 @@ public interface IBaseClass {
 	 * @param target
 	 */
 	void init(TileEntity target);
-	void init(TMultiPart target);
+	//void init(TMultiPart target);
 	
 	/**
 	 * Takes the pressure to add and checks if there is oil in the system.
 	 * Use this function to add pressure from a generator
 	 * @param pressureToAdd
 	 */
-	void addPressureWithRatio(float pressureToAdd, ForgeDirection from);
+	void addPressureWithRatio(float pressureToAdd, EnumFacing from);
 
 	/**
 	 * Forward this to the handler.

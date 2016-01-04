@@ -7,41 +7,41 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileHarvesterFrame extends TileEntity {
-	private boolean isRotated;
-	
-	public boolean getIsRotated(){
-		return this.isRotated;
-	}
-	
-	
-	public void setRotated(boolean b) {
-		this.isRotated = b;
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-	}
+    private boolean isRotated;
 
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		NBTTagCompound tagCompound = packet.func_148857_g();
-		this.readFromNBT(tagCompound);
-	}
-	
-	@Override
-	public Packet getDescriptionPacket(){
-		NBTTagCompound tagCompound = new NBTTagCompound();
-		this.writeToNBT(tagCompound);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 4, tagCompound);
-	}
-	
-	
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound){
-		super.readFromNBT(tagCompound);
-		isRotated = tagCompound.getBoolean("isRotated");
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound){
-		super.writeToNBT(tagCompound);
-		tagCompound.setBoolean("isRotated", isRotated);
-	}
+    public boolean getIsRotated() {
+        return this.isRotated;
+    }
+
+
+    public void setRotated(boolean b) {
+        this.isRotated = b;
+        worldObj.markBlockForUpdate(getPos());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+        NBTTagCompound tagCompound = packet.getNbtCompound();
+        this.readFromNBT(tagCompound);
+    }
+
+    @Override
+    public Packet getDescriptionPacket() {
+        NBTTagCompound tagCompound = new NBTTagCompound();
+        this.writeToNBT(tagCompound);
+        return new S35PacketUpdateTileEntity(getPos(), 4, tagCompound);
+    }
+
+
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
+        isRotated = tagCompound.getBoolean("isRotated");
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
+        tagCompound.setBoolean("isRotated", isRotated);
+    }
 }

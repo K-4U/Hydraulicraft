@@ -1,12 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
-
-import org.lwjgl.opengl.GL11;
-
-public class RendererHydraulicGeneratorItem implements IItemRenderer {
-
+public class RendererHydraulicGeneratorItem {//implements IItemRenderer {
+/*
 	private static RendererHydraulicGenerator t = new RendererHydraulicGenerator();
 	
 	@Override
@@ -53,5 +48,5 @@ public class RendererHydraulicGeneratorItem implements IItemRenderer {
 		GL11.glScalef(scale, scale, scale);
 		t.itemRender(x, y, z, 0);
 	}
-
+*/
 }

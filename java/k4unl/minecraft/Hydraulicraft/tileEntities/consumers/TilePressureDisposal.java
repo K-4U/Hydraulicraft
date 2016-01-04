@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 public class TilePressureDisposal extends TileHydraulicBase implements
 		IHydraulicConsumer {
@@ -14,12 +14,12 @@ public class TilePressureDisposal extends TileHydraulicBase implements
 	}
 
 	@Override
-	public float workFunction(boolean simulate, ForgeDirection from) {
+	public float workFunction(boolean simulate, EnumFacing from) {
 		if(getRedstonePowered()){
-			if(getPressure(ForgeDirection.UNKNOWN) > (HCConfig.INSTANCE.getInt("maxMBarGenWaterT3")*4)){
-				return (HCConfig.INSTANCE.getInt("maxMBarGenWaterT3")*4) % getPressure(ForgeDirection.UNKNOWN);
+			if(getPressure(EnumFacing.UP) > (HCConfig.INSTANCE.getInt("maxMBarGenWaterT3")*4)){
+				return (HCConfig.INSTANCE.getInt("maxMBarGenWaterT3")*4) % getPressure(EnumFacing.UP);
 			}else{
-				return getPressure(ForgeDirection.UNKNOWN);
+				return getPressure(EnumFacing.UP);
 			}
 		}
 		return 0;
@@ -29,12 +29,12 @@ public class TilePressureDisposal extends TileHydraulicBase implements
 	public void onFluidLevelChanged(int old) {}
 	
 	@Override
-	public boolean canConnectTo(ForgeDirection side) {
+	public boolean canConnectTo(EnumFacing side) {
 		return true;
 	}
 
 	@Override
-	public boolean canWork(ForgeDirection dir) {
-		return dir.equals(ForgeDirection.UP);
+	public boolean canWork(EnumFacing dir) {
+		return dir.equals(EnumFacing.UP);
 	}
 }

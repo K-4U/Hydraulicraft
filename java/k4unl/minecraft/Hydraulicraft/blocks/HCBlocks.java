@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockAssembler;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicFiller;
@@ -30,6 +29,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyNeth
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleySugarCane;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class HCBlocks {

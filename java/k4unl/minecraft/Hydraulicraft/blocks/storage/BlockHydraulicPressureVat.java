@@ -6,9 +6,11 @@ import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -23,10 +25,9 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implemen
         hasBottomIcon = true;
     }
 
-
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
-        return new TileHydraulicPressureVat(metadata);
+        return new TileHydraulicPressureVat(getTierFromState(getStateFromMeta(metadata)));
     }
 
     @Override
@@ -36,14 +37,14 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implemen
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack) {
-        super.onBlockPlacedBy(world, x, y, z, player, iStack);
-        TileEntity ent = world.getTileEntity(x, y, z);
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+        TileEntity ent = worldIn.getTileEntity(pos);
         if (ent instanceof TileHydraulicPressureVat) {
-            if (iStack != null) {
-                if (iStack.getTagCompound() != null) {
-                    ((TileHydraulicPressureVat) ent).newFromNBT(iStack.getTagCompound());
-                    world.markBlockForUpdate(x, y, z);
+            if (stack != null) {
+                if (stack.getTagCompound() != null) {
+                    ((TileHydraulicPressureVat) ent).newFromNBT(stack.getTagCompound());
+                    worldIn.markBlockForUpdate(pos);
                 }
             }
         }
@@ -58,6 +59,7 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implemen
      * Returns true if the block is emitting direct/strong redstone power on the specified side. Args: World, X, Y, Z,
      * side. Note that the side is reversed - eg it is 1 (up) when checking the bottom of the block.
      */
+    //TODO: FIX ME
     public int isProvidingStrongPower(IBlockAccess w, int x, int y, int z, int side) {
         return this.isProvidingWeakPower(w, x, y, z, side);
     }
@@ -67,8 +69,9 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implemen
      * returns true, standard redstone propagation rules will apply instead and this will not be called. Args: World, X,
      * Y, Z, side. Note that the side is reversed - eg it is 1 (up) when checking the bottom of the block.
      */
+    //TODO: FIX ME
     public int isProvidingWeakPower(IBlockAccess w, int x, int y, int z, int side) {
-        TileEntity ent = w.getTileEntity(x, y, z);
+        TileEntity ent = w.getTileEntity(new BlockPos(x, y, z));
         if (ent instanceof TileHydraulicPressureVat) {
             TileHydraulicPressureVat p = (TileHydraulicPressureVat) ent;
             return p.getRedstoneLevel();
@@ -76,20 +79,21 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implemen
         return 0;
     }
 
+
     public boolean canProvidePower() {
         return true;
     }
 
 
     @Override
-    public PressureTier getTier(int metadata) {
+    public PressureTier getTier(int damage) {
 
-        return PressureTier.fromOrdinal(metadata);
+        return PressureTier.fromOrdinal(damage);
     }
 
     @Override
-    public PressureTier getTier(IBlockAccess world, int x, int y, int z) {
+    public PressureTier getTier(IBlockAccess world, BlockPos pos) {
 
-        return PressureTier.fromOrdinal(world.getBlockMetadata(x, y, z));
+        return getTierFromState(world.getBlockState(pos));
     }
 }

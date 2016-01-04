@@ -1,7 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -22,24 +23,20 @@ public interface IHarvesterTrolley {
 	 * If you want something like sugar cane, just change the Y coordinate untill you reach the top
 	 * of the sugar cane.
 	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param pos
 	 * @return
 	 */
-	boolean canHarvest(World world, int x, int y, int z);
+	boolean canHarvest(World world, BlockPos pos);
 	
 	/**
 	 * Whether or not this trolley can plant a seed at this location.
 	 * Not all seeds require the same soil. 
 	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param pos
 	 * @param seed
 	 * @return
 	 */
-	boolean canPlant(World world, int x, int y, int z, ItemStack seed);
+	boolean canPlant(World world, BlockPos pos, ItemStack seed);
 	
 	/**
 	 * Which seeds this trolley can handle. 
@@ -52,7 +49,7 @@ public interface IHarvesterTrolley {
 	 * @param seed
 	 * @return
 	 */
-	Block getBlockForSeed(ItemStack seed);
+	IBlockState getBlockStateForSeed(ItemStack seed);
 
 	/**
 	 * Pass a reference to the trolley texture in here. Look at the original trolley textures to see how the map is layed out.
@@ -65,11 +62,9 @@ public interface IHarvesterTrolley {
 	 * Gets the plant height at this location.
 	 * Means that canHarvest will be called from this location y+length, to y.
 	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param pos
 	 * @return
 	 */
-	int getPlantHeight(World world, int x, int y, int z);
+	int getPlantHeight(World world, BlockPos pos);
 
 }

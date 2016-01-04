@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.multipart;
+/*package k4unl.minecraft.Hydraulicraft.multipart;
 
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
@@ -25,7 +25,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.common.util.EnumFacing;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Arrays;
@@ -50,7 +50,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     private boolean connectedSidesHaveChanged = true;
     private boolean hasCheckedSinceStartup;
     private boolean hasFoundNetwork = false;
-    private ForgeDirection facing = ForgeDirection.NORTH;
+    private EnumFacing facing = EnumFacing.NORTH;
     private boolean hasDirection = false;
 
     private PressureNetwork pNetwork1;
@@ -76,14 +76,14 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
         boundingBoxUD = new Cuboid6(min, 0.0F, min, max, 1.0F, max);
         boundingBoxC = new Cuboid6(min, min, min, max, max, max);
         boundingBox = boundingBoxNS;
-        boundingBoxes[ForgeDirection.NORTH.ordinal()] = new Cuboid6(min, min, 0.0F, max, max, min);
-        boundingBoxes[ForgeDirection.SOUTH.ordinal()] = new Cuboid6(min, min, max, max, max, 1.0F);
+        boundingBoxes[EnumFacing.NORTH.ordinal()] = new Cuboid6(min, min, 0.0F, max, max, min);
+        boundingBoxes[EnumFacing.SOUTH.ordinal()] = new Cuboid6(min, min, max, max, max, 1.0F);
 
-        boundingBoxes[ForgeDirection.EAST.ordinal()] = new Cuboid6(max, min, min, 1.0F, max, max);
-        boundingBoxes[ForgeDirection.WEST.ordinal()] = new Cuboid6(0.0F, min, min, min, max, max);
+        boundingBoxes[EnumFacing.EAST.ordinal()] = new Cuboid6(max, min, min, 1.0F, max, max);
+        boundingBoxes[EnumFacing.WEST.ordinal()] = new Cuboid6(0.0F, min, min, min, max, max);
 
-        boundingBoxes[ForgeDirection.UP.ordinal()] = new Cuboid6(min, max, min, max, 1.0F, max);
-        boundingBoxes[ForgeDirection.DOWN.ordinal()] = new Cuboid6(min, 0.0F, min, max, min, max);
+        boundingBoxes[EnumFacing.UP.ordinal()] = new Cuboid6(min, max, min, max, 1.0F, max);
+        boundingBoxes[EnumFacing.DOWN.ordinal()] = new Cuboid6(min, 0.0F, min, max, min, max);
     }
 
 	@Override
@@ -101,7 +101,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 		if(getHandler() != null)
 			getHandler().readFromNBTI(tagCompound);
 		tier = PressureTier.fromOrdinal(tagCompound.getInteger("tier"));
-		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+		facing = EnumFacing.getOrientation(tagCompound.getInteger("facing"));
 		hasDirection = tagCompound.getBoolean("hasDirection");
 	}
 
@@ -138,7 +138,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
         tier = PressureTier.fromOrdinal(packet.readInt());
         
         NBTTagCompound mainCompound = packet.readNBTTagCompound();
-        facing = ForgeDirection.getOrientation(mainCompound.getInteger("facing"));
+        facing = EnumFacing.getOrientation(mainCompound.getInteger("facing"));
         hasDirection = mainCompound.getBoolean("hasDirection");
         hasMerged = mainCompound.getBoolean("hasMerged");
 		NBTTagCompound handlerCompound = mainCompound.getCompoundTag("handler");
@@ -177,7 +177,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     	return list;
     }
     
-    public Iterable<Cuboid6> getBoundingBox(ForgeDirection dir){
+    public Iterable<Cuboid6> getBoundingBox(EnumFacing dir){
     	return Arrays.asList(boundingBoxes[dir.ordinal()], boundingBoxes[dir.getOpposite().ordinal()]);
     }
 
@@ -185,7 +185,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     public Iterable<Cuboid6> getCollisionBoxes(){
     	LinkedList<Cuboid6> list = new LinkedList<Cuboid6>();
     	list.add(boundingBoxC);
-    	if(!getFacing().equals(ForgeDirection.UNKNOWN)){
+    	if(!getFacing().equals(EnumFacing.UNKNOWN)){
 	    	list.add(boundingBoxes[getFacing().ordinal()]);
 	    	list.add(boundingBoxes[getFacing().getOpposite().ordinal()]);
     	}
@@ -208,7 +208,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
         }
     }
 
-    private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir, Object caller){
+    private boolean shouldConnectTo(TileEntity entity, EnumFacing dir, Object caller){
     	if(entity instanceof TileMultipart){
     		List<TMultiPart> t = ((TileMultipart)entity).jPartList();
     		
@@ -230,7 +230,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     	}
     }
 
-    public boolean isConnectedTo(ForgeDirection side){
+    public boolean isConnectedTo(EnumFacing side){
     	if(world() != null && tile() != null){
 	    	TileEntity te = world().getTileEntity(x() + side.offsetX, y() + side.offsetY, z() + side.offsetZ);
 	    	NormallyOccludedPart p = new NormallyOccludedPart(getBoundingBox(side));
@@ -253,15 +253,15 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	    	if(isConnectedTo(getFacing()) || isConnectedTo(getFacing().getOpposite())){
 	    		
 	    	}else{
-	    		NormallyOccludedPart p = new NormallyOccludedPart(getBoundingBox(ForgeDirection.NORTH));
+	    		NormallyOccludedPart p = new NormallyOccludedPart(getBoundingBox(EnumFacing.NORTH));
 		    	boolean canAddPart = tile().canAddPart(p);
 		    	if(canAddPart){
-		    		facing = ForgeDirection.NORTH;
+		    		facing = EnumFacing.NORTH;
 		    	}
 	    		hasDirection = false;
 	    	}
     	}else{
-    		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+    		for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
     			if(isConnectedTo(dir)){
     				facing = dir;
     				hasDirection = true;
@@ -274,7 +274,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     }
     
     @Override
-	public boolean canConnectTo(ForgeDirection side) {
+	public boolean canConnectTo(EnumFacing side) {
     	//Do some ray tracing here as well..
     	if(!hasDirection){
     		NormallyOccludedPart p = new NormallyOccludedPart(getBoundingBox(side));
@@ -290,7 +290,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     	}
 	}
     
-    public ForgeDirection getFacing(){
+    public EnumFacing getFacing(){
     	return facing;
     }
     
@@ -382,7 +382,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
     }
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection side) {
+	public PressureNetwork getNetwork(EnumFacing side) {
 		if(side.equals(getFacing())){
 			return pNetwork1;			
 		}else if(side.equals(getFacing().getOpposite())){
@@ -394,7 +394,7 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+	public void setNetwork(EnumFacing side, PressureNetwork toSet) {
 		if(side.equals(getFacing())){
 			pNetwork1 = toSet;			
 		}else if(side.equals(getFacing().getOpposite())){
@@ -500,3 +500,4 @@ public class PartValve extends TMultiPart implements TSlottedPart, JNormalOcclus
 		
 	}
 }
+*/

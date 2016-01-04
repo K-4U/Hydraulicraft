@@ -1,47 +1,51 @@
 package k4unl.minecraft.Hydraulicraft.network.packets;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
-import k4unl.minecraft.Hydraulicraft.network.LocationIntPacket;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
+import k4unl.minecraft.k4lib.network.messages.LocationIntPacket;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
-public class PacketPortalEnabled extends LocationIntPacket {
-	private ForgeDirection baseDir;
-	private ForgeDirection portalDir;
-	
-	public PacketPortalEnabled(){}
-	public PacketPortalEnabled(int x, int y, int z, ForgeDirection _baseDir, ForgeDirection _portalDir){
-		super(x, y, z);
-		baseDir = _baseDir;
-		portalDir = _portalDir;
-	}
-	
-	@Override
-	public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer) {
-		super.encodeInto(ctx, buffer);
-		buffer.writeInt(baseDir.ordinal());
-		buffer.writeInt(portalDir.ordinal());
-	}
+public class PacketPortalEnabled extends LocationIntPacket<PacketPortalEnabled> {
+    private EnumFacing baseDir;
+    private EnumFacing portalDir;
 
-	@Override
-	public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer) {
-		super.decodeInto(ctx, buffer);
-		baseDir = ForgeDirection.getOrientation(buffer.readInt());
-		portalDir = ForgeDirection.getOrientation(buffer.readInt());
-	}
+    public PacketPortalEnabled() {
+    }
 
-	@Override
-	public void handleClientSide(EntityPlayer player) {
-		if(player.worldObj.getTileEntity(x, y, z) instanceof TilePortalTeleporter){
-			((TilePortalTeleporter)player.worldObj.getTileEntity(x, y, z)).setRotation(baseDir, portalDir);
-		}
-	}
+    public PacketPortalEnabled(BlockPos pos, EnumFacing _baseDir, EnumFacing _portalDir) {
+        super(pos);
+        baseDir = _baseDir;
+        portalDir = _portalDir;
+    }
 
-	@Override
-	public void handleServerSide(EntityPlayer player) {
+    @Override
+    public void toBytes(ByteBuf buffer) {
+        super.toBytes(buffer);
+        ByteBufUtils.writeUTF8String(buffer, baseDir.toString());
+        ByteBufUtils.writeUTF8String(buffer, portalDir.toString());
+    }
 
-	}
+    @Override
+    public void fromBytes(ByteBuf buffer) {
+        super.fromBytes(buffer);
+
+        baseDir = EnumFacing.byName(ByteBufUtils.readUTF8String(buffer));
+        portalDir = EnumFacing.byName(ByteBufUtils.readUTF8String(buffer));
+    }
+
+    @Override
+    public void handleClientSide(PacketPortalEnabled message, EntityPlayer player) {
+        if (player.worldObj.getTileEntity(message.pos) instanceof TilePortalTeleporter) {
+            ((TilePortalTeleporter) player.worldObj.getTileEntity(message.pos)).setRotation(message.baseDir, message.portalDir);
+        }
+    }
+
+    @Override
+    public void handleServerSide(PacketPortalEnabled message, EntityPlayer player) {
+
+    }
 
 }

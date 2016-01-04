@@ -6,8 +6,8 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets.NEIWidgetTank;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFiller;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 public class GuiFiller extends HydraulicGUIBase {
@@ -19,7 +19,7 @@ public class GuiFiller extends HydraulicGUIBase {
         super(filler, new ContainerFiller(inventoryPlayer, filler), resLoc);
 
         this.filler = filler;
-        tankFluid = new NEIWidgetTank(filler.getTankInfo(ForgeDirection.UNKNOWN)[0], 122, 70, 16, 54, this);
+        tankFluid = new NEIWidgetTank(filler.getTankInfo(EnumFacing.UP)[0], 122, 70, 16, 54, this);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class GuiFiller extends HydraulicGUIBase {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.hydraulicFiller.getLocalizedName(), true);
 
-        FluidTankInfo[] tankInfo = filler.getTankInfo(ForgeDirection.UP);
+        FluidTankInfo[] tankInfo = filler.getTankInfo(EnumFacing.UP);
         tankFluid.render(tankInfo[0]);
 
         drawFluidAndPressure();

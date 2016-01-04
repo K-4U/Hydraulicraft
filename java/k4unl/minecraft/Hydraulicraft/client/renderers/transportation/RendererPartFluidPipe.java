@@ -1,16 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.transportation;
 
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.multipart.PartFluidPipe;
 import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -20,15 +17,15 @@ import java.util.Map;
 public class RendererPartFluidPipe extends TileEntitySpecialRenderer {
     public static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/model/fluidPipe_tmap.png");
 
-    public void doRender(double x, double y, double z, float f, Map<ForgeDirection, TileEntity> connectedSides){
+    public void doRender(double x, double y, double z, float f, Map<EnumFacing, TileEntity> connectedSides){
         GL11.glPushMatrix();
 
         GL11.glTranslatef((float) x, (float) y, (float)z);
 
 
         if(connectedSides == null){
-            connectedSides = new HashMap<ForgeDirection, TileEntity>();
-            //for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+            connectedSides = new HashMap<EnumFacing, TileEntity>();
+            //for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
             //	connectedSides.put(dir, null);
             //}
         }
@@ -57,59 +54,59 @@ public class RendererPartFluidPipe extends TileEntitySpecialRenderer {
 
     @Override
     public void renderTileEntityAt(TileEntity tileentity, double x, double y,
-                                   double z, float f) {
+                                   double z, float f, int destroyStage) {
 
-        TileMultipart mp = (TileMultipart)tileentity;
+        /*TileMultipart mp = (TileMultipart)tileentity;
         if(Multipart.hasPartFluidPipe(mp)){
             PartFluidPipe tp = Multipart.getFluidPipe(mp);
             doRender(x, y, z, f, tp.getConnectedSides());
-        }
+        }*/
     }
 
 
-    private void drawFirstCable(Map<ForgeDirection, TileEntity> connectedSides){
+    private void drawFirstCable(Map<EnumFacing, TileEntity> connectedSides){
         float center = 0.5F;
         drawCable(connectedSides, center);
     }
 
 
-    private void drawCable(Map<ForgeDirection, TileEntity> connectedSides, float center){
+    private void drawCable(Map<EnumFacing, TileEntity> connectedSides, float center){
         float width = RenderHelper.pixel*6;
         float min = center - (width / 2);
         float max = center + (width / 2);
 
-        if(connectedSides.containsKey(ForgeDirection.UP)){
-            drawCube(new Vector3fMax(min, max, min, max, 1.0F, max), ForgeDirection.UP);
+        if(connectedSides.containsKey(EnumFacing.UP)){
+            drawCube(new Vector3fMax(min, max, min, max, 1.0F, max), EnumFacing.UP);
         }
 
-        if(connectedSides.containsKey(ForgeDirection.DOWN)){
-            drawCube(new Vector3fMax(min, 0.0F, min, max, min, max), ForgeDirection.DOWN);
+        if(connectedSides.containsKey(EnumFacing.DOWN)){
+            drawCube(new Vector3fMax(min, 0.0F, min, max, min, max), EnumFacing.DOWN);
         }
 
-        if(connectedSides.containsKey(ForgeDirection.NORTH)){
-            drawCube(new Vector3fMax(min, min, 0.0F, max, max, min), ForgeDirection.NORTH);
+        if(connectedSides.containsKey(EnumFacing.NORTH)){
+            drawCube(new Vector3fMax(min, min, 0.0F, max, max, min), EnumFacing.NORTH);
         }
 
-        if(connectedSides.containsKey(ForgeDirection.SOUTH)){
-            drawCube(new Vector3fMax(min, min, max, max, max, 1.0F), ForgeDirection.SOUTH);
+        if(connectedSides.containsKey(EnumFacing.SOUTH)){
+            drawCube(new Vector3fMax(min, min, max, max, max, 1.0F), EnumFacing.SOUTH);
         }
 
-        if(connectedSides.containsKey(ForgeDirection.WEST)){
-            drawCube(new Vector3fMax(0.0F, min, min, min, max, max), ForgeDirection.WEST);
+        if(connectedSides.containsKey(EnumFacing.WEST)){
+            drawCube(new Vector3fMax(0.0F, min, min, min, max, max), EnumFacing.WEST);
         }
 
-        if(connectedSides.containsKey(ForgeDirection.EAST)){
-            drawCube(new Vector3fMax(max, min, min, 1.0F, max, max), ForgeDirection.EAST);
+        if(connectedSides.containsKey(EnumFacing.EAST)){
+            drawCube(new Vector3fMax(max, min, min, 1.0F, max, max), EnumFacing.EAST);
         }
 
 
-        boolean upAndDown = (connectedSides.containsKey(ForgeDirection.UP) && connectedSides.containsKey(ForgeDirection.DOWN));
-        boolean northAndSouth = (connectedSides.containsKey(ForgeDirection.NORTH) && connectedSides.containsKey(ForgeDirection.SOUTH));
-        boolean eastAndWest = (connectedSides.containsKey(ForgeDirection.EAST) && connectedSides.containsKey(ForgeDirection.WEST));
+        boolean upAndDown = (connectedSides.containsKey(EnumFacing.UP) && connectedSides.containsKey(EnumFacing.DOWN));
+        boolean northAndSouth = (connectedSides.containsKey(EnumFacing.NORTH) && connectedSides.containsKey(EnumFacing.SOUTH));
+        boolean eastAndWest = (connectedSides.containsKey(EnumFacing.EAST) && connectedSides.containsKey(EnumFacing.WEST));
 
-        boolean upOrDown = (connectedSides.containsKey(ForgeDirection.UP) || connectedSides.containsKey(ForgeDirection.DOWN));
-        boolean northOrSouth = (connectedSides.containsKey(ForgeDirection.NORTH) || connectedSides.containsKey(ForgeDirection.SOUTH));
-        boolean eastOrWest = (connectedSides.containsKey(ForgeDirection.EAST) || connectedSides.containsKey(ForgeDirection.WEST));
+        boolean upOrDown = (connectedSides.containsKey(EnumFacing.UP) || connectedSides.containsKey(EnumFacing.DOWN));
+        boolean northOrSouth = (connectedSides.containsKey(EnumFacing.NORTH) || connectedSides.containsKey(EnumFacing.SOUTH));
+        boolean eastOrWest = (connectedSides.containsKey(EnumFacing.EAST) || connectedSides.containsKey(EnumFacing.WEST));
 
 
         boolean corner = (upOrDown && (northOrSouth || eastOrWest)) || (northOrSouth && eastOrWest);
@@ -120,16 +117,16 @@ public class RendererPartFluidPipe extends TileEntitySpecialRenderer {
             drawCorner(new Vector3fMax(min, min, min, max, max, max));
         }else{
             if(upAndDown){
-                drawCube(new Vector3fMax(min, min, min, max, max, max), ForgeDirection.DOWN);
+                drawCube(new Vector3fMax(min, min, min, max, max, max), EnumFacing.DOWN);
             }else if(northAndSouth){
-                drawCube(new Vector3fMax(min, min, min, max, max, max), ForgeDirection.NORTH);
+                drawCube(new Vector3fMax(min, min, min, max, max, max), EnumFacing.NORTH);
             }else if(eastAndWest){
-                drawCube(new Vector3fMax(min, min, min, max, max, max), ForgeDirection.EAST);
+                drawCube(new Vector3fMax(min, min, min, max, max, max), EnumFacing.EAST);
             }
         }
     }
 
-    private void drawCube(Vector3fMax vector, ForgeDirection dirToDraw){
+    private void drawCube(Vector3fMax vector, EnumFacing dirToDraw){
         GL11.glBegin(GL11.GL_QUADS);
 
         boolean drawTop = true;
@@ -151,7 +148,7 @@ public class RendererPartFluidPipe extends TileEntitySpecialRenderer {
         float syl = 0.0F;
         float syh = 0.5F;
 
-        if(dirToDraw.equals(ForgeDirection.SOUTH) || dirToDraw.equals(ForgeDirection.NORTH)){
+        if(dirToDraw.equals(EnumFacing.SOUTH) || dirToDraw.equals(EnumFacing.NORTH)){
             txl = th;
             txh = 0.0F;
             tyl = 0.5F;
@@ -159,7 +156,7 @@ public class RendererPartFluidPipe extends TileEntitySpecialRenderer {
             drawSouth = false;
             drawNorth = false;
         }
-        if(dirToDraw.equals(ForgeDirection.UP) || dirToDraw.equals(ForgeDirection.DOWN)){
+        if(dirToDraw.equals(EnumFacing.UP) || dirToDraw.equals(EnumFacing.DOWN)){
             sxl = th;
             sxh = 0.0F;
             syl = 0.5F;
@@ -167,7 +164,7 @@ public class RendererPartFluidPipe extends TileEntitySpecialRenderer {
             drawBottom = false;
             drawTop = false;
         }
-        if(dirToDraw.equals(ForgeDirection.EAST) || dirToDraw.equals(ForgeDirection.WEST)){
+        if(dirToDraw.equals(EnumFacing.EAST) || dirToDraw.equals(EnumFacing.WEST)){
             drawEast = false;
             drawWest = false;
         }

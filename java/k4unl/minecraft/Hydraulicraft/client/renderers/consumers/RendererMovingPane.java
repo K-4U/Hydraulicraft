@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.consumers;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.k4lib.client.RenderHelper;
@@ -9,6 +8,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 
 public class RendererMovingPane extends TileEntitySpecialRenderer {
@@ -16,15 +16,12 @@ public class RendererMovingPane extends TileEntitySpecialRenderer {
 			new ResourceLocation(ModInfo.LID,"textures/model/movingpane.png");
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y,
-			double z, float f) {
-		
-		int metadata = tileEntity.getBlockMetadata();
-		doRender((TileMovingPane) tileEntity, x, y, z, f, metadata);
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y,double z, float f, int breakStage) {
+
+		doRender((TileMovingPane) tileEntity, x, y, z, f, breakStage);
 	}
 	
-	public static void doRender(TileMovingPane tileEntity , double x, double y,
-			double z, float f, int metadata){
+	public static void doRender(TileMovingPane tileEntity , double x, double y, double z, float f, int breakStage){
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef((float) x, (float) y, (float)z);
@@ -67,8 +64,6 @@ public class RendererMovingPane extends TileEntitySpecialRenderer {
 			case SOUTH:
 				GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 				GL11.glTranslatef(-1.0F, 0.0F, -1.0F);
-				break;
-			case UNKNOWN:
 				break;
 			case UP:
 				break;

@@ -1,22 +1,23 @@
 package k4unl.minecraft.Hydraulicraft.events;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 import k4unl.minecraft.Hydraulicraft.api.IPressureDivingSuit;
 import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
 import k4unl.minecraft.Hydraulicraft.items.ItemPressureGauge;
 import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingSuit;
 import k4unl.minecraft.Hydraulicraft.lib.DamageSourceHydraulicraft;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
-import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
+import k4unl.minecraft.Hydraulicraft.network.NetworkHandler;
 import k4unl.minecraft.Hydraulicraft.network.packets.PacketSetPressure;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,26 +58,26 @@ public class TickHandler {
                     int y = (int) Math.floor(event.player.posY);
                     int z = (int) Math.floor(event.player.posZ);
 
+                    Block block = event.player.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
                     int pressure = 0;
-                    while (event.player.worldObj.getBlock(x, y, z) == Blocks.water) {
-                        Block block = event.player.worldObj.getBlock(x, y, z);
+                    while (block == Blocks.water) {
                         y++;
                         pressure++;
                     }
-                    if(event.player.getEntityData().getInteger("pressure") != pressure){
+                    if (event.player.getEntityData().getInteger("pressure") != pressure) {
                         boolean pressureGauge = false;
-                        for (ItemStack itemStack: event.player.inventory.mainInventory) {
-                            if(itemStack != null && itemStack.getItem() instanceof ItemPressureGauge){
+                        for (ItemStack itemStack : event.player.inventory.mainInventory) {
+                            if (itemStack != null && itemStack.getItem() instanceof ItemPressureGauge) {
                                 pressureGauge = true;
                             }
                         }
-                        PacketPipeline.instance.sendTo(new PacketSetPressure(pressure, pressureGauge), (EntityPlayerMP) event.player);
+                        NetworkHandler.sendTo(new PacketSetPressure(pressure, pressureGauge), (EntityPlayerMP) event.player);
                     }
                     event.player.getEntityData().setInteger("pressure", pressure);
                     if (pressure > HCConfig.INSTANCE.getInt("maxWaterPressureWithoutSuit")) {
                         //Do damage, unless wearing a diving suit
                         if (!isWearingADivingSuit(event.player, pressure)) {
-                            event.player.attackEntityFrom(DamageSourceHydraulicraft.pressure, (float)(pressure / HCConfig.INSTANCE.getDouble("pressureDamageFactor")));
+                            event.player.attackEntityFrom(DamageSourceHydraulicraft.pressure, (float) (pressure / HCConfig.INSTANCE.getDouble("pressureDamageFactor")));
                         }
                         //Log.info(event.player.getDisplayName() + " is under " + pressure + " bar");
                     }

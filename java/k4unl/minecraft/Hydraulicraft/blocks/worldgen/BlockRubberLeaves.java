@@ -1,21 +1,26 @@
 package k4unl.minecraft.Hydraulicraft.blocks.worldgen;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.common.IShearable;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -23,14 +28,19 @@ import java.util.Random;
  */
 public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable {
 
-    int[] field_150128_a;
+    public static final PropertyBool DECAYABLE = PropertyBool.create("decayable");
+    public static final PropertyBool CHECK_DECAY = PropertyBool.create("check_decay");
+    int[] surroundings;
     @SideOnly(Side.CLIENT)
-    protected            int    field_150127_b;
-    private boolean field_150121_P = true;
+    protected int iconIndex;
+    @SideOnly(Side.CLIENT)
+    protected boolean isTransparent;
+    protected boolean fancyGraphics = false;
+
 
     public BlockRubberLeaves() {
 
-        super(Names.blockRubberLeaves, Material.leaves);
+        super(Names.blockRubberLeaves, Material.leaves, true);
         this.setTickRandomly(true);
         this.setHardness(0.2F);
         this.setLightOpacity(1);
@@ -39,54 +49,35 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
 
     @SideOnly(Side.CLIENT)
     public int getBlockColor() {
-
-        double d0 = 1.5D;
-        double d1 = 1.0D;
-        return ColorizerFoliage.getFoliageColor(d0, d1);
+        return ColorizerFoliage.getFoliageColor(0.5D, 1.0D);
     }
 
-    /**
-     * Returns the color this block should be rendered. Used by leaves.
-     */
     @SideOnly(Side.CLIENT)
-    public int getRenderColor(int p_149741_1_) {
-
+    public int getRenderColor(IBlockState state) {
         return ColorizerFoliage.getFoliageColorBasic();
     }
 
-    /**
-     * Returns a integer with hex for 0xrrggbb with this color multiplied against the blocks color. Note only called
-     * when first determining what to render.
-     */
     @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockAccess iba, int x, int y, int z) {
-        int l = 0;
-        int i1 = 0;
-        int j1 = 0;
-
-        for (int k1 = -1; k1 <= 1; ++k1) {
-            for (int l1 = -1; l1 <= 1; ++l1) {
-                int i2 = iba.getBiomeGenForCoords(x + l1, z + k1).getBiomeFoliageColor(x + l1, y, z + k1);
-                l += (i2 & 16711680) >> 16;
-                i1 += (i2 & 65280) >> 8;
-                j1 += i2 & 255;
-            }
-        }
-
-        return (l / 9 & 255) << 16 | (i1 / 9 & 255) << 8 | j1 / 9 & 255;
+    public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+        return BiomeColorHelper.getFoliageColorAtPos(worldIn, pos);
     }
 
-    public void breakBlock(World world, int x, int y, int z, Block bl, int metadata) {
-        byte b0 = 1;
-        int i1 = b0 + 1;
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        int i = 1;
+        int j = i + 1;
+        int k = pos.getX();
+        int l = pos.getY();
+        int i1 = pos.getZ();
 
-        if (world.checkChunksExist(x - i1, y - i1, z - i1, x + i1, y + i1, z + i1)) {
-            for (int j1 = -b0; j1 <= b0; ++j1) {
-                for (int k1 = -b0; k1 <= b0; ++k1) {
-                    for (int l1 = -b0; l1 <= b0; ++l1) {
-                        Block block = world.getBlock(x + j1, y + k1, z + l1);
-                        if (block.isLeaves(world, x + j1, y + k1, z + l1)) {
-                            block.beginLeavesDecay(world, x + j1, y + k1, z + l1);
+        if (worldIn.isAreaLoaded(new BlockPos(k - j, l - j, i1 - j), new BlockPos(k + j, l + j, i1 + j))) {
+            for (int j1 = -i; j1 <= i; ++j1) {
+                for (int k1 = -i; k1 <= i; ++k1) {
+                    for (int l1 = -i; l1 <= i; ++l1) {
+                        BlockPos blockpos = pos.add(j1, k1, l1);
+                        IBlockState iblockstate = worldIn.getBlockState(blockpos);
+
+                        if (iblockstate.getBlock().isLeaves(worldIn, blockpos)) {
+                            iblockstate.getBlock().beginLeavesDecay(worldIn, blockpos);
                         }
                     }
                 }
@@ -94,75 +85,70 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
         }
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
-    public void updateTick(World world, int x, int y, int z, Random random) {
-        if (!world.isRemote){
-            int l = world.getBlockMetadata(x, y, z);
+    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+        if (!worldIn.isRemote) {
+            if (((Boolean) state.getValue(CHECK_DECAY)).booleanValue() && ((Boolean) state.getValue(DECAYABLE)).booleanValue()) {
+                int i = 4;
+                int j = i + 1;
+                int k = pos.getX();
+                int l = pos.getY();
+                int i1 = pos.getZ();
+                int j1 = 32;
+                int k1 = j1 * j1;
+                int l1 = j1 / 2;
 
-            if ((l & 8) != 0 && (l & 4) == 0){
-                byte b0 = 4;
-                int i1 = b0 + 1;
-                byte b1 = 32;
-                int j1 = b1 * b1;
-                int k1 = b1 / 2;
-
-                if (this.field_150128_a == null){
-                    this.field_150128_a = new int[b1 * b1 * b1];
+                if (this.surroundings == null) {
+                    this.surroundings = new int[j1 * j1 * j1];
                 }
 
-                int l1;
+                if (worldIn.isAreaLoaded(new BlockPos(k - j, l - j, i1 - j), new BlockPos(k + j, l + j, i1 + j))) {
+                    BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
-                if (world.checkChunksExist(x - i1, y - i1, z - i1, x + i1, y + i1, z + i1)) {
-                    int i2;
-                    int j2;
+                    for (int i2 = -i; i2 <= i; ++i2) {
+                        for (int j2 = -i; j2 <= i; ++j2) {
+                            for (int k2 = -i; k2 <= i; ++k2) {
+                                Block block = worldIn.getBlockState(mutableBlockPos.set(k + i2, l + j2, i1 + k2)).getBlock();
 
-                    for (l1 = -b0; l1 <= b0; ++l1) {
-                        for (i2 = -b0; i2 <= b0; ++i2) {
-                            for (j2 = -b0; j2 <= b0; ++j2) {
-                                Block block = world.getBlock(x + l1, y + i2, z + j2);
-
-                                if (!block.canSustainLeaves(world, x + l1, y + i2, z + j2)) {
-                                    if (block.isLeaves(world, x + l1, y + i2, z + j2)) {
-                                        this.field_150128_a[(l1 + k1) * j1 + (i2 + k1) * b1 + j2 + k1] = -2;
+                                if (!block.canSustainLeaves(worldIn, mutableBlockPos.set(k + i2, l + j2, i1 + k2))) {
+                                    if (block.isLeaves(worldIn, mutableBlockPos.set(k + i2, l + j2, i1 + k2))) {
+                                        this.surroundings[(i2 + l1) * k1 + (j2 + l1) * j1 + k2 + l1] = -2;
                                     } else {
-                                        this.field_150128_a[(l1 + k1) * j1 + (i2 + k1) * b1 + j2 + k1] = -1;
+                                        this.surroundings[(i2 + l1) * k1 + (j2 + l1) * j1 + k2 + l1] = -1;
                                     }
                                 } else {
-                                    this.field_150128_a[(l1 + k1) * j1 + (i2 + k1) * b1 + j2 + k1] = 0;
+                                    this.surroundings[(i2 + l1) * k1 + (j2 + l1) * j1 + k2 + l1] = 0;
                                 }
                             }
                         }
                     }
 
-                    for (l1 = 1; l1 <= 4; ++l1) {
-                        for (i2 = -b0; i2 <= b0; ++i2) {
-                            for (j2 = -b0; j2 <= b0; ++j2) {
-                                for (int k2 = -b0; k2 <= b0; ++k2) {
-                                    if (this.field_150128_a[(i2 + k1) * j1 + (j2 + k1) * b1 + k2 + k1] == l1 - 1) {
-                                        if (this.field_150128_a[(i2 + k1 - 1) * j1 + (j2 + k1) * b1 + k2 + k1] == -2) {
-                                            this.field_150128_a[(i2 + k1 - 1) * j1 + (j2 + k1) * b1 + k2 + k1] = l1;
+                    for (int i3 = 1; i3 <= 4; ++i3) {
+                        for (int j3 = -i; j3 <= i; ++j3) {
+                            for (int k3 = -i; k3 <= i; ++k3) {
+                                for (int l3 = -i; l3 <= i; ++l3) {
+                                    if (this.surroundings[(j3 + l1) * k1 + (k3 + l1) * j1 + l3 + l1] == i3 - 1) {
+                                        if (this.surroundings[(j3 + l1 - 1) * k1 + (k3 + l1) * j1 + l3 + l1] == -2) {
+                                            this.surroundings[(j3 + l1 - 1) * k1 + (k3 + l1) * j1 + l3 + l1] = i3;
                                         }
 
-                                        if (this.field_150128_a[(i2 + k1 + 1) * j1 + (j2 + k1) * b1 + k2 + k1] == -2) {
-                                            this.field_150128_a[(i2 + k1 + 1) * j1 + (j2 + k1) * b1 + k2 + k1] = l1;
+                                        if (this.surroundings[(j3 + l1 + 1) * k1 + (k3 + l1) * j1 + l3 + l1] == -2) {
+                                            this.surroundings[(j3 + l1 + 1) * k1 + (k3 + l1) * j1 + l3 + l1] = i3;
                                         }
 
-                                        if (this.field_150128_a[(i2 + k1) * j1 + (j2 + k1 - 1) * b1 + k2 + k1] == -2) {
-                                            this.field_150128_a[(i2 + k1) * j1 + (j2 + k1 - 1) * b1 + k2 + k1] = l1;
+                                        if (this.surroundings[(j3 + l1) * k1 + (k3 + l1 - 1) * j1 + l3 + l1] == -2) {
+                                            this.surroundings[(j3 + l1) * k1 + (k3 + l1 - 1) * j1 + l3 + l1] = i3;
                                         }
 
-                                        if (this.field_150128_a[(i2 + k1) * j1 + (j2 + k1 + 1) * b1 + k2 + k1] == -2){
-                                            this.field_150128_a[(i2 + k1) * j1 + (j2 + k1 + 1) * b1 + k2 + k1] = l1;
+                                        if (this.surroundings[(j3 + l1) * k1 + (k3 + l1 + 1) * j1 + l3 + l1] == -2) {
+                                            this.surroundings[(j3 + l1) * k1 + (k3 + l1 + 1) * j1 + l3 + l1] = i3;
                                         }
 
-                                        if (this.field_150128_a[(i2 + k1) * j1 + (j2 + k1) * b1 + (k2 + k1 - 1)] == -2) {
-                                            this.field_150128_a[(i2 + k1) * j1 + (j2 + k1) * b1 + (k2 + k1 - 1)] = l1;
+                                        if (this.surroundings[(j3 + l1) * k1 + (k3 + l1) * j1 + (l3 + l1 - 1)] == -2) {
+                                            this.surroundings[(j3 + l1) * k1 + (k3 + l1) * j1 + (l3 + l1 - 1)] = i3;
                                         }
 
-                                        if (this.field_150128_a[(i2 + k1) * j1 + (j2 + k1) * b1 + k2 + k1 + 1] == -2) {
-                                            this.field_150128_a[(i2 + k1) * j1 + (j2 + k1) * b1 + k2 + k1 + 1] = l1;
+                                        if (this.surroundings[(j3 + l1) * k1 + (k3 + l1) * j1 + l3 + l1 + 1] == -2) {
+                                            this.surroundings[(j3 + l1) * k1 + (k3 + l1) * j1 + l3 + l1 + 1] = i3;
                                         }
                                     }
                                 }
@@ -171,165 +157,137 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
                     }
                 }
 
-                l1 = this.field_150128_a[k1 * j1 + k1 * b1 + k1];
+                int l2 = this.surroundings[l1 * k1 + l1 * j1 + l1];
 
-                if (l1 >= 0) {
-                    world.setBlockMetadataWithNotify(x, y, z, l & -9, 4);
+                if (l2 >= 0) {
+                    worldIn.setBlockState(pos, state.withProperty(CHECK_DECAY, Boolean.valueOf(false)), 4);
                 } else {
-                    this.removeLeaves(world, x, y, z);
+                    this.destroy(worldIn, pos);
                 }
             }
         }
     }
 
-    /**
-     * A randomly called display update to be able to add particles or other items for display
-     */
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-        if (world.canLightningStrikeAt(x, y + 1, z) && !World.doesBlockHaveSolidTopSurface(world, x, y - 1, z) && random.nextInt(15) == 1) {
-            double d0 = (double)((float)x + random.nextFloat());
-            double d1 = (double)y - 0.05D;
-            double d2 = (double)((float)z + random.nextFloat());
-            world.spawnParticle("dripWater", d0, d1, d2, 0.0D, 0.0D, 0.0D);
+    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+        if (worldIn.canLightningStrike(pos.up()) && !World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && rand.nextInt(15) == 1) {
+            double d0 = (double) ((float) pos.getX() + rand.nextFloat());
+            double d1 = (double) pos.getY() - 0.05D;
+            double d2 = (double) ((float) pos.getZ() + rand.nextFloat());
+            worldIn.spawnParticle(EnumParticleTypes.DRIP_WATER, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
         }
     }
 
-    private void removeLeaves(World world, int x, int y, int z) {
-        this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-        world.setBlockToAir(x, y, z);
+    private void destroy(World worldIn, BlockPos pos) {
+        this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
+        worldIn.setBlockToAir(pos);
     }
 
     /**
      * Returns the quantity of items to drop on block destruction.
      */
-    public int quantityDropped(Random random)
-    {
+    public int quantityDropped(Random random) {
         return random.nextInt(20) == 0 ? 1 : 0;
     }
 
-    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-        return Item.getItemFromBlock(HCBlocks.blockRubberSapling);
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return Item.getItemFromBlock(Blocks.sapling);
     }
 
     /**
-     * Drops the block items with a specified chance of dropping the specified items
+     * Spawns this Block's drops into the World as EntityItems.
+     *
+     * @param chance  The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
+     * @param fortune The player's fortune level
      */
-    public void dropBlockAsItemWithChance(World world, int x, int y, int z, int p_149690_5_, float p_149690_6_, int p_149690_7_)
-    {
-        super.dropBlockAsItemWithChance(world, x, y, z, p_149690_5_, 1.0f, p_149690_7_);
+    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+        super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
     }
 
-    protected void func_150124_c(World p_150124_1_, int p_150124_2_, int p_150124_3_, int p_150124_4_, int p_150124_5_, int p_150124_6_) {}
-
-    protected int func_150123_b(int p_150123_1_) {
-        return 10;
+    protected void dropApple(World worldIn, BlockPos pos, IBlockState state, int chance) {
     }
 
-    /**
-     * Called when the player destroys a block with an item that can harvest it. (i, j, k) are the coordinates of the
-     * block and l is the block's subtype/damage.
-     */
-    public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
-        super.harvestBlock(world, player, x, y, z, meta);
+    protected int getSaplingDropChance(IBlockState state) {
+        return 20;
     }
 
     /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
+     * Used to determine ambient occlusion and culling when rebuilding chunks for render
      */
-    public int damageDropped(int p_149692_1_)
-    {
-        return p_149692_1_ & 3;
+    public boolean isOpaqueCube() {
+        return !fancyGraphics;
     }
-
-    /**
-     * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
-     * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
-     */
-    public boolean isOpaqueCube()
-    {
-        return !this.field_150121_P;
-    }
-
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
-    /*@SideOnly(Side.CLIENT)
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_){
-        return Block.blockIcon;
-    }*/
 
     /**
      * Pass true to draw this block using fancy graphics, or false for fast graphics.
      */
     @SideOnly(Side.CLIENT)
-    public void setGraphicsLevel(boolean p_150122_1_) {
-        this.field_150121_P = p_150122_1_;
-        this.field_150127_b = p_150122_1_ ? 0 : 1;
+    public void setGraphicsLevel(boolean fancy) {
+        this.isTransparent = fancy;
+        this.fancyGraphics = fancy;
+        this.iconIndex = fancy ? 0 : 1;
     }
 
-    /**
-     * Returns an item stack containing a single instance of the current block type. 'i' is the block's subtype/damage
-     * and is ignored for blocks which do not support subtypes. Blocks which cannot be harvested should return null.
-     */
-    protected ItemStack createStackedBlock(int p_149644_1_)
-    {
-        return new ItemStack(Item.getItemFromBlock(this), 1, p_149644_1_ & 3);
+    @SideOnly(Side.CLIENT)
+    public EnumWorldBlockLayer getBlockLayer() {
+        return this.isTransparent ? EnumWorldBlockLayer.CUTOUT_MIPPED : EnumWorldBlockLayer.SOLID;
+    }
+
+    public boolean isVisuallyOpaque() {
+        return false;
+    }
+
+    @Override
+    public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos) {
+        return true;
     }
 
 
     @Override
-    public boolean isShearable(ItemStack item, IBlockAccess world, int x, int y, int z)
-    {
+    public boolean isLeaves(IBlockAccess world, BlockPos pos) {
         return true;
     }
 
     @Override
-    public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world, int x, int y, int z, int fortune) {
-        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        ret.add(new ItemStack(this, 1, world.getBlockMetadata(x, y, z) & 3));
-        return ret;
-    }
-
-    @Override
-    public void beginLeavesDecay(World world, int x, int y, int z) {
-
-        int i2 = world.getBlockMetadata(x, y, z);
-
-        if ((i2 & 8) == 0){
-            world.setBlockMetadataWithNotify(x, y, z, i2 | 8, 4);
+    public void beginLeavesDecay(World world, BlockPos pos) {
+        IBlockState state = world.getBlockState(pos);
+        if (!(Boolean) state.getValue(CHECK_DECAY)) {
+            world.setBlockState(pos, state.withProperty(CHECK_DECAY, true), 4);
         }
-        world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z) | 8, 4);
     }
 
     @Override
-    public boolean isLeaves(IBlockAccess world, int x, int y, int z)
-    {
-        return true;
+    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+        return getDrops(world, pos, world.getBlockState(pos), fortune);
     }
 
 
     @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune){
-        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        int chance = this.func_150123_b(metadata);
+    public java.util.List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        java.util.List<ItemStack> ret = new java.util.ArrayList<ItemStack>();
+        Random rand = world instanceof World ? ((World) world).rand : new Random();
+        int chance = this.getSaplingDropChance(state);
 
-        if (fortune > 0){
+        if (fortune > 0) {
             chance -= 2 << fortune;
             if (chance < 10) chance = 10;
         }
 
-        if (world.rand.nextInt(chance) == 0)
-            ret.add(new ItemStack(this.getItemDropped(metadata, world.rand, fortune), 1, this.damageDropped(metadata)));
+        if (rand.nextInt(chance) == 0)
+            ret.add(new ItemStack(getItemDropped(state, rand, fortune), 1, damageDropped(state)));
 
         chance = 200;
-        if (fortune > 0){
+        if (fortune > 0) {
             chance -= 10 << fortune;
             if (chance < 40) chance = 40;
         }
 
         this.captureDrops(true);
-        this.func_150124_c(world, x, y, z, metadata, chance); // Dammet mojang
         ret.addAll(this.captureDrops(false));
         return ret;
     }

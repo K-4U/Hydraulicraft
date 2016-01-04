@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
-
+/*
 import java.util.List;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
@@ -62,3 +62,4 @@ public class ItemPartHose extends JItemMultiPart{
     public void registerIcons(IIconRegister reg){
     }
 }
+*/

@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.items.divingSuit;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.IPressureDivingSuit;
 import k4unl.minecraft.Hydraulicraft.client.models.ModelDivingSuit;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
@@ -15,11 +13,13 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemDivingSuit extends ItemArmor implements IPressureDivingSuit{
 
     public ItemDivingSuit(int type) {
-        super(ArmorMaterial.CLOTH, 0, type);
+        super(ArmorMaterial.LEATHER, 0, type);
         setMaxStackSize(1);
 
         if(type == 0) {

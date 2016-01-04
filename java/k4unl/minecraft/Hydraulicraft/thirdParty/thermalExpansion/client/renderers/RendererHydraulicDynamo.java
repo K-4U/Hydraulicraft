@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import k4unl.minecraft.k4lib.client.RenderHelper;
@@ -8,6 +7,7 @@ import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 
 public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
@@ -16,8 +16,7 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 			new ResourceLocation(ModInfo.LID,"textures/model/hydraulicDynamo.png");
 	
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
-			double z, float f) {
+	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f, int destroyStage) {
 		
 		TileHydraulicDynamo t = (TileHydraulicDynamo)tileentity;
 		//Get metadata for rotation:
@@ -84,7 +83,6 @@ public class RendererHydraulicDynamo extends TileEntitySpecialRenderer  {
 			GL11.glTranslatef(0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
 			break;
-		case UNKNOWN:
 		case UP:
 		default:
 			break;

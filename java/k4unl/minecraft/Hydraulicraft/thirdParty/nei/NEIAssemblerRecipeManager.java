@@ -1,29 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
-import codechicken.core.ReflectionManager;
-import codechicken.nei.PositionedStack;
-import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
-import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapelessOreRecipe;
-import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
-import k4unl.minecraft.Hydraulicraft.client.GUI.GuiAssembler;
-import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-
-import java.awt.*;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * @author Koen Beckers (K-4U)
  */
-public class NEIAssemblerRecipeManager extends NEIHydraulicRecipePlugin {
-
+public class NEIAssemblerRecipeManager {// extends NEIHydraulicRecipePlugin {
+/*
     @Override
     public CachedRecipe getShape(IFluidRecipe recipe) {
         if (recipe instanceof FluidShapedOreRecipe) {
@@ -113,4 +94,5 @@ public class NEIAssemblerRecipeManager extends NEIHydraulicRecipePlugin {
     public String getOverlayIdentifier() {
         return "hydcraftassembler";
     }
+    */
 }

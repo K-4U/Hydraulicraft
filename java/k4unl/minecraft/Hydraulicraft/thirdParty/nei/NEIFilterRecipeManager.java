@@ -1,23 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
-import codechicken.nei.PositionedStack;
-import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
-import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapelessOreRecipe;
-import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
-import k4unl.minecraft.Hydraulicraft.client.GUI.GuiFilter;
-import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
-
-import java.awt.*;
-import java.util.LinkedList;
-import java.util.List;
-
-public class NEIFilterRecipeManager extends NEIHydraulicRecipePlugin {
-
+public class NEIFilterRecipeManager {//extends NEIHydraulicRecipePlugin {
+/*
     @Override
     public CachedRecipe getShape(IFluidRecipe recipe) {
         if (recipe instanceof FluidShapedOreRecipe) {
@@ -83,4 +67,5 @@ public class NEIFilterRecipeManager extends NEIHydraulicRecipePlugin {
         transferRects.add(new RecipeTransferRect(new Rectangle(50, 5, 25, 60), "filtering"));
         transferRects.add(new RecipeTransferRect(new Rectangle(95, 5, 25, 60), "filtering"));
     }
+    */
 }

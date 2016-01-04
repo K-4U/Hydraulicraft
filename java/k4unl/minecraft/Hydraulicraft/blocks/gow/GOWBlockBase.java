@@ -13,7 +13,7 @@ public abstract class GOWBlockBase extends BlockContainer {
 		super(Material.rock);
 		tName = name;
 
-		setBlockName(tName);
+		setUnlocalizedName(tName);
 		setStepSound(Block.soundTypeStone);
 		setHardness(3.5F);
 		setResistance(10F);		

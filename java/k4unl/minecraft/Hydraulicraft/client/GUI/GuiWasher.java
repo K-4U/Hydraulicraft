@@ -7,8 +7,8 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTankInfo;
 import org.lwjgl.opengl.GL11;
 
@@ -30,7 +30,7 @@ public class GuiWasher extends HydraulicGUIBase {
 
         drawFluidAndPressure();
 
-        FluidTankInfo[] tankInfo = washer.getTankInfo(ForgeDirection.UP);
+        FluidTankInfo[] tankInfo = washer.getTankInfo(EnumFacing.UP);
         if (tankInfo[0].fluid != null) {
             if (tankInfo[0].fluid.amount > 0) {
                 //Fluid inTank = FluidRegistry.getFluid(tankInfo[0].fluid.fluidID);

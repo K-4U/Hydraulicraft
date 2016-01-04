@@ -1,13 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets;
 
-import codechicken.nei.recipe.GuiCraftingRecipe;
-import codechicken.nei.recipe.GuiUsageRecipe;
 import k4unl.minecraft.Hydraulicraft.client.GUI.HydraulicGUIBase;
 import k4unl.minecraft.Hydraulicraft.client.GUI.ToolTip;
+import k4unl.minecraft.k4lib.lib.Functions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.util.IIcon;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -64,7 +65,7 @@ public class NEIWidgetTank extends WidgetBase {
         if (tank.getFluid() == null)
             return;
 
-        IIcon icon = tank.getFluid().getFluid().getIcon();
+        TextureAtlasSprite icon = Functions.getFluidIcon(tank.getFluid().getFluid());
         float uMin = icon.getMinU();
         float uMax = icon.getMaxU();
         float vMin = icon.getMinV();
@@ -78,27 +79,27 @@ public class NEIWidgetTank extends WidgetBase {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.7F);
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
+        WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         int o;
         float zLevel = 0f;
 
         // render (height / iconHeight) times the base texture
         for (o = 0; o < Math.floor(icons); o++) {
-            tessellator.addVertexWithUV(x + 0, y - (iconHeight * o), zLevel, uMin, vMin); // BL
-            tessellator.addVertexWithUV(x + width, y - (iconHeight * o), zLevel, uMax, vMin); // BR
-            tessellator.addVertexWithUV(x + width, y - (iconHeight * (o + 1)), zLevel, uMax, vMax);
-            tessellator.addVertexWithUV(x + 0, y - (iconHeight * (o + 1)), zLevel, uMin, vMax);
+            worldRenderer.pos(x + 0, y - (iconHeight * o), zLevel).tex(uMin, vMin).endVertex(); // BL
+            worldRenderer.pos(x + width, y - (iconHeight * o), zLevel).tex(uMax, vMin).endVertex(); // BR
+            worldRenderer.pos(x + width, y - (iconHeight * (o + 1)), zLevel).tex(uMax, vMax).endVertex();
+            worldRenderer.pos(x + 0, y - (iconHeight * (o + 1)), zLevel).tex(uMin, vMax).endVertex();
         }
         o = (int) Math.floor(icons);
 
         // render remaining part of the size with the remainings of the texture
-        tessellator.addVertexWithUV(x + 0, y - (iconHeight * o), zLevel, uMin, vMin); // BL
-        tessellator.addVertexWithUV(x + width, y - (iconHeight * o), zLevel, uMax, vMin); // BR
-        tessellator.addVertexWithUV(x + width, y - (iconHeight * (o + (icons % 1.0F))), zLevel, uMax, vMaxLast); // TR
-        tessellator.addVertexWithUV(x + 0, y - (iconHeight * (o + (icons % 1.0F))), zLevel, uMin, vMaxLast); // TL
+        worldRenderer.pos(x + 0, y - (iconHeight * o), zLevel).tex(uMin, vMin).endVertex(); // BL
+        worldRenderer.pos(x + width, y - (iconHeight * o), zLevel).tex(uMax, vMin).endVertex(); // BR
+        worldRenderer.pos(x + width, y - (iconHeight * (o + (icons % 1.0F))), zLevel).tex(uMax, vMaxLast).endVertex(); // TR
+        worldRenderer.pos(x + 0, y - (iconHeight * (o + (icons % 1.0F))), zLevel).tex(uMin, vMaxLast).endVertex(); // TL
 
-        tessellator.draw();
+        Tessellator.getInstance().draw();
 
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
@@ -123,7 +124,7 @@ public class NEIWidgetTank extends WidgetBase {
         return new Rectangle(x, y - height, width, height);
     }
 
-    @Override
+    /*@Override
     public boolean clicked(int button) {
         if (tank.getFluid() == null)
             return false;
@@ -134,5 +135,6 @@ public class NEIWidgetTank extends WidgetBase {
             return GuiUsageRecipe.openRecipeGui("fluid", tank.getFluid());
         }
         return false;
-    }
+    }*/
 }
+

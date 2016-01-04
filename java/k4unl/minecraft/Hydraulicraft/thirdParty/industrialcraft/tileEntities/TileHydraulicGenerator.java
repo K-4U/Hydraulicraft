@@ -1,18 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities;
 
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-import ic2.api.energy.tile.IEnergySource;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
-public class TileHydraulicGenerator extends TileHydraulicBase implements IHydraulicConsumer, IEnergySource {
-	private ForgeDirection facing = ForgeDirection.UP;
+public class TileHydraulicGenerator extends TileHydraulicBase implements IHydraulicConsumer{ //}, IEnergySource {
+	private EnumFacing facing = EnumFacing.UP;
 	private int ic2EnergyStored;
 	private int energyToAdd;
 	private float pressureRequired;
@@ -22,11 +17,11 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 		super.init(this);
 	}
 
-	public ForgeDirection getFacing(){
+	public EnumFacing getFacing(){
 		return facing;		
 	}
 	
-	public void setFacing(ForgeDirection newDir){
+	public void setFacing(EnumFacing newDir){
 		facing = newDir;
 	}
 	
@@ -35,7 +30,7 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
 		ic2EnergyStored = tagCompound.getInteger("ic2EnergyStored");
-		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+		facing = EnumFacing.byName(tagCompound.getString("facing"));
 		energyToAdd = tagCompound.getInteger("energyToAdd");
 		pressureRequired = tagCompound.getFloat("pressureRequired");
 	}
@@ -44,7 +39,7 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
 		tagCompound.setInteger("ic2EnergyStored", ic2EnergyStored);
-		tagCompound.setInteger("facing", facing.ordinal());
+		tagCompound.setString("facing", facing.toString());
 		tagCompound.setInteger("energyToAdd", energyToAdd);
 		tagCompound.setFloat("pressureRequired",pressureRequired );
 	}
@@ -53,7 +48,7 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 	public void onFluidLevelChanged(int old) { }
 
 	@Override
-	public float workFunction(boolean simulate, ForgeDirection from) {
+	public float workFunction(boolean simulate, EnumFacing from) {
 		return createPower(simulate);
 	}
 	
@@ -87,22 +82,22 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
     }
 
 	@Override
-	public boolean canConnectTo(ForgeDirection side) {
+	public boolean canConnectTo(EnumFacing side) {
 		return !side.equals(facing);
 	}
 	
 	@Override
 	public void firstTick() {
-		MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+		//MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 	}
 
 	@Override
-	public boolean canWork(ForgeDirection dir) {
-		return dir.equals(ForgeDirection.UP);
+	public boolean canWork(EnumFacing dir) {
+		return dir.equals(EnumFacing.UP);
 	}
 	
-	@Override
-	public boolean emitsEnergyTo(TileEntity receiver, ForgeDirection direction) {
+	/*@Override
+	public boolean emitsEnergyTo(TileEntity receiver, EnumFacing direction) {
 		if(!direction.equals(getFacing())){
 			return true;
 		}else{
@@ -136,7 +131,7 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 	public int getSourceTier() {
 		return 1;
 	}
-
+*/
 	public int getEUStored() {
 		return ic2EnergyStored;
 	}
@@ -152,7 +147,7 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
 	@Override
     public void invalidate(){
         if(worldObj != null && !worldObj.isRemote) {
-            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+            //MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
         }
         super.invalidate();
     }
@@ -160,7 +155,7 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
     @Override
     public void onChunkUnload(){
         if(worldObj != null && !worldObj.isRemote) {
-            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+            //MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
         }
         super.onChunkUnload();
     }

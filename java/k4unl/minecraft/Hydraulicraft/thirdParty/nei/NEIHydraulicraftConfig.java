@@ -1,21 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
-import codechicken.nei.api.API;
-import codechicken.nei.api.IConfigureNEI;
-import codechicken.nei.recipe.DefaultOverlayHandler;
-import cpw.mods.fml.common.Optional;
-import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.client.GUI.GuiAssembler;
-import k4unl.minecraft.Hydraulicraft.items.HCItems;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.k4lib.lib.Functions;
-import net.minecraft.item.ItemStack;
-
-
-@Optional.Interface(iface = "codechicken.nei.api.API", modid = "NotEnoughItems")
-public class NEIHydraulicraftConfig implements IConfigureNEI {
-
+//@Optional.Interface(iface = "codechicken.nei.api.API", modid = "NotEnoughItems")
+public class NEIHydraulicraftConfig {//implements IConfigureNEI {
+/*
 
     @Optional.Method(modid = "NotEnoughItems")
     @Override
@@ -65,4 +52,5 @@ public class NEIHydraulicraftConfig implements IConfigureNEI {
     public String getVersion() {
         return ModInfo.VERSION;
     }
+    */
 }

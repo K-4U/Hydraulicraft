@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
@@ -12,6 +11,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileEntities {
     /*!

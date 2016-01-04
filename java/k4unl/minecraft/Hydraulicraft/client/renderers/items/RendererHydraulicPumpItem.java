@@ -1,14 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.generators.RendererHydraulicPump;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
-
-import org.lwjgl.opengl.GL11;
-
-public class RendererHydraulicPumpItem implements IItemRenderer{
-
-	private static RendererHydraulicPump t = new RendererHydraulicPump();
+public class RendererHydraulicPumpItem {//implements IItemRenderer{
+/*
+    private static RendererHydraulicPump t = new RendererHydraulicPump();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -54,4 +48,5 @@ public class RendererHydraulicPumpItem implements IItemRenderer{
 		GL11.glScalef(scale, scale, scale);
 		t.itemRender(x, y, z, 0, tier);
 	}
+	*/
 }

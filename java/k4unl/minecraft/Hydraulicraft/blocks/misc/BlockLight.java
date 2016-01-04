@@ -6,8 +6,10 @@ import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -32,14 +34,10 @@ public class BlockLight extends HydraulicBlockBase {
         return -1;
     }
 
-    /**
-     * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
-     * cleared to be reused)
-     */
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
-    {
-        return null;
-    }
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+		return null;
+	}
 
     /**
      * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
@@ -50,51 +48,48 @@ public class BlockLight extends HydraulicBlockBase {
         return false;
     }
 
-    /**
-     * Returns whether this block is collideable based on the arguments passed in n@param par1 block metaData n@param
-     * par2 whether the player right-clicked while holding a boat
-     */
-    public boolean canCollideCheck(int p_149678_1_, boolean p_149678_2_){
-        return false;
-    }
+	@Override
+	public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid) {
+		return false;
+	}
 
-    /**
-     * Drops the block items with a specified chance of dropping the specified items
-     */
-    public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_) {}
-    
-    
-    public void updateTick(World world, int x, int y, int z, Random random){
+	@Override
+	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+
+	}
+
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
     	//if(world.getBlock(x, y, z) instanceof BlockLight){
 	    	//Seach within 3 blocks for a player.
 	    	//If no player found. Remove the block
-    		EntityPlayer closestPlayer = world.getClosestPlayer(x, y, z, 15); 
+    		EntityPlayer closestPlayer = worldIn.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 15);
 	    	if(closestPlayer == null){
-	    		world.setBlockToAir(x, y, z);
+	    		worldIn.setBlockToAir(pos);
 	    	}else{
 	    		if(closestPlayer.getCurrentArmor(3) != null){
 		    		if(closestPlayer.getCurrentArmor(3).getItem() == HCItems.itemMiningHelmet){
 		    			if(!ItemMiningHelmet.isPoweredOn(closestPlayer.getCurrentArmor(3))){
-		    				world.setBlockToAir(x, y, z);
+		    				worldIn.setBlockToAir(pos);
 		    			}
 		    		}else{
-		    			world.setBlockToAir(x, y, z);
+		    			worldIn.setBlockToAir(pos);
 		    		}
 	    		}else{
-	    			world.setBlockToAir(x, y, z);
+	    			worldIn.setBlockToAir(pos);
 	    		}
 	    	}
     	//}
 	    //world.scheduleBlockUpdate(x, y, z, HCBlocks.blockLight, 10);
     }
-    
-    @Override
-    public void onBlockAdded(World world, int x, int y, int z){
-    	world.scheduleBlockUpdate(x, y, z, HCBlocks.blockLight, 10);
+
+	@Override
+	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+    	worldIn.scheduleBlockUpdate(pos, HCBlocks.blockLight, 10, 10);
     }
-    
-    @Override
-    public int getLightValue(IBlockAccess world, int x, int y, int z){
-    	return world.getBlockMetadata(x, y, z);
+
+
+	@Override
+	public int getLightValue(IBlockAccess world, BlockPos pos) {
+		return 15;//world.getBlockMetadata(x, y, z);
     }
 }

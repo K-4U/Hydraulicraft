@@ -1,27 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
-import codechicken.lib.gui.GuiDraw;
-import codechicken.nei.NEIClientUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.TemplateRecipeHandler;
-import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
-import k4unl.minecraft.Hydraulicraft.fluids.BlockBaseFluid;
-import k4unl.minecraft.Hydraulicraft.items.ItemBucketBase;
-import k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets.NEIWidgetTank;
-import k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets.WidgetBase;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.OreDictionary;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
+public abstract class NEIHydraulicRecipePlugin {//extends TemplateRecipeHandler {
+    /*
     @Override
     public String getGuiTexture() {
         return null;
@@ -270,4 +250,5 @@ public abstract class NEIHydraulicRecipePlugin extends TemplateRecipeHandler {
             return false;
         }
     }
+    */
 }

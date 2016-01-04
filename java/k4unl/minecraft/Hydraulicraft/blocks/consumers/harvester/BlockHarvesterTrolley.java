@@ -1,21 +1,23 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +43,12 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
         return false;
     }
 
-    @Override
+
+    /*@Override
     public boolean renderAsNormalBlock(){
         return false;
     }
-	
+	*/
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileHarvesterTrolley();
@@ -63,34 +66,36 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
     }
 
     @Override
-    public void breakBlock(World w, int x, int y, int z, Block oldBlock, int oldMetaData){
+    public void breakBlock(World w, BlockPos pos, IBlockState state){
         //Call TileEntity's onBlockBreaks function
-        TileEntity tile = w.getTileEntity(x, y, z);
+        TileEntity tile = w.getTileEntity(pos);
         if(tile instanceof TileHarvesterTrolley){
             ((TileHarvesterTrolley)tile).onBlockBreaks();
         }
 
-        super.breakBlock(w, x, y, z, oldBlock, oldMetaData);
-        w.removeTileEntity(x, y, z);
+        super.breakBlock(w, pos, state);
+        w.removeTileEntity(pos);
     }
 
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
-	    NBTTagCompound tag = iStack.getTagCompound();
-	    TileHarvesterTrolley teTrolley = (TileHarvesterTrolley)world.getTileEntity(x, y, z);
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	    NBTTagCompound tag = stack.getTagCompound();
+	    TileHarvesterTrolley teTrolley = (TileHarvesterTrolley)world.getTileEntity(pos);
 	    teTrolley.setTrolley(Hydraulicraft.trolleyRegistrar.getTrolley(tag.getString("name")));
-		super.onBlockPlacedBy(world, x, y, z, player, iStack);
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
 	}
-	
-	 @SideOnly(Side.CLIENT)
-	 public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
-	     TileHarvesterTrolley teTrolley = (TileHarvesterTrolley)world.getTileEntity(x, y, z);
+
+
+    @SideOnly(Side.CLIENT)
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
+	     TileHarvesterTrolley teTrolley = (TileHarvesterTrolley)world.getTileEntity(pos);
 	     return Hydraulicraft.trolleyRegistrar.getTrolleyItem(teTrolley.getTrolley().getName());
 	 }
-	
-	@Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z){
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
+
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
 
         if(tileEntity instanceof TileHarvesterTrolley) {
         	TileHarvesterTrolley ht = ((TileHarvesterTrolley) tileEntity);
@@ -125,10 +130,5 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
         }
     }
 
-	/*@Override
-	public int damageDropped(int damageValue){
-		return damageValue;
-	}
-*/
 
 }

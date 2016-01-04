@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -38,19 +39,22 @@ public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements
     }
 
     @Override
-    public PressureTier getTier(int metadata) {
+    public PressureTier getTier(int damage) {
 
-        return PressureTier.INVALID;
+        return PressureTier.fromOrdinal(damage);
     }
 
     @Override
-    public PressureTier getTier(IBlockAccess world, int x, int y, int z) {
-
-        return PressureTier.fromOrdinal(world.getBlockMetadata(x, y, z));
+    public PressureTier getTier(IBlockAccess world, BlockPos pos) {
+		TileEntity tileEntity = world.getTileEntity(pos);
+		if(tileEntity instanceof TileHydraulicWasher){
+			return ((TileHydraulicWasher)tileEntity).getPressureTier();
+		}
+		return PressureTier.INVALID;
     }
 
 	@Override
-	public boolean isValid(IBlockAccess world, int x, int y, int z) {
-		return ((TileHydraulicWasher)world.getTileEntity(x, y, z)).getIsValidMultiblock();
+	public boolean isValid(IBlockAccess world, BlockPos pos) {
+		return ((TileHydraulicWasher)world.getTileEntity(pos)).getIsValidMultiblock();
 	}
 }

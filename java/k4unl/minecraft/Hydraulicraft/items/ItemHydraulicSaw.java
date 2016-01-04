@@ -29,14 +29,14 @@ public class ItemHydraulicSaw extends ItemHydraulicTool {
     }
 
     @Override
-    public float func_150893_a(ItemStack stack, Block block) {
-        if (super.func_150893_a(stack, block) == 0)
+    public float getStrVsBlock(ItemStack stack, Block block) {
+        if (super.getStrVsBlock(stack, block) == 0)
             return 0;
 
         if (block.getMaterial() == Material.leaves)
             return SPEED_ON_LEAVES;
 
-        return axe.func_150893_a(stack, block);
+        return axe.getStrVsBlock(stack, block);
     }
 
     /* Helper classes */

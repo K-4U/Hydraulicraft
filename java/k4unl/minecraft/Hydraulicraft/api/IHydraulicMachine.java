@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import net.minecraftforge.common.util.ForgeDirection;
+
+import net.minecraft.util.EnumFacing;
 
 public interface IHydraulicMachine {
 	IBaseClass getHandler();
@@ -15,5 +16,5 @@ public interface IHydraulicMachine {
 	 * @param side
 	 * @return
 	 */
-	boolean canConnectTo(ForgeDirection side);
+	boolean canConnectTo(EnumFacing side);
 }

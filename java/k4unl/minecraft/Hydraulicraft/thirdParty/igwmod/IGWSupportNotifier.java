@@ -4,13 +4,6 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.igwmod;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -19,6 +12,13 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -72,7 +72,7 @@ public class IGWSupportNotifier{
     @SubscribeEvent
     public void onPlayerJoin(TickEvent.PlayerTickEvent event){
         if(event.player.worldObj.isRemote && event.player == FMLClientHandler.instance().getClientPlayerEntity()) {
-            event.player.addChatComponentMessage(IChatComponent.Serializer.func_150699_a("[\"" + EnumChatFormatting.GOLD + "The mod " + supportingMod + " is supporting In-Game Wiki mod. " + EnumChatFormatting.GOLD + "However, In-Game Wiki isn't installed! " + "[\"," + "{\"text\":\"Download Latest\",\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/igwmod_download\"}}," + "\"]\"]"));
+            event.player.addChatComponentMessage(IChatComponent.Serializer.jsonToComponent("[\"" + EnumChatFormatting.GOLD + "The mod " + supportingMod + " is supporting In-Game Wiki mod. " + EnumChatFormatting.GOLD + "However, In-Game Wiki isn't installed! " + "[\"," + "{\"text\":\"Download Latest\",\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/igwmod_download\"}}," + "\"]\"]"));
             FMLCommonHandler.instance().bus().unregister(this);
         }
     }

@@ -5,15 +5,14 @@ import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 public class RendererPortalTeleporter extends TileEntitySpecialRenderer {
 	
 	@Override
-	public void renderTileEntityAt(TileEntity ent, double x, double y,
-			double z, float frame) {
+	public void renderTileEntityAt(TileEntity ent, double x, double y, double z, float frame, int destroyStage) {
 		doRender((TilePortalTeleporter)ent, x, y, z, frame);
 
 	}
@@ -47,34 +46,34 @@ public class RendererPortalTeleporter extends TileEntitySpecialRenderer {
 			
 			if(teleporter != null){
 				if(teleporter.getBaseDir() != null){
-					if(teleporter.getBaseDir().equals(ForgeDirection.NORTH) | teleporter.getPortalDir().equals(ForgeDirection.NORTH)){
+					if(teleporter.getBaseDir().equals(EnumFacing.NORTH) | teleporter.getPortalDir().equals(EnumFacing.NORTH)){
 						vector.setZMin(0.0F);
 						vector.setZMax(1.0F);
 					}
-					if(teleporter.getPortalDir().equals(ForgeDirection.UP)){
+					if(teleporter.getPortalDir().equals(EnumFacing.UP)){
 						vector.setYMin(0.0F);
 						vector.setYMax(1.0F);
 					}
-					if(teleporter.getBaseDir().equals(ForgeDirection.EAST) || teleporter.getPortalDir().equals(ForgeDirection.EAST)){
+					if(teleporter.getBaseDir().equals(EnumFacing.EAST) || teleporter.getPortalDir().equals(EnumFacing.EAST)){
 						vector.setXMin(0.0F);
 						vector.setXMax(1.0F);
 					}
-					if(teleporter.isEdge(ForgeDirection.NORTH)){
+					if(teleporter.isEdge(EnumFacing.NORTH)){
 						vector.setZMin(-0.5F);
 					}
-					if(teleporter.isEdge(ForgeDirection.SOUTH)){
+					if(teleporter.isEdge(EnumFacing.SOUTH)){
 						vector.setZMax(1.5F);
 					}
-					if(teleporter.isEdge(ForgeDirection.UP)){
+					if(teleporter.isEdge(EnumFacing.UP)){
 						vector.setYMax(1.5F);
 					}
-					if(teleporter.isEdge(ForgeDirection.DOWN)){
+					if(teleporter.isEdge(EnumFacing.DOWN)){
 						vector.setYMin(-.5F);
 					}
-					if(teleporter.isEdge(ForgeDirection.WEST)){
+					if(teleporter.isEdge(EnumFacing.WEST)){
 						vector.setXMin(-0.5F);
 					}
-					if(teleporter.isEdge(ForgeDirection.EAST)){
+					if(teleporter.isEdge(EnumFacing.EAST)){
 						vector.setXMax(1.5F);
 					}
 				}

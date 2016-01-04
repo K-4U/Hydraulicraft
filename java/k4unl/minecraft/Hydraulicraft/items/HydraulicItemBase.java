@@ -23,7 +23,7 @@ public class HydraulicItemBase extends Item {
 
         setMaxStackSize(64);
         setUnlocalizedName(itemName.unlocalized);
-        setTextureName(ModInfo.LID + ":" + itemName.unlocalized);
+        setUnlocalizedName(ModInfo.LID + ":" + itemName.unlocalized);
 
         setCreativeTab(CustomTabs.tabHydraulicraft);
     }
@@ -44,12 +44,12 @@ public class HydraulicItemBase extends Item {
     }
 
     @Override
-    public boolean hasEffect(ItemStack itemStack, int pass) {
-        if (itemStack.getTagCompound() == null) {
+    public boolean hasEffect(ItemStack stack) {
+        if (stack.getTagCompound() == null) {
             return hasEffect;
         }
 
-        return hasEffect || itemStack.getTagCompound().getBoolean("hasEffect");
+        return hasEffect || stack.getTagCompound().getBoolean("hasEffect");
     }
 
     public void setDefaultInfo(String info) {

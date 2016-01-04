@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.multipart;
+/*package k4unl.minecraft.Hydraulicraft.multipart;
 
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
@@ -26,7 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.common.util.EnumFacing;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Arrays;
@@ -68,7 +68,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
         boundingBoxes[13] = new Cuboid6(centerSecond - w, centerSecond - w, centerSecond - w, centerSecond + w, centerSecond + w, centerSecond + w);
         
         int i = 0;
-    	for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+    	for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
     		double xMin1 = (dir.offsetX < 0 ? 0.0 : (dir.offsetX == 0 ? centerFirst - w : centerFirst + w));
     		double xMax1 = (dir.offsetX > 0 ? 1.0 : (dir.offsetX == 0 ? centerFirst + w : centerFirst - w));
     		
@@ -143,7 +143,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 
 		NBTTagCompound ourCompound = tagCompound.getCompoundTag("connectedSides");
 
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+		for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS) {
 			connectedSideFlags[dir.ordinal()] = ourCompound.getBoolean(dir.ordinal()+"");
 		}
 		needToCheckNeighbors = true;
@@ -209,7 +209,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		list.add(boundingBoxes[6]);
 		list.add(boundingBoxes[13]);
 		if(connectedSideFlags == null) return list;
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+		for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
 			if(connectedSideFlags[dir.ordinal()]){
 				list.add(boundingBoxes[Functions.getIntDirFromDirection(dir)]);
 				list.add(boundingBoxes[Functions.getIntDirFromDirection(dir)+7]);
@@ -231,7 +231,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		}
 	}
 
-	private boolean shouldConnectTo(TileEntity entity, ForgeDirection dir){
+	private boolean shouldConnectTo(TileEntity entity, EnumFacing dir){
 		if(entity instanceof TileMultipart){
 			List<TMultiPart> t = ((TileMultipart)entity).jPartList();
 
@@ -253,7 +253,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		}
 	}
 
-	public boolean isConnectedTo(ForgeDirection side){
+	public boolean isConnectedTo(EnumFacing side){
 		int d = side.ordinal();
 
 		if(world() != null && tile() != null){
@@ -272,7 +272,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		}
 		connectedSideFlags = new boolean[7];
 
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+		for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
 			int d = Functions.getIntDirFromDirection(dir);
 
 			TileEntity te = world().getTileEntity(x() + dir.offsetX, y() + dir.offsetY, z() + dir.offsetZ);
@@ -295,7 +295,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		if(connectedSidesHaveChanged && !world().isRemote){
 			float pressure = 0.0F;
 			int c = 0;
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS) {
 				if(oldSides[dir.ordinal()]) {
 					if (getHandler().getPressure(dir) > 0) {
 						pressure += getHandler().getPressure(dir);
@@ -316,7 +316,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	}
 
 	@Override
-	public boolean canConnectTo(ForgeDirection side) {
+	public boolean canConnectTo(EnumFacing side) {
 		return tile().canAddPart(new NormallyOccludedPart(boundingBoxes[side.ordinal()]));
 	}
 
@@ -378,7 +378,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 				//Temporary bug fix that we will forget about
 			}
 			if(world().isRemote && world().getTotalWorldTime() % 20 == 0) {
-				if (!getHandler().isOilStored() && getHandler().getPressure(ForgeDirection.UP) > 0) {
+				if (!getHandler().isOilStored() && getHandler().getPressure(EnumFacing.UP) > 0) {
 					//Do the particle thingie!
 					//world.spawnParticle("cloud", x, y, z, d3, d4, d5);
 					Random random = new Random();
@@ -413,7 +413,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		PressureNetwork foundNetwork;
 		PressureNetwork endNetwork = null;
 		//This block can merge networks!
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+		for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
 			if(!isConnectedTo(dir)){
 				continue;
 			}
@@ -441,12 +441,12 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 		}
 			
 		if(endNetwork != null){
-			((TileHydraulicBase)getHandler()).setNetwork(ForgeDirection.UP, endNetwork);
-			endNetwork.addMachine(this, oldPressure, ForgeDirection.UP);
+			((TileHydraulicBase)getHandler()).setNetwork(EnumFacing.UP, endNetwork);
+			endNetwork.addMachine(this, oldPressure, EnumFacing.UP);
 			//Log.info("Found an existing network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}else{
-			endNetwork = new PressureNetwork(this, oldPressure, ForgeDirection.UP);
-			((TileHydraulicBase)getHandler()).setNetwork(ForgeDirection.UP, endNetwork);
+			endNetwork = new PressureNetwork(this, oldPressure, EnumFacing.UP);
+			((TileHydraulicBase)getHandler()).setNetwork(EnumFacing.UP, endNetwork);
 			//Log.info("Created a new network (" + endNetwork.getRandomNumber() + ") @ " + x() + "," + y() + "," + z());
 		}
 	}
@@ -455,7 +455,7 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	public void onRemoved(){
 		super.onRemoved();
 		if(!world().isRemote){
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS) {
 				if(connectedSideFlags[dir.ordinal()]) {
 					if (getNetwork(dir) != null) {
 						getNetwork(dir).removeMachine(this);
@@ -504,12 +504,13 @@ public class PartHose extends TMultiPart implements TSlottedPart, JNormalOcclusi
 	}
 
 	@Override
-	public PressureNetwork getNetwork(ForgeDirection dir) {
+	public PressureNetwork getNetwork(EnumFacing dir) {
 		return ((TileHydraulicBase)getHandler()).getNetwork(dir);
 	}
 
 	@Override
-	public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+	public void setNetwork(EnumFacing side, PressureNetwork toSet) {
 		((TileHydraulicBase)getHandler()).setNetwork(side, toSet);
 	}
 }
+*/

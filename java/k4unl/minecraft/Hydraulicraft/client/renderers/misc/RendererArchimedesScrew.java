@@ -1,54 +1,34 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.misc;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFluidPump;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.IBlockAccess;
 import org.lwjgl.opengl.GL11;
 
 /**
  * Created by K-4U on 21-5-2015.
  */
-public class RendererArchimedesScrew extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler {
+public class RendererArchimedesScrew extends TileEntitySpecialRenderer {
 
-    private static final ResourceLocation resLoc =
-            new ResourceLocation(ModInfo.LID,"textures/model/");
-
-    public static final int   RENDER_ID         = RenderingRegistry.getNextAvailableRenderId();
-    public static final Block FAKE_RENDER_BLOCK = new Block(Material.rock) {
-
-        @Override
-        public IIcon getIcon(int meta, int side) {
-
-            return HCBlocks.blockHydraulicFluidPump.getIcon(meta, side);
-        }
-    };
+    private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/model/");
 
     @Override
-    public void renderTileEntityAt(TileEntity ent, double x, double y, double z, float f) {
-        int metadata = ent.getBlockMetadata();
-        doRender((TileHydraulicFluidPump) ent, x, y, z, f, metadata);
+    public void renderTileEntityAt(TileEntity ent, double x, double y, double z, float f, int destroyStage) {
+        doRender((TileHydraulicFluidPump) ent, x, y, z, f, destroyStage);
     }
 
-    public static void doRender(TileHydraulicFluidPump tileentity , double x, double y,
-                                double z, float f, int metadata){
+    public static void doRender(TileHydraulicFluidPump tileentity, double x, double y,
+                                double z, float f, int destroyStage) {
         GL11.glPushMatrix();
 
-        GL11.glTranslatef((float) x, (float) y, (float)z);
+        GL11.glTranslatef((float) x, (float) y, (float) z);
 
         //Get metadata for rotation:
-        if(tileentity != null){
-            switch(tileentity.getFacing()){
+        if (tileentity != null) {
+            switch (tileentity.getFacing()) {
                 case WEST:
                     GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
                     GL11.glTranslatef(-1.0F, 0.0F, -1.0F);
@@ -87,7 +67,7 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer implement
 
     }
 
-    public static void renderHelix(TileHydraulicFluidPump pump, float f){
+    public static void renderHelix(TileHydraulicFluidPump pump, float f) {
         int slices = 80;
         double ri = 0.15;
         double ro = 0.3;
@@ -104,7 +84,7 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer implement
             double h1 = (1.0 * height / slices) * s;
             double h2 = (1.0 * height / slices) * (s + 1);
             /* Bottom */
-            GL11.glColor3f(86F/255F, 92F/255F, 92F/255F);
+            GL11.glColor3f(86F / 255F, 92F / 255F, 92F / 255F);
             GL11.glVertex3d(Math.cos(t1) * ri, h1, Math.sin(t1) * ri);
             GL11.glVertex3d(Math.cos(t1) * ro, h1, Math.sin(t1) * ro);
             GL11.glVertex3d(Math.cos(t2) * ro, h2, Math.sin(t2) * ro);
@@ -115,7 +95,7 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer implement
             GL11.glVertex3d(Math.cos(t1) * ro, h1 + thickness, Math.sin(t1) * ro);
             GL11.glVertex3d(Math.cos(t1) * ri, h1 + thickness, Math.sin(t1) * ri);
             /* Side */
-            GL11.glColor3f(119F/255F, 119F/255F, 119F/255F);
+            GL11.glColor3f(119F / 255F, 119F / 255F, 119F / 255F);
             GL11.glVertex3d(Math.cos(t1) * ro, h1 + thickness, Math.sin(t1) * ro);
             GL11.glVertex3d(Math.cos(t2) * ro, h2 + thickness, Math.sin(t2) * ro);
             GL11.glVertex3d(Math.cos(t2) * ro, h2, Math.sin(t2) * ro);
@@ -156,26 +136,5 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer implement
         }
         GL11.glEnd();
         GL11.glPopMatrix();
-    }
-
-    @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-        renderer.renderBlockAsItem(FAKE_RENDER_BLOCK, 1, 1.0F);
-    }
-
-    @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-
-        return renderer.renderStandardBlock(FAKE_RENDER_BLOCK, x, y, z);
-    }
-
-    @Override
-    public boolean shouldRender3DInInventory(int modelId) {
-        return true;
-    }
-
-    @Override
-    public int getRenderId() {
-        return RENDER_ID;
     }
 }

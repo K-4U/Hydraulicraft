@@ -23,7 +23,7 @@ public class GuiPressureVat extends HydraulicGUIBase {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRenderer.drawString(pvat.getInvName(), 30, 6, 0xFFFFFF);
-		drawHorizontalAlignedString(7, 3, xSize-14, pvat.getInventoryName(), true);
+		drawHorizontalAlignedString(7, 3, xSize-14, pvat.getName(), true);
 		
 		drawFluidAndPressure();
 		checkTooltips(mouseX, mouseY);

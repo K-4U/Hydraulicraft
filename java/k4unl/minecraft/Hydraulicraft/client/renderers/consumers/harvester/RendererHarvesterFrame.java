@@ -1,12 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.client.models.ModelHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterFrame;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 
 public class RendererHarvesterFrame extends TileEntitySpecialRenderer {
@@ -22,8 +22,7 @@ public class RendererHarvesterFrame extends TileEntitySpecialRenderer {
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y,
-                                   double z, float f) {
+    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
         //Open the GL Matrix
         GL11.glPushMatrix();
 

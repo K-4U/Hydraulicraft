@@ -10,8 +10,6 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import pneumaticCraft.api.client.GuiElementRenderer;
-
 public class GuiPneumaticCompressor extends HydraulicGUIBase {
 	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/compressor.png");
 
@@ -36,8 +34,8 @@ public class GuiPneumaticCompressor extends HydraulicGUIBase {
 		GL11.glTranslatef(gaugeX, gaugeY, 0); 
 	    GL11.glScaled(0.85D, 0.85D, 0); 
 	    
-		GuiElementRenderer.drawPressureGauge(fontRendererObj, 0, compressor.getPneumaticMaxPressure(), compressor.getPneumaticDangerPressure(),
-				0, compressor.getPneumaticPressure(), (int)gaugeX, (int)gaugeY, 0);
+		/*GuiElementRenderer.drawPressureGauge(fontRendererObj, 0, compressor.getPneumaticMaxPressure(), compressor.getPneumaticDangerPressure(),
+				0, compressor.getPneumaticPressure(), (int)gaugeX, (int)gaugeY, 0);*/
 		GL11.glPopMatrix();
 		drawFluidAndPressure();
 	}

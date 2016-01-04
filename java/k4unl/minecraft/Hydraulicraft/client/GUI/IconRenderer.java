@@ -1,23 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 
-import static net.minecraftforge.client.IItemRenderer.ItemRenderType.INVENTORY;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 
 /**
@@ -27,10 +17,11 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 @SideOnly(Side.CLIENT)
 public final class IconRenderer {
-    private static ResourceLocation iconTexture =  TextureMap.locationItemsTexture; //new ResourceLocation("textures/atlas/items.png");
+    //private static ResourceLocation iconTexture =  TextureMap.locationItemsTexture; //new ResourceLocation("textures/atlas/items.png");
     private static ResourceLocation blockTexture = TextureMap.locationBlocksTexture; //  new ResourceLocation("textures/atlas/blocks.png");
 
-    private static RenderBlocks renderBlocks = new RenderBlocks();
+    //TODO: FIX ME
+    //private static RenderBlocks renderBlocks = new RenderBlocks();
     private static int curOnTime;
     private static final int TIME_PERIOD = 10;
 
@@ -51,15 +42,15 @@ public final class IconRenderer {
      *               be smooth
      */
     public static void drawMergedIcon(int x, int y, float z, ItemStack recipeItem, ItemStack resultItem, float transformation, boolean wobble) {
-        //enable blend to be able to draw the different alpha values
+       /* //enable blend to be able to draw the different alpha values
         GL11.glEnable(GL11.GL_BLEND);
         //bind the texture for the icons
         
 
         //Fetch the icons from the items, or null if we don't have any items.
         //Null icons will be prevented from being rendered
-        IIcon recipeIcon = recipeItem == null ? null : recipeItem.getIconIndex();
-        IIcon resultIcon = resultItem == null ? null : resultItem.getIconIndex();
+        TextureAtlasSprite recipeIcon = recipeItem == null ? null : recipeItem..getIconIndex();
+        TextureAtlasSprite resultIcon = resultItem == null ? null : resultItem.getIconIndex();
 
         //calculate the alpha values, the first one decreases with the transformation and the other increases
         //these alpha values will end respectively star below 0. This is to prevent them from being rendered in the
@@ -101,9 +92,10 @@ public final class IconRenderer {
         
 
         GL11.glDisable(GL11.GL_BLEND);
+        */
     }
 
-    /**
+    /*
      * Renders an icon with the given properties
      * @param x the x coordinate of the icon
      * @param y the y coordinate of the icon
@@ -121,7 +113,7 @@ public final class IconRenderer {
      * @param isBlock whether we need to render a block, or just an icon.
      * @param itemDamage TODO 
      */
-    public static void drawIcon(int x, int y, float z, IIcon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock, int itemDamage, ItemStack item, boolean opposite) {
+    /*public static void drawIcon(int x, int y, float z, IIcon icon, int w, int h, float size, float alpha, boolean wobble, Block isBlock, int itemDamage, ItemStack item, boolean opposite) {
         //without an alpha size or an icon we have nothing to render
         if (alpha <= 0 || size <= 0) {
             return;
@@ -212,10 +204,10 @@ public final class IconRenderer {
         //restore the alpha  value
         GL11.glColor4f(1F, 1F, 1F, 1F);
     }
-    
+    */
     public static void renderBlock(Block block, int x, int y, float z, int itemDamage, float alpha, float targetWidthMargin){
     	//GL11.glEnable(GL11.GL_BLEND);
-    	
+    	/*
     	GL11.glPushMatrix();
     	GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glTranslatef(x - 2, y + 3, -4.0F + z);
@@ -233,7 +225,7 @@ public final class IconRenderer {
         renderBlocks.renderBlockAsItem(block, itemDamage, 1.0F);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
-        //GL11.glDisable(GL11.GL_BLEND);
+        //GL11.glDisable(GL11.GL_BLEND);*/
         
     }
 

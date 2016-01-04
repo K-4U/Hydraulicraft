@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 /**
@@ -7,5 +8,5 @@ import net.minecraft.world.IBlockAccess;
  */
 public interface IGUIMultiBlock {
 
-    public boolean isValid(IBlockAccess world, int x, int y, int z);
+    public boolean isValid(IBlockAccess world, BlockPos pos);
 }

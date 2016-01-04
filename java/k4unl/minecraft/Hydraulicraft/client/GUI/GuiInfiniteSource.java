@@ -19,18 +19,18 @@ public class GuiInfiniteSource extends HydraulicGUIBase {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		drawHorizontalAlignedString(7, 3, xSize-14, tileSource.getInventoryName(), true);
+		drawHorizontalAlignedString(7, 3, xSize-14, tileSource.getName(), true);
 		
 		/*
 		int startY = 17;
 		int step = (int)(Hydraulicraft.smallGuiFont.getLineHeight() / 3.2F);
 		//int step = 6;
 		
-		String generating = (new DecimalFormat("#.##")).format(pump.getGenerating(ForgeDirection.UP));
+		String generating = (new DecimalFormat("#.##")).format(pump.getGenerating(EnumFacing.UP));
 		drawSmallerString(61, startY + (step * 0), EnumChatFormatting.GREEN + "Generating:", false);
 		drawSmallerString(65, startY + (step * 1), EnumChatFormatting.GREEN + "" + generating + " mBar/t", false);
 		drawSmallerString(61, startY + (step * 2), EnumChatFormatting.GREEN + "Max:", false);
-		drawSmallerString(65, startY + (step * 3), EnumChatFormatting.GREEN + "" + pump.getMaxGenerating(ForgeDirection.UP) + " mBar/t", false);
+		drawSmallerString(65, startY + (step * 3), EnumChatFormatting.GREEN + "" + pump.getMaxGenerating(EnumFacing.UP) + " mBar/t", false);
 		drawSmallerString(61, startY + (step * 4), EnumChatFormatting.GREEN + "Burn left:", false);
 		drawSmallerString(65, startY + (step * 5), EnumChatFormatting.GREEN + "" + (int)(pump.getBurningPercentage()*100) + " %", false);
 		*/

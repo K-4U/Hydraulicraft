@@ -1,11 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities;
 
-import codechicken.lib.data.MCDataOutput;
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.*;
 import k4unl.minecraft.Hydraulicraft.blocks.IHydraulicMultiBlock;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
@@ -13,10 +7,7 @@ import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork.networkEntry;
-import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
@@ -32,15 +23,20 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileHydraulicBase extends TileEntity implements IBaseClass {
-    protected List<ForgeDirection> connectedSides;
+public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickable {
+    protected List<EnumFacing> connectedSides;
     protected PressureNetwork      pNetwork;
     private boolean _isOilStored      = false;
     private int     fluidLevelStored  = 0;
@@ -49,7 +45,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     private boolean           isMultipart;
     private World             tWorld;
     private Location          blockLocation;
-    private TMultiPart        tMp;
+    //private TMultiPart        tMp;
     private TileEntity        tTarget;
     private IHydraulicMachine target;
     private boolean           hasOwnFluidTank;
@@ -57,7 +53,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     private float   oldPressure         = 0f;
     private boolean shouldUpdateNetwork = true;
     private boolean shouldUpdateFluid   = false;
-    private PressureTier pressureTier;
+    //private PressureTier pressureTier;
     private int maxStorage = 0;
     private int fluidInNetwork;
     private int networkCapacity;
@@ -69,7 +65,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     public TileHydraulicBase(int _maxStorage) {
 
         maxStorage = _maxStorage;
-        connectedSides = new ArrayList<ForgeDirection>();
+        connectedSides = new ArrayList<EnumFacing>();
     }
 
     public void init(TileEntity _target) {
@@ -79,7 +75,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
         if (target instanceof TileHydraulicPressureVat) {
             hasOwnFluidTank = true;
         }
-        tWorld = _target.getWorldObj();
+        tWorld = _target.getWorld();
     }
 
     public IBaseClass getHandler() {
@@ -91,11 +87,11 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
         if (blockLocation == null) {
             if (isMultipart) {
-                if (tMp.tile() != null) {
+                /*if (tMp.tile() != null) {
                     blockLocation = new Location(tMp.x(), tMp.y(), tMp.z());
-                }
+                }*/
             } else {
-                blockLocation = new Location(tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
+                blockLocation = new Location(tTarget.getPos());
             }
         }
         return blockLocation;
@@ -105,10 +101,10 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
         if (tWorld == null) {
             if (isMultipart) {
-                tWorld = tMp.world();
+                //tWorld = tMp.world();
             } else {
                 if (tTarget != null) {
-                    tWorld = tTarget.getWorldObj();
+                    tWorld = tTarget.getWorld();
                 }
             }
         }
@@ -141,16 +137,16 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     public void updateBlock() {
 
         if (getWorld() != null && !getWorld().isRemote) {
-            if (isMultipart && tMp.tile() != null) {
+            /*if (isMultipart && tMp.tile() != null) {
                 MCDataOutput writeStream = tMp.tile().getWriteStream(tMp);
                 tMp.writeDesc(writeStream);
-            } else {
-                getWorld().markBlockForUpdate(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
-            }
+            } else {*/
+                getWorld().markBlockForUpdate(getBlockLocation().toBlockPos());
+            //}
         }
     }
 
-    public void checkPressure(ForgeDirection dir) {
+    public void checkPressure(EnumFacing dir) {
 
         if (getWorld() == null) return;
         if (getWorld().isRemote) return;
@@ -161,14 +157,14 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
             getWorld().createExplosion(null, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(),
                     0.6F + ((getMaxPressure(isOilStored(), null) / newPressure)), true);
             if (isOilStored()) {
-                getWorld().setBlock(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), Fluids.fluidHydraulicOilBlock);
+                getWorld().setBlockState(getBlockLocation().toBlockPos(), Fluids.fluidHydraulicOilBlock.getDefaultState());
             } else {
-                getWorld().setBlock(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), FluidRegistry.WATER.getBlock());
+                getWorld().setBlockState(getBlockLocation().toBlockPos(), FluidRegistry.WATER.getBlock().getDefaultState());
             }
         }
     }
 
-    public float getMaxPressure(boolean isOil, ForgeDirection from) {
+    public float getMaxPressure(boolean isOil, EnumFacing from) {
         if (isOil) {
             switch (getPressureTier()) {
                 case LOWPRESSURE:
@@ -202,7 +198,8 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     public int getStored() {
         if (hasOwnFluidTank) {
             if (isMultipart) {
-                return ((IHydraulicStorageWithTank) tMp).getStored();
+                //return ((IHydraulicStorageWithTank) tMp).getStored();
+                return 0;
             } else {
                 return ((IHydraulicStorageWithTank) target).getStored();
             }
@@ -219,7 +216,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
         _isOilStored = isOil;
         if (hasOwnFluidTank) {
             if (isMultipart) {
-                ((IHydraulicStorageWithTank) tMp).setStored(i, isOil);
+                //((IHydraulicStorageWithTank) tMp).setStored(i, isOil);
             } else {
                 ((IHydraulicStorageWithTank) target).setStored(i, isOil);
             }
@@ -242,7 +239,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-        NBTTagCompound tagCompound = packet.func_148857_g();
+        NBTTagCompound tagCompound = packet.getNbtCompound();
         this.readFromNBT(tagCompound);
     }
 
@@ -250,66 +247,63 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     public Packet getDescriptionPacket() {
         NBTTagCompound tagCompound = new NBTTagCompound();
         this.writeToNBT(tagCompound);
-        return new S35PacketUpdateTileEntity(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), 4, tagCompound);
+        return new S35PacketUpdateTileEntity(getBlockLocation().toBlockPos(), 4, tagCompound);
     }
 
-    private IHydraulicMachine getMachine(ForgeDirection dir) {
+    private IHydraulicMachine getMachine(EnumFacing dir) {
         if (getWorld() == null) return null;
 
-        int x = getBlockLocation().getX() + dir.offsetX;
+        /*int x = getBlockLocation().getX() + dir.offsetX;
         int y = getBlockLocation().getY() + dir.offsetY;
-        int z = getBlockLocation().getZ() + dir.offsetZ;
-        Block block = getWorld().getBlock(x, y, z);
+        int z = getBlockLocation().getZ() + dir.offsetZ;*/
+        Block block = getWorld().getBlockState(getBlockLocation().toBlockPos().offset(dir)).getBlock();
         if (block instanceof BlockAir) {
             return null;
         }
 
-        TileEntity t = getWorld().getTileEntity(x, y, z);
+        TileEntity t = getWorld().getTileEntity(getBlockLocation().toBlockPos().offset(dir));
         if (t instanceof IHydraulicMachine) {
             if (((IHydraulicMachine) t).canConnectTo(dir.getOpposite()))
                 return (IHydraulicMachine) t;
-        } else if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
+        } /*else if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
             if (Multipart.getTransporter((TileMultipart) t).isConnectedTo(dir.getOpposite())) {
                 return Multipart.getTransporter((TileMultipart) t);
             }
-        }
+        }*/
         return null;
     }
 
-    private List<IHydraulicMachine> getMachineList(List<IHydraulicMachine> list, ForgeDirection dir) {
+    private List<IHydraulicMachine> getMachineList(List<IHydraulicMachine> list, EnumFacing dir) {
         if (getWorld() == null) return list;
 
-        int x = getBlockLocation().getX() + dir.offsetX;
-        int y = getBlockLocation().getY() + dir.offsetY;
-        int z = getBlockLocation().getZ() + dir.offsetZ;
-        Block block = getWorld().getBlock(x, y, z);
+        Block block = getWorld().getBlockState(getBlockLocation().toBlockPos().offset(dir)).getBlock();
         if (block instanceof BlockAir) {
             return null;
         }
 
-        TileEntity t = getWorld().getTileEntity(x, y, z);
+        TileEntity t = getWorld().getTileEntity(getBlockLocation().toBlockPos().offset(dir));
         if (t instanceof IHydraulicMachine) {
             if (((IHydraulicMachine) t).canConnectTo(dir.getOpposite()) && !list.contains(t))
                 list.add((IHydraulicMachine) t);
-        } else if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
+        }/* else if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
             if (Multipart.getTransporter((TileMultipart) t).isConnectedTo(dir.getOpposite()) && !list.contains(t)) {
                 list.add(Multipart.getTransporter((TileMultipart) t));
             }
-        }
+        }*/
         return list;
     }
 
     public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList) {
-        if (getNetwork(ForgeDirection.UP) == null) {
+        if (getNetwork(EnumFacing.UP) == null) {
             return mainList;
         }
 
         List<networkEntry> entryList;
-        entryList = getNetwork(ForgeDirection.UP).getMachines();
+        entryList = getNetwork(EnumFacing.UP).getMachines();
 
         for (networkEntry entry : entryList) {
             Location loc = entry.getLocation();
-            TileEntity ent = getWorld().getTileEntity(loc.getX(), loc.getY(), loc.getZ());
+            TileEntity ent = getWorld().getTileEntity(loc.toBlockPos());
             if (ent instanceof IHydraulicMachine) {
                 IHydraulicMachine machine = (IHydraulicMachine) ent;
                 mainList.add(machine);
@@ -321,12 +315,11 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
     public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList, boolean chain) {
         List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+        for (EnumFacing dir : EnumFacing.VALUES) {
             if (isMultipart) {
-                if (((PartHose) tMp).isConnectedTo(dir)) {
+                /*if (((PartHose) tMp).isConnectedTo(dir)) {
                     machines = getMachineList(machines, dir);
-
-                }
+                }*/
             } else {
                 machines = getMachineList(machines, dir);
             }
@@ -392,12 +385,12 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
             if (shouldUpdateNetwork) {
                 updateNetworkOnNextTick(oldPressure);
             }
-            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+            for (EnumFacing dir : EnumFacing.VALUES) {
                 if (getNetwork(dir) != null) {
-                    getNetwork(dir).readFromNBT(tagCompound.getCompoundTag("network" + dir.ordinal()));
+                    getNetwork(dir).readFromNBT(tagCompound.getCompoundTag("network" + dir.toString()));
                 } else {
                     //get pressure from the network in this dir:
-                    float pressureT = tagCompound.getCompoundTag("network" + dir.ordinal()).getFloat("pressure");
+                    float pressureT = tagCompound.getCompoundTag("network" + dir.toString()).getFloat("pressure");
                     setNetwork(dir, new PressureNetwork(tagCompound.getCompoundTag("network" + dir.ordinal())));
                     setWorldOnNextTick();
                 }
@@ -423,30 +416,30 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
         if (getWorld() != null && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
             tagCompound.setBoolean("shouldUpdateNetwork", shouldUpdateNetwork);
 
-            if (getNetwork(ForgeDirection.UP) != null) {
-                tagCompound.setFloat("oldPressure", getNetwork(ForgeDirection.UP).getPressure());
-                tagCompound.setFloat("pressure", getNetwork(ForgeDirection.UP).getPressure());
+            if (getNetwork(EnumFacing.UP) != null) {
+                tagCompound.setFloat("oldPressure", getNetwork(EnumFacing.UP).getPressure());
+                tagCompound.setFloat("pressure", getNetwork(EnumFacing.UP).getPressure());
             }
-            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+            for (EnumFacing dir : EnumFacing.VALUES) {
                 if (getNetwork(dir) != null) {
                     NBTTagCompound pNetworkCompound = new NBTTagCompound();
                     getNetwork(dir).writeToNBT(pNetworkCompound);
-                    tagCompound.setTag("network" + dir.ordinal(), pNetworkCompound);
+                    tagCompound.setTag("network" + dir.toString(), pNetworkCompound);
                 }
             }
             if (pNetwork != null) {
-                tagCompound.setInteger("networkCapacity", getNetwork(ForgeDirection.UP).getFluidCapacity());
-                tagCompound.setInteger("fluidInNetwork", getNetwork(ForgeDirection.UP).getFluidInNetwork());
+                tagCompound.setInteger("networkCapacity", getNetwork(EnumFacing.UP).getFluidCapacity());
+                tagCompound.setInteger("fluidInNetwork", getNetwork(EnumFacing.UP).getFluidInNetwork());
             }
         }
     }
 
     protected TileEntity getTileEntity(int x, int y, int z) {
-        return getWorld().getTileEntity(x, y, z);
+        return getWorld().getTileEntity(new BlockPos(x, y, z));
     }
 
     public void checkRedstonePower() {
-        boolean isIndirectlyPowered = getWorld().isBlockIndirectlyGettingPowered(getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ());
+        boolean isIndirectlyPowered = (getWorld().isBlockIndirectlyGettingPowered(getBlockLocation().toBlockPos()) > 0);
         if (isIndirectlyPowered && !getIsRedstonePowered()) {
             setRedstonePowered(true);
             this.redstoneChanged(getIsRedstonePowered());
@@ -457,7 +450,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     }
 
     @Override
-    public void updateEntity() {
+    public void update() {
         if (firstUpdate && tWorld != null && !tWorld.isRemote) {
             firstUpdate = false;
             shouldUpdateNetwork = true;
@@ -469,26 +462,26 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
                 if (shouldUpdateNetwork) {
                     shouldUpdateNetwork = false;
-                    if (tMp instanceof ICustomNetwork || tTarget instanceof ICustomNetwork) {
+                    /*if (tMp instanceof ICustomNetwork || tTarget instanceof ICustomNetwork) {
                         if (isMultipart) {
                             ((ICustomNetwork) tMp).updateNetwork(oldPressure);
                         } else {
                             ((ICustomNetwork) tTarget).updateNetwork(oldPressure);
                         }
-                    } else {
+                    } else {*/
                         updateNetwork(oldPressure);
-                    }
+                    //}
                 }
-                if (shouldUpdateFluid && getWorld().getTotalWorldTime() % 5 == 0 && getNetwork(ForgeDirection.UNKNOWN) != null) {
+                if (shouldUpdateFluid && getWorld().getTotalWorldTime() % 5 == 0 && getNetwork(EnumFacing.UP) != null) {
                     shouldUpdateFluid = false;
-                    getNetwork(ForgeDirection.UNKNOWN).updateFluid(target);
+                    getNetwork(EnumFacing.UP).updateFluid(target);
                 }
 
                 if (getWorld().getTotalWorldTime() % 10 == 0) {
                     updateBlock();
                 }
 
-                for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+                for (EnumFacing dir : EnumFacing.VALUES) {
                     if (getNetwork(dir) != null) {
                         if (shouldUpdateWorld) {
                             getNetwork(dir).setWorld(getWorld());
@@ -520,7 +513,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
                                 gen.workFunction(dir);
                             }
                         } else if (tTarget instanceof IHydraulicStorage) {
-                            if (getWorld().getTotalWorldTime() % 40 == 0 && dir.equals(ForgeDirection.UP)) {
+                            if (getWorld().getTotalWorldTime() % 40 == 0 && dir.equals(EnumFacing.UP)) {
                                 //Functions.checkAndFillSideBlocks(tTarget.worldObj, tTarget.xCoord, tTarget.yCoord, tTarget.zCoord);
                             }
                         }
@@ -531,7 +524,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     }
 
     @Override
-    public void setPressure(float newPressure, ForgeDirection dir) {
+    public void setPressure(float newPressure, EnumFacing dir) {
         getNetwork(dir).setPressure(newPressure);
     }
 
@@ -541,21 +534,17 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
         markDirty();
     }
 
-    private IHydraulicMachine isValidMachine(ForgeDirection dir) {
-        int x = getBlockLocation().getX() + dir.offsetX;
-        int y = getBlockLocation().getY() + dir.offsetY;
-        int z = getBlockLocation().getZ() + dir.offsetZ;
-        //Block block = getWorld().getBlock(x, y, z);
+    private IHydraulicMachine isValidMachine(EnumFacing dir) {
 
-        TileEntity t = getWorld().getTileEntity(x, y, z);
+        TileEntity t = getWorld().getTileEntity(getBlockLocation().toBlockPos().offset(dir));
         if (t instanceof IHydraulicMachine) {
             if (((IHydraulicMachine) t).canConnectTo(dir.getOpposite()))
                 return (IHydraulicMachine) t;
-        } else if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
+        }/* else if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
             if (Multipart.getTransporter((TileMultipart) t).isConnectedTo(dir.getOpposite())) {
                 return Multipart.getTransporter((TileMultipart) t);
             }
-        }
+        }*/
         return null;
     }
 
@@ -564,12 +553,12 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
         int y = getBlockLocation().getY();
 		int z = getBlockLocation().getZ();*/
         List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+        for (EnumFacing dir : EnumFacing.VALUES) {
             IHydraulicMachine isValid = null;
             if (isMultipart) {
-                if (((PartHose) tMp).isConnectedTo(dir)) {
+                /*if (((PartHose) tMp).isConnectedTo(dir)) {
                     isValid = isValidMachine(dir);
-                }
+                }*/
             } else {
                 isValid = isValidMachine(dir);
             }
@@ -617,7 +606,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     }
 
     @Override
-    public float getPressure(ForgeDirection dir) {
+    public float getPressure(EnumFacing dir) {
         if (getWorld().isRemote) {
             return pressure;
         }
@@ -643,7 +632,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
     }
 
-    public int getFluidInNetwork(ForgeDirection from) {
+    public int getFluidInNetwork(EnumFacing from) {
         if (getWorld().isRemote) {
             return fluidInNetwork;
         } else {
@@ -651,7 +640,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
         }
     }
 
-    public int getFluidCapacity(ForgeDirection from) {
+    public int getFluidCapacity(EnumFacing from) {
         if (getWorld().isRemote) {
             if (networkCapacity > 0) {
                 return networkCapacity;
@@ -668,9 +657,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
         PressureNetwork foundNetwork;
         PressureNetwork endNetwork = null;
         //This block can merge networks!
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+        for (EnumFacing dir : EnumFacing.VALUES) {
             if (target.canConnectTo(dir)) {
-                foundNetwork = PressureNetwork.getNetworkInDir(getWorld(), getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(), dir);
+                foundNetwork = PressureNetwork.getNetworkInDir(getWorld(), getBlockLocation().toBlockPos(), dir);
                 if (foundNetwork != null) {
                     if (endNetwork == null) {
                         endNetwork = foundNetwork;
@@ -690,19 +679,19 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
         if (endNetwork != null) {
             pNetwork = endNetwork;
-            pNetwork.addMachine(target, oldPressure, ForgeDirection.UP);
+            pNetwork.addMachine(target, oldPressure, EnumFacing.UP);
             //Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
         } else {
-            pNetwork = new PressureNetwork(target, oldPressure, ForgeDirection.UP);
+            pNetwork = new PressureNetwork(target, oldPressure, EnumFacing.UP);
             //Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
         }
     }
 
-    public PressureNetwork getNetwork(ForgeDirection side) {
+    public PressureNetwork getNetwork(EnumFacing side) {
         return pNetwork;
     }
 
-    public void setNetwork(ForgeDirection side, PressureNetwork toSet) {
+    public void setNetwork(EnumFacing side, PressureNetwork toSet) {
         pNetwork = toSet;
     }
 
@@ -710,7 +699,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     public void invalidate() {
         super.invalidate();
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
-            for (ForgeDirection dir : connectedSides) {
+            for (EnumFacing dir : connectedSides) {
                 if (getNetwork(dir) != null) {
                     getNetwork(dir).removeMachine(target);
                 }
@@ -725,14 +714,14 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     @Override
     public PressureTier getPressureTier() {
         if (isMultipart) {
-            if (tMp instanceof ITieredBlock) {
+            /*if (tMp instanceof ITieredBlock) {
                 return ((ITieredBlock) tMp).getTier();
-            }
+            }*/
         } else {
             if (tTarget.getBlockType() instanceof ITieredBlock) {
                 return ((ITieredBlock) tTarget.getBlockType()).getTier();
             } else if (tTarget.getBlockType() instanceof IMultiTieredBlock) {
-                return ((IMultiTieredBlock) tTarget.getBlockType()).getTier(getWorldObj(), xCoord, yCoord, zCoord);
+                return ((IMultiTieredBlock) tTarget.getBlockType()).getTier(getWorld(), getBlockLocation().toBlockPos());
             }
         }
         return PressureTier.INVALID;
@@ -761,7 +750,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
 
     @Override
     public void updateEntityI() {
-        updateEntity();
+        update();
     }
 
     @Override
@@ -775,7 +764,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
     }
 
     @Override
-    public void addPressureWithRatio(float pressureToAdd, ForgeDirection from) {
+    public void addPressureWithRatio(float pressureToAdd, EnumFacing from) {
         float gen = pressureToAdd * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
         gen = gen * ((float) getFluidInNetwork(from) / (float) getFluidCapacity(from));
 
@@ -787,7 +776,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
         setPressure(getPressure(from) + gen, from);
     }
 
-    @Override
+    /*@Override
     public void init(TMultiPart _target) {
         tMp = _target;
         tTarget = null;
@@ -797,12 +786,15 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass {
             hasOwnFluidTank = true;
         }
         isMultipart = true;
-    }
+    }*/
 
     @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
-        return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
+        double xCoord = getBlockLocation().getX();
+        double yCoord = getBlockLocation().getY();
+        double zCoord = getBlockLocation().getZ();
+        return AxisAlignedBB.fromBounds(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
     }
 
     public boolean getIsRedstonePowered() {

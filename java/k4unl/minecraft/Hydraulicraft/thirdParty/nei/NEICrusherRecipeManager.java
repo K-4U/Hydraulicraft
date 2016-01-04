@@ -1,24 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
-import codechicken.nei.PositionedStack;
-import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
-import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapelessOreRecipe;
-import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
-import k4unl.minecraft.Hydraulicraft.client.GUI.GuiCrusher;
-import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
-
-import java.awt.*;
-import java.util.LinkedList;
-import java.util.List;
-
-
-public class NEICrusherRecipeManager extends NEIHydraulicRecipePlugin {
-
+public class NEICrusherRecipeManager {// extends NEIHydraulicRecipePlugin {
+/*
 
     @Override
     public Class<? extends GuiContainer> getGuiClass() {
@@ -86,5 +69,5 @@ public class NEICrusherRecipeManager extends NEIHydraulicRecipePlugin {
     public List<IFluidRecipe> getRecipeCollection() {
         return HydraulicRecipes.getCrusherRecipes();
     }
-
+*/
 }

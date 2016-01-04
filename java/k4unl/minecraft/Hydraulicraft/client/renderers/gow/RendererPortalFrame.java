@@ -6,8 +6,8 @@ import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 public class RendererPortalFrame extends TileEntitySpecialRenderer {
@@ -16,7 +16,7 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 	
 	@Override
 	public void renderTileEntityAt(TileEntity ent, double x, double y,
-			double z, float frame) {
+			double z, float frame, int destroyStage) {
 		doRender((TilePortalFrame)ent, x, y, z, frame);
 
 	}
@@ -156,14 +156,14 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 		boolean isW = false;
 		//Yuck
 		GL11.glColor3f(colorFaceR, colorFaceG, colorFaceB);
-		if(frame.isConnectedTo(ForgeDirection.NORTH)){
+		if(frame.isConnectedTo(EnumFacing.NORTH)){
 			Vector3fMax vTB = new Vector3fMax(minPP, minNP, 0.0F, maxPP, maxNP, minNP);
 			Vector3fMax vEW = new Vector3fMax(minNP, minPP, 0.0F, maxNP, maxPP, minNP);
 			
-			RenderHelper.renderSide(vTB, ForgeDirection.UP);
-			RenderHelper.renderSide(vTB, ForgeDirection.DOWN);
-			RenderHelper.renderSide(vEW, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEW, ForgeDirection.WEST);
+			RenderHelper.renderSide(vTB, EnumFacing.UP);
+			RenderHelper.renderSide(vTB, EnumFacing.DOWN);
+			RenderHelper.renderSide(vEW, EnumFacing.EAST);
+			RenderHelper.renderSide(vEW, EnumFacing.WEST);
 			
 			GL11.glColor3f(colorFrameR, colorFrameG, colorFrameB);
 			Vector3fMax vTBW = new Vector3fMax(minNP, minNP, 0.0F, minPP, maxNP, minNP);
@@ -171,25 +171,25 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 			Vector3fMax vEWB = new Vector3fMax(minNP, minNP, 0.0F, maxNP, minPP, minNP);
 			Vector3fMax vEWT = new Vector3fMax(minNP, maxPP, 0.0F, maxNP, maxNP, minNP);
 			
-			RenderHelper.renderSide(vTBW, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBW, ForgeDirection.DOWN);
-			RenderHelper.renderSide(vTBE, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBE, ForgeDirection.DOWN);
+			RenderHelper.renderSide(vTBW, EnumFacing.UP);
+			RenderHelper.renderSide(vTBW, EnumFacing.DOWN);
+			RenderHelper.renderSide(vTBE, EnumFacing.UP);
+			RenderHelper.renderSide(vTBE, EnumFacing.DOWN);
 			
-			RenderHelper.renderSide(vEWT, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWT, ForgeDirection.WEST);
-			RenderHelper.renderSide(vEWB, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWB, ForgeDirection.WEST);
+			RenderHelper.renderSide(vEWT, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWT, EnumFacing.WEST);
+			RenderHelper.renderSide(vEWB, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWB, EnumFacing.WEST);
 			isN = true;
 		}
-		if(frame.isConnectedTo(ForgeDirection.SOUTH)){
+		if(frame.isConnectedTo(EnumFacing.SOUTH)){
 			GL11.glColor3f(colorFaceR, colorFaceG, colorFaceB);
 			Vector3fMax vTB = new Vector3fMax(minPP, minNP, maxNP, maxPP, maxNP, 1.0F);
 			Vector3fMax vEW = new Vector3fMax(minNP, minPP, maxNP, maxNP, maxPP, 1.0F);
-			RenderHelper.renderSide(vTB, ForgeDirection.UP);
-			RenderHelper.renderSide(vTB, ForgeDirection.DOWN);
-			RenderHelper.renderSide(vEW, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEW, ForgeDirection.WEST);
+			RenderHelper.renderSide(vTB, EnumFacing.UP);
+			RenderHelper.renderSide(vTB, EnumFacing.DOWN);
+			RenderHelper.renderSide(vEW, EnumFacing.EAST);
+			RenderHelper.renderSide(vEW, EnumFacing.WEST);
 			
 			GL11.glColor3f(colorFrameR, colorFrameG, colorFrameB);
 			Vector3fMax vTBW = new Vector3fMax(minNP, minNP, maxNP, minPP, maxNP, 1.0F);
@@ -197,27 +197,27 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 			Vector3fMax vEWB = new Vector3fMax(minNP, minNP, maxNP, maxNP, minPP, 1.0F);
 			Vector3fMax vEWT = new Vector3fMax(minNP, maxPP, maxNP, maxNP, maxNP, 1.0F);
 			
-			RenderHelper.renderSide(vTBW, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBW, ForgeDirection.DOWN);
-			RenderHelper.renderSide(vTBE, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBE, ForgeDirection.DOWN);
+			RenderHelper.renderSide(vTBW, EnumFacing.UP);
+			RenderHelper.renderSide(vTBW, EnumFacing.DOWN);
+			RenderHelper.renderSide(vTBE, EnumFacing.UP);
+			RenderHelper.renderSide(vTBE, EnumFacing.DOWN);
 			
-			RenderHelper.renderSide(vEWT, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWT, ForgeDirection.WEST);
-			RenderHelper.renderSide(vEWB, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWB, ForgeDirection.WEST);
+			RenderHelper.renderSide(vEWT, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWT, EnumFacing.WEST);
+			RenderHelper.renderSide(vEWB, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWB, EnumFacing.WEST);
 			isS = true;
 		}
 		
-		if(frame.isConnectedTo(ForgeDirection.EAST)){
+		if(frame.isConnectedTo(EnumFacing.EAST)){
 			Vector3fMax vTB = new Vector3fMax(maxNP, minNP, minPP, 1.0F, maxNP, maxPP);
 			Vector3fMax vNS = new Vector3fMax(maxNP, minPP, minNP, 1.0F, maxPP, maxNP);
 			GL11.glColor3f(colorFaceR, colorFaceG, colorFaceB);
-			RenderHelper.renderSide(vTB, ForgeDirection.UP);
-			RenderHelper.renderSide(vTB, ForgeDirection.DOWN);
+			RenderHelper.renderSide(vTB, EnumFacing.UP);
+			RenderHelper.renderSide(vTB, EnumFacing.DOWN);
 			
-			RenderHelper.renderSide(vNS, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNS, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNS, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNS, EnumFacing.SOUTH);
 			
 			GL11.glColor3f(colorFrameR, colorFrameG, colorFrameB);
 			Vector3fMax vTBN = new Vector3fMax(maxNP, minNP, minNP, 1.0F, maxNP, minPP);
@@ -225,26 +225,26 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 			
 			Vector3fMax vNST = new Vector3fMax(maxNP, maxPP, minNP, 1.0F, maxNP, maxNP);
 			Vector3fMax vNSB = new Vector3fMax(maxNP, minNP, minNP, 1.0F, minPP, maxNP);
-			RenderHelper.renderSide(vTBN, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBN, ForgeDirection.DOWN);
-			RenderHelper.renderSide(vTBS, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBS, ForgeDirection.DOWN);
+			RenderHelper.renderSide(vTBN, EnumFacing.UP);
+			RenderHelper.renderSide(vTBN, EnumFacing.DOWN);
+			RenderHelper.renderSide(vTBS, EnumFacing.UP);
+			RenderHelper.renderSide(vTBS, EnumFacing.DOWN);
 			
-			RenderHelper.renderSide(vNST, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNST, ForgeDirection.SOUTH);
-			RenderHelper.renderSide(vNSB, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNSB, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNST, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNST, EnumFacing.SOUTH);
+			RenderHelper.renderSide(vNSB, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNSB, EnumFacing.SOUTH);
 			isE = true;
 		}
-		if(frame.isConnectedTo(ForgeDirection.WEST)){
+		if(frame.isConnectedTo(EnumFacing.WEST)){
 			Vector3fMax vTB = new Vector3fMax(0.0F, minNP, minPP, minNP, maxNP, maxPP);
 			Vector3fMax vNS = new Vector3fMax(0.0F, minPP, minNP, minNP, maxPP, maxNP);
 			GL11.glColor3f(colorFaceR, colorFaceG, colorFaceB);
-			RenderHelper.renderSide(vTB, ForgeDirection.UP);
-			RenderHelper.renderSide(vTB, ForgeDirection.DOWN);
+			RenderHelper.renderSide(vTB, EnumFacing.UP);
+			RenderHelper.renderSide(vTB, EnumFacing.DOWN);
 			
-			RenderHelper.renderSide(vNS, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNS, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNS, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNS, EnumFacing.SOUTH);
 			
 			GL11.glColor3f(colorFrameR, colorFrameG, colorFrameB);
 			Vector3fMax vTBN = new Vector3fMax(0.0F, minNP, minNP, minNP, maxNP, minPP);
@@ -252,27 +252,27 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 			
 			Vector3fMax vNST = new Vector3fMax(0.0F, maxPP, minNP, minNP, maxNP, maxNP);
 			Vector3fMax vNSB = new Vector3fMax(0.0F, minNP, minNP, minNP, minPP, maxNP);
-			RenderHelper.renderSide(vTBN, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBN, ForgeDirection.DOWN);
-			RenderHelper.renderSide(vTBS, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBS, ForgeDirection.DOWN);
+			RenderHelper.renderSide(vTBN, EnumFacing.UP);
+			RenderHelper.renderSide(vTBN, EnumFacing.DOWN);
+			RenderHelper.renderSide(vTBS, EnumFacing.UP);
+			RenderHelper.renderSide(vTBS, EnumFacing.DOWN);
 			
-			RenderHelper.renderSide(vNST, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNST, ForgeDirection.SOUTH);
-			RenderHelper.renderSide(vNSB, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNSB, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNST, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNST, EnumFacing.SOUTH);
+			RenderHelper.renderSide(vNSB, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNSB, EnumFacing.SOUTH);
 			isW = true;
 		}
 		
-		if(frame.isConnectedTo(ForgeDirection.UP)){
+		if(frame.isConnectedTo(EnumFacing.UP)){
 			Vector3fMax vNS = new Vector3fMax(minPP, maxNP, minNP, maxPP, 1.0F, maxNP);
 			Vector3fMax vEW = new Vector3fMax(minNP, maxNP, minPP, maxNP, 1.0F, maxPP);
 			GL11.glColor3f(colorFaceR, colorFaceG, colorFaceB);
-			RenderHelper.renderSide(vNS, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNS, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNS, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNS, EnumFacing.SOUTH);
 			
-			RenderHelper.renderSide(vEW, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEW, ForgeDirection.WEST);
+			RenderHelper.renderSide(vEW, EnumFacing.EAST);
+			RenderHelper.renderSide(vEW, EnumFacing.WEST);
 			
 			GL11.glColor3f(colorFrameR, colorFrameG, colorFrameB);
 			Vector3fMax vEWS = new Vector3fMax(minNP, maxNP, minNP, maxNP, 1.0F, minPP);
@@ -280,27 +280,27 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 			Vector3fMax vNSW = new Vector3fMax(minNP, maxNP, minNP, minPP, 1.0F, maxNP);
 			Vector3fMax vNSE = new Vector3fMax(maxPP, maxNP, minNP, maxNP, 1.0F, maxNP);
 			
-			RenderHelper.renderSide(vEWS, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWS, ForgeDirection.WEST);
-			RenderHelper.renderSide(vEWN, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWN, ForgeDirection.WEST);
+			RenderHelper.renderSide(vEWS, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWS, EnumFacing.WEST);
+			RenderHelper.renderSide(vEWN, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWN, EnumFacing.WEST);
 
-			RenderHelper.renderSide(vNSW, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNSW, ForgeDirection.SOUTH);
-			RenderHelper.renderSide(vNSE, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNSE, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNSW, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNSW, EnumFacing.SOUTH);
+			RenderHelper.renderSide(vNSE, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNSE, EnumFacing.SOUTH);
 			
 			isU = true;
 		}
-		if(frame.isConnectedTo(ForgeDirection.DOWN)){
+		if(frame.isConnectedTo(EnumFacing.DOWN)){
 			Vector3fMax vNS = new Vector3fMax(minPP, 0.0F, minNP, maxPP, minNP, maxNP);
 			Vector3fMax vEW = new Vector3fMax(minNP, 0.0F, minPP, maxNP, minNP, maxPP);
 			GL11.glColor3f(colorFaceR, colorFaceG, colorFaceB);
-			RenderHelper.renderSide(vNS, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNS, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNS, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNS, EnumFacing.SOUTH);
 			
-			RenderHelper.renderSide(vEW, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEW, ForgeDirection.WEST);
+			RenderHelper.renderSide(vEW, EnumFacing.EAST);
+			RenderHelper.renderSide(vEW, EnumFacing.WEST);
 			
 			GL11.glColor3f(colorFrameR, colorFrameG, colorFrameB);
 			Vector3fMax vEWS = new Vector3fMax(minNP, 0.0F, minNP, maxNP, minNP, minPP);
@@ -308,15 +308,15 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 			Vector3fMax vNSW = new Vector3fMax(minNP, 0.0F, minNP, minPP, minNP, maxNP);
 			Vector3fMax vNSE = new Vector3fMax(maxPP, 0.0F, minNP, maxNP, minNP, maxNP);
 			
-			RenderHelper.renderSide(vEWS, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWS, ForgeDirection.WEST);
-			RenderHelper.renderSide(vEWN, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWN, ForgeDirection.WEST);
+			RenderHelper.renderSide(vEWS, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWS, EnumFacing.WEST);
+			RenderHelper.renderSide(vEWN, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWN, EnumFacing.WEST);
 
-			RenderHelper.renderSide(vNSW, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNSW, ForgeDirection.SOUTH);
-			RenderHelper.renderSide(vNSE, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNSE, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNSW, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNSW, EnumFacing.SOUTH);
+			RenderHelper.renderSide(vNSE, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNSE, EnumFacing.SOUTH);
 			isD = true;
 		}
 		
@@ -332,11 +332,11 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 			Vector3fMax vNS = new Vector3fMax(minPP, minNP, minNP, maxPP, maxNP, maxNP);
 			Vector3fMax vEW = new Vector3fMax(minNP, minNP, minPP, maxNP, maxNP, maxPP);
 			GL11.glColor3f(colorFaceR, colorFaceG, colorFaceB);
-			RenderHelper.renderSide(vNS, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNS, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNS, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNS, EnumFacing.SOUTH);
 			
-			RenderHelper.renderSide(vEW, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEW, ForgeDirection.WEST);
+			RenderHelper.renderSide(vEW, EnumFacing.EAST);
+			RenderHelper.renderSide(vEW, EnumFacing.WEST);
 			
 			GL11.glColor3f(colorFrameR, colorFrameG, colorFrameB);
 			Vector3fMax vEWS = new Vector3fMax(minNP, minNP, minNP, maxNP, maxNP, minPP);
@@ -344,24 +344,24 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 			Vector3fMax vNSW = new Vector3fMax(minNP, minNP, minNP, minPP, maxNP, maxNP);
 			Vector3fMax vNSE = new Vector3fMax(maxPP, minNP, minNP, maxNP, maxNP, maxNP);
 			
-			RenderHelper.renderSide(vEWS, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWS, ForgeDirection.WEST);
-			RenderHelper.renderSide(vEWN, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWN, ForgeDirection.WEST);
+			RenderHelper.renderSide(vEWS, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWS, EnumFacing.WEST);
+			RenderHelper.renderSide(vEWN, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWN, EnumFacing.WEST);
 
-			RenderHelper.renderSide(vNSW, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNSW, ForgeDirection.SOUTH);
-			RenderHelper.renderSide(vNSE, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNSE, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNSW, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNSW, EnumFacing.SOUTH);
+			RenderHelper.renderSide(vNSE, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNSE, EnumFacing.SOUTH);
 		}else if(isN && isS){
 			GL11.glColor3f(colorFaceR, colorFaceG, colorFaceB);
 			Vector3fMax vTB = new Vector3fMax(minPP, minNP, minNP, maxPP, maxNP, maxNP);
 			Vector3fMax vEW = new Vector3fMax(minNP, minPP, minNP, maxNP, maxPP, maxNP);
 			
-			RenderHelper.renderSide(vTB, ForgeDirection.UP);
-			RenderHelper.renderSide(vTB, ForgeDirection.DOWN);
-			RenderHelper.renderSide(vEW, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEW, ForgeDirection.WEST);
+			RenderHelper.renderSide(vTB, EnumFacing.UP);
+			RenderHelper.renderSide(vTB, EnumFacing.DOWN);
+			RenderHelper.renderSide(vEW, EnumFacing.EAST);
+			RenderHelper.renderSide(vEW, EnumFacing.WEST);
 			
 			GL11.glColor3f(colorFrameR, colorFrameG, colorFrameB);
 			Vector3fMax vTBW = new Vector3fMax(minNP, minNP, minNP, minPP, maxNP, maxNP);
@@ -369,24 +369,24 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 			Vector3fMax vEWB = new Vector3fMax(minNP, minNP, minNP, maxNP, minPP, maxNP);
 			Vector3fMax vEWT = new Vector3fMax(minNP, maxPP, minNP, maxNP, maxNP, maxNP);
 			
-			RenderHelper.renderSide(vTBW, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBW, ForgeDirection.DOWN);
-			RenderHelper.renderSide(vTBE, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBE, ForgeDirection.DOWN);
+			RenderHelper.renderSide(vTBW, EnumFacing.UP);
+			RenderHelper.renderSide(vTBW, EnumFacing.DOWN);
+			RenderHelper.renderSide(vTBE, EnumFacing.UP);
+			RenderHelper.renderSide(vTBE, EnumFacing.DOWN);
 			
-			RenderHelper.renderSide(vEWT, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWT, ForgeDirection.WEST);
-			RenderHelper.renderSide(vEWB, ForgeDirection.EAST);
-			RenderHelper.renderSide(vEWB, ForgeDirection.WEST);
+			RenderHelper.renderSide(vEWT, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWT, EnumFacing.WEST);
+			RenderHelper.renderSide(vEWB, EnumFacing.EAST);
+			RenderHelper.renderSide(vEWB, EnumFacing.WEST);
 		}else if(isE && isW){
 			Vector3fMax vTB = new Vector3fMax(minNP, minNP, minPP, maxNP, maxNP, maxPP);
 			Vector3fMax vNS = new Vector3fMax(minNP, minPP, minNP, maxNP, maxPP, maxNP);
 			GL11.glColor3f(colorFaceR, colorFaceG, colorFaceB);
-			RenderHelper.renderSide(vTB, ForgeDirection.UP);
-			RenderHelper.renderSide(vTB, ForgeDirection.DOWN);
+			RenderHelper.renderSide(vTB, EnumFacing.UP);
+			RenderHelper.renderSide(vTB, EnumFacing.DOWN);
 			
-			RenderHelper.renderSide(vNS, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNS, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNS, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNS, EnumFacing.SOUTH);
 			
 			GL11.glColor3f(colorFrameR, colorFrameG, colorFrameB);
 			Vector3fMax vTBN = new Vector3fMax(minNP, minNP, minNP, maxNP, maxNP, minPP);
@@ -394,15 +394,15 @@ public class RendererPortalFrame extends TileEntitySpecialRenderer {
 			
 			Vector3fMax vNST = new Vector3fMax(minNP, maxPP, minNP, maxNP, maxNP, maxNP);
 			Vector3fMax vNSB = new Vector3fMax(minNP, minNP, minNP, maxNP, minPP, maxNP);
-			RenderHelper.renderSide(vTBN, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBN, ForgeDirection.DOWN);
-			RenderHelper.renderSide(vTBS, ForgeDirection.UP);
-			RenderHelper.renderSide(vTBS, ForgeDirection.DOWN);
+			RenderHelper.renderSide(vTBN, EnumFacing.UP);
+			RenderHelper.renderSide(vTBN, EnumFacing.DOWN);
+			RenderHelper.renderSide(vTBS, EnumFacing.UP);
+			RenderHelper.renderSide(vTBS, EnumFacing.DOWN);
 			
-			RenderHelper.renderSide(vNST, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNST, ForgeDirection.SOUTH);
-			RenderHelper.renderSide(vNSB, ForgeDirection.NORTH);
-			RenderHelper.renderSide(vNSB, ForgeDirection.SOUTH);
+			RenderHelper.renderSide(vNST, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNST, EnumFacing.SOUTH);
+			RenderHelper.renderSide(vNSB, EnumFacing.NORTH);
+			RenderHelper.renderSide(vNSB, EnumFacing.SOUTH);
 		}
 		
 		

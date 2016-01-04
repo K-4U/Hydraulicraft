@@ -47,7 +47,7 @@ public abstract class ContainerBase extends Container {
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return player.getDistanceSq(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) < 64;
+        return player.getDistanceSq(tileEntity.getPos()) < 64;
     }
 
     @Override

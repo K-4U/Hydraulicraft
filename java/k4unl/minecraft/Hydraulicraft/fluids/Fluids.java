@@ -3,7 +3,8 @@ package k4unl.minecraft.Hydraulicraft.fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import net.minecraftforge.fluids.Fluid;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 
 public class Fluids {
     public static Fluid fluidHydraulicOil;

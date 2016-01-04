@@ -7,17 +7,17 @@
  */
 package k4unl.minecraft.Hydraulicraft.lib;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BucketHandler {
 
@@ -36,16 +36,16 @@ public class BucketHandler {
 		}
 
 		event.result = result;
-		event.setResult(Result.ALLOW);
+		event.setResult(Event.Result.ALLOW);
 	}
 
 	private ItemStack fillCustomBucket(World world, MovingObjectPosition pos) {
-		Block block = world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+		Block block = world.getBlockState(pos.getBlockPos()).getBlock();
 
 		Item bucket = buckets.get(block);
 		
-		if (bucket != null && world.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ) == 0) {
-			world.setBlockToAir(pos.blockX, pos.blockY, pos.blockZ);
+		if (bucket != null) {
+			world.setBlockToAir(pos.getBlockPos());
 			return new ItemStack(bucket);
 		} else {
 			return null;

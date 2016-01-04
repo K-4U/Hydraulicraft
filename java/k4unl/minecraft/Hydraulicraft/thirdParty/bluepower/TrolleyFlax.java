@@ -3,11 +3,13 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.bluepower;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 
@@ -21,8 +23,8 @@ public class TrolleyFlax implements IHarvesterTrolley {
 	}
 
 	@Override
-	public boolean canHarvest(World world, int x, int y, int z) {
-        if(world.getBlock(x, y, z) == BluePower.flaxBlock && world.getBlock(x, y-1, z) == BluePower.flaxBlock) {
+	public boolean canHarvest(World world, BlockPos pos) {
+        if(world.getBlockState(pos).getBlock() == BluePower.flaxBlock && world.getBlockState(pos.down()).getBlock() == BluePower.flaxBlock) {
             return true;
         }else {
             return false;
@@ -31,10 +33,10 @@ public class TrolleyFlax implements IHarvesterTrolley {
 	}
 
 	@Override
-	public boolean canPlant(World world, int x, int y, int z, ItemStack seed) {
-		Block soil = world.getBlock(x, y-1, z);
-		return (soil.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, (IPlantable) BluePower.flaxItem) && world.isAirBlock(x, y, z)
-                && (soil.isFertile(world, x, y - 1, z)));
+	public boolean canPlant(World world, BlockPos pos, ItemStack seed) {
+		Block soil = world.getBlockState(pos.down()).getBlock();
+		return (soil.canSustainPlant(world, pos.down(), EnumFacing.UP, (IPlantable) BluePower.flaxItem) && world.isAirBlock(pos)
+                && (soil.isFertile(world, pos.down())));
 	}
 
 	@Override
@@ -45,8 +47,8 @@ public class TrolleyFlax implements IHarvesterTrolley {
 	}
 
 	@Override
-	public Block getBlockForSeed(ItemStack seed) {
-		return BluePower.flaxBlock;
+	public IBlockState getBlockStateForSeed(ItemStack seed) {
+		return BluePower.flaxBlock.getDefaultState();
 	}
 
 	@Override
@@ -55,7 +57,7 @@ public class TrolleyFlax implements IHarvesterTrolley {
 	}
 
 	@Override
-	public int getPlantHeight(World world, int x, int y, int z) {
+	public int getPlantHeight(World world, BlockPos pos) {
 		return 2;
 	}
 

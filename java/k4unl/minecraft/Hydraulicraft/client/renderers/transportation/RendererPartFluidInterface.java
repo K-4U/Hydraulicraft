@@ -4,7 +4,7 @@ import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -12,14 +12,14 @@ import org.lwjgl.opengl.GL11;
  */
 public class RendererPartFluidInterface extends TileEntitySpecialRenderer {
 
-    public void doRender(double x, double y, double z, float f, ForgeDirection side){
+    public void doRender(double x, double y, double z, float f, EnumFacing side, int destroyStage){
         GL11.glPushMatrix();
 
         GL11.glTranslatef((float) x, (float) y, (float)z);
 
 
         if(side == null){
-            side = ForgeDirection.EAST;
+            side = EnumFacing.EAST;
         }
         //Bind texture
         //FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc);
@@ -41,17 +41,17 @@ public class RendererPartFluidInterface extends TileEntitySpecialRenderer {
         float tMax = 1.0F - thickness;
         float tMin = 0.0F + thickness;
         Vector3fMax vector;
-        if(side.equals(ForgeDirection.UP)){
+        if(side.equals(EnumFacing.UP)){
             vector = new Vector3fMax(min, tMax, min, max, 1.0F, max);
-        }else if(side.equals(ForgeDirection.DOWN)){
+        }else if(side.equals(EnumFacing.DOWN)){
             vector = new Vector3fMax(min, 0.0F, min, max, tMin, max);
-        }else if(side.equals(ForgeDirection.NORTH)){
+        }else if(side.equals(EnumFacing.NORTH)){
             vector = new Vector3fMax(min, min, 0.0F, max, max, tMin);
-        }else if(side.equals(ForgeDirection.SOUTH)){
+        }else if(side.equals(EnumFacing.SOUTH)){
             vector = new Vector3fMax(min, min, tMax, max, max, 1.0F);
-        }else if(side.equals(ForgeDirection.WEST)){
+        }else if(side.equals(EnumFacing.WEST)){
             vector = new Vector3fMax(0.0F, min, min, tMin, max, max);
-        }else if(side.equals(ForgeDirection.EAST)){
+        }else if(side.equals(EnumFacing.EAST)){
             vector = new Vector3fMax(tMax, min, min, 1.0F, max, max);
         }else{
             vector = new Vector3fMax(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
@@ -71,7 +71,7 @@ public class RendererPartFluidInterface extends TileEntitySpecialRenderer {
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_) {
+    public void renderTileEntityAt(TileEntity p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_, int destroyStage) {
 
     }
 }

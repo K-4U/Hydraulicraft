@@ -1,15 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import k4unl.minecraft.Hydraulicraft.client.models.ModelDivingSuit;
-import k4unl.minecraft.Hydraulicraft.items.HCItems;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
-import org.lwjgl.opengl.GL11;
-
-public class RendererScubaGearItem implements IItemRenderer {
-    private static ModelDivingSuit modelDivingSuit = new ModelDivingSuit();
+public class RendererScubaGearItem {// implements IItemRenderer {
+    /*private static ModelDivingSuit modelDivingSuit = new ModelDivingSuit();
     private enum type {
         HELMET, CONTROLLER, LEGS, BOOTS
     }
@@ -113,5 +105,5 @@ public class RendererScubaGearItem implements IItemRenderer {
         }
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
-    }
+    }*/
 }

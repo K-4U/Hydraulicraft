@@ -1,10 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import ic2.api.item.IC2Items;
 import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
@@ -17,17 +12,17 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.BlockElec
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.BlockHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.blocks.HandlerElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererElectricPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererElectricPumpItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererHydraulicGenerator;
-import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderers.RendererHydraulicGeneratorItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class IndustrialCraft implements IThirdParty{
@@ -51,10 +46,7 @@ public class IndustrialCraft implements IThirdParty{
     public void clientSide(){
         ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicGenerator.class, new RendererHydraulicGenerator());
         ClientRegistry.bindTileEntitySpecialRenderer(TileElectricPump.class, new RendererElectricPump());
-        
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(blockHydraulicGenerator), new RendererHydraulicGeneratorItem());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(blockElectricPump), new RendererElectricPumpItem());
-    }
+	}
 
 	public static void initBlocks(){
 		blockHydraulicGenerator = new BlockHydraulicGenerator();
@@ -69,8 +61,8 @@ public class IndustrialCraft implements IThirdParty{
 	}
 	
 	public static void initRecipes(){
-		ItemStack generator = IC2Items.getItem("generator");
-		ItemStack battery = IC2Items.getItem("reBattery");
+		ItemStack generator = null;//IC2Items.getItem("generator");
+		ItemStack battery = null;//IC2Items.getItem("reBattery");
 
 		HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockHydraulicGenerator, 1), true,
             new Object[] {
@@ -85,7 +77,7 @@ public class IndustrialCraft implements IThirdParty{
             }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 200))
         );
 		
-		ItemStack coil = IC2Items.getItem("coil");
+		ItemStack coil = null;//IC2Items.getItem("coil");
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectricPump, 1, 0), true,
 				new Object [] {
 					"L-L",

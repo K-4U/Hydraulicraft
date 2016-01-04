@@ -29,7 +29,7 @@ public class DamageSourceHydraulicraft extends DamageSource {
      * Returns the message to be displayed on player death.
      */
     @Override
-    public IChatComponent func_151519_b(EntityLivingBase par1EntityLivingBase){
+    public IChatComponent getDeathMessage(EntityLivingBase par1EntityLivingBase){
         String messageMeta = "";
         int messageNumber = par1EntityLivingBase.getRNG().nextInt(deathMessages) + 1;
         messageMeta = messageNumber + "";
@@ -37,6 +37,6 @@ public class DamageSourceHydraulicraft extends DamageSource {
         EntityLivingBase entitylivingbase1 = par1EntityLivingBase.func_94060_bK();
         String s = "hydcraft:death.attack." + damageType + messageMeta;
         String s1 = s + ".player";
-        return entitylivingbase1 != null && StatCollector.canTranslate(s1) ? new ChatComponentTranslation(s1, new Object[]{par1EntityLivingBase.func_145748_c_(), entitylivingbase1.func_145748_c_()}) : new ChatComponentTranslation(s, new Object[]{par1EntityLivingBase.func_145748_c_()});
+        return entitylivingbase1 != null && StatCollector.canTranslate(s1) ? new ChatComponentTranslation(s1, new Object[]{par1EntityLivingBase.getDisplayName(), entitylivingbase1.getDisplayName()}) : new ChatComponentTranslation(s, new Object[]{par1EntityLivingBase.getDisplayName()});
     }
 }

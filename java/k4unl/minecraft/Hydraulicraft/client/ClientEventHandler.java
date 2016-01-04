@@ -1,17 +1,19 @@
 package k4unl.minecraft.Hydraulicraft.client;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingSuit;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
 public class ClientEventHandler {
@@ -66,24 +68,23 @@ public class ClientEventHandler {
 
             float zLevel = 0F;
 
-            Tessellator tessellator = Tessellator.instance;
+            WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
 
 
             //Log.info("Pressure:" + mc.thePlayer.getEntityData().getInteger("pressure"));
 
             GL11.glScaled(HCConfig.INSTANCE.getDouble("scale", "pressureUI"), HCConfig.INSTANCE.getDouble("scale", "pressureUI"), HCConfig.INSTANCE.getDouble("scale", "pressureUI"));
             mc.getTextureManager().bindTexture(pressureGauge);
-            tessellator.startDrawingQuads();
-            tessellator.addVertexWithUV((double) (x + 0), (double) (y + h), (double) zLevel, 0.0, 1.0);
-            tessellator.addVertexWithUV((double) (x + w), (double) (y + h), (double) zLevel, 1.0, 1.0);
-            tessellator.addVertexWithUV((double) (x + w), (double) (y + 0), (double) zLevel, 1.0, 0.0);
-            tessellator.addVertexWithUV((double) (x + 0), (double) (y + 0), (double) zLevel, 0.0, 0.0);
-            tessellator.draw();
+            worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+            worldRenderer.pos((double) (x + 0), (double) (y + h), (double) zLevel).tex(0.0, 1.0).endVertex();
+            worldRenderer.pos((double) (x + w), (double) (y + h), (double) zLevel).tex(1.0, 1.0).endVertex();
+            worldRenderer.pos((double) (x + w), (double) (y + 0), (double) zLevel).tex(1.0, 0.0).endVertex();
+            worldRenderer.pos((double) (x + 0), (double) (y + 0), (double) zLevel).tex(0.0, 0.0).endVertex();
+            Tessellator.getInstance().draw();
+
             zLevel += 2F;
-            mc.fontRenderer.drawString(EnumChatFormatting.WHITE + "" + Hydraulicraft.pressure + "", x + 5, y+5, (int)zLevel);
-            mc.fontRenderer.drawString(EnumChatFormatting.WHITE + " Bar", x + mc.fontRenderer.getStringWidth("999") + 5, y+5, (int)zLevel);
-
-
+            mc.fontRendererObj.drawString(EnumChatFormatting.WHITE + "" + Hydraulicraft.pressure + "", x + 5, y+5, (int)zLevel);
+            mc.fontRendererObj.drawString(EnumChatFormatting.WHITE + " Bar", x + mc.fontRendererObj.getStringWidth("999") + 5, y+5, (int)zLevel);
 
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glDisable(GL11.GL_BLEND);

@@ -8,11 +8,11 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.blocks.BlockHydraulicPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import pneumaticCraft.api.block.BlockSupplier;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Pneumaticraft implements IThirdParty {
 	public static Block hydraulicPneumaticCompressor;
@@ -50,9 +50,9 @@ public class Pneumaticraft implements IThirdParty {
 					"KCT",
 					"WWW",
 					'K', HCItems.gasket,
-					'T', new ItemStack(BlockSupplier.getBlock("pressureTube"), 1, 0),
+					'T', new ItemStack(Items.redstone/*BlockSupplier.getBlock("pressureTube")*/, 1, 0),
 					'W', HCBlocks.hydraulicPressureWall,
-					'C', BlockSupplier.getBlock("airCompressor")
+					'C', Items.redstone //BlockSupplier.getBlock("airCompressor")
 				});
 	}
 }

@@ -1,89 +1,87 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities;
 
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
-public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator, IEnergyHandler, ICustomNetwork {
-	private int currentBurnTime;
-	private int maxBurnTime;
-	private boolean isRunning = false;
- 	private EnergyStorage energyStorage;
-	private ForgeDirection facing = ForgeDirection.NORTH;
-	private int RFUsage = 0;
-	
-	private int fluidInNetwork;
-	private int networkCapacity;
-	
-	private int tier = -1;
-	
+public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator/*, IEnergyHandler*/, ICustomNetwork {
+    private int currentBurnTime;
+    private int maxBurnTime;
+    private boolean    isRunning = false;
+    //private EnergyStorage energyStorage;
+    private EnumFacing facing    = EnumFacing.NORTH;
+    private int        RFUsage   = 0;
+
+    private int fluidInNetwork;
+    private int networkCapacity;
+
+    private int tier = -1;
+    /*
 	private EnergyStorage getEnergyStorage(){
 		if(this.energyStorage == null) 
 			this.energyStorage = new EnergyStorage((getTier() + 1) * 400000);
 		return this.energyStorage;
-	}
+	}*/
 
-	public TileRFPump(){
-		super(1);
-		super.init(this);
-	}
-	
-	public TileRFPump(PressureTier _tier){
-		super(2 * (_tier.toInt() + 1));
-		super.init(this);
-	}
-	
-	
-	@Override
-	public void workFunction(ForgeDirection from) {
-		if(!getRedstonePowered()){
-			isRunning = false;
-			getHandler().updateBlock();
-			return;
-		}
-		//This function gets called every tick.
-		boolean needsUpdate = false;
-		if(!worldObj.isRemote){
-			needsUpdate = true;
-			if(Float.compare(getGenerating(ForgeDirection.UP), 0.0F) > 0){
-				setPressure(getPressure(getFacing()) + getGenerating(ForgeDirection.UP), getFacing());
-				getEnergyStorage().extractEnergy(RFUsage, false);
-				isRunning = true;
-			}else{
-				
-				if(getRedstonePowered()){
-					getEnergyStorage().extractEnergy(RFUsage, false);
-				}
-				
-				isRunning = false;
-			}
-		}
-		
-		if(needsUpdate){
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		}
-	}
+    public TileRFPump() {
+        super(1);
+        super.init(this);
+    }
 
-	@Override
-	public int getMaxGenerating(ForgeDirection from) {
-		if(!getHandler().isOilStored()){
-			return HCConfig.INSTANCE.getInt("maxMBarGenWaterT" + (getTier() + 1));
-		}else{
-			return HCConfig.INSTANCE.getInt("maxMBarGenOilT" + (getTier()+1));
-		}
-	}
+    public TileRFPump(PressureTier _tier) {
+        super(2 * (_tier.toInt() + 1));
+        super.init(this);
+    }
 
-	@Override
-	public float getGenerating(ForgeDirection from) {
-		if(!getRedstonePowered() || getFluidInNetwork(from) == 0){
+
+    @Override
+    public void workFunction(EnumFacing from) {
+        if (!getRedstonePowered()) {
+            isRunning = false;
+            getHandler().updateBlock();
+            return;
+        }
+        //This function gets called every tick.
+        boolean needsUpdate = false;
+        if (!worldObj.isRemote) {
+            needsUpdate = true;
+            if (Float.compare(getGenerating(EnumFacing.UP), 0.0F) > 0) {
+                setPressure(getPressure(getFacing()) + getGenerating(EnumFacing.UP), getFacing());
+                //getEnergyStorage().extractEnergy(RFUsage, false);
+                isRunning = true;
+            } else {
+
+                if (getRedstonePowered()) {
+                    //getEnergyStorage().extractEnergy(RFUsage, false);
+                }
+
+                isRunning = false;
+            }
+        }
+
+        if (needsUpdate) {
+            worldObj.markBlockForUpdate(getPos());
+        }
+    }
+
+    @Override
+    public int getMaxGenerating(EnumFacing from) {
+        if (!getHandler().isOilStored()) {
+            return HCConfig.INSTANCE.getInt("maxMBarGenWaterT" + (getTier() + 1));
+        } else {
+            return HCConfig.INSTANCE.getInt("maxMBarGenOilT" + (getTier() + 1));
+        }
+    }
+
+    @Override
+    public float getGenerating(EnumFacing from) {
+		/*if(!getRedstonePowered() || getFluidInNetwork(from) == 0){
 			RFUsage = 0;
 			return 0f;
 		}
@@ -105,134 +103,136 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 			return gen; 
 		}else{
 			return 0;
-		}
-	}
-
-
-    public int getTier(){
-    	if(tier == -1)
-    		tier = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-    	return tier;
+		}*/
+        return 0;
     }
 
-	@Override
-	public void onBlockBreaks() {
-		
-	}
 
-	
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound) {
-		super.readFromNBT(tagCompound);
-		facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+    public int getTier() {
+        if (tier == -1)
+            tier = ((PressureTier)worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER)).toInt();
+        return tier;
+    }
 
-		networkCapacity = tagCompound.getInteger("networkCapacity");
-		fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
-		RFUsage = tagCompound.getInteger("RFUsage");
-		tier = tagCompound.getInteger("tier");
-		
-		isRunning = tagCompound.getBoolean("isRunning");
-		
-		if(tier != -1){
-			energyStorage = null;
-		}
-		getEnergyStorage().readFromNBT(tagCompound);
-	}
+    @Override
+    public void onBlockBreaks() {
 
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound) {
-		super.writeToNBT(tagCompound);
+    }
 
-		tagCompound.setInteger("facing", facing.ordinal());
-		tagCompound.setBoolean("isRunning", isRunning);
-		tagCompound.setInteger("tier", tier);
-		
-		if(getNetwork(getFacing()) != null){
-			tagCompound.setInteger("networkCapacity", getNetwork(getFacing()).getFluidCapacity());
-			tagCompound.setInteger("fluidInNetwork", getNetwork(getFacing()).getFluidInNetwork());
-		}
-		tagCompound.setInteger("RFUsage", RFUsage);
-		
-		getEnergyStorage().writeToNBT(tagCompound);
-	}
 
-	@Override
-	public void onFluidLevelChanged(int old) {	}
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
+        facing = EnumFacing.byName(tagCompound.getString("facing"));
 
-	@Override
-	public int receiveEnergy(ForgeDirection from, int maxReceive,
-			boolean simulate) {
-		if(from.equals(facing.getOpposite())){
-			return getEnergyStorage().receiveEnergy(maxReceive, simulate);
-		}else{
-			return 0;
-		}
-	}
+        networkCapacity = tagCompound.getInteger("networkCapacity");
+        fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
+        RFUsage = tagCompound.getInteger("RFUsage");
+        tier = tagCompound.getInteger("tier");
 
-	@Override
-	public int extractEnergy(ForgeDirection from, int maxExtract,
-			boolean simulate) {
-		return 0;
-	}
+        isRunning = tagCompound.getBoolean("isRunning");
 
-	@Override
-	public boolean canConnectEnergy(ForgeDirection from) {
-		return from.equals(facing.getOpposite());
-	}
+        /*if (tier != -1) {
+            energyStorage = null;
+        }
+        getEnergyStorage().readFromNBT(tagCompound);*/
+    }
 
-	@Override
-	public int getEnergyStored(ForgeDirection from) {
-		return getEnergyStorage().getEnergyStored();
-	}
+    @Override
+    public void writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
 
-	@Override
-	public int getMaxEnergyStored(ForgeDirection from) {
-		return getEnergyStorage().getMaxEnergyStored();
-	}
+        tagCompound.setString("facing", facing.toString());
+        tagCompound.setBoolean("isRunning", isRunning);
+        tagCompound.setInteger("tier", tier);
 
-	@Override
-	public boolean canConnectTo(ForgeDirection side) {
-		return side.equals(facing);
-	}
+        if (getNetwork(getFacing()) != null) {
+            tagCompound.setInteger("networkCapacity", getNetwork(getFacing()).getFluidCapacity());
+            tagCompound.setInteger("fluidInNetwork", getNetwork(getFacing()).getFluidInNetwork());
+        }
+        tagCompound.setInteger("RFUsage", RFUsage);
 
-	public ForgeDirection getFacing() {
-		return facing;
-	}
+        //getEnergyStorage().writeToNBT(tagCompound);
+    }
 
-	public void setFacing(ForgeDirection rotation) {
-		if(!worldObj.isRemote){
-			getHandler().updateNetworkOnNextTick(getNetwork(getFacing()).getPressure());
-		}
-		facing = rotation;
-	}
-	
-	public boolean getIsRunning(){
-		return isRunning;
-	}
+    @Override
+    public void onFluidLevelChanged(int old) {
+    }
+/*
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive,
+                             boolean simulate) {
+        if (from.equals(facing.getOpposite())) {
+            return getEnergyStorage().receiveEnergy(maxReceive, simulate);
+        } else {
+            return 0;
+        }
+    }
 
-	@Override
-	public boolean canWork(ForgeDirection dir) {
-		return dir.equals(getFacing());
-	}
-	
-	@Override
-	public void updateNetwork(float oldPressure) {
-		PressureNetwork endNetwork;
+    @Override
+    public int extractEnergy(EnumFacing from, int maxExtract,
+                             boolean simulate) {
+        return 0;
+    }
 
-		endNetwork = PressureNetwork.getNetworkInDir(worldObj, xCoord, yCoord, zCoord, getFacing());
-			
-		if(endNetwork != null){
-			pNetwork = endNetwork;
-			pNetwork.addMachine(this, oldPressure, getFacing());
-			//Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
-		}else{
-			pNetwork = new PressureNetwork(this, oldPressure, getFacing());
-			//Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
-		}		
-	}
+    @Override
+    public boolean canConnectEnergy(EnumFacing from) {
+        return from.equals(facing.getOpposite());
+    }
 
-	
-	public int getRFUsage(){
-		return RFUsage;
-	}
+    @Override
+    public int getEnergyStored(EnumFacing from) {
+        return getEnergyStorage().getEnergyStored();
+    }
+
+    @Override
+    public int getMaxEnergyStored(EnumFacing from) {
+        return getEnergyStorage().getMaxEnergyStored();
+    }
+*/
+    @Override
+    public boolean canConnectTo(EnumFacing side) {
+        return side.equals(facing);
+    }
+
+    public EnumFacing getFacing() {
+        return facing;
+    }
+
+    public void setFacing(EnumFacing rotation) {
+        if (!worldObj.isRemote) {
+            getHandler().updateNetworkOnNextTick(getNetwork(getFacing()).getPressure());
+        }
+        facing = rotation;
+    }
+
+    public boolean getIsRunning() {
+        return isRunning;
+    }
+
+    @Override
+    public boolean canWork(EnumFacing dir) {
+        return dir.equals(getFacing());
+    }
+
+    @Override
+    public void updateNetwork(float oldPressure) {
+        PressureNetwork endNetwork;
+
+        endNetwork = PressureNetwork.getNetworkInDir(worldObj, getPos(), getFacing());
+
+        if (endNetwork != null) {
+            pNetwork = endNetwork;
+            pNetwork.addMachine(this, oldPressure, getFacing());
+            //Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+        } else {
+            pNetwork = new PressureNetwork(this, oldPressure, getFacing());
+            //Log.info("Created a new network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
+        }
+    }
+
+
+    public int getRFUsage() {
+        return RFUsage;
+    }
 }

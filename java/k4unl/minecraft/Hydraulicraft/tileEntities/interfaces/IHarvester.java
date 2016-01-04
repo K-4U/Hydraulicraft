@@ -1,8 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.interfaces;
 
-import java.util.ArrayList;
-
 import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 
 /**
@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
  */
 public interface IHarvester {
 
-	void putInInventory(ArrayList<ItemStack> harvestedItems);
+	void putInInventory(List<ItemStack> harvestedItems);
 
 	void extendPistonTo(int piston, float length);
 	

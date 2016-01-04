@@ -1,9 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp;
 
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
@@ -16,8 +12,13 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.blocks.BlockHydraulicSaw;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities.TileHydraulicSaw;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 
 public class FMP implements IThirdParty{
@@ -52,7 +53,7 @@ public class FMP implements IThirdParty{
 	
 	public static void initRecipes(){
 		//FMP
-		ItemStack saw = GameRegistry.findItemStack("ForgeMicroblock","sawIron", 1);
+		Item saw = GameRegistry.findItem("ForgeMicroblock","sawIron");
 		HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(hydraulicSaw, true,
           new Object[] {
             "GSG",

@@ -1,8 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities;
 
-import codechicken.microblock.MicroRecipe;
-import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -13,7 +12,10 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicConsumer, ISidedInventory {
 	private ItemStack inputUpDownInventory;
@@ -36,7 +38,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
     private final float requiredPressure = 5F;
     private float pressurePerTick = 0F;
 
-    private ItemStack saw = GameRegistry.findItemStack("ForgeMicroblock","sawDiamond", 1);
+    private ItemStack saw = new ItemStack(GameRegistry.findItem("ForgeMicroblock","sawDiamond"), 1);
 
     
     public TileHydraulicSaw(){
@@ -44,15 +46,13 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
     	super.init(this);
     }
 	
-	public ForgeDirection getFacing(){
+	public EnumFacing getFacing(){
 		if(worldObj != null){
-			return ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+			return (EnumFacing) worldObj.getBlockState(getPos()).getValue(HydraulicBlockBase.ROTATION);
 		}else{
-			return ForgeDirection.UNKNOWN;
+			return EnumFacing.NORTH;
 		}
-		
 	}
-
 
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
@@ -111,7 +111,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 	public void onFluidLevelChanged(int old) {}
 
 	@Override
-	public boolean canConnectTo(ForgeDirection side) {
+	public boolean canConnectTo(EnumFacing side) {
 		return true;
 	}
 
@@ -162,18 +162,14 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
                 }
             }
         }
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        worldObj.markBlockForUpdate(getPos());
 
         return ret;
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		ItemStack stack = getStackInSlot(i);
-        if(stack != null) {
-            setInventorySlotContents(i, null);
-        }
-        return stack;
+	public ItemStack removeStackFromSlot(int index) {
+		return decrStackSize(index, getStackInSlot(index).stackSize);
 	}
 
 	@Override
@@ -201,7 +197,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityplayer.getDistanceSq(xCoord, yCoord, zCoord) < 64;
+		return worldObj.getTileEntity(getPos()) == this && entityplayer.getDistanceSq(getPos()) < 64;
 	}
 
 	@Override
@@ -215,13 +211,32 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1) {
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+
+	}
+
+	@Override
+	public int[] getSlotsForFace(EnumFacing dir) {
 		int otherSlot = -1;
-		ForgeDirection dir = ForgeDirection.getOrientation(var1);
-		if(dir.equals(ForgeDirection.UP)){
+		if(dir.equals(EnumFacing.UP)){
 			otherSlot = 0;
 		}
-		ForgeDirection rotated = getFacing().getRotation(ForgeDirection.UP); 
+		EnumFacing rotated = getFacing().rotateAround(EnumFacing.UP.getAxis());
 		if(dir.equals(rotated)){
 			otherSlot = 1;
 		}
@@ -233,10 +248,9 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-		ForgeDirection side = ForgeDirection.getOrientation(j);
-		ForgeDirection rotated = getFacing().getRotation(ForgeDirection.UP);
-		if((side.equals(ForgeDirection.UP) && i == 0) || (side.equals(rotated) && i == 1)){
+	public boolean canInsertItem(int i, ItemStack itemstack, EnumFacing side) {
+		EnumFacing rotated = getFacing().rotateAround(EnumFacing.UP.getAxis());
+		if((side.equals(EnumFacing.UP) && i == 0) || (side.equals(rotated) && i == 1)){
 			//TODO: Fancy check if there's a microblock recipe
 			return true;
 		}else{
@@ -245,7 +259,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+	public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j) {
 		if(i == 2 || i == 3){
 			return true;
 		}else{
@@ -254,7 +268,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 	}
 
 	@Override
-	public float workFunction(boolean simulate, ForgeDirection from) {
+	public float workFunction(boolean simulate, EnumFacing from) {
 		if(canRun() || isSawing()) {
             if(!simulate) {
                 doSaw();
@@ -278,8 +292,8 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 		int posOfBlock = 0 + 1 * 3;
 		ic.setInventorySlotContents(posOfSaw, saw);
 		ic.setInventorySlotContents(posOfBlock, input);
-		return MicroRecipe.getThinningResult(ic);
-		//return null;
+		//return MicroRecipe.getThinningResult(ic);
+		return null;
 	}
 	
 	private ItemStack getSplittingRecipe(ItemStack input){
@@ -291,15 +305,15 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 		int posOfBlock = 1 + 0 * 3;
 		ic.setInventorySlotContents(posOfSaw, saw);
 		ic.setInventorySlotContents(posOfBlock, input);
-		return MicroRecipe.getSplittingResult(ic);
-		//return null;
+		//return MicroRecipe.getSplittingResult(ic);
+		return null;
 	}
 	
 	private void doSaw(){
 		maxSawingTicksUpDown = 200;
 		maxSawingTicksLeftRight = 200;
         if(getIsSawingUpDown()) {
-            sawingTicksUpDown = sawingTicksUpDown + 1 + (int)(getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F);
+            sawingTicksUpDown = sawingTicksUpDown + 1 + (int)(getPressure(EnumFacing.UP) / 1000 * 0.005F);
             //Log.info(crushingTicks+ "");
             if(sawingTicksUpDown >= maxSawingTicksUpDown) {
                 //sawing done!
@@ -315,7 +329,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
         }
         
         if(getIsSawingLeftRight()) {
-            sawingTicksLeftRight = sawingTicksLeftRight + 1 + (int)(getPressure(ForgeDirection.UNKNOWN) / 1000 * 0.005F);
+            sawingTicksLeftRight = sawingTicksLeftRight + 1 + (int)(getPressure(EnumFacing.UP) / 1000 * 0.005F);
             if(sawingTicksLeftRight >= maxSawingTicksLeftRight) {
                 //sawing done!
         		if(outputLeftRightInventory == null) {
@@ -405,7 +419,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
      * and if the item is smeltable
      */
     private boolean canRun(){
-        if((inputUpDownInventory == null && inputLeftRightInventory == null) || getPressure(ForgeDirection.UNKNOWN) < requiredPressure) {
+        if((inputUpDownInventory == null && inputLeftRightInventory == null) || getPressure(EnumFacing.UP) < requiredPressure) {
             return false;
         } else {
         	if(inputUpDownInventory != null){
@@ -441,8 +455,8 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 	}
 
 	@Override
-	public boolean canWork(ForgeDirection dir) {
-		return dir.equals(ForgeDirection.UP);
+	public boolean canWork(EnumFacing dir) {
+		return dir.equals(EnumFacing.UP);
 	}
 
 	public int getSawingTicksUpDown() {
@@ -454,21 +468,26 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 	}
 
 	@Override
-	public String getInventoryName() {
+	public String getName() {
 		return Localization.getLocalizedName(Names.blockHydraulicSaw.unlocalized);
 	}
 
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomName() {
 		return true;
 	}
 
 	@Override
-	public void openInventory() {
+	public IChatComponent getDisplayName() {
+		return new ChatComponentTranslation(Names.blockHydraulicSaw.unlocalized);
 	}
 
 	@Override
-	public void closeInventory() {
+	public void openInventory(EntityPlayer player) {
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {
 	}
 
 }

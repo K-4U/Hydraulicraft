@@ -1,7 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.interfaces;
 
-import net.minecraftforge.common.util.ForgeDirection;
+
+import net.minecraft.util.EnumFacing;
 
 public interface IFacing {
-	public ForgeDirection getFacing() ;
+	public EnumFacing getFacing() ;
 }

@@ -9,7 +9,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -31,15 +32,13 @@ public class TileHydraulicCharger extends TileHydraulicBase implements IInventor
     public void onFluidLevelChanged(int old) {
     }
 
-
     @Override
-    public boolean canConnectTo(ForgeDirection side) {
+    public boolean canConnectTo(EnumFacing side) {
         return true;
     }
 
-
     @Override
-    public float workFunction(boolean simulate, ForgeDirection from) {
+    public float workFunction(boolean simulate, EnumFacing from) {
         if (inventory.getStackInSlot(0) == null)
             return 0;
         if (!(inventory.getStackInSlot(0).getItem() instanceof IPressurizableItem))
@@ -69,7 +68,7 @@ public class TileHydraulicCharger extends TileHydraulicBase implements IInventor
 
             if (pressurizableItem.getMaxPressure() < pressurizableItem.getPressure(itemStack)) {
                 inventory.setInventorySlotContents(0, null);
-                worldObj.createExplosion(null, xCoord, yCoord, zCoord, 2, false);
+                worldObj.createExplosion(null, getPos().getX(), getPos().getY(), getPos().getZ(), 2, false);
             }
 
             FluidStack currentFluid = pressurizableItem.getFluid(itemStack);
@@ -100,7 +99,7 @@ public class TileHydraulicCharger extends TileHydraulicBase implements IInventor
 
 
     @Override
-    public boolean canWork(ForgeDirection dir) {
+    public boolean canWork(EnumFacing dir) {
         return true;
     }
 
@@ -122,56 +121,60 @@ public class TileHydraulicCharger extends TileHydraulicBase implements IInventor
         return inventory.decrStackSize(slot, decrBy);
     }
 
-
     @Override
-    public ItemStack getStackInSlotOnClosing(int var1) {
-        return inventory.getStackInSlotOnClosing(var1);
+    public ItemStack removeStackFromSlot(int index) {
+        return inventory.removeStackFromSlot(index);
     }
-
 
     @Override
     public void setInventorySlotContents(int var1, ItemStack var2) {
         inventory.setInventorySlotContents(var1, var2);
     }
 
-
-    @Override
-    public String getInventoryName() {
-        return null;
-    }
-
-
-    @Override
-    public boolean hasCustomInventoryName() {
-        return false;
-    }
-
-
     @Override
     public int getInventoryStackLimit() {
         return 1;
     }
-
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer var1) {
         return true;
     }
 
-
     @Override
-    public void openInventory() {
+    public void openInventory(EntityPlayer player) {
+
     }
 
-
     @Override
-    public void closeInventory() {
+    public void closeInventory(EntityPlayer player) {
+
     }
 
 
     @Override
     public boolean isItemValidForSlot(int var1, ItemStack var2) {
         return var2.getItem() instanceof IPressurizableItem;
+    }
+
+    @Override
+    public int getField(int id) {
+        return inventory.getField(id);
+    }
+
+    @Override
+    public void setField(int id, int value) {
+        inventory.setField(id, value);
+    }
+
+    @Override
+    public int getFieldCount() {
+        return inventory.getFieldCount();
+    }
+
+    @Override
+    public void clear() {
+        inventory.clear();
     }
 
     @Override
@@ -184,5 +187,20 @@ public class TileHydraulicCharger extends TileHydraulicBase implements IInventor
     public void readFromNBT(NBTTagCompound tagCompound) {
         super.readFromNBT(tagCompound);
         inventory.load(tagCompound);
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
     }
 }

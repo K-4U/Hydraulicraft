@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.multipart;
+/*package k4unl.minecraft.Hydraulicraft.multipart;
 
 import codechicken.lib.vec.BlockCoord;
 import codechicken.lib.vec.Vector3;
@@ -48,3 +48,4 @@ public class ItemPartFluidPipe extends JItemMultiPart {
     public void registerIcons(IIconRegister reg){
     }
 }
+*/

@@ -419,13 +419,13 @@ public class ModelDivingSuit extends ModelBiped {
             this.isChild = ((EntityLivingBase) entity).isChild();
             this.heldItemRight = (((EntityLivingBase) entity).getHeldItem() != null ? 1 : 0);
             if (entity instanceof EntityPlayer && ((EntityPlayer) entity).getItemInUse() != null)
-                this.aimedBow = ((EntityPlayer) entity).getItemInUse().getItemUseAction() == EnumAction.bow && ((EntityPlayer) entity).getItemInUseDuration() > 0;
+                this.aimedBow = ((EntityPlayer) entity).getItemInUse().getItemUseAction() == EnumAction.BOW && ((EntityPlayer) entity).getItemInUseDuration() > 0;
         }
 
         this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
         if (((entity instanceof EntitySkeleton)) || ((entity instanceof EntityZombie))) {
-            float f6 = (float) Math.sin(this.onGround * 3.141593F);
-            float f7 = (float) Math.sin((1.0F - (1.0F - this.onGround) * (1.0F - this.onGround)) * 3.141593F);
+            float f6 = (float) Math.sin(this.swingProgress * 3.141593F);
+            float f7 = (float) Math.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * 3.141593F);
             this.bipedRightArm.rotateAngleZ = 0.0F;
             this.bipedLeftArm.rotateAngleZ = 0.0F;
             this.bipedRightArm.rotateAngleY = (-(0.1F - f6 * 0.6F));

@@ -1,137 +1,141 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
-import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
 public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBase {
-		private IIcon[] tieredIcon;
+        /*private IIcon[] tieredIcon;
 		private IIcon[] tieredTopIcon;
-		private IIcon[] tieredBottomIcon;
-		
-		private Name[] mName;
-		
-		protected boolean hasTopIcon = false;
-		protected boolean hasBottomIcon = false;
-		protected boolean hasTextures = true;
-		
-		
-		@Override
-		public abstract TileEntity createNewTileEntity(World world, int var2);
+		private IIcon[] tieredBottomIcon;*/
 
-		
-		protected HydraulicTieredBlockBase(Name[] machineName) {
-			super(machineName[0], true);
-			
-			mName = machineName;
-			
-			tieredIcon = new IIcon[3];
-			tieredTopIcon = new IIcon[3];
-			tieredBottomIcon = new IIcon[3];
-			
-			
-			setBlockName(mName[0].unlocalized);
-			setStepSound(Block.soundTypeStone);
-			setHardness(3.5F);
-			
-			setCreativeTab(CustomTabs.tabHydraulicraft);
-		}
-		
-		
-		@Override
-		public void getSubBlocks(Item item, CreativeTabs tab, List list){
-			for(int i = 0; i < 3; i++){
-				list.add(new ItemStack(this, 1, i));
-			}
-		}
-		
-		private String getTieredTextureName(String side, int tier){
-			if(!side.equals("")){
-				return ModInfo.LID + ":" + mName[0].unlocalized + "_" + tier + "_" + side;
-			}else{
-				return ModInfo.LID + ":" + mName[0].unlocalized + "_" + tier;
-			}
-		}
-		
-		@Override
-		public void registerBlockIcons(IIconRegister iconRegistry){
-			if(hasTextures){
-				if(hasTopIcon || hasBottomIcon){
-					for(int i = 0; i < 3; i++){
-						tieredIcon[i] = iconRegistry.registerIcon(getTieredTextureName("sides",i));
-						if(hasTopIcon){
-							tieredTopIcon[i] = iconRegistry.registerIcon(getTieredTextureName("top",i));
-						}else{
-							tieredTopIcon[i] = tieredIcon[i];
-						}
-						if(hasBottomIcon){
-							tieredBottomIcon[i] = iconRegistry.registerIcon(getTieredTextureName("bottom",i));
-						}else{
-							tieredBottomIcon[i] = tieredIcon[i];
-						}
-					}
-				}else{
-					for(int i = 0; i < 3; i++){
-						tieredIcon[i] = iconRegistry.registerIcon(getTieredTextureName("",i));
-						tieredBottomIcon[i] = tieredIcon[i];
-						tieredTopIcon[i] = tieredIcon[i];
-					}
-				}
-			}else{
-				for(int i = 0; i < 3; i++){
-					tieredIcon[i] = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
-					tieredBottomIcon[i] = tieredIcon[i];
-					tieredTopIcon[i] = tieredIcon[i];
-				}
-			}
-		}
-		
-		
-		@Override
-		public IIcon getIcon(int side, int metadata){
-			ForgeDirection s = ForgeDirection.getOrientation(side);
-			if(s.equals(ForgeDirection.UP)){
-				return tieredTopIcon[metadata];
-			}else if(s.equals(ForgeDirection.DOWN)){
-				return tieredBottomIcon[metadata];
-			}
+    private Name[] mName;
 
-			return tieredIcon[metadata];
-			
-		}
-		
+    protected boolean hasTopIcon = false;
+    protected boolean hasBottomIcon = false;
+    protected boolean hasTextures = true;
 
-		@Override
-		public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack iStack){
-			super.onBlockPlacedBy(world, x, y, z, player, iStack);
-		}
+    public static final PropertyEnum TIER = PropertyEnum.create("tier", PressureTier.class);
+
+    @Override
+    public abstract TileEntity createNewTileEntity(World world, int var2);
+
+    protected HydraulicTieredBlockBase(Name[] machineName) {
+        super(machineName[0], true);
+
+        mName = machineName;
+/*
+        tieredIcon = new IIcon[3];
+        tieredTopIcon = new IIcon[3];
+        tieredBottomIcon = new IIcon[3];*/
+
+        setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, EnumFacing.NORTH).withProperty(TIER, PressureTier.INVALID));
+
+        setUnlocalizedName(mName[0].unlocalized);
+        setStepSound(Block.soundTypeStone);
+        setHardness(3.5F);
+
+        setCreativeTab(CustomTabs.tabHydraulicraft);
+    }
+
+
+    @Override
+    public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+        for (int i = 0; i < 3; i++) {
+            list.add(new ItemStack(this, 1, i));
+        }
+    }
+
+/*
+    private String getTieredTextureName(String side, int tier) {
+        if (!side.equals("")) {
+            return ModInfo.LID + ":" + mName[0].unlocalized + "_" + tier + "_" + side;
+        } else {
+            return ModInfo.LID + ":" + mName[0].unlocalized + "_" + tier;
+        }
+    }
 		
-		@Override
-		public int damageDropped(int damageValue){
-			return damageValue;
-		}
-		
-		@Override
-		public void onNeighborBlockChange(World world, int x, int y,
-					int z, Block block) {
-			super.onNeighborBlockChange(world, x, y, z, block);
-			TileEntity t = world.getTileEntity(x, y, z);
-			if(t instanceof TileHydraulicBase){
-				((TileHydraulicBase)t).checkRedstonePower();
-			}
-		}
+    /*@Override
+    public void registerBlockIcons(IIconRegister iconRegistry){
+        if(hasTextures){
+            if(hasTopIcon || hasBottomIcon){
+                for(int i = 0; i < 3; i++){
+                    tieredIcon[i] = iconRegistry.registerIcon(getTieredTextureName("sides",i));
+                    if(hasTopIcon){
+                        tieredTopIcon[i] = iconRegistry.registerIcon(getTieredTextureName("top",i));
+                    }else{
+                        tieredTopIcon[i] = tieredIcon[i];
+                    }
+                    if(hasBottomIcon){
+                        tieredBottomIcon[i] = iconRegistry.registerIcon(getTieredTextureName("bottom",i));
+                    }else{
+                        tieredBottomIcon[i] = tieredIcon[i];
+                    }
+                }
+            }else{
+                for(int i = 0; i < 3; i++){
+                    tieredIcon[i] = iconRegistry.registerIcon(getTieredTextureName("",i));
+                    tieredBottomIcon[i] = tieredIcon[i];
+                    tieredTopIcon[i] = tieredIcon[i];
+                }
+            }
+        }else{
+            for(int i = 0; i < 3; i++){
+                tieredIcon[i] = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
+                tieredBottomIcon[i] = tieredIcon[i];
+                tieredTopIcon[i] = tieredIcon[i];
+            }
+        }
+    }
+
+
+    @Override
+    public IIcon getIcon(int side, int metadata){
+        EnumFacing s = EnumFacing.getOrientation(side);
+        if(s.equals(EnumFacing.UP)){
+            return tieredTopIcon[metadata];
+        }else if(s.equals(EnumFacing.DOWN)){
+            return tieredBottomIcon[metadata];
+        }
+
+        return tieredIcon[metadata];
+
+    }
+    */
+
+    @Override
+    public int damageDropped(IBlockState state) {
+        return getTierFromState(state).toInt();
+    }
+
+    @Override
+    protected BlockState createBlockState() {
+        return new BlockState(this, TIER, ROTATION);
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta) {
+        return super.getStateFromMeta(meta).withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return super.getMetaFromState(state) + ((PressureTier) state.getValue(TIER)).toInt();
+    }
+
+    public PressureTier getTierFromState(IBlockState state) {
+        return (PressureTier) state.getValue(TIER);
+    }
 }

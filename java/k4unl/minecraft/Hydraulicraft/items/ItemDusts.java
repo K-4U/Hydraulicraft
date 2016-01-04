@@ -1,24 +1,21 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemDusts extends Item {
 	class dust{
 		private String _name;
-		private IIcon _icon;
+		//private IIcon _icon;
 		
 		public dust(String targetName){
 			_name = targetName;
@@ -27,15 +24,15 @@ public class ItemDusts extends Item {
 		public void setName(String n){
 			_name = n;
 		}
-		public void setIcon(IIcon i){
+		/*public void setIcon(IIcon i){
 			_icon = i;
-		}
+		}*/
 		public String getName(){
 			return _name;
 		}
-		public IIcon getIcon(){
+		/*public IIcon getIcon(){
 			return _icon;
-		}
+		}*/
 	}
 	
 	
@@ -61,7 +58,7 @@ public class ItemDusts extends Item {
 
         String ingotName = "ingot" + oreDictName;
         ItemStack ingotTarget = Functions.getIngot(ingotName);
-        FurnaceRecipes.smelting().func_151394_a(new ItemStack(this, 1, meta),
+        FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(this, 1, meta),
                 ingotTarget, 0F);
 
         return meta;
@@ -71,7 +68,7 @@ public class ItemDusts extends Item {
 	public String getUnlocalizedName(ItemStack itemStack){
 		return "dust" + dusts.get(itemStack.getItemDamage()).getName();
 	}
-	
+	/*
 	@Override
 	public void registerIcons(IIconRegister icon){
 		for (dust c : dusts) {
@@ -85,7 +82,7 @@ public class ItemDusts extends Item {
 			return dusts.get(damage).getIcon();
 		}
 		return null;
-	}
+	}*/
 	
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List list){

@@ -1,17 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
-import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.RendererHarvesterTrolley;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
-
-import org.lwjgl.opengl.GL11;
-
-public class RendererHarvesterTrolleyItem implements IItemRenderer {
-
+public class RendererHarvesterTrolleyItem {//implements IItemRenderer {
+/*
 	private static RendererHarvesterTrolley t = new RendererHarvesterTrolley();
 	
 	@Override
@@ -64,5 +54,5 @@ public class RendererHarvesterTrolleyItem implements IItemRenderer {
 		GL11.glScalef(scale, scale, scale);
 		t.doRender(null, x, y, z, 0, rotation, 0, resLoc);
 	}
-
+*/
 }

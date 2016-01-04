@@ -7,9 +7,10 @@ import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCharger;
+import k4unl.minecraft.k4lib.lib.Functions;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiCharger extends HydraulicGUIBase {
@@ -37,7 +38,7 @@ public class GuiCharger extends HydraulicGUIBase {
                 if (item.getFluid(pressurizingItemStack) != null) {
                     fluidName = item.getFluid(pressurizingItemStack).getUnlocalizedName();
 
-                    IIcon icon = item.getFluid(pressurizingItemStack).getFluid().getIcon();
+                    TextureAtlasSprite icon = Functions.getFluidIcon(item.getFluid(pressurizingItemStack).getFluid());
 
                     drawVerticalProgressBarWithTexture(54, 16, 27, 7, item.getFluid(pressurizingItemStack).amount, item.getMaxFluid(), icon, fluidName, "mB");
                     drawVerticalProgressBar(64, 16, 27, 7, (item.getPressure(pressurizingItemStack) / 1000),

@@ -11,7 +11,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 
 public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implements ISidedInventory, IHydraulicConsumer {
 
@@ -30,7 +32,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     private static boolean canSmelt(ItemStack inv) {
         //Get smelting result:
-        ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inv);
+        ItemStack target = FurnaceRecipes.instance().getSmeltingResult(inv);
         if (target == null) return false;
         return true;
     }
@@ -40,7 +42,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     }
 
     @Override
-    public float workFunction(boolean simulate, ForgeDirection from) {
+    public float workFunction(boolean simulate, EnumFacing from) {
         if (canRun() || isSmelting()) {
             if (!simulate) {
                 doSmelt();
@@ -57,7 +59,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
             //The higher the pressure
             //The higher the speed!
             float maxPressureThisTier = Functions.getMaxPressurePerTier(pNetwork.getLowestTier(), true);
-            float ratio = getPressure(ForgeDirection.UP) / maxPressureThisTier;
+            float ratio = getPressure(EnumFacing.UP) / maxPressureThisTier;
             smeltingTicks = smeltingTicks + 1 + (int) ((pNetwork.getLowestTier().ordinal() * 4) * ratio);
             if (smeltingTicks < 0) {
                 smeltingTicks = 0;
@@ -74,7 +76,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
             }
         } else {
             if (canRun()) {
-                targetItem = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
+                targetItem = FurnaceRecipes.instance().getSmeltingResult(inputInventory);
                 smeltingItem = inputInventory.copy();
                 inputInventory.stackSize--;
                 if (inputInventory.stackSize <= 0) {
@@ -108,11 +110,11 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
      * and if the item is smeltable
      */
     private boolean canRun() {
-        if (inputInventory == null || (getPressure(ForgeDirection.UNKNOWN) < requiredPressure)) {
+        if (inputInventory == null || (getPressure(EnumFacing.UP) < requiredPressure)) {
             return false;
         } else {
             //Get smelting result:
-            ItemStack target = FurnaceRecipes.smelting().getSmeltingResult(inputInventory);
+            ItemStack target = FurnaceRecipes.instance().getSmeltingResult(inputInventory);
             if (target == null) return false;
             if (outputInventory != null) {
                 if (!outputInventory.isItemEqual(target)) return false;
@@ -126,7 +128,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     }
 
     @Override
-    public float getMaxPressure(boolean isOil, ForgeDirection from) {
+    public float getMaxPressure(boolean isOil, EnumFacing from) {
         if (isOil) {
             return Constants.MAX_MBAR_OIL_TIER_2;
         } else {
@@ -141,7 +143,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public ItemStack getStackInSlot(int i) {
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        worldObj.markBlockForUpdate(getPos());
         switch (i) {
             case 0:
                 return inputInventory;
@@ -170,28 +172,24 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
                 }
             }
         }
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        worldObj.markBlockForUpdate(getPos());
 
         return ret;
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int i) {
-        ItemStack stack = getStackInSlot(i);
-        if (stack != null) {
-            setInventorySlotContents(i, null);
-        }
-        return stack;
+    public ItemStack removeStackFromSlot(int index) {
+        return decrStackSize(index, getStackInSlot(index).stackSize);
     }
 
     @Override
     public void setInventorySlotContents(int i, ItemStack itemStack) {
         if (i == 0) {
             inputInventory = itemStack;
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            worldObj.markBlockForUpdate(getPos());
         } else if (i == 1) {
             outputInventory = itemStack;
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            worldObj.markBlockForUpdate(getPos());
         } else {
             //Err...
         }
@@ -204,8 +202,18 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
-        return ((worldObj.getTileEntity(xCoord, yCoord, zCoord) == this) &&
-                player.getDistanceSq(xCoord, yCoord, zCoord) < 64);
+        return ((worldObj.getTileEntity(getPos()) == this) &&
+                player.getDistanceSq(getPos()) < 64);
+    }
+
+    @Override
+    public void openInventory(EntityPlayer player) {
+
+    }
+
+    @Override
+    public void closeInventory(EntityPlayer player) {
+
     }
 
     @Override
@@ -221,14 +229,34 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
         }
     }
 
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
 
     @Override
-    public int[] getAccessibleSlotsFromSide(int var1) {
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+
+    @Override
+    public int[] getSlotsForFace(EnumFacing side) {
         return new int[]{1, 0};
     }
 
     @Override
-    public boolean canInsertItem(int i, ItemStack itemStack, int j) {
+    public boolean canInsertItem(int i, ItemStack itemStack, EnumFacing j) {
         if (i == 0 && canSmelt(itemStack)) {
             return true;
         } else {
@@ -237,7 +265,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     }
 
     @Override
-    public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+    public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j) {
         if (i == 1) {
             return true;
         } else {
@@ -267,7 +295,6 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
         targetItem = ItemStack.loadItemStackFromNBT(inventoryCompound);
 
         smeltingTicks = tagCompound.getInteger("smeltingTicks");
-
     }
 
     @Override
@@ -307,33 +334,30 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     }
 
     @Override
-    public boolean canConnectTo(ForgeDirection side) {
+    public boolean canConnectTo(EnumFacing side) {
         return true;
     }
 
     @Override
-    public boolean canWork(ForgeDirection dir) {
+    public boolean canWork(EnumFacing dir) {
         if (getNetwork(dir) == null) {
             return false;
         }
-        return dir.equals(ForgeDirection.UP);
+        return dir.equals(EnumFacing.UP);
     }
 
     @Override
-    public String getInventoryName() {
+    public String getName() {
         return Localization.getLocalizedName(Names.blockHydraulicFrictionIncinerator.unlocalized);
     }
 
     @Override
-    public boolean hasCustomInventoryName() {
+    public boolean hasCustomName() {
         return true;
     }
 
     @Override
-    public void openInventory() {
-    }
-
-    @Override
-    public void closeInventory() {
+    public IChatComponent getDisplayName() {
+        return new ChatComponentTranslation(Names.blockHydraulicFrictionIncinerator.unlocalized);
     }
 }

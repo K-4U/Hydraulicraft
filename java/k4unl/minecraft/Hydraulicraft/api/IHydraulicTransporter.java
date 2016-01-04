@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import net.minecraftforge.common.util.ForgeDirection;
+
+import net.minecraft.util.EnumFacing;
 
 public interface IHydraulicTransporter extends IHydraulicMachine {
 	/**
@@ -8,7 +9,7 @@ public interface IHydraulicTransporter extends IHydraulicMachine {
 	 * @param dir
 	 * @return Whether or not the machine is connected. It is different to canConnectTo
 	 */
-	boolean isConnectedTo(ForgeDirection dir);
+	boolean isConnectedTo(EnumFacing dir);
 	
 	/**
 	 * Called when the block needs to recheck its connections.

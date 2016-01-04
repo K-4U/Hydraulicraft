@@ -4,7 +4,6 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
-import k4unl.minecraft.Hydraulicraft.blocks.transporter.BlockHydraulicPressureValve;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
@@ -21,7 +20,9 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fluids.*;
 
 import java.util.ArrayList;
@@ -30,9 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISidedInventory, IFluidHandler, IConnectTexture {
-    private int targetX;
-    private int targetY;
-    private int targetZ;
+    private BlockPos targetPos;
     private boolean targetHasChanged = true;
 
     private boolean isTank = false;
@@ -53,34 +52,30 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     public void resetTarget() {
 
         target = null;
-        targetX = xCoord;
-        targetY = yCoord;
-        targetZ = zCoord;
+        targetPos = getPos();
         targetHasChanged = true;
 
         if (!worldObj.isRemote) {
             clientNeedsToResetTarget = true;
         }
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        worldObj.markBlockForUpdate(getPos());
     }
 
-    public void setTarget(int x, int y, int z) {
+    public void setTarget(BlockPos pos) {
 
-        targetX = x;
-        targetY = y;
-        targetZ = z;
+        targetPos = pos;
         targetHasChanged = true;
 
         if (!worldObj.isRemote) {
             clientNeedsToSetTarget = true;
         }
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        worldObj.markBlockForUpdate(getPos());
     }
 
     public IHydraulicConsumer getTarget() {
 
-        if (targetHasChanged && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)) {
-            TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
+        if (targetHasChanged && !getPos().equals(targetPos)) {
+            TileEntity t = worldObj.getTileEntity(targetPos);
             if (t instanceof IHydraulicConsumer) {
                 target = (IHydraulicConsumer) t;
                 targetHasChanged = false;
@@ -91,7 +86,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             if (t instanceof ISidedInventory) {
                 inventoryTarget = (ISidedInventory) t;
             }
-        } else if (targetHasChanged && targetX == xCoord && targetY == yCoord && targetZ == zCoord) {
+        } else if (targetHasChanged && targetPos.equals(getPos())) {
             target = null;
             fluidTarget = null;
             inventoryTarget = null;
@@ -100,8 +95,8 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     public IFluidHandler getFluidTarget() {
-        if (targetHasChanged && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)) {
-            TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
+        if (targetHasChanged && !targetPos.equals(getPos())) {
+            TileEntity t = worldObj.getTileEntity(targetPos);
             if (t instanceof IHydraulicConsumer) {
                 target = (IHydraulicConsumer) t;
             }
@@ -113,7 +108,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             }
             targetHasChanged = false;
             //}
-        } else if (targetHasChanged && targetX == xCoord && targetY == yCoord && targetZ == zCoord) {
+        } else if (targetHasChanged && getPos().equals(targetPos)) {
             target = null;
             fluidTarget = null;
             inventoryTarget = null;
@@ -122,8 +117,8 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     public ISidedInventory getInventoryTarget() {
-        if (targetHasChanged && (targetX != xCoord || targetY != yCoord || targetZ != zCoord)) {
-            TileEntity t = worldObj.getTileEntity(targetX, targetY, targetZ);
+        if (targetHasChanged && !targetPos.equals(getPos())) {
+            TileEntity t = worldObj.getTileEntity(targetPos);
             if (t instanceof IHydraulicConsumer) {
                 target = (IHydraulicConsumer) t;
                 if (t instanceof IFluidHandler) {
@@ -134,7 +129,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                 }
                 targetHasChanged = false;
             }
-        } else if (targetHasChanged && targetX == xCoord && targetY == yCoord && targetZ == zCoord) {
+        } else if (targetHasChanged && targetPos.equals(getPos())) {
             target = null;
             fluidTarget = null;
             inventoryTarget = null;
@@ -146,9 +141,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
         super.readFromNBT(tagCompound);
-        targetX = tagCompound.getInteger("targetX");
-        targetY = tagCompound.getInteger("targetY");
-        targetZ = tagCompound.getInteger("targetZ");
+        targetPos = BlockPos.fromLong(tagCompound.getLong("targetPos"));
         if (tagCompound.getBoolean("isTargetNull")) {
             target = null;
         }
@@ -184,7 +177,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-        NBTTagCompound tagCompound = packet.func_148857_g();
+        NBTTagCompound tagCompound = packet.getNbtCompound();
         this.readFromNBT(tagCompound);
     }
 
@@ -192,16 +185,14 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     public Packet getDescriptionPacket() {
         NBTTagCompound tagCompound = new NBTTagCompound();
         this.writeToNBT(tagCompound);
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 5, tagCompound);
+        return new S35PacketUpdateTileEntity(getPos(), 5, tagCompound);
     }
 
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
-        tagCompound.setInteger("targetX", targetX);
-        tagCompound.setInteger("targetY", targetY);
-        tagCompound.setInteger("targetZ", targetZ);
+        tagCompound.setLong("targetPos", targetPos.toLong());
         tagCompound.setBoolean("isTargetNull", (target == null));
         if (target == null) {
             tagCompound.setBoolean("isTargetNull", (target == null));
@@ -230,7 +221,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
         if (!isTank) {
             if (getFluidTarget() != null) {
                 return getFluidTarget().fill(from, resource, doFill);
@@ -238,15 +229,14 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                 return 0;
             }
         } else {
-            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+            getWorld().markBlockForUpdate(getPos());
             return tank.fill(resource, doFill);
 
         }
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource,
-                            boolean doDrain) {
+    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
         if (!isTank) {
             if (getFluidTarget() != null) {
                 return getFluidTarget().drain(from, resource, doDrain);
@@ -259,7 +249,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         if (!isTank) {
             if (getFluidTarget() != null) {
                 return getFluidTarget().drain(from, maxDrain, doDrain);
@@ -267,23 +257,23 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                 return null;
             }
         } else {
-            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+            getWorld().markBlockForUpdate(getPos());
             return tank.drain(maxDrain, doDrain);
         }
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
+    public boolean canFill(EnumFacing from, Fluid fluid) {
         return isTank || getFluidTarget() != null && getFluidTarget().canFill(from, fluid);
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+    public boolean canDrain(EnumFacing from, Fluid fluid) {
         return isTank || getFluidTarget() != null && getFluidTarget().canDrain(from, fluid);
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(EnumFacing from) {
         if (!isTank) {
             if (getFluidTarget() != null) {
                 return getFluidTarget().getTankInfo(from);
@@ -320,9 +310,9 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int i) {
-        if (getInventoryTarget() != null) {
-            return getInventoryTarget().getStackInSlotOnClosing(i);
+    public ItemStack removeStackFromSlot(int index) {
+        if(getInventoryTarget() != null){
+            return getInventoryTarget().removeStackFromSlot(index);
         }
         return null;
     }
@@ -353,54 +343,82 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     @Override
-    public int[] getAccessibleSlotsFromSide(int var1) {
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public int[] getSlotsForFace(EnumFacing var1) {
         if (getInventoryTarget() != null) {
-            return getInventoryTarget().getAccessibleSlotsFromSide(var1);
+            return getInventoryTarget().getSlotsForFace(var1);
         }
         return new int[0];
     }
 
     @Override
-    public boolean canInsertItem(int i, ItemStack itemstack, int j) {
+    public boolean canInsertItem(int i, ItemStack itemstack, EnumFacing j) {
         return getInventoryTarget() != null && getInventoryTarget().canInsertItem(i, itemstack, j);
     }
 
     @Override
-    public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+    public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j) {
         return getInventoryTarget() != null && getInventoryTarget().canExtractItem(i, itemstack, j);
     }
 
     @Override
-    public String getInventoryName() {
+    public String getName() {
         if (getInventoryTarget() != null) {
-            return getInventoryTarget().getInventoryName();
+            return getInventoryTarget().getName();
         }
         return null;
     }
 
     @Override
-    public boolean hasCustomInventoryName() {
-        return getInventoryTarget() != null && getInventoryTarget().hasCustomInventoryName();
+    public boolean hasCustomName() {
+        return getInventoryTarget() != null && getInventoryTarget().hasCustomName();
     }
 
     @Override
-    public void openInventory() {
+    public IChatComponent getDisplayName() {
+        if(getInventoryTarget() != null){
+            return getInventoryTarget().getDisplayName();
+        }
+        return null;
+    }
+
+    @Override
+    public void openInventory(EntityPlayer player) {
         if (getInventoryTarget() != null) {
-            getInventoryTarget().openInventory();
+            getInventoryTarget().openInventory(player);
         }
     }
 
     @Override
-    public void closeInventory() {
+    public void closeInventory(EntityPlayer player) {
         if (getInventoryTarget() != null) {
-            getInventoryTarget().closeInventory();
+            getInventoryTarget().closeInventory(player);
         }
     }
 
-    public void checkTank(ForgeDirection sideClicked) {
+    public void checkTank(EnumFacing sideClicked) {
         if (getFluidTarget() == null) {
             //Log.info("Checking tank. Clicked on side " + sideClicked);
-            ForgeDirection tankDir = sideClicked.getOpposite();
+            EnumFacing tankDir = sideClicked.getOpposite();
 
 
             int minX = 0;
@@ -410,12 +428,12 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             int maxY = 0;
             int maxZ = 0;
 
-            Location otherSide = new Location(xCoord, yCoord, zCoord, tankDir);
+            Location otherSide = new Location(getPos(), tankDir);
             int offset;
             int size = 0;
             for (offset = 0; offset < Constants.MAX_TANK_SIZE; offset++) {
                 Location testLoc = new Location(otherSide, tankDir, offset);
-                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
+                if (testLoc.getBlock(getWorld()).getMaterial() == Material.air) {
                     size++;
                 } else {
                     break;
@@ -425,47 +443,47 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             if (size == Constants.MAX_TANK_SIZE) {
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
-                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
+                if (testLoc.getBlock(getWorld()).getMaterial() == Material.air) {
                     return;
                 }
             }
-            if (tankDir.offsetX == 1) {
+            if (tankDir.getFrontOffsetX() == 1) {
                 minX = otherSide.getX();
                 maxX = new Location(otherSide, tankDir, offset - 1).getX();
             }
-            if (tankDir.offsetX == -1) {
+            if (tankDir.getFrontOffsetX() == -1) {
                 maxX = otherSide.getX();
                 minX = new Location(otherSide, tankDir, offset - 1).getX();
             }
-            if (tankDir.offsetY == 1) {
+            if (tankDir.getFrontOffsetY() == 1) {
                 minY = otherSide.getY();
                 maxY = new Location(otherSide, tankDir, offset - 1).getY();
             }
-            if (tankDir.offsetY == -1) {
+            if (tankDir.getFrontOffsetY() == -1) {
                 maxY = otherSide.getY();
                 minY = new Location(otherSide, tankDir, offset - 1).getY();
             }
-            if (tankDir.offsetZ == 1) {
+            if (tankDir.getFrontOffsetZ() == 1) {
                 minZ = otherSide.getZ();
                 maxZ = new Location(otherSide, tankDir, offset - 1).getZ();
             }
-            if (tankDir.offsetZ == -1) {
+            if (tankDir.getFrontOffsetZ() == -1) {
                 maxZ = otherSide.getZ();
                 minZ = new Location(otherSide, tankDir, offset - 1).getZ();
             }
 
             int sizeRemaining;
-            ForgeDirection rotated;
-            if (!tankDir.equals(ForgeDirection.UP) && !tankDir.equals(ForgeDirection.DOWN)) {
-                rotated = tankDir.getRotation(ForgeDirection.UP);
+            EnumFacing rotated;
+            if (!tankDir.equals(EnumFacing.UP) && !tankDir.equals(EnumFacing.DOWN)) {
+                rotated = tankDir.rotateAround(EnumFacing.UP.getAxis());
             } else {
-                rotated = tankDir.getRotation(ForgeDirection.NORTH);
+                rotated = tankDir.rotateAround(EnumFacing.NORTH.getAxis());
             }
 
             size = 0;
             for (offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++) {
                 Location testLoc = new Location(otherSide, rotated, offset);
-                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
+                if (testLoc.getBlock(getWorld()).getMaterial() == Material.air) {
                     size++;
                 } else {
                     break;
@@ -476,27 +494,27 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             if (size == Constants.MAX_TANK_SIZE) {
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
-                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
+                if (testLoc.getBlock(getWorld()).getMaterial() == Material.air) {
                     return;
                 }
             }
 
-            if (rotated.offsetX == 1) {
+            if (rotated.getFrontOffsetX() == 1) {
                 maxX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if (rotated.offsetX == -1) {
+            if (rotated.getFrontOffsetX() == -1) {
                 minX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if (rotated.offsetY == 1) {
+            if (rotated.getFrontOffsetY() == 1) {
                 maxY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if (rotated.offsetY == -1) {
+            if (rotated.getFrontOffsetY() == -1) {
                 minY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if (rotated.offsetZ == 1) {
+            if (rotated.getFrontOffsetZ() == 1) {
                 maxZ = new Location(otherSide, rotated, size - 1).getZ();
             }
-            if (rotated.offsetZ == -1) {
+            if (rotated.getFrontOffsetZ() == -1) {
                 minZ = new Location(otherSide, rotated, size - 1).getZ();
             }
 
@@ -504,7 +522,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             size = 0;
             for (offset = 0; offset <= sizeRemaining; offset++) {
                 Location testLoc = new Location(otherSide, rotated, offset);
-                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
+                if (testLoc.getBlock(getWorld()).getMaterial() == Material.air) {
                     size++;
                 } else {
                     break;
@@ -514,42 +532,42 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             if (size == Constants.MAX_TANK_SIZE) {
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
-                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
+                if (testLoc.getBlock(getWorld()).getMaterial() == Material.air) {
                     return;
                 }
             }
 
-            if (rotated.offsetX == 1) {
+            if (rotated.getFrontOffsetX() == 1) {
                 maxX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if (rotated.offsetX == -1) {
+            if (rotated.getFrontOffsetX() == -1) {
                 minX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if (rotated.offsetY == 1) {
+            if (rotated.getFrontOffsetY() == 1) {
                 maxY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if (rotated.offsetY == -1) {
+            if (rotated.getFrontOffsetY() == -1) {
                 minY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if (rotated.offsetZ == 1) {
+            if (rotated.getFrontOffsetZ() == 1) {
                 maxZ = new Location(otherSide, rotated, size - 1).getZ();
             }
-            if (rotated.offsetZ == -1) {
+            if (rotated.getFrontOffsetZ() == -1) {
                 minZ = new Location(otherSide, rotated, size - 1).getZ();
             }
 
             //Now, rotate it the OTHER way
-            if (!tankDir.equals(ForgeDirection.EAST) && !tankDir.equals
-                    (ForgeDirection.WEST)) {
-                rotated = tankDir.getRotation(ForgeDirection.EAST);
+            if (!tankDir.equals(EnumFacing.EAST) && !tankDir.equals
+                    (EnumFacing.WEST)) {
+                rotated = tankDir.rotateAround(EnumFacing.EAST.getAxis());
             } else {
-                rotated = tankDir.getRotation(ForgeDirection.NORTH);
+                rotated = tankDir.rotateAround(EnumFacing.NORTH.getAxis());
             }
 
             size = 0;
             for (offset = 0; offset <= Constants.MAX_TANK_SIZE; offset++) {
                 Location testLoc = new Location(otherSide, rotated, offset);
-                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
+                if (testLoc.getBlock(getWorld()).getMaterial() == Material.air) {
                     size++;
                 } else {
                     break;
@@ -560,27 +578,27 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             if (size == Constants.MAX_TANK_SIZE) {
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
-                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
+                if (testLoc.getBlock(getWorld()).getMaterial() == Material.air) {
                     return;
                 }
             }
 
-            if (rotated.offsetX == 1) {
+            if (rotated.getFrontOffsetX() == 1) {
                 maxX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if (rotated.offsetX == -1) {
+            if (rotated.getFrontOffsetX() == -1) {
                 minX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if (rotated.offsetY == 1) {
+            if (rotated.getFrontOffsetY() == 1) {
                 maxY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if (rotated.offsetY == -1) {
+            if (rotated.getFrontOffsetY() == -1) {
                 minY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if (rotated.offsetZ == 1) {
+            if (rotated.getFrontOffsetZ() == 1) {
                 maxZ = new Location(otherSide, rotated, size - 1).getZ();
             }
-            if (rotated.offsetZ == -1) {
+            if (rotated.getFrontOffsetZ() == -1) {
                 minZ = new Location(otherSide, rotated, size - 1).getZ();
             }
 
@@ -588,7 +606,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             size = 0;
             for (offset = 0; offset <= sizeRemaining; offset++) {
                 Location testLoc = new Location(otherSide, rotated, offset);
-                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
+                if (testLoc.getBlock(getWorld()).getMaterial() == Material.air) {
                     size++;
                 } else {
                     break;
@@ -598,27 +616,27 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             if (size == Constants.MAX_TANK_SIZE) {
                 //Check if there's a block at the end.
                 Location testLoc = new Location(otherSide, tankDir, size);
-                if (testLoc.getBlock(getWorldObj()).getMaterial() == Material.air) {
+                if (testLoc.getBlock(getWorld()).getMaterial() == Material.air) {
                     return;
                 }
             }
 
-            if (rotated.offsetX == 1) {
+            if (rotated.getFrontOffsetX() == 1) {
                 maxX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if (rotated.offsetX == -1) {
+            if (rotated.getFrontOffsetX() == -1) {
                 minX = new Location(otherSide, rotated, size - 1).getX();
             }
-            if (rotated.offsetY == 1) {
+            if (rotated.getFrontOffsetY() == 1) {
                 maxY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if (rotated.offsetY == -1) {
+            if (rotated.getFrontOffsetY() == -1) {
                 minY = new Location(otherSide, rotated, size - 1).getY();
             }
-            if (rotated.offsetZ == 1) {
+            if (rotated.getFrontOffsetZ() == 1) {
                 maxZ = new Location(otherSide, rotated, size - 1).getZ();
             }
-            if (rotated.offsetZ == -1) {
+            if (rotated.getFrontOffsetZ() == -1) {
                 minZ = new Location(otherSide, rotated, size - 1).getZ();
             }
             //Log.info("X-: " + minX + " X+:" + maxX + " Y-: " + minY + " Y+:" + maxY + " Z-: " + minZ + " Z+:" + maxZ);
@@ -631,7 +649,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             for (int x = minX - 1; x <= maxX + 1; x++) {
                 for (int y = minY - 1; y <= maxY + 1; y++) {
                     for (int z = minZ - 1; z <= maxZ + 1; z++) {
-                        Block bl = getWorldObj().getBlock(x, y, z);
+                        Block bl = getWorld().getBlockState(new BlockPos(x, y, z)).getBlock();
                         if ((x >= minX && x <= maxX) && (y >= minY && y <= maxY) && (z >= minZ && z <= maxZ)) {
                             if (bl.getMaterial() == Material.air) {
                                 airBlocks.add(new Location(x, y, z));
@@ -648,7 +666,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                             } else {
                                 if (bl == HCBlocks.blockInterfaceValve) {
                                     Location vBlock = new Location(x, y, z);
-                                    if (!vBlock.compare(xCoord, yCoord, zCoord)) {
+                                    if (!vBlock.compare(getPos())) {
                                         valveBlocks.add(vBlock);
                                     }
                                 } else {
@@ -683,7 +701,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             maxZ += 1;
 
             for (Location valveLoc : valveBlocks) {
-                ((TileInterfaceValve) valveLoc.getTE(getWorldObj())).setTarget(xCoord, yCoord, zCoord);
+                ((TileInterfaceValve) valveLoc.getTE(getWorld())).setTarget(getPos());
             }
 
             tankCorner1 = new Location(minX, minY, minZ);
@@ -695,9 +713,9 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                 tank.setCapacity(tankScore * FluidContainerRegistry.BUCKET_VOLUME);
             }
             //We should save this tank to an array.
-            Hydraulicraft.tankList.addNewTank(tankCorner1, tankCorner2, new Location(xCoord, yCoord, zCoord));
-            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-            getWorldObj().markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
+            Hydraulicraft.tankList.addNewTank(tankCorner1, tankCorner2, new Location(getPos()));
+            getWorld().markBlockForUpdate(getPos());
+            getWorld().markBlockRangeForRenderUpdate(getPos().getX(), getPos().getY(), getPos().getZ(), getPos().getX(), getPos().getY(), getPos().getZ());
         }
     }
 
@@ -706,8 +724,8 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
         Hydraulicraft.tankList.deleteTank(tankCorner1, tankCorner2);
         tankCorner1 = null;
         tankCorner2 = null;
-        getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-        getWorldObj().markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
+        getWorld().markBlockForUpdate(getPos());
+        getWorld().markBlockRangeForRenderUpdate(getPos().getX(), getPos().getY(), getPos().getZ(), getPos().getX(), getPos().getY(), getPos().getZ());
     }
 
     public Location getTankCorner1() {
@@ -735,12 +753,12 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
         /*float extendedLength = getExtendedLength();
         float sidewaysMovement = getSideLength();*/
 
-        float minX = 0.0F + xCoord;
-        float minY = 0.0F + yCoord;
-        float minZ = 0.0F + zCoord;
-        float maxX = 1.0F + xCoord;
-        float maxY = 1.0F + yCoord;
-        float maxZ = 1.0F + zCoord;
+        float minX = 0.0F + getPos().getX();
+        float minY = 0.0F + getPos().getY();
+        float minZ = 0.0F + getPos().getZ();
+        float maxX = 1.0F + getPos().getX();
+        float maxY = 1.0F + getPos().getY();
+        float maxZ = 1.0F + getPos().getZ();
 
         if (isValidTank()) {
             int outerXDifference;
@@ -751,16 +769,16 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             outerYDifference = tankCorner2.getY() - tankCorner1.getY();
             outerZDifference = tankCorner2.getZ() - tankCorner1.getZ();
 
-            minX = tankCorner1.getX() - xCoord;
-            minY = tankCorner1.getY() - yCoord;
-            minZ = tankCorner1.getZ() - zCoord;
+            minX = tankCorner1.getX() - getPos().getX();
+            minY = tankCorner1.getY() - getPos().getY();
+            minZ = tankCorner1.getZ() - getPos().getZ();
 
             maxX = outerXDifference + tankCorner1.getX();
             maxY = outerYDifference + tankCorner1.getY();
             maxZ = outerZDifference + tankCorner1.getZ();
             //Log.info("minX: "+ minX + " minY: " + minY + " minZ: " + minZ + " maxX: " + maxX + " maxY: " + maxY + " maxZ: " + maxZ);
         }
-        return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+        return AxisAlignedBB.fromBounds(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
     @Override
@@ -770,7 +788,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public boolean connectTextureTo(Block type) {
-        return connectTexture() && (type instanceof BlockHydraulicPressureWall || type instanceof BlockHydraulicPressureValve);
+        return connectTexture() && (type instanceof BlockHydraulicPressureWall);// || type instanceof BlockHydraulicPressureValve);
     }
 }
 

@@ -1,16 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.transportation;
 
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.multipart.PartValve;
 import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 
 public class RendererPartValve extends TileEntitySpecialRenderer {
@@ -21,14 +18,14 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		new ResourceLocation(ModInfo.LID,"textures/model/hydraulicHose_tmap_2.png")
 	};
 	
-	public void doRender(double x, double y, double z, float f, int tier, PartValve valve){
+	public void doRender(double x, double y, double z, float f, int tier/*, PartValve valve*/){
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef((float) x, (float) y, (float)z);
 		
 		//Bind texture
 		FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc[tier]);
-		
+		/*
 		if(valve != null){
 			switch(valve.getFacing()){
 			case UP:
@@ -49,7 +46,7 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 			default:
 				break;
 			}
-		}
+		}*/
 		
 		
 		GL11.glColor3f(0.8F, 0.8F, 0.8F);
@@ -66,12 +63,12 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		drawCable(center, +offset, centerOffset);
 
 		
-		if(valve != null && valve.isActive()){
+		//if(valve != null && valve.isActive()){
 			drawCorner(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center+centerOffset));
-		}else{
+		//}else{
 			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center-centerOffset, center+centerOffset, center+centerOffset, center-RenderHelper.pixel), true);
 			drawHalfCube(new Vector3fMax(center-centerOffset, center-centerOffset, center+RenderHelper.pixel, center+centerOffset, center+centerOffset, center+centerOffset), false);
-		}
+		//}
 		
 		//GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
@@ -83,14 +80,14 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
-			double z, float f) {
-		if(!(tileentity instanceof TileMultipart)) return;
+			double z, float f, int destroyStage) {
+		/*if(!(tileentity instanceof TileMultipart)) return;
 		
 		TileMultipart mp = (TileMultipart)tileentity;
 		if(Multipart.hasPartValve(mp)){
 			PartValve tp = Multipart.getValve(mp);
 			doRender(x, y, z, f, tp.getTier().toInt(), tp);
-		}
+		}*/
 	}
 	
 	
@@ -106,11 +103,11 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		float xMin = center - centerOffset;
 		float xMax = center + centerOffset;
 
-		drawCube(new Vector3fMax(min, min, xMax, max, max, 1.0F), ForgeDirection.SOUTH);
-		drawCube(new Vector3fMax(min, min, 0.0F, max, max, xMin), ForgeDirection.SOUTH);
+		drawCube(new Vector3fMax(min, min, xMax, max, max, 1.0F), EnumFacing.SOUTH);
+		drawCube(new Vector3fMax(min, min, 0.0F, max, max, xMin), EnumFacing.SOUTH);
 	}
 	
-	private void drawCube(Vector3fMax vector, ForgeDirection dirToDraw){
+	private void drawCube(Vector3fMax vector, EnumFacing dirToDraw){
 		GL11.glBegin(GL11.GL_QUADS);
 		
 		float th = 1.0F;
@@ -125,13 +122,13 @@ public class RendererPartValve extends TileEntitySpecialRenderer {
 		float syl = 0.0F;
 		float syh = 0.5F;
 		
-		if(dirToDraw.equals(ForgeDirection.SOUTH) || dirToDraw.equals(ForgeDirection.NORTH)){
+		if(dirToDraw.equals(EnumFacing.SOUTH) || dirToDraw.equals(EnumFacing.NORTH)){
 			txl = th;
 			txh = 0.0F;
 			tyl = 0.5F;
 			tyh = 0.0F;
 		}
-		if(dirToDraw.equals(ForgeDirection.UP) || dirToDraw.equals(ForgeDirection.DOWN)){
+		if(dirToDraw.equals(EnumFacing.UP) || dirToDraw.equals(EnumFacing.DOWN)){
 			sxl = th;
 			sxh = 0.0F;
 			syl = 0.5F;

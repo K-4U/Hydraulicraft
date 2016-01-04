@@ -1,16 +1,17 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import k4unl.minecraft.k4lib.client.RenderHelper;
+import k4unl.minecraft.k4lib.lib.Functions;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 
 public class RendererRFPump extends TileEntitySpecialRenderer {
@@ -19,8 +20,7 @@ public class RendererRFPump extends TileEntitySpecialRenderer {
 			new ResourceLocation(ModInfo.LID,"textures/model/rfPump.png");
 	
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
-			double z, float f) {
+	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f, int destroyStage) {
 		
 		TileRFPump t = (TileRFPump)tileentity;
 		//Get metadata for rotation:
@@ -83,7 +83,6 @@ public class RendererRFPump extends TileEntitySpecialRenderer {
 				GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 				break;
 			case NORTH:
-			case UNKNOWN:
 			default:
 				break;
 		}
@@ -309,11 +308,11 @@ public class RendererRFPump extends TileEntitySpecialRenderer {
 			vectorFilled.setYMax(vectorFilled.getYMin() + (h * ((float)t.getHandler().getStored() / (float)t.getMaxStorage())));
 		
 		
-			IIcon fluidIcon;
+			TextureAtlasSprite fluidIcon;
 			if(t.getHandler().isOilStored()){
-		        fluidIcon = Fluids.fluidHydraulicOil.getIcon();
+		        fluidIcon = Functions.getFluidIcon(Fluids.fluidHydraulicOil);
 			}else{
-				fluidIcon = FluidRegistry.WATER.getIcon();
+				fluidIcon = Functions.getFluidIcon(FluidRegistry.WATER);
 			}
 			
 			if(t.getHandler().getStored() > 0){

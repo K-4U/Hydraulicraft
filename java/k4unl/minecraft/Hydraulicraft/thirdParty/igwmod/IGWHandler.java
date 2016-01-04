@@ -1,18 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.igwmod;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import igwmod.api.VariableRetrievalEvent;
-import igwmod.api.WikiRegistry;
-import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.items.HCItems;
-import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
-
 public class IGWHandler {
 
     public static void init(){
-        WikiRegistry.registerWikiTab(new HydraulicraftWikiTab());
+/*        WikiRegistry.registerWikiTab(new HydraulicraftWikiTab());
 
         WikiRegistry.registerRecipeIntegrator(new IntegratorAssembler());
 
@@ -29,9 +20,9 @@ public class IGWHandler {
         WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.portalFrame, "hydcraft:menu/portal");
         WikiRegistry.registerBlockAndItemPageEntry(HCItems.itemIPCard, "hydcraft:menu/portal");
 
-        MinecraftForge.EVENT_BUS.register(new IGWHandler());
+        MinecraftForge.EVENT_BUS.register(new IGWHandler());*/
     }
-
+/*
     @SubscribeEvent
     public void varRetrieval(VariableRetrievalEvent event){
         String replacement = null;
@@ -89,4 +80,5 @@ public class IGWHandler {
             event.replacementValue = replacement;
         }
     }
+    */
 }

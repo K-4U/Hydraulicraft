@@ -1,16 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.transportation;
 
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
-import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 
 public class RendererPartHose extends TileEntitySpecialRenderer {
@@ -31,7 +28,7 @@ public class RendererPartHose extends TileEntitySpecialRenderer {
 		
 		if(connectedSides == null){
 			connectedSides = new boolean[7];
-			//for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+			//for(EnumFacing dir : EnumFacing.VALID_DIRECTIONS){
 			//	connectedSides.put(dir, null);
 			//}
 		}
@@ -56,15 +53,15 @@ public class RendererPartHose extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
-			double z, float f) {
+			double z, float f, int destroyStage) {
 		
 		//if(!(tileentity instanceof TilePressureHose)) return;
 		
-		TileMultipart mp = (TileMultipart)tileentity;
+		/*TileMultipart mp = (TileMultipart)tileentity;
 		if(Multipart.hasPartHose(mp)){
 			PartHose tp = Multipart.getHose(mp);
 			doRender(x, y, z, f, tp.getTier().toInt(), tp.getConnectedSides());
-		}
+		}*/
 	}
 	
 	
@@ -81,37 +78,37 @@ public class RendererPartHose extends TileEntitySpecialRenderer {
 		float min = center - (width / 2);
 		float max = center + (width / 2);
 		
-		if(connectedSides[ForgeDirection.UP.ordinal()]){
-			drawCube(new Vector3fMax(min, max, min, max, 1.0F, max), ForgeDirection.UP);
+		if(connectedSides[EnumFacing.UP.ordinal()]){
+			drawCube(new Vector3fMax(min, max, min, max, 1.0F, max), EnumFacing.UP);
 		}
 		
-		if(connectedSides[ForgeDirection.DOWN.ordinal()]){
-			drawCube(new Vector3fMax(min, 0.0F, min, max, min, max), ForgeDirection.DOWN);
+		if(connectedSides[EnumFacing.DOWN.ordinal()]){
+			drawCube(new Vector3fMax(min, 0.0F, min, max, min, max), EnumFacing.DOWN);
 		}
 		
-		if(connectedSides[ForgeDirection.NORTH.ordinal()]){
-			drawCube(new Vector3fMax(min, min, 0.0F, max, max, min), ForgeDirection.NORTH);
+		if(connectedSides[EnumFacing.NORTH.ordinal()]){
+			drawCube(new Vector3fMax(min, min, 0.0F, max, max, min), EnumFacing.NORTH);
 		}
 		
-		if(connectedSides[ForgeDirection.SOUTH.ordinal()]){
-			drawCube(new Vector3fMax(min, min, max, max, max, 1.0F), ForgeDirection.SOUTH);
+		if(connectedSides[EnumFacing.SOUTH.ordinal()]){
+			drawCube(new Vector3fMax(min, min, max, max, max, 1.0F), EnumFacing.SOUTH);
 		}
 		
-		if(connectedSides[ForgeDirection.WEST.ordinal()]){
-			drawCube(new Vector3fMax(0.0F, min, min, min, max, max), ForgeDirection.WEST);
+		if(connectedSides[EnumFacing.WEST.ordinal()]){
+			drawCube(new Vector3fMax(0.0F, min, min, min, max, max), EnumFacing.WEST);
 		}
 		
-		if(connectedSides[ForgeDirection.EAST.ordinal()]){
-			drawCube(new Vector3fMax(max, min, min, 1.0F, max, max), ForgeDirection.EAST);
+		if(connectedSides[EnumFacing.EAST.ordinal()]){
+			drawCube(new Vector3fMax(max, min, min, 1.0F, max, max), EnumFacing.EAST);
 		}
 		
-		boolean upAndDown = (connectedSides[ForgeDirection.UP.ordinal()] && connectedSides[ForgeDirection.DOWN.ordinal()]);
-		boolean northAndSouth = (connectedSides[ForgeDirection.NORTH.ordinal()] && connectedSides[ForgeDirection.SOUTH.ordinal()]);
-		boolean eastAndWest = (connectedSides[ForgeDirection.EAST.ordinal()] && connectedSides[ForgeDirection.WEST.ordinal()]);
+		boolean upAndDown = (connectedSides[EnumFacing.UP.ordinal()] && connectedSides[EnumFacing.DOWN.ordinal()]);
+		boolean northAndSouth = (connectedSides[EnumFacing.NORTH.ordinal()] && connectedSides[EnumFacing.SOUTH.ordinal()]);
+		boolean eastAndWest = (connectedSides[EnumFacing.EAST.ordinal()] && connectedSides[EnumFacing.WEST.ordinal()]);
 		
-		boolean upOrDown = (connectedSides[ForgeDirection.UP.ordinal()] || connectedSides[ForgeDirection.DOWN.ordinal()]);
-		boolean northOrSouth = (connectedSides[ForgeDirection.NORTH.ordinal()] || connectedSides[ForgeDirection.SOUTH.ordinal()]);
-		boolean eastOrWest = (connectedSides[ForgeDirection.EAST.ordinal()] || connectedSides[ForgeDirection.WEST.ordinal()]);
+		boolean upOrDown = (connectedSides[EnumFacing.UP.ordinal()] || connectedSides[EnumFacing.DOWN.ordinal()]);
+		boolean northOrSouth = (connectedSides[EnumFacing.NORTH.ordinal()] || connectedSides[EnumFacing.SOUTH.ordinal()]);
+		boolean eastOrWest = (connectedSides[EnumFacing.EAST.ordinal()] || connectedSides[EnumFacing.WEST.ordinal()]);
 		
 		
 		boolean corner = (upOrDown && (northOrSouth || eastOrWest)) || (northOrSouth && eastOrWest); 
@@ -120,16 +117,16 @@ public class RendererPartHose extends TileEntitySpecialRenderer {
 			drawCorner(new Vector3fMax(min, min, min, max, max, max));
 		}else{
 			if(upAndDown){
-				drawCube(new Vector3fMax(min, min, min, max, max, max), ForgeDirection.DOWN);
+				drawCube(new Vector3fMax(min, min, min, max, max, max), EnumFacing.DOWN);
 			}else if(northAndSouth){
-				drawCube(new Vector3fMax(min, min, min, max, max, max), ForgeDirection.NORTH);
+				drawCube(new Vector3fMax(min, min, min, max, max, max), EnumFacing.NORTH);
 			}else if(eastAndWest){
-				drawCube(new Vector3fMax(min, min, min, max, max, max), ForgeDirection.EAST);
+				drawCube(new Vector3fMax(min, min, min, max, max, max), EnumFacing.EAST);
 			}
 		}
 	}
 	
-	private void drawCube(Vector3fMax vector, ForgeDirection dirToDraw){
+	private void drawCube(Vector3fMax vector, EnumFacing dirToDraw){
 		GL11.glBegin(GL11.GL_QUADS);
 		
 		float th = 1.0F;
@@ -144,13 +141,13 @@ public class RendererPartHose extends TileEntitySpecialRenderer {
 		float syl = 0.0F;
 		float syh = 0.5F;
 		
-		if(dirToDraw.equals(ForgeDirection.SOUTH) || dirToDraw.equals(ForgeDirection.NORTH)){
+		if(dirToDraw.equals(EnumFacing.SOUTH) || dirToDraw.equals(EnumFacing.NORTH)){
 			txl = th;
 			txh = 0.0F;
 			tyl = 0.5F;
 			tyh = 0.0F;
 		}
-		if(dirToDraw.equals(ForgeDirection.UP) || dirToDraw.equals(ForgeDirection.DOWN)){
+		if(dirToDraw.equals(EnumFacing.UP) || dirToDraw.equals(EnumFacing.DOWN)){
 			sxl = th;
 			sxh = 0.0F;
 			syl = 0.5F;

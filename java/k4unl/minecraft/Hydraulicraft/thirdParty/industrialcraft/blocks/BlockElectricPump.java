@@ -8,9 +8,10 @@ import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockElectricPump extends HydraulicTieredBlockBase implements IMultiTieredBlock, IRotateableBlock {
 	public BlockElectricPump() {
@@ -47,22 +48,17 @@ public class BlockElectricPump extends HydraulicTieredBlockBase implements IMult
         return false;
     }
 
-    @Override
-    public boolean renderAsNormalBlock(){
-        return false;
-    }
-	
 	@Override
-    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side) {
+    public boolean rotateBlock(World world, BlockPos pos, EnumFacing side) {
         if(!world.isRemote) {
-            TileEntity te = world.getTileEntity(x, y, z);
+            TileEntity te = world.getTileEntity(pos);
             if (te instanceof TileElectricPump) {
-                if (side.equals(ForgeDirection.UP) || side.equals(ForgeDirection.DOWN)) {
+                if (side.equals(EnumFacing.UP) || side.equals(EnumFacing.DOWN)) {
                     TileElectricPump e = (TileElectricPump) te;
-                    ForgeDirection facing = e.getFacing();
-                    e.setFacing(facing.getRotation(side));
+                    EnumFacing facing = e.getFacing();
+                    e.setFacing(facing.rotateAround(side.getAxis()));
                     e.getHandler().updateBlock();
-                    world.notifyBlocksOfNeighborChange(x, y, z, this);
+                    world.notifyNeighborsOfStateChange(pos, this);
                 }
             }
         }
@@ -71,14 +67,14 @@ public class BlockElectricPump extends HydraulicTieredBlockBase implements IMult
     }
 
     @Override
-    public PressureTier getTier(int metadata){
+    public PressureTier getTier(int damage) {
 
-        return PressureTier.fromOrdinal(metadata);
+        return PressureTier.fromOrdinal(damage);
     }
 
     @Override
-    public PressureTier getTier(IBlockAccess world, int x, int y, int z) {
+    public PressureTier getTier(IBlockAccess world, BlockPos pos) {
 
-        return PressureTier.fromOrdinal(world.getBlockMetadata(x, y, z));
+        return getTierFromState(world.getBlockState(pos));
     }
 }

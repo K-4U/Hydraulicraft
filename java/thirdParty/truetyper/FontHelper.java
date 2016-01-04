@@ -18,14 +18,13 @@ package thirdParty.truetyper;
 *     	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.nio.FloatBuffer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
+
+import java.nio.FloatBuffer;
 
 public class FontHelper {
 	
@@ -39,7 +38,7 @@ public class FontHelper {
 
 	public static void drawString(String s, float x, float y, TrueTypeFont font, float scaleX, float scaleY, float rotationZ, float... rgba){
 		Minecraft mc = Minecraft.getMinecraft();
-		ScaledResolution sr = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+		ScaledResolution sr = new ScaledResolution(mc);
 		if(mc.gameSettings.hideGUI){
 			return;
 		}
@@ -85,7 +84,7 @@ public class FontHelper {
 
 	private static void set2DMode(FloatBuffer matrixData) {
 		Minecraft mc = Minecraft.getMinecraft();
-		ScaledResolution sr = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+		ScaledResolution sr = new ScaledResolution(mc);
 		mc.entityRenderer.setupOverlayRendering();
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 	    GL11.glPushMatrix(); 

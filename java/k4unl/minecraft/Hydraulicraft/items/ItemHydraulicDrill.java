@@ -31,11 +31,11 @@ public class ItemHydraulicDrill extends ItemHydraulicTool {
     }
 
     @Override
-    public float func_150893_a(ItemStack stack, Block block) {
-        if (super.func_150893_a(stack, block) == 0)
+    public float getStrVsBlock(ItemStack stack, Block block) {
+        if (super.getStrVsBlock(stack, block) == 0)
             return 0;
 
-        return Math.max(pickaxe.func_150893_a(stack, block), shovel.func_150893_a(stack, block));
+        return Math.max(pickaxe.getStrVsBlock(stack, block), shovel.getStrVsBlock(stack, block));
     }
 
 

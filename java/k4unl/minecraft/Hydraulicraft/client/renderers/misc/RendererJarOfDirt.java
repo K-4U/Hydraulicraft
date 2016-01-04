@@ -1,11 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.misc;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import k4unl.minecraft.Hydraulicraft.client.models.ModelJarOfDirt;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 
 public class RendererJarOfDirt extends TileEntitySpecialRenderer {
@@ -20,7 +20,7 @@ public class RendererJarOfDirt extends TileEntitySpecialRenderer {
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity tEnt, double x, double y, double z, float f) {
+    public void renderTileEntityAt(TileEntity tEnt, double x, double y, double z, float f, int destroyStage) {
 
         GL11.glPushMatrix();
 

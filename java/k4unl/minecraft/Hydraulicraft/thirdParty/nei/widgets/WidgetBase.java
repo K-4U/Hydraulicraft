@@ -1,11 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei.widgets;
 
-import codechicken.lib.gui.GuiDraw;
-import codechicken.nei.recipe.GuiRecipe;
-
 import java.awt.*;
-import java.util.Collections;
-import java.util.List;
 
 public abstract class WidgetBase {
 
@@ -23,7 +18,7 @@ public abstract class WidgetBase {
     }
 
     // stolen from PneumaticCraft, needed and used for NEI
-    public void handletooltip(GuiRecipe gui, List<String> currenttip, int recipe) {
+    /*public void handletooltip(GuiRecipe gui, List<String> currenttip, int recipe) {
         String[] tooltip = getTooltip();
         if (tooltip.length == 0)
             return;
@@ -35,7 +30,7 @@ public abstract class WidgetBase {
         if (getBounds().contains(relMouse)) {
             Collections.addAll(currenttip, tooltip);
         }
-    }
+    }*/
 
     protected abstract String[] getTooltip();
 

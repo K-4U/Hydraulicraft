@@ -1,9 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
@@ -16,18 +12,18 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockHyd
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockRFPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.HandlerRFPump;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamoItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererRFPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererRFPumpItem;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ThermalExpansion implements IThirdParty {
@@ -53,8 +49,8 @@ public class ThermalExpansion implements IThirdParty {
     	ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicDynamo.class, new RendererHydraulicDynamo());
         ClientRegistry.bindTileEntitySpecialRenderer(TileRFPump.class, new RendererRFPump());
         
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(blockHydraulicDynamo), new RendererHydraulicDynamoItem());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(blockRFPump), new RendererRFPumpItem());
+//        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(blockHydraulicDynamo), new RendererHydraulicDynamoItem());
+//        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(blockRFPump), new RendererRFPumpItem());
     }
 	
 	public static void initBlocks(){
@@ -69,7 +65,7 @@ public class ThermalExpansion implements IThirdParty {
 	}
 	
 	public static void initRecipes(){
-		ItemStack powerTransmissionCoil = GameRegistry.findItemStack("ThermalExpansion", "powerCoilSilver", 1);
+		ItemStack powerTransmissionCoil = new ItemStack(GameRegistry.findItem("ThermalExpansion", "powerCoilSilver"), 1);
 		if(powerTransmissionCoil == null){
 			powerTransmissionCoil = new ItemStack(Items.redstone);
 		}
@@ -87,7 +83,7 @@ public class ThermalExpansion implements IThirdParty {
             }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 500))
         );
 		
-		ItemStack powerReceptionCoil = GameRegistry.findItemStack("ThermalExpansion", "powerCoilGold", 1);
+		ItemStack powerReceptionCoil = new ItemStack(GameRegistry.findItem("ThermalExpansion", "powerCoilGold"), 1);
 		if(powerReceptionCoil == null){
 			powerReceptionCoil = new ItemStack(Items.redstone);
 		}

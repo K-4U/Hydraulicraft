@@ -53,21 +53,21 @@ public class PressurizableItem implements IPressurizableItem {
 
     public float fetchPressure(ItemStack container) {
         if (container.getTagCompound() == null || container.getTagCompound().getTag("pressure") == null) {
-            container.stackTagCompound = new NBTTagCompound();
-            container.stackTagCompound.setFloat("pressure", 0);
+            container.setTagCompound(new NBTTagCompound());
+            container.getTagCompound().setFloat("pressure", 0);
         }
 
-        return container.stackTagCompound.getFloat("pressure");
+        return container.getTagCompound().getFloat("pressure");
     }
 
     public FluidStack fetchFluidOrCreate(ItemStack container) {
         if (container.getTagCompound() == null || container.getTagCompound().getTag("fluid") == null) {
-            if (container.stackTagCompound == null)
-                container.stackTagCompound = new NBTTagCompound();
-            container.stackTagCompound.setTag("fluid", new NBTTagCompound());
+            if (container.getTagCompound() == null)
+                container.setTagCompound(new NBTTagCompound());
+            container.getTagCompound().setTag("fluid", new NBTTagCompound());
         }
 
-        FluidStack existing = FluidStack.loadFluidStackFromNBT((NBTTagCompound) container.stackTagCompound.getTag("fluid"));
+        FluidStack existing = FluidStack.loadFluidStackFromNBT((NBTTagCompound) container.getTagCompound().getTag("fluid"));
 
         if (existing != null)
             saveFluid(container, existing);
@@ -88,14 +88,14 @@ public class PressurizableItem implements IPressurizableItem {
         if (container.getTagCompound() == null)
             container.setTagCompound(new NBTTagCompound());
 
-        container.stackTagCompound.setTag("fluid", newFluid.writeToNBT(new NBTTagCompound()));
+        container.getTagCompound().setTag("fluid", newFluid.writeToNBT(new NBTTagCompound()));
     }
 
     public void savePressure(ItemStack container, float newPressure) {
         if (container.getTagCompound() == null)
             container.setTagCompound(new NBTTagCompound());
 
-        container.stackTagCompound.setFloat("pressure", newPressure);
+        container.getTagCompound().setFloat("pressure", newPressure);
     }
 
     public void onItemUse(EntityPlayer player, float chanceToReleaseWater, float pressurePerUse) {

@@ -1,9 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
-import buildcraft.api.tools.IToolWrench;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.IPressurizableItem;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.PressurizableItem;
@@ -13,14 +9,18 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
 @Optional.Interface(iface = "buildcraft.api.tools.IToolWrench", modid = "BuildCraftAPI|core")
-public class ItemHydraulicWrench extends HydraulicItemBase implements IPressurizableItem, IToolWrench {
+public class ItemHydraulicWrench extends HydraulicItemBase implements IPressurizableItem/*, IToolWrench*/ {
     public static final float MAX_PRESSURE            = 1500 * 1000;
     public static final float PRESSURE_PER_WRENCH     = 1000;
     public static final int   FLUID_CAPACITY          = 20;
@@ -71,28 +71,27 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-        Block block = world.getBlock(x, y, z);
+    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+        Block block = world.getBlockState(pos).getBlock();
         if (block == null)
             return false;
 
         if (player.isSneaking())
             return false;
 
-        if (!canWrench(player, x, y, z))
+        if (!canWrench(player, pos))
             return false;
 
-        if (block.rotateBlock(world, x, y, z, ForgeDirection.getOrientation(side))) {
+        if (block.rotateBlock(world, pos, side)) {
             player.swingItem();
-            wrenchUsed(player, x, y, z);
+            wrenchUsed(player, pos);
             return !world.isRemote;
         }
-
-        return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+        return super.onItemUseFirst(stack, player, world, pos, side, hitX, hitY, hitZ);
     }
 
     @Override
-    public boolean doesSneakBypassUse(World world, int x, int y, int z, EntityPlayer player) {
+    public boolean doesSneakBypassUse(World world, BlockPos pos, EntityPlayer player) {
         return true;
     }
 
@@ -114,13 +113,14 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
         return 1 - wrench.getPressure(stack) / wrench.getMaxPressure();
     }
 
-    @Override
-    public boolean canWrench(EntityPlayer entityPlayer, int i, int i1, int i2) {
+
+
+    public boolean canWrench(EntityPlayer entityPlayer, BlockPos pos) {
         return pressurizableItem.canUse(entityPlayer, PRESSURE_PER_WRENCH);
     }
 
-    @Override
-    public void wrenchUsed(EntityPlayer entityPlayer, int i, int i1, int i2) {
+
+    public void wrenchUsed(EntityPlayer entityPlayer, BlockPos pos) {
         pressurizableItem.onItemUse(entityPlayer, CHANCE_TO_RELEASE_WATER, PRESSURE_PER_WRENCH);
     }
 

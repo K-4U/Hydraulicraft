@@ -2,13 +2,13 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.gow;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
-import k4unl.minecraft.Hydraulicraft.network.PacketPipeline;
+import k4unl.minecraft.Hydraulicraft.network.NetworkHandler;
 import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalEnabled;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 
 public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
@@ -16,8 +16,8 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
     private float   transparancy          = 0.2F;
     private float   prevTransparancy      = 0.2F;
     private float   directionTransparency = 0.01F;
-    private ForgeDirection baseDir;
-    private ForgeDirection portalDir;
+    private EnumFacing baseDir;
+    private EnumFacing portalDir;
     private Location       portalBase;
 
     @Override
@@ -25,8 +25,8 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 
         super.readFromNBT(tCompound);
 
-        baseDir = ForgeDirection.getOrientation(tCompound.getInteger("baseDir"));
-        portalDir = ForgeDirection.getOrientation(tCompound.getInteger("portalDir"));
+        baseDir = EnumFacing.byName(tCompound.getString("baseDir"));
+        portalDir = EnumFacing.byName(tCompound.getString("portalDir"));
 
         portalBase = new Location(tCompound.getIntArray("portalBase"));
     }
@@ -35,15 +35,15 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
     public void writeToNBT(NBTTagCompound tCompound) {
 
         super.writeToNBT(tCompound);
-        tCompound.setInteger("baseDir", baseDir.ordinal());
-        tCompound.setInteger("portalDir", portalDir.ordinal());
+        tCompound.setString("baseDir", baseDir.toString());
+        tCompound.setString("portalDir", portalDir.toString());
 
         if (portalBase != null) {
             tCompound.setIntArray("portalBase", portalBase.getIntArray());
 		}
 	}
 	
-	public void setRotation(ForgeDirection _baseDir, ForgeDirection _portalDir){
+	public void setRotation(EnumFacing _baseDir, EnumFacing _portalDir){
 		baseDir = _baseDir;
 		portalDir = _portalDir;
 		hasSendPacket = false;
@@ -53,17 +53,17 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 		if(portalBase == null){
 			return null;
 		}else{
-			return (TilePortalBase) portalBase.getTE(getWorldObj());
+			return (TilePortalBase) portalBase.getTE(getWorld());
 		}
 	}
 	
 	@Override
-	public void updateEntity(){
-		if(!getWorldObj().isRemote && !hasSendPacket && baseDir != null){
+	public void update(){
+		if(!getWorld().isRemote && !hasSendPacket && baseDir != null){
 			hasSendPacket = true;
-			PacketPipeline.instance.sendToAllAround(new PacketPortalEnabled(xCoord, yCoord, zCoord, baseDir, portalDir), getWorldObj());
+			NetworkHandler.sendToAllAround(new PacketPortalEnabled(getPos(), baseDir, portalDir), getWorld());
 		}
-		if(getWorldObj().isRemote){
+		if(getWorld().isRemote){
 			prevTransparancy = transparancy;
 			transparancy += directionTransparency;
 			if(transparancy >= 0.8F){
@@ -75,11 +75,11 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 	}
 	
 	
-	public ForgeDirection getBaseDir(){
+	public EnumFacing getBaseDir(){
 		return baseDir;
 	}
 	
-	public ForgeDirection getPortalDir(){
+	public EnumFacing getPortalDir(){
 		return portalDir;
 	}
 	
@@ -92,7 +92,7 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 	}
 
 	public void setBase(TilePortalBase tilePortalBase) {
-		portalBase = new Location(tilePortalBase.xCoord, tilePortalBase.yCoord, tilePortalBase.zCoord);
+		portalBase = new Location(tilePortalBase.getPos());
 	}
 	
 	@Override
@@ -100,12 +100,12 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 		return true;
 	}
 
-	public boolean isEdge(ForgeDirection dir) {
-		return (new Location(xCoord, yCoord, zCoord, dir).getBlock(getWorldObj()) == HCBlocks.portalFrame);
+	public boolean isEdge(EnumFacing dir) {
+		return (new Location(getPos(), dir).getBlock(getWorld()) == HCBlocks.portalFrame);
 	}
 
 	public void usePressure() {
 		getPortalBase().getHandler().setPressure(getPortalBase().getPressure
-                (ForgeDirection.UNKNOWN) - HCConfig.INSTANCE.getInt("pressurePerTeleport"), ForgeDirection.UP);
+                (EnumFacing.UP) - HCConfig.INSTANCE.getInt("pressurePerTeleport"), EnumFacing.UP);
 	}
 }

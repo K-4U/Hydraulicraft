@@ -7,9 +7,12 @@ import k4unl.minecraft.Hydraulicraft.blocks.IGUIMultiBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -43,26 +46,26 @@ public class BlockHydraulicHarvester extends HydraulicBlockContainerBase impleme
     }
 
     @Override
-    public boolean isValid(IBlockAccess world, int x, int y, int z) {
+    public boolean isValid(IBlockAccess world, BlockPos pos) {
 
-        return ((TileHydraulicHarvester)world.getTileEntity(x, y, z)).getIsMultiblock();
+        return ((TileHydraulicHarvester)world.getTileEntity(pos)).getIsMultiblock();
     }
 
-    @Override
-    public boolean onBlockActivated(World world, int x, int y, int z,
-      EntityPlayer player, int par6, float par7, float par8, float par9) {
 
-        if(world.isRemote) return true;
-        if(!isValid(world, x, y, z)){
-            TileHydraulicHarvester harvester = ((TileHydraulicHarvester)world.getTileEntity(x, y, z));
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+        if(worldIn.isRemote) return true;
+        if(!isValid(worldIn, pos)){
+            TileHydraulicHarvester harvester = ((TileHydraulicHarvester)worldIn.getTileEntity(pos));
             //Tell the harvester to quickly check:
             harvester.doMultiBlockChecking();
-            if(!isValid(world, x, y, z)) {
-                player.addChatMessage(new ChatComponentTranslation(harvester.getError().getTranslation(), harvester.getExtraErrorInfo()));
+            if(!isValid(worldIn, pos)) {
+                playerIn.addChatMessage(new ChatComponentTranslation(harvester.getError().getTranslation(), harvester.getExtraErrorInfo()));
                 return true;
             }
         }
 
-        return super.onBlockActivated(world, x, y, z, player, par6, par7, par8, par9);
+        return super.onBlockActivated(worldIn, pos, state, playerIn, side, hitX, hitY, hitZ);
     }
 }

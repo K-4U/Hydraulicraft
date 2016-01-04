@@ -1,15 +1,17 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities;
 
-import java.util.ArrayList;
-
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class TrolleyEnderlily implements IHarvesterTrolley {
 	private static final ResourceLocation resLoc =
@@ -21,15 +23,15 @@ public class TrolleyEnderlily implements IHarvesterTrolley {
 	}
 
 	@Override
-	public boolean canHarvest(World world, int x, int y, int z) {
-		return world.getBlockMetadata(x, y, z) == 7;
+	public boolean canHarvest(World world, BlockPos pos) {
+		return world.getBlockState(pos).getValue(BlockCrops.AGE) == 11;
 	}
 
 	@Override
-	public boolean canPlant(World world, int x, int y, int z, ItemStack seed) {
-		Block soil = world.getBlock(x, y-1, z);
-		int meta = world.getBlockMetadata(x, y-1, z);
-		return soil.equals(Blocks.dirt) || soil.equals(Blocks.grass) || soil.equals(Blocks.end_stone) || (soil.equals(ExtraUtilities.enderCore) && meta == 11);
+	public boolean canPlant(World world, BlockPos pos, ItemStack seed) {
+		IBlockState soil = world.getBlockState(pos.down());
+		//TODO: PICK THE PROPER META FOR ENDER CORE
+		return soil.getBlock().equals(Blocks.dirt) || soil.getBlock().equals(Blocks.grass) || soil.getBlock().equals(Blocks.end_stone) || (soil.getBlock().equals(ExtraUtilities.enderCore));// && soil. == 11);
 	}
 
 	@Override
@@ -40,8 +42,8 @@ public class TrolleyEnderlily implements IHarvesterTrolley {
 	}
 
 	@Override
-	public Block getBlockForSeed(ItemStack seed) {
-		return ExtraUtilities.enderLily;
+	public IBlockState getBlockStateForSeed(ItemStack seed) {
+		return ExtraUtilities.enderLily.getDefaultState();
 	}
 
 	@Override
@@ -50,7 +52,7 @@ public class TrolleyEnderlily implements IHarvesterTrolley {
 	}
 
 	@Override
-	public int getPlantHeight(World world, int x, int y, int z) {
+	public int getPlantHeight(World world, BlockPos pos) {
 		return 1;
 	}
 

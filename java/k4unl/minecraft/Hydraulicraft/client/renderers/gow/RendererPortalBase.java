@@ -6,8 +6,8 @@ import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 public class RendererPortalBase extends TileEntitySpecialRenderer {
@@ -15,13 +15,12 @@ public class RendererPortalBase extends TileEntitySpecialRenderer {
 	
 	
 	@Override
-	public void renderTileEntityAt(TileEntity ent, double x, double y,
-			double z, float frame) {
-		doRender((TilePortalBase)ent, x, y, z, frame);
+	public void renderTileEntityAt(TileEntity ent, double x, double y, double z, float frame, int destroyStage) {
+		doRender((TilePortalBase)ent, x, y, z, frame, destroyStage);
 
 	}
 	
-	public void doRender(TilePortalBase base, double x, double y, double z, float frame){
+	public void doRender(TilePortalBase base, double x, double y, double z, float frame, int destroyStage){
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
 		
@@ -146,14 +145,14 @@ public class RendererPortalBase extends TileEntitySpecialRenderer {
 		Vector3fMax pane = new Vector3fMax(0.0F+RenderHelper.pixel, 0.0F, 0.0F+RenderHelper.pixel, 1.0F-RenderHelper.pixel, 1.0F, 1.0F-RenderHelper.pixel);
 		Vector3fMax paneSideEW = new Vector3fMax(0.0F, 0.0F+RenderHelper.pixel, 0.0F+RenderHelper.pixel, 1.0F, 1.0F-RenderHelper.pixel, 1.0F-RenderHelper.pixel);
 		Vector3fMax paneSideNS = new Vector3fMax(0.0F+RenderHelper.pixel, 0.0F+RenderHelper.pixel, 0.0F, 1.0F-RenderHelper.pixel, 1.0F-RenderHelper.pixel, 1.0F);
-		RenderHelper.renderSide(pane, ForgeDirection.UP);
-		RenderHelper.renderSide(pane, ForgeDirection.DOWN);
+		RenderHelper.renderSide(pane, EnumFacing.UP);
+		RenderHelper.renderSide(pane, EnumFacing.DOWN);
 		
-		RenderHelper.renderSide(paneSideEW, ForgeDirection.EAST);
-		RenderHelper.renderSide(paneSideEW, ForgeDirection.WEST);
+		RenderHelper.renderSide(paneSideEW, EnumFacing.EAST);
+		RenderHelper.renderSide(paneSideEW, EnumFacing.WEST);
 		
-		RenderHelper.renderSide(paneSideNS, ForgeDirection.NORTH);
-		RenderHelper.renderSide(paneSideNS, ForgeDirection.SOUTH);
+		RenderHelper.renderSide(paneSideNS, EnumFacing.NORTH);
+		RenderHelper.renderSide(paneSideNS, EnumFacing.SOUTH);
 		
 		GL11.glColor3f(colorFrameR, colorFrameG, colorFrameB);
 		Vector3fMax paneTB_W = new Vector3fMax(0.0F, 0.0F, 0.0F, RenderHelper.pixel, 1.0F, 1.0F);
@@ -161,42 +160,42 @@ public class RendererPortalBase extends TileEntitySpecialRenderer {
 		Vector3fMax paneTB_N = new Vector3fMax(RenderHelper.pixel, 0.0F, 0.0F, 1.0F-RenderHelper.pixel, 1.0F, RenderHelper.pixel);
 		Vector3fMax paneTB_S = new Vector3fMax(RenderHelper.pixel, 0.0F, 1.0F-RenderHelper.pixel, 1.0F-RenderHelper.pixel, 1.0F, 1.0F);
 		
-		RenderHelper.renderSide(paneTB_W, ForgeDirection.UP);
-		RenderHelper.renderSide(paneTB_W, ForgeDirection.DOWN);
-		RenderHelper.renderSide(paneTB_E, ForgeDirection.UP);
-		RenderHelper.renderSide(paneTB_E, ForgeDirection.DOWN);
-		RenderHelper.renderSide(paneTB_N, ForgeDirection.UP);
-		RenderHelper.renderSide(paneTB_N, ForgeDirection.DOWN);
-		RenderHelper.renderSide(paneTB_S, ForgeDirection.UP);
-		RenderHelper.renderSide(paneTB_S, ForgeDirection.DOWN);
+		RenderHelper.renderSide(paneTB_W, EnumFacing.UP);
+		RenderHelper.renderSide(paneTB_W, EnumFacing.DOWN);
+		RenderHelper.renderSide(paneTB_E, EnumFacing.UP);
+		RenderHelper.renderSide(paneTB_E, EnumFacing.DOWN);
+		RenderHelper.renderSide(paneTB_N, EnumFacing.UP);
+		RenderHelper.renderSide(paneTB_N, EnumFacing.DOWN);
+		RenderHelper.renderSide(paneTB_S, EnumFacing.UP);
+		RenderHelper.renderSide(paneTB_S, EnumFacing.DOWN);
 		
 		Vector3fMax paneNS_W = new Vector3fMax(0.0F, 0.0F, 0.0F, RenderHelper.pixel, 1.0F, 1.0F);
 		Vector3fMax paneNS_E = new Vector3fMax(1.0F-RenderHelper.pixel, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		Vector3fMax paneNS_U = new Vector3fMax(RenderHelper.pixel, 1.0F-RenderHelper.pixel, 0.0F, 1.0F-RenderHelper.pixel, 1.0F, 1.0F);
 		Vector3fMax paneNS_D = new Vector3fMax(RenderHelper.pixel, 0.0F, 0.0F, 1.0F-RenderHelper.pixel, RenderHelper.pixel, 1.0F);
 		
-		RenderHelper.renderSide(paneNS_W, ForgeDirection.NORTH);
-		RenderHelper.renderSide(paneNS_W, ForgeDirection.SOUTH);
-		RenderHelper.renderSide(paneNS_E, ForgeDirection.NORTH);
-		RenderHelper.renderSide(paneNS_E, ForgeDirection.SOUTH);
-		RenderHelper.renderSide(paneNS_U, ForgeDirection.NORTH);
-		RenderHelper.renderSide(paneNS_U, ForgeDirection.SOUTH);
-		RenderHelper.renderSide(paneNS_D, ForgeDirection.NORTH);
-		RenderHelper.renderSide(paneNS_D, ForgeDirection.SOUTH);
+		RenderHelper.renderSide(paneNS_W, EnumFacing.NORTH);
+		RenderHelper.renderSide(paneNS_W, EnumFacing.SOUTH);
+		RenderHelper.renderSide(paneNS_E, EnumFacing.NORTH);
+		RenderHelper.renderSide(paneNS_E, EnumFacing.SOUTH);
+		RenderHelper.renderSide(paneNS_U, EnumFacing.NORTH);
+		RenderHelper.renderSide(paneNS_U, EnumFacing.SOUTH);
+		RenderHelper.renderSide(paneNS_D, EnumFacing.NORTH);
+		RenderHelper.renderSide(paneNS_D, EnumFacing.SOUTH);
 		
 		Vector3fMax paneEW_N = new Vector3fMax(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, RenderHelper.pixel);
 		Vector3fMax paneEW_S = new Vector3fMax(0.0F, 0.0F, 1.0F-RenderHelper.pixel, 1.0F, 1.0F, 1.0F);
 		Vector3fMax paneEW_T = new Vector3fMax(0.0F, 1.0F-RenderHelper.pixel, 0.0F, 1.0F, 1.0F, 1.0F);
 		Vector3fMax paneEW_D = new Vector3fMax(0.0F, 0.0F, 0.0F, 1.0F, RenderHelper.pixel, 1.0F);
 		
-		RenderHelper.renderSide(paneEW_N, ForgeDirection.EAST);
-		RenderHelper.renderSide(paneEW_N, ForgeDirection.WEST);
-		RenderHelper.renderSide(paneEW_S, ForgeDirection.EAST);
-		RenderHelper.renderSide(paneEW_S, ForgeDirection.WEST);
-		RenderHelper.renderSide(paneEW_T, ForgeDirection.EAST);
-		RenderHelper.renderSide(paneEW_T, ForgeDirection.WEST);
-		RenderHelper.renderSide(paneEW_D, ForgeDirection.EAST);
-		RenderHelper.renderSide(paneEW_D, ForgeDirection.WEST);
+		RenderHelper.renderSide(paneEW_N, EnumFacing.EAST);
+		RenderHelper.renderSide(paneEW_N, EnumFacing.WEST);
+		RenderHelper.renderSide(paneEW_S, EnumFacing.EAST);
+		RenderHelper.renderSide(paneEW_S, EnumFacing.WEST);
+		RenderHelper.renderSide(paneEW_T, EnumFacing.EAST);
+		RenderHelper.renderSide(paneEW_T, EnumFacing.WEST);
+		RenderHelper.renderSide(paneEW_D, EnumFacing.EAST);
+		RenderHelper.renderSide(paneEW_D, EnumFacing.WEST);
 		
 		GL11.glEnd();
 	}

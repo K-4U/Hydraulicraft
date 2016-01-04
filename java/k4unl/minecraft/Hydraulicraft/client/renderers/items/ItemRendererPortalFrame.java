@@ -1,14 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalFrame;
-import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalFrame;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
-
-import org.lwjgl.opengl.GL11;
-
-public class ItemRendererPortalFrame implements IItemRenderer{
-	private static RendererPortalFrame portalFrameRenderer = new RendererPortalFrame();
+public class ItemRendererPortalFrame {// implements IItemRenderer{
+	/*private static RendererPortalFrame portalFrameRenderer = new RendererPortalFrame();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -47,6 +40,6 @@ public class ItemRendererPortalFrame implements IItemRenderer{
 		GL11.glScalef(scale, scale, scale);
 		portalFrameRenderer.doRender(new TilePortalFrame(), x, y, z, 0);
 	}
-	
+*/
 	 
 }

@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.gow;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
@@ -16,22 +14,25 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TilePortalBase extends TileHydraulicBase implements IInventory, IHydraulicConsumer {
-    private boolean        portalFormed;
-    private boolean        portalEnabled;
-    private int            portalWidth;
-    private int            portalHeight;
-    private ForgeDirection baseDir;
-    private ForgeDirection portalDir;
+    private boolean portalFormed;
+    private boolean portalEnabled;
+    private int portalWidth;
+    private int portalHeight;
+    private EnumFacing baseDir;
+    private EnumFacing portalDir;
     private List<Location> frames;
-    private long           ip;
+    private long ip;
     private boolean ipRegistered = false;
-    private int     colorIndex   = 0;
+    private int colorIndex = 0;
 
 
     private boolean hasInterfaceValve = false;
@@ -42,7 +43,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     private ItemStack linkingCard;
 
-    public TilePortalBase(){
+    public TilePortalBase() {
         super(1);
         super.init(this);
     }
@@ -59,12 +60,12 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         if (ip != 0) {
             Hydraulicraft.ipList.removeIP(ip);
         }
-        if (getWorldObj() != null) {
-            String IP = Hydraulicraft.ipList.generateNewRandomIP(getWorldObj().provider.dimensionId);
-            Hydraulicraft.ipList.registerIP(IPs.ipToLong(IP), new Location(xCoord, yCoord, zCoord, getWorldObj().provider.dimensionId));
+        if (getWorld() != null) {
+            String IP = Hydraulicraft.ipList.generateNewRandomIP(getWorld().provider.getDimensionId());
+            Hydraulicraft.ipList.registerIP(IPs.ipToLong(IP), new Location(getPos(), getWorld().provider.getDimensionId()));
             ipRegistered = false;
             ip = IPs.ipToLong(IP);
-            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+            getWorld().markBlockForUpdate(getPos());
         }
     }
 
@@ -77,463 +78,487 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         portalWidth = tCompound.getInteger("portalWidth");
         portalHeight = tCompound.getInteger("portalHeight");
 
-        baseDir = ForgeDirection.getOrientation(tCompound.getInteger("baseDir"));
-        portalDir = ForgeDirection.getOrientation(tCompound.getInteger("portalDir"));
-		
-		NBTTagCompound linkCardNBT = tCompound.getCompoundTag("linkingCard");
-		if(linkCardNBT != null){
-			linkingCard = ItemStack.loadItemStackFromNBT(linkCardNBT);
-		}
-		ip = tCompound.getLong("ip");
-		if(ip == 0 && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
-			genNewIP();
-		}else if(ip != 0){
-			ipRegistered = false;
-		}
-		
-		colorIndex = tCompound.getInteger("colorIndex");
-		hasInterfaceValve = tCompound.getBoolean("hasInterfaceValve");
-		
-		readFramesFromNBT(tCompound);
-	}
-	
-	private void readFramesFromNBT(NBTTagCompound tCompound){
-		if(frames != null)
-			frames.clear();
-		if(frames == null){
-			frames = new ArrayList<Location>();
-		}
-		NBTTagCompound list = tCompound.getCompoundTag("portalFrames");
-		int i;
-		for(i = 0; i < list.getInteger("max"); i++){
-			Location frameLocation = new Location(list.getIntArray(""+i));
-			frames.add(frameLocation);
-		}
-	}
-	
-	private void writeFramesToNBT(NBTTagCompound tCompound){
-		NBTTagCompound list = new NBTTagCompound();
-		int i = 0;
-		for(Location fr : frames){
-			list.setIntArray("" + i, fr.getIntArray());
-			i++;
-		}
-		list.setInteger("max", frames.size());
-		
-		tCompound.setTag("portalFrames", list);
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound tCompound){
-		super.writeToNBT(tCompound);
-		
-		tCompound.setBoolean("portalFormed", portalFormed);
-		tCompound.setBoolean("portalEnabled", portalEnabled);
-		tCompound.setInteger("portalWidth", portalWidth);
-		tCompound.setInteger("portalHeight", portalHeight);
-		
-		if(baseDir != null){
-			tCompound.setInteger("baseDir", baseDir.ordinal());
-		}
-		if(portalDir != null){
-			tCompound.setInteger("portalDir", portalDir.ordinal());
-		}
-		if(linkingCard != null){
-			NBTTagCompound linkCardNBT = linkingCard.writeToNBT(new NBTTagCompound());
-			tCompound.setTag("linkingCard", linkCardNBT);
-		}
-		
-		tCompound.setLong("ip", ip);
-		tCompound.setInteger("colorIndex", colorIndex);
+        baseDir = EnumFacing.byName(tCompound.getString("baseDir"));
+        portalDir = EnumFacing.byName(tCompound.getString("portalDir"));
 
-		tCompound.setBoolean("hasInterfaceValve", hasInterfaceValve);
+        NBTTagCompound linkCardNBT = tCompound.getCompoundTag("linkingCard");
+        if (linkCardNBT != null) {
+            linkingCard = ItemStack.loadItemStackFromNBT(linkCardNBT);
+        }
+        ip = tCompound.getLong("ip");
+        if (ip == 0 && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
+            genNewIP();
+        } else if (ip != 0) {
+            ipRegistered = false;
+        }
 
-		writeFramesToNBT(tCompound);
-	}
-	
-	@Override
-	public void updateEntity(){
-		super.updateEntity();
+        colorIndex = tCompound.getInteger("colorIndex");
+        hasInterfaceValve = tCompound.getBoolean("hasInterfaceValve");
 
-		if(ip == 0){
-			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
-				genNewIP();
-			}
-		}
-		//Every 10 ticks, check for a complete portal.
-		if(getWorldObj().getTotalWorldTime() % 20 == 0 && !getWorldObj().isRemote){
-			if(checkPortalComplete()){
-				if(portalFormed){
-					invalidatePortal();
-				}else{
-					validatePortal();
-				}
-			}
-		}
-		if(!ipRegistered){
-			ipRegistered = true;
-			Hydraulicraft.ipList.registerIP(ip, new Location(xCoord,yCoord,zCoord, worldObj.provider.dimensionId));
-		}
-	}
-	
-	private boolean checkPortalComplete(){
-		int i = 0;
-		baseDir = ForgeDirection.NORTH;
-		portalWidth = 0;
-		int half = 0;
-		while(i != 2){
-			for(int z = 1; z <= HCConfig.INSTANCE.getInt("maxPortalWidth"); z++){
-				Location nLocation = new Location(xCoord, yCoord, zCoord, baseDir, z);
-				Location oLocation = new Location(xCoord, yCoord, zCoord, baseDir.getOpposite(), z);
-				if(nLocation.getBlock(getWorldObj()) == HCBlocks.portalFrame){
-					portalWidth++;
-					half++;
-				}else{
-					break;
-				}
-				if(oLocation.getBlock(getWorldObj()) == HCBlocks.portalFrame){
-					portalWidth++;
-				}else{
-					break;
-				}
-			}
-			if(portalWidth > 0 && portalWidth % 2 == 0){
-				//Valid portal found.
-				//Break out of loop
-				break;
-			}else{
-				portalWidth = 0;
-			}
-			
-			baseDir = ForgeDirection.EAST;
-			i++;
-		}
-		if(portalWidth == 0 || portalWidth % 2 != 0){
-			return false;
-		}
-		
-		
-		//Now, that is the bottom taken care of. Let's see about the rest!
-		i = 0;
-		portalDir = baseDir.getRotation(ForgeDirection.UP);
-		Location firstLocation = new Location(xCoord, yCoord, zCoord, baseDir, half);
-		Location secondLocation = new Location(xCoord, yCoord, zCoord, baseDir.getOpposite(), half);
-		portalHeight = 0;
-		while(i != 3){
-			//Log.info("Checking for portal with basedir at " + baseDir + " and top at " + portalDir);
-			for(int y = 1; y <= HCConfig.INSTANCE.getInt("maxPortalHeight"); y++){
-				Location nLocation = new Location(firstLocation, portalDir, y);
-				Location oLocation = new Location(secondLocation, portalDir, y);
-				if(nLocation.getBlock(getWorldObj()) == HCBlocks.portalFrame){
-					portalHeight++;
-				}else{
-					break;
-				}
-				if(oLocation.getBlock(getWorldObj()) != HCBlocks.portalFrame){
-					break;
-				}
-			}
-			
-			if(portalHeight > 1){
-				break;
-			}
-			portalDir = portalDir.getRotation(baseDir);
-			portalHeight = 0;
-			i++;
-		}
-		
-		if(portalHeight == 0){
-			return false;
-		}
-		
-		//Check other side (aka top):
-		Location topCenter = new Location(xCoord, yCoord, zCoord, portalDir, portalHeight);
-		if(topCenter.getBlock(getWorldObj()) != HCBlocks.portalFrame){
-			return false;
-		}
-		for(int x = 1; x <= half; x++){
-			Location nLocation = new Location(xCoord, yCoord, zCoord, baseDir, x);
-			Location oLocation = new Location(xCoord, yCoord, zCoord, baseDir.getOpposite(), x);
-			if(nLocation.getBlock(getWorldObj()) != HCBlocks.portalFrame){
-				return false;
-			}
-			if(oLocation.getBlock(getWorldObj()) != HCBlocks.portalFrame){
-				return false;
-			}
-		}
+        readFramesFromNBT(tCompound);
+    }
 
-		//Now check the insides.
+    private void readFramesFromNBT(NBTTagCompound tCompound) {
+        if (frames != null)
+            frames.clear();
+        if (frames == null) {
+            frames = new ArrayList<Location>();
+        }
+        NBTTagCompound list = tCompound.getCompoundTag("portalFrames");
+        int i;
+        for (i = 0; i < list.getInteger("max"); i++) {
+            Location frameLocation = new Location(list.getIntArray("" + i));
+            frames.add(frameLocation);
+        }
+    }
 
-		
-		//Log.info("Found a portal. It's " + portalWidth + " wide and " + portalHeight + " high in " + baseDir + " with the portal in the " + portalDir);
-		
-		return true;
-	}
-	
-	private void validatePortal(){
-		frames.clear();
-		Location bottomLeft = new Location(xCoord, yCoord, zCoord, baseDir, (portalWidth/2));
-		Location bottomRight = new Location(xCoord, yCoord, zCoord, baseDir.getOpposite(), (portalWidth/2));
-		if(bottomLeft.getBlock(getWorldObj()) != HCBlocks.portalFrame){
-			return;
-		}
-		
-		for(int x = 0; x <= portalWidth+1; x++){
-			Location handleLocation = new Location(bottomLeft, baseDir.getOpposite(), x);
-			Location topLocation = new Location(handleLocation, portalDir, portalHeight);
-			TileEntity te = handleLocation.getTE(getWorldObj());
-			if(te instanceof TilePortalFrame){
-				((TilePortalFrame)te).setPortalBase(this);
-				((TilePortalFrame)te).dye(colorIndex);
-				frames.add(handleLocation);
-			}
-			te = topLocation.getTE(getWorldObj());
-			if(te instanceof TilePortalFrame){
-				((TilePortalFrame)te).setPortalBase(this);
-				((TilePortalFrame)te).dye(colorIndex);
-				frames.add(topLocation);
-			}
-		}
-		for(int y = 0; y <= portalHeight; y++){
-			Location leftLocation = new Location(bottomLeft, portalDir, y);
-			Location rightLocation = new Location(bottomRight, portalDir, y);
-			TileEntity te = leftLocation.getTE(getWorldObj());
-			if(te instanceof TilePortalFrame){
-				((TilePortalFrame)te).setPortalBase(this);
-				((TilePortalFrame)te).dye(colorIndex);
-				frames.add(leftLocation);
-			}
-			te = rightLocation.getTE(getWorldObj());
-			if(te instanceof TilePortalFrame){
-				((TilePortalFrame)te).setPortalBase(this);
-				((TilePortalFrame)te).dye(colorIndex);
-				frames.add(rightLocation);
-			}
-		}
-		
-		portalFormed = true;
-		markDirty();
-	}
-	
-	private void invalidatePortal(){
-		
-	}
-	
-	
-	@Override
-	public void validate(){
-		super.validate();
-	}
-	
-	
-	
-	@Override
-	public void redstoneChanged(boolean isPowered){
-		if(getWorldObj() != null){
-			if(portalFormed && linkingCard != null){
-				if(portalEnabled && !getIsRedstonePowered()){
-					portalEnabled = false;
-					disablePortal();
-				}else if(getIsRedstonePowered() && !portalEnabled && getPressure(ForgeDirection.UP) >= HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock")){
-					portalEnabled = true;
-					enablePortal();
-				}
-				markDirty();
-			}
-		}
-		
-	}
-	
-	private void enablePortal(){
-		if(baseDir != null){
-			Location bottomLeft = new Location(xCoord, yCoord, zCoord, baseDir, (portalWidth/2));
-			bottomLeft.offset(baseDir.getOpposite(), 1);
-			bottomLeft.offset(portalDir, 1);
-			for(int x = 0; x <= portalWidth-2; x++){
-				Location handleLocation = new Location(bottomLeft, baseDir.getOpposite(), x);
-				for(int y = 0; y < portalHeight-1; y++){
-					Location portalLocation = new Location(handleLocation, portalDir, y);
-					getWorldObj().setBlock(portalLocation.getX(), portalLocation.getY(), portalLocation.getZ(), HCBlocks.portalTeleporter);
-					
-					TilePortalTeleporter teleporter = (TilePortalTeleporter)portalLocation.getTE(getWorldObj());
-					teleporter.setRotation(baseDir, portalDir);
-					teleporter.setBase(this);
-				}
-			}
-			for(Location fr : frames){
-				if(fr.getTE(getWorldObj()) != null){
-					if(fr.getTE(getWorldObj()) instanceof TilePortalFrame){
-						((TilePortalFrame)fr.getTE(getWorldObj())).setActive(true);
-					}
-				}
-			}
-		}
-	}
-	
-	private void disablePortal(){
-		if(baseDir != null){
-			Location bottomLeft = new Location(xCoord, yCoord, zCoord, baseDir, (portalWidth/2));
-			bottomLeft.offset(baseDir.getOpposite(), 1);
-			bottomLeft.offset(portalDir, 1);
-			for(int x = 0; x <= portalWidth-2; x++){
-				Location handleLocation = new Location(bottomLeft, baseDir.getOpposite(), x);
-				for(int y = 0; y < portalHeight-1; y++){
-					Location portalLocation = new Location(handleLocation, portalDir, y);
-					getWorldObj().setBlockToAir(portalLocation.getX(), portalLocation.getY(), portalLocation.getZ());
-				}
-			}
-			for(Location fr : frames){
-				if(fr.getTE(getWorldObj()) != null){
-					((TilePortalFrame)fr.getTE(getWorldObj())).setActive(false);
-				}
-			}
-		}
-	}
-	
-	public boolean getIsActive() {
-		return portalEnabled;
-	}
+    private void writeFramesToNBT(NBTTagCompound tCompound) {
+        NBTTagCompound list = new NBTTagCompound();
+        int i = 0;
+        for (Location fr : frames) {
+            list.setIntArray("" + i, fr.getIntArray());
+            i++;
+        }
+        list.setInteger("max", frames.size());
 
-	public String getIPString() {
-		if(ip == 0 && !getWorldObj().isRemote){
-			genNewIP();
-		}
-		return IPs.longToIp(ip);
-	}
-	
-	public Long getIPLong() {
-		return ip;
-	}
+        tCompound.setTag("portalFrames", list);
+    }
 
-	@Override
-	public int getSizeInventory() {
-		return 1;
-	}
+    @Override
+    public void writeToNBT(NBTTagCompound tCompound) {
+        super.writeToNBT(tCompound);
 
-	@Override
-	public ItemStack getStackInSlot(int var1) {
-		return linkingCard;
-	}
+        tCompound.setBoolean("portalFormed", portalFormed);
+        tCompound.setBoolean("portalEnabled", portalEnabled);
+        tCompound.setInteger("portalWidth", portalWidth);
+        tCompound.setInteger("portalHeight", portalHeight);
 
-	@Override
-	public ItemStack decrStackSize(int var1, int var2) {
-		ItemStack tempStack = linkingCard.copy();
-		linkingCard = null;
-		return tempStack;
-	}
+        if (baseDir != null) {
+            tCompound.setInteger("baseDir", baseDir.ordinal());
+        }
+        if (portalDir != null) {
+            tCompound.setInteger("portalDir", portalDir.ordinal());
+        }
+        if (linkingCard != null) {
+            NBTTagCompound linkCardNBT = linkingCard.writeToNBT(new NBTTagCompound());
+            tCompound.setTag("linkingCard", linkCardNBT);
+        }
 
-	@Override
-	public ItemStack getStackInSlotOnClosing(int var1) {
-		return linkingCard;
-	}
+        tCompound.setLong("ip", ip);
+        tCompound.setInteger("colorIndex", colorIndex);
 
-	@Override
-	public void setInventorySlotContents(int var1, ItemStack var2) {
-		if(var1 == 0){
-			linkingCard = var2;
-		}
-	}
+        tCompound.setBoolean("hasInterfaceValve", hasInterfaceValve);
 
-	@Override
-	public String getInventoryName() {
-		return null;
-	}
+        writeFramesToNBT(tCompound);
+    }
 
-	@Override
-	public boolean hasCustomInventoryName() {
-		return false;
-	}
+    @Override
+    public void update() {
+        super.update();
 
-	@Override
-	public int getInventoryStackLimit() {
-		return 1;
-	}
+        if (ip == 0) {
+            if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
+                genNewIP();
+            }
+        }
+        //Every 10 ticks, check for a complete portal.
+        if (getWorld().getTotalWorldTime() % 20 == 0 && !getWorld().isRemote) {
+            if (checkPortalComplete()) {
+                if (portalFormed) {
+                    invalidatePortal();
+                } else {
+                    validatePortal();
+                }
+            }
+        }
+        if (!ipRegistered) {
+            ipRegistered = true;
+            Hydraulicraft.ipList.registerIP(ip, new Location(getPos(), worldObj.provider.getDimensionId()));
+        }
+    }
 
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer var1) {
-		return true;
-	}
+    private boolean checkPortalComplete() {
+        int i = 0;
+        baseDir = EnumFacing.NORTH;
+        portalWidth = 0;
+        int half = 0;
+        while (i != 2) {
+            for (int z = 1; z <= HCConfig.INSTANCE.getInt("maxPortalWidth"); z++) {
+                Location nLocation = new Location(getPos(), baseDir, z);
+                Location oLocation = new Location(getPos(), baseDir.getOpposite(), z);
+                if (nLocation.getBlock(getWorld()) == HCBlocks.portalFrame) {
+                    portalWidth++;
+                    half++;
+                } else {
+                    break;
+                }
+                if (oLocation.getBlock(getWorld()) == HCBlocks.portalFrame) {
+                    portalWidth++;
+                } else {
+                    break;
+                }
+            }
+            if (portalWidth > 0 && portalWidth % 2 == 0) {
+                //Valid portal found.
+                //Break out of loop
+                break;
+            } else {
+                portalWidth = 0;
+            }
 
-	@Override
-	public void openInventory() {}
+            baseDir = EnumFacing.EAST;
+            i++;
+        }
+        if (portalWidth == 0 || portalWidth % 2 != 0) {
+            return false;
+        }
 
-	@Override
-	public void closeInventory() {	}
 
-	@Override
-	public boolean isItemValidForSlot(int var1, ItemStack var2) {
-		return (var2.getItem() instanceof ItemIPCard);
-	}
+        //Now, that is the bottom taken care of. Let's see about the rest!
+        i = 0;
+        portalDir = baseDir.rotateAround(EnumFacing.Axis.Y);
+        Location firstLocation = new Location(getPos(), baseDir, half);
+        Location secondLocation = new Location(getPos(), baseDir.getOpposite(), half);
+        portalHeight = 0;
+        while (i != 3) {
+            //Log.info("Checking for portal with basedir at " + baseDir + " and top at " + portalDir);
+            for (int y = 1; y <= HCConfig.INSTANCE.getInt("maxPortalHeight"); y++) {
+                Location nLocation = new Location(firstLocation, portalDir, y);
+                Location oLocation = new Location(secondLocation, portalDir, y);
+                if (nLocation.getBlock(getWorld()) == HCBlocks.portalFrame) {
+                    portalHeight++;
+                } else {
+                    break;
+                }
+                if (oLocation.getBlock(getWorld()) != HCBlocks.portalFrame) {
+                    break;
+                }
+            }
 
-	public boolean getIsValid() {
-		return portalFormed;
-	}
-	
-	public Location getTarget(){
-		//First: see if there's an item in the inventory:
-		if(linkingCard == null) return null;
-		//Next, see if it linked:
-		if(linkingCard.getTagCompound() == null) return null;
-		if(linkingCard.getTagCompound().getLong("linked") == 0) return null;
-		long linked = linkingCard.getTagCompound().getLong("linked");
-		if(Hydraulicraft.ipList.getLocation(linked) == null) return null;
-		return new Location(Hydraulicraft.ipList.getLocation(linked), portalDir, 1);
-	}
+            if (portalHeight > 1) {
+                break;
+            }
+            portalDir = portalDir.rotateAround(baseDir.getAxis());
+            portalHeight = 0;
+            i++;
+        }
 
-	public void dye(int i) {
-		colorIndex = i;
-		markDirty();
-		getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-		//Update frames
-		if(portalFormed){
-			for(Location fr : frames){
-				if(fr.getTE(getWorldObj()) != null){
-					((TilePortalFrame)fr.getTE(getWorldObj())).dye(i);
-				}
-			}
-		}
-	}
-	
-	public int getDye(){
-		return colorIndex;
-	}
-	
-	public Location getBlockLocation() {
-		return new Location(xCoord, yCoord, zCoord);
-	}
+        if (portalHeight == 0) {
+            return false;
+        }
 
-	@Override
-	public void onFluidLevelChanged(int old) {	}
+        //Check other side (aka top):
+        Location topCenter = new Location(getPos(), portalDir, portalHeight);
+        if (topCenter.getBlock(getWorld()) != HCBlocks.portalFrame) {
+            return false;
+        }
+        for (int x = 1; x <= half; x++) {
+            Location nLocation = new Location(getPos(), baseDir, x);
+            Location oLocation = new Location(getPos(), baseDir.getOpposite(), x);
+            if (nLocation.getBlock(getWorld()) != HCBlocks.portalFrame) {
+                return false;
+            }
+            if (oLocation.getBlock(getWorld()) != HCBlocks.portalFrame) {
+                return false;
+            }
+        }
+        //Log.info("Found a portal. It's " + portalWidth + " wide and " + portalHeight + " high in " + baseDir + " with the portal in the " + portalDir);
+        return true;
+    }
 
-	@Override
-	public boolean canConnectTo(ForgeDirection side) {
-		if(!side.equals(ForgeDirection.UP)){
-			return true;
-		}else{
-			return false;
-		}
-	}
+    private void validatePortal() {
+        frames.clear();
+        Location bottomLeft = new Location(getPos(), baseDir, (portalWidth / 2));
+        Location bottomRight = new Location(getPos(), baseDir.getOpposite(), (portalWidth / 2));
+        if (bottomLeft.getBlock(getWorld()) != HCBlocks.portalFrame) {
+            return;
+        }
 
-	@Override
-	public float workFunction(boolean simulate, ForgeDirection from) {
-		if(from.equals(ForgeDirection.UP) && getIsActive()){
-			if(getPressure(ForgeDirection.UP) >= (HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget()))){
-				if(getIsActive()) {
-					return HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget());
-				}
-			}else{
-				if(getIsActive()){
-					disablePortal();
-				}
-			}
-		}
-		return 0;
-	}
+        for (int x = 0; x <= portalWidth + 1; x++) {
+            Location handleLocation = new Location(bottomLeft, baseDir.getOpposite(), x);
+            Location topLocation = new Location(handleLocation, portalDir, portalHeight);
+            TileEntity te = handleLocation.getTE(getWorld());
+            if (te instanceof TilePortalFrame) {
+                ((TilePortalFrame) te).setPortalBase(this);
+                ((TilePortalFrame) te).dye(colorIndex);
+                frames.add(handleLocation);
+            }
+            te = topLocation.getTE(getWorld());
+            if (te instanceof TilePortalFrame) {
+                ((TilePortalFrame) te).setPortalBase(this);
+                ((TilePortalFrame) te).dye(colorIndex);
+                frames.add(topLocation);
+            }
+        }
+        for (int y = 0; y <= portalHeight; y++) {
+            Location leftLocation = new Location(bottomLeft, portalDir, y);
+            Location rightLocation = new Location(bottomRight, portalDir, y);
+            TileEntity te = leftLocation.getTE(getWorld());
+            if (te instanceof TilePortalFrame) {
+                ((TilePortalFrame) te).setPortalBase(this);
+                ((TilePortalFrame) te).dye(colorIndex);
+                frames.add(leftLocation);
+            }
+            te = rightLocation.getTE(getWorld());
+            if (te instanceof TilePortalFrame) {
+                ((TilePortalFrame) te).setPortalBase(this);
+                ((TilePortalFrame) te).dye(colorIndex);
+                frames.add(rightLocation);
+            }
+        }
 
-	@Override
-	public boolean canWork(ForgeDirection dir) {
-		return dir.equals(ForgeDirection.UP);
-	}
+        portalFormed = true;
+        markDirty();
+    }
+
+    private void invalidatePortal() {
+
+    }
+
+
+    @Override
+    public void validate() {
+        super.validate();
+    }
+
+
+    @Override
+    public void redstoneChanged(boolean isPowered) {
+        if (getWorld() != null) {
+            if (portalFormed && linkingCard != null) {
+                if (portalEnabled && !getIsRedstonePowered()) {
+                    portalEnabled = false;
+                    disablePortal();
+                } else if (getIsRedstonePowered() && !portalEnabled && getPressure(EnumFacing.UP) >= HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock")) {
+                    portalEnabled = true;
+                    enablePortal();
+                }
+                markDirty();
+            }
+        }
+
+    }
+
+    private void enablePortal() {
+        if (baseDir != null) {
+            Location bottomLeft = new Location(getPos(), baseDir, (portalWidth / 2));
+            bottomLeft.offset(baseDir.getOpposite(), 1);
+            bottomLeft.offset(portalDir, 1);
+            for (int x = 0; x <= portalWidth - 2; x++) {
+                Location handleLocation = new Location(bottomLeft, baseDir.getOpposite(), x);
+                for (int y = 0; y < portalHeight - 1; y++) {
+                    Location portalLocation = new Location(handleLocation, portalDir, y);
+                    getWorld().setBlockState(portalLocation.toBlockPos(), HCBlocks.portalTeleporter.getDefaultState());
+
+                    TilePortalTeleporter teleporter = (TilePortalTeleporter) portalLocation.getTE(getWorld());
+                    teleporter.setRotation(baseDir, portalDir);
+                    teleporter.setBase(this);
+                }
+            }
+            for (Location fr : frames) {
+                if (fr.getTE(getWorld()) != null) {
+                    if (fr.getTE(getWorld()) instanceof TilePortalFrame) {
+                        ((TilePortalFrame) fr.getTE(getWorld())).setActive(true);
+                    }
+                }
+            }
+        }
+    }
+
+    private void disablePortal() {
+        if (baseDir != null) {
+            Location bottomLeft = new Location(getPos(), baseDir, (portalWidth / 2));
+            bottomLeft.offset(baseDir.getOpposite(), 1);
+            bottomLeft.offset(portalDir, 1);
+            for (int x = 0; x <= portalWidth - 2; x++) {
+                Location handleLocation = new Location(bottomLeft, baseDir.getOpposite(), x);
+                for (int y = 0; y < portalHeight - 1; y++) {
+                    Location portalLocation = new Location(handleLocation, portalDir, y);
+                    getWorld().setBlockToAir(portalLocation.toBlockPos());
+                }
+            }
+            for (Location fr : frames) {
+                if (fr.getTE(getWorld()) != null) {
+                    ((TilePortalFrame) fr.getTE(getWorld())).setActive(false);
+                }
+            }
+        }
+    }
+
+    public boolean getIsActive() {
+        return portalEnabled;
+    }
+
+    public String getIPString() {
+        if (ip == 0 && !getWorld().isRemote) {
+            genNewIP();
+        }
+        return IPs.longToIp(ip);
+    }
+
+    public Long getIPLong() {
+        return ip;
+    }
+
+    @Override
+    public int getSizeInventory() {
+        return 1;
+    }
+
+    @Override
+    public ItemStack getStackInSlot(int var1) {
+        return linkingCard;
+    }
+
+    @Override
+    public ItemStack decrStackSize(int var1, int var2) {
+        ItemStack tempStack = linkingCard.copy();
+        linkingCard = null;
+        return tempStack;
+    }
+
+    @Override
+    public ItemStack removeStackFromSlot(int index) {
+        return decrStackSize(index, 1);
+    }
+
+    @Override
+    public void setInventorySlotContents(int var1, ItemStack var2) {
+        if (var1 == 0) {
+            linkingCard = var2;
+        }
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
+    }
+
+    @Override
+    public int getInventoryStackLimit() {
+        return 1;
+    }
+
+    @Override
+    public boolean isUseableByPlayer(EntityPlayer var1) {
+        return true;
+    }
+
+    @Override
+    public void openInventory(EntityPlayer player) {
+
+    }
+
+    @Override
+    public void closeInventory(EntityPlayer player) {
+
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int var1, ItemStack var2) {
+        return (var2.getItem() instanceof ItemIPCard);
+    }
+
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    public boolean getIsValid() {
+        return portalFormed;
+    }
+
+    public Location getTarget() {
+        //First: see if there's an item in the inventory:
+        if (linkingCard == null) return null;
+        //Next, see if it linked:
+        if (linkingCard.getTagCompound() == null) return null;
+        if (linkingCard.getTagCompound().getLong("linked") == 0) return null;
+        long linked = linkingCard.getTagCompound().getLong("linked");
+        if (Hydraulicraft.ipList.getLocation(linked) == null) return null;
+        return new Location(Hydraulicraft.ipList.getLocation(linked), portalDir, 1);
+    }
+
+    public void dye(int i) {
+        colorIndex = i;
+        markDirty();
+        getWorld().markBlockForUpdate(getPos());
+        //Update frames
+        if (portalFormed) {
+            for (Location fr : frames) {
+                if (fr.getTE(getWorld()) != null) {
+                    ((TilePortalFrame) fr.getTE(getWorld())).dye(i);
+                }
+            }
+        }
+    }
+
+    public int getDye() {
+        return colorIndex;
+    }
+
+    public Location getBlockLocation() {
+        return new Location(getPos());
+    }
+
+    @Override
+    public void onFluidLevelChanged(int old) {
+    }
+
+    @Override
+    public boolean canConnectTo(EnumFacing side) {
+        if (!side.equals(EnumFacing.UP)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public float workFunction(boolean simulate, EnumFacing from) {
+        if (from.equals(EnumFacing.UP) && getIsActive()) {
+            if (getPressure(EnumFacing.UP) >= (HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget()))) {
+                if (getIsActive()) {
+                    return HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget());
+                }
+            } else {
+                if (getIsActive()) {
+                    disablePortal();
+                }
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean canWork(EnumFacing dir) {
+        return dir.equals(EnumFacing.UP);
+    }
 
 }
 

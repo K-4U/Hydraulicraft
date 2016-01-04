@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
@@ -8,11 +8,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fluids.*;
 
-public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandler,
-		IInventory, IHydraulicGenerator {
+public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandler, IInventory, IHydraulicMachine {
 	private ItemStack itemInventory;
 	private FluidTank tank = new FluidTank(20000);
 
@@ -38,7 +39,7 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int var1) {
+	public ItemStack removeStackFromSlot(int index) {
 		return null;
 	}
 
@@ -48,13 +49,18 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
 	}
 
 	@Override
-	public String getInventoryName() {
+	public String getName() {
 		return Localization.getLocalizedName(Names.blockInfiniteSource.unlocalized);
 	}
 
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomName() {
 		return true;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		return new ChatComponentTranslation(Names.blockInfiniteSource.unlocalized);
 	}
 
 	@Override
@@ -68,11 +74,13 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
 	}
 
 	@Override
-	public void openInventory() {
+	public void openInventory(EntityPlayer player) {
+
 	}
 
 	@Override
-	public void closeInventory() {
+	public void closeInventory(EntityPlayer player) {
+
 	}
 
 	@Override
@@ -81,33 +89,53 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
 	}
 
 	@Override
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+
+	}
+
+	@Override
+	public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
 		return tank.fill(resource, doFill);
 	}
 
 	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource,
+	public FluidStack drain(EnumFacing from, FluidStack resource,
 			boolean doDrain) {
 		return null;
 	}
 
 	@Override
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+	public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
 		return tank.drain(maxDrain, false);
 	}
 
 	@Override
-	public boolean canFill(ForgeDirection from, Fluid fluid) {
+	public boolean canFill(EnumFacing from, Fluid fluid) {
 		return false;
 	}
 
 	@Override
-	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+	public boolean canDrain(EnumFacing from, Fluid fluid) {
 		return true;
 	}
 
 	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+	public FluidTankInfo[] getTankInfo(EnumFacing from) {
 		return new FluidTankInfo[]{new FluidTankInfo(tank)};
 	}
 	
@@ -142,34 +170,12 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
 	}
 
 	@Override
-	public void onFluidLevelChanged(int old) { }
+	public void onFluidLevelChanged(int old) {
 
-	@Override
-	public void workFunction(ForgeDirection from) {
-        getHandler().setStored(getNetwork(from).getFluidCapacity() - getNetwork(from).getFluidInNetwork(), true, true);
-        getHandler().setPressure(getMaxPressure(getHandler().isOilStored(), from), from);
-        getHandler().updateFluidOnNextTick();
 	}
 
 	@Override
-	public int getMaxGenerating(ForgeDirection from) {
-		return 0;
-	}
-
-	@Override
-	public float getGenerating(ForgeDirection from) {
-		return 0;
-	}
-
-	
-	
-	@Override
-	public boolean canConnectTo(ForgeDirection side) {
-		return true;
-	}
-
-	@Override
-	public boolean canWork(ForgeDirection dir) {
-		return dir.equals(ForgeDirection.UP);
+	public boolean canConnectTo(EnumFacing side) {
+		return false;
 	}
 }

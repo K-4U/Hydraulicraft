@@ -1,27 +1,19 @@
 package k4unl.minecraft.Hydraulicraft.blocks.misc;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.blocks.BlockConnectedTextureContainer;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IConnectTexture;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockHydraulicValve extends BlockConnectedTextureContainer {
-
+/*
 	@SideOnly(Side.CLIENT)
 	public IIcon[] icons;
 	@SideOnly(Side.CLIENT)
 	public IIcon[] rotatedIcons;
-
+*/
 	
 	public BlockHydraulicValve() {
 		super(Names.blockValve);
@@ -38,13 +30,15 @@ public class BlockHydraulicValve extends BlockConnectedTextureContainer {
 		return GuiIDs.INVALID;
 	}
 
+	/*
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 
 		return icons[0];
-	}
+	}*/
 
+	/*
 	@SideOnly(Side.CLIENT)
 	public boolean connectTo(IConnectTexture it, IBlockAccess world, int x, int y, int z){
 		if(world.getBlock(x, y, z) == this){
@@ -112,8 +106,8 @@ public class BlockHydraulicValve extends BlockConnectedTextureContainer {
 					: 128))))))) : 0);
 
 
-		ForgeDirection s = ForgeDirection.getOrientation(side);
-		if(s.equals(ForgeDirection.SOUTH) || s.equals(ForgeDirection.WEST)){
+		EnumFacing s = EnumFacing.getOrientation(side);
+		if(s.equals(EnumFacing.SOUTH) || s.equals(EnumFacing.WEST)){
 			return idBuilder > 255 || idBuilder < 0 ? icons[0] : rotatedIcons[iconRefByID[idBuilder]];
 		}
 
@@ -133,5 +127,5 @@ public class BlockHydraulicValve extends BlockConnectedTextureContainer {
 		for (int i = 0; i < 47; i++)
 			rotatedIcons[i] = iconRegister.registerIcon(ModInfo.ID + ":" + mName.unlocalized + "/" + mName.unlocalized + "_rotated_" + (i + 1));
 	}
-
+*/
 }

@@ -4,12 +4,11 @@ import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
-import k4unl.minecraft.Hydraulicraft.thirdParty.extraUtilities.TrolleyEnderlily;
-import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleyCrops;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleySugarCane;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -20,13 +19,14 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TileHarvesterTrolley extends TileEntity {
+public class TileHarvesterTrolley extends TileEntity implements ITickable {
     private float extendedLength;
     private float oldExtendedLength;
     private final float maxLength = 4F;
@@ -38,7 +38,7 @@ public class TileHarvesterTrolley extends TileEntity {
     private float movingSpeedExtending = 0.05F;
     private float movingSpeedSideways = 0.05F;
     private float movingSpeedSidewaysBack = 0.1F;
-    private ForgeDirection facing = ForgeDirection.NORTH;
+    private EnumFacing facing = EnumFacing.NORTH;
     private boolean harvesterPart = false;
 
     private boolean isRetracting;
@@ -50,7 +50,7 @@ public class TileHarvesterTrolley extends TileEntity {
 
 
     private ItemStack plantingItem = null;
-    private ArrayList<ItemStack> harvestedItems = new ArrayList<ItemStack>();//starting without being null so the renderer won't NPE.
+    private List<ItemStack> harvestedItems = new ArrayList<ItemStack>();//starting without being null so the renderer won't NPE.
     private int locationToPlant = -1;
     private int locationYHarvest = -1;
     private int locationToHarvest = -1;
@@ -64,20 +64,6 @@ public class TileHarvesterTrolley extends TileEntity {
     }
 
     public IHarvesterTrolley getTrolley() {
-        if (trolley == null) {//if trolley is null here the NBT didn't contain the new tag, and this is a legacy trolley.
-            switch (getBlockMetadata()) {
-                case 0:
-                    trolley = new TrolleyCrops();
-                    break;
-                case 2:
-                    trolley = new TrolleySugarCane();
-                    break;
-                case 1:
-                    trolley = new TrolleyEnderlily();
-                    break;
-            }
-            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
-        }
         return trolley;
     }
 
@@ -137,12 +123,12 @@ public class TileHarvesterTrolley extends TileEntity {
         isMoving = true;
         isMovingUpDown = true;
 
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        worldObj.markBlockForUpdate(getPos());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-        NBTTagCompound tagCompound = packet.func_148857_g();
+        NBTTagCompound tagCompound = packet.getNbtCompound();
         readFromNBT(tagCompound);
     }
 
@@ -150,7 +136,7 @@ public class TileHarvesterTrolley extends TileEntity {
     public Packet getDescriptionPacket() {
         NBTTagCompound tagCompound = new NBTTagCompound();
         writeToNBT(tagCompound);
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 4, tagCompound);
+        return new S35PacketUpdateTileEntity(getPos(), 4, tagCompound);
     }
 
     public void doMove() {
@@ -188,14 +174,14 @@ public class TileHarvesterTrolley extends TileEntity {
                 }
                 harvestedItems = new ArrayList<ItemStack>();
             }
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            worldObj.markBlockForUpdate(getPos());
         }
         //worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override
-    public void updateEntity() {
-        if (getWorldObj().isRemote) {
+    public void update() {
+        if (getWorld().isRemote) {
             doMove();
         }
         recheckSpeed();
@@ -205,7 +191,7 @@ public class TileHarvesterTrolley extends TileEntity {
         if (getHarvester() != null) {
             TileHydraulicHarvester harv = (TileHydraulicHarvester) getHarvester();
 
-            float pressurePercentage = harv.getPressure(ForgeDirection.UP) / harv.getMaxPressure(harv.isOilStored(), ForgeDirection.UP);
+            float pressurePercentage = harv.getPressure(EnumFacing.UP) / harv.getMaxPressure(harv.isOilStored(), EnumFacing.UP);
             float factor = (harv.getPressureTier().ordinal() + 1) * (harv.isOilStored() ? 3.0F : 1.5F) * pressurePercentage;
             movingSpeedSideways = 0.05F * factor;
             movingSpeedSidewaysBack = 0.1F * factor;
@@ -224,7 +210,7 @@ public class TileHarvesterTrolley extends TileEntity {
         sideLength = tagCompound.getFloat("sideLength");
 
         movingSpeedExtending = tagCompound.getFloat("movingSpeedExtending");
-        facing = ForgeDirection.getOrientation(tagCompound.getInteger("facing"));
+        facing = EnumFacing.byName(tagCompound.getString("facing"));
         harvesterPart = tagCompound.getBoolean("harvesterPart");
 
         movingSpeedSideways = tagCompound.getFloat("movingSpeedSideways");
@@ -255,7 +241,7 @@ public class TileHarvesterTrolley extends TileEntity {
         tagCompound.setBoolean("isMoving", isMovingSideways);
         tagCompound.setFloat("sideLength", sideLength);
         tagCompound.setFloat("sideTarget", sideTarget);
-        tagCompound.setInteger("facing", facing.ordinal());
+        tagCompound.setString("facing", facing.toString());
         tagCompound.setFloat("movingSpeedExtending", movingSpeedExtending);
         tagCompound.setBoolean("harvesterPart", harvesterPart);
         tagCompound.setFloat("movingSpeedSideways", movingSpeedSideways);
@@ -316,35 +302,35 @@ public class TileHarvesterTrolley extends TileEntity {
         float extendedLength = getExtendedLength();
         float sidewaysMovement = getSideLength();
 
-        float minX = 0.0F + xCoord;
-        float minY = 0.0F + yCoord;
-        float minZ = 0.0F + zCoord;
-        float maxX = 1.0F + xCoord;
-        float maxY = 1.0F + yCoord;
-        float maxZ = 1.0F + zCoord;
+        float minX = 0.0F + getPos().getX();
+        float minY = 0.0F + getPos().getY();
+        float minZ = 0.0F + getPos().getX();
+        float maxX = 1.0F + getPos().getY();
+        float maxY = 1.0F + getPos().getY();
+        float maxZ = 1.0F + getPos().getZ();
 
-        minX += sidewaysMovement * getFacing().offsetX;
+        minX += sidewaysMovement * getFacing().getFrontOffsetX();
         minY -= extendedLength;
-        minZ += sidewaysMovement * getFacing().offsetZ;
+        minZ += sidewaysMovement * getFacing().getFrontOffsetZ();
 
-        maxX += sidewaysMovement * getFacing().offsetZ;
+        maxX += sidewaysMovement * getFacing().getFrontOffsetZ();
         //maxY += extendedLength;
-        maxZ += sidewaysMovement * getFacing().offsetX;
+        maxZ += sidewaysMovement * getFacing().getFrontOffsetX();
 
-        return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+        return AxisAlignedBB.fromBounds(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
-    public void setFacing(ForgeDirection nFacing) {
+    public void setFacing(EnumFacing nFacing) {
         facing = nFacing;
     }
 
-    public ForgeDirection getFacing() {
+    public EnumFacing getFacing() {
         return facing;
     }
 
     public void setIsHarvesterPart(boolean isit) {
         harvesterPart = isit;
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        worldObj.markBlockForUpdate(getPos());
     }
 
 
@@ -360,11 +346,12 @@ public class TileHarvesterTrolley extends TileEntity {
 
 
     public Location getLocation(int length, int y) {
-        return new Location(xCoord + getFacing().offsetX * length, yCoord + y, zCoord + getFacing().offsetZ * length);
+
+        return new Location(getPos().getX() + getFacing().getFrontOffsetX() * length, getPos().getY() + y, getPos().getZ() + getFacing().getFrontOffsetZ() * length);
     }
 
     private Block getBlock(Location l) {
-        return worldObj.getBlock(l.getX(), l.getY(), l.getZ());
+        return worldObj.getBlockState(l.toBlockPos()).getBlock();
     }
 
     public int canPlantSeed(ItemStack[] seeds, int maxLength) {
@@ -390,7 +377,7 @@ public class TileHarvesterTrolley extends TileEntity {
             boolean canIPlantHere = false;
 
             Location l = getLocation(horiz, -2);
-            if (getTrolley().canPlant(getWorldObj(), l.getX(), l.getY(), l.getZ(), firstSeed)) {
+            if (getTrolley().canPlant(getWorld(), l.toBlockPos(), firstSeed)) {
                 canIPlantHere = true;
             }
 
@@ -405,7 +392,7 @@ public class TileHarvesterTrolley extends TileEntity {
 
     public void doPlant(ItemStack seed) {
         plantingItem = seed;
-        if (getBlockMetadata() == 2) {//FIXME 2 == sugar cane id, needs fixing
+        if (getTrolley() instanceof TrolleySugarCane) {
             extendTo(2F, locationToPlant);
         } else {
             extendTo(2.7F, locationToPlant);
@@ -418,9 +405,9 @@ public class TileHarvesterTrolley extends TileEntity {
     private void actuallyPlant() {
         //The trolley has arrived at the location and should plant.
         Location l = getLocation(locationToPlant, -2);
-        Block plant = getTrolley().getBlockForSeed(plantingItem);
+        IBlockState plant = getTrolley().getBlockStateForSeed(plantingItem);
 
-        worldObj.setBlock(l.getX(), l.getY(), l.getZ(), plant);
+        worldObj.setBlockState(l.toBlockPos(), plant);
 
         plantingItem = null;
         isHarvesting = false;
@@ -432,13 +419,12 @@ public class TileHarvesterTrolley extends TileEntity {
         }
     }
 
-    private ArrayList<ItemStack> getDroppedItems(int h) {
+    private List<ItemStack> getDroppedItems(int h) {
         Location cropLocation = getLocation(h, -3);
-        cropLocation.addY(getTrolley().getPlantHeight(getWorldObj(), cropLocation.getX(), cropLocation.getY(), cropLocation.getZ()));
-        Block toHarvest = worldObj.getBlock(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
-        int metaData = worldObj.getBlockMetadata(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ());
+        cropLocation.addY(getTrolley().getPlantHeight(getWorld(), cropLocation.toBlockPos()));
+        IBlockState toHarvest = worldObj.getBlockState(cropLocation.toBlockPos());
         if (toHarvest != null) {
-            return toHarvest.getDrops(worldObj, cropLocation.getX(), cropLocation.getY(), cropLocation.getZ(), metaData, 0);
+            return toHarvest.getBlock().getDrops(worldObj, cropLocation.toBlockPos(), toHarvest, 0);
         } else {
             return null;
         }
@@ -453,14 +439,14 @@ public class TileHarvesterTrolley extends TileEntity {
     }
 
 
-    public ArrayList<ItemStack> checkHarvest(int maxLen) {
+    public List<ItemStack> checkHarvest(int maxLen) {
         for (int horiz = 0; horiz <= maxLen; horiz++) {
             Location l = getLocation(horiz, -3);
-            int plantHeight = getTrolley().getPlantHeight(getWorldObj(), l.getX(), l.getY(), l.getZ());
+            int plantHeight = getTrolley().getPlantHeight(getWorld(), l.toBlockPos());
             for (int i = plantHeight; i >= 1; i--) {
                 l = getLocation(horiz, -3 + i);
-                if (getTrolley().canHarvest(getWorldObj(), l.getX(), l.getY(), l.getZ())) {
-                    ArrayList<ItemStack> dropped = getDroppedItems(horiz);
+                if (getTrolley().canHarvest(getWorld(), l.toBlockPos())) {
+                    List<ItemStack> dropped = getDroppedItems(horiz);
                     locationToHarvest = horiz;
                     locationYHarvest = -3 + i;
                     return dropped;
@@ -479,7 +465,7 @@ public class TileHarvesterTrolley extends TileEntity {
 
     private IHarvester getHarvester(){
         if(harvester == null && harvesterLocation != null){
-            harvester = (IHarvester)harvesterLocation.getTE(getWorldObj());
+            harvester = (IHarvester)harvesterLocation.getTE(getWorld());
         }
         return harvester;
     }
@@ -503,10 +489,10 @@ public class TileHarvesterTrolley extends TileEntity {
     }
 
     private void actuallyHarvest() {
-        ArrayList<ItemStack> dropped = getDroppedItems(locationToHarvest);
+        List<ItemStack> dropped = getDroppedItems(locationToHarvest);
         Location cropLocation;
         cropLocation = getLocation(locationToHarvest, locationYHarvest);
-        worldObj.func_147480_a(cropLocation.getX(), cropLocation.getY(), cropLocation.getZ(), false);
+        worldObj.destroyBlock(cropLocation.toBlockPos(), false);
 
         isHarvesting = false;
         isPlanting = false;
@@ -527,9 +513,9 @@ public class TileHarvesterTrolley extends TileEntity {
         tCompound.setString("name", getTrolley().getName());
 
         ourEnt.setTagCompound(tCompound);
-        EntityItem ei = new EntityItem(getWorldObj());
+        EntityItem ei = new EntityItem(getWorld());
         ei.setEntityItemStack(ourEnt);
-        ei.setPosition(xCoord, yCoord, zCoord);
-        getWorldObj().spawnEntityInWorld(ei);
+        ei.setPosition(getPos().getX(), getPos().getY(), getPos().getZ());
+        getWorld().spawnEntityInWorld(ei);
     }
 }

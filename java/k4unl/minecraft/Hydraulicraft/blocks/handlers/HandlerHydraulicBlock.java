@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.blocks.handlers;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
@@ -13,6 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class HandlerHydraulicBlock extends ItemBlock {
             }
             if(btH instanceof IMultiTieredBlock){
                 String toTranslate = "";
-                PressureTier pt = ((IMultiTieredBlock)btH).getTier(itemstack.getItemDamageForDisplay());
+                PressureTier pt = ((IMultiTieredBlock)btH).getTier(itemstack.getItemDamage());
                 switch(pt){
                     case LOWPRESSURE:
                         toTranslate = Localization.MAXPRESSURE_LOW;

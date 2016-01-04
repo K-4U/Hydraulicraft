@@ -1,7 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.thirdParty.bluepower.BluePower;
@@ -12,6 +10,8 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.igwmod.IGWMod;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.IndustrialCraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 import java.util.ArrayList;
 import java.util.HashMap;

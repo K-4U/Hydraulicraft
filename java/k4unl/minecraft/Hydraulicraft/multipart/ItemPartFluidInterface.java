@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.multipart;
+/*package k4unl.minecraft.Hydraulicraft.multipart;
 
 
 import codechicken.lib.vec.BlockCoord;
@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.common.util.EnumFacing;
 
 public class ItemPartFluidInterface extends JItemMultiPart {
 
@@ -38,7 +38,7 @@ public class ItemPartFluidInterface extends JItemMultiPart {
     public TMultiPart newPart(ItemStack item, EntityPlayer player, World world, BlockCoord pos, int side, Vector3 vhit) {
         PartFluidInterface w = (PartFluidInterface) MultiPartRegistry.createPart("tile." + Names.partFluidInterface.unlocalized, false);
 
-        w.preparePlacement(ForgeDirection.getOrientation(side).getOpposite());
+        w.preparePlacement(EnumFacing.getOrientation(side).getOpposite());
         return w;
     }
 
@@ -51,3 +51,4 @@ public class ItemPartFluidInterface extends JItemMultiPart {
     public void registerIcons(IIconRegister reg){
     }
 }
+*/

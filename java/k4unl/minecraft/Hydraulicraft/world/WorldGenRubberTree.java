@@ -4,9 +4,10 @@ import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
@@ -14,7 +15,9 @@ import java.util.Random;
  * @author Koen Beckers (K-4U)
  */
 public class WorldGenRubberTree extends WorldGenAbstractTree {
-    /** The minimum height of a generated tree. */
+    /**
+     * The minimum height of a generated tree.
+     */
     private final int minTreeHeight;
 
     public WorldGenRubberTree(boolean doBlockNotify) {
@@ -26,10 +29,13 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
         this.minTreeHeight = minTreeHeight;
     }
 
-    public boolean generate(World world, Random random, int x, int y, int z)
-    {
+    public boolean generate(World world, Random random, BlockPos pos) {
         int treeHeight = random.nextInt(3) + this.minTreeHeight;
         boolean flag = true;
+        //CBA to rewrite this, so just do it like this :D
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
 
         if (y >= 1 && y + treeHeight + 1 <= 256) {
             byte b0;
@@ -50,9 +56,9 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
                 for (int j1 = x - b0; j1 <= x + b0 && flag; ++j1) {
                     for (k1 = z - b0; k1 <= z + b0 && flag; ++k1) {
                         if (i1 >= 0 && i1 < 256) {
-                            block = world.getBlock(j1, i1, k1);
+                            block = world.getBlockState(new BlockPos(j1, i1, k1)).getBlock();
 
-                            if (!this.isReplaceable(world, j1, i1, k1)) {
+                            if (!this.isReplaceable(world, new BlockPos(j1, i1, k1))) {
                                 flag = false;
                             }
                         } else {
@@ -65,16 +71,16 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
             if (!flag) {
                 return false;
             } else {
-                Block block2 = world.getBlock(x, y - 1, z);
+                Block block2 = world.getBlockState(pos.down()).getBlock();
 
-                boolean isSoil = block2.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, (BlockSapling) Blocks.sapling);
+                boolean isSoil = block2.canSustainPlant(world, pos.down(), EnumFacing.UP, (BlockSapling) Blocks.sapling);
                 if (isSoil && y < 256 - treeHeight - 1) {
-                    block2.onPlantGrow(world, x, y - 1, z, x, y, z);
+                    block2.onPlantGrow(world, pos.down(), pos);
                     b0 = 3;
 
                     //First on top.
                     setAndCheckBlock(world, x, treeHeight + y, z, HCBlocks.blockRubberLeaves);
-                    for(int i = 0; i<=3; i++){
+                    for (int i = 0; i <= 3; i++) {
                         setAndCheckBlock(world, x + i, treeHeight + y - 1, z, HCBlocks.blockRubberLeaves);
                         setAndCheckBlock(world, x - i, treeHeight + y - 1, z, HCBlocks.blockRubberLeaves);
                         setAndCheckBlock(world, x, treeHeight + y - 1, z + i, HCBlocks.blockRubberLeaves);
@@ -105,10 +111,11 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
         }
     }
 
-    private void setAndCheckBlock(World world, int x, int y, int z, Block toSet){
-        Block block1 = world.getBlock(x, y, z);
-        if (block1.isAir(world, x, y, z) || block1.isLeaves(world, x, y, z)) {
-            this.setBlockAndNotifyAdequately(world, x, y, z, toSet, 0);
+    private void setAndCheckBlock(World world, int x, int y, int z, Block toSet) {
+        BlockPos pos = new BlockPos(x, y, z);
+        Block block1 = world.getBlockState(pos).getBlock();
+        if (block1.isAir(world, pos) || block1.isLeaves(world, pos)) {
+            this.setBlockAndNotifyAdequately(world, pos, toSet.getDefaultState());
         }
     }
 }

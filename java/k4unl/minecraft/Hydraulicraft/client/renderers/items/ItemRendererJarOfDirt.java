@@ -1,12 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererJarOfDirt;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
-import org.lwjgl.opengl.GL11;
-
-public class ItemRendererJarOfDirt implements IItemRenderer {
-
+public class ItemRendererJarOfDirt {//implements IItemRenderer {
+/*
     private static RendererJarOfDirt rendererJarOfDirt = new RendererJarOfDirt();
 
     @Override public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -45,4 +40,5 @@ public class ItemRendererJarOfDirt implements IItemRenderer {
         GL11.glScalef(scale, scale, scale);
         rendererJarOfDirt.renderTileEntityAt(null, x, y, z, 0);
     }
+    */
 }

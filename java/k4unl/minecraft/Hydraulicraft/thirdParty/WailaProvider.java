@@ -1,10 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
-import codechicken.multipart.TileMultipart;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
@@ -14,8 +12,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -28,7 +27,7 @@ public class WailaProvider implements IWailaDataProvider {
         registrar.registerHeadProvider(new WailaProvider(), IHydraulicMachine.class);
         registrar.registerBodyProvider(new WailaProvider(), IHydraulicMachine.class);
         registrar.registerTailProvider(new WailaProvider(), IHydraulicMachine.class);
-        registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
+        //registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
         registrar.registerStackProvider(new WailaProvider(), BlockHarvesterTrolley.class);
 
         //registrar.registerBodyProvider(new WailaProvider(), Ids.blockHydraulicPump.act);
@@ -64,40 +63,40 @@ public class WailaProvider implements IWailaDataProvider {
                                      IWailaConfigHandler config) {
 
         TileEntity ent = accessor.getTileEntity();
-        if (accessor.getTileEntity() instanceof IHydraulicMachine || ent instanceof TileMultipart) {
+        if (accessor.getTileEntity() instanceof IHydraulicMachine/* || ent instanceof TileMultipart*/) {
             IHydraulicMachine mEnt;
             Map<String, String> values = new HashMap<String, String>();
 
-            if (ent instanceof TileMultipart) {
+            /*if (ent instanceof TileMultipart) {
                 if (Multipart.hasTransporter((TileMultipart) ent)) {
                     mEnt = Multipart.getTransporter((TileMultipart) ent);
                 } else {
                     return currenttip;
                 }
-            } else {
+            } else {*/
                 mEnt = (IHydraulicMachine) ent;
-            }
+            //}
             //mEnt = (IHydraulicMachine) ent;
             //IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
 
             int stored = mEnt.getHandler().getStored();
             int max = mEnt.getHandler().getMaxStorage();
 
-            float pressure = mEnt.getHandler().getPressure(ForgeDirection.UNKNOWN);
+            float pressure = mEnt.getHandler().getPressure(EnumFacing.UP);
             int maxPressure = (int) mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), null);
 
             values.put("Fl", stored + "/" + max + " mBuckets (" + (int) (((float) stored / (float) max) * 100) + "%)");
             values.put("Pr", (new DecimalFormat("#.##")).format(pressure) + "/" + maxPressure + " mBar (" + (int) ((pressure / (float) maxPressure) * 100) + "%)");
 
             if (mEnt instanceof IHydraulicGenerator) {
-                float gen = ((IHydraulicGenerator) mEnt).getGenerating(ForgeDirection.UP);
-                int maxGen = ((IHydraulicGenerator) mEnt).getMaxGenerating(ForgeDirection.UP);
+                float gen = ((IHydraulicGenerator) mEnt).getGenerating(EnumFacing.UP);
+                int maxGen = ((IHydraulicGenerator) mEnt).getMaxGenerating(EnumFacing.UP);
                 values.put("Gen", (new DecimalFormat("#.##")).format(gen) + "/" + maxGen);
             }
             if (mEnt instanceof TileElectricPump) {
                 int storedEU = ((TileElectricPump) mEnt).getEUStored();
-                int maxEU = ((TileElectricPump) mEnt).getMaxEUStorage();
-                values.put("EU", storedEU + "/" + maxEU);
+                //int maxEU = ((TileElectricPump) mEnt).getMaxEUStorage();
+                //values.put("EU", storedEU + "/" + maxEU);
             }
             if (Functions.isInDev()) {
                 values.put("C", ((TileHydraulicBase) mEnt.getHandler()).getBlockLocation().printLocation());
@@ -120,9 +119,7 @@ public class WailaProvider implements IWailaDataProvider {
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
-        // not used right now (not registered via registerNBTProvider)
+    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         return null;
     }
-
 }

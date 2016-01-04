@@ -5,14 +5,17 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
+import k4unl.minecraft.k4lib.lib.Functions;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.Container;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
@@ -85,7 +88,7 @@ public class HydraulicGUIBase extends GuiContainer {
     }
 
     private boolean shouldRenderToolTip(int mouseX, int mouseY, ToolTip theTip) {
-        return func_146978_c(theTip.x, theTip.y, theTip.w, theTip.h, mouseX,
+        return isPointInRegion(theTip.x, theTip.y, theTip.w, theTip.h, mouseX,
                 mouseY);
     }
 
@@ -152,7 +155,7 @@ public class HydraulicGUIBase extends GuiContainer {
     }
 
     public void drawVerticalProgressBarWithTexture(int xOffset, int yOffset,
-                                                   int h, int w, float value, float max, IIcon icon,
+                                                   int h, int w, float value, float max, TextureAtlasSprite icon,
                                                    String toolTipTitle, String toolTipUnit) {
         float perc = value / max;
         int height = (int) (h * perc);
@@ -169,33 +172,23 @@ public class HydraulicGUIBase extends GuiContainer {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.7F);
         mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
+        WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         int o;
         for (o = 0; o < Math.floor(icons); o++) {
-            tessellator.addVertexWithUV(xOffset + 0, yOffset + h
-                    - (iconHeight * o), this.zLevel, uMin, vMin); // BL
-            tessellator.addVertexWithUV(xOffset + w, yOffset + h
-                    - (iconHeight * o), this.zLevel, uMax, vMin); // BR
-            tessellator.addVertexWithUV(xOffset + w, yOffset + h
-                    - (iconHeight * (o + 1)), this.zLevel, uMax, vMax);
-            tessellator.addVertexWithUV(xOffset + 0, yOffset + h
-                    - (iconHeight * (o + 1)), this.zLevel, uMin, vMax);
+            worldRenderer.pos(xOffset + 0, yOffset + h - (iconHeight * o), this.zLevel).tex(uMin, vMin).endVertex(); // BL
+            worldRenderer.pos(xOffset + w, yOffset + h - (iconHeight * o), this.zLevel).tex(uMax, vMin).endVertex(); // BR
+            worldRenderer.pos(xOffset + w, yOffset + h - (iconHeight * (o + 1)), this.zLevel).tex(uMax, vMax).endVertex();
+            worldRenderer.pos(xOffset + 0, yOffset + h - (iconHeight * (o + 1)), this.zLevel).tex(uMin, vMax).endVertex();
         }
         o = (int) Math.floor(icons);
 
-        tessellator.addVertexWithUV(xOffset + 0,
-                yOffset + h - (iconHeight * o), this.zLevel, uMin, vMin); // BL
-        tessellator.addVertexWithUV(xOffset + w,
-                yOffset + h - (iconHeight * o), this.zLevel, uMax, vMin); // BR
-        tessellator.addVertexWithUV(xOffset + w, yOffset + h
-                        - (iconHeight * (o + (icons % 1.0F))), this.zLevel, uMax,
-                vMaxLast); // TR
-        tessellator.addVertexWithUV(xOffset + 0, yOffset + h
-                        - (iconHeight * (o + (icons % 1.0F))), this.zLevel, uMin,
-                vMaxLast); // TL
+        worldRenderer.pos(xOffset + 0, yOffset + h - (iconHeight * o), this.zLevel).tex(uMin, vMin).endVertex(); // BL
+        worldRenderer.pos(xOffset + w, yOffset + h - (iconHeight * o), this.zLevel).tex(uMax, vMin).endVertex(); // BR
+        worldRenderer.pos(xOffset + w, yOffset + h - (iconHeight * (o + (icons % 1.0F))), this.zLevel).tex(uMax, vMaxLast).endVertex(); // TR
+        worldRenderer.pos(xOffset + 0, yOffset + h - (iconHeight * (o + (icons % 1.0F))), this.zLevel).tex(uMin, vMaxLast).endVertex(); // TL
 
-        tessellator.draw();
+        Tessellator.getInstance().draw();
 
         mc.renderEngine.bindTexture(resLoc);
         GL11.glDisable(GL11.GL_BLEND);
@@ -208,12 +201,12 @@ public class HydraulicGUIBase extends GuiContainer {
     protected void drawFluidAndPressure() {
         int color;
         String fluidName;
-        IIcon icon;
+        TextureAtlasSprite icon;
         if (!mEnt.getHandler().isOilStored()) {
-            icon = FluidRegistry.WATER.getIcon();
+            icon = Functions.getFluidIcon(FluidRegistry.WATER);
             fluidName = FluidRegistry.WATER.getLocalizedName(new FluidStack(FluidRegistry.WATER, 1));
         } else {
-            icon = Fluids.fluidHydraulicOil.getIcon();
+            icon = Functions.getFluidIcon(Fluids.fluidHydraulicOil);
             fluidName = Fluids.fluidHydraulicOil.getLocalizedName(new FluidStack(Fluids.fluidHydraulicOil, 1));
         }
         drawVerticalProgressBarWithTexture(8, 16, 54, 16, mEnt.getHandler()
@@ -221,7 +214,7 @@ public class HydraulicGUIBase extends GuiContainer {
 
         color = Constants.COLOR_PRESSURE;
         drawVerticalProgressBar(152, 16, 54, 16,
-                (mEnt.getHandler().getPressure(ForgeDirection.UNKNOWN) / 1000),
+                (mEnt.getHandler().getPressure(EnumFacing.UP) / 1000),
                 (mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), null) / 1000),
                 color, Localization.getString(Localization.PRESSURE_ENTRY),
                 "Bar");

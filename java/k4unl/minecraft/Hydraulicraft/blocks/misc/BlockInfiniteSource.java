@@ -5,57 +5,58 @@ import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInfiniteSource;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 public class BlockInfiniteSource extends HydraulicBlockContainerBase {
 
-	public BlockInfiniteSource() {
-		super(Names.blockInfiniteSource, false);
-	}
+    public BlockInfiniteSource() {
+        super(Names.blockInfiniteSource, false);
+    }
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int var2) {
-		return new TileInfiniteSource();
-	}
+    @Override
+    public TileEntity createNewTileEntity(World world, int var2) {
+        return new TileInfiniteSource();
+    }
 
-	@Override
-	public GuiIDs getGUIID() {
+    @Override
+    public GuiIDs getGUIID() {
 
-		return GuiIDs.INFINITESOURCE;
-	}
+        return GuiIDs.INFINITESOURCE;
+    }
 
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
-		if(player.isSneaking())
-			return false;
-		
-		
-		
-		TileEntity entity = world.getTileEntity(x, y, z);
-		if(entity == null || !(entity instanceof TileInfiniteSource)){
-			return false;
-			
-		}
-		
-		if(player.getCurrentEquippedItem() != null){
-			ItemStack inUse = player.getCurrentEquippedItem();
-			FluidStack input = FluidContainerRegistry.getFluidForFilledItem(inUse);
-			if(input != null){
-				
-				if(!world.isRemote){
-					((TileInfiniteSource)entity).fill(ForgeDirection.UP, input, true);
-				}
-				return true;
-			}
-		}
-		
-		player.openGui(Hydraulicraft.instance, getGUIID().ordinal(), world, x, y, z);
-		return true;
-	}
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (playerIn.isSneaking())
+            return false;
+
+
+        TileEntity entity = worldIn.getTileEntity(pos);
+        if (entity == null || !(entity instanceof TileInfiniteSource)) {
+            return false;
+
+        }
+
+        if (playerIn.getCurrentEquippedItem() != null) {
+            ItemStack inUse = playerIn.getCurrentEquippedItem();
+            FluidStack input = FluidContainerRegistry.getFluidForFilledItem(inUse);
+            if (input != null) {
+
+                if (!worldIn.isRemote) {
+                    ((TileInfiniteSource) entity).fill(EnumFacing.UP, input, true);
+                }
+                return true;
+            }
+        }
+
+        playerIn.openGui(Hydraulicraft.instance, getGUIID().ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+        return true;
+    }
 }

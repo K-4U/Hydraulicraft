@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.bluepower;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
@@ -11,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BluePower implements IThirdParty{
 	public static Block flaxBlock;

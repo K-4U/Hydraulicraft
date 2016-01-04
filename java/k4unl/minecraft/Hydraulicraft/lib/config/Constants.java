@@ -98,8 +98,6 @@ public class Constants {
         TANK_BLACKLIST.put(Blocks.double_plant, true);
         TANK_BLACKLIST.put(Blocks.enchanting_table, true);
         TANK_BLACKLIST.put(Blocks.ender_chest, true);
-        TANK_BLACKLIST.put(Blocks.fence, true);
-        TANK_BLACKLIST.put(Blocks.fence_gate, true);
         TANK_BLACKLIST.put(Blocks.flower_pot, true);
         TANK_BLACKLIST.put(Blocks.flowing_lava, true);
         TANK_BLACKLIST.put(Blocks.flowing_water, true);

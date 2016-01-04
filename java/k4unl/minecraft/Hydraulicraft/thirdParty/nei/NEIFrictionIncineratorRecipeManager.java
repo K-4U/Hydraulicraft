@@ -1,23 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.nei;
 
 
-import codechicken.nei.NEIClientUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.ShapedRecipeHandler;
-import k4unl.minecraft.Hydraulicraft.client.GUI.GuiIncinerator;
-import k4unl.minecraft.Hydraulicraft.client.GUI.IconRenderer;
-import k4unl.minecraft.Hydraulicraft.lib.Localization;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-
-import java.awt.*;
-import java.util.Map;
-
-public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler {
+public class NEIFrictionIncineratorRecipeManager {// extends ShapedRecipeHandler {
+    /*
     private ShapedRecipeHandler.CachedShapedRecipe getShape(Map.Entry<ItemStack, ItemStack> recipe) {
         ShapedRecipeHandler.CachedShapedRecipe shape = new
                 ShapedRecipeHandler.CachedShapedRecipe(0, 0, null, recipe.getValue());
@@ -113,4 +98,5 @@ public class NEIFrictionIncineratorRecipeManager extends ShapedRecipeHandler {
         IconRenderer.drawMergedIcon(xPos, 8, 0, smeltingItem, targetItem, percentage, smeltingItem.stackSize % 2 == 0);
 		//drawProgressBar(80, 21, 207, 0, 34, 19, 48, 2 | (1 << 3));
     }
+    */
 }

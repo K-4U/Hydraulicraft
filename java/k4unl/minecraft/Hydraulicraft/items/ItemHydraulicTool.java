@@ -3,10 +3,13 @@ package k4unl.minecraft.Hydraulicraft.items;
 import k4unl.minecraft.Hydraulicraft.api.IPressurizableItem;
 import k4unl.minecraft.Hydraulicraft.lib.PressurizableItem;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -32,15 +35,14 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
     }
 
     @Override
-    public float getDigSpeed(ItemStack stack, Block block, int meta) {
+    public float getDigSpeed(ItemStack stack, IBlockState state) {
         if (!pressurizableItem.canUse(stack, PRESSURE_PER_DIG))
             return 0;
-
-        return super.getDigSpeed(stack, block, meta);
+        return super.getDigSpeed(stack, state);
     }
 
     @Override
-    public float func_150893_a(ItemStack stack, Block block) {
+    public float getStrVsBlock(ItemStack stack, Block block) {
         if (!pressurizableItem.canUse(stack, PRESSURE_PER_DIG))
             return 0;
 
@@ -77,26 +79,25 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
     public float getMaxFluid() {
         return pressurizableItem.getMaxFluid();
     }
-
+    
     @Override
-    public boolean onBlockDestroyed(ItemStack stack, World world, Block block, int x, int y, int z, EntityLivingBase player) {
-        if (player instanceof EntityPlayer) {
-            boolean retval = pressurizableItem.canUse((EntityPlayer) player, PRESSURE_PER_DIG);
+    public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
+        if (playerIn instanceof EntityPlayer) {
+            boolean retval = pressurizableItem.canUse((EntityPlayer) playerIn, PRESSURE_PER_DIG);
             if (retval)
-                pressurizableItem.onItemUse((EntityPlayer) player, CHANCE_TO_RELEASE_WATER, PRESSURE_PER_DIG);
-
+                pressurizableItem.onItemUse((EntityPlayer) playerIn, CHANCE_TO_RELEASE_WATER, PRESSURE_PER_DIG);
+        
             return retval;
         }
-
-        return super.onBlockDestroyed(stack, world, block, x, y, z, player);
+        return super.onBlockDestroyed(stack, worldIn, blockIn, pos, playerIn);
     }
-
+    
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-        pressurizableItem.onItemUse(player, CHANCE_TO_RELEASE_WATER, PRESSURE_PER_DIG);
-        return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+        pressurizableItem.onItemUse(playerIn, CHANCE_TO_RELEASE_WATER, PRESSURE_PER_DIG);
+        return super.onItemUse(stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
     }
-
+    
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
         if (stack == null || !(stack.getItem() instanceof ItemHydraulicTool))
