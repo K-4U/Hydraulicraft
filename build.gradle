@@ -59,6 +59,9 @@ dependencies {
 
 project.ext {
     buildNum = System.getenv("BUILD_NUMBER")
+    if(buildNum == null){
+        buildNum = "dev"
+    }
     mcVersion = "1.8.8"
 }
 
