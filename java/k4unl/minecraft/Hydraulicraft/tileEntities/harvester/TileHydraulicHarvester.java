@@ -431,15 +431,15 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 	}
 	
 	private Block getBlock(Location l){
-		return l.getBlock(getWorld());
+		return l.getBlock(getWorldObj());
 	}
 	
 	private TileEntity getTileEntity(Location l){
-		return l.getTE(getWorld());
+		return l.getTE(getWorldObj());
 	}
 	
 	private Block getBlock(BlockPos pos){
-		return getWorld().getBlockState(pos).getBlock();
+		return getWorldObj().getBlockState(pos).getBlock();
 	}
 	
 	private boolean checkMultiblock(EnumFacing dir){

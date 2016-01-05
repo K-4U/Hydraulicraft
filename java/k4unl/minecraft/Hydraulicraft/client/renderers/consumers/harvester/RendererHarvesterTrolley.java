@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -18,11 +17,11 @@ import org.lwjgl.opengl.GL11;
 import java.util.List;
 
 public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
-    private final RenderItem customRenderItem;
+    private final RenderItem customRenderItem = null;
     private final EntityItem renderedItem;
 
     public RendererHarvesterTrolley() {
-        customRenderItem = new RenderItem(Minecraft.getMinecraft().getTextureManager(), new ModelManager(Minecraft.getMinecraft().getTextureMapBlocks()));
+        //customRenderItem = new RenderItem(Minecraft.getMinecraft().getTextureManager(), new ModelManager(Minecraft.getMinecraft().getTextureMapBlocks()));
 
         renderedItem = new EntityItem(FMLClientHandler.instance().getClient().theWorld);
         renderedItem.hoverStart = 0.0F;

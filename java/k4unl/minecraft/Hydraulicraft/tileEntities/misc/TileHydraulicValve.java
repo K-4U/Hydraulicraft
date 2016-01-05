@@ -176,7 +176,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
             }
             for (EnumFacing dir : connectedSides) {
                 Location hoseLocation = new Location(getPos(), dir);
-                TileEntity ent = getWorld().getTileEntity(hoseLocation.toBlockPos());
+                TileEntity ent = getWorldObj().getTileEntity(hoseLocation.toBlockPos());
                 //((TilePressureHose)ent).checkConnectedSides(this);
 
                 /*if (ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) ent)) {

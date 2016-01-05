@@ -60,12 +60,12 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         if (ip != 0) {
             Hydraulicraft.ipList.removeIP(ip);
         }
-        if (getWorld() != null) {
-            String IP = Hydraulicraft.ipList.generateNewRandomIP(getWorld().provider.getDimensionId());
-            Hydraulicraft.ipList.registerIP(IPs.ipToLong(IP), new Location(getPos(), getWorld().provider.getDimensionId()));
+        if (getWorldObj() != null) {
+            String IP = Hydraulicraft.ipList.generateNewRandomIP(getWorldObj().provider.getDimensionId());
+            Hydraulicraft.ipList.registerIP(IPs.ipToLong(IP), new Location(getPos(), getWorldObj().provider.getDimensionId()));
             ipRegistered = false;
             ip = IPs.ipToLong(IP);
-            getWorld().markBlockForUpdate(getPos());
+            getWorldObj().markBlockForUpdate(getPos());
         }
     }
 
@@ -162,7 +162,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
             }
         }
         //Every 10 ticks, check for a complete portal.
-        if (getWorld().getTotalWorldTime() % 20 == 0 && !getWorld().isRemote) {
+        if (getWorldObj().getTotalWorldTime() % 20 == 0 && !getWorldObj().isRemote) {
             if (checkPortalComplete()) {
                 if (portalFormed) {
                     invalidatePortal();
@@ -186,13 +186,13 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
             for (int z = 1; z <= HCConfig.INSTANCE.getInt("maxPortalWidth"); z++) {
                 Location nLocation = new Location(getPos(), baseDir, z);
                 Location oLocation = new Location(getPos(), baseDir.getOpposite(), z);
-                if (nLocation.getBlock(getWorld()) == HCBlocks.portalFrame) {
+                if (nLocation.getBlock(getWorldObj()) == HCBlocks.portalFrame) {
                     portalWidth++;
                     half++;
                 } else {
                     break;
                 }
-                if (oLocation.getBlock(getWorld()) == HCBlocks.portalFrame) {
+                if (oLocation.getBlock(getWorldObj()) == HCBlocks.portalFrame) {
                     portalWidth++;
                 } else {
                     break;
@@ -225,12 +225,12 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
             for (int y = 1; y <= HCConfig.INSTANCE.getInt("maxPortalHeight"); y++) {
                 Location nLocation = new Location(firstLocation, portalDir, y);
                 Location oLocation = new Location(secondLocation, portalDir, y);
-                if (nLocation.getBlock(getWorld()) == HCBlocks.portalFrame) {
+                if (nLocation.getBlock(getWorldObj()) == HCBlocks.portalFrame) {
                     portalHeight++;
                 } else {
                     break;
                 }
-                if (oLocation.getBlock(getWorld()) != HCBlocks.portalFrame) {
+                if (oLocation.getBlock(getWorldObj()) != HCBlocks.portalFrame) {
                     break;
                 }
             }
@@ -249,16 +249,16 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
         //Check other side (aka top):
         Location topCenter = new Location(getPos(), portalDir, portalHeight);
-        if (topCenter.getBlock(getWorld()) != HCBlocks.portalFrame) {
+        if (topCenter.getBlock(getWorldObj()) != HCBlocks.portalFrame) {
             return false;
         }
         for (int x = 1; x <= half; x++) {
             Location nLocation = new Location(getPos(), baseDir, x);
             Location oLocation = new Location(getPos(), baseDir.getOpposite(), x);
-            if (nLocation.getBlock(getWorld()) != HCBlocks.portalFrame) {
+            if (nLocation.getBlock(getWorldObj()) != HCBlocks.portalFrame) {
                 return false;
             }
-            if (oLocation.getBlock(getWorld()) != HCBlocks.portalFrame) {
+            if (oLocation.getBlock(getWorldObj()) != HCBlocks.portalFrame) {
                 return false;
             }
         }
@@ -270,20 +270,20 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         frames.clear();
         Location bottomLeft = new Location(getPos(), baseDir, (portalWidth / 2));
         Location bottomRight = new Location(getPos(), baseDir.getOpposite(), (portalWidth / 2));
-        if (bottomLeft.getBlock(getWorld()) != HCBlocks.portalFrame) {
+        if (bottomLeft.getBlock(getWorldObj()) != HCBlocks.portalFrame) {
             return;
         }
 
         for (int x = 0; x <= portalWidth + 1; x++) {
             Location handleLocation = new Location(bottomLeft, baseDir.getOpposite(), x);
             Location topLocation = new Location(handleLocation, portalDir, portalHeight);
-            TileEntity te = handleLocation.getTE(getWorld());
+            TileEntity te = handleLocation.getTE(getWorldObj());
             if (te instanceof TilePortalFrame) {
                 ((TilePortalFrame) te).setPortalBase(this);
                 ((TilePortalFrame) te).dye(colorIndex);
                 frames.add(handleLocation);
             }
-            te = topLocation.getTE(getWorld());
+            te = topLocation.getTE(getWorldObj());
             if (te instanceof TilePortalFrame) {
                 ((TilePortalFrame) te).setPortalBase(this);
                 ((TilePortalFrame) te).dye(colorIndex);
@@ -293,13 +293,13 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         for (int y = 0; y <= portalHeight; y++) {
             Location leftLocation = new Location(bottomLeft, portalDir, y);
             Location rightLocation = new Location(bottomRight, portalDir, y);
-            TileEntity te = leftLocation.getTE(getWorld());
+            TileEntity te = leftLocation.getTE(getWorldObj());
             if (te instanceof TilePortalFrame) {
                 ((TilePortalFrame) te).setPortalBase(this);
                 ((TilePortalFrame) te).dye(colorIndex);
                 frames.add(leftLocation);
             }
-            te = rightLocation.getTE(getWorld());
+            te = rightLocation.getTE(getWorldObj());
             if (te instanceof TilePortalFrame) {
                 ((TilePortalFrame) te).setPortalBase(this);
                 ((TilePortalFrame) te).dye(colorIndex);
@@ -324,7 +324,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     @Override
     public void redstoneChanged(boolean isPowered) {
-        if (getWorld() != null) {
+        if (getWorldObj() != null) {
             if (portalFormed && linkingCard != null) {
                 if (portalEnabled && !getIsRedstonePowered()) {
                     portalEnabled = false;
@@ -348,17 +348,17 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
                 Location handleLocation = new Location(bottomLeft, baseDir.getOpposite(), x);
                 for (int y = 0; y < portalHeight - 1; y++) {
                     Location portalLocation = new Location(handleLocation, portalDir, y);
-                    getWorld().setBlockState(portalLocation.toBlockPos(), HCBlocks.portalTeleporter.getDefaultState());
+                    getWorldObj().setBlockState(portalLocation.toBlockPos(), HCBlocks.portalTeleporter.getDefaultState());
 
-                    TilePortalTeleporter teleporter = (TilePortalTeleporter) portalLocation.getTE(getWorld());
+                    TilePortalTeleporter teleporter = (TilePortalTeleporter) portalLocation.getTE(getWorldObj());
                     teleporter.setRotation(baseDir, portalDir);
                     teleporter.setBase(this);
                 }
             }
             for (Location fr : frames) {
-                if (fr.getTE(getWorld()) != null) {
-                    if (fr.getTE(getWorld()) instanceof TilePortalFrame) {
-                        ((TilePortalFrame) fr.getTE(getWorld())).setActive(true);
+                if (fr.getTE(getWorldObj()) != null) {
+                    if (fr.getTE(getWorldObj()) instanceof TilePortalFrame) {
+                        ((TilePortalFrame) fr.getTE(getWorldObj())).setActive(true);
                     }
                 }
             }
@@ -374,12 +374,12 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
                 Location handleLocation = new Location(bottomLeft, baseDir.getOpposite(), x);
                 for (int y = 0; y < portalHeight - 1; y++) {
                     Location portalLocation = new Location(handleLocation, portalDir, y);
-                    getWorld().setBlockToAir(portalLocation.toBlockPos());
+                    getWorldObj().setBlockToAir(portalLocation.toBlockPos());
                 }
             }
             for (Location fr : frames) {
-                if (fr.getTE(getWorld()) != null) {
-                    ((TilePortalFrame) fr.getTE(getWorld())).setActive(false);
+                if (fr.getTE(getWorldObj()) != null) {
+                    ((TilePortalFrame) fr.getTE(getWorldObj())).setActive(false);
                 }
             }
         }
@@ -390,7 +390,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     }
 
     public String getIPString() {
-        if (ip == 0 && !getWorld().isRemote) {
+        if (ip == 0 && !getWorldObj().isRemote) {
             genNewIP();
         }
         return IPs.longToIp(ip);
@@ -507,12 +507,12 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     public void dye(int i) {
         colorIndex = i;
         markDirty();
-        getWorld().markBlockForUpdate(getPos());
+        getWorldObj().markBlockForUpdate(getPos());
         //Update frames
         if (portalFormed) {
             for (Location fr : frames) {
-                if (fr.getTE(getWorld()) != null) {
-                    ((TilePortalFrame) fr.getTE(getWorld())).dye(i);
+                if (fr.getTE(getWorldObj()) != null) {
+                    ((TilePortalFrame) fr.getTE(getWorldObj())).dye(i);
                 }
             }
         }

@@ -5,6 +5,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -33,7 +34,7 @@ public class HydraulicBlockBase extends Block {
 
     protected boolean hasTextures = true;
 
-    public static final PropertyEnum ROTATION = PropertyEnum.create("rotation", EnumFacing.class);
+    public static final PropertyEnum ROTATION = PropertyDirection.create("rotation", EnumFacing.Plane.HORIZONTAL);
 
     protected HydraulicBlockBase(Name machineName, boolean addToTab) {
         this(machineName, Material.rock, addToTab);

@@ -52,14 +52,14 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
             Location toCheck = toScan.getNewOffset(dir, 1);
             if (!toCheck.isInList(fluidBlocks) && !toCheck.isInList(blocksToScan)){
                 if(toCheck.getDifference(getBlockLocation()) < MAX_DISTANCE){
-                    if(toCheck.getBlock(getWorld()) == blockPumping) {
-						if(toCheck.getBlock(getWorld()) instanceof BlockLiquid){
+                    if(toCheck.getBlock(getWorldObj()) == blockPumping) {
+						if(toCheck.getBlock(getWorldObj()) instanceof BlockLiquid){
 							//We possibly need to do more here..
 							blocksToScan.add(toScan.getNewOffset(dir, 1));
-						}else if(toCheck.getBlock(getWorld()) instanceof IFluidBlock) {
+						}else if(toCheck.getBlock(getWorldObj()) instanceof IFluidBlock) {
 
-							int check = Float.compare(((IFluidBlock) toCheck.getBlock(getWorld())).getFilledPercentage(getWorld(), toCheck.toBlockPos()), 1.0F);
-							if (check == 0 && ((IFluidBlock) toCheck.getBlock(getWorld())).canDrain(getWorld(), toCheck.toBlockPos())) {
+							int check = Float.compare(((IFluidBlock) toCheck.getBlock(getWorldObj())).getFilledPercentage(getWorldObj(), toCheck.toBlockPos()), 1.0F);
+							if (check == 0 && ((IFluidBlock) toCheck.getBlock(getWorldObj())).canDrain(getWorldObj(), toCheck.toBlockPos())) {
 								blocksToScan.add(toScan.getNewOffset(dir, 1));
 							}
 						}
@@ -77,7 +77,7 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 		fluidHandlersNear = 0;
 		boolean hasFluidHandlerNear = false;
 		for(EnumFacing dir : EnumFacing.VALUES){
-			TileEntity shouldIFillThis = getBlockLocation().getTE(getWorld(), dir);
+			TileEntity shouldIFillThis = getBlockLocation().getTE(getWorldObj(), dir);
 			if(shouldIFillThis instanceof IFluidHandler){
 				if(((IFluidHandler)shouldIFillThis).canFill(dir.getOpposite(), fluidPumping)){
 					hasFluidHandlerNear = true;
@@ -131,7 +131,7 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
             //If the fluidPumping block is not null, that means we have found a block earlier.
             if(fluidPumping == null){
 				hasPumped = false;
-                Block block = getWorld().getBlockState(new BlockPos(getPos().getX() + (facing.getFrontOffsetX() * 2), getPos().getY() - 1, getPos().getZ() + (facing.getFrontOffsetZ() * 2))).getBlock();
+                Block block = getWorldObj().getBlockState(new BlockPos(getPos().getX() + (facing.getFrontOffsetX() * 2), getPos().getY() - 1, getPos().getZ() + (facing.getFrontOffsetZ() * 2))).getBlock();
 				Fluid blockFluid = FluidRegistry.lookupFluidForBlock(block);
 				if((block == Blocks.flowing_lava || block == Blocks.lava) && blockFluid == null){
 					fluidPumping = FluidRegistry.LAVA;
@@ -143,13 +143,13 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 				}
 
                 if(block instanceof IFluidBlock){
-					if(((IFluidBlock)block).canDrain(getWorld(), new BlockPos(getPos().getX() + (facing.getFrontOffsetX() * 2), getPos().getY() - 1, getPos().getZ() + (facing.getFrontOffsetZ() * 2)))) {
+					if(((IFluidBlock)block).canDrain(getWorldObj(), new BlockPos(getPos().getX() + (facing.getFrontOffsetX() * 2), getPos().getY() - 1, getPos().getZ() + (facing.getFrontOffsetZ() * 2)))) {
 						//Now, we also need to grab all the blocks that are connected to this block, and pump from the one furthest away.
 						fluidPumping = ((IFluidBlock)block).getFluid();
 						blockPumping = block;
 					}
                 }else if(blockFluid != null && block != null){
-					//if(getWorld().getBlockMetadata(xCoord + (facing.offsetX * 2), yCoord - 1, zCoord + (facing.offsetZ * 2)) == 0){
+					//if(getWorldObj().getBlockMetadata(xCoord + (facing.offsetX * 2), yCoord - 1, zCoord + (facing.offsetZ * 2)) == 0){
 						fluidPumping = blockFluid;
 						blockPumping = block;
 					//}
@@ -188,8 +188,8 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
             //Todo: Remove a block furthest away first
             Location toDrain = fluidBlocks.get(fluidBlocks.size()-1);
 
-            if(!(toDrain.getBlock(getWorld()) instanceof IFluidBlock)){
-				if(!(toDrain.getBlock(getWorld()) instanceof BlockLiquid)){
+            if(!(toDrain.getBlock(getWorldObj()) instanceof IFluidBlock)){
+				if(!(toDrain.getBlock(getWorldObj()) instanceof BlockLiquid)){
 					if (toDrain.compare(getPos().getX() + (facing.getFrontOffsetX() * 2), getPos().getY() - 1, getPos().getZ() + (facing.getFrontOffsetZ() * 2))) {
 						//Done pumping.
 						fluidPumping = null;
@@ -198,21 +198,21 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
 				}
 
             }
-			if (toDrain.getBlock(getWorld()) instanceof IFluidBlock) {
-				IFluidBlock theBlock = (IFluidBlock)toDrain.getBlock(getWorld());
-				theBlock.drain(getWorld(), toDrain.toBlockPos(), true);
+			if (toDrain.getBlock(getWorldObj()) instanceof IFluidBlock) {
+				IFluidBlock theBlock = (IFluidBlock)toDrain.getBlock(getWorldObj());
+				theBlock.drain(getWorldObj(), toDrain.toBlockPos(), true);
 				fluidBlocks.remove(fluidBlocks.size()-1);
 				hasPumped = true;
-			}else if(toDrain.getBlock(getWorld()) instanceof BlockLiquid){
-				if(!(toDrain.getBlock(getWorld()) == Blocks.water)) {
-					getWorld().setBlockState(toDrain.toBlockPos(), Blocks.air.getDefaultState(), 2);
+			}else if(toDrain.getBlock(getWorldObj()) instanceof BlockLiquid){
+				if(!(toDrain.getBlock(getWorldObj()) == Blocks.water)) {
+					getWorldObj().setBlockState(toDrain.toBlockPos(), Blocks.air.getDefaultState(), 2);
 					fluidBlocks.remove(fluidBlocks.size()-1);
 				}
 				hasPumped = true;
 			}
 
             for (EnumFacing dir : EnumFacing.VALUES) {
-                TileEntity shouldIFillThis = getBlockLocation().getTE(getWorld(), dir);
+                TileEntity shouldIFillThis = getBlockLocation().getTE(getWorldObj(), dir);
                 if (shouldIFillThis instanceof IFluidHandler) {
                     if (((IFluidHandler) shouldIFillThis).canFill(dir.getOpposite(), fluidPumping)) {
                         if (((IFluidHandler) shouldIFillThis).fill(dir.getOpposite(), new FluidStack(fluidPumping, FluidContainerRegistry.BUCKET_VOLUME), false) == FluidContainerRegistry.BUCKET_VOLUME) {

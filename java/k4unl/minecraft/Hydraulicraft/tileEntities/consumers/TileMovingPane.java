@@ -257,7 +257,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
         boolean allFalse = true;
         boolean oneTrue = false;
         for (EnumFacing dir : EnumFacing.VALUES) {
-            TileEntity te = new Location(getPos()).getTE(getWorld(), dir);
+            TileEntity te = new Location(getPos()).getTE(getWorldObj(), dir);
             if (te instanceof TileMovingPane) {
                 if (!called.contains(te)) {
                     if (((TileMovingPane) te).getRedstonePowered(called)) {

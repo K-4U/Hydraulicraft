@@ -81,7 +81,7 @@ public class SubBlockBase extends HydraulicBlockBase {
 
     @Override
     protected BlockState createBlockState() {
-        return new BlockState(this, TIER);
+        return new BlockState(this, TIER, ROTATION);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class PressureNetwork {
         machines = new ArrayList<networkEntry>();
         machines.add(new networkEntry(((TileHydraulicBase) machine.getHandler()).getBlockLocation(), from));
         pressure = beginPressure;
-        world = ((TileHydraulicBase) machine.getHandler()).getWorld();
+        world = ((TileHydraulicBase) machine.getHandler()).getWorldObj();
         isOilStored = machine.getHandler().isOilStored();
 
         lowestTier = machine.getHandler().getPressureTier();
@@ -139,7 +139,7 @@ public class PressureNetwork {
             //pressure = oPressure / machines.size();
             machine.getHandler().updateFluidOnNextTick();
             if (world == null) {
-                world = ((TileHydraulicBase) machine.getHandler()).getWorld();
+                world = ((TileHydraulicBase) machine.getHandler()).getWorldObj();
             }
 
             PressureTier newestTier = machine.getHandler().getPressureTier();

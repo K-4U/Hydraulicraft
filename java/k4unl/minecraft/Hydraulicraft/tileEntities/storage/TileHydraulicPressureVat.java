@@ -50,7 +50,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
     }
 
     public PressureTier getTier() {
-        if (tier == PressureTier.INVALID && getWorld() != null) {
+        if (tier == PressureTier.INVALID && getWorldObj() != null) {
             tier = (PressureTier) worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER);
             tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier.toInt() + 1)));
             super.setMaxStorage(2 * (tier.toInt() + 1));
