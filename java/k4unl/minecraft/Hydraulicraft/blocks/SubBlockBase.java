@@ -31,8 +31,11 @@ public class SubBlockBase extends HydraulicBlockBase {
         //icons = new ArrayList<IIcon>();
         //topIcons = new ArrayList<Icon>();
         //bottomIcons = new ArrayList<Icon>();
-
-        setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, EnumFacing.NORTH).withProperty(TIER, PressureTier.INVALID));
+        if(this instanceof IBlockWithRotation) {
+            setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, EnumFacing.NORTH).withProperty(TIER, PressureTier.INVALID));
+        }else{
+            setDefaultState(this.blockState.getBaseState().withProperty(TIER, PressureTier.INVALID));
+        }
 
         setUnlocalizedName(mName[0].unlocalized);
         setStepSound(Block.soundTypeStone);
@@ -81,7 +84,11 @@ public class SubBlockBase extends HydraulicBlockBase {
 
     @Override
     protected BlockState createBlockState() {
-        return new BlockState(this, TIER, ROTATION);
+        if(this instanceof IBlockWithRotation) {
+            return new BlockState(this, TIER, ROTATION);
+        }else{
+            return new BlockState(this, TIER);
+        }
     }
 
     @Override

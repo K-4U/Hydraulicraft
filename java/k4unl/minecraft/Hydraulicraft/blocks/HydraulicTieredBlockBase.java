@@ -40,8 +40,12 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
         tieredIcon = new IIcon[3];
         tieredTopIcon = new IIcon[3];
         tieredBottomIcon = new IIcon[3];*/
+        if(this instanceof IBlockWithRotation){
+            setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, EnumFacing.NORTH).withProperty(TIER, PressureTier.INVALID));
+        }else{
+            setDefaultState(this.blockState.getBaseState().withProperty(TIER, PressureTier.INVALID));
+        }
 
-        setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, EnumFacing.NORTH).withProperty(TIER, PressureTier.INVALID));
 
         setUnlocalizedName(mName[0].unlocalized);
         setStepSound(Block.soundTypeStone);
@@ -122,17 +126,29 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
 
     @Override
     protected BlockState createBlockState() {
-        return new BlockState(this, TIER, ROTATION);
+        if(this instanceof IBlockWithRotation) {
+            return new BlockState(this, TIER, ROTATION);
+        }else{
+            return new BlockState(this, TIER);
+        }
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return super.getStateFromMeta(meta).withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
+        if(this instanceof IBlockWithRotation) {
+            return super.getStateFromMeta(meta).withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
+        }else{
+            return getDefaultState().withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
+        }
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return super.getMetaFromState(state) + ((PressureTier) state.getValue(TIER)).toInt();
+        if(this instanceof IBlockWithRotation) {
+            return super.getMetaFromState(state) + ((PressureTier) state.getValue(TIER)).toInt();
+        }else{
+            return ((PressureTier) state.getValue(TIER)).toInt();
+        }
     }
 
     public PressureTier getTierFromState(IBlockState state) {

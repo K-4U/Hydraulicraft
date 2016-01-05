@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.IBlockWithRotation;
 import k4unl.minecraft.Hydraulicraft.blocks.IRotateableBlock;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BlockMovingPane extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock {
+public class BlockMovingPane extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock, IBlockWithRotation {
 
     public BlockMovingPane() {
         super(Names.blockMovingPane, true);

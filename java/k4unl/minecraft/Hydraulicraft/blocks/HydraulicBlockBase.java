@@ -50,7 +50,9 @@ public class HydraulicBlockBase extends Block {
         setStepSound(Block.soundTypeStone);
         setHardness(3.5F);
         setResistance(10F);
-        setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, EnumFacing.NORTH));
+        if(this instanceof IBlockWithRotation) {
+            setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, EnumFacing.NORTH));
+        }
 
         if (addToTab) {
             setCreativeTab(CustomTabs.tabHydraulicraft);
@@ -213,16 +215,29 @@ public class HydraulicBlockBase extends Block {
 
     @Override
     protected BlockState createBlockState() {
-        return new BlockState(this, ROTATION);
+        if(this instanceof IBlockWithRotation) {
+            return new BlockState(this, ROTATION);
+        }else{
+            return new BlockState(this);
+        }
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return getDefaultState().withProperty(ROTATION, EnumFacing.getHorizontal(meta >> 2));
+        if(this instanceof IBlockWithRotation){
+            return getDefaultState().withProperty(ROTATION, EnumFacing.getHorizontal(meta >> 2));
+        }else{
+            return getDefaultState();
+        }
+
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return (((EnumFacing) state.getValue(ROTATION)).getHorizontalIndex() << 2);
+        if(this instanceof IBlockWithRotation){
+            return (((EnumFacing) state.getValue(ROTATION)).getHorizontalIndex() << 2);
+        }else {
+            return 0;
+        }
     }
 }
