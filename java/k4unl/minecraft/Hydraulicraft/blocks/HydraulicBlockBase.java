@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
@@ -57,6 +58,7 @@ public class HydraulicBlockBase extends Block {
         if (addToTab) {
             setCreativeTab(CustomTabs.tabHydraulicraft);
         }
+        Hydraulicraft.proxy.registerBlockRenderer(this);
     }
 
 
@@ -184,7 +186,11 @@ public class HydraulicBlockBase extends Block {
 
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        return getDefaultState().withProperty(ROTATION, placer.getHorizontalFacing().getOpposite());
+        if(this instanceof IBlockWithRotation) {
+            return getDefaultState().withProperty(ROTATION, placer.getHorizontalFacing().getOpposite());
+        }else{
+            return getDefaultState();
+        }
     }
 /*
     @SuppressWarnings("cast")

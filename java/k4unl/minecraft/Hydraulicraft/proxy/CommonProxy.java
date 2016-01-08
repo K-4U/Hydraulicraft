@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.proxy;
 
 
+import net.minecraft.block.Block;
 
 public class CommonProxy {
 	
@@ -25,6 +26,10 @@ public class CommonProxy {
 	 */
 	public void initSounds(){
 		
+	}
+
+	public void registerBlockRenderer(Block toRegister){
+
 	}
 	
 }

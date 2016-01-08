@@ -24,7 +24,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 
 
     private FluidTank tank = null;//
-    private PressureTier tier;
+    private PressureTier tier = PressureTier.INVALID;
     private int prevRedstoneLevel = 0;
 
     public TileHydraulicPressureVat() {

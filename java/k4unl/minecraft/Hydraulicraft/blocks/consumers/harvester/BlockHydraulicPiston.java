@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.IBlockWithRotation;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
@@ -12,7 +13,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 
-public class BlockHydraulicPiston extends HydraulicBlockContainerBase {
+public class BlockHydraulicPiston extends HydraulicBlockContainerBase implements IBlockWithRotation {
 
     public BlockHydraulicPiston() {
         super(Names.blockHydraulicPiston, true);

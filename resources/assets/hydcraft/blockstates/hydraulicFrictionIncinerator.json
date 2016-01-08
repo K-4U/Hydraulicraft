@@ -1,0 +1,36 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hydcraft:blocks/hydraulicFrictionIncinerator_sides",
+      "up": "hydcraft:blocks/hydraulicFrictionIncinerator_top",
+      "down": "hydcraft:blocks/hydraulicFrictionIncinerator_bottom"
+    },
+    "transform": "forge:default-block",
+    "model": "cube_all"
+  },
+  "variants": {
+    "rotation": {
+      "north": {
+        "textures": {
+          "north": "hydcraft:blocks/hydraulicFrictionIncinerator_front"
+        }
+      },
+      "east": {
+        "textures": {
+          "east": "hydcraft:blocks/hydraulicFrictionIncinerator_front"
+        }
+      },
+      "west": {
+        "textures": {
+          "west": "hydcraft:blocks/hydraulicFrictionIncinerator_front"
+        }
+      },
+      "south": {
+        "textures": {
+          "south": "hydcraft:blocks/hydraulicFrictionIncinerator_front"
+        }
+      }
+    }
+  }
+}

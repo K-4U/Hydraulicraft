@@ -347,7 +347,9 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
         inventory.save(tagCompound);
 
         tagCompound.setBoolean("isValidMultiblock", isValidMultiblock);
-        tagCompound.setInteger("tier", getPressureTier().toInt());
+        if(getPressureTier() != null) {
+            tagCompound.setInteger("tier", getPressureTier().toInt());
+        }
     }
 
     @Override

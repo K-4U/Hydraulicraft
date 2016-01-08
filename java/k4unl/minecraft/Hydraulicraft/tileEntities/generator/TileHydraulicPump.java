@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.generator;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -271,7 +272,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
     }
 
     private void setTier(int newTier) {
-        tier = newTier;
+        tier = PressureTier.fromOrdinal(newTier).toInt();
         super.setMaxStorage(2 * (tier + 1));
     }
 

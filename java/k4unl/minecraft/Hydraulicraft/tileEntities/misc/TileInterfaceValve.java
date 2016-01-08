@@ -73,54 +73,35 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     public IHydraulicConsumer getTarget() {
-
-        if (targetHasChanged && !getPos().equals(targetPos)) {
-            TileEntity t = worldObj.getTileEntity(targetPos);
-            if (t instanceof IHydraulicConsumer) {
-                target = (IHydraulicConsumer) t;
-                targetHasChanged = false;
+        if(targetPos != null) {
+            if (targetHasChanged && !getPos().equals(targetPos)) {
+                TileEntity t = worldObj.getTileEntity(targetPos);
+                if (t instanceof IHydraulicConsumer) {
+                    target = (IHydraulicConsumer) t;
+                    targetHasChanged = false;
+                }
+                if (t instanceof IFluidHandler) {
+                    fluidTarget = (IFluidHandler) t;
+                }
+                if (t instanceof ISidedInventory) {
+                    inventoryTarget = (ISidedInventory) t;
+                }
+            } else if (targetHasChanged && targetPos.equals(getPos())) {
+                target = null;
+                fluidTarget = null;
+                inventoryTarget = null;
             }
-            if (t instanceof IFluidHandler) {
-                fluidTarget = (IFluidHandler) t;
-            }
-            if (t instanceof ISidedInventory) {
-                inventoryTarget = (ISidedInventory) t;
-            }
-        } else if (targetHasChanged && targetPos.equals(getPos())) {
-            target = null;
-            fluidTarget = null;
-            inventoryTarget = null;
         }
         return target;
     }
 
     public IFluidHandler getFluidTarget() {
-        if (targetHasChanged && !targetPos.equals(getPos())) {
-            TileEntity t = worldObj.getTileEntity(targetPos);
-            if (t instanceof IHydraulicConsumer) {
-                target = (IHydraulicConsumer) t;
-            }
-            if (t instanceof IFluidHandler) {
-                fluidTarget = (IFluidHandler) t;
-            }
-            if (t instanceof ISidedInventory) {
-                inventoryTarget = (ISidedInventory) t;
-            }
-            targetHasChanged = false;
-            //}
-        } else if (targetHasChanged && getPos().equals(targetPos)) {
-            target = null;
-            fluidTarget = null;
-            inventoryTarget = null;
-        }
-        return fluidTarget;
-    }
-
-    public ISidedInventory getInventoryTarget() {
-        if (targetHasChanged && !targetPos.equals(getPos())) {
-            TileEntity t = worldObj.getTileEntity(targetPos);
-            if (t instanceof IHydraulicConsumer) {
-                target = (IHydraulicConsumer) t;
+        if(targetPos != null) {
+            if (targetHasChanged && !targetPos.equals(getPos())) {
+                TileEntity t = worldObj.getTileEntity(targetPos);
+                if (t instanceof IHydraulicConsumer) {
+                    target = (IHydraulicConsumer) t;
+                }
                 if (t instanceof IFluidHandler) {
                     fluidTarget = (IFluidHandler) t;
                 }
@@ -128,11 +109,35 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                     inventoryTarget = (ISidedInventory) t;
                 }
                 targetHasChanged = false;
+                //}
+            } else if (targetHasChanged && getPos().equals(targetPos)) {
+                target = null;
+                fluidTarget = null;
+                inventoryTarget = null;
             }
-        } else if (targetHasChanged && targetPos.equals(getPos())) {
-            target = null;
-            fluidTarget = null;
-            inventoryTarget = null;
+        }
+        return fluidTarget;
+    }
+
+    public ISidedInventory getInventoryTarget() {
+        if(targetPos != null) {
+            if (targetHasChanged && !targetPos.equals(getPos())) {
+                TileEntity t = worldObj.getTileEntity(targetPos);
+                if (t instanceof IHydraulicConsumer) {
+                    target = (IHydraulicConsumer) t;
+                    if (t instanceof IFluidHandler) {
+                        fluidTarget = (IFluidHandler) t;
+                    }
+                    if (t instanceof ISidedInventory) {
+                        inventoryTarget = (ISidedInventory) t;
+                    }
+                    targetHasChanged = false;
+                }
+            } else if (targetHasChanged && targetPos.equals(getPos())) {
+                target = null;
+                fluidTarget = null;
+                inventoryTarget = null;
+            }
         }
         return inventoryTarget;
     }
@@ -192,7 +197,9 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
-        tagCompound.setLong("targetPos", targetPos.toLong());
+        if(targetPos != null) {
+            tagCompound.setLong("targetPos", targetPos.toLong());
+        }
         tagCompound.setBoolean("isTargetNull", (target == null));
         if (target == null) {
             tagCompound.setBoolean("isTargetNull", (target == null));

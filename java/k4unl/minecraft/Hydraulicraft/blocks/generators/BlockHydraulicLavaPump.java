@@ -3,7 +3,6 @@ package k4unl.minecraft.Hydraulicraft.blocks.generators;
 import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
-import k4unl.minecraft.Hydraulicraft.blocks.IBlockWithRotation;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
@@ -15,7 +14,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHydraulicLavaPump extends HydraulicTieredBlockBase implements IMultiTieredBlock, IBlockWithRotation {
+public class BlockHydraulicLavaPump extends HydraulicTieredBlockBase implements IMultiTieredBlock {
 
     public BlockHydraulicLavaPump() {
         super(Names.blockHydraulicLavaPump);

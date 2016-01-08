@@ -1,0 +1,34 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hydcraft:blocks/hydraulicCrusher_sides"
+    },
+    "transform": "forge:default-block",
+    "model": "cube_all"
+  },
+  "variants": {
+    "rotation": {
+      "north": {
+        "textures": {
+          "north": "hydcraft:blocks/hydraulicCrusher_front"
+        }
+      },
+      "east": {
+        "textures": {
+          "east": "hydcraft:blocks/hydraulicCrusher_front"
+        }
+      },
+      "west": {
+        "textures": {
+          "west": "hydcraft:blocks/hydraulicCrusher_front"
+        }
+      },
+      "south": {
+        "textures": {
+          "south": "hydcraft:blocks/hydraulicCrusher_front"
+        }
+      }
+    }
+  }
+}

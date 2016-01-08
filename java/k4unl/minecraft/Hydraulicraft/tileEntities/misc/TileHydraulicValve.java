@@ -55,15 +55,17 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
     }
 
     public IHydraulicConsumer getTarget() {
-        if (targetHasChanged && !targetPos.equals(getPos())) {
-            TileEntity t = worldObj.getTileEntity(targetPos);
-            if (t instanceof IHydraulicConsumer) {
-                target = (IHydraulicConsumer) t;
-                targetHasChanged = false;
+        if(targetPos != null) {
+            if (targetHasChanged && !targetPos.equals(getPos())) {
+                TileEntity t = worldObj.getTileEntity(targetPos);
+                if (t instanceof IHydraulicConsumer) {
+                    target = (IHydraulicConsumer) t;
+                    targetHasChanged = false;
+                }
+            } else if (targetHasChanged && targetPos.equals(getPos())) {
+                target = null;
+                //targetHasChanged = false;
             }
-        } else if (targetHasChanged && targetPos.equals(getPos())) {
-            target = null;
-            //targetHasChanged = false;
         }
         return target;
     }
@@ -112,11 +114,10 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
-        tagCompound.setLong("targetPos", targetPos.toLong());
-        tagCompound.setBoolean("isTargetNull", (target == null));
-        if (target == null) {
-            tagCompound.setBoolean("isTargetNull", (target == null));
+        if(targetPos != null) {
+            tagCompound.setLong("targetPos", targetPos.toLong());
         }
+        tagCompound.setBoolean("isTargetNull", (target == null));
         if (worldObj != null && !worldObj.isRemote) {
             tagCompound.setBoolean("clientNeedsToResetTarget", clientNeedsToResetTarget);
             tagCompound.setBoolean("clientNeedsToSetTarget", clientNeedsToSetTarget);

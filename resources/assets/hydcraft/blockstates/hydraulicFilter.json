@@ -1,0 +1,52 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hydcraft:blocks/hydraulicFilter_sides"
+    },
+    "transform": "forge:default-block",
+    "model": "cube_all"
+  },
+  "variants": {
+    "rotation": {
+      "north": {
+        "textures": {
+          "north": "hydcraft:blocks/hydraulicFilter_front",
+          "east": "hydcraft:blocks/hydraulicFilter_left",
+          "west": "hydcraft:blocks/hydraulicFilter_right"
+        }
+      },
+      "east": {
+        "textures": {
+          "east": "hydcraft:blocks/hydraulicFilter_front",
+          "north": "hydcraft:blocks/hydraulicFilter_right",
+          "south": "hydcraft:blocks/hydraulicFilter_left"
+        }
+      },
+      "west": {
+        "textures": {
+          "west": "hydcraft:blocks/hydraulicFilter_front",
+          "north": "hydcraft:blocks/hydraulicFilter_left",
+          "south": "hydcraft:blocks/hydraulicFilter_right"
+        }
+      },
+      "south": {
+        "textures": {
+          "south": "hydcraft:blocks/hydraulicFilter_front",
+          "east": "hydcraft:blocks/hydraulicFilter_right",
+          "west": "hydcraft:blocks/hydraulicFilter_left"
+        }
+      }
+    },
+    "inventory": {
+      "gui": {
+        "textures": {
+          "all": "hydcraft:blocks/hydraulicFilter_sides",
+          "north": "hydcraft:blocks/hydraulicFilter_front",
+          "east": "hydcraft:blocks/hydraulicFilter_left",
+          "west": "hydcraft:blocks/hydraulicFilter_right"
+        }
+      }
+    }
+  }
+}

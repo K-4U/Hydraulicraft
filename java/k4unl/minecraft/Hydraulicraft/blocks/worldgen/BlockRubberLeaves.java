@@ -4,7 +4,9 @@ import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -28,11 +30,11 @@ import java.util.Random;
  */
 public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable {
 
-    public static final PropertyBool DECAYABLE = PropertyBool.create("decayable");
+    public static final PropertyBool DECAYABLE   = PropertyBool.create("decayable");
     public static final PropertyBool CHECK_DECAY = PropertyBool.create("check_decay");
     int[] surroundings;
     @SideOnly(Side.CLIENT)
-    protected int iconIndex;
+    protected int     iconIndex;
     @SideOnly(Side.CLIENT)
     protected boolean isTransparent;
     protected boolean fancyGraphics = false;
@@ -290,5 +292,30 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
         this.captureDrops(true);
         ret.addAll(this.captureDrops(false));
         return ret;
+    }
+
+    public IBlockState getStateFromMeta(int meta) {
+        return this.getDefaultState().withProperty(DECAYABLE, Boolean.valueOf((meta & 4) == 0)).withProperty(CHECK_DECAY, Boolean.valueOf((meta & 8) > 0));
+    }
+
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(IBlockState state) {
+        int i = 0;
+
+        if (!((Boolean) state.getValue(DECAYABLE)).booleanValue()) {
+            i |= 4;
+        }
+
+        if (((Boolean) state.getValue(CHECK_DECAY)).booleanValue()) {
+            i |= 8;
+        }
+
+        return i;
+    }
+
+    protected BlockState createBlockState() {
+        return new BlockState(this, new IProperty[]{CHECK_DECAY, DECAYABLE});
     }
 }

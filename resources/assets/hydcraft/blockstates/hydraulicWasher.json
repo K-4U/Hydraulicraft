@@ -1,0 +1,34 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hydcraft:blocks/hydraulicWasher_sides"
+    },
+    "transform": "forge:default-block",
+    "model": "cube_all"
+  },
+  "variants": {
+    "rotation": {
+      "north": {
+        "textures": {
+          "north": "hydcraft:blocks/hydraulicWasher_front"
+        }
+      },
+      "east": {
+        "textures": {
+          "east": "hydcraft:blocks/hydraulicWasher_front"
+        }
+      },
+      "west": {
+        "textures": {
+          "west": "hydcraft:blocks/hydraulicWasher_front"
+        }
+      },
+      "south": {
+        "textures": {
+          "south": "hydcraft:blocks/hydraulicWasher_front"
+        }
+      }
+    }
+  }
+}
