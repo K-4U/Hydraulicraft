@@ -12,7 +12,6 @@ import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalTeleport
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererArchimedesScrew;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererJarOfDirt;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFluidPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
@@ -26,10 +25,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileJarOfDirt;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.item.Item;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -92,8 +87,8 @@ public class Renderers {
 
 	@SideOnly(Side.CLIENT)
 	public static void registerBlockRenderer(Block toRegister){
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+		//ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 
-		mesher.register(Item.getItemFromBlock(toRegister), 0, new ModelResourceLocation(ModInfo.ID + ":" + toRegister.getUnlocalizedName().substring(5), "inventory"));
+		//mesher.register(Item.getItemFromBlock(toRegister), 0, new ModelResourceLocation(ModInfo.ID + ":" + toRegister.getUnlocalizedName().substring(5), "inventory"));
 	}
 }

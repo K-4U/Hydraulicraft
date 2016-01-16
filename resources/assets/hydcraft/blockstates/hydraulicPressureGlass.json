@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "all": "hydcraft:blocks/hydraulicPressureWall"
+      "all": "hydcraft:blocks/hydraulicPressureGlass/hydraulicPressureGlass_1"
     },
     "model": "cube_all",
     "transform": "forge:default-block"
