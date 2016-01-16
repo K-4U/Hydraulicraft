@@ -6,36 +6,36 @@ item.ingotCopper.name=铜锭
 item.ingotLead.name=铅锭
 item.ingotEnrichedCopper.name=浓缩铜锭
 item.bucketHydraulicOil.name=液压油桶
-item.bucketLubricant.name=Lubricant Bucket
-item.bucketOil.name=Oil Bucket
-item.bucketFluoroCarbonFluid.name=Fluoro Carbon Fluid Bucket
+item.bucketLubricant.name=润滑油桶
+item.bucketOil.name=石油桶
+item.bucketFluoroCarbonFluid.name=氟化碳桶
 item.bacon.name=培根
 item.miningHelmet.name=矿工头盔
 item.itemLamp.name=矿工头盔灯
 item.diamondShard.name=钻石碎片
 item.dustDiamondCopper.name=浓缩铜粉
 item.enderLolly.name=末影棒棒糖
-item.divingHelmet.name=Diving Suit Helmet
-item.divingChest.name=Diving Suit Chestplate
-item.divingLegs.name=Diving Suit Legs
-item.divingBoots.name=Diving Suit Boots
-item.hydraulicWrench.name=Hydraulic Wrench
+item.divingHelmet.name=潜水头盔
+item.divingChest.name=潜水上衣
+item.divingLegs.name=潜水裤
+item.divingBoots.name=潜水靴
+item.hydraulicWrench.name=液压扳手
 
 
 #Ores
 tile.oreCopper.name=铜矿
 tile.oreLead.name=铅矿
-tile.oreLonezium.name=Lonezium
-tile.oreBeachium.name=Beachium
-tile.oreNadsiumBicarbinate.name=Nadsium Bicarbinate
-tile.oreFoxium.name=Foxium
+tile.oreLonezium.name=镙
+tile.oreBeachium.name=鏎
+tile.oreNadsiumBicarbinate.name=碦化錼
+tile.oreFoxium.name=鍢
 
 #Blocks
 tile.hydraulicOil.name=液压油
 tile.oil.name=原油
-tile.lubricant.name=Lubricant
-tile.fluoroCarbonFluid.name=Fluoro Carbon Fluid
-tile.hydraulicFilter.name=Filter
+tile.lubricant.name=润滑油
+tile.fluoroCarbonFluid.name=液态氟化碳
+tile.hydraulicFilter.name=过滤器
 tile.hydraulicFrictionIncinerator.name=摩擦焚烧炉
 tile.hydraulicCrusher.name=磨粉机
 tile.hydraulicWasher.name=洗矿机
@@ -84,20 +84,20 @@ tile.HPBlockCore.name=高压核心
 
 tile.blockInfiniteSource.name=无线能源
 tile.hydraulicWaterPump.name=阿基米德螺旋泵
-desc.hydraulicFluidPump=Pump for pumping up fluids
+desc.hydraulicFluidPump=用于泵出液体
 
 tile.blockCopper.name=铜块
 tile.blockLead.name=铅块
 
-tile.blockJarDirt.name=Jar of Dirt
-tile.refinedLonezium.name=Refined Lonezium
-tile.refinedNadsiumBicarbinate.name=Refined Nadsium Bicarbinate
-tile.blockDirtyMineral.name=Dirty Mineral
-tile.hydraulicAssembler.name=Assembler
-tile.fluidPipe.name=Fluid Pipe
-tile.fluidInterface.name=Fluid Interface
-tile.hydraulicCharger.name=Hydraulic Charger
-tile.hydraulicFiller.name=Hydraulic Filler
+tile.blockJarDirt.name=一罐泥土
+tile.refinedLonezium.name=精炼镙
+tile.refinedNadsiumBicarbinate.name=精炼碦化錼
+tile.blockDirtyMineral.name=脏的矿物质
+tile.hydraulicAssembler.name=装配机
+tile.fluidPipe.name=流体管道
+tile.fluidInterface.name=流体界面
+tile.hydraulicCharger.name=液压充能器
+tile.hydraulicFiller.name=液压装罐机
 
 
 #Dust and chunks
@@ -136,8 +136,8 @@ itemGroup.tabHydraulicraft=液压工艺
 lang.pressure=压力
 fluid.hydraulicOil=液压油
 fluid.oil=原油
-fluid.lubricant=Lubricant
-fluid.fluoroCarbonFluid=Fluoro Carbon Fluid
+fluid.lubricant=润滑油
+fluid.fluoroCarbonFluid=液态氟化碳
 lang.gui.generating=正在产生
 lang.gui.max=最大
 lang.gui.using=正在使用
@@ -147,21 +147,21 @@ lang.gui.maxHighPressure=最大: 高压
 lang.gui.maxMediumPressure=最大: 中压
 lang.gui.maxLowPressure=最大: 低压
 lang.warn.wip=注意: 这个方块现在仍能正常使用,但以后会被其它取代!
-lang.gui.updateAvailable=Hydraulicraft version %s available
-lang.gui.releasedAt=Released on: %s
-lang.gui.upToDate=Hydraulicraft up to date
-lang.tooltip.multiblock=Multiblock. Max pressure depends on the core used.
+lang.gui.updateAvailable=液压工艺版本%s可用
+lang.gui.releasedAt=发布于: %s
+lang.gui.upToDate=液压工艺版本最新
+lang.tooltip.multiblock=多方块. 最大压力取决于核心.
 
 #Harvester
-lang.harvester.notFormingError.trolleyExpected=Expected a trolley at %s
-lang.harvester.notFormingError.frameRotationWrong=Frame at %s is rotated wrong
-lang.harvester.notFormingError.frameExpected=Expected a frame at %s
-lang.harvester.notFormingError.verticalFrameExpected=Expected a vertical frame at %s
-lang.harvester.notFormingError.pistonExpected=Expected a piston at %s
-lang.harvester.notFormingError.endBlockExpected=Expected a pressure wall at %s
-lang.harvester.notFormingError.tooShort=The harvester is too short(%s)
-lang.harvester.notFormingError.tooLong=The harvester is too long(%s)
-lang.harvester.notFormingError.tooWide=The harvester is too wide(%s)
+lang.harvester.notFormingError.trolleyExpected=预计有收割车在 %s
+lang.harvester.notFormingError.frameRotationWrong=%s 处的框架方向错误
+lang.harvester.notFormingError.frameExpected=预计有框架在 %s
+lang.harvester.notFormingError.verticalFrameExpected=预计有垂直框架在 %s
+lang.harvester.notFormingError.pistonExpected=预计有活塞在 %s
+lang.harvester.notFormingError.endBlockExpected=预计有压力墙在 %s
+lang.harvester.notFormingError.tooShort=收割机太短(%s)
+lang.harvester.notFormingError.tooLong=收割机太长(%s)
+lang.harvester.notFormingError.tooWide=收割机太宽(%s)
 
 
 ####Third party
@@ -191,28 +191,28 @@ item.portalIPCard.name=传送门IP卡
 itemGroup.tabGOW=Glowing Octo Wallhack
 
 ### WIKI
-hydcraft.wiki.entry.baseConcepts=Base Concepts
-hydcraft.wiki.entry.pressureNetwork=Pressure Network
-hydcraft.wiki.entry.diving=Diving
-hydcraft.wiki.section.worldgen=Worldgen
-hydcraft.wiki.entry.oil=- Oil
-hydcraft.wiki.entry.minerals=- Minerals
-hydcraft.wiki.entry.ores=- Ores
-hydcraft.wiki.entry.crafting=Crafting
-hydcraft.wiki.section.multiblocks=Multiblocks
-hydcraft.wiki.entry.farms=- Farms
-hydcraft.wiki.entry.washer=- Washer
-hydcraft.wiki.entry.tanks=- Tanks
-hydcraft.wiki.entry.portal=- Portal
-hydcraft.wiki.section.thirdparty=Third Party
-hydcraft.wiki.entry.thirdparty:bluepower=- BluePower
-hydcraft.wiki.entry.thirdparty:ic2=- Industrialcraft 2
-hydcraft.wiki.entry.thirdparty:extrautilities=- Extra Utilities
-hydcraft.wiki.entry.thirdparty:pneumaticcraft=- PneumaticCraft
-hydcraft.wiki.entry.thirdparty:rf=- Redstone Flux
+hydcraft.wiki.entry.baseConcepts=基本概念
+hydcraft.wiki.entry.pressureNetwork=压力网络
+hydcraft.wiki.entry.diving=潜水
+hydcraft.wiki.section.worldgen=世界生成
+hydcraft.wiki.entry.oil=- 原油
+hydcraft.wiki.entry.minerals=- 矿物
+hydcraft.wiki.entry.ores=- 矿石
+hydcraft.wiki.entry.crafting=合成
+hydcraft.wiki.section.multiblocks=多方块结构
+hydcraft.wiki.entry.farms=- 农场
+hydcraft.wiki.entry.washer=- 清洗器
+hydcraft.wiki.entry.tanks=- 储罐
+hydcraft.wiki.entry.portal=- 传送门
+hydcraft.wiki.section.thirdparty=第三方
+hydcraft.wiki.entry.thirdparty:bluepower=- 蓝石力量
+hydcraft.wiki.entry.thirdparty:ic2=- 工业2
+hydcraft.wiki.entry.thirdparty:extrautilities=- 更多实用设备
+hydcraft.wiki.entry.thirdparty:pneumaticcraft=- 气动工艺
+hydcraft.wiki.entry.thirdparty:rf=- RF
 
 
 # Death Messages
-hydcraft:death.attack.pressure1=%s forgot his diving suit
-hydcraft:death.attack.pressure2=%s was killed by the pressure of the water
-hydcraft:death.attack.pressure3=Fluid dynamics got the best of %s
+hydcraft:death.attack.pressure1=%s 忘了穿潜水服
+hydcraft:death.attack.pressure2=%s 为水压所杀
+hydcraft:death.attack.pressure3=流体力学在%s身上得到了淋漓尽致的体现
