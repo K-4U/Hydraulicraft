@@ -62,7 +62,7 @@ project.ext {
     if(buildNum == null){
         buildNum = "dev"
     }
-    mcVersion = "1.8.8"
+    mcVersion = "1.8.9"
 }
 
 version = project.ext.mcVersion + "-3.1." + project.ext.buildNum
