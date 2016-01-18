@@ -70,7 +70,7 @@ group = "k4unl"
 archivesBaseName = "HydCraft"
 
 minecraft {
-    version = "${project.ext.mcVersion}-11.15.0.1641-${project.ext.mcVersion}"
+    version = "${project.ext.mcVersion}-11.15.0.1705"
 
     // replacing stuff in the source
     replace '@VERSION@', project.version
@@ -81,7 +81,7 @@ minecraft {
 
     runDir = "../Minecraft/"
 
-    mappings = "snapshot_20151228"
+    mappings = "snapshot_20160117"
 }
 
 // configure the source folders
