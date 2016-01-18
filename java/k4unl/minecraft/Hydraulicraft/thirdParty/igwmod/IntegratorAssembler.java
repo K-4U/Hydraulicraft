@@ -1,7 +1,19 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.igwmod;
 
-public class IntegratorAssembler {//implements IRecipeIntegrator {
-    /*@Override
+import igwmod.TextureSupplier;
+import igwmod.WikiUtils;
+import igwmod.api.IRecipeIntegrator;
+import igwmod.gui.*;
+import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
+import net.minecraft.item.ItemStack;
+
+import java.util.List;
+
+public class IntegratorAssembler implements IRecipeIntegrator {
+    @Override
     public String getCommandKey() {
         return "assembler";
     }
@@ -21,7 +33,7 @@ public class IntegratorAssembler {//implements IRecipeIntegrator {
         } catch(NumberFormatException e) {
             throw new IllegalArgumentException("The second parameter (the y coordinate) contains an invalid number. Check for invalid characters!");
         }
-        locatedTextures.add((new LocatedTexture(TextureSupplier.getTexture(ModInfo.LID + ":textures/wiki/guiAssembler.png"), x, y, 1 / GuiWiki.TEXT_SCALE)).setAlpha(1.0F));
+        locatedTextures.add((new LocatedTexture(TextureSupplier.getTexture(ModInfo.LID + ":textures/wiki/guiAssembler.png"), x, y, 1 / GuiWiki.TEXT_SCALE)));
 
         IFluidRecipe foundRecipe = findRecipe(HydraulicRecipes.getAssemblerRecipes(), arguments[2]);
         if(foundRecipe != null) {
@@ -53,7 +65,8 @@ public class IntegratorAssembler {//implements IRecipeIntegrator {
     }
 
     public boolean areItemStacksEqual(ItemStack a, ItemStack b, boolean matchNBT) {
-        boolean tmp = NEIClientUtils.areStacksSameTypeCrafting(a, b);
+
+        boolean tmp = (a == b);
         if (!matchNBT || !tmp)
             return tmp;
 
@@ -83,5 +96,4 @@ public class IntegratorAssembler {//implements IRecipeIntegrator {
             throw new ClassCastException(obj + " not an ItemStack, ItemStack[] or List<ItemStack?");
         }
     }
-    */
 }

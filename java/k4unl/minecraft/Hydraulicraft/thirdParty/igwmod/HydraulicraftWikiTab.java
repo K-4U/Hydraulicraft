@@ -1,9 +1,18 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.igwmod;
 
-public class HydraulicraftWikiTab {//extends BaseWikiTab {
+import igwmod.gui.GuiWiki;
+import igwmod.gui.tabs.BaseWikiTab;
+import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
+
+public class HydraulicraftWikiTab extends BaseWikiTab {
 
     public HydraulicraftWikiTab(){
-/*
+
         pageEntries.add("baseConcepts");
         pageEntries.add("pressureNetwork");
         pageEntries.add("crafting");
@@ -35,9 +44,9 @@ public class HydraulicraftWikiTab {//extends BaseWikiTab {
         pageEntries.add("thirdparty:rf");
 
         Log.info("IGW support for Hydraulicraft Loaded");
-        */
+
     }
-/*
+
     @Override
     protected String getPageName(String pageEntry){
         if(pageEntry.startsWith("item") || pageEntry.startsWith("block")) return I18n.format(pageEntry.replace("/", ".").replace("block", "tile") + ".name");
@@ -59,5 +68,4 @@ public class HydraulicraftWikiTab {//extends BaseWikiTab {
     public ItemStack renderTabIcon(GuiWiki guiWiki) {
         return CustomTabs.tabHydraulicraft.getIconItemStack();
     }
-    */
 }
