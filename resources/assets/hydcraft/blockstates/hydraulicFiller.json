@@ -8,6 +8,16 @@
     "model": "cube_all"
   },
   "variants": {
+  "normal": [
+      {}
+    ],
+    "inventory": [
+      {
+        "textures": {
+          "north": "hydcraft:blocks/hydraulicFiller_front"
+        }
+      }
+    ],
     "rotation": {
       "north": {
         "textures": {

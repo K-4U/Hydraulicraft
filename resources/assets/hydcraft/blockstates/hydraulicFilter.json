@@ -8,6 +8,9 @@
     "model": "cube_all"
   },
   "variants": {
+  "normal": [
+      {}
+    ],
     "rotation": {
       "north": {
         "textures": {
@@ -38,15 +41,13 @@
         }
       }
     },
-    "inventory": {
-      "gui": {
+    "inventory": [{
         "textures": {
           "all": "hydcraft:blocks/hydraulicFilter_sides",
           "north": "hydcraft:blocks/hydraulicFilter_front",
           "east": "hydcraft:blocks/hydraulicFilter_left",
           "west": "hydcraft:blocks/hydraulicFilter_right"
         }
-      }
-    }
+    }]
   }
 }
