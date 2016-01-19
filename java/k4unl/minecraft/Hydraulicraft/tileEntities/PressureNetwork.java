@@ -350,7 +350,8 @@ public class PressureNetwork {
             NBTTagCompound ret = new NBTTagCompound();
 
             ret.setIntArray("blockLocation", blockLocation.getIntArray());
-            ret.setString("from", from.toString());
+            if(from != null)
+                ret.setString("from", from.toString());
 
             return ret;
         }

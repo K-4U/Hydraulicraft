@@ -310,7 +310,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
         for (EnumFacing f : EnumFacing.VALUES) {
             if (connects(f)) {
                 list.add(boundingBoxes[f.ordinal()]);
-                list.add(boundingBoxes[f.ordinal()+6]);
+                list.add(boundingBoxes[f.ordinal()+7]);
             }
         }
     }
@@ -329,7 +329,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
                     list.add(boundingBoxes[f.ordinal()]);
                 }
                 if (boundingBoxes[f.ordinal()+6].intersectsWith(mask)) {
-                    list.add(boundingBoxes[f.ordinal()+6]);
+                    list.add(boundingBoxes[f.ordinal()+7]);
                 }
             }
         }
