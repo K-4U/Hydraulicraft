@@ -95,6 +95,8 @@ public class Hydraulicraft {
 
         MultipartHandler.init();
         TickHandler.init();
+
+        proxy.preinit();
     }
 
     /*!

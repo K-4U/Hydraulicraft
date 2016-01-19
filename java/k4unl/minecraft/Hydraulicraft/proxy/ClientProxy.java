@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.proxy;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.client.ClientEventHandler;
+import k4unl.minecraft.Hydraulicraft.client.models.Models;
 import k4unl.minecraft.Hydraulicraft.client.renderers.IconSupplier;
 import k4unl.minecraft.Hydraulicraft.client.renderers.Renderers;
 import k4unl.minecraft.Hydraulicraft.events.KeyHandler;
@@ -15,6 +16,12 @@ import thirdParty.truetyper.FontLoader;
 
 public class ClientProxy extends CommonProxy {
 	
+	@Override
+	public void preinit() {
+		super.preinit();
+		Models.init();
+	}
+
 	public void init(){
 		super.init();
 		initRenderers();
