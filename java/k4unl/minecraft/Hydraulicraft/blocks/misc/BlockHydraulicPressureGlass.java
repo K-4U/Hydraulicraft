@@ -49,7 +49,7 @@ public class BlockHydraulicPressureGlass extends BlockConnectedTexture {
     @SideOnly(Side.CLIENT)
     public EnumWorldBlockLayer getBlockLayer()
     {
-        return EnumWorldBlockLayer.CUTOUT;
+        return EnumWorldBlockLayer.TRANSLUCENT;
     }
 
     public boolean isFullCube()
