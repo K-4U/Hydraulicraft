@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.misc;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
-import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
@@ -183,9 +182,9 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
                 /*if (ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) ent)) {
                     IHydraulicTransporter hose = Multipart.getTransporter((TileMultipart) ent);
                     hose.checkConnectedSides();
-                } else */if (ent instanceof IHydraulicTransporter) {
+                } else if (ent instanceof IHydraulicTransporter) {
                     ((IHydraulicTransporter) ent).checkConnectedSides();
-                }
+                }*/
             }
             //Log.info("Found an existing network (" + pNetwork.getRandomNumber() + ") @ " + xCoord + "," + yCoord + "," + zCoord);
         } else {

@@ -1,9 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicTransporter;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.multipart.MultipartHandler;
 import k4unl.minecraft.k4lib.lib.Location;
+import mcmultipart.block.TileMultipart;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -54,41 +57,35 @@ public class PressureNetwork {
 
     public static PressureNetwork getNetworkInDir(IBlockAccess iba, BlockPos pos, EnumFacing dir) {
         TileEntity t = iba.getTileEntity(pos);
-        if (t instanceof IHydraulicMachine/* || t instanceof TileMultipart*/) {
+        if (t instanceof IHydraulicMachine || t instanceof TileMultipart) {
             IHydraulicMachine mEnt;
             boolean isMultipart = false;
-            /*if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
-                mEnt = Multipart.getTransporter((TileMultipart) t);
+            if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
+                mEnt = MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer());
                 isMultipart = true;
-            } else {*/
+            } else {
                 mEnt = (IHydraulicMachine) t;
-//            }
+            }
 
             //List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
             PressureNetwork foundNetwork = null;
-            /*if (isMultipart) {
+            if (isMultipart) {
                 if (mEnt instanceof IHydraulicTransporter) {
                     if (((IHydraulicTransporter) mEnt).isConnectedTo(dir)) {
-                        int xn = x + dir.offsetX;
-                        int yn = y + dir.offsetY;
-                        int zn = z + dir.offsetZ;
-                        TileEntity tn = iba.getTileEntity(xn, yn, zn);
+                        TileEntity tn = iba.getTileEntity(pos.offset(dir));
 
                         if (tn instanceof IHydraulicMachine) {
                             if (((IHydraulicMachine) tn).canConnectTo(dir.getOpposite())) {
                                 foundNetwork = ((TileHydraulicBase) ((IHydraulicMachine) tn).getHandler()).getNetwork(dir.getOpposite());
                             }
-                        } else if (tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) tn)) {
-                            if (Multipart.getTransporter((TileMultipart) tn).isConnectedTo(dir.getOpposite())) {
-                                foundNetwork = ((TileHydraulicBase) (Multipart.getTransporter((TileMultipart) tn)).getHandler()).getNetwork(dir.getOpposite());
+                        } else if (tn instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) tn).getPartContainer())) {
+                            if (MultipartHandler.getTransporter(((TileMultipart) tn).getPartContainer()).isConnectedTo(dir.getOpposite())) {
+                                foundNetwork = ((TileHydraulicBase) (MultipartHandler.getTransporter(((TileMultipart) tn).getPartContainer())).getHandler()).getNetwork(dir.getOpposite());
                             }
                         }
                     }
                 } else {
-                    int xn = x + dir.offsetX;
-                    int yn = y + dir.offsetY;
-                    int zn = z + dir.offsetZ;
-                    TileEntity tn = iba.getTileEntity(xn, yn, zn);
+                    TileEntity tn = iba.getTileEntity(pos.offset(dir));
 
                     if (tn instanceof IHydraulicTransporter) {
                         if (((IHydraulicMachine) tn).canConnectTo(dir.getOpposite())) {
@@ -96,15 +93,15 @@ public class PressureNetwork {
                         }
                     }
                 }
-            } else {*/
+            } else {
                 BlockPos offset = pos.offset(dir);
                 TileEntity tn = iba.getTileEntity(offset);
-                /*if (tn instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) tn)) {
-                    if (Multipart.getTransporter((TileMultipart) tn).isConnectedTo(dir.getOpposite())) {
-                        foundNetwork = ((TileHydraulicBase) (Multipart.getTransporter((TileMultipart) tn)).getHandler()).getNetwork(dir.getOpposite());
+                if (tn instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) tn).getPartContainer())) {
+                    if (MultipartHandler.getTransporter(((TileMultipart) tn).getPartContainer()).isConnectedTo(dir.getOpposite())) {
+                        foundNetwork = ((TileHydraulicBase) (MultipartHandler.getTransporter(((TileMultipart) tn).getPartContainer())).getHandler()).getNetwork(dir.getOpposite());
                     }
-                }*/
-            //}
+                }
+            }
             return foundNetwork;
         } else {
             return null;
@@ -168,11 +165,11 @@ public class PressureNetwork {
                 IHydraulicMachine machine = (IHydraulicMachine) ent;
                 ((TileHydraulicBase) machineToRemove.getHandler()).setNetwork(entry.getFrom(), null);
                 machine.getHandler().updateNetworkOnNextTick(getPressure());
-            }/* else if (ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) ent)) {
-                IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
+            } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
+                IHydraulicMachine machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
                 ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), null);
                 machine.getHandler().updateNetworkOnNextTick(getPressure());
-            }*/
+            }
         }
 
     }
@@ -209,10 +206,10 @@ public class PressureNetwork {
                 IHydraulicMachine machine = (IHydraulicMachine) ent;
                 ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), this);
                 this.addMachine(machine, newPressure, entry.getFrom());
-            /*} else if (ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) ent)) {
-                IHydraulicMachine machine = Multipart.getTransporter((TileMultipart) ent);
+            } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
+                IHydraulicMachine machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
                 ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), this);
-                this.addMachine(machine, newPressure, entry.getFrom());*/
+                this.addMachine(machine, newPressure, entry.getFrom());
             }
         }
 
@@ -275,9 +272,9 @@ public class PressureNetwork {
             IHydraulicMachine machine = null;
             if (ent instanceof IHydraulicMachine) {
                 machine = (IHydraulicMachine) ent;
-            }/* else if (ent instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) ent)) {
-                machine = Multipart.getTransporter((TileMultipart) ent);
-            }*/
+            } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
+                machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
+            }
 
             if (machine != null) {
                 if (((getIsOilStored() && machine.getHandler().isOilStored()) || canOilBeStored) || (!getIsOilStored() && !machine.getHandler().isOilStored()) || machine.getHandler().getStored() == 0) { //Otherwise we would be turning water into oil
@@ -353,7 +350,7 @@ public class PressureNetwork {
             NBTTagCompound ret = new NBTTagCompound();
 
             ret.setIntArray("blockLocation", blockLocation.getIntArray());
-            ret.setInteger("from", from.ordinal());
+            ret.setString("from", from.toString());
 
             return ret;
         }

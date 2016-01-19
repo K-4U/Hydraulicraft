@@ -1,50 +1,41 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
-/*
-import codechicken.lib.data.MCDataInput;
-import codechicken.lib.data.MCDataOutput;
-import codechicken.lib.raytracer.IndexedCuboid6;
-import codechicken.lib.vec.Cuboid6;
-import codechicken.lib.vec.Vector3;
-import codechicken.microblock.ISidedHollowConnect;
-import codechicken.multipart.*;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartFluidInterface;
-import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Location;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
-import net.minecraft.item.ItemStack;
+import mcmultipart.multipart.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.util.EnumFacing;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.*;
-import org.lwjgl.opengl.GL11;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.LinkedList;
+import java.io.IOException;
+import java.util.EnumSet;
+import java.util.List;
 
-
-public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFacePart, TSlottedPart, JNormalOcclusion, ISidedHollowConnect {
-    private static float          pixel        = 1.0F / 16F;
-    private static int            expandBounds = -1;
+public class PartFluidInterface extends Multipart implements IFluidHandler, IOccludingPart, ISlottedPart, ITickable {
+    private static float      pixel        = 1.0F / 16F;
+    private static int        expandBounds = -1;
     private        EnumFacing side         = EnumFacing.DOWN;
 
-    public static Cuboid6[] boundingBoxes = new Cuboid6[6];
+    public static AxisAlignedBB[] boundingBoxes = new AxisAlignedBB[6];
 
     private FluidTank tank = new FluidTank(1000);
 
     @SideOnly(Side.CLIENT)
     private static RendererPartFluidInterface renderer;
 
-    @SideOnly(Side.CLIENT)
-    private static IIcon breakIcon;
-
     static {
-        //boundingBoxes[6] = new Cuboid6(center - w, center - w, center - w, center + w, center + w, center + w);
+        //boundingBoxes[6] = new AxisAlignedBB(center - w, center - w, center - w, center + w, center + w, center + w);
 
         float thickness = 2 * RenderHelper.pixel;
         float width = 8 * RenderHelper.pixel;
@@ -54,7 +45,7 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
         float tMin = 0.0F + thickness;
         Vector3fMax vector;
         int i = 0;
-        for (EnumFacing dir : EnumFacing.VALID_DIRECTIONS) {
+        for (EnumFacing dir : EnumFacing.VALUES) {
 
             if(dir.equals(EnumFacing.UP)){
                 vector = new Vector3fMax(min, tMax, min, max, 1.0F, max);
@@ -72,7 +63,7 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
                 vector = new Vector3fMax(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             }
 
-            boundingBoxes[i] = new Cuboid6(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
+            boundingBoxes[i] = new AxisAlignedBB(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
             i++;
         }
     }
@@ -129,117 +120,88 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
     }
 
     @Override
-    public String getType() {
-
-        return "tile." + Names.partFluidInterface.unlocalized;
+    public void addCollisionBoxes(AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+        super.addCollisionBoxes(mask, list, collidingEntity);
+        for(int i = 0; i< 6; i++) {
+            list.add(boundingBoxes[i]);
+        }
     }
 
     @Override
-    public int getSlotMask() {
-
-        return PartMap.face(side.ordinal()).mask;
+    public boolean occlusionTest(IMultipart part) {
+        return OcclusionHelper.defaultOcclusionTest(this, part);
     }
 
     @Override
-    public int getHollowSize(int i) {
-
-        return 10;
+    public void addOcclusionBoxes(List<AxisAlignedBB> list) {
+        addCollisionBoxes(null, list, null);
     }
 
-    @Override
-    public Iterable<Cuboid6> getOcclusionBoxes() {
 
-        return getCollisionBoxes();
-    }
 
     @Override
-    public Iterable<Cuboid6> getCollisionBoxes() {
-
-        LinkedList<Cuboid6> list = new LinkedList<Cuboid6>();
-        list.add(boundingBoxes[Functions.getIntDirFromDirection(side)]);
-        return list;
-    }
-
-    @Override
-    public Iterable<IndexedCuboid6> getSubParts() {
-
-        Iterable<Cuboid6> boxList = getCollisionBoxes();
-        LinkedList<IndexedCuboid6> partList = new LinkedList<IndexedCuboid6>();
-        for (Cuboid6 c : boxList)
-            partList.add(new IndexedCuboid6(0, c));
-        return partList;
-    }
-
-    @Override
-    public boolean occlusionTest(TMultiPart npart) {
-
-        return NormalOcclusionTest.apply(this, npart);
-    }
-
-    @Override
-    public void load(NBTTagCompound tagCompound) {
-
-        super.load(tagCompound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
         //connectedSides = new HashMap<EnumFacing, TileEntity>();
         //getHandler().updateNetworkOnNextTick(oldPressure);
         //checkConnectedSides();
         //readConnectedSidesFromNBT(tagCompound);
-        side = EnumFacing.getOrientation(tagCompound.getInteger("side"));
-        tank.readFromNBT(tagCompound);
+        side = EnumFacing.byName(tag.getString("side"));
+        tank.readFromNBT(tag);
     }
 
     @Override
-    public void save(NBTTagCompound tagCompound){
-        super.save(tagCompound);
+    public void writeToNBT(NBTTagCompound tagCompound){
+        super.writeToNBT(tagCompound);
         //writeConnectedSidesToNBT(tagCompound);
         //tagCompound.setDouble("fluidStored", fluidStored);
-        tagCompound.setInteger("side", side.ordinal());
+        tagCompound.setString("side", side.name());
         tank.writeToNBT(tagCompound);
     }
 
     @Override
-    public void writeDesc(MCDataOutput packet){
+    public void writeUpdatePacket(PacketBuffer buf) {
+        super.writeUpdatePacket(buf);
 
         NBTTagCompound mainCompound = new NBTTagCompound();
-        if(world() != null && !world().isRemote){
-            mainCompound.setInteger("side", side.ordinal());
+        if(getWorld() != null && !getWorld().isRemote){
+            mainCompound.setString("side", side.getName());
             tank.writeToNBT(mainCompound);
         }
 
-
-        packet.writeNBTTagCompound(mainCompound);
+        buf.writeNBTTagCompoundToBuffer(mainCompound);
     }
 
     @Override
-    public void readDesc(MCDataInput packet){
-
-        NBTTagCompound mainCompound = packet.readNBTTagCompound();
-
-        side = EnumFacing.getOrientation(mainCompound.getInteger("side"));
-        tank.readFromNBT(mainCompound);
-    }
-
-    public void onChunkLoad() {
-        super.onChunkLoad();
-
-    }
-
-    public void onAdded(){
-        super.onAdded();
-        if(!world().isRemote) {
-            Multipart.updateMultiPart(this);
+    public void readUpdatePacket(PacketBuffer buf) {
+        super.readUpdatePacket(buf);
+        NBTTagCompound mainCompound = null;
+        try {
+            mainCompound = buf.readNBTTagCompoundFromBuffer();
+            side = EnumFacing.byName(mainCompound.getString("side"));
+            tank.readFromNBT(mainCompound);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
+    /*
+    public void onAdded(){
+        super.onAdded();
+        if(!getWorld().isRemote) {
+            MultipartHandler.updateMultiPart(this);
+        }
+    }*/
+
+    
     @Override
     public void update(){
-        super.update();
 
-
-        if(!world().isRemote && tank != null && tank.getFluid() != null) {
+        if(!getWorld().isRemote && tank != null && tank.getFluid() != null) {
             //Find a fluid pipe
-            if (Multipart.hasPartFluidPipe(tile())) {
-                PartFluidPipe pipe = Multipart.getFluidPipe(tile());
+
+            if (MultipartHandler.hasPartFluidPipe(getContainer())) {
+                PartFluidPipe pipe = MultipartHandler.getFluidPipe(getContainer());
                 if (pipe.getFluidStored() == null) {
                     pipe.setFluidStored(tank.getFluid().getFluid());
                 }
@@ -253,11 +215,11 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
                 }
             }
         }
-        if(!world().isRemote){
+        if(!getWorld().isRemote){
             if (getIsRedstonePowered()){
                 //Find a tank on the side we're on.
-                Location tankLocation = new Location(x(), y(), z(), side);
-                TileEntity te = tankLocation.getTE(world());
+                Location tankLocation = new Location(getPos(), side);
+                TileEntity te = tankLocation.getTE(getWorld());
                 if(te instanceof IFluidHandler){
                     if(tank.getFluid() == null){
                         drainFluid((IFluidHandler)te);
@@ -278,15 +240,6 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
         }
     }
 
-    @Override
-    public ItemStack pickItem(MovingObjectPosition hit){
-        return getItem();
-    }
-
-    public ItemStack getItem(){
-        return new ItemStack(Multipart.itemPartFluidInterface, 1);
-    }
-
     private void drainFluid(IFluidHandler fluidHandler){
         FluidStack drained = fluidHandler.drain(side.getOpposite(), Constants.MAX_FLUID_TRANSFER_T, false);
         if(drained != null && drained.amount > 0) {
@@ -300,12 +253,12 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
     }
 
     public void checkRedstonePower() {
-        boolean isIndirectlyPowered = world().isBlockIndirectlyGettingPowered(x(), y(), z());
+        /*boolean isIndirectlyPowered = getWorld().isBlockIndirectlyGettingPowered(getPos());
         if(isIndirectlyPowered && !getIsRedstonePowered()){
             setRedstonePowered(true);
         }else if(getIsRedstonePowered() && !isIndirectlyPowered){
             setRedstonePowered(false);
-        }
+        }*/
     }
 
     public boolean getIsRedstonePowered() {
@@ -318,34 +271,17 @@ public class PartFluidInterface extends TMultiPart implements IFluidHandler, TFa
 
 
     public void onNeighborChanged(){
-        if(!world().isRemote){
+        if(!getWorld().isRemote){
             checkRedstonePower();
         }
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void renderDynamic(Vector3 pos, float frame, int pass){
-        if (pass == 0){
-            if(renderer == null){
-                renderer = new RendererPartFluidInterface();
-            }
-            GL11.glDisable(GL11.GL_LIGHTING);
-            renderer.doRender(pos.x, pos.y, pos.z, frame, side);
-            GL11.glEnable(GL11.GL_LIGHTING);
-        }
+    public EnumSet<PartSlot> getSlotMask() {
+        return EnumSet.of(PartSlot.getFaceSlot(side));
     }
 
-    @Override
-    public boolean solid(int i) {
 
-        return true;
-    }
 
-    @Override
-    public int redstoneConductionMap() {
 
-        return 0;
-    }
 }
-*/

@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.api.ITrolleyRegistrar;
 import k4unl.minecraft.Hydraulicraft.api.recipes.IRecipeHandler;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
+import mcmultipart.multipart.Multipart;
 import net.minecraft.tileentity.TileEntity;
 
 /**
@@ -33,12 +34,12 @@ public class HydraulicraftAPI implements IHCApi {
         return newBase;
     }
 
-    /*@Override
-    public IBaseClass getBaseClass(TMultiPart target, int maxStorage) {
+    @Override
+    public IBaseClass getBaseClass(Multipart target, int maxStorage) {
 
         TileHydraulicBase newBase = new TileHydraulicBase(maxStorage);
         newBase.init(target);
 
         return newBase;
-    }*/
+    }
 }

@@ -7,12 +7,17 @@ import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
+import k4unl.minecraft.Hydraulicraft.multipart.MultipartHandler;
+import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork.networkEntry;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
 import k4unl.minecraft.k4lib.lib.Location;
+import mcmultipart.block.TileMultipart;
+import mcmultipart.multipart.Multipart;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.item.EntityItem;
@@ -45,7 +50,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     private boolean           isMultipart;
     private World             tWorld;
     private Location          blockLocation;
-    //private TMultiPart        tMp;
+    private Multipart         tMp;
     private TileEntity        tTarget;
     private IHydraulicMachine target;
     private boolean           hasOwnFluidTank;
@@ -78,6 +83,16 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         tWorld = _target.getWorld();
     }
 
+    public void init(Multipart _target) {
+
+        tMp = _target;
+        tTarget = null;
+        target = (IHydraulicMachine) _target;
+        isMultipart = true;
+        tWorld = _target.getWorld();
+        tWorld = _target.getWorld();
+    }
+
     public IBaseClass getHandler() {
 
         return this;
@@ -87,9 +102,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
 
         if (blockLocation == null) {
             if (isMultipart) {
-                /*if (tMp.tile() != null) {
-                    blockLocation = new Location(tMp.x(), tMp.y(), tMp.z());
-                }*/
+                blockLocation = new Location(tMp.getPos());
             } else {
                 blockLocation = new Location(tTarget.getPos());
             }
@@ -101,7 +114,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
 
         if (tWorld == null) {
             if (isMultipart) {
-                //tWorld = tMp.world();
+                tWorld = tMp.getWorld();
             } else {
                 if (tTarget != null) {
                     tWorld = tTarget.getWorld();
@@ -137,12 +150,11 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     public void updateBlock() {
 
         if (getWorldObj() != null && !getWorldObj().isRemote) {
-            /*if (isMultipart && tMp.tile() != null) {
-                MCDataOutput writeStream = tMp.tile().getWriteStream(tMp);
-                tMp.writeDesc(writeStream);
-            } else {*/
+            if (isMultipart && tMp.getContainer() != null) {
                 getWorldObj().markBlockForUpdate(getBlockLocation().toBlockPos());
-            //}
+            } else {
+                getWorldObj().markBlockForUpdate(getBlockLocation().toBlockPos());
+            }
         }
     }
 
@@ -198,8 +210,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     public int getStored() {
         if (hasOwnFluidTank) {
             if (isMultipart) {
-                //return ((IHydraulicStorageWithTank) tMp).getStored();
-                return 0;
+                return ((IHydraulicStorageWithTank) tMp).getStored();
             } else {
                 return ((IHydraulicStorageWithTank) target).getStored();
             }
@@ -216,7 +227,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         _isOilStored = isOil;
         if (hasOwnFluidTank) {
             if (isMultipart) {
-                //((IHydraulicStorageWithTank) tMp).setStored(i, isOil);
+                ((IHydraulicStorageWithTank) tMp).setStored(i, isOil);
             } else {
                 ((IHydraulicStorageWithTank) target).setStored(i, isOil);
             }
@@ -249,13 +260,15 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         this.writeToNBT(tagCompound);
         return new S35PacketUpdateTileEntity(getBlockLocation().toBlockPos(), 4, tagCompound);
     }
+/*
 
+COULD BE REMOVED?
     private IHydraulicMachine getMachine(EnumFacing dir) {
         if (getWorldObj() == null) return null;
 
         /*int x = getBlockLocation().getX() + dir.offsetX;
         int y = getBlockLocation().getY() + dir.offsetY;
-        int z = getBlockLocation().getZ() + dir.offsetZ;*/
+        int z = getBlockLocation().getZ() + dir.offsetZ;*//*
         Block block = getWorldObj().getBlockState(getBlockLocation().toBlockPos().offset(dir)).getBlock();
         if (block instanceof BlockAir) {
             return null;
@@ -265,14 +278,14 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         if (t instanceof IHydraulicMachine) {
             if (((IHydraulicMachine) t).canConnectTo(dir.getOpposite()))
                 return (IHydraulicMachine) t;
-        } /*else if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
-            if (Multipart.getTransporter((TileMultipart) t).isConnectedTo(dir.getOpposite())) {
-                return Multipart.getTransporter((TileMultipart) t);
+        } else if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
+            if (MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer()).isConnectedTo(dir.getOpposite())) {
+                return MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer());
             }
-        }*/
+        }
         return null;
     }
-
+*/
     private List<IHydraulicMachine> getMachineList(List<IHydraulicMachine> list, EnumFacing dir) {
         if (getWorldObj() == null) return list;
 
@@ -285,11 +298,11 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         if (t instanceof IHydraulicMachine) {
             if (((IHydraulicMachine) t).canConnectTo(dir.getOpposite()) && !list.contains(t))
                 list.add((IHydraulicMachine) t);
-        }/* else if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
-            if (Multipart.getTransporter((TileMultipart) t).isConnectedTo(dir.getOpposite()) && !list.contains(t)) {
-                list.add(Multipart.getTransporter((TileMultipart) t));
+        }else if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
+            if (MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer()).isConnectedTo(dir.getOpposite()) && !list.contains(t)) {
+                list.add(MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer()));
             }
-        }*/
+        }
         return list;
     }
 
@@ -317,9 +330,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
         for (EnumFacing dir : EnumFacing.VALUES) {
             if (isMultipart) {
-                /*if (((PartHose) tMp).isConnectedTo(dir)) {
+                if (((PartHose) tMp).isConnectedTo(dir)) {
                     machines = getMachineList(machines, dir);
-                }*/
+                }
             } else {
                 machines = getMachineList(machines, dir);
             }
@@ -462,15 +475,15 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
 
                 if (shouldUpdateNetwork) {
                     shouldUpdateNetwork = false;
-                    /*if (tMp instanceof ICustomNetwork || tTarget instanceof ICustomNetwork) {
+                    if (tMp instanceof ICustomNetwork || tTarget instanceof ICustomNetwork) {
                         if (isMultipart) {
                             ((ICustomNetwork) tMp).updateNetwork(oldPressure);
                         } else {
                             ((ICustomNetwork) tTarget).updateNetwork(oldPressure);
                         }
-                    } else {*/
+                    } else {
                         updateNetwork(oldPressure);
-                    //}
+                    }
                 }
                 if (shouldUpdateFluid && getWorldObj().getTotalWorldTime() % 5 == 0 && getNetwork(EnumFacing.UP) != null) {
                     shouldUpdateFluid = false;
@@ -540,11 +553,11 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         if (t instanceof IHydraulicMachine) {
             if (((IHydraulicMachine) t).canConnectTo(dir.getOpposite()))
                 return (IHydraulicMachine) t;
-        }/* else if (t instanceof TileMultipart && Multipart.hasTransporter((TileMultipart) t)) {
-            if (Multipart.getTransporter((TileMultipart) t).isConnectedTo(dir.getOpposite())) {
-                return Multipart.getTransporter((TileMultipart) t);
+        }else if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
+            if (MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer()).isConnectedTo(dir.getOpposite())) {
+                return MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer());
             }
-        }*/
+        }
         return null;
     }
 
@@ -556,9 +569,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         for (EnumFacing dir : EnumFacing.VALUES) {
             IHydraulicMachine isValid = null;
             if (isMultipart) {
-                /*if (((PartHose) tMp).isConnectedTo(dir)) {
+                if (((PartHose) tMp).isConnectedTo(dir)) {
                     isValid = isValidMachine(dir);
-                }*/
+                }
             } else {
                 isValid = isValidMachine(dir);
             }
@@ -714,9 +727,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     @Override
     public PressureTier getPressureTier() {
         if (isMultipart) {
-            /*if (tMp instanceof ITieredBlock) {
+            if (tMp instanceof ITieredBlock) {
                 return ((ITieredBlock) tMp).getTier();
-            }*/
+            }
         } else {
             if (tTarget.getBlockType() instanceof ITieredBlock) {
                 return ((ITieredBlock) tTarget.getBlockType()).getTier();
@@ -776,17 +789,6 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         setPressure(getPressure(from) + gen, from);
     }
 
-    /*@Override
-    public void init(TMultiPart _target) {
-        tMp = _target;
-        tTarget = null;
-        target = (IHydraulicMachine) _target;
-        tWorld = _target.world();
-        if (target instanceof TileHydraulicPressureVat) {
-            hasOwnFluidTank = true;
-        }
-        isMultipart = true;
-    }*/
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -800,4 +802,6 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     public boolean getIsRedstonePowered() {
         return isRedstonePowered;
     }
+
+
 }

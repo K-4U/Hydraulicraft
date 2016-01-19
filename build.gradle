@@ -33,6 +33,10 @@ repositories {
         name "K4Repo"
         url "http://maven.k-4u.nl"
     }
+    maven {
+        name "AmaRepo"
+        url "http://maven.amadornes.com"
+    }
     //ivy {
      //   name "BuildCraft"
       //  artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-dev.[ext]"
@@ -55,6 +59,7 @@ dependencies {
     //compile 'com.mod-buildcraft:buildcraft:6.4.16:dev'
     compile "igwmod:IGW-Mod-1.8.8:1.2.1-1:userdev"
     deobfCompile "mezz.jei:jei_1.8.8:2.12.0.49"
+    deobfCompile "MCMultiPart:MCMultiPart:1.0.4:universal"
 }
 
 project.ext {

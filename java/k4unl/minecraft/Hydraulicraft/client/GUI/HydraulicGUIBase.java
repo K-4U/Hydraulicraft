@@ -159,6 +159,7 @@ public class HydraulicGUIBase extends GuiContainer {
                                                    String toolTipTitle, String toolTipUnit) {
         float perc = value / max;
         int height = (int) (h * perc);
+        if(icon == null) return;
         float uMin = icon.getMinU();
         float uMax = icon.getMaxU();
         float vMin = icon.getMinV();

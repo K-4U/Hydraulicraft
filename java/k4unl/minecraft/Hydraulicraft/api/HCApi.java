@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.api;
 
 import k4unl.minecraft.Hydraulicraft.api.recipes.IRecipeHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import mcmultipart.multipart.Multipart;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.Loader;
 
@@ -23,7 +24,7 @@ public class HCApi {
 
         IBaseClass getBaseClass(TileEntity target, int maxStorage);
 
-        //IBaseClass getBaseClass(TMultiPart target, int maxStorage);
+        IBaseClass getBaseClass(Multipart target, int maxStorage);
     }
 
     /**

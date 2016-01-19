@@ -13,7 +13,7 @@ import k4unl.minecraft.Hydraulicraft.lib.*;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
-import k4unl.minecraft.Hydraulicraft.multipart.Multipart;
+import k4unl.minecraft.Hydraulicraft.multipart.MultipartHandler;
 import k4unl.minecraft.Hydraulicraft.network.NetworkHandler;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
@@ -51,8 +51,8 @@ public class Hydraulicraft {
             clientSide = ModInfo.PROXY_LOCATION + ".ClientProxy",
             serverSide = ModInfo.PROXY_LOCATION + ".CommonProxy"
     )
-    public static CommonProxy proxy;
-    public static Multipart   mp;
+    public static CommonProxy      proxy;
+    public static MultipartHandler mp;
 
     public static TrueTypeFont smallGuiFont;
     public static TrueTypeFont mediumGuiFont;
@@ -93,7 +93,7 @@ public class Hydraulicraft {
 
         ThirdPartyManager.instance().preInit();
 
-        Multipart.init();
+        MultipartHandler.init();
         TickHandler.init();
     }
 

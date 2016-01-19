@@ -10,11 +10,4 @@ public interface IHydraulicTransporter extends IHydraulicMachine {
 	 * @return Whether or not the machine is connected. It is different to canConnectTo
 	 */
 	boolean isConnectedTo(EnumFacing dir);
-	
-	/**
-	 * Called when the block needs to recheck its connections.
-	 * Note, you'll probably only need this if you use a model
-	 */
-	void checkConnectedSides();
-	
 }
