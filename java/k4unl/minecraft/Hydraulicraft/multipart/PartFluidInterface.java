@@ -1,9 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
 
-import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartFluidInterface;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
-import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Location;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import mcmultipart.multipart.*;
@@ -15,8 +13,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.*;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -31,14 +27,11 @@ public class PartFluidInterface extends Multipart implements IFluidHandler, IOcc
 
     private FluidTank tank = new FluidTank(1000);
 
-    @SideOnly(Side.CLIENT)
-    private static RendererPartFluidInterface renderer;
-
     static {
         //boundingBoxes[6] = new AxisAlignedBB(center - w, center - w, center - w, center + w, center + w, center + w);
 
-        float thickness = 2 * RenderHelper.pixel;
-        float width = 8 * RenderHelper.pixel;
+        float thickness = 2 * pixel;
+        float width = 8 * pixel;
         float min = 0.5F - (width/2);
         float max = 0.5F + (width/2);
         float tMax = 1.0F - thickness;
