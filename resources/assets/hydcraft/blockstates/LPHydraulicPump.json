@@ -1,0 +1,33 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hydcraft:models/hydraulicPump"
+    },
+    "transform": "forge:default-block",
+    "model": "hydcraft:pump"
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {
+        "textures": {
+          "all": "hydcraft:models/hydraulicPump"
+        }
+      }
+    ],
+    "tier": {
+      "tier-0": {
+        "model": "hydcraft:pump_low"
+      },
+      "tier-1": {
+        "model": "hydcraft:pump_low"
+      },
+      "tier-2": {
+        "model": "hydcraft:pump_low"
+      }
+    }
+  }
+}

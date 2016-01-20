@@ -1,0 +1,6 @@
+{
+  "parent": "hydcraft:block/pump",
+  "textures": {
+    "all": "hydcraft:model/hydraulicPump"
+  }
+}

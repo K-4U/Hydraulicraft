@@ -30,7 +30,6 @@ import java.util.Random;
 
 public class PartHose extends Multipart implements ISlottedPart, ITickable, IOccludingPart, IHydraulicTransporter, ICustomNetwork, ITieredBlock {
     public static  AxisAlignedBB[] boundingBoxes = new AxisAlignedBB[14];
-    private static int             expandBounds  = -1;
     
     private IBaseClass baseHandler;
     private byte    connectionCache      = 0;
@@ -76,6 +75,8 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
             i++;
         }
     }
+
+    private boolean[] connectedSides;
 
     public void preparePlacement(int itemDamage) {
         tier = PressureTier.fromOrdinal(itemDamage);
@@ -432,6 +433,10 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
     @Override
     public boolean isConnectedTo(EnumFacing dir) {
         return connects(dir);
+    }
+
+    public byte getConnectedSides() {
+        return connectionCache;
     }
 }
 

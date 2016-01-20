@@ -11,43 +11,46 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 
 public class HydraulicTieredBlockHandler extends HandlerHydraulicBlock {
-	private Name[] tNames;
-	
-	
-	public HydraulicTieredBlockHandler(Block block, Name[] names) {
-		super(block);
-		
-		tNames = names;
-		
-		setHasSubtypes(true);
-	}
-	
-	@Override
-	public String getUnlocalizedName(ItemStack itemStack){
-		String unlocalizedName = tNames[itemStack.getItemDamage()].unlocalized;
-		if(!unlocalizedName.startsWith("tile.")){
-			unlocalizedName = "tile." + unlocalizedName;
-		}
-		return unlocalizedName;
-	}
-	
-	@Override
-	public int getMetadata(int damage){
-		return damage;
-	}
+    private Name[] tNames;
+
+
+    public HydraulicTieredBlockHandler(Block block, Name[] names) {
+        super(block);
+
+        tNames = names;
+
+        setHasSubtypes(true);
+    }
+
+    @Override
+    public String getUnlocalizedName(ItemStack itemStack) {
+        if (itemStack.getItemDamage() > tNames.length - 1) {
+            return "ERROR";
+        }
+        String unlocalizedName = tNames[itemStack.getItemDamage()].unlocalized;
+        if (!unlocalizedName.startsWith("tile.")) {
+            unlocalizedName = "tile." + unlocalizedName;
+        }
+        return unlocalizedName;
+    }
+
+    @Override
+    public int getMetadata(int damage) {
+        return damage;
+    }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4){
+    public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
         super.addInformation(itemstack, player, list, par4);
-        if(itemstack != null){
-            Item theItem  = itemstack.getItem();
-            Block btH = ((HandlerHydraulicBlock)theItem).blockToHandle;
-			//TODO: Handle me? I think there's something missing here, but no idea what.
+        if (itemstack != null) {
+            Item theItem = itemstack.getItem();
+            Block btH = ((HandlerHydraulicBlock) theItem).blockToHandle;
+            //TODO: Handle me? I think there's something missing here, but no idea what.
 
 
         }
     }
-	
+
 }
 
