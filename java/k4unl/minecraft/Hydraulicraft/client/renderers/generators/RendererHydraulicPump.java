@@ -69,7 +69,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
         GL11.glColor3f(0.9F, 0.9F, 0.9F);
         float thickness = RenderHelper.pixel;
 
-        renderTieredBars(t.getTier(), thickness);
+        //renderTieredBars(t.getTier(), thickness);
         //renderInsides(thickness, t);
         renderGaugesContents(thickness, t);
         renderGauges(thickness);

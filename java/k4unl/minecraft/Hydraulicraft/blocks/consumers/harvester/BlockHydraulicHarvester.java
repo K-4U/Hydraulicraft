@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester;
 import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.IBlockWithRotation;
 import k4unl.minecraft.Hydraulicraft.blocks.IGUIMultiBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -16,7 +17,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHydraulicHarvester extends HydraulicBlockContainerBase implements ITieredBlock, IGUIMultiBlock {
+public class BlockHydraulicHarvester extends HydraulicBlockContainerBase implements ITieredBlock, IGUIMultiBlock, IBlockWithRotation {
 
     public BlockHydraulicHarvester() {
 

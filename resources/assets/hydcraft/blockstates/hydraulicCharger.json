@@ -1,0 +1,44 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hydcraft:blocks/hydraulicCharger_sides"
+    },
+    "transform": "forge:default-block",
+    "model": "cube_all"
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {
+        "textures": {
+          "north": "hydcraft:blocks/hydraulicCharger_front"
+        }
+      }
+    ],
+    "rotation": {
+      "north": {
+        "textures": {
+          "north": "hydcraft:blocks/hydraulicCharger_front"
+        }
+      },
+      "east": {
+        "textures": {
+          "east": "hydcraft:blocks/hydraulicCharger_front"
+        }
+      },
+      "west": {
+        "textures": {
+          "west": "hydcraft:blocks/hydraulicCharger_front"
+        }
+      },
+      "south": {
+        "textures": {
+          "south": "hydcraft:blocks/hydraulicCharger_front"
+        }
+      }
+    }
+  }
+}

@@ -10,7 +10,7 @@ public abstract class GOWBlockRendering extends GOWBlockBase {
 
 	@Override
 	public int getRenderType(){
-		return -1;
+		return 2;
 	}
 	
 	@Override

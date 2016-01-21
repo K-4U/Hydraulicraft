@@ -8,9 +8,12 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -51,54 +54,46 @@ public class SubBlockBase extends HydraulicBlockBase {
         }
     }
 
-
-    /*    private String getTextureName(String side, int subId) {
-            if (!side.equals("")) {
-                return ModInfo.LID + ":" + mName[subId].unlocalized + "_" + side;
-            } else {
-                return ModInfo.LID + ":" + mName[subId].unlocalized;
-            }
-        }
-
-        @Override
-        public void registerBlockIcons(IIconRegister iconRegistry) {
-            for (int i = 0; i < mName.length; i++) {
-                icons.add(i, iconRegistry.registerIcon(getTextureName("", i)));
-            }
-        }
-
-
-        @Override
-        public IIcon getIcon(int side, int metadata) {
-            if (metadata >= icons.size()) {
-                metadata = 0;
-            }
-            return icons.get(metadata);
-
-        }
-    */
     @Override
     public int damageDropped(IBlockState state) {
         return getTierFromState(state).toInt();
     }
 
     @Override
-    protected BlockState createBlockState() {
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         if(this instanceof IBlockWithRotation) {
-            return new BlockState(this, TIER, ROTATION);
+            return getDefaultState().withProperty(ROTATION, placer.getHorizontalFacing().getOpposite()).withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
         }else{
+            return getDefaultState().withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
+        }
+
+    }
+
+    @Override
+    protected BlockState createBlockState() {
+        if (this instanceof IBlockWithRotation) {
+            return new BlockState(this, TIER, ROTATION);
+        } else {
             return new BlockState(this, TIER);
         }
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return getDefaultState().withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
+        if (this instanceof IBlockWithRotation) {
+            return super.getStateFromMeta(meta).withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
+        } else {
+            return getDefaultState().withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
+        }
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return ((PressureTier) state.getValue(TIER)).toInt();
+        if (this instanceof IBlockWithRotation) {
+            return super.getMetaFromState(state) + ((PressureTier) state.getValue(TIER)).toInt();
+        } else {
+            return ((PressureTier) state.getValue(TIER)).toInt();
+        }
     }
 
     public PressureTier getTierFromState(IBlockState state) {

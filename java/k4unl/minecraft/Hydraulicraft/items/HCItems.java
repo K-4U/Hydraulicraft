@@ -167,6 +167,8 @@ public class HCItems {
 
         GameRegistry.registerItem(itemPressureGauge, Names.itemPressureGauge.unlocalized);
 
+
+        //TODO: REDO ME FOR 1.8.9
         FluidStack st = FluidRegistry.getFluidStack(Names.fluidHydraulicOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
         FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketHydraulicOil), new ItemStack((Item) Item.itemRegistry.getObject(new ResourceLocation("bucket"))));
         BucketHandler.INSTANCE.buckets.put(Fluids.fluidHydraulicOilBlock, itemBucketHydraulicOil);

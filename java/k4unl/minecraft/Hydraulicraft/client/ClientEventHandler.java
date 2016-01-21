@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -93,5 +94,10 @@ public class ClientEventHandler {
             //GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glPopMatrix();
         }
+    }
+
+    @SubscribeEvent
+    public void modelBakeEvent(ModelBakeEvent event){
+
     }
 }

@@ -64,63 +64,6 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
         }
     }
 
-/*
-    private String getTieredTextureName(String side, int tier) {
-        if (!side.equals("")) {
-            return ModInfo.LID + ":" + mName[0].unlocalized + "_" + tier + "_" + side;
-        } else {
-            return ModInfo.LID + ":" + mName[0].unlocalized + "_" + tier;
-        }
-    }
-		
-    /*@Override
-    public void registerBlockIcons(IIconRegister iconRegistry){
-        if(hasTextures){
-            if(hasTopIcon || hasBottomIcon){
-                for(int i = 0; i < 3; i++){
-                    tieredIcon[i] = iconRegistry.registerIcon(getTieredTextureName("sides",i));
-                    if(hasTopIcon){
-                        tieredTopIcon[i] = iconRegistry.registerIcon(getTieredTextureName("top",i));
-                    }else{
-                        tieredTopIcon[i] = tieredIcon[i];
-                    }
-                    if(hasBottomIcon){
-                        tieredBottomIcon[i] = iconRegistry.registerIcon(getTieredTextureName("bottom",i));
-                    }else{
-                        tieredBottomIcon[i] = tieredIcon[i];
-                    }
-                }
-            }else{
-                for(int i = 0; i < 3; i++){
-                    tieredIcon[i] = iconRegistry.registerIcon(getTieredTextureName("",i));
-                    tieredBottomIcon[i] = tieredIcon[i];
-                    tieredTopIcon[i] = tieredIcon[i];
-                }
-            }
-        }else{
-            for(int i = 0; i < 3; i++){
-                tieredIcon[i] = iconRegistry.registerIcon(ModInfo.LID + ":" + Names.blockHydraulicPressureWall.unlocalized);
-                tieredBottomIcon[i] = tieredIcon[i];
-                tieredTopIcon[i] = tieredIcon[i];
-            }
-        }
-    }
-
-
-    @Override
-    public IIcon getIcon(int side, int metadata){
-        EnumFacing s = EnumFacing.getOrientation(side);
-        if(s.equals(EnumFacing.UP)){
-            return tieredTopIcon[metadata];
-        }else if(s.equals(EnumFacing.DOWN)){
-            return tieredBottomIcon[metadata];
-        }
-
-        return tieredIcon[metadata];
-
-    }
-    */
-
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         if(this instanceof IBlockWithRotation) {
