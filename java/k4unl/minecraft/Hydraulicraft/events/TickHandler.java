@@ -8,7 +8,6 @@ import k4unl.minecraft.Hydraulicraft.lib.DamageSourceHydraulicraft;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.network.NetworkHandler;
 import k4unl.minecraft.Hydraulicraft.network.packets.PacketSetPressure;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -58,9 +57,8 @@ public class TickHandler {
                     int y = (int) Math.floor(event.player.posY);
                     int z = (int) Math.floor(event.player.posZ);
 
-                    Block block = event.player.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
                     int pressure = 0;
-                    while (block == Blocks.water) {
+                    while (event.player.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.water) {
                         y++;
                         pressure++;
                     }
