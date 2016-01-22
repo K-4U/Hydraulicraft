@@ -21,7 +21,6 @@ public class NetworkHandler extends k4unl.minecraft.k4lib.network.NetworkHandler
 
         INSTANCE.registerMessage(PacketKeyPressed.class, PacketKeyPressed.class, discriminant++, Side.SERVER);
         INSTANCE.registerMessage(PacketPortalEnabled.class, PacketPortalEnabled.class, discriminant++, Side.CLIENT);
-        INSTANCE.registerMessage(PacketPortalStateChanged.class, PacketPortalStateChanged.class, discriminant++, Side.CLIENT);
         INSTANCE.registerMessage(PacketSetPressure.class, PacketSetPressure.class, discriminant++, Side.CLIENT);
         INSTANCE.registerMessage(PacketSpawnParticle.class, PacketSpawnParticle.class, discriminant++, Side.CLIENT);
     }

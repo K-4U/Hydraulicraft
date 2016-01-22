@@ -13,6 +13,8 @@ public final class Properties {
     public static final PropertyBool SOUTH = PropertyBool.create("south");
     public static final PropertyBool WEST = PropertyBool.create("west");
 
+
+    public static final PropertyBool ACTIVE = PropertyBool.create("active");
     private Properties() {
 
     }

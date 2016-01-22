@@ -1,17 +1,18 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.gow;
 
-import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalStateChanged;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import k4unl.minecraft.k4lib.lib.Location;
-import k4unl.minecraft.k4lib.network.NetworkHandler;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 
 public class TilePortalFrame extends TileHydraulicBaseNoPower {
 
 
     private boolean hasSendPacket = true;
-    private boolean isActive;
     private Location parentLocation;
     private int colorIndex = 0;
 
@@ -19,10 +20,6 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower {
     @Override
     public void update() {
         super.update();
-        if (!getWorld().isRemote && !hasSendPacket) {
-            hasSendPacket = true;
-            NetworkHandler.sendToAllAround(new PacketPortalStateChanged(getPos(), isActive), getWorld());
-        }
     }
 
     @Override
@@ -42,7 +39,6 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower {
     @Override
     public void readFromNBT(NBTTagCompound tCompound) {
         super.readFromNBT(tCompound);
-        isActive = tCompound.getBoolean("isActive");
         parentLocation = new Location(tCompound.getIntArray("parent"));
         colorIndex = tCompound.getInteger("dye");
     }
@@ -50,7 +46,6 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower {
     @Override
     public void writeToNBT(NBTTagCompound tCompound) {
         super.writeToNBT(tCompound);
-        tCompound.setBoolean("isActive", isActive);
         if (parentLocation != null) {
             tCompound.setIntArray("parent", parentLocation.getIntArray());
         }
@@ -64,13 +59,11 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower {
     }
 
     public boolean getIsActive() {
-        return isActive;
+        return getWorld().getBlockState(pos).getValue(Properties.ACTIVE);
     }
 
     public void setActive(boolean b) {
-        isActive = b;
-        hasSendPacket = false;
-        markDirty();
+        getWorld().setBlockState(pos, getBlockType().getDefaultState().withProperty(Properties.ACTIVE, b));
     }
 
     public Location getBlockLocation() {
@@ -91,4 +84,8 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower {
         return colorIndex;
     }
 
+    @Override
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+        return false;
+    }
 }

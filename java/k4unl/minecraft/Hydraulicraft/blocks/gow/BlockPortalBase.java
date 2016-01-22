@@ -78,4 +78,9 @@ public class BlockPortalBase extends GOWBlockRendering implements ITieredBlock {
 
         return new TilePortalBase(getTier());
     }
+
+	@Override
+	public int getRenderType() {
+		return 2;
+	}
 }

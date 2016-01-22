@@ -62,6 +62,9 @@ public class Models {
         loadModel(Ores.oreFoxium);
         loadModel(Ores.oreLonezium);
         loadModel(Ores.oreNadsiumBicarbinate);
+
+        loadModel(HCBlocks.portalBase);
+        loadModel(HCBlocks.portalFrame);
     }
 
     private static void loadModel(Block block){

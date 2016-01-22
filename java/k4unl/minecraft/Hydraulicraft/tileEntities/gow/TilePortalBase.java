@@ -6,16 +6,20 @@ import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.items.ItemIPCard;
 import k4unl.minecraft.Hydraulicraft.lib.IPs;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.k4lib.lib.Location;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -23,16 +27,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TilePortalBase extends TileHydraulicBase implements IInventory, IHydraulicConsumer {
-    private boolean portalFormed;
-    private boolean portalEnabled;
-    private int portalWidth;
-    private int portalHeight;
-    private EnumFacing baseDir;
-    private EnumFacing portalDir;
+    private boolean        portalFormed;
+    private int            portalWidth;
+    private int            portalHeight;
+    private EnumFacing     baseDir;
+    private EnumFacing     portalDir;
     private List<Location> frames;
-    private long ip;
+    private long           ip;
     private boolean ipRegistered = false;
-    private int colorIndex = 0;
+    private int     colorIndex   = 0;
 
 
     private boolean hasInterfaceValve = false;
@@ -74,7 +77,6 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
         super.readFromNBT(tCompound);
         portalFormed = tCompound.getBoolean("portalFormed");
-        portalEnabled = tCompound.getBoolean("portalEnabled");
         portalWidth = tCompound.getInteger("portalWidth");
         portalHeight = tCompound.getInteger("portalHeight");
 
@@ -129,7 +131,6 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         super.writeToNBT(tCompound);
 
         tCompound.setBoolean("portalFormed", portalFormed);
-        tCompound.setBoolean("portalEnabled", portalEnabled);
         tCompound.setInteger("portalWidth", portalWidth);
         tCompound.setInteger("portalHeight", portalHeight);
 
@@ -326,11 +327,11 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     public void redstoneChanged(boolean isPowered) {
         if (getWorldObj() != null) {
             if (portalFormed && linkingCard != null) {
-                if (portalEnabled && !getIsRedstonePowered()) {
-                    portalEnabled = false;
+                if (getIsActive() && !getIsRedstonePowered()) {
+                    setIsActive(false);
                     disablePortal();
-                } else if (getIsRedstonePowered() && !portalEnabled && getPressure(EnumFacing.UP) >= HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock")) {
-                    portalEnabled = true;
+                } else if (getIsRedstonePowered() && !getIsActive() && getPressure(EnumFacing.UP) >= HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock")) {
+                    setIsActive(true);
                     enablePortal();
                 }
                 markDirty();
@@ -386,7 +387,11 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     }
 
     public boolean getIsActive() {
-        return portalEnabled;
+        return getWorldObj().getBlockState(getPos()).getValue(Properties.ACTIVE);
+    }
+
+    public void setIsActive(boolean active) {
+        getWorldObj().setBlockState(pos, getBlockType().getDefaultState().withProperty(Properties.ACTIVE, active));
     }
 
     public String getIPString() {
@@ -542,13 +547,15 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
         if (from.equals(EnumFacing.UP) && getIsActive()) {
-            if (getPressure(EnumFacing.UP) >= (HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget()))) {
-                if (getIsActive()) {
-                    return HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget());
-                }
-            } else {
-                if (getIsActive()) {
-                    disablePortal();
+            if(getTarget() != null) {
+                if (getPressure(EnumFacing.UP) >= (HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget()))) {
+                    if (getIsActive()) {
+                        return HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget());
+                    }
+                } else {
+                    if (getIsActive()) {
+                        disablePortal();
+                    }
                 }
             }
         }
@@ -557,8 +564,13 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     @Override
     public boolean canWork(EnumFacing dir) {
-        return dir.equals(EnumFacing.UP);
+        return dir.equals(EnumFacing.UP) && getTarget() != null;
     }
 
+    @Override
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+        return false;
+        //return super.shouldRefresh(world, pos, oldState, newSate);
+    }
 }
 

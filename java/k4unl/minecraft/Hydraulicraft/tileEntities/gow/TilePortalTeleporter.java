@@ -18,8 +18,9 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
     private float   directionTransparency = 0.01F;
     private EnumFacing baseDir;
     private EnumFacing portalDir;
-    private Location       portalBase;
+    private Location   portalBase;
 
+    //TODO: rewrite me to not use a TESR!
     @Override
     public void readFromNBT(NBTTagCompound tCompound) {
 
@@ -40,72 +41,72 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 
         if (portalBase != null) {
             tCompound.setIntArray("portalBase", portalBase.getIntArray());
-		}
-	}
-	
-	public void setRotation(EnumFacing _baseDir, EnumFacing _portalDir){
-		baseDir = _baseDir;
-		portalDir = _portalDir;
-		hasSendPacket = false;
-	}
-	
-	public TilePortalBase getPortalBase(){
-		if(portalBase == null){
-			return null;
-		}else{
-			return (TilePortalBase) portalBase.getTE(getWorld());
-		}
-	}
-	
-	@Override
-	public void update(){
-		if(!getWorld().isRemote && !hasSendPacket && baseDir != null){
-			hasSendPacket = true;
-			NetworkHandler.sendToAllAround(new PacketPortalEnabled(getPos(), baseDir, portalDir), getWorld());
-		}
-		if(getWorld().isRemote){
-			prevTransparancy = transparancy;
-			transparancy += directionTransparency;
-			if(transparancy >= 0.8F){
-				directionTransparency = -0.01F;
-			}else if(transparancy <= 0.3F){
-				directionTransparency = 0.01F;
-			}
-		}
-	}
-	
-	
-	public EnumFacing getBaseDir(){
-		return baseDir;
-	}
-	
-	public EnumFacing getPortalDir(){
-		return portalDir;
-	}
-	
-	public void teleport(Entity ent){
-		
-	}
+        }
+    }
 
-	public float getTransparancy(float frame) {
-		return transparancy + ((prevTransparancy - transparancy) * frame);
-	}
+    public void setRotation(EnumFacing _baseDir, EnumFacing _portalDir) {
+        baseDir = _baseDir;
+        portalDir = _portalDir;
+        hasSendPacket = false;
+    }
 
-	public void setBase(TilePortalBase tilePortalBase) {
-		portalBase = new Location(tilePortalBase.getPos());
-	}
-	
-	@Override
-	public boolean shouldRenderInPass(int pass){
-		return true;
-	}
+    public TilePortalBase getPortalBase() {
+        if (portalBase == null) {
+            return null;
+        } else {
+            return (TilePortalBase) portalBase.getTE(getWorld());
+        }
+    }
 
-	public boolean isEdge(EnumFacing dir) {
-		return (new Location(getPos(), dir).getBlock(getWorld()) == HCBlocks.portalFrame);
-	}
+    @Override
+    public void update() {
+        if (!getWorld().isRemote && !hasSendPacket && baseDir != null) {
+            hasSendPacket = true;
+            NetworkHandler.sendToAllAround(new PacketPortalEnabled(getPos(), baseDir, portalDir), getWorld());
+        }
+        if (getWorld().isRemote) {
+            prevTransparancy = transparancy;
+            transparancy += directionTransparency;
+            if (transparancy >= 0.8F) {
+                directionTransparency = -0.01F;
+            } else if (transparancy <= 0.3F) {
+                directionTransparency = 0.01F;
+            }
+        }
+    }
 
-	public void usePressure() {
-		getPortalBase().getHandler().setPressure(getPortalBase().getPressure
+
+    public EnumFacing getBaseDir() {
+        return baseDir;
+    }
+
+    public EnumFacing getPortalDir() {
+        return portalDir;
+    }
+
+    public void teleport(Entity ent) {
+
+    }
+
+    public float getTransparancy(float frame) {
+        return transparancy + ((prevTransparancy - transparancy) * frame);
+    }
+
+    public void setBase(TilePortalBase tilePortalBase) {
+        portalBase = new Location(tilePortalBase.getPos());
+    }
+
+    @Override
+    public boolean shouldRenderInPass(int pass) {
+        return true;
+    }
+
+    public boolean isEdge(EnumFacing dir) {
+        return (new Location(getPos(), dir).getBlock(getWorld()) == HCBlocks.portalFrame);
+    }
+
+    public void usePressure() {
+        getPortalBase().getHandler().setPressure(getPortalBase().getPressure
                 (EnumFacing.UP) - HCConfig.INSTANCE.getInt("pressurePerTeleport"), EnumFacing.UP);
-	}
+    }
 }

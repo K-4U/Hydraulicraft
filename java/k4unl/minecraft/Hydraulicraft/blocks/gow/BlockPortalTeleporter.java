@@ -72,6 +72,12 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
 
     }
 
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+    {
+        return null;
+    }
+
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, Entity entityIn) {
         if (!worldIn.isRemote) {
             NBTTagCompound entCompound = entityIn.getEntityData();

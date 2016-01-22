@@ -28,12 +28,9 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileJarOfDirt;
 import mcmultipart.client.multipart.MultipartRegistryClient;
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Renderers {
     public static int rendererIdJarOfDirt;
@@ -65,7 +62,9 @@ public class Renderers {
 //		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartFluidPipe, new RendererPartFluidPipeItem());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TilePortalBase.class, new RendererPortalBase());
+        ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(HCBlocks.portalBase), 0, TilePortalBase.class);
         ClientRegistry.bindTileEntitySpecialRenderer(TilePortalFrame.class, new RendererPortalFrame());
+        ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(HCBlocks.portalFrame), 0, TilePortalFrame.class);
         ClientRegistry.bindTileEntitySpecialRenderer(TilePortalTeleporter.class, new RendererPortalTeleporter());
 
 //		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.portalBase), new ItemRendererPortalBase());
@@ -83,18 +82,12 @@ public class Renderers {
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterFrame.class, new RendererHarvesterFrame());
 
+
 //		RenderingRegistry.registerBlockHandler(new RendererGlowBlock());
 
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingHelmet, new RendererScubaGearItem());
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingController, new RendererScubaGearItem());
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingLegs, new RendererScubaGearItem());
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingBoots, new RendererScubaGearItem());
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static void registerBlockRenderer(Block toRegister) {
-        //ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-
-        //mesher.register(Item.getItemFromBlock(toRegister), 0, new ModelResourceLocation(ModInfo.ID + ":" + toRegister.getUnlocalizedName().substring(5), "inventory"));
     }
 }
