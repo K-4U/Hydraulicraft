@@ -99,4 +99,6 @@ public class Names {
     public static final Name   blockRubberWood                   = new Name("Rubber wood", "rubberWood");
     public static final Name   blockRubberLeaves                 = new Name("Rubber leaves", "rubberLeaves");
     public static final Name   blockRubberSapling                = new Name("Rubber sapling", "saplingRubber");
+
+    public static final String oredictBacon                      = "foodBacon";
 }

@@ -66,7 +66,7 @@ public class ThermalExpansion implements IThirdParty {
 	
 	public static void initRecipes(){
 		ItemStack powerTransmissionCoil = new ItemStack(GameRegistry.findItem("ThermalExpansion", "powerCoilSilver"), 1);
-		if(powerTransmissionCoil == null){
+		if(powerTransmissionCoil.getItem() == null){
 			powerTransmissionCoil = new ItemStack(Items.redstone);
 		}
 
@@ -84,7 +84,7 @@ public class ThermalExpansion implements IThirdParty {
         );
 		
 		ItemStack powerReceptionCoil = new ItemStack(GameRegistry.findItem("ThermalExpansion", "powerCoilGold"), 1);
-		if(powerReceptionCoil == null){
+		if(powerReceptionCoil.getItem() == null){
 			powerReceptionCoil = new ItemStack(Items.redstone);
 		}
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockRFPump, 1, 0), true,
