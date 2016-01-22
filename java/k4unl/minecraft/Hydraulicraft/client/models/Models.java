@@ -13,7 +13,6 @@ public class Models {
 
     public static void init() {
         itemBlockModels();
-        itemModels();
     }
 
     private static void itemBlockModels() {
@@ -78,20 +77,26 @@ public class Models {
     }
 
     private static void loadItemModel(Item item, int metadata){
-        /*Minecraft mc = Minecraft.getMinecraft();
-        RenderItem ri = mc.getRenderItem();
-        ItemModelMesher imm = ri.getItemModelMesher();
-        imm.register(item, metadata,  new ModelResourceLocation(ModInfo.LID + ":" + item.getUnlocalizedName().substring(5), "inventory"));*/
+        loadItemModel(item, metadata,  item.getUnlocalizedName().substring(5));
     }
 
-    private static void itemModels() {
+    private static void loadItemModel(Item item, int metadata, String override){
+        ModelLoader.setCustomModelResourceLocation(item, metadata,  new ModelResourceLocation(ModInfo.LID + ":" + override, "inventory"));
+    }
+
+    public static void itemModels() {
         loadItemModel(HCItems.gasket);
         loadItemModel(HCItems.ingotCopper);
         loadItemModel(HCItems.ingotEnrichedCopper);
         loadItemModel(HCItems.ingotLead);
         loadItemModel(HCItems.itemFrictionPlate);
         loadItemModel(HCItems.itemDebugger);
-        loadItemModel(HCItems.itemChunk);
+
+
+        for (int i = 0;i < HCItems.itemChunk.getChunks().size(); i++){
+            loadItemModel(HCItems.itemChunk, i, "chunk");
+        }
+        /*loadItemModel(HCItems.itemChunk);*/
         loadItemModel(HCItems.itemDust);
     
         loadItemModel(HCItems.itemBacon);

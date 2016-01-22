@@ -20,6 +20,7 @@ public class ClientProxy extends CommonProxy {
     public void preinit() {
         super.preinit();
         Models.init();
+        Models.itemModels();
     }
 
     public void init() {
@@ -37,6 +38,7 @@ public class ClientProxy extends CommonProxy {
         ClientEventHandler.init();
         Renderers.init();
         ThirdPartyManager.instance().clientSide();
+
     }
 
     public void initFonts() {

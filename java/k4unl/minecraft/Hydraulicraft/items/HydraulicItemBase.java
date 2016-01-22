@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
-import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -23,7 +22,7 @@ public class HydraulicItemBase extends Item {
 
         setMaxStackSize(64);
         setUnlocalizedName(itemName.unlocalized);
-        setUnlocalizedName(ModInfo.LID + ":" + itemName.unlocalized);
+        /*setUnlocalizedName(ModInfo.LID + ":" + itemName.unlocalized);*/
 
         setCreativeTab(CustomTabs.tabHydraulicraft);
     }
