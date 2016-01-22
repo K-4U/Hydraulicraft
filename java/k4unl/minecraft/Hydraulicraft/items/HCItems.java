@@ -152,8 +152,8 @@ public class HCItems {
         GameRegistry.registerItem(itemBucketFluoricCarbonFluid, Names.itemBucketFluoroCarbon.unlocalized);
 
         if (!HCConfig.INSTANCE.getBool("disableBacon")) {
-            OreDictionary.registerOre(Names.itemBacon.unlocalized, new ItemStack(itemBacon));
             GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);
+            OreDictionary.registerOre(Names.oredictBacon, new ItemStack(itemBacon));
         }
         if (!HCConfig.INSTANCE.getBool("disableEnderLolly")) {
             GameRegistry.registerItem(itemEnderLolly, Names.itemEnderLolly.unlocalized);
