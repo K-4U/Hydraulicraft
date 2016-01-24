@@ -4,16 +4,18 @@ import k4unl.minecraft.Hydraulicraft.api.ITieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
-import k4unl.minecraft.Hydraulicraft.blocks.IBlockWithRotation;
 import k4unl.minecraft.Hydraulicraft.blocks.IRotateableBlock;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -28,11 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BlockMovingPane extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock, IBlockWithRotation {
+public class BlockMovingPane extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock {
 
     public BlockMovingPane() {
-        super(Names.blockMovingPane, true);
+        super(Names.blockMovingPane, false);
         hasTextures = false;
+        setDefaultState(this.blockState.getBaseState().withProperty(Properties.CHILD, false));
     }
 
     @Override
@@ -238,5 +241,26 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
     public PressureTier getTier() {
 
         return PressureTier.HIGHPRESSURE;
+    }
+
+    @Override
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+        return getDefaultState().withProperty(Properties.CHILD, false);
+    }
+
+    @Override
+    protected BlockState createBlockState() {
+        return new BlockState(this, Properties.CHILD);
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta) {
+        return getDefaultState().withProperty(Properties.CHILD, (meta & 1) == 1);
+
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(Properties.CHILD) ? 1 : 0;
     }
 }

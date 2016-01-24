@@ -11,11 +11,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.*;
 
 public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraulicGenerator, IFluidHandler {
-    private FluidTank tank = null;
-    private PressureTier tier = PressureTier.INVALID;
-    private boolean isRunning = false;
-    private int lavaUsage = 0;
-    private int runningTicks = 0;
+    private FluidTank    tank         = null;
+    private PressureTier tier         = PressureTier.INVALID;
+    private boolean      isRunning    = false;
+    private int          lavaUsage    = 0;
+    private int          runningTicks = 0;
 
     private EnumFacing facing = EnumFacing.NORTH;
 
@@ -87,7 +87,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
         }
 
         if (tank.getFluidAmount() >= Constants.MAX_LAVA_USAGE) {
-            lavaUsage = (int)Math.max(Constants.MAX_LAVA_USAGE, 1F);
+            lavaUsage = (int) Math.max(Constants.MAX_LAVA_USAGE, 1F);
             FluidStack drained = tank.drain(lavaUsage, false);
             if (drained == null) return 0F;
             lavaUsage = drained.amount;
@@ -122,7 +122,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 
     public PressureTier getTier() {
         if (tier == PressureTier.INVALID && worldObj != null) {
-            tier = (PressureTier)worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER);
+            tier = (PressureTier) worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER);
             if (tank == null) {
                 tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier.toInt() + 1)));
             }
@@ -186,12 +186,12 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
             return 0;
         if (resource.getFluid() == null)
             return 0;
-        if (resource.getFluid().getID() != FluidRegistry.LAVA.getID()) {
+        if (resource.getFluid() != FluidRegistry.LAVA) {
             return 0;
         }
 
         if (tank != null && tank.getFluid() != null && tank.getFluidAmount() > 0) {
-            if (resource.getFluid().getID() != tank.getFluid().getFluid().getID()) {
+            if (resource.getFluid() != tank.getFluid().getFluid()) {
                 return 0;
             }
         } else if (tank == null) {
@@ -224,7 +224,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
-        return fluid.getID() == FluidRegistry.LAVA.getID();
+        return fluid == FluidRegistry.LAVA;
     }
 
     @Override

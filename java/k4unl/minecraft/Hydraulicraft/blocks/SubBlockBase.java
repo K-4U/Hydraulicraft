@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.blocks;
 
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyEnum;
@@ -35,7 +36,7 @@ public class SubBlockBase extends HydraulicBlockBase {
         //topIcons = new ArrayList<Icon>();
         //bottomIcons = new ArrayList<Icon>();
         if(this instanceof IBlockWithRotation) {
-            setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, EnumFacing.NORTH).withProperty(TIER, PressureTier.INVALID));
+            setDefaultState(this.blockState.getBaseState().withProperty(Properties.ROTATION, EnumFacing.NORTH).withProperty(TIER, PressureTier.INVALID));
         }else{
             setDefaultState(this.blockState.getBaseState().withProperty(TIER, PressureTier.INVALID));
         }
@@ -62,7 +63,7 @@ public class SubBlockBase extends HydraulicBlockBase {
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         if(this instanceof IBlockWithRotation) {
-            return getDefaultState().withProperty(ROTATION, placer.getHorizontalFacing().getOpposite()).withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
+            return getDefaultState().withProperty(Properties.ROTATION, placer.getHorizontalFacing().getOpposite()).withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
         }else{
             return getDefaultState().withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
         }
@@ -72,7 +73,7 @@ public class SubBlockBase extends HydraulicBlockBase {
     @Override
     protected BlockState createBlockState() {
         if (this instanceof IBlockWithRotation) {
-            return new BlockState(this, TIER, ROTATION);
+            return new BlockState(this, TIER, Properties.ROTATION);
         } else {
             return new BlockState(this, TIER);
         }

@@ -14,7 +14,6 @@ public class BlockHydraulicCrusher extends HydraulicBlockContainerBase implement
 
 	public BlockHydraulicCrusher() {
 		super(Names.blockHydraulicCrusher, true);
-		this.hasFrontIcon = true;
 	}
 
 	@Override

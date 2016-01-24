@@ -14,7 +14,6 @@ public class BlockHydraulicCharger extends HydraulicBlockContainerBase implement
 
 	public BlockHydraulicCharger() {
 		super(Names.blockHydraulicCharger, true);
-		hasFrontIcon = true;
 	}
 
 	@Override

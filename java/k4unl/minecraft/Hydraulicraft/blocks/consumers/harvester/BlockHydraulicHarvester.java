@@ -20,10 +20,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicHarvester extends HydraulicBlockContainerBase implements ITieredBlock, IGUIMultiBlock, IBlockWithRotation {
 
     public BlockHydraulicHarvester() {
-
         super(Names.blockHydraulicHarvester, true);
-
-        hasFrontIcon = true;
     }
 
 
@@ -49,19 +46,19 @@ public class BlockHydraulicHarvester extends HydraulicBlockContainerBase impleme
     @Override
     public boolean isValid(IBlockAccess world, BlockPos pos) {
 
-        return ((TileHydraulicHarvester)world.getTileEntity(pos)).getIsMultiblock();
+        return ((TileHydraulicHarvester) world.getTileEntity(pos)).getIsMultiblock();
     }
 
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 
-        if(worldIn.isRemote) return true;
-        if(!isValid(worldIn, pos)){
-            TileHydraulicHarvester harvester = ((TileHydraulicHarvester)worldIn.getTileEntity(pos));
+        if (worldIn.isRemote) return true;
+        if (!isValid(worldIn, pos)) {
+            TileHydraulicHarvester harvester = ((TileHydraulicHarvester) worldIn.getTileEntity(pos));
             //Tell the harvester to quickly check:
             harvester.doMultiBlockChecking();
-            if(!isValid(worldIn, pos)) {
+            if (!isValid(worldIn, pos)) {
                 playerIn.addChatMessage(new ChatComponentTranslation(harvester.getError().getTranslation(), harvester.getExtraErrorInfo()));
                 return true;
             }

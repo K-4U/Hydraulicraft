@@ -1,8 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.fmp.tileEntities;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.InventoryCraftingDummy;
@@ -48,7 +48,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 	
 	public EnumFacing getFacing(){
 		if(worldObj != null){
-			return (EnumFacing) worldObj.getBlockState(getPos()).getValue(HydraulicBlockBase.ROTATION);
+			return (EnumFacing) worldObj.getBlockState(getPos()).getValue(Properties.ROTATION);
 		}else{
 			return EnumFacing.NORTH;
 		}

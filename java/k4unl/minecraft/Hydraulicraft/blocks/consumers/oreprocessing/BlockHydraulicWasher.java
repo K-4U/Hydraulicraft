@@ -19,7 +19,6 @@ public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements
 
 	public BlockHydraulicWasher() {
 		super(Names.blockHydraulicWasher, true);
-		this.hasFrontIcon = true;
 	}
 
 	@Override

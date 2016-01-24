@@ -17,7 +17,6 @@ public class BlockHydraulicPiston extends HydraulicBlockContainerBase implements
 
     public BlockHydraulicPiston() {
         super(Names.blockHydraulicPiston, true);
-        hasFrontIcon = true;
     }
 
     @Override
@@ -31,12 +30,6 @@ public class BlockHydraulicPiston extends HydraulicBlockContainerBase implements
         return GuiIDs.INVALID;
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public int getRenderType() {
-        return RendererHydraulicPiston.RENDER_ID;
-    }
-*/
     @Override
     public boolean isOpaqueCube() {
         return false;
@@ -44,13 +37,11 @@ public class BlockHydraulicPiston extends HydraulicBlockContainerBase implements
 
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-        if (hasFrontIcon) {
-
-            TileEntity pEnt = worldIn.getTileEntity(pos);
-            if (pEnt instanceof TileHydraulicPiston) {
-                ((TileHydraulicPiston) pEnt).setFacing(placer.getHorizontalFacing().getOpposite());
-            }
-            super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+        //TODO: Remove me? Blockstates?
+        TileEntity pEnt = worldIn.getTileEntity(pos);
+        if (pEnt instanceof TileHydraulicPiston) {
+            ((TileHydraulicPiston) pEnt).setFacing(placer.getHorizontalFacing().getOpposite());
         }
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
     }
 }

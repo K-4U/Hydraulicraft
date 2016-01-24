@@ -19,13 +19,12 @@ public class BlockRubberWood extends HydraulicBlockBase {
     //private IIcon rubberPatch;
 
     public BlockRubberWood() {
+        //TODO: Fix me, make me a proper wooden log, with rotation and all
 
         super(Names.blockRubberWood, Material.wood, true);
 
         this.setHardness(2.0F);
         this.setStepSound(soundTypeWood);
-        hasTopIcon = true;
-        hasBottomIcon = true;
     }
 
     /*

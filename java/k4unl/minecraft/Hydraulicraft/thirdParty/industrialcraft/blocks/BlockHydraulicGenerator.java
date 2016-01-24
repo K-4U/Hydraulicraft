@@ -21,8 +21,6 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase impleme
 
     public BlockHydraulicGenerator() {
         super(Names.blockHydraulicGenerator, true);
-        hasFrontIcon = true;
-        hasTextures = false;
     }
 
     @Override

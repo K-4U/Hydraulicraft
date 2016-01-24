@@ -13,7 +13,6 @@ public class BlockHydraulicSaw extends HydraulicBlockContainerBase implements IT
 
 	public BlockHydraulicSaw() {
 		super(Names.blockHydraulicSaw, true);
-		this.hasFrontIcon = true;
 	}
 
 	@Override

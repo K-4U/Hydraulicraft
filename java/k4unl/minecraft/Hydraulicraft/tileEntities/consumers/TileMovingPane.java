@@ -1,9 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.k4lib.lib.Location;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -17,13 +19,13 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
     private EnumFacing facing = EnumFacing.UP;
     private EnumFacing paneFacing = EnumFacing.NORTH;
 
-    private boolean isPane = false;
     private boolean isRotating = false;
 
     private float movedPercentage = 0.0F;
     private float prevMovedPercentage = 0.0F;
     private float movingSpeed = 0.01F;
     private float target = 1.0F;
+    private boolean isPane;
 
     public TileMovingPane() {
 
@@ -40,52 +42,43 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
     public void readFromNBT(NBTTagCompound tagCompound) {
 
         super.readFromNBT(tagCompound);
-        isPane = tagCompound.getBoolean("isPane");
-        if (isPane) {
-            parent = new Location(tagCompound.getIntArray("parent"));
-        } else {
-            child = new Location(tagCompound.getIntArray("child"));
-        }
+        parent = new Location(tagCompound.getIntArray("parent"));
+        child = new Location(tagCompound.getIntArray("child"));
         facing = EnumFacing.byName(tagCompound.getString("facing"));
         paneFacing = EnumFacing.byName(tagCompound.getString("paneFacing"));
 
-        if (isPane) {
-            isRotating = tagCompound.getBoolean("isRotating");
-            movedPercentage = tagCompound.getFloat("movedPercentage");
-            movingSpeed = tagCompound.getFloat("movingSpeed");
-            target = tagCompound.getFloat("target");
-        }
+        isRotating = tagCompound.getBoolean("isRotating");
+        movedPercentage = tagCompound.getFloat("movedPercentage");
+        movingSpeed = tagCompound.getFloat("movingSpeed");
+        target = tagCompound.getFloat("target");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
-        if (isPane) {
-            if (parent != null) {
-                tagCompound.setIntArray("parent", parent.getLocation());
-                ;
-            }
-        } else {
-            if (child != null) {
-                tagCompound.setIntArray("child", child.getLocation());
-                ;
-            }
+
+        if (parent != null) {
+            tagCompound.setIntArray("parent", parent.getLocation());
         }
-        tagCompound.setBoolean("isPane", isPane);
+        if (child != null) {
+            tagCompound.setIntArray("child", child.getLocation());
+        }
         tagCompound.setString("facing", facing.getName());
         tagCompound.setString("paneFacing", paneFacing.getName());
 
-        tagCompound.setBoolean("isRotating", isRotating);
-        tagCompound.setFloat("movedPercentage", movedPercentage);
-        tagCompound.setFloat("movingSpeed", movingSpeed);
-        tagCompound.setFloat("target", target);
+        if(getIsPane()) {
+            tagCompound.setBoolean("isRotating", isRotating);
+            tagCompound.setFloat("movedPercentage", movedPercentage);
+            tagCompound.setFloat("movingSpeed", movingSpeed);
+            tagCompound.setFloat("target", target);
+        }
     }
 
     @Override
     public void update() {
         super.update();
 
-        if (isRotating && isPane) {
+        if (isRotating && getIsPane()) {
             if (getParent() == null) {
                 //This happens when the block is broken.
                 return;
@@ -107,7 +100,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
                 }
             }
         }
-        if (!worldObj.isRemote && !isPane) {
+        if (!worldObj.isRemote && !getIsPane()) {
             if (getChild() == null) {
                 return;
             }
@@ -145,7 +138,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
-        if (isPane) {
+        if (getIsPane()) {
             return false;
         }
         return !side.equals(getFacing());
@@ -157,12 +150,11 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 
     public void setFacing(EnumFacing n) {
         facing = n;
-        getHandler().updateBlock();
     }
 
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
-        if (!isPane) {
+        if (!getIsPane()) {
             if (getChild() != null) {
                 if (getChild().getIsRotating()) {
                     return Constants.PRESSURE_PANE_PER_TICK * (10 * getPressureFactor());
@@ -178,12 +170,22 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
     }
 
     public void setIsPane(boolean isIt) {
+        getWorldObj().setBlockState(getPos(), getBlockType().getDefaultState().withProperty(Properties.CHILD, isIt));
         isPane = isIt;
-        getHandler().updateBlock();
+        //getHandler().updateBlock();
     }
 
     public boolean getIsPane() {
-        return isPane;
+        if(getWorldObj() == null){
+            //This can only happen on NBT load, which means it should just load them anyway.
+            return isPane;
+        }
+        if(getWorldObj().getBlockState(getPos()).getBlock() != Blocks.air) {
+            isPane = getWorldObj().getBlockState(getPos()).getValue(Properties.CHILD);
+            return isPane;
+        }else{
+            return false;
+        }
     }
 
     public void setParentLocation(Location p) {
@@ -234,11 +236,11 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
     }
 
     public TileMovingPane getChild() {
-        return (TileMovingPane) worldObj.getTileEntity(child.toBlockPos());
+        return (TileMovingPane) worldObj.getTileEntity(getChildLocation().toBlockPos());
     }
 
     public TileMovingPane getParent() {
-        return (TileMovingPane) worldObj.getTileEntity(parent.toBlockPos());
+        return (TileMovingPane) worldObj.getTileEntity(getParentLocation().toBlockPos());
     }
 
     @Override

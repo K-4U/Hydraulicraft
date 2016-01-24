@@ -30,21 +30,17 @@ public class ItemMovingPane extends HydraulicItemBase {
             // Increases y coordinate, so our block will be placed on top of the
             // block you clicked, just as it should be
             pos = pos.offset(side);
-            //y++;
             EnumFacing s = playerIn.getHorizontalFacing();
 
-            //EnumFacing dir = EnumFacing.getOrientation(sideToPlace);
             EnumFacing dir = EnumFacing.UP;
             int i = 0;
-            while (!worldIn.getBlockState(pos.offset(dir)).equals(Blocks.air)) {
+            while (!(worldIn.getBlockState(pos.offset(dir)).getBlock() == Blocks.air)) {
                 dir = dir.rotateAround(s.getAxis());
                 i++;
                 if (i == 4) {
                     return false;
                 }
             }
-            //canPlace = (world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).equals(Blocks.air));
-
 
             // If the check was successful
             worldIn.setBlockState(pos, HCBlocks.movingPane.getDefaultState());
@@ -58,10 +54,10 @@ public class ItemMovingPane extends HydraulicItemBase {
             worldIn.setBlockState(pos.offset(dir), HCBlocks.movingPane.getDefaultState());
             tilePane = (TileMovingPane) worldIn.getTileEntity(pos.offset(dir));
             if (tilePane != null) {
+                tilePane.setIsPane(true);
                 tilePane.setParentLocation(new Location(pos));
                 tilePane.setPaneFacing(s);
                 tilePane.setFacing(dir);
-                tilePane.setIsPane(true);
             }
             return true;
         }

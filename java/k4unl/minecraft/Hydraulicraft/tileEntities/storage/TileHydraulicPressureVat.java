@@ -195,13 +195,13 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
             return 0;
 
         if (tank != null && tank.getFluid() != null && tank.getFluidAmount() > 0) {
-            if (resource.getFluid().getID() != tank.getFluid().getFluid().getID()) {
+            if (resource.getFluid() != tank.getFluid().getFluid()) {
                 return 0;
             }
         }
 
         int filled = tank.fill(resource, doFill);
-        if (resource.getFluid().getID() == Fluids.fluidHydraulicOil.getID()) {
+        if (resource.getFluid() == Fluids.fluidHydraulicOil) {
             getHandler().setIsOilStored(true);
         } else {
             getHandler().setIsOilStored(false);

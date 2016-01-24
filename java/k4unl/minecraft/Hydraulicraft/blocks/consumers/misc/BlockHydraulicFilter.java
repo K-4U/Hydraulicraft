@@ -14,9 +14,6 @@ public class BlockHydraulicFilter extends HydraulicBlockContainerBase implements
 
 	public BlockHydraulicFilter() {
 		super(Names.blockHydraulicFilter, true);
-		this.hasFrontIcon = true;
-		this.hasLeftIcon = true;
-		this.hasRightIcon = true;
 	}
 
 	@Override

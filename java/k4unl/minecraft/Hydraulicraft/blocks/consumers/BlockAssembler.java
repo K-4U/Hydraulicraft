@@ -16,7 +16,6 @@ public class BlockAssembler extends HydraulicBlockContainerBase implements ITier
     public BlockAssembler() {
 
         super(Names.blockHydraulicAssembler, true);
-        this.hasFrontIcon = true;
     }
 
     @Override

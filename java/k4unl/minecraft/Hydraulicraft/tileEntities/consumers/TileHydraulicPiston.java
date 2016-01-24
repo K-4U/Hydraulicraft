@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
@@ -171,7 +171,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
         float maxY = 1.0F + getPos().getY();
         float maxZ = 1.0F + getPos().getZ();
 
-        EnumFacing dir = (EnumFacing) getWorld().getBlockState(getPos()).getValue(HydraulicBlockBase.ROTATION);
+        EnumFacing dir = (EnumFacing) getWorld().getBlockState(getPos()).getValue(Properties.ROTATION);
         minX += extendedLength * (dir.getFrontOffsetX() < 0 ? dir.getFrontOffsetX() : 0);
         minY += extendedLength * (dir.getFrontOffsetY() < 0 ? dir.getFrontOffsetY() : 0);
         minZ += extendedLength * (dir.getFrontOffsetZ() < 0 ? dir.getFrontOffsetZ() : 0);

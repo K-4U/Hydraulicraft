@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 public class BlockHydraulicFiller extends HydraulicBlockContainerBase implements ITieredBlock, IBlockWithRotation {
     public BlockHydraulicFiller() {
         super(Names.blockHydraulicFiller, true);
-        this.hasFrontIcon = true;
     }
 
     @Override

@@ -17,7 +17,6 @@ public class BlockHydraulicPneumaticCompressor extends HydraulicBlockContainerBa
 
     public BlockHydraulicPneumaticCompressor() {
         super(Names.blockHydraulicPneumaticCompressor, true);
-        this.hasFrontIcon = true;
     }
 
     @Override
