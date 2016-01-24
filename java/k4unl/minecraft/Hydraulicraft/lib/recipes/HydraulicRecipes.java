@@ -8,6 +8,7 @@ import k4unl.minecraft.Hydraulicraft.api.recipes.IRecipeHandler;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
+import k4unl.minecraft.Hydraulicraft.multipart.MultipartHandler;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -155,16 +156,16 @@ public class HydraulicRecipes implements IRecipeHandler {
                         }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 250))
         );
 
-        /*recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 1, 2), true,
+        recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(MultipartHandler.itemPartHose, 1, 2), true,
                         new Object[]{
                                 "C-K",
                                 "-H-",
                                 "K-C",
                                 'K', HCItems.gasket,
                                 'C', "ingotEnrichedCopper",
-                                'H', new ItemStack(Multipart.itemPartHose, 1, 1)
+                                'H', new ItemStack(MultipartHandler.itemPartHose, 1, 1)
                         }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 10)).setCraftingTime(100)
-        );*/
+        );
 
         recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPressurevat, 1, 2), true,
                         new Object[]{
@@ -458,7 +459,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         })
         );
 
-        /*GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 4, 0), true,
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MultipartHandler.itemPartHose, 4, 0), true,
                         new Object[]{
                                 "LLL",
                                 "K-K",
@@ -468,17 +469,17 @@ public class HydraulicRecipes implements IRecipeHandler {
                         })
         );
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartHose, 1, 1), true,
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MultipartHandler.itemPartHose, 1, 1), true,
                 new Object[]{
                         "C-C",
                         "KHK",
                         "C-C",
                         'K', HCItems.gasket,
                         'C', "ingotCopper",
-                        'H', new ItemStack(Multipart.itemPartHose, 1, 0)
+                        'H', new ItemStack(MultipartHandler.itemPartHose, 1, 0)
                 }));
 
-*/
+
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPressurevat, 1, 0), true,
                         new Object[]{
                                 "LWL",
@@ -572,33 +573,33 @@ public class HydraulicRecipes implements IRecipeHandler {
                         })
         );
 
-//        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartValve, 2, 0), true,
-//                new Object[]{
-//                        "   ",
-//                        "HLH",
-//                        "   ",
-//                        'H', new ItemStack(Multipart.itemPartHose, 1, 0),
-//                        'L', Blocks.lever
-//                }));
-//
-//        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartValve, 2, 1), true,
-//                new Object[]{
-//                        "   ",
-//                        "HLH",
-//                        "   ",
-//                        'H', new ItemStack(Multipart.itemPartHose, 1, 1),
-//                        'L', Blocks.lever
-//                }));
-//
-//        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Multipart.itemPartValve, 2, 2), true,
-//                new Object[]{
-//                        "   ",
-//                        "HLH",
-//                        "   ",
-//                        'H', new ItemStack(Multipart.itemPartHose, 1, 2),
-//                        'L', Blocks.lever
-//                }));
+/*        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MultipartHandler.itemPartValve, 2, 0), true,
+                new Object[]{
+                        "   ",
+                        "HLH",
+                        "   ",
+                        'H', new ItemStack(MultipartHandler.itemPartHose, 1, 0),
+                        'L', Blocks.lever
+                }));
 
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MultipartHandler.itemPartValve, 2, 1), true,
+                new Object[]{
+                        "   ",
+                        "HLH",
+                        "   ",
+                        'H', new ItemStack(MultipartHandler.itemPartHose, 1, 1),
+                        'L', Blocks.lever
+                }));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MultipartHandler.itemPartValve, 2, 2), true,
+                new Object[]{
+                        "   ",
+                        "HLH",
+                        "   ",
+                        'H', new ItemStack(MultipartHandler.itemPartHose, 1, 2),
+                        'L', Blocks.lever
+                }));
+*/
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockHydraulicFluidPump, 1), true,
                 new Object[]{
                         " P ",
@@ -768,8 +769,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         "L L",
                         "LLL",
                         'L', "ingotLead",
-                        //'H', Multipart.itemPartHose
-                        'H', Items.redstone
+                        'H', MultipartHandler.itemPartHose
                 }));
 
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCItems.itemhydraulicWrench, 1), true,
