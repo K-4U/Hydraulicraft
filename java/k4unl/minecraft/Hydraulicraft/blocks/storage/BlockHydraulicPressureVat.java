@@ -93,7 +93,10 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implemen
 
     @Override
     public PressureTier getTier(IBlockAccess world, BlockPos pos) {
-
-        return getTierFromState(world.getBlockState(pos));
+        if(world.getBlockState(pos).getBlock() == this) {
+            return getTierFromState(world.getBlockState(pos));
+        }else{
+            return PressureTier.INVALID;
+        }
     }
 }
