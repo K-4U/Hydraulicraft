@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsumer {
+    //FIXME: I TURN NULL SOMEHOW
     private Location parent;
     private Location child;
     private EnumFacing facing = EnumFacing.UP;
