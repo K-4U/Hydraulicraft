@@ -19,6 +19,16 @@ public class JEICategoryCrusher extends JEICategoryAbstract {
    }
 
    @Override
+   public Rectangle getRectangleForFluidOutput(int i) {
+      return null;
+   }
+
+   @Override
+   public Rectangle getRectangleForFluidInput(int i) {
+      return null;
+   }
+
+   @Override
    public Point getPointForInput(int i) {
       return pointInput;
    }
