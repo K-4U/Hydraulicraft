@@ -139,7 +139,7 @@ public class TrueTypeFont {
         BufferedImage tempfontImage = new BufferedImage(1, 1,
                 BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = (Graphics2D) tempfontImage.getGraphics();
-        if (antiAlias == true) {
+        if (antiAlias) {
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
         }
@@ -160,7 +160,7 @@ public class TrueTypeFont {
         fontImage = new BufferedImage((int) charwidth, (int) charheight,
                 BufferedImage.TYPE_INT_ARGB);
         Graphics2D gt = (Graphics2D) fontImage.getGraphics();
-        if (antiAlias == true) {
+        if (antiAlias) {
             gt.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
         }
@@ -471,7 +471,7 @@ public class TrueTypeFont {
             int internalFormat = GL11.GL_RGBA8,
                     format = GL11.GL_RGBA;
             IntBuffer textureId = BufferUtils.createIntBuffer(1);
-            ;
+
             GL11.glGenTextures(textureId);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureId.get(0));
 

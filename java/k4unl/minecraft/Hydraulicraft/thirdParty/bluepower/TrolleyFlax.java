@@ -24,11 +24,7 @@ public class TrolleyFlax implements IHarvesterTrolley {
 
 	@Override
 	public boolean canHarvest(World world, BlockPos pos) {
-        if(world.getBlockState(pos).getBlock() == BluePower.flaxBlock && world.getBlockState(pos.down()).getBlock() == BluePower.flaxBlock) {
-            return true;
-        }else {
-            return false;
-        }
+		return world.getBlockState(pos).getBlock() == BluePower.flaxBlock && world.getBlockState(pos.down()).getBlock() == BluePower.flaxBlock;
 		//return world.getBlockMetadata(x, y, z) == 7;
 	}
 

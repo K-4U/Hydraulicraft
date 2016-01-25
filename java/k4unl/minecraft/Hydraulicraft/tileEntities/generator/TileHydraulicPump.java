@@ -219,11 +219,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack) {
         if (i < 1) {
-            if (TileEntityFurnace.isItemFuel(itemStack)) {
-                return true;
-            } else {
-                return false;
-            }
+            return TileEntityFurnace.isItemFuel(itemStack);
         } else {
             return false;
         }

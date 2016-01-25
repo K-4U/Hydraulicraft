@@ -8,5 +8,5 @@ import net.minecraft.world.IBlockAccess;
  */
 public interface IGUIMultiBlock {
 
-    public boolean isValid(IBlockAccess world, BlockPos pos);
+    boolean isValid(IBlockAccess world, BlockPos pos);
 }

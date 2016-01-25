@@ -202,12 +202,8 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		if(i == 0 || i == 1){
-			//TODO: Do fancy check here if we can make a microblock
-			return true;
-		}else{
-			return false;
-		}
+		//TODO: Do fancy check here if we can make a microblock
+		return i == 0 || i == 1;
 	}
 
 	@Override
@@ -250,21 +246,13 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemstack, EnumFacing side) {
 		EnumFacing rotated = getFacing().rotateAround(EnumFacing.UP.getAxis());
-		if((side.equals(EnumFacing.UP) && i == 0) || (side.equals(rotated) && i == 1)){
-			//TODO: Fancy check if there's a microblock recipe
-			return true;
-		}else{
-			return false;
-		}
+		//TODO: Fancy check if there's a microblock recipe
+		return (side.equals(EnumFacing.UP) && i == 0) || (side.equals(rotated) && i == 1);
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j) {
-		if(i == 2 || i == 3){
-			return true;
-		}else{
-			return false;
-		}
+		return i == 2 || i == 3;
 	}
 
 	@Override

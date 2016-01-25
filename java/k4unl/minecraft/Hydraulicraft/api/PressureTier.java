@@ -10,7 +10,7 @@ public enum PressureTier implements IStringSerializable {
 
     public static final PressureTier[] VALID_TIERS = {LOWPRESSURE, MEDIUMPRESSURE, HIGHPRESSURE};
 
-    private PressureTier(int _tier) {
+    PressureTier(int _tier) {
         this.tier = _tier;
     }
 

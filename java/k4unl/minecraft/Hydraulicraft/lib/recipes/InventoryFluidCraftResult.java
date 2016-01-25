@@ -37,15 +37,7 @@ public class InventoryFluidCraftResult extends InventoryCraftResult {
     }
 
     public boolean canExtract(int slot, ItemStack itemStack) {
-        if (slot > 0)
-            return false;
+        return slot >= 0 && getStackInSlot(0) != null && getStackInSlot(0).isItemEqual(itemStack);
 
-        if (getStackInSlot(0) == null)
-            return false;
-
-        if (getStackInSlot(0).isItemEqual(itemStack))
-            return true;
-
-        return false;
     }
 }

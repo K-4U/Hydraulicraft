@@ -33,8 +33,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     private static boolean canSmelt(ItemStack inv) {
         //Get smelting result:
         ItemStack target = FurnaceRecipes.instance().getSmeltingResult(inv);
-        if (target == null) return false;
-        return true;
+        return target != null;
     }
 
     public int getSmeltingTicks() {
@@ -219,11 +218,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack) {
         if (i == 0) {
-            if (canSmelt(itemStack)) {
-                return true;
-            } else {
-                return false;
-            }
+            return canSmelt(itemStack);
         } else {
             return false;
         }
@@ -257,20 +252,12 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, EnumFacing j) {
-        if (i == 0 && canSmelt(itemStack)) {
-            return true;
-        } else {
-            return false;
-        }
+        return i == 0 && canSmelt(itemStack);
     }
 
     @Override
     public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j) {
-        if (i == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return i == 1;
     }
 
     @Override

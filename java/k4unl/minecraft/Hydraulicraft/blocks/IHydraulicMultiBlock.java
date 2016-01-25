@@ -1,9 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.blocks;
 
-import java.util.List;
-
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 
+import java.util.List;
+
 public interface IHydraulicMultiBlock {
-	public List<TileHydraulicValve> getValves();
+	List<TileHydraulicValve> getValves();
 }

@@ -7,9 +7,9 @@ import k4unl.minecraft.Hydraulicraft.network.NetworkHandler;
 import k4unl.minecraft.Hydraulicraft.network.packets.PacketKeyPressed;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
@@ -24,7 +24,7 @@ public class KeyHandler {
 
 	
 	public static void init(){
-		FMLCommonHandler.instance().bus().register(new KeyHandler());
+		MinecraftForge.EVENT_BUS.register(new KeyHandler());
 		
 		keys = new KeyBinding[keysToRegister.length];
 		for (int i = 0; i < keysToRegister.length; ++i) {
