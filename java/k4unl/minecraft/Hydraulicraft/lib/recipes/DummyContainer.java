@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
 public class DummyContainer extends Container {
-    private IFluidInventory feedback;
+    protected IFluidInventory feedback;
 
     public DummyContainer() {
         this(null);

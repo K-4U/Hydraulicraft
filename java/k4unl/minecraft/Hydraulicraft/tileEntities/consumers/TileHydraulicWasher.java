@@ -111,14 +111,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
      * and if the item is smeltable
      */
     private boolean canRun() {
-        if (!getIsValidMultiblock()) {
-            return false;
-        }
-        if (getPressure(EnumFacing.UP) < requiredPressure) {
-            return false;
-        }
-
-        return true;
+        return getIsValidMultiblock() && getPressure(EnumFacing.UP) >= requiredPressure;
     }
 
     @Override
@@ -269,20 +262,12 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, EnumFacing j) {
-        if (i == 0 && HCConfig.canBeWashed(itemStack)) {
-            return true;
-        } else {
-            return false;
-        }
+        return i == 0 && HCConfig.canBeWashed(itemStack);
     }
 
     @Override
     public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j) {
-        if (i == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return i == 1;
     }
 
 
@@ -306,11 +291,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
-        if (fluid.equals(FluidRegistry.WATER)) {
-            return true;
-        } else {
-            return false;
-        }
+        return fluid.equals(FluidRegistry.WATER);
     }
 
     @Override
@@ -561,11 +542,8 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     public void updateNetwork(float oldPressure) {
         if (!isValidMultiblock) {
             getHandler().updateNetworkOnNextTick(oldPressure);
-            return;
         } else {
-            if (valves.size() > 0) {
-
-            } else {
+            if (valves.size() <= 0) {
                 getHandler().updateNetworkOnNextTick(oldPressure);
             }
         }

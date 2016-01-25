@@ -141,7 +141,7 @@ public class IPs {
 			result |= (Long.parseLong(pieces[3-i]) << (i * 8));
 		}
 		
-		return result & 0xFFFFFFFF;
+		return result;
 	}
 	
 	public static String longToIp(long IP){

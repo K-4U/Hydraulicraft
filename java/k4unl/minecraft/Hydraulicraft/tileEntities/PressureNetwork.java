@@ -252,11 +252,7 @@ public class PressureNetwork {
     public void updateFluid(IHydraulicMachine mEnt) {
 
         boolean canOilBeStored = false;
-        if (mEnt.getHandler().isOilStored()) {
-            isOilStored = true;
-        } else {
-            isOilStored = false;
-        }
+        isOilStored = mEnt.getHandler().isOilStored();
 
         if (!isOilStored && mEnt.getHandler().getStored() == 0) {
             canOilBeStored = true;

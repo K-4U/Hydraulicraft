@@ -27,52 +27,6 @@ public class Functions {
         return l2;
     }
 
-    public static boolean isInString(String oreName, String[] list) {
-        boolean ret = false;
-        for (String aList : list) {
-            ret = ret || (oreName.substring(0, aList.length()).equals(aList));
-        }
-        return ret;
-    }
-
-
-    public static String getPrefixName(String oreDictName) {
-        //TODO: Fix this function up. It looks ugly
-        String[] prefix = {"ingot"};
-        if (isInString(oreDictName, prefix)) {
-            return "ingot";
-        }
-
-        prefix[0] = "ore";
-        if (isInString(oreDictName, prefix)) {
-            return "ore";
-        }
-
-        if (oreDictName.equals("netherquartz")) {
-            return "Quartz";
-        } else {
-            return "ERROR";
-        }
-    }
-
-    public static String getMetalName(String oreDictName) {
-        String[] prefix = {"ingot"};
-        if (isInString(oreDictName, prefix)) {
-            return oreDictName.substring(prefix[0].length());
-        }
-
-        prefix[0] = "ore";
-        if (isInString(oreDictName, prefix)) {
-            return oreDictName.substring(prefix[0].length());
-        }
-
-        if (oreDictName.equals("netherquartz")) {
-            return "Quartz";
-        } else {
-            return "ERROR";
-        }
-    }
-
     public static ItemStack getIngot(String ingotName) {
         List<ItemStack> targetStackL = OreDictionary.getOres(ingotName);
         if (targetStackL.size() > 0) {

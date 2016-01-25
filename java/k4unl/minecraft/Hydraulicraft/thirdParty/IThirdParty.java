@@ -2,14 +2,14 @@ package k4unl.minecraft.Hydraulicraft.thirdParty;
 
 public interface IThirdParty{
 
-    public void preInit();
+    void preInit();
 
-    public void init();
+    void init();
 
-    public void postInit();
+    void postInit();
 
     /**
      * Gets called from the ClientProxy in the preInit.
      */
-    public void clientSide();
+    void clientSide();
 }

@@ -17,7 +17,7 @@ public class HCApi {
         return instance;
     }
 
-    public static interface IHCApi {
+    public interface IHCApi {
         IRecipeHandler getRecipeHandler();
 
         ITrolleyRegistrar getTrolleyRegistrar();

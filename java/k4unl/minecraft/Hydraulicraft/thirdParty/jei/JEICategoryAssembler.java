@@ -6,10 +6,11 @@ import javax.annotation.Nonnull;
 import java.awt.*;
 
 public class JEICategoryAssembler extends JEICategoryAbstract {
-   private static final int     offsetLeft  = 46;
-   private static final int     offsetTop   = 2;
-   private static final Point   pointOutput = new Point(124, 20);
-   private static       Point[] pointInputs = new Point[9];
+   private static final int       offsetLeft  = 46;
+   private static final int       offsetTop   = 2;
+   private static final Point     pointOutput = new Point(124, 20);
+   private static final Rectangle fluidIn     = new Rectangle(30 - 6, 15 - 14, 47 - 30, 70 - 15);
+   private static       Point[]   pointInputs = new Point[9];
 
 
    public JEICategoryAssembler(IGuiHelper helper) {
@@ -22,6 +23,16 @@ public class JEICategoryAssembler extends JEICategoryAbstract {
    @Override
    public String getBackgroundTextureName() {
       return "assembler";
+   }
+
+   @Override
+   public Rectangle getRectangleForFluidOutput(int i) {
+      return null;
+   }
+
+   @Override
+   public Rectangle getRectangleForFluidInput(int i) {
+      return fluidIn;
    }
 
    @Override

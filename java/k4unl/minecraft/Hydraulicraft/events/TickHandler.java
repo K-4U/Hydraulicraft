@@ -13,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -26,7 +26,7 @@ public class TickHandler {
     public static int tickCount = 0;
 
     public static void init() {
-        FMLCommonHandler.instance().bus().register(new TickHandler());
+        MinecraftForge.EVENT_BUS.register(new TickHandler());
     }
 
     @SubscribeEvent

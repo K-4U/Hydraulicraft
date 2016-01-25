@@ -538,11 +538,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
-        if (!side.equals(EnumFacing.UP)) {
-            return true;
-        } else {
-            return false;
-        }
+        return !side.equals(EnumFacing.UP);
     }
 
     @Override
