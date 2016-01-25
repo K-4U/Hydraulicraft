@@ -29,7 +29,7 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
     private PressurizableItem pressurizableItem;
 
     public ItemHydraulicWrench() {
-        super(Names.itemHydraulicWrench);
+        super(Names.itemHydraulicWrench, true);
         setNoRepair();
         maxStackSize = 1;
         pressurizableItem = new PressurizableItem(MAX_PRESSURE, FLUID_CAPACITY);

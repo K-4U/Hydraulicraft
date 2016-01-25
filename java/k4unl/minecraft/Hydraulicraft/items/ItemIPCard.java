@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,8 +17,10 @@ import java.util.List;
 public class ItemIPCard extends HydraulicItemBase {
 
     public ItemIPCard() {
-        super(Names.itemIPCard);
+        super(Names.itemIPCard, false);
+
         setMaxStackSize(1);
+        this.setCreativeTab(CustomTabs.tabGOW);
     }
 
     @Override

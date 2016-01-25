@@ -23,7 +23,7 @@ public class ItemCannister extends HydraulicItemBase implements IPressurizableIt
     public static final float CHANCE_TO_RELEASE_WATER = 0.1f;
 
     public ItemCannister() {
-        super(Names.itemCannister);
+        super(Names.itemCannister, true);
         setNoRepair();
         maxStackSize = 1;
 

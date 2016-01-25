@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "frame": "hydcraft:blocks/portalFrame_enabled",
+      "frame": "hydcraft:blocks/portalFrame_disabled",
       "particle": "hydcraft:blocks/portalFrame_disabled"
     },
     "uvlock": false
@@ -13,7 +13,34 @@
     ],
     "inventory": [
       {
-        "transform": "forge:default-block"
+        "submodel": {
+          "up": {
+            "model":"hydcraft:portalFrame_connected"
+          },
+          "down": {
+            "model":"hydcraft:portalFrame_connected",
+            "x":180
+          },
+          "north": {
+            "model":"hydcraft:portalFrame_connected",
+            "x":90
+          },
+          "south": {
+            "model":"hydcraft:portalFrame_connected",
+            "x":90,
+            "y":180
+          },
+          "east": {
+            "model":"hydcraft:portalFrame_connected",
+            "x":90,
+            "y":90
+          },
+          "west": {
+            "model":"hydcraft:portalFrame_connected",
+            "x":90,
+            "y":270
+          }
+        }
       }
     ],
     "active": {

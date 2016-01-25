@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 public class ItemDebug extends HydraulicItemBase {
 
 	public ItemDebug() {
-		super(Names.itemDebugger);
+		super(Names.itemDebugger, true);
 		
 		this.maxStackSize = 1;
 	}

@@ -15,7 +15,7 @@ public class HydraulicItemBase extends Item {
     private String  defaultInfo = "";
 
 
-    public HydraulicItemBase(Name itemName) {
+    public HydraulicItemBase(Name itemName, boolean addToTab) {
         super();
 
         mName = itemName;
@@ -23,8 +23,9 @@ public class HydraulicItemBase extends Item {
         setMaxStackSize(64);
         setUnlocalizedName(itemName.unlocalized);
         /*setUnlocalizedName(ModInfo.LID + ":" + itemName.unlocalized);*/
-
-        setCreativeTab(CustomTabs.tabHydraulicraft);
+        if(addToTab) {
+            setCreativeTab(CustomTabs.tabHydraulicraft);
+        }
     }
 
     /*!

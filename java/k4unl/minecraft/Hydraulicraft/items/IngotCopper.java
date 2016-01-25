@@ -5,7 +5,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 public class IngotCopper extends HydraulicItemBase {
 
 	public IngotCopper() {
-		super(Names.ingotCopper);
+		super(Names.ingotCopper, true);
 	}
 
 }

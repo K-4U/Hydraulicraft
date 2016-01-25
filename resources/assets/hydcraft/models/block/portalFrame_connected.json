@@ -8,6 +8,13 @@
         "west":  { "texture": "#frame" },
         "east":  { "texture": "#frame" }
       }
+    },
+    { "from": [ 5, 16, 5 ],
+      "to": [ 11, 16, 11 ],
+      "faces": {
+        "down": { "texture": "#frame" },
+        "up": { "texture": "#frame" }
+      }
     }
   ]
 }

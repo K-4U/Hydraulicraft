@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class ItemMovingPane extends HydraulicItemBase {
 
     public ItemMovingPane() {
-        super(Names.blockMovingPane);
+        super(Names.blockMovingPane, true);
     }
 
     // Called when a player right-clicks with this item in his hand

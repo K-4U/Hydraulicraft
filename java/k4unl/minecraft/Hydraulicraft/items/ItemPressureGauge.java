@@ -9,7 +9,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 public class ItemPressureGauge extends HydraulicItemBase {
 
     public ItemPressureGauge() {
-        super(Names.itemPressureGauge);
+        super(Names.itemPressureGauge, true);
         setDefaultInfo(Localization.getString("lang.tooltip.pressureGauge"));
     }
 }
