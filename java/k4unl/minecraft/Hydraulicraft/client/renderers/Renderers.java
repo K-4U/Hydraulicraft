@@ -7,8 +7,6 @@ import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.Render
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.RendererHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.client.renderers.generators.RendererHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.client.renderers.generators.RendererHydraulicPump;
-import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalBase;
-import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalFrame;
 import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererArchimedesScrew;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererInterfaceValve;
@@ -20,8 +18,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
-import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
-import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
@@ -61,10 +57,8 @@ public class Renderers {
 //		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartValve, new RendererPartValveItem());
 //		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartFluidPipe, new RendererPartFluidPipeItem());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TilePortalBase.class, new RendererPortalBase());
-        ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(HCBlocks.portalBase), 0, TilePortalBase.class);
-        ClientRegistry.bindTileEntitySpecialRenderer(TilePortalFrame.class, new RendererPortalFrame());
-        ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(HCBlocks.portalFrame), 0, TilePortalFrame.class);
+        //ClientRegistry.bindTileEntitySpecialRenderer(TilePortalBase.class, new RendererPortalBase());
+        //ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(HCBlocks.portalBase), 0, TilePortalBase.class);
         ClientRegistry.bindTileEntitySpecialRenderer(TilePortalTeleporter.class, new RendererPortalTeleporter());
 
 //		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.portalBase), new ItemRendererPortalBase());

@@ -14,12 +14,7 @@ public abstract class GOWBlockRendering extends GOWBlockBase {
 
     @Override
     public int getRenderType() {
-        return 2;
-    }
-
-    @Override
-    public boolean isOpaqueCube() {
-        return false;
+        return 3;
     }
 
     @Override

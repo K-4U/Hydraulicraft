@@ -1,0 +1,114 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "frame": "hydcraft:blocks/portalFrame_enabled",
+      "particle": "hydcraft:blocks/portalFrame_disabled"
+    },
+    "uvlock": false
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {
+        "transform": "forge:default-block"
+      }
+    ],
+    "active": {
+      "true": {
+        "textures": {
+          "frame": "hydcraft:blocks/portalFrame_enabled"
+        }
+      },
+      "false": {
+        "textures": {
+          "frame": "hydcraft:blocks/portalFrame_disabled"
+        }
+      }
+    },
+    "down": {
+      "false": {
+        "submodel": {
+          "down": {
+            "model": "hydcraft:portalFrame_disconnected",
+            "x": 180
+          }
+        }
+      },
+      "true": {
+        "submodel": {
+          "down": {
+            "model": "hydcraft:portalFrame_connected",
+            "x": 180
+          }
+        }
+      }
+    },
+    "up": {
+      "false": {
+        "submodel": {
+          "up": {
+            "model": "hydcraft:portalFrame_disconnected"
+          }
+        }
+      },
+      "true": {
+        "submodel": {
+          "up": {
+            "model": "hydcraft:portalFrame_connected"
+          }
+        }
+      }
+    },
+    "north": {
+      "false": {
+        "submodel": {
+          "north": { "model": "hydcraft:portalFrame_disconnected", "x": 90 }
+        }
+      },
+      "true": {
+        "submodel": {
+          "north": { "model": "hydcraft:portalFrame_connected", "x": 90 }
+        }
+      }
+    },
+    "south": {
+      "false": {
+        "submodel": {
+          "south": { "model": "hydcraft:portalFrame_disconnected", "x": 90, "y": 180 }
+        }
+      },
+      "true": {
+        "submodel": {
+          "south": { "model": "hydcraft:portalFrame_connected", "x": 90, "y": 180 }
+        }
+      }
+    },
+    "west": {
+      "false": {
+        "submodel": {
+          "west": { "model": "hydcraft:portalFrame_disconnected", "x": 90, "y": 270 }
+        }
+      },
+      "true": {
+        "submodel": {
+          "west": { "model": "hydcraft:portalFrame_connected", "x": 90, "y": 270 }
+        }
+      }
+    },
+    "east": {
+      "false": {
+        "submodel": {
+          "east": { "model": "hydcraft:portalFrame_disconnected", "x": 90, "y": 90 }
+        }
+      },
+      "true": {
+        "submodel": {
+          "east": { "model": "hydcraft:portalFrame_connected", "x": 90, "y": 90 }
+        }
+      }
+    }
+  }
+}

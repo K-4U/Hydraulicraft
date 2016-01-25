@@ -144,4 +144,19 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
 
         return new TilePortalTeleporter();
     }
+
+    @Override
+    public int getRenderType() {
+        return -1;
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean isFullBlock() {
+        return false;
+    }
 }

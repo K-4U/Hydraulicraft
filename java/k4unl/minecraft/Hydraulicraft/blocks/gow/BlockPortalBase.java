@@ -25,7 +25,6 @@ public class BlockPortalBase extends GOWBlockRendering implements ITieredBlock {
 	}
 
 	@Override
-
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(playerIn.isSneaking()){
 			return false;
@@ -79,8 +78,4 @@ public class BlockPortalBase extends GOWBlockRendering implements ITieredBlock {
         return new TilePortalBase(getTier());
     }
 
-	@Override
-	public int getRenderType() {
-		return 2;
-	}
 }

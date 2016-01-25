@@ -509,6 +509,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         return new Location(Hydraulicraft.ipList.getLocation(linked), portalDir, 1);
     }
 
+    //This functionality may get lost :(
     public void dye(int i) {
         colorIndex = i;
         markDirty();
