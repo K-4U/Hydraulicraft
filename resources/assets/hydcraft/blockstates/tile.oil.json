@@ -2,7 +2,8 @@
   "forge_marker": 1,
   "defaults": {
     "model": "forge:fluid",
-    "custom": { "fluid": "oil" }
+    "custom": { "fluid": "oil" },
+    "transform": "forge:default-item"
   },
   "variants": {
     "level":{

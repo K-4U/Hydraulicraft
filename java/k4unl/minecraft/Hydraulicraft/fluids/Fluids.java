@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 
@@ -47,6 +48,8 @@ public class Fluids {
         GameRegistry.registerBlock(fluidOilBlock, fluidOilBlock.getUnlocalizedName());
         GameRegistry.registerBlock(fluidLubricantBlock, fluidLubricant.getUnlocalizedName());
         GameRegistry.registerBlock(fluidFluoroCarbonFluidBlock, fluidFluoroCarbonFluid.getUnlocalizedName());
+
+        FluidRegistry.registerFluid(fluidHydraulicOil);
 	}
 
 }
