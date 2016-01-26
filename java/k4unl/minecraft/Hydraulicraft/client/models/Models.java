@@ -52,6 +52,7 @@ public class Models {
         loadModel(HCBlocks.blockCharger);
         loadModel(HCBlocks.blockRefinedLonezium);
         loadModel(HCBlocks.blockRefinedNadsiumBicarbinate);
+        loadModel(HCBlocks.blockHydraulicFluidPump);
 
 
         loadModel(HCBlocks.blockJarDirt);
