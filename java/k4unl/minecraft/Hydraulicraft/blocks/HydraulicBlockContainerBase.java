@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.blocks;
 
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.BuildcraftCompat;
@@ -29,8 +30,12 @@ public abstract class HydraulicBlockContainerBase extends HydraulicBlockBase imp
     @Override
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
-    }
 
+        TileEntity tile = worldIn.getTileEntity(pos);
+        if (tile instanceof IHydraulicMachine) {
+            ((TileHydraulicBase)((IHydraulicMachine) tile).getHandler()).checkRedstonePower();
+        }
+    }
 
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {

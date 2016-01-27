@@ -22,7 +22,7 @@
         "model": "hydcraft:pump_medium"
       },
       "tier-2": {
-        "model": "hydcraft:pump_medium"
+        "model": "hydcraft:pump_high"
       }
     }
   }
