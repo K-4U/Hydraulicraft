@@ -351,6 +351,9 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     }
 
     public void invalidateMultiblock() {
+        if(getWorldObj().getBlockState(getPos()).getBlock() != getBlockType()){
+            return;
+        }
         EnumFacing dir = (EnumFacing) getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
 
         int depthMultiplier = ((dir == EnumFacing.EAST || dir == EnumFacing.WEST) ? 1 : -1);
