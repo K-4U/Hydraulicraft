@@ -11,13 +11,13 @@ import net.minecraftforge.fluids.FluidRegistry;
  */
 public class FluidLubricant extends Fluid {
     public FluidLubricant() {
-        super(Names.fluidLubricant.unlocalized, new ResourceLocation(ModInfo.LID, "textures/blocks/lubricant_still"), new ResourceLocation(ModInfo.LID, "textures/blocks/lubricant_flowing"));
+        super(Names.fluidLubricant.unlocalized, new ResourceLocation(ModInfo.LID, "blocks/lubricant_still"), new ResourceLocation(ModInfo.LID, "blocks/lubricant_flowing"));
         setDensity(900); //How thick the fluid is, affects movement inside the fluid.
         setViscosity(9999); // How fast the fluid flows.
 
         setUnlocalizedName(Names.fluidLubricant.unlocalized);
-        setBlock(Fluids.fluidLubricantBlock);
-
         FluidRegistry.registerFluid(this);
+        setBlock(new BlockBaseFluid(this, Names.fluidLubricant));
+
     }
 }

@@ -169,7 +169,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
             getWorldObj().createExplosion(null, getBlockLocation().getX(), getBlockLocation().getY(), getBlockLocation().getZ(),
                     0.6F + ((getMaxPressure(isOilStored(), null) / newPressure)), true);
             if (isOilStored()) {
-                getWorldObj().setBlockState(getBlockLocation().toBlockPos(), Fluids.fluidHydraulicOilBlock.getDefaultState());
+                getWorldObj().setBlockState(getBlockLocation().toBlockPos(), Fluids.fluidHydraulicOil.getBlock().getDefaultState());
             } else {
                 getWorldObj().setBlockState(getBlockLocation().toBlockPos(), FluidRegistry.WATER.getBlock().getDefaultState());
             }

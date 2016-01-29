@@ -8,16 +8,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 
 
 public class BlockBaseFluid extends BlockFluidClassic {
-/*
-    @SideOnly(Side.CLIENT)
-    protected IIcon stillIcon;
-    @SideOnly(Side.CLIENT)
-    protected IIcon flowingIcon;
-*/
     private Name mName;
 
     public BlockBaseFluid(Fluid fluid, Name name) {
@@ -27,26 +20,6 @@ public class BlockBaseFluid extends BlockFluidClassic {
         setUnlocalizedName(name.unlocalized);
         mName = name;
         setCreativeTab(CustomTabs.tabHydraulicraft);
-    }
-/*
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerBlockIcons(IIconRegister icon) {
-        stillIcon = icon.registerIcon(ModInfo.LID + ":"
-                + mName.unlocalized + "_still");
-        flowingIcon = icon.registerIcon(ModInfo.LID + ":"
-                + mName.unlocalized + "_flowing");
-
-        getFluid().setIcons(stillIcon, flowingIcon);
-    }
-
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        return (side == 0 || side == 1) ? stillIcon : flowingIcon;
-    }*/
-
-    @Override public Fluid getFluid(){
-        return FluidRegistry.getFluid(fluidName);
     }
 
     @Override

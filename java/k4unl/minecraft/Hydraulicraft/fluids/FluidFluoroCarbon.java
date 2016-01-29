@@ -13,14 +13,14 @@ import net.minecraftforge.fluids.FluidRegistry;
 public class FluidFluoroCarbon extends Fluid implements ITooltipProvider {
 
     public FluidFluoroCarbon() {
-        super(Names.fluidFluoroCarbon.unlocalized, new ResourceLocation(ModInfo.LID, "textures/blocks/fluoroCarbonFluid_still"), new ResourceLocation(ModInfo.LID, "textures/blocks/fluoroCarbonFluid_flowing"));
+        super(Names.fluidFluoroCarbon.unlocalized, new ResourceLocation(ModInfo.LID, "blocks/fluoroCarbonFluid_still"), new ResourceLocation(ModInfo.LID, "blocks/fluoroCarbonFluid_flowing"));
         setDensity(10); //How thick the fluid is, affects movement inside the fluid.
         setViscosity(3000); // How fast the fluid flows.
 
         setUnlocalizedName(Names.fluidFluoroCarbon.unlocalized);
-        setBlock(Fluids.fluidFluoroCarbonFluidBlock);
-
         FluidRegistry.registerFluid(this);
+        setBlock(new BlockBaseFluid(this, Names.fluidFluoroCarbon));
+
     }
 
     @Override

@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.world;
 
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
+import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
@@ -22,26 +23,27 @@ public class WorldGenOil {
         int middleY = minY + (rand.nextInt(maxY - minY));
         maxY = middleY + radius;
 
+        Block toPlace = Fluids.fluidOil.getBlock();
         for (int x = 0; x < radius; x++) {
             for (int y = 0; y < radius; y++) {
                 for (int z = 0; z < radius; z++) {
                     if (x * x + y * y + z * z < radius * radius) {
 
-                        world.setBlockState(new BlockPos(middleX + x, middleY + y, middleZ + z), Fluids.fluidOilBlock.getDefaultState(), 0);
-                        world.setBlockState(new BlockPos(middleX + x, middleY + y, middleZ - z), Fluids.fluidOilBlock.getDefaultState(), 0);
-                        world.setBlockState(new BlockPos(middleX + x, middleY - y, middleZ + z), Fluids.fluidOilBlock.getDefaultState(), 0);
-                        world.setBlockState(new BlockPos(middleX + x, middleY - y, middleZ - z), Fluids.fluidOilBlock.getDefaultState(), 0);
-                        world.setBlockState(new BlockPos(middleX - x, middleY + y, middleZ + z), Fluids.fluidOilBlock.getDefaultState(), 0);
-                        world.setBlockState(new BlockPos(middleX - x, middleY + y, middleZ - z), Fluids.fluidOilBlock.getDefaultState(), 0);
-                        world.setBlockState(new BlockPos(middleX - x, middleY - y, middleZ + z), Fluids.fluidOilBlock.getDefaultState(), 0);
-                        world.setBlockState(new BlockPos(middleX - x, middleY - y, middleZ - z), Fluids.fluidOilBlock.getDefaultState(), 0);
+                        world.setBlockState(new BlockPos(middleX + x, middleY + y, middleZ + z), toPlace.getDefaultState(), 0);
+                        world.setBlockState(new BlockPos(middleX + x, middleY + y, middleZ - z), toPlace.getDefaultState(), 0);
+                        world.setBlockState(new BlockPos(middleX + x, middleY - y, middleZ + z), toPlace.getDefaultState(), 0);
+                        world.setBlockState(new BlockPos(middleX + x, middleY - y, middleZ - z), toPlace.getDefaultState(), 0);
+                        world.setBlockState(new BlockPos(middleX - x, middleY + y, middleZ + z), toPlace.getDefaultState(), 0);
+                        world.setBlockState(new BlockPos(middleX - x, middleY + y, middleZ - z), toPlace.getDefaultState(), 0);
+                        world.setBlockState(new BlockPos(middleX - x, middleY - y, middleZ + z), toPlace.getDefaultState(), 0);
+                        world.setBlockState(new BlockPos(middleX - x, middleY - y, middleZ - z), toPlace.getDefaultState(), 0);
                     }
                 }
             }
         }
 
         for(int i = maxY-1; i <= worldHeight+ HCConfig.INSTANCE.getInt("oilSpoutSize","worldgen"); i++){
-            world.setBlockState(new BlockPos(middleX, i, middleZ), Fluids.fluidOilBlock.getDefaultState());
+            world.setBlockState(new BlockPos(middleX, i, middleZ), toPlace.getDefaultState());
         }
     }
 }

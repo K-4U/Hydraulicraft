@@ -1,14 +1,16 @@
 package k4unl.minecraft.Hydraulicraft.fluids;
 
-import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidOil extends BlockBaseFluid {
-    public BlockFluidOil() {
 
-        super(Fluids.fluidOil, Names.fluidOil);
 
+    public BlockFluidOil(Fluid fluid, Name name) {
+
+        super(fluid, name);
     }
 
     @Override

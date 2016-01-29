@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.models;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
@@ -66,6 +67,11 @@ public class Models {
 
         loadModel(HCBlocks.portalBase);
         loadModel(HCBlocks.portalFrame);
+
+        loadModel(Fluids.fluidHydraulicOil.getBlock());
+        loadModel(Fluids.fluidOil.getBlock());
+        loadModel(Fluids.fluidFluoroCarbonFluid.getBlock());
+        loadModel(Fluids.fluidLubricant.getBlock());
     }
 
     private static void loadModel(Block block){
@@ -114,12 +120,11 @@ public class Models {
     
         loadItemModel(HCItems.itemEnderLolly);
         loadItemModel(HCItems.itemIPCard);
-    
-        loadItemModel(HCItems.itemBucketOil);
-        loadItemModel(HCItems.itemBucketHydraulicOil);
-        loadItemModel(HCItems.itemBucketLubricant);
-        loadItemModel(HCItems.itemBucketFluoricCarbonFluid);
-    
+
+        for (Item bucket : Fluids.buckets) {
+            loadItemModel(bucket);
+        }
+
         loadItemModel(HCItems.itemDivingHelmet);
         loadItemModel(HCItems.itemDivingController);
         loadItemModel(HCItems.itemDivingLegs);

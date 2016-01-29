@@ -1,18 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
-import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingHelmet;
 import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingSuit;
-import k4unl.minecraft.Hydraulicraft.lib.BucketHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.k4lib.lib.OreDictionaryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -37,11 +31,6 @@ public class HCItems {
 
     public static Item itemEnderLolly;
     public static Item itemIPCard;
-
-    public static Item itemBucketOil;
-    public static Item itemBucketHydraulicOil;
-    public static Item itemBucketLubricant;
-    public static Item itemBucketFluoricCarbonFluid;
 
     public static Item itemDivingHelmet;
     public static Item itemDivingController;
@@ -68,11 +57,11 @@ public class HCItems {
         ingotEnrichedCopper = new IngotEnrichedCopper();
         itemFrictionPlate = new ItemFrictionPlate();
         itemDebugger = new ItemDebug();
-        itemBucketOil = new ItemBucketBase(Fluids.fluidOilBlock, Names.itemBucketOil);
+        /*itemBucketOil = new ItemBucketBase(Fluids.fluidOilBlock, Names.itemBucketOil);
         itemBucketHydraulicOil = new ItemBucketBase(Fluids.fluidHydraulicOilBlock, Names.itemBucketHydraulicOil);
         itemBucketLubricant = new ItemBucketBase(Fluids.fluidLubricantBlock, Names.itemBucketLubricant);
         itemBucketFluoricCarbonFluid = new ItemBucketBase(Fluids.fluidFluoroCarbonFluidBlock, Names.itemBucketFluoroCarbon);
-
+*/
         if (!HCConfig.INSTANCE.getBool("disableBacon")) {
             itemBacon = new ItemBacon();
         }
@@ -146,11 +135,6 @@ public class HCItems {
         OreDictionary.registerOre(Names.itemCopperEnrichedDust.unlocalized, new ItemStack(itemEnrichedCopperDust));
 
 
-        GameRegistry.registerItem(itemBucketOil, Names.itemBucketOil.unlocalized);
-        GameRegistry.registerItem(itemBucketHydraulicOil, Names.itemBucketHydraulicOil.unlocalized);
-        GameRegistry.registerItem(itemBucketLubricant, Names.itemBucketLubricant.unlocalized);
-        GameRegistry.registerItem(itemBucketFluoricCarbonFluid, Names.itemBucketFluoroCarbon.unlocalized);
-
         if (!HCConfig.INSTANCE.getBool("disableBacon")) {
             GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);
             OreDictionary.registerOre(Names.oredictBacon, new ItemStack(itemBacon));
@@ -166,25 +150,6 @@ public class HCItems {
         GameRegistry.registerItem(itemSaw, Names.itemSaw.unlocalized);
 
         GameRegistry.registerItem(itemPressureGauge, Names.itemPressureGauge.unlocalized);
-
-
-        //TODO: REDO ME FOR 1.8.9
-        FluidStack st = FluidRegistry.getFluidStack(Names.fluidHydraulicOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
-        FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketHydraulicOil), new ItemStack((Item) Item.itemRegistry.getObject(new ResourceLocation("bucket"))));
-        BucketHandler.INSTANCE.buckets.put(Fluids.fluidHydraulicOilBlock, itemBucketHydraulicOil);
-
-
-        st = FluidRegistry.getFluidStack(Names.fluidOil.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
-        FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketOil), new ItemStack((Item) Item.itemRegistry.getObject(new ResourceLocation("bucket"))));
-        BucketHandler.INSTANCE.buckets.put(Fluids.fluidOilBlock, itemBucketOil);
-
-        st = FluidRegistry.getFluidStack(Names.fluidLubricant.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
-        FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketLubricant), new ItemStack((Item) Item.itemRegistry.getObject(new ResourceLocation("bucket"))));
-        BucketHandler.INSTANCE.buckets.put(Fluids.fluidLubricantBlock, itemBucketLubricant);
-
-        st = FluidRegistry.getFluidStack(Names.fluidFluoroCarbon.getLowerUnlocalized(), FluidContainerRegistry.BUCKET_VOLUME);
-        FluidContainerRegistry.registerFluidContainer(st, new ItemStack(itemBucketFluoricCarbonFluid), new ItemStack((Item) Item.itemRegistry.getObject(new ResourceLocation("bucket"))));
-        BucketHandler.INSTANCE.buckets.put(Fluids.fluidFluoroCarbonFluidBlock, itemBucketFluoricCarbonFluid);
     }
 }
 
