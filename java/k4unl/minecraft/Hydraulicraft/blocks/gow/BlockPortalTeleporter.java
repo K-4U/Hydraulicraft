@@ -30,6 +30,7 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
     public BlockPortalTeleporter() {
 
         super(Names.portalTeleporter.unlocalized);
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 
     @SideOnly(Side.CLIENT)
@@ -38,38 +39,26 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
         return true;
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-
-        TileEntity ent = worldIn.getTileEntity(pos);
-
-        if (ent instanceof TilePortalTeleporter) {
-            TilePortalTeleporter teleporter = (TilePortalTeleporter) ent;
-            Vector3fMax vector = blockBounds.copy();
-            if (teleporter.getBaseDir() != null) {
-                if (teleporter.getBaseDir().equals(EnumFacing.NORTH) | teleporter.getPortalDir().equals(EnumFacing.NORTH)) {
-                    vector.setZMin(0.0F);
-                    vector.setZMax(1.0F);
-                }
-                if (teleporter.getPortalDir().equals(EnumFacing.UP)) {
-                    vector.setYMin(0.0F);
-                    vector.setYMax(1.0F);
-                }
-                if (teleporter.getBaseDir().equals(EnumFacing.EAST) || teleporter.getPortalDir().equals(EnumFacing.EAST)) {
-                    vector.setXMin(0.0F);
-                    vector.setXMax(1.0F);
-                }
-            }
-
-            this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
-        }
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
 
+    }
+
+    @Override
+    public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
+
+        return true;
+    }
+
+    @Override
+    public boolean isCollidable() {
+
+        return false;
     }
 
     @Override
@@ -159,4 +148,6 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
     public boolean isFullBlock() {
         return false;
     }
+
+
 }

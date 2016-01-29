@@ -506,6 +506,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         if (linkingCard.getTagCompound().getLong("linked") == 0) return null;
         long linked = linkingCard.getTagCompound().getLong("linked");
         if (Hydraulicraft.ipList.getLocation(linked) == null) return null;
+        if (portalDir == null) return null;
         return new Location(Hydraulicraft.ipList.getLocation(linked), portalDir, 1);
     }
 
