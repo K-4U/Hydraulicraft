@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -65,5 +66,11 @@ public class BlockHydraulicLavaPump extends HydraulicTieredBlockBase implements 
     public PressureTier getTier(IBlockAccess world, BlockPos pos) {
 
         return getTierFromState(world.getBlockState(pos));
+    }
+
+    @Override
+    public boolean canConnectRedstone(IBlockAccess world, BlockPos pos, EnumFacing side) {
+
+        return true;
     }
 }
