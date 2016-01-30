@@ -731,9 +731,9 @@ COULD BE REMOVED?
                 return ((ITieredBlock) tMp).getTier();
             }
         } else {
-            if (tTarget.getBlockType() instanceof ITieredBlock) {
+            if (getWorldObj().getBlockState(getPos()).getBlock() instanceof ITieredBlock) {
                 return ((ITieredBlock) tTarget.getBlockType()).getTier();
-            } else if (tTarget.getBlockType() instanceof IMultiTieredBlock) {
+            } else if (getWorldObj().getBlockState(getPos()).getBlock() instanceof IMultiTieredBlock) {
                 return ((IMultiTieredBlock) tTarget.getBlockType()).getTier(getWorldObj(), getBlockLocation().toBlockPos());
             }
         }
