@@ -16,16 +16,14 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class PartHose extends Multipart implements ISlottedPart, ITickable, IOccludingPart, IHydraulicTransporter, ICustomNetwork, ITieredBlock {
@@ -437,6 +435,18 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     public byte getConnectedSides() {
         return connectionCache;
+    }
+
+    @Override
+    public ItemStack getPickBlock(EntityPlayer player, PartMOP hit) {
+
+        return new ItemStack(MultipartHandler.itemPartHose, 1, tier.toInt());
+    }
+
+    @Override
+    public List<ItemStack> getDrops() {
+
+        return Collections.singletonList(getPickBlock(null, null));
     }
 }
 
