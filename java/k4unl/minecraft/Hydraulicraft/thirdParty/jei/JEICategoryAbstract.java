@@ -90,7 +90,7 @@ public abstract class JEICategoryAbstract implements IRecipeCategory {
             for (int i = 0; i < outFluids.size(); i++) {
                fluidStacks.init((inFluids != null ? inFluids.size() : 0) + i, false, getRectangleForFluidOutput(i).x, getRectangleForFluidOutput(i).y, getRectangleForFluidOutput(i).width,
                        getRectangleForFluidOutput(i).height, outFluids.get(i).amount, true, null); // TODO overlay
-               fluidStacks.set(inFluids.size() + i, outFluids.get(i));
+               fluidStacks.set((inFluids != null ? inFluids.size() : 0) + i, outFluids.get(i));
             }
       }
    }
