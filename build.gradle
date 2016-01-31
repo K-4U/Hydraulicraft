@@ -56,7 +56,7 @@ dependencies {
     compile "mcp.mobius.waila:Waila:1.6.0-B3_1.8.8:dev"
     //compile 'net.industrial-craft:industrialcraft-2:2.2.750-experimental:api'
     //compile "pneumaticCraft:PneumaticCraft-1.7.10:1.9.6-93:userdev"
-    compile "k4unl:k4lib:1.8.9-1.0.9:deobf"
+    compile "k4unl:k4lib:1.8.9-1.0.10:deobf"
     //compile name: "buildcraft", classifier: "dev", version: "7.0.16"
     //compile 'com.mod-buildcraft:buildcraft:6.4.16:dev'
     compile "igwmod:IGW-Mod-1.8.9:1.2.3-3:userdev"
@@ -77,7 +77,7 @@ group = "k4unl"
 archivesBaseName = "HydCraft"
 
 minecraft {
-    version = "${project.ext.mcVersion}-11.15.0.1705"
+    version = "${project.ext.mcVersion}-11.15.1.1726"
 
     // replacing stuff in the source
     replace '@VERSION@', project.version
