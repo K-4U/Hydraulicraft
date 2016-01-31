@@ -94,7 +94,7 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
                         dz = (rnd.nextFloat() - 0.6D) * 0.1D;
 
                         //world.spawnParticle("cloud", x, y, z, d3, d4, d5);
-                        NetworkHandler.sendToAllAround(new PacketSpawnParticle(EnumParticleTypes.CLOUD, pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, dx, dy, dz), worldIn);
+                        NetworkHandler.INSTANCE.sendToAllAround(new PacketSpawnParticle(EnumParticleTypes.CLOUD, pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, dx, dy, dz), worldIn);
                     }
 
                     entCompound.setLong("lastInPortal" + teleporter.getPortalBase().getIPLong(), worldIn.getTotalWorldTime());

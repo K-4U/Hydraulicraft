@@ -66,6 +66,8 @@ public class Hydraulicraft {
     public static int pressure = 0;
     public static boolean hasPressureGaugeInInventory = false;
 
+    public NetworkHandler networkHandler;
+
     /*!
      * @author Koen Beckers
 	 * @date 13-12-2013
@@ -97,6 +99,8 @@ public class Hydraulicraft {
         TickHandler.init();
 
         proxy.preinit();
+
+        networkHandler = new NetworkHandler();
     }
 
     /*!
@@ -111,7 +115,7 @@ public class Hydraulicraft {
 
         GameRegistry.registerWorldGenerator(new HCWorldGenerator(), 0);
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-        NetworkHandler.init();
+        networkHandler.init();
 
         //  UPDATE CHECKER DISABLED FOR NOW (2nd June 2015)
         // UpdateChecker.runCheck();

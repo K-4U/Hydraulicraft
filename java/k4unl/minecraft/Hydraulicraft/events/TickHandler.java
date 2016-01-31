@@ -69,7 +69,7 @@ public class TickHandler {
                                 pressureGauge = true;
                             }
                         }
-                        NetworkHandler.sendTo(new PacketSetPressure(pressure, pressureGauge), (EntityPlayerMP) event.player);
+                        NetworkHandler.INSTANCE.sendTo(new PacketSetPressure(pressure, pressureGauge), (EntityPlayerMP) event.player);
                     }
                     event.player.getEntityData().setInteger("pressure", pressure);
                     if (pressure > HCConfig.INSTANCE.getInt("maxWaterPressureWithoutSuit")) {

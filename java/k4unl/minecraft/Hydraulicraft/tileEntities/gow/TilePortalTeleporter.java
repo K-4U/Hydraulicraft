@@ -62,7 +62,7 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
     public void update() {
         if (!getWorld().isRemote && !hasSendPacket && baseDir != null) {
             hasSendPacket = true;
-            NetworkHandler.sendToAllAround(new PacketPortalEnabled(getPos(), baseDir, portalDir), getWorld());
+            NetworkHandler.INSTANCE.sendToAllAround(new PacketPortalEnabled(getPos(), baseDir, portalDir), getWorld());
         }
         if (getWorld().isRemote) {
             prevTransparancy = transparancy;

@@ -7,21 +7,23 @@ import net.minecraftforge.fml.relauncher.Side;
 /**
  * @author Koen Beckers (K-4U)
  */
-public class NetworkHandler extends k4unl.minecraft.k4lib.network.NetworkHandler{
+public class NetworkHandler extends k4unl.minecraft.k4lib.network.NetworkHandler {
+    public static NetworkHandler INSTANCE;
 
-    public static String getModId() {
+    public NetworkHandler() {
+        INSTANCE = this;
+    }
 
+    @Override
+    public String getModId() {
         return ModInfo.LID;
     }
 
-    /*
-     * The integer is the ID of the message, the Side is the side this message will be handled (received) on!
-     */
-    public static void init() {
-
-        INSTANCE.registerMessage(PacketKeyPressed.class, PacketKeyPressed.class, discriminant++, Side.SERVER);
-        INSTANCE.registerMessage(PacketPortalEnabled.class, PacketPortalEnabled.class, discriminant++, Side.CLIENT);
-        INSTANCE.registerMessage(PacketSetPressure.class, PacketSetPressure.class, discriminant++, Side.CLIENT);
-        INSTANCE.registerMessage(PacketSpawnParticle.class, PacketSpawnParticle.class, discriminant++, Side.CLIENT);
+    @Override
+    public void init() {
+        getChannel().registerMessage(PacketKeyPressed.class, PacketKeyPressed.class, discriminant++, Side.SERVER);
+        getChannel().registerMessage(PacketPortalEnabled.class, PacketPortalEnabled.class, discriminant++, Side.CLIENT);
+        getChannel().registerMessage(PacketSetPressure.class, PacketSetPressure.class, discriminant++, Side.CLIENT);
+        getChannel().registerMessage(PacketSpawnParticle.class, PacketSpawnParticle.class, discriminant++, Side.CLIENT);
     }
 }

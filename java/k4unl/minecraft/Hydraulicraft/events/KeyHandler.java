@@ -38,7 +38,7 @@ public class KeyHandler {
 		// FMLClientHandler.instance().getClient().inGameHasFocus
 		if (!FMLClientHandler.instance().isGUIOpen(GuiChat.class)) {
 			if (keys[Constants.KEYS_MINING_HELMET].isPressed()) {
-				NetworkHandler.sendToServer(new PacketKeyPressed(Constants.KEYS_MINING_HELMET));
+				NetworkHandler.INSTANCE.sendToServer(new PacketKeyPressed(Constants.KEYS_MINING_HELMET));
 			}
 		}
 	}
