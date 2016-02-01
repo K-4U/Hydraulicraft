@@ -1,7 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.network;
 
-import k4unl.minecraft.Hydraulicraft.network.packets.*;
-import k4unl.minecraft.k4lib.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.network.packets.PacketKeyPressed;
+import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalEnabled;
+import k4unl.minecraft.Hydraulicraft.network.packets.PacketSetPressure;
+import k4unl.minecraft.Hydraulicraft.network.packets.PacketSpawnParticle;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
