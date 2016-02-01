@@ -17,11 +17,11 @@ import org.lwjgl.opengl.GL11;
 import java.util.List;
 
 public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
-    private final RenderItem customRenderItem = null;
-    private final EntityItem renderedItem;
+    private RenderItem customRenderItem = null;
+    private EntityItem renderedItem;
 
     public RendererHarvesterTrolley() {
-        //customRenderItem = new RenderItem(Minecraft.getMinecraft().getTextureManager(), new ModelManager(Minecraft.getMinecraft().getTextureMapBlocks()));
+        customRenderItem = Minecraft.getMinecraft().getRenderItem();
 
         renderedItem = new EntityItem(FMLClientHandler.instance().getClient().theWorld);
         renderedItem.hoverStart = 0.0F;
