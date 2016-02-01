@@ -71,7 +71,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
         //renderTieredBars(t.getTier(), thickness);
         //renderInsides(thickness, t);
         renderGaugesContents(thickness, t);
-        renderGauges(thickness);
+        //renderGauges(thickness);
 
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -133,7 +133,8 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
         GL11.glAlphaFunc(GL11.GL_EQUAL, a);
         GL11.glColor4f(r, g, b, a);
 
-        Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - RenderHelper.pixel * 6, 0.0F, thickness + RenderHelper.pixel, 1.0F - thickness - RenderHelper.pixel, 1.0002F - thickness, 1.0F - thickness - RenderHelper.pixel);
+        Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - RenderHelper.pixel * 5, 0.0F, thickness + RenderHelper.pixel*2, 1.0F -
+          thickness - RenderHelper.pixel*2, 1.002F - thickness, 1.0F - thickness - RenderHelper.pixel * 2);
         float h = vectorPressure.getZMax() - vectorPressure.getZMin();
         vectorPressure.setZMin(vectorPressure.getZMax() - (h * (t.getHandler().getPressure(EnumFacing.UP) / t.getMaxPressure(t.getHandler().isOilStored(), t.getFacing()))));
         GL11.glBegin(GL11.GL_QUADS);
@@ -161,7 +162,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
     private void drawLavaTank(TileHydraulicLavaPump t, boolean isItem, float thickness) {
         if (!isItem) {
             Vector3fMax vectorFilled = new Vector3fMax(thickness + (RenderHelper.pixel * 2), 0.8F, thickness + (RenderHelper.pixel * 2), 1.0F - thickness -
-                    RenderHelper.pixel * 7, 1.005F - thickness, 1.0F - thickness - RenderHelper.pixel * 2);
+                    RenderHelper.pixel * 7, 1.002F - thickness, 1.0F - thickness - RenderHelper.pixel * 2);
             float h = vectorFilled.getZMax() - vectorFilled.getZMin();
             FluidTankInfo[] tankInfo = t.getTankInfo(EnumFacing.UP);
             if (tankInfo != null) {

@@ -10,7 +10,7 @@
     "inventory": [
       {
         "textures": {
-          "all": "hydcraft:model/hydraulicLavaPump_low"
+          "all": "hydcraft:model/hydraulicPump_high"
         }
       }
     ],
@@ -18,19 +18,19 @@
       "tier-0": {
         "model": "hydcraft:pump",
         "textures": {
-          "all": "hydcraft:model/hydraulicLavaPump_low"
+          "all": "hydcraft:model/hydraulicPump_low"
         }
       },
       "tier-1": {
         "model": "hydcraft:pump",
         "textures": {
-          "all": "hydcraft:model/hydraulicLavaPump_medium"
+          "all": "hydcraft:model/hydraulicPump_medium"
         }
       },
       "tier-2": {
         "model": "hydcraft:pump",
         "textures": {
-          "all": "hydcraft:model/hydraulicLavaPump_high"
+          "all": "hydcraft:model/hydraulicPump_high"
         }
       }
     },

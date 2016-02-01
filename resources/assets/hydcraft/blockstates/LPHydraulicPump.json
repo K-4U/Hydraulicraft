@@ -16,13 +16,36 @@
     ],
     "tier": {
       "tier-0": {
-        "model": "hydcraft:pump_low"
+        "model": "hydcraft:pump",
+        "textures": {
+          "all": "hydcraft:model/hydraulicPump_low"
+        }
       },
       "tier-1": {
-        "model": "hydcraft:pump_medium"
+        "model": "hydcraft:pump",
+        "textures": {
+          "all": "hydcraft:model/hydraulicPump_medium"
+        }
       },
       "tier-2": {
-        "model": "hydcraft:pump_high"
+        "model": "hydcraft:pump",
+        "textures": {
+          "all": "hydcraft:model/hydraulicPump_high"
+        }
+      }
+    },
+    "rotation": {
+      "north":{
+        "y": 0
+      },
+      "south":{
+        "y": 180
+      },
+      "east":{
+        "y": 90
+      },
+      "west":{
+        "y": 270
       }
     }
   }

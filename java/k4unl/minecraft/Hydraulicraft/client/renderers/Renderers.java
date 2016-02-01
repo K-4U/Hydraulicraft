@@ -36,6 +36,7 @@ public class Renderers {
 //		rendererIdJarOfDirt = RenderingRegistry.getNextAvailableRenderId();
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterFrame.class, new RendererHarvesterFrame());
+        ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(HCBlocks.hydraulicHarvesterFrame), 0, TileHarvesterFrame.class);
         ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterTrolley.class, new RendererHarvesterTrolley());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicPiston.class, new RendererHydraulicPiston());

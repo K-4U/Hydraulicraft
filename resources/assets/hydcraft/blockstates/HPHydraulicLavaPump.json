@@ -10,7 +10,7 @@
     "inventory": [
       {
         "textures": {
-          "all": "hydcraft:model/hydraulicLavaPump_low"
+          "all": "hydcraft:model/hydraulicLavaPump_high"
         }
       }
     ],
