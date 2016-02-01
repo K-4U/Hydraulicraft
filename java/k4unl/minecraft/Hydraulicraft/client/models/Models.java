@@ -55,11 +55,10 @@ public class Models {
         loadModel(HCBlocks.blockRefinedNadsiumBicarbinate);
         loadModel(HCBlocks.blockHydraulicFluidPump);
 
-
         loadModel(HCBlocks.blockJarDirt);
 
-        loadModel(Ores.oreCopperReplacement);
-        loadModel(Ores.oreLeadReplacement);
+        loadModel(Ores.oreCopper);
+        loadModel(Ores.oreLead);
         loadModel(Ores.oreBeachium);
         loadModel(Ores.oreFoxium);
         loadModel(Ores.oreLonezium);
