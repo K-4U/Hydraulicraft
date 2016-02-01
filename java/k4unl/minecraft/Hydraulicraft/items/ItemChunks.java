@@ -13,12 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemChunks extends Item {
+
     public class chunk {
         private String _name;
         private int _meta;
+        private boolean visible;
 
         public chunk(String targetName) {
             _name = targetName;
+        }
+
+        public chunk(String metalName, int subId) {
+            _name = metalName;
+            _meta = subId;
         }
 
         public void setName(String n) {
@@ -35,6 +42,16 @@ public class ItemChunks extends Item {
 
         public int getMeta() {
             return _meta;
+        }
+
+        public void setVisible(boolean visible) {
+
+            this.visible = visible;
+        }
+
+        public boolean isVisible() {
+
+            return visible;
         }
     }
 
@@ -60,17 +77,27 @@ public class ItemChunks extends Item {
      * recipes
      */
     public int addChunk(String metalName) {
-        chunks.add(new chunk(metalName));
-        int subId = chunks.size() - 1;
+
+        int subId = chunks.size();
+        chunks.add(new chunk(metalName, subId));
         OreDictionary.registerOre("chunk" + metalName,
                 new ItemStack(HCItems.itemChunk, 1, subId));
 
-        String ingotName = "ingot" + metalName;
-        ItemStack ingotTarget = Functions.getIngot(ingotName);
-        FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(this, 1, subId),
-                ingotTarget, 0.0F);
-
         return subId;
+    }
+
+    public int showChunk(String metalName) {
+        for(chunk chunk: chunks){
+            if(chunk.getName().equals(metalName)){
+                chunk.setVisible(true);
+                String ingotName = "ingot" + metalName;
+                ItemStack ingotTarget = Functions.getIngot(ingotName);
+                FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(this, 1, chunk.getMeta()),
+                  ingotTarget, 0.0F);
+                return chunk.getMeta();
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -78,26 +105,16 @@ public class ItemChunks extends Item {
         return "chunk" + chunks.get(itemStack.getItemDamage()).getName();
     }
 
-    /*
-    @Override
-    public void registerIcons(IIconRegister icon){
-        for (chunk c : chunks) {
-            c.setIcon(icon.registerIcon(ModInfo.LID + ":" + "chunk" + c.getName()));
-        }
+    public String getUnlocalizedName(int metadata) {
+        return "chunk" + chunks.get(metadata).getName();
     }
 
     @Override
-    public IIcon getIconFromDamage(int damage){
-        if(chunks.get(damage) != null){
-            return chunks.get(damage).getIcon();
-        }
-        return null;
-    }
-    */
-    @Override
     public void getSubItems(Item item, CreativeTabs tab, List list) {
         for (int i = 0; i < chunks.size(); i++) {
-            list.add(new ItemStack(this, 1, i));
+            if(getChunk(i).isVisible()) {
+                list.add(new ItemStack(this, 1, i));
+            }
         }
     }
 
@@ -108,5 +125,7 @@ public class ItemChunks extends Item {
     public List<chunk> getChunks() {
         return chunks;
     }
+
+
 
 }

@@ -13,10 +13,12 @@ import net.minecraftforge.client.model.ModelLoader;
 public class Models {
 
     public static void init() {
+
         itemBlockModels();
     }
 
     private static void itemBlockModels() {
+
         loadModel(HCBlocks.hydraulicCrusher);
         loadModel(HCBlocks.hydraulicFilter);
         loadModel(HCBlocks.hydraulicFiller);
@@ -73,27 +75,34 @@ public class Models {
         loadModel(Fluids.fluidLubricant.getBlock());
     }
 
-    private static void loadModel(Block block){
+    private static void loadModel(Block block) {
+
         loadModel(block, 0);
     }
 
-    private static void loadModel(Block block, int metadata){
+    private static void loadModel(Block block, int metadata) {
+
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), metadata, new ModelResourceLocation(ModInfo.LID + ":" + block.getUnlocalizedName().substring(5), "inventory"));
     }
 
-    private static void loadItemModel(Item item){
+    private static void loadItemModel(Item item) {
+
         loadItemModel(item, 0);
     }
 
-    private static void loadItemModel(Item item, int metadata){
-        loadItemModel(item, metadata,  item.getUnlocalizedName().substring(5));
+    private static void loadItemModel(Item item, int metadata) {
+
+        loadItemModel(item, metadata, item.getUnlocalizedName().substring(5));
     }
 
-    private static void loadItemModel(Item item, int metadata, String override){
-        ModelLoader.setCustomModelResourceLocation(item, metadata,  new ModelResourceLocation(ModInfo.LID + ":" + override, "inventory"));
+    private static void loadItemModel(Item item, int metadata, String override) {
+
+        //Log.info("Registering the item model of " + ModInfo.LID + ":" + override);
+        ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(ModInfo.LID + ":" + override, "inventory"));
     }
 
     public static void itemModels() {
+
         loadItemModel(HCItems.gasket);
         loadItemModel(HCItems.ingotCopper);
         loadItemModel(HCItems.ingotEnrichedCopper);
@@ -101,22 +110,20 @@ public class Models {
         loadItemModel(HCItems.itemFrictionPlate);
         loadItemModel(HCItems.itemDebugger);
 
-
-        for (int i = 0;i < HCItems.itemChunk.getChunks().size(); i++){
-            loadItemModel(HCItems.itemChunk, i, "chunk");
+        for (int i = 0; i < HCItems.itemChunk.getChunks().size(); i++) {
+            loadItemModel(HCItems.itemChunk, i, HCItems.itemChunk.getUnlocalizedName(i));
+            loadItemModel(HCItems.itemDust, i, HCItems.itemDust.getUnlocalizedName(i));
         }
-        /*loadItemModel(HCItems.itemChunk);*/
-        loadItemModel(HCItems.itemDust);
-    
+
         loadItemModel(HCItems.itemBacon);
         loadItemModel(HCItems.itemMovingPane);
-    
+
         loadItemModel(HCItems.itemMiningHelmet);
         loadItemModel(HCItems.itemLamp);
         loadItemModel(HCItems.itemDiamondShards);
-    
+
         loadItemModel(HCItems.itemEnrichedCopperDust);
-    
+
         loadItemModel(HCItems.itemEnderLolly);
         loadItemModel(HCItems.itemIPCard);
 
@@ -128,13 +135,13 @@ public class Models {
         loadItemModel(HCItems.itemDivingController);
         loadItemModel(HCItems.itemDivingLegs);
         loadItemModel(HCItems.itemDivingBoots);
-    
+
         loadItemModel(HCItems.itemhydraulicWrench);
         loadItemModel(HCItems.itemCannister);
-    
+
         loadItemModel(HCItems.itemDrill);
         loadItemModel(HCItems.itemSaw);
-    
+
         loadItemModel(HCItems.itemPressureGauge);
     }
 }

@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
+import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingHelmet;
 import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingSuit;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
@@ -51,17 +52,14 @@ public class HCItems {
      * Initializes the items.
      */
     public static void init() {
+
         gasket = new ItemGasket();
         ingotCopper = new IngotCopper();
         ingotLead = new IngotLead();
         ingotEnrichedCopper = new IngotEnrichedCopper();
         itemFrictionPlate = new ItemFrictionPlate();
         itemDebugger = new ItemDebug();
-        /*itemBucketOil = new ItemBucketBase(Fluids.fluidOilBlock, Names.itemBucketOil);
-        itemBucketHydraulicOil = new ItemBucketBase(Fluids.fluidHydraulicOilBlock, Names.itemBucketHydraulicOil);
-        itemBucketLubricant = new ItemBucketBase(Fluids.fluidLubricantBlock, Names.itemBucketLubricant);
-        itemBucketFluoricCarbonFluid = new ItemBucketBase(Fluids.fluidFluoroCarbonFluidBlock, Names.itemBucketFluoroCarbon);
-*/
+
         if (!HCConfig.INSTANCE.getBool("disableBacon")) {
             itemBacon = new ItemBacon();
         }
@@ -69,16 +67,18 @@ public class HCItems {
             itemEnderLolly = new ItemEnderLolly();
         }
 
-
         itemChunk = new ItemChunks();
         itemDust = new ItemDusts();
+        for (String oreName : Hydraulicraft.crushableItems) {
+            int meta = itemChunk.addChunk(oreName);
+            itemDust.addDust(oreName, meta);
+        }
 
         itemMovingPane = new ItemMovingPane();
         itemMiningHelmet = new ItemMiningHelmet();
         itemLamp = new ItemLamp();
         itemDiamondShards = new ItemDiamondShard();
         itemEnrichedCopperDust = new ItemCopperEnrichedDust();
-
 
         itemIPCard = new ItemIPCard();
 
@@ -104,6 +104,7 @@ public class HCItems {
      * Registers the Items to the GameRegistry
      */
     public static void registerItems() {
+
         GameRegistry.registerItem(gasket, Names.itemGasket.unlocalized);
 
         ingotCopper = OreDictionaryHelper.registerItem(ingotCopper, Names.ingotCopper.unlocalized);
@@ -112,7 +113,6 @@ public class HCItems {
 
         GameRegistry.registerItem(itemFrictionPlate, Names.itemFrictionPlate.unlocalized);
         GameRegistry.registerItem(itemDebugger, Names.itemDebugger.unlocalized);
-
 
         GameRegistry.registerItem(itemDust, Names.itemDust.unlocalized);
         GameRegistry.registerItem(itemChunk, Names.itemChunk.unlocalized);
@@ -130,10 +130,8 @@ public class HCItems {
         GameRegistry.registerItem(itemDivingLegs, Names.itemDivingLegs.unlocalized);
         GameRegistry.registerItem(itemDivingBoots, Names.itemDivingBoots.unlocalized);
 
-        
         OreDictionary.registerOre(Names.itemDiamondShard.unlocalized, new ItemStack(itemDiamondShards));
         OreDictionary.registerOre(Names.itemCopperEnrichedDust.unlocalized, new ItemStack(itemEnrichedCopperDust));
-
 
         if (!HCConfig.INSTANCE.getBool("disableBacon")) {
             GameRegistry.registerItem(itemBacon, Names.itemBacon.unlocalized);

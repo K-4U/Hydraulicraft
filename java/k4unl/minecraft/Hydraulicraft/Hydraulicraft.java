@@ -33,6 +33,7 @@ import thirdParty.truetyper.TrueTypeFont;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 @Mod(
@@ -67,6 +68,21 @@ public class Hydraulicraft {
     public static boolean hasPressureGaugeInInventory = false;
 
     public NetworkHandler networkHandler;
+
+    public static List<String> crushableItems = new ArrayList<String>();
+    static {
+        crushableItems.add("Gold");
+        crushableItems.add("Iron");
+        //MODDED:
+        crushableItems.add("Ardite");
+        crushableItems.add("Copper");
+        crushableItems.add("Lead");
+        crushableItems.add("FzDarkIron");
+        crushableItems.add("Tin");
+        crushableItems.add("Cobalt");
+        crushableItems.add("Silver");
+        crushableItems.add("Nickel");
+    }
 
     /*!
      * @author Koen Beckers

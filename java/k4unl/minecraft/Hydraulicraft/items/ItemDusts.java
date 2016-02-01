@@ -13,82 +13,115 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDusts extends Item {
-	class dust{
-		private String _name;
-		//private IIcon _icon;
-		
-		public dust(String targetName){
-			_name = targetName;
-		}
-		
-		public void setName(String n){
-			_name = n;
-		}
-		/*public void setIcon(IIcon i){
-			_icon = i;
-		}*/
-		public String getName(){
-			return _name;
-		}
-		/*public IIcon getIcon(){
-			return _icon;
-		}*/
-	}
-	
-	
-	private List<dust> dusts = new ArrayList<dust>();
-	
-	public ItemDusts() {
-		super();
-		
-		setMaxStackSize(64);
-		setUnlocalizedName(Names.itemDust.unlocalized);
-		
-		setCreativeTab(CustomTabs.tabHydraulicraft);
-		
-		setHasSubtypes(true);
-	}
-	
-	public int addDust(String oreDictName, int meta){
-		//Log.info("Adding dust " + oreDictName + " on " + meta);
-		dusts.add(meta, new dust(oreDictName));
+
+    class dust {
+        private String _name;
+        private int meta;
+        private boolean visible;
+
+        public dust(String targetName, int meta) {
+
+            _name = targetName;
+            this.meta = meta;
+        }
+
+        public void setName(String n) {
+
+            _name = n;
+        }
+
+        public String getName() {
+
+            return _name;
+        }
+
+        public int getMeta() {
+
+            return meta;
+        }
+
+        public void setMeta(int meta) {
+
+            this.meta = meta;
+        }
+
+        public boolean isVisible() {
+
+            return visible;
+        }
+
+        public void setVisible(boolean visible) {
+
+            this.visible = visible;
+        }
+    }
+
+
+    private List<dust> dusts = new ArrayList<dust>();
+
+    public ItemDusts() {
+
+        super();
+
+        setMaxStackSize(64);
+        setUnlocalizedName(Names.itemDust.unlocalized);
+
+        setCreativeTab(CustomTabs.tabHydraulicraft);
+
+        setHasSubtypes(true);
+    }
+
+    public int addDust(String oreDictName, int meta) {
+        //Log.info("Adding dust " + oreDictName + " on " + meta);
+        dusts.add(meta, new dust(oreDictName, meta));
 
         OreDictionary.registerOre("dust" + oreDictName,
-                new ItemStack(HCItems.itemDust, 1, meta));
-
-        String ingotName = "ingot" + oreDictName;
-        ItemStack ingotTarget = Functions.getIngot(ingotName);
-        FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(this, 1, meta),
-                ingotTarget, 0F);
+          new ItemStack(HCItems.itemDust, 1, meta));
 
         return meta;
-	}
-	
-	@Override
-	public String getUnlocalizedName(ItemStack itemStack){
-		return "dust" + dusts.get(itemStack.getItemDamage()).getName();
-	}
-	/*
-	@Override
-	public void registerIcons(IIconRegister icon){
-		for (dust c : dusts) {
-			c.setIcon(icon.registerIcon(ModInfo.LID + ":" + "dust" + c.getName()));
-		}
-	}
-	
-	@Override
-	public IIcon getIconFromDamage(int damage){
-		if(dusts.get(damage) != null){
-			return dusts.get(damage).getIcon();
-		}
-		return null;
-	}*/
-	
-	@Override
-	public void getSubItems(Item item, CreativeTabs tab, List list){
-		for(int i = 0; i < dusts.size(); i++){
-			list.add(new ItemStack(this,1,i));
-		}
-	}
-	
+    }
+
+    public void showDust(String oreDictName) {
+
+        for (dust dust : dusts) {
+            if(dust.getName().equals(oreDictName)){
+                dust.setVisible(true);
+                String ingotName = "ingot" + oreDictName;
+                ItemStack ingotTarget = Functions.getIngot(ingotName);
+                FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(this, 1, dust.getMeta()),
+                  ingotTarget, 0F);
+            }
+        }
+    }
+
+    @Override
+    public String getUnlocalizedName(ItemStack itemStack) {
+
+        return "dust" + dusts.get(itemStack.getItemDamage()).getName();
+    }
+
+    public String getUnlocalizedName(int metadata) {
+
+        return "dust" + dusts.get(metadata).getName();
+    }
+
+
+    @Override
+    public void getSubItems(Item item, CreativeTabs tab, List list) {
+
+        for (int i = 0; i < dusts.size(); i++) {
+            if(getDust(i).isVisible()) {
+                list.add(new ItemStack(this, 1, i));
+            }
+        }
+    }
+
+    public dust getDust(int id){
+        return dusts.get(id);
+    }
+
+    public List<dust> getChunks() {
+        return dusts;
+    }
+
 }
