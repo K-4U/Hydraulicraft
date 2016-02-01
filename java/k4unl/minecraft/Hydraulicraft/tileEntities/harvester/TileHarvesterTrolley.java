@@ -182,7 +182,9 @@ public class TileHarvesterTrolley extends TileEntity {
         if (!worldObj.isRemote && harvester != null && !isMoving && !isMovingUpDown) {
             if (isPlanting) {
                 if (getTrolley() instanceof IHarvesterCustomPlantAction) {
-                    ((IHarvesterCustomPlantAction) getTrolley()).doPlant(getWorld(), getLocation(locationToPlant, -2).toBlockPos(), plantingItem);
+                    Location location = getLocation(locationToPlant, -2);
+
+                    ((IHarvesterCustomPlantAction) getTrolley()).doPlant(getWorld(), location.getX(), location.getY(), location.getZ(), plantingItem);
                 } else {
                     actuallyPlant();
                 }
@@ -197,7 +199,8 @@ public class TileHarvesterTrolley extends TileEntity {
             } else if (isHarvesting) {
                 List<ItemStack> dropped;
                 if (getTrolley() instanceof IHarvesterCustomHarvestAction) {
-                    dropped = ((IHarvesterCustomHarvestAction)getTrolley()).doHarvest(getWorld(), getLocation(locationToHarvest, locationYHarvest).toBlockPos());
+                    Location l = getLocation(locationToHarvest, locationYHarvest);
+                    dropped = ((IHarvesterCustomHarvestAction)getTrolley()).doHarvest(getWorld(), l.getX(), l.getY(), l.getZ());
                 } else {
                     dropped = actuallyHarvest();
                 }
