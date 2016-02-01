@@ -20,9 +20,6 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBase {
-        /*private IIcon[] tieredIcon;
-        private IIcon[] tieredTopIcon;
-		private IIcon[] tieredBottomIcon;*/
 
     private Name[] mName;
 
@@ -39,10 +36,7 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
         super(machineName[0], true);
 
         mName = machineName;
-/*
-        tieredIcon = new IIcon[3];
-        tieredTopIcon = new IIcon[3];
-        tieredBottomIcon = new IIcon[3];*/
+
         if (this instanceof IBlockWithRotation) {
             setDefaultState(this.blockState.getBaseState().withProperty(Properties.ROTATION, EnumFacing.NORTH).withProperty(TIER, PressureTier.INVALID));
         } else {
@@ -57,6 +51,10 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
         setCreativeTab(CustomTabs.tabHydraulicraft);
     }
 
+    public String getUnlocalizedName(int meta) {
+
+        return "tile." + mName[meta].unlocalized;
+    }
 
     @Override
     public void getSubBlocks(Item item, CreativeTabs tab, List list) {
@@ -110,4 +108,6 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
     public PressureTier getTierFromState(IBlockState state) {
         return (PressureTier) state.getValue(TIER);
     }
+
+
 }

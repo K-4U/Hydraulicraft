@@ -1,6 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.client.models;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.blocks.SubBlockBase;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
@@ -29,22 +31,19 @@ public class Models {
         loadModel(HCBlocks.blockValve);
         loadModel(HCBlocks.blockInterfaceValve);
         loadModel(HCBlocks.movingPane);
-        loadModel(HCBlocks.hydraulicPressurevat, 0);
-        loadModel(HCBlocks.hydraulicPressurevat, 1);
-        loadModel(HCBlocks.hydraulicPressurevat, 2);
-        loadModel(HCBlocks.hydraulicPump, 0);
-        loadModel(HCBlocks.hydraulicPump, 1);
-        loadModel(HCBlocks.hydraulicPump, 2);
-        loadModel(HCBlocks.hydraulicLavaPump, 0);
-        loadModel(HCBlocks.hydraulicLavaPump, 1);
-        loadModel(HCBlocks.hydraulicLavaPump, 2);
+        for(int i = 0; i<3; i++){
+            loadModel(HCBlocks.hydraulicPressurevat, i, ((HydraulicTieredBlockBase)HCBlocks.hydraulicPressurevat).getUnlocalizedName(i).substring(5));
+            loadModel(HCBlocks.hydraulicPump, i, ((HydraulicTieredBlockBase)HCBlocks.hydraulicPump).getUnlocalizedName(i).substring(5));
+            loadModel(HCBlocks.hydraulicLavaPump, i, ((HydraulicTieredBlockBase)HCBlocks.hydraulicLavaPump).getUnlocalizedName(i).substring(5));
+
+            loadModel(HCBlocks.blockCore, i, ((SubBlockBase)HCBlocks.blockCore).getUnlocalizedName(i).substring(5));
+        }
 
         loadModel(HCBlocks.hydraulicHarvesterSource);
+        loadModel(HCBlocks.hydraulicHarvesterFrame);
 
         loadModel(HCBlocks.hydraulicPiston);
-        loadModel(HCBlocks.blockCore, 0);
-        loadModel(HCBlocks.blockCore, 1);
-        loadModel(HCBlocks.blockCore, 2);
+
         loadModel(HCBlocks.blockCharger);
         loadModel(HCBlocks.blockAssembler);
         loadModel(HCBlocks.blockCopper);
@@ -75,6 +74,11 @@ public class Models {
         loadModel(Fluids.fluidLubricant.getBlock());
     }
 
+    private static void loadModel(Block block, int metadata, String override) {
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), metadata, new ModelResourceLocation(ModInfo.LID + ":" + override,
+          "inventory"));
+    }
+
     private static void loadModel(Block block) {
 
         loadModel(block, 0);
@@ -82,7 +86,7 @@ public class Models {
 
     private static void loadModel(Block block, int metadata) {
 
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), metadata, new ModelResourceLocation(ModInfo.LID + ":" + block.getUnlocalizedName().substring(5), "inventory"));
+        loadModel(block, metadata, block.getUnlocalizedName().substring(5));
     }
 
     private static void loadItemModel(Item item) {

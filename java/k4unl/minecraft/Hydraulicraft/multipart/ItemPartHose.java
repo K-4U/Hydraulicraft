@@ -41,7 +41,7 @@ public class ItemPartHose extends ItemMultiPart {
     @Override
     public String getUnlocalizedName(ItemStack stack) {
 
-        return Names.partHose[stack.getItemDamage()].unlocalized;
+        return "item." + Names.partHose[stack.getItemDamage()].unlocalized;
     }
 }
 
