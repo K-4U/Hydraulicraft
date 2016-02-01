@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.api;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Koen Beckers (K-4U)
@@ -17,5 +17,5 @@ public interface IHarvesterCustomHarvestAction {
      * @param x, y, z The position on which we'll harvest.
      * @return A list of Itemstacks, containing all the stuff that should be added to the inventory of the harvester.
      */
-    List<ItemStack> doHarvest(World world, int x, int y, int z);
+    ArrayList<ItemStack> doHarvest(World world, int x, int y, int z);
 }

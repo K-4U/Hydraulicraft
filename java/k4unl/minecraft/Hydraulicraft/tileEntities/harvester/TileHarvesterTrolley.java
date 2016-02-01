@@ -184,7 +184,7 @@ public class TileHarvesterTrolley extends TileEntity {
                 if (getTrolley() instanceof IHarvesterCustomPlantAction) {
                     Location location = getLocation(locationToPlant, -2);
 
-                    ((IHarvesterCustomPlantAction) getTrolley()).doPlant(getWorld(), location.getX(), location.getY(), location.getZ(), plantingItem);
+                    ((IHarvesterCustomPlantAction) getTrolley()).doPlant(getWorldObj(), location.getX(), location.getY(), location.getZ(), plantingItem);
                 } else {
                     actuallyPlant();
                 }
@@ -197,10 +197,10 @@ public class TileHarvesterTrolley extends TileEntity {
                     extendTo(0, locationToPlant);
                 }
             } else if (isHarvesting) {
-                List<ItemStack> dropped;
+                ArrayList<ItemStack> dropped;
                 if (getTrolley() instanceof IHarvesterCustomHarvestAction) {
                     Location l = getLocation(locationToHarvest, locationYHarvest);
-                    dropped = ((IHarvesterCustomHarvestAction)getTrolley()).doHarvest(getWorld(), l.getX(), l.getY(), l.getZ());
+                    dropped = ((IHarvesterCustomHarvestAction)getTrolley()).doHarvest(getWorldObj(), l.getX(), l.getY(), l.getZ());
                 } else {
                     dropped = actuallyHarvest();
                 }
@@ -524,7 +524,7 @@ public class TileHarvesterTrolley extends TileEntity {
         isHarvesting = true;
     }
 
-    private List<ItemStack> actuallyHarvest() {
+    private ArrayList<ItemStack> actuallyHarvest() {
         ArrayList<ItemStack> dropped = getDroppedItems(locationToHarvest);
         Location cropLocation;
         cropLocation = getLocation(locationToHarvest, locationYHarvest);
