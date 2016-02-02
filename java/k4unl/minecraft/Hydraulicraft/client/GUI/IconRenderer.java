@@ -1,22 +1,25 @@
 package k4unl.minecraft.Hydraulicraft.client.GUI;
 
 
+import k4unl.minecraft.k4lib.client.VertexTransformerTransparency;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.pipeline.IVertexConsumer;
+import net.minecraftforge.client.model.pipeline.WorldRendererConsumer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 
 /**
@@ -156,19 +159,22 @@ public final class IconRenderer {
             targetBot = (float) Math.floor(targetBot);
         }*/
 
-        renderBlocks.zLevel = 1;
-        GL11.glPushMatrix();
-        GL11.glTranslated(0, 0, -50);
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        RenderHelper.enableGUIStandardItemLighting();
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, alpha); //TODO: FIX TRANSPARENCY
-        renderItemIntoGUI(item, x, y, alpha);
-        //renderBlocks.renderItemAndEffectIntoGUI(item, (int)targetLeft, (int)targetTop);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
-        RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        GL11.glPopMatrix();
+        Tessellator tessellator = Tessellator.getInstance();
+        tessellator.getWorldRenderer().begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+
+        tessellator.getWorldRenderer().setTranslation(x, y, z+5);
+        IBakedModel itemModel = renderBlocks.getItemModelMesher().getItemModel(item);
+        WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
+        IVertexConsumer consumer = new VertexTransformerTransparency(new WorldRendererConsumer(worldRenderer), alpha);
+        for(EnumFacing dir: EnumFacing.VALUES) {
+            for (BakedQuad quad : itemModel.getFaceQuads(dir)) {
+                quad.pipe(consumer);
+            }
+        }
+        tessellator.getWorldRenderer().setTranslation(0, 0, 0);
+
+        tessellator.draw();
+
 /*
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableAlpha();
@@ -218,53 +224,5 @@ public final class IconRenderer {
         //}
         //restore the alpha  value
         GL11.glColor4f(1F, 1F, 1F, 1F);
-    }
-
-    public static void renderItem(ItemStack stack, IBakedModel model, float alpha) {
-        if (stack != null) {
-            GlStateManager.pushMatrix();
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, alpha);
-
-            if (model.isBuiltInRenderer()) {
-                GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-                GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
-                GlStateManager.enableRescaleNormal();
-                TileEntityItemStackRenderer.instance.renderByItem(stack);
-            } else {
-                GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-                renderBlocks.renderModel(model, -1, stack);
-
-                if (stack.hasEffect()) {
-                    renderBlocks.renderEffect(model);
-                }
-            }
-
-            GlStateManager.popMatrix();
-        }
-    }
-
-    public static void renderItemIntoGUI(ItemStack stack, int x, int y, float alpha)
-    {
-        IBakedModel ibakedmodel = renderBlocks.getItemModelMesher().getItemModel(stack);
-        GlStateManager.pushMatrix();
-        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-        Minecraft.getMinecraft().getTextureManager().getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.enableAlpha();
-        GlStateManager.alphaFunc(516, 0.1F);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
-        renderBlocks.setupGuiTransform(x, y, ibakedmodel.isGui3d());
-        ibakedmodel = net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(ibakedmodel, ItemCameraTransforms.TransformType.GUI);
-        renderItem(stack, ibakedmodel, alpha);
-        GlStateManager.disableAlpha();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.disableLighting();
-        GlStateManager.popMatrix();
-        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-        Minecraft.getMinecraft().getTextureManager().getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
     }
 }
