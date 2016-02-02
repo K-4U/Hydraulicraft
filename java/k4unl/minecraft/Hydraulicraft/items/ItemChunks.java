@@ -80,8 +80,6 @@ public class ItemChunks extends Item {
 
         int subId = chunks.size();
         chunks.add(new chunk(metalName, subId));
-        OreDictionary.registerOre("chunk" + metalName,
-                new ItemStack(HCItems.itemChunk, 1, subId));
 
         return subId;
     }
@@ -94,6 +92,8 @@ public class ItemChunks extends Item {
                 ItemStack ingotTarget = Functions.getIngot(ingotName);
                 FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(this, 1, chunk.getMeta()),
                   ingotTarget, 0.0F);
+                OreDictionary.registerOre("chunk" + metalName,
+                        new ItemStack(HCItems.itemChunk, 1, chunk.getMeta()));
                 return chunk.getMeta();
             }
         }

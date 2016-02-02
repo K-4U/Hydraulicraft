@@ -75,9 +75,6 @@ public class ItemDusts extends Item {
         //Log.info("Adding dust " + oreDictName + " on " + meta);
         dusts.add(meta, new dust(oreDictName, meta));
 
-        OreDictionary.registerOre("dust" + oreDictName,
-          new ItemStack(HCItems.itemDust, 1, meta));
-
         return meta;
     }
 
@@ -90,6 +87,9 @@ public class ItemDusts extends Item {
                 ItemStack ingotTarget = Functions.getIngot(ingotName);
                 FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(this, 1, dust.getMeta()),
                   ingotTarget, 0F);
+
+                OreDictionary.registerOre("dust" + oreDictName,
+                        new ItemStack(HCItems.itemDust, 1, dust.getMeta()));
             }
         }
     }
