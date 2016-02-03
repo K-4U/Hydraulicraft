@@ -159,6 +159,7 @@ public class PressureNetwork {
         //And tell every machine in the block to recheck it's network! :D
         //Note, this might cost a bit of time..
         //There should be a better way to do this..
+        List<networkEntry> toRemove = new ArrayList<networkEntry>();
         for (networkEntry entry : machines) {
             try {
                 if (entry == null) {
@@ -184,9 +185,14 @@ public class PressureNetwork {
             } catch (NullPointerException e) {
                 Log.error(e.getMessage() + " in the pressure network is null! Please report this to the mod author!");
                 e.printStackTrace();
+                toRemove.add(entry);
             }
         }
-
+        for(networkEntry entry:toRemove){
+            if(entry != null){
+                machines.remove(entry);
+            }
+        }
     }
 
     public float getPressure() {
@@ -213,7 +219,7 @@ public class PressureNetwork {
         setPressure(newPressure);
 
         List<networkEntry> otherList = toMerge.getMachines();
-
+        List<networkEntry> toRemove = new ArrayList<networkEntry>();
         for (networkEntry entry : otherList) {
             try {
                 if (entry == null) {
@@ -239,9 +245,14 @@ public class PressureNetwork {
             } catch (NullPointerException e) {
                 Log.error(e.getMessage() + " in the pressure network is null! Please report this to the mod author!");
                 e.printStackTrace();
+                toRemove.add(entry);
             }
         }
-
+        for(networkEntry entry:toRemove){
+            if(entry != null){
+                machines.remove(entry);
+            }
+        }
         //Log.info("Merged network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
     }
 
@@ -290,7 +301,7 @@ public class PressureNetwork {
         fluidCapacity = 0;
 
         List<IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
-
+        List<networkEntry> toRemove = new ArrayList<networkEntry>();
         for (networkEntry entry : machines) {
             try {
                 if (entry == null) {
@@ -326,6 +337,12 @@ public class PressureNetwork {
             } catch (NullPointerException e) {
                 Log.error(e.getMessage() + " in the pressure network is null! Please report this to the mod author!");
                 e.printStackTrace();
+                toRemove.add(entry);
+            }
+        }
+        for(networkEntry entry:toRemove){
+            if(entry != null){
+                machines.remove(entry);
             }
         }
         disperseFluid(mainList);
