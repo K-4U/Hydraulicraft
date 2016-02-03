@@ -36,10 +36,15 @@ public class BlockLight extends HydraulicBlockBase {
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-		return null;
+		return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
 	}
 
-    /**
+	@Override
+	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+		return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+	}
+
+	/**
      * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
      * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
      */

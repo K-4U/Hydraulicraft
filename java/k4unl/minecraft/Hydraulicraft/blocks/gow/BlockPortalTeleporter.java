@@ -46,7 +46,7 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
 
     @Override
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
-
+        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
     }
 
     @Override
@@ -62,12 +62,18 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
-    {
-        return null;
+    public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+        return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 
-    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, Entity entityIn) {
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+    {
+        return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+    }
+
+    @Override
+    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
         if (!worldIn.isRemote) {
             NBTTagCompound entCompound = entityIn.getEntityData();
             Location teLocation = new Location(pos);
