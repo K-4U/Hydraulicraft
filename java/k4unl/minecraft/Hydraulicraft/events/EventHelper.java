@@ -44,6 +44,9 @@ public class EventHelper {
 
     @SubscribeEvent
     public void onBlockBreak(BreakEvent event) {
+        if(event.world.isRemote){
+            return;
+        }
         if (event.state.getBlock() == HCBlocks.hydraulicPressureWall || event.state.getBlock() == HCBlocks.blockValve) {
             //check all directions for a hydraulic washer
             boolean breakAll = false;

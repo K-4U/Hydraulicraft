@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.consumers;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
+import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.blocks.IHydraulicMultiBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
@@ -350,11 +351,23 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
         }
     }
 
+    public EnumFacing getFacing(){
+        if(getWorldObj().getBlockState(getPos()).getBlock() == HCBlocks.hydraulicWasher) {
+            return (EnumFacing) getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
+        }else{
+            return null;
+        }
+    }
+
     public void invalidateMultiblock() {
-        if(getWorldObj().getBlockState(getPos()).getBlock() != getBlockType()){
+        if(getWorldObj().getBlockState(getPos()).getBlock() != HCBlocks.hydraulicWasher){
             return;
         }
-        EnumFacing dir = (EnumFacing) getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
+        EnumFacing dir = getFacing();
+        if(getFacing() == null){
+            isValidMultiblock = false;
+            return;
+        }
 
         int depthMultiplier = ((dir == EnumFacing.EAST || dir == EnumFacing.WEST) ? 1 : -1);
         boolean forwardZ = ((dir == EnumFacing.NORTH) || (dir == EnumFacing.NORTH));
@@ -635,4 +648,6 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
         return recipe.getCraftingTime();
     }
+
+
 }
