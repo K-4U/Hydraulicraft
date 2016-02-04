@@ -54,8 +54,8 @@ public class HydraulicRecipes implements IRecipeHandler {
     }
 
     private static void initializeWashingRecipes() {
-        recipesWasher.add(new FluidShapelessOreRecipe(HCBlocks.blockRefinedLonezium, Ores.oreLonezium));
-        recipesWasher.add(new FluidShapelessOreRecipe(HCBlocks.blockRefinedNadsiumBicarbinate, Ores.oreNadsiumBicarbinate));
+        recipesWasher.add(new FluidShapelessOreRecipe(HCBlocks.blockRefinedLonezium, Ores.oreLonezium).setCraftingTime(5*20));
+        recipesWasher.add(new FluidShapelessOreRecipe(HCBlocks.blockRefinedNadsiumBicarbinate, Ores.oreNadsiumBicarbinate).setCraftingTime(20*20));
     }
 
     private static IFluidRecipe getRecipe(List<IFluidRecipe> list, IFluidInventory inventory) {
