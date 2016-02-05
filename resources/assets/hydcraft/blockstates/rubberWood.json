@@ -1,0 +1,15 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hydcraft:blocks/rubberWood_sides"
+    }
+  },
+  "variants": {
+    "axis=y":    { "model": "hydcraft:rubberWoodLog" },
+    "axis=z":    { "model": "hydcraft:rubberWoodLogSide" },
+    "axis=x":    { "model": "hydcraft:rubberWoodLogSide", "y": 90 },
+    "axis=none": { "model": "hydcraft:rubberWoodLog" },
+    "inventory": [{"model": "hydcraft:rubberWoodLog" }]
+  }
+}

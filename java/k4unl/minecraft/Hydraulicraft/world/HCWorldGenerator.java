@@ -21,7 +21,8 @@ public class HCWorldGenerator implements IWorldGenerator {
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world,
-                         IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+      IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+
         switch (world.provider.getDimensionId()) {
             case -1:
                 generateNether(world, random, chunkX * 16, chunkZ * 16);
@@ -43,13 +44,15 @@ public class HCWorldGenerator implements IWorldGenerator {
     }
 
     private void generateNether(World world, Random random, int chunkX, int chunkZ) {
+
         if (HCConfig.INSTANCE.getBool("shouldGenFoxium", "worldgen")) {
             generateOre(Ores.oreFoxium, world, HCConfig.INSTANCE.getInt("foxiumVeinSize", "worldgen"), HCConfig.INSTANCE.getInt
-                    ("foxiumVeinCount", "worldgen"), HCConfig.INSTANCE.getInt("foxiumMinY", "worldgen"), HCConfig.INSTANCE.getInt("foxiumMaxY", "worldgen"), random, chunkX, chunkZ, Blocks.netherrack);
+              ("foxiumVeinCount", "worldgen"), HCConfig.INSTANCE.getInt("foxiumMinY", "worldgen"), HCConfig.INSTANCE.getInt("foxiumMaxY", "worldgen"), random, chunkX, chunkZ, Blocks.netherrack);
         }
     }
 
     private void generateOre(Block ore, World world, int veinSize, int veinCount, int minY, int maxY, Random random, int chunkX, int chunkZ) {
+
         WorldGenMinable worldGenMinable = new WorldGenMinable(ore.getDefaultState(), veinSize);
         for (int i = 0; i < veinCount; i++) {
             int firstBlockXCoord = chunkX + random.nextInt(16);
@@ -94,7 +97,7 @@ public class HCWorldGenerator implements IWorldGenerator {
         //Check biome
         BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(x, 0, z));
         if (!BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.OCEAN) && !BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.RIVER)
-                && !BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH)) {
+          && !BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH)) {
             return;
         }
 
@@ -102,7 +105,7 @@ public class HCWorldGenerator implements IWorldGenerator {
             for (int j = 0; j < HCConfig.INSTANCE.getInt("nadsiumBicarbinateVeinCount", "worldgen"); j++) {
                 int randX = x + random.nextInt(16);
                 int randZ = z + random.nextInt(16);
-                BlockPos topBlockPos = world.getTopSolidOrLiquidBlock(new BlockPos(randX,0, randZ)).down();
+                BlockPos topBlockPos = world.getTopSolidOrLiquidBlock(new BlockPos(randX, 0, randZ)).down();
                 Block topBlock = world.getBlockState(topBlockPos).getBlock();
                 if (world.getBlockState(topBlockPos.up()) == Blocks.water) {
                     if (topBlock == Blocks.gravel) {
@@ -117,17 +120,18 @@ public class HCWorldGenerator implements IWorldGenerator {
     }
 
     private void generateOverworld(World world, Random random, int chunkX, int chunkZ) {
+
         if (HCConfig.INSTANCE.getBool("shouldGenCopperOre", "worldgen")) {
             generateOre(Ores.oreCopper, world, HCConfig.INSTANCE.getInt("copperVeinSize", "worldgen"), HCConfig.INSTANCE.getInt("copperVeinCount",
-                    "worldgen"), HCConfig.INSTANCE.getInt("copperMinY", "worldgen"), HCConfig.INSTANCE.getInt("copperMaxY", "worldgen"), random, chunkX, chunkZ);
+              "worldgen"), HCConfig.INSTANCE.getInt("copperMinY", "worldgen"), HCConfig.INSTANCE.getInt("copperMaxY", "worldgen"), random, chunkX, chunkZ);
         }
         if (HCConfig.INSTANCE.getBool("shouldGenLeadOre", "worldgen")) {
             generateOre(Ores.oreLead, world, HCConfig.INSTANCE.getInt("leadVeinSize", "worldgen"), HCConfig.INSTANCE.getInt("leadVeinCount",
-                    "worldgen"), HCConfig.INSTANCE.getInt("leadMinY", "worldgen"), HCConfig.INSTANCE.getInt("leadMaxY", "worldgen"), random, chunkX, chunkZ);
+              "worldgen"), HCConfig.INSTANCE.getInt("leadMinY", "worldgen"), HCConfig.INSTANCE.getInt("leadMaxY", "worldgen"), random, chunkX, chunkZ);
         }
         if (HCConfig.INSTANCE.getBool("shouldGenLonezium", "worldgen")) {
             generateOre(Ores.oreLonezium, world, HCConfig.INSTANCE.getInt("loneziumVeinSize", "worldgen"), HCConfig.INSTANCE.getInt
-                    ("loneziumVeinCount", "worldgen"), HCConfig.INSTANCE.getInt("loneziumMinY", "worldgen"), HCConfig.INSTANCE.getInt("loneziumMaxY", "worldgen"), random, chunkX, chunkZ);
+              ("loneziumVeinCount", "worldgen"), HCConfig.INSTANCE.getInt("loneziumMinY", "worldgen"), HCConfig.INSTANCE.getInt("loneziumMaxY", "worldgen"), random, chunkX, chunkZ);
         }
         if (HCConfig.INSTANCE.getBool("shouldGenNadsiumBicarbinate", "worldgen")) {
             generateNadsiumBicarbinate(world, random, chunkX, chunkZ);
@@ -145,12 +149,22 @@ public class HCWorldGenerator implements IWorldGenerator {
                 (new WorldGenOil()).generate(world, random, x, z, random.nextInt(20), y);
             }
         }
+        if (HCConfig.INSTANCE.getBool("shouldGenRubberTrees", "worldgen")) {
+            if (random.nextDouble() < HCConfig.INSTANCE.getDouble("rubberTreeChance", "worldgen")) {
+                int x = chunkX + 8;
+                int z = chunkZ + 8;
+                int y = getTopGroundBlock(world, x, z) + 1;
+
+                (new WorldGenRubberTree(false)).generate(world, random, new BlockPos(x, y, z));
+            }
+        }
     }
 
     /**
      * @author TTFTCUTS
      */
     public static int getTopGroundBlock(World world, int x, int z) {
+
         Chunk chunk = world.getChunkFromBlockCoords(new BlockPos(x, 0, z));
         int y = chunk.getTopFilledSegment() + 15;
         int cx = x & 15;
@@ -159,11 +173,11 @@ public class HCWorldGenerator implements IWorldGenerator {
             Block block = chunk.getBlock(cx, y, cz);
 
             if (block.getMaterial().blocksMovement() &&
-                    block.getMaterial() != Material.leaves &&
-                    block.getMaterial() != Material.wood &&
-                    block.getMaterial() != Material.gourd &&
-                    block.getMaterial() != Material.ice &&
-                    !block.isFoliage(world, new BlockPos(x, y, z))) {
+              block.getMaterial() != Material.leaves &&
+              block.getMaterial() != Material.wood &&
+              block.getMaterial() != Material.gourd &&
+              block.getMaterial() != Material.ice &&
+              !block.isFoliage(world, new BlockPos(x, y, z))) {
                 return y + 1;
             }
         }
