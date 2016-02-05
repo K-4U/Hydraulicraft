@@ -5,6 +5,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.blocks.SubBlockBase;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import net.minecraft.block.Block;
@@ -119,7 +120,9 @@ public class Models {
             loadItemModel(HCItems.itemDust, i, HCItems.itemDust.getUnlocalizedName(i));
         }
 
-        loadItemModel(HCItems.itemBacon);
+        if (!HCConfig.INSTANCE.getBool("disableBacon")) {
+            loadItemModel(HCItems.itemBacon);
+        }
         loadItemModel(HCItems.itemMovingPane);
 
         loadItemModel(HCItems.itemMiningHelmet);
@@ -128,7 +131,9 @@ public class Models {
 
         loadItemModel(HCItems.itemEnrichedCopperDust);
 
-        loadItemModel(HCItems.itemEnderLolly);
+        if (!HCConfig.INSTANCE.getBool("disableEnderLolly")) {
+            loadItemModel(HCItems.itemEnderLolly);
+        }
         loadItemModel(HCItems.itemIPCard);
 
         for (Item bucket : Fluids.buckets) {
