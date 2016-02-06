@@ -26,7 +26,7 @@ public class IGWHandler {
         WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.hydraulicPiston, "hydcraft:menu/farms");
 
         WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.portalBase, "hydcraft:menu/portal");
-        WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.portalFrame, "hydcraft:menu/portal");
+        //WikiRegistry.registerBlockAndItemPageEntry(HCBlocks.portalFrame, "hydcraft:menu/portal");
         WikiRegistry.registerBlockAndItemPageEntry(HCItems.itemIPCard, "hydcraft:menu/portal");
 
         MinecraftForge.EVENT_BUS.register(new IGWHandler());

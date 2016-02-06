@@ -8,14 +8,16 @@ import k4unl.minecraft.Hydraulicraft.items.ItemIPCard;
 import k4unl.minecraft.Hydraulicraft.lib.IPs;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
+import k4unl.minecraft.Hydraulicraft.multipart.MultipartHandler;
+import k4unl.minecraft.Hydraulicraft.multipart.PartPortalFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.k4lib.lib.Location;
+import mcmultipart.block.TileMultipart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
@@ -47,6 +49,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     private ItemStack linkingCard;
 
     public TilePortalBase() {
+
         super(1);
         super.init(this);
     }
@@ -101,6 +104,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     }
 
     private void readFramesFromNBT(NBTTagCompound tCompound) {
+
         if (frames != null)
             frames.clear();
         if (frames == null) {
@@ -115,6 +119,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     }
 
     private void writeFramesToNBT(NBTTagCompound tCompound) {
+
         NBTTagCompound list = new NBTTagCompound();
         int i = 0;
         for (Location fr : frames) {
@@ -128,6 +133,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     @Override
     public void writeToNBT(NBTTagCompound tCompound) {
+
         super.writeToNBT(tCompound);
 
         tCompound.setBoolean("portalFormed", portalFormed);
@@ -155,6 +161,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     @Override
     public void update() {
+
         super.update();
 
         if (ip == 0) {
@@ -178,7 +185,13 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         }
     }
 
+    private boolean isPortalFrame(Location location) {
+
+        return location.getTE(getWorld()) instanceof TileMultipart && MultipartHandler.hasPartPortalFrame(((TileMultipart) location.getTE(getWorld())).getPartContainer());
+    }
+
     private boolean checkPortalComplete() {
+
         int i = 0;
         baseDir = EnumFacing.NORTH;
         portalWidth = 0;
@@ -187,13 +200,13 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
             for (int z = 1; z <= HCConfig.INSTANCE.getInt("maxPortalWidth"); z++) {
                 Location nLocation = new Location(getPos(), baseDir, z);
                 Location oLocation = new Location(getPos(), baseDir.getOpposite(), z);
-                if (nLocation.getBlock(getWorldObj()) == HCBlocks.portalFrame) {
+                if (isPortalFrame(nLocation)) {
                     portalWidth++;
                     half++;
                 } else {
                     break;
                 }
-                if (oLocation.getBlock(getWorldObj()) == HCBlocks.portalFrame) {
+                if (isPortalFrame(oLocation)) {
                     portalWidth++;
                 } else {
                     break;
@@ -214,7 +227,6 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
             return false;
         }
 
-
         //Now, that is the bottom taken care of. Let's see about the rest!
         i = 0;
         portalDir = baseDir.rotateAround(EnumFacing.Axis.Y);
@@ -226,12 +238,12 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
             for (int y = 1; y <= HCConfig.INSTANCE.getInt("maxPortalHeight"); y++) {
                 Location nLocation = new Location(firstLocation, portalDir, y);
                 Location oLocation = new Location(secondLocation, portalDir, y);
-                if (nLocation.getBlock(getWorldObj()) == HCBlocks.portalFrame) {
+                if (isPortalFrame(nLocation)) {
                     portalHeight++;
                 } else {
                     break;
                 }
-                if (oLocation.getBlock(getWorldObj()) != HCBlocks.portalFrame) {
+                if (!isPortalFrame(oLocation)) {
                     break;
                 }
             }
@@ -250,16 +262,16 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
         //Check other side (aka top):
         Location topCenter = new Location(getPos(), portalDir, portalHeight);
-        if (topCenter.getBlock(getWorldObj()) != HCBlocks.portalFrame) {
+        if (!isPortalFrame(topCenter)) {
             return false;
         }
         for (int x = 1; x <= half; x++) {
             Location nLocation = new Location(getPos(), baseDir, x);
             Location oLocation = new Location(getPos(), baseDir.getOpposite(), x);
-            if (nLocation.getBlock(getWorldObj()) != HCBlocks.portalFrame) {
+            if (!isPortalFrame(nLocation)) {
                 return false;
             }
-            if (oLocation.getBlock(getWorldObj()) != HCBlocks.portalFrame) {
+            if (!isPortalFrame(oLocation)) {
                 return false;
             }
         }
@@ -267,43 +279,47 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         return true;
     }
 
+    private PartPortalFrame getFrame(Location location){
+        return MultipartHandler.getPartPortalFrame(((TileMultipart)location.getTE(getWorld())).getPartContainer());
+    }
+
     private void validatePortal() {
+
         frames.clear();
         Location bottomLeft = new Location(getPos(), baseDir, (portalWidth / 2));
         Location bottomRight = new Location(getPos(), baseDir.getOpposite(), (portalWidth / 2));
-        if (bottomLeft.getBlock(getWorldObj()) != HCBlocks.portalFrame) {
+        if (!isPortalFrame(bottomLeft)) {
             return;
         }
 
         for (int x = 0; x <= portalWidth + 1; x++) {
             Location handleLocation = new Location(bottomLeft, baseDir.getOpposite(), x);
             Location topLocation = new Location(handleLocation, portalDir, portalHeight);
-            TileEntity te = handleLocation.getTE(getWorldObj());
-            if (te instanceof TilePortalFrame) {
-                ((TilePortalFrame) te).setPortalBase(this);
-                ((TilePortalFrame) te).dye(colorIndex);
+
+            PartPortalFrame frame = getFrame(handleLocation);
+            if(frame != null) {
+                frame.setPortalBase(this);
                 frames.add(handleLocation);
             }
-            te = topLocation.getTE(getWorldObj());
-            if (te instanceof TilePortalFrame) {
-                ((TilePortalFrame) te).setPortalBase(this);
-                ((TilePortalFrame) te).dye(colorIndex);
+
+            frame = getFrame(topLocation);
+            if (frame != null) {
+                frame.setPortalBase(this);
                 frames.add(topLocation);
             }
         }
         for (int y = 0; y <= portalHeight; y++) {
             Location leftLocation = new Location(bottomLeft, portalDir, y);
             Location rightLocation = new Location(bottomRight, portalDir, y);
-            TileEntity te = leftLocation.getTE(getWorldObj());
-            if (te instanceof TilePortalFrame) {
-                ((TilePortalFrame) te).setPortalBase(this);
-                ((TilePortalFrame) te).dye(colorIndex);
+            PartPortalFrame frame = getFrame(leftLocation);
+            if(frame != null) {
+                frame.setPortalBase(this);
                 frames.add(leftLocation);
             }
-            te = rightLocation.getTE(getWorldObj());
-            if (te instanceof TilePortalFrame) {
-                ((TilePortalFrame) te).setPortalBase(this);
-                ((TilePortalFrame) te).dye(colorIndex);
+
+            frame = getFrame(rightLocation);
+            if (frame != null) {
+                frame.setPortalBase(this);
                 frames.add(rightLocation);
             }
         }
@@ -319,12 +335,14 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     @Override
     public void validate() {
+
         super.validate();
     }
 
 
     @Override
     public void redstoneChanged(boolean isPowered) {
+
         if (getWorldObj() != null) {
             if (portalFormed && linkingCard != null) {
                 if (getIsActive() && !getIsRedstonePowered()) {
@@ -341,6 +359,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     }
 
     private void enablePortal() {
+
         if (baseDir != null) {
             Location bottomLeft = new Location(getPos(), baseDir, (portalWidth / 2));
             bottomLeft.offset(baseDir.getOpposite(), 1);
@@ -357,16 +376,15 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
                 }
             }
             for (Location fr : frames) {
-                if (fr.getTE(getWorldObj()) != null) {
-                    if (fr.getTE(getWorldObj()) instanceof TilePortalFrame) {
-                        ((TilePortalFrame) fr.getTE(getWorldObj())).setActive(true);
-                    }
+                if(isPortalFrame(fr)) {
+                    getFrame(fr).setActive(true);
                 }
             }
         }
     }
 
     private void disablePortal() {
+
         if (baseDir != null) {
             Location bottomLeft = new Location(getPos(), baseDir, (portalWidth / 2));
             bottomLeft.offset(baseDir.getOpposite(), 1);
@@ -379,22 +397,25 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
                 }
             }
             for (Location fr : frames) {
-                if (fr.getTE(getWorldObj()) != null) {
-                    ((TilePortalFrame) fr.getTE(getWorldObj())).setActive(false);
+                if(isPortalFrame(fr)){
+                    getFrame(fr).setActive(false);
                 }
             }
         }
     }
 
     public boolean getIsActive() {
+
         return getWorldObj().getBlockState(getPos()).getValue(Properties.ACTIVE);
     }
 
     public void setIsActive(boolean active) {
+
         getWorldObj().setBlockState(pos, getBlockType().getDefaultState().withProperty(Properties.ACTIVE, active));
     }
 
     public String getIPString() {
+
         if (ip == 0 && !getWorldObj().isRemote) {
             genNewIP();
         }
@@ -402,21 +423,25 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     }
 
     public Long getIPLong() {
+
         return ip;
     }
 
     @Override
     public int getSizeInventory() {
+
         return 1;
     }
 
     @Override
     public ItemStack getStackInSlot(int var1) {
+
         return linkingCard;
     }
 
     @Override
     public ItemStack decrStackSize(int var1, int var2) {
+
         ItemStack tempStack = linkingCard.copy();
         linkingCard = null;
         return tempStack;
@@ -424,11 +449,13 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
+
         return decrStackSize(index, 1);
     }
 
     @Override
     public void setInventorySlotContents(int var1, ItemStack var2) {
+
         if (var1 == 0) {
             linkingCard = var2;
         }
@@ -436,26 +463,31 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     @Override
     public String getName() {
+
         return null;
     }
 
     @Override
     public boolean hasCustomName() {
+
         return false;
     }
 
     @Override
     public IChatComponent getDisplayName() {
+
         return null;
     }
 
     @Override
     public int getInventoryStackLimit() {
+
         return 1;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer var1) {
+
         return true;
     }
 
@@ -471,11 +503,13 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     @Override
     public boolean isItemValidForSlot(int var1, ItemStack var2) {
+
         return (var2.getItem() instanceof ItemIPCard);
     }
 
     @Override
     public int getField(int id) {
+
         return 0;
     }
 
@@ -486,6 +520,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     @Override
     public int getFieldCount() {
+
         return 0;
     }
 
@@ -495,6 +530,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     }
 
     public boolean getIsValid() {
+
         return portalFormed;
     }
 
@@ -512,40 +548,46 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     //This functionality may get lost :(
     public void dye(int i) {
+
         colorIndex = i;
         markDirty();
         getWorldObj().markBlockForUpdate(getPos());
         //Update frames
         if (portalFormed) {
             for (Location fr : frames) {
-                if (fr.getTE(getWorldObj()) != null) {
+                /*if (fr.getTE(getWorldObj()) != null) {
                     ((TilePortalFrame) fr.getTE(getWorldObj())).dye(i);
-                }
+                }*/
             }
         }
     }
 
     public int getDye() {
+
         return colorIndex;
     }
 
     public Location getBlockLocation() {
+
         return new Location(getPos());
     }
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return !side.equals(EnumFacing.UP);
     }
 
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
+
         if (from.equals(EnumFacing.UP) && getIsActive()) {
-            if(getTarget() != null) {
+            if (getTarget() != null) {
                 if (getPressure(EnumFacing.UP) >= (HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget()))) {
                     if (getIsActive()) {
                         return HCConfig.INSTANCE.getInt("portalmBarUsagePerTickPerBlock") * getBlockLocation().getDifference(getTarget());
@@ -562,11 +604,13 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         return dir.equals(EnumFacing.UP) && getTarget() != null;
     }
 
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+
         return false;
         //return super.shouldRefresh(world, pos, oldState, newSate);
     }

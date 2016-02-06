@@ -14,7 +14,6 @@ import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraul
 import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.blocks.generators.BlockHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalBase;
-import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalFrame;
 import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.*;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.*;
@@ -118,7 +117,7 @@ public class HCBlocks {
         blockCopper = new BlockCopper();
 
         portalBase = new BlockPortalBase();
-        portalFrame = new BlockPortalFrame();
+        //portalFrame = new BlockPortalFrame();
         portalTeleporter = new BlockPortalTeleporter();
 
         blockJarDirt = new BlockJarOfDirt();
@@ -178,7 +177,7 @@ public class HCBlocks {
         GameRegistry.registerBlock(blockHydraulicFluidPump, HandlerHydraulicBlock.class, Names.blockHydraulicFluidPump.unlocalized);
 
         GameRegistry.registerBlock(portalBase, HandlerHydraulicBlock.class, Names.portalBase.unlocalized);
-        GameRegistry.registerBlock(portalFrame, HandlerHydraulicBlock.class, Names.portalFrame.unlocalized);
+        //GameRegistry.registerBlock(portalFrame, HandlerHydraulicBlock.class, Names.portalFrame.unlocalized);
 
         GameRegistry.registerBlock(blockJarDirt, HandlerHydraulicBlock.class, Names.blockJarDirt.unlocalized);
 

@@ -67,7 +67,7 @@ public class Models {
         loadModel(Ores.oreNadsiumBicarbinate);
 
         loadModel(HCBlocks.portalBase);
-        loadModel(HCBlocks.portalFrame);
+        //loadModel(HCBlocks.portalFrame);
 
         loadModel(Fluids.fluidHydraulicOil.getBlock());
         loadModel(Fluids.fluidOil.getBlock());

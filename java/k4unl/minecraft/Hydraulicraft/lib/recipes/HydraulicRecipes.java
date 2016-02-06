@@ -639,7 +639,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'G', HCItems.gasket
                 }));
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.portalFrame, 6), true,
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MultipartHandler.itemPartPortalFrame, 6), true,
                 new Object[]{
                         "III",
                         "IEI",

@@ -1,11 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.gow;
 
-import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
+import k4unl.minecraft.Hydraulicraft.multipart.MultipartHandler;
 import k4unl.minecraft.Hydraulicraft.network.NetworkHandler;
 import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalEnabled;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import k4unl.minecraft.k4lib.lib.Location;
+import mcmultipart.block.TileMultipart;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -102,7 +103,10 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
     }
 
     public boolean isEdge(EnumFacing dir) {
-        return (new Location(getPos(), dir).getBlock(getWorld()) == HCBlocks.portalFrame);
+        Location nLoc = new Location(getPos(), dir);
+
+        return ((nLoc.getTE(getWorld()) instanceof TileMultipart) && MultipartHandler.hasPartPortalFrame(((TileMultipart)nLoc.getTE(getWorld()))
+          .getPartContainer()));
     }
 
     public void usePressure() {

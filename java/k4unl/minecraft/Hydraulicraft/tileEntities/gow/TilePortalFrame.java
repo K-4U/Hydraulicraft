@@ -6,7 +6,6 @@ import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class TilePortalFrame extends TileHydraulicBaseNoPower {
@@ -29,12 +28,6 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower {
 
     }
 
-
-    public boolean isConnectedTo(EnumFacing dir) {
-
-        Location thatLocation = new Location(getPos(), dir);
-        return !(getWorld() == null) && (thatLocation.getTE(getWorld()) instanceof TilePortalFrame || thatLocation.getTE(getWorld()) instanceof TilePortalBase);
-    }
 
     @Override
     public void readFromNBT(NBTTagCompound tCompound) {
