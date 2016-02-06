@@ -10,7 +10,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.*;
-import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileEntities {
@@ -23,7 +23,7 @@ public class TileEntities {
         GameRegistry.registerTileEntity(TileHydraulicPump.class, "tileHydraulicPump");
         GameRegistry.registerTileEntity(TileHydraulicLavaPump.class, "tileHydraulicLavaPump");
         GameRegistry.registerTileEntity(TileHydraulicFrictionIncinerator.class, "tileHydraulicFrictionIncinerator");
-        GameRegistry.registerTileEntity(TileHydraulicPressureVat.class, "tileHydraulicPressureVat");
+        GameRegistry.registerTileEntity(TileHydraulicPressureReservoir.class, "tileHydraulicPressureVat");
         GameRegistry.registerTileEntity(TileHydraulicCrusher.class, "tileHydraulicCrusher");
         GameRegistry.registerTileEntity(TileHydraulicWasher.class, "tileHydraulicWasher");
         GameRegistry.registerTileEntity(TileHydraulicFilter.class, "tileHydraulicMixer");

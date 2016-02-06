@@ -31,16 +31,17 @@ public class Names {
             new Name("HP MJ Pump", "HPElectricPump")};
     public static final Name   blockHydraulicHarvester           = new Name("Harvester", "hydraulicHarvesterSource");
     public static final Name   blockHarvesterFrame               = new Name("Harvester frame", "hydraulicHarvesterFrame");
-    public static final Name   blockHarvesterTrolley             = new Name("Harvester Trolley", "harvesterTrolley");
-    public static final Name[] blockCore                         = {new Name("LP Core", "LPBlockCore"), new Name("MP Core", "MPBlockCore"),
+    public static final Name   blockHarvesterTrolley           = new Name("Harvester Trolley", "harvesterTrolley");
+    public static final Name[] blockCore                       = {new Name("LP Core", "LPBlockCore"), new Name("MP Core", "MPBlockCore"),
             new Name("HP Core", "HPBlockCore")};
-    public static final Name[] partHose                          = {new Name("LP Hydraulic Pressure Pipe", "LPHydraulicPipe"),
+    public static final Name[] partHose                        = {new Name("LP Hydraulic Pressure Pipe", "LPHydraulicPipe"),
             new Name("MP Hydraulic Pressure Pipe", "MPHydraulicPipe"), new Name("HP Hydraulic Pressure Pipe", "HPHydraulicPipe")};
-    public static final Name[] blockHydraulicPressurevat         = {new Name("LP Hydraulic Pressure Vat", "LPHydraulicPressureVat"),
-            new Name("MP Hydraulic Pressure Vat", "MPHydraulicPressureVat"), new Name("HP Hydraulic Pressure Vat", "HPHydraulicPressureVat")};
-    public static final Name[] blockHydraulicPump                = {new Name("LP Hydraulic Pump", "LPHydraulicPump"),
+    public static final Name[] blockHydraulicPressureReservoir = {new Name("LP Hydraulic Pressure Reservoir", "LPHydraulicPressureReservoir"),
+            new Name("MP Hydraulic Pressure Reservoir", "MPHydraulicPressureReservoir"), new Name("HP Hydraulic Pressure Reservoir",
+      "HPHydraulicPressureReservoir")};
+    public static final Name[] blockHydraulicPump              = {new Name("LP Hydraulic Pump", "LPHydraulicPump"),
             new Name("MP Hydraulic Pump", "MPHydraulicPump"), new Name("HP Hydraulic Pump", "HPHydraulicPump")};
-    public static final Name[] blockHydraulicLavaPump            = {new Name("LP Hydraulic Lava Pump", "LPHydraulicLavaPump"),
+    public static final Name[] blockHydraulicLavaPump          = {new Name("LP Hydraulic Lava Pump", "LPHydraulicLavaPump"),
             new Name("MP Hydraulic Lava Pump", "MPHydraulicLavaPump"), new Name("HP Hydraulic Lava Pump", "HPHydraulicLavaPump")};
     public static final Name[] partValve                         = {new Name("LP Valve", "LPPartValve"), new Name("MP Valve", "MPPartValve"),
             new Name("HP Valve", "HPPartValve")};

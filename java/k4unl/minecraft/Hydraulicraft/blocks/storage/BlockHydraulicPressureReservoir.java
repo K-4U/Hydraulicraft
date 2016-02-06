@@ -5,7 +5,7 @@ import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -16,18 +16,18 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implements IMultiTieredBlock {
+public class BlockHydraulicPressureReservoir extends HydraulicTieredBlockBase implements IMultiTieredBlock {
 
 
-    public BlockHydraulicPressureVat() {
-        super(Names.blockHydraulicPressurevat);
+    public BlockHydraulicPressureReservoir() {
+        super(Names.blockHydraulicPressureReservoir);
         hasTopIcon = true;
         hasBottomIcon = true;
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
-        return new TileHydraulicPressureVat(getTierFromState(getStateFromMeta(metadata)));
+        return new TileHydraulicPressureReservoir(getTierFromState(getStateFromMeta(metadata)));
     }
 
     @Override
@@ -40,10 +40,10 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implemen
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         TileEntity ent = worldIn.getTileEntity(pos);
-        if (ent instanceof TileHydraulicPressureVat) {
+        if (ent instanceof TileHydraulicPressureReservoir) {
             if (stack != null) {
                 if (stack.getTagCompound() != null) {
-                    ((TileHydraulicPressureVat) ent).newFromNBT(stack.getTagCompound());
+                    ((TileHydraulicPressureReservoir) ent).newFromNBT(stack.getTagCompound());
                     worldIn.markBlockForUpdate(pos);
                 }
             }
@@ -72,8 +72,8 @@ public class BlockHydraulicPressureVat extends HydraulicTieredBlockBase implemen
     //TODO: FIX ME
     public int isProvidingWeakPower(IBlockAccess w, int x, int y, int z, int side) {
         TileEntity ent = w.getTileEntity(new BlockPos(x, y, z));
-        if (ent instanceof TileHydraulicPressureVat) {
-            TileHydraulicPressureVat p = (TileHydraulicPressureVat) ent;
+        if (ent instanceof TileHydraulicPressureReservoir) {
+            TileHydraulicPressureReservoir p = (TileHydraulicPressureReservoir) ent;
             return p.getRedstoneLevel();
         }
         return 0;

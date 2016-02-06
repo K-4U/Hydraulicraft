@@ -14,7 +14,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorage;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorageWithTank;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
-import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
 import k4unl.minecraft.k4lib.lib.Location;
 import mcmultipart.block.TileMultipart;
 import mcmultipart.multipart.Multipart;
@@ -77,7 +77,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
 
         tTarget = _target;
         target = (IHydraulicMachine) _target;
-        if (target instanceof TileHydraulicPressureVat) {
+        if (target instanceof TileHydraulicPressureReservoir) {
             hasOwnFluidTank = true;
         }
         tWorld = _target.getWorld();

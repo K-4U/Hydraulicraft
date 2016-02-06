@@ -22,7 +22,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInfiniteSource;
-import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -91,8 +91,8 @@ public class GuiHandler implements IGuiHandler {
                     }
                     break;
                 case PRESSUREVAT:
-                    if (ent instanceof TileHydraulicPressureVat) {
-                        return new ContainerPressureVat(player.inventory, (TileHydraulicPressureVat) ent);
+                    if (ent instanceof TileHydraulicPressureReservoir) {
+                        return new ContainerPressureVat(player.inventory, (TileHydraulicPressureReservoir) ent);
                     }
                     break;
                 case PUMP:
@@ -204,8 +204,8 @@ public class GuiHandler implements IGuiHandler {
                     }
                     break;
                 case PRESSUREVAT:
-                    if (ent instanceof TileHydraulicPressureVat) {
-                        return new GuiPressureVat(player.inventory, (TileHydraulicPressureVat) ent);
+                    if (ent instanceof TileHydraulicPressureReservoir) {
+                        return new GuiPressureVat(player.inventory, (TileHydraulicPressureReservoir) ent);
                     }
                     break;
                 case PUMP:

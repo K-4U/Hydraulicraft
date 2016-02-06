@@ -18,7 +18,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalFrame;
 import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.*;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.*;
-import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureReservoir;
 import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberLeaves;
 import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberSapling;
 import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberWood;
@@ -90,7 +90,7 @@ public class HCBlocks {
     public static void init() {
         hydraulicPump = new BlockHydraulicPump();
         hydraulicLavaPump = new BlockHydraulicLavaPump();
-        hydraulicPressurevat = new BlockHydraulicPressureVat();
+        hydraulicPressurevat = new BlockHydraulicPressureReservoir();
         hydraulicFilter = new BlockHydraulicFilter();
         hydraulicFrictionIncinerator = new BlockHydraulicFrictionIncinerator();
         hydraulicCrusher = new BlockHydraulicCrusher();
@@ -164,7 +164,7 @@ public class HCBlocks {
         GameRegistry.registerBlock(blockInterfaceValve, HandlerHydraulicBlock.class, Names.blockInterfaceValve.unlocalized);
         GameRegistry.registerBlock(movingPane, HandlerHydraulicBlock.class, Names.blockMovingPane.unlocalized);
 
-        GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressurevat[0].unlocalized);
+        GameRegistry.registerBlock(hydraulicPressurevat, HandlerPressureVat.class, Names.blockHydraulicPressureReservoir[0].unlocalized);
         GameRegistry.registerBlock(hydraulicPump, HandlerPump.class, Names.blockHydraulicPump[0].unlocalized);
         GameRegistry.registerBlock(hydraulicLavaPump, HandlerLavaPump.class, Names.blockHydraulicLavaPump[0].unlocalized);
 

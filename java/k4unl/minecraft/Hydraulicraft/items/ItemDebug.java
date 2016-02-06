@@ -9,7 +9,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
-import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureVat;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -78,8 +78,8 @@ public class ItemDebug extends HydraulicItemBase {
 					tagC.setFloat("prevPressure", pressure);
 					tagC.setInteger("prevFluid", stored);
 					
-					if(ent instanceof TileHydraulicPressureVat){
-						PressureTier tier = ((TileHydraulicPressureVat)ent).getTier();
+					if(ent instanceof TileHydraulicPressureReservoir){
+						PressureTier tier = ((TileHydraulicPressureReservoir)ent).getTier();
 						Functions.showMessageInChat(playerIn, "Tier:          " + tier);						
 					}
 

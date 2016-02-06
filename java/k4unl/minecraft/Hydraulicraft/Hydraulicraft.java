@@ -23,11 +23,13 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.world.HCWorldGenerator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import thirdParty.truetyper.TrueTypeFont;
 
@@ -239,39 +241,21 @@ public class Hydraulicraft {
 
     @Mod.EventHandler
     public void convert(FMLMissingMappingsEvent event) {
-/*
-        for (FMLMissingMappingsEvent.MissingMapping mapping : event.get()) {
+
+        for (FMLMissingMappingsEvent.MissingMapping mapping : event.getAll()) {
             String name = mapping.name;
+            Log.info(name.substring("hydcraft:LP".length()));
 
-            if (name.startsWith("HydCraft:wheatHarvester")) {
-                name = name.replaceAll("wheatHarvester", "harvesterTrolley");
-
-                if (mapping.type == GameRegistry.Type.BLOCK) {
-                    mapping.remap(GameData.getBlockRegistry().getObject(name));
-                } else {
-                    mapping.remap(GameData.getItemRegistry().getObject(name));
-                }
-            }
-            if (name.startsWith("HydCraft:hydraulicMixer")) {
-                name = name.replaceAll("hydraulicMixer", Names.blockHydraulicFilter.unlocalized);
+            if (name.startsWith("hydcraft:") && name.substring("hydcraft:LP".length()).equalsIgnoreCase("hydraulicpressurevat")) {
+                name = name.replaceAll("Vat", "Reservoir");
 
                 if (mapping.type == GameRegistry.Type.BLOCK) {
-                    mapping.remap(GameData.getBlockRegistry().getObject(name));
+                    mapping.remap(GameData.getBlockRegistry().getObject(new ResourceLocation(name)));
                 } else {
-                    mapping.remap(GameData.getItemRegistry().getObject(name));
-                }
-            }
-            if (name.startsWith("HydCraft:hydraulicWaterPump")) {
-                name = name.replaceAll("hydraulicWaterPump", Names.blockHydraulicFluidPump.unlocalized);
-
-                if (mapping.type == GameRegistry.Type.BLOCK) {
-                    mapping.remap(GameData.getBlockRegistry().getObject(name));
-                } else {
-                    mapping.remap(GameData.getItemRegistry().getObject(name));
+                    mapping.remap(GameData.getItemRegistry().getObject(new ResourceLocation(name)));
                 }
             }
         }
-*/
     }
 }
 

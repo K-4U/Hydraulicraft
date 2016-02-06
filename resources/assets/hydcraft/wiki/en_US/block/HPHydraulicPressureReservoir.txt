@@ -1,4 +1,4 @@
-[crafting{200,10,key=block/HPHydraulicPressureVat}]
+[crafting{200,10,key=block/HPHydraulicPressureReservoir}]
 
 
 
