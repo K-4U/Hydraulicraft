@@ -27,6 +27,9 @@ public final class Properties {
 
     public static final PropertyInteger LIGHTVALUE = PropertyInteger.create("lightValue", 0, 15);
 
+
+    public static final PropertyBool HARVESTER_FRAME_ROTATED = PropertyBool.create("rotated");
+
     private Properties() {
 
     }

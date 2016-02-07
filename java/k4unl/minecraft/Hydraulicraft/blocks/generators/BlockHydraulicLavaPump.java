@@ -36,8 +36,6 @@ public class BlockHydraulicLavaPump extends HydraulicTieredBlockBase implements 
         return false;
     }
 
-
-
     @Override
     public PressureTier getTier(int damage) {
 
