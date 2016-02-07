@@ -1,11 +1,14 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.api.IPressurizableItem;
+import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.PressurizableItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.BlockPos;
@@ -27,6 +30,7 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
 
     protected ItemHydraulicTool(float damage, ToolMaterial material, Set worksOn) {
         super(damage, material, worksOn);
+        setHasSubtypes(true);
     }
 
     @Override
@@ -114,6 +118,18 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean something) {
         super.addInformation(stack, player, list, something);
         pressurizableItem.addInformation(stack, list);
+    }
+
+    @Override
+    public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+        super.getSubItems(itemIn, tab, subItems);
+
+        // add charged one
+        ItemStack charged = new ItemStack(itemIn, 1, 0);
+        IPressurizableItem item = (IPressurizableItem) charged.getItem();
+        item.setFluid(charged, new FluidStack(Fluids.fluidHydraulicOil, (int)item.getMaxFluid()));
+        item.setPressure(charged, item.getMaxPressure());
+        subItems.add(charged);
     }
 
 }
