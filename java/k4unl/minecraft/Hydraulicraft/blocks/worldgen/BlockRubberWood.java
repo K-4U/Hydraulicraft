@@ -100,7 +100,6 @@ public class BlockRubberWood extends HydraulicBlockBase {
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 
         double rnd = (new Random()).nextDouble();
-        Log.info("Random_PLACED: " + rnd);
 
         return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis
           .fromFacingAxis(facing.getAxis())).withProperty(Properties.HAS_RUBBER_SPOT, rnd >= HCConfig.INSTANCE.getDouble
