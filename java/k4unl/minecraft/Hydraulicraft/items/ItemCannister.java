@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.api.IPressurizableItem;
+import k4unl.minecraft.Hydraulicraft.api.IPressurizableItemUpgrade;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.creativetab.CreativeTabs;
@@ -57,6 +58,21 @@ public class ItemCannister extends HydraulicItemBase implements IPressurizableIt
     @Override
     public float getMaxFluid() {
         return FLUID_CAPACITY;
+    }
+
+    @Override
+    public List<IPressurizableItemUpgrade> getUpgrades() {
+        return null;
+    }
+
+    @Override
+    public boolean addUpgrade(IPressurizableItemUpgrade upgrade) {
+        return false;
+    }
+
+    @Override
+    public void removeUpgrade(IPressurizableItem upgrade) {
+
     }
 
     @Override
