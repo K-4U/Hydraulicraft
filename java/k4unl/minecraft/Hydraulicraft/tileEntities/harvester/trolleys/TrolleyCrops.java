@@ -56,7 +56,7 @@ public class TrolleyCrops implements IHarvesterTrolley {
     @Override
     public boolean canHarvest(World world, BlockPos pos) {
         for (ItemStack s : getHandlingSeeds()) {
-            if (world.getBlockState(pos).equals(getBlockStateForSeed(s))) {
+            if (world.getBlockState(pos).getBlock().equals(getBlockStateForSeed(s).getBlock())) {
                 if (world.getBlockState(pos).getValue(BlockCrops.AGE) == 7) {
                     return true;
                 }
