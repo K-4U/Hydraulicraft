@@ -3,6 +3,9 @@ package k4unl.minecraft.Hydraulicraft.items;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingHelmet;
 import k4unl.minecraft.Hydraulicraft.items.divingSuit.ItemDivingSuit;
+import k4unl.minecraft.Hydraulicraft.items.upgrades.UpgradeBigDrill;
+import k4unl.minecraft.Hydraulicraft.items.upgrades.UpgradeCapitator;
+import k4unl.minecraft.Hydraulicraft.items.upgrades.UpgradeCreative;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.k4lib.lib.OreDictionaryHelper;
@@ -45,6 +48,10 @@ public class HCItems {
     public static Item itemSaw;
 
     public static Item itemPressureGauge;
+
+    public static Item itemUpgradeBigDrill;
+    public static Item itemUpgradeCapitator;
+    public static Item itemUpgradeCreative;
 
     /*!
      * @author Koen Beckers
@@ -94,6 +101,10 @@ public class HCItems {
         itemSaw = new ItemHydraulicSaw();
 
         itemPressureGauge = new ItemPressureGauge();
+
+        itemUpgradeBigDrill = new UpgradeBigDrill();
+        itemUpgradeCapitator = new UpgradeCapitator();
+        itemUpgradeCreative = new UpgradeCreative();
 
         registerItems();
     }
@@ -148,6 +159,10 @@ public class HCItems {
         GameRegistry.registerItem(itemSaw, Names.itemSaw.unlocalized);
 
         GameRegistry.registerItem(itemPressureGauge, Names.itemPressureGauge.unlocalized);
+
+        GameRegistry.registerItem(itemUpgradeBigDrill, Names.itemUpgradeBigDrill.unlocalized);
+        GameRegistry.registerItem(itemUpgradeCapitator, Names.itemUpgradeCapitator.unlocalized);
+        GameRegistry.registerItem(itemUpgradeCreative, Names.itemUpgradeCreative.unlocalized);
     }
 }
 
