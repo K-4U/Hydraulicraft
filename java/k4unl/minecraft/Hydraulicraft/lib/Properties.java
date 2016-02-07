@@ -30,6 +30,8 @@ public final class Properties {
 
     public static final PropertyBool HARVESTER_FRAME_ROTATED = PropertyBool.create("rotated");
 
+    public static final PropertyBool HAS_RUBBER_SPOT = PropertyBool.create("hasRubberSpot");
+
     private Properties() {
 
     }

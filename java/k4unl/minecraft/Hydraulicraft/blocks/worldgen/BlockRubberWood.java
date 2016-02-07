@@ -1,10 +1,13 @@
 package k4unl.minecraft.Hydraulicraft.blocks.worldgen;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
+import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,7 +33,8 @@ public class BlockRubberWood extends HydraulicBlockBase {
 
         this.setHardness(2.0F);
         this.setStepSound(soundTypeWood);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y).withProperty(Properties
+          .HAS_RUBBER_SPOT, false));
     }
 
     /**
@@ -64,6 +68,18 @@ public class BlockRubberWood extends HydraulicBlockBase {
         }
     }
 
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+        float pixel = 1F / 16F;
+        Vector3fMax vector = new Vector3fMax(pixel, 0.0F, pixel, 1.0F-pixel, 1.0F, 1.0F-pixel);
+        if(worldIn.getBlockState(pos).getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Y){
+
+        }
+
+
+        this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
+    }
+
 
     @Override
     public boolean canSustainLeaves(IBlockAccess world, BlockPos pos) {
@@ -83,16 +99,29 @@ public class BlockRubberWood extends HydraulicBlockBase {
      */
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 
+        double rnd = (new Random()).nextDouble();
+        Log.info("Random_PLACED: " + rnd);
+
         return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis
-          .fromFacingAxis(facing.getAxis()));
+          .fromFacingAxis(facing.getAxis())).withProperty(Properties.HAS_RUBBER_SPOT, rnd >= HCConfig.INSTANCE.getDouble
+          ("rubberPatchChance", "worldgen"));
     }
 
-    public IBlockState getStateFromMeta(int meta)
-    {
+    @Override
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+
+        super.onBlockAdded(worldIn, pos, state);
+        double rnd = (new Random()).nextDouble();
+
+        state = state.withProperty(Properties.HAS_RUBBER_SPOT, rnd >= HCConfig.INSTANCE.getDouble("rubberPatchChance", "worldgen"));
+        worldIn.setBlockState(pos, state);
+    }
+
+    public IBlockState getStateFromMeta(int meta) {
+
         IBlockState iblockstate = this.getDefaultState();
 
-        switch (meta & 12)
-        {
+        switch (meta & 12) {
             case 0:
                 iblockstate = iblockstate.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y);
                 break;
@@ -105,6 +134,7 @@ public class BlockRubberWood extends HydraulicBlockBase {
             default:
                 iblockstate = iblockstate.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE);
         }
+        iblockstate = iblockstate.withProperty(Properties.HAS_RUBBER_SPOT, ((meta & 1) == 1));
 
         return iblockstate;
     }
@@ -114,12 +144,11 @@ public class BlockRubberWood extends HydraulicBlockBase {
      */
     @SuppressWarnings("incomplete-switch")
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
+
         int i = 0;
 
-        switch ((BlockLog.EnumAxis)state.getValue(BlockLog.LOG_AXIS))
-        {
+        switch ((BlockLog.EnumAxis) state.getValue(BlockLog.LOG_AXIS)) {
             case X:
                 i |= 4;
                 break;
@@ -129,13 +158,29 @@ public class BlockRubberWood extends HydraulicBlockBase {
             case NONE:
                 i |= 12;
         }
+        if (state.getValue(Properties.HAS_RUBBER_SPOT)) {
+            i |= 1;
+        }
 
         return i;
     }
 
     @Override
-    protected BlockState createBlockState()
-    {
-        return new BlockState(this, new IProperty[] {BlockLog.LOG_AXIS});
+    protected BlockState createBlockState() {
+
+        return new BlockState(this, BlockLog.LOG_AXIS, Properties.HAS_RUBBER_SPOT);
     }
+
+    @Override
+    public boolean isFullBlock() {
+
+        return false;
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+
 }

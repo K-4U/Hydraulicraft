@@ -6,10 +6,14 @@
     }
   },
   "variants": {
-    "axis=y":    { "model": "hydcraft:rubberWoodLog" },
-    "axis=z":    { "model": "hydcraft:rubberWoodLogSide" },
-    "axis=x":    { "model": "hydcraft:rubberWoodLogSide", "y": 90 },
-    "axis=none": { "model": "hydcraft:rubberWoodLog" },
+    "axis=y,hasrubberspot=true":    { "model": "hydcraft:rubberWoodLogSpot" },
+    "axis=z,hasrubberspot=true":    { "model": "hydcraft:rubberWoodLogSideSpot" },
+    "axis=x,hasrubberspot=true":    { "model": "hydcraft:rubberWoodLogSideSpot", "y": 90 },
+    "axis=none,hasrubberspot=true": { "model": "hydcraft:rubberWoodLogSpot" },
+    "axis=y,hasrubberspot=false":    { "model": "hydcraft:rubberWoodLog" },
+    "axis=z,hasrubberspot=false":    { "model": "hydcraft:rubberWoodLogSide" },
+    "axis=x,hasrubberspot=false":    { "model": "hydcraft:rubberWoodLogSide", "y": 90 },
+    "axis=none,hasrubberspot=true": { "model": "hydcraft:rubberWoodLog" },
     "inventory": [{"model": "hydcraft:rubberWoodLog" }]
   }
 }

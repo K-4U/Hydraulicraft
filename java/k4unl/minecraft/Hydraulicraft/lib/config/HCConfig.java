@@ -98,6 +98,8 @@ public class HCConfig extends Config{
 
         configOptions.add(new ConfigOption("shouldGenRubberTrees", true).setCategory("worldgen"));
         configOptions.add(new ConfigOption("rubberTreeChance", 0.05).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("rubberPatchChance", 0.25).setCategory("worldgen").setComment("How big the chance is a log has a rubber "
+          + "patch"));
 
 
         configOptions.add(new ConfigOption("x", 0).setCategory("pressureUI").setComment("The X coordinate on your screen to render the pressure"));

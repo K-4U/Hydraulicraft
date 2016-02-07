@@ -1,0 +1,8 @@
+{
+  "parent": "hydcraft:block/rubberWoodLogSide",
+  "textures": {
+    "end": "hydcraft:blocks/rubberWood_end",
+    "side": "hydcraft:blocks/rubberWood_sides",
+    "particle": "#side"
+  }
+}
