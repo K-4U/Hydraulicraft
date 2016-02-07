@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
+import k4unl.minecraft.Hydraulicraft.multipart.MultipartHandler;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -156,5 +157,7 @@ public class Models {
         loadItemModel(HCItems.itemSaw);
 
         loadItemModel(HCItems.itemPressureGauge);
+
+        loadItemModel(MultipartHandler.itemPartPortalFrame);
     }
 }
