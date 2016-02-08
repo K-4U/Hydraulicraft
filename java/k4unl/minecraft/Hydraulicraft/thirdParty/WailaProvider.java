@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTr
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileElectricPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileFluidTank;
 import k4unl.minecraft.k4lib.lib.Functions;
 import mcp.mobius.waila.api.*;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,6 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -24,20 +26,22 @@ import java.util.Map;
 public class WailaProvider implements IWailaDataProvider {
 
     public static void callbackRegister(IWailaRegistrar registrar) {
+
         registrar.registerHeadProvider(new WailaProvider(), IHydraulicMachine.class);
         registrar.registerBodyProvider(new WailaProvider(), IHydraulicMachine.class);
         registrar.registerTailProvider(new WailaProvider(), IHydraulicMachine.class);
         //registrar.registerBodyProvider(new WailaProvider(), TileMultipart.class);
         registrar.registerStackProvider(new WailaProvider(), BlockHarvesterTrolley.class);
-
+        registrar.registerBodyProvider(new WailaProvider(), TileFluidTank.class);
         //registrar.registerBodyProvider(new WailaProvider(), Ids.blockHydraulicPump.act);
     }
 
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor,
-                                   IWailaConfigHandler config) {
-        if(accessor.getTileEntity() instanceof TileHarvesterTrolley){
-            TileHarvesterTrolley harvesterTrolley = (TileHarvesterTrolley)accessor.getTileEntity();
+      IWailaConfigHandler config) {
+
+        if (accessor.getTileEntity() instanceof TileHarvesterTrolley) {
+            TileHarvesterTrolley harvesterTrolley = (TileHarvesterTrolley) accessor.getTileEntity();
             String name = harvesterTrolley.getTrolley().getName();
             NBTTagCompound tagCompound = new NBTTagCompound();
             tagCompound.setString("name", name);
@@ -51,16 +55,17 @@ public class WailaProvider implements IWailaDataProvider {
 
     @Override
     public List<String> getWailaHead(ItemStack itemStack,
-                                     List<String> currenttip, IWailaDataAccessor accessor,
-                                     IWailaConfigHandler config) {
+      List<String> currenttip, IWailaDataAccessor accessor,
+      IWailaConfigHandler config) {
+
         return currenttip;
     }
 
     @SuppressWarnings("cast")
     @Override
     public List<String> getWailaBody(ItemStack itemStack,
-                                     List<String> currenttip, IWailaDataAccessor accessor,
-                                     IWailaConfigHandler config) {
+      List<String> currenttip, IWailaDataAccessor accessor,
+      IWailaConfigHandler config) {
 
         TileEntity ent = accessor.getTileEntity();
         if (accessor.getTileEntity() instanceof IHydraulicMachine/* || ent instanceof TileMultipart*/) {
@@ -74,7 +79,7 @@ public class WailaProvider implements IWailaDataProvider {
                     return currenttip;
                 }
             } else {*/
-                mEnt = (IHydraulicMachine) ent;
+            mEnt = (IHydraulicMachine) ent;
             //}
             //mEnt = (IHydraulicMachine) ent;
             //IHydraulicMachine mEnt = (IHydraulicMachine) accessor.getTileEntity();
@@ -107,19 +112,31 @@ public class WailaProvider implements IWailaDataProvider {
                 currenttip.add(entry.getKey() + ": " + /*SpecialChars.ALIGNRIGHT +*/ SpecialChars.WHITE + entry.getValue());
             }
 
+        } else if (ent instanceof TileFluidTank) {
+            TileFluidTank fluidTank = (TileFluidTank)ent;
+            Map<String, String> values = new HashMap<String, String>();
+            FluidTankInfo tankInfo = fluidTank.getTankInfo(EnumFacing.UP)[0];
+            if(tankInfo != null && tankInfo.fluid != null) {
+                currenttip.add("Fluid: " + SpecialChars.WHITE + tankInfo.fluid.getLocalizedName());
+                currenttip.add(tankInfo.fluid.amount + "/" + tankInfo.capacity + " mB");
+            }else{
+                currenttip.add("Fluid: " + SpecialChars.WHITE + "None");
+            }
         }
         return currenttip;
     }
 
     @Override
     public List<String> getWailaTail(ItemStack itemStack,
-                                     List<String> currenttip, IWailaDataAccessor accessor,
-                                     IWailaConfigHandler config) {
+      List<String> currenttip, IWailaDataAccessor accessor,
+      IWailaConfigHandler config) {
+
         return currenttip;
     }
 
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
+
         return null;
     }
 }

@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "side": "hydcraft:blocks/blockFluidTank_sides",
+      "end": "hydcraft:blocks/blockFluidTank_end"
+    },
+    "model": "hydcraft:blockFluidTank"
+  },
+  "variants": {
+    "normal":    [{}],
+    "inventory": [{}]
+  }
+}

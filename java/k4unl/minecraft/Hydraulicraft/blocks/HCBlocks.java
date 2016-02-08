@@ -17,6 +17,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalBase;
 import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.*;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.*;
+import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockFluidTank;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureReservoir;
 import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberLeaves;
 import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberSapling;
@@ -81,6 +82,8 @@ public class HCBlocks {
     public static Block blockRubberLeaves;
     public static Block blockRubberSapling;
 
+    public static Block blockFluidTank;
+
     /*!
      * @author Koen Beckers
      * @date 13-12-2013
@@ -139,6 +142,8 @@ public class HCBlocks {
         blockRubberWood = new BlockRubberWood();
         blockRubberLeaves = new BlockRubberLeaves();
         blockRubberSapling = new BlockRubberSapling();
+
+        blockFluidTank = new BlockFluidTank();
 
         registerBlocks();
     }
@@ -205,5 +210,7 @@ public class HCBlocks {
         GameRegistry.registerBlock(blockRubberWood, ItemBlock.class, Names.blockRubberWood.unlocalized);
         GameRegistry.registerBlock(blockRubberLeaves, ItemBlock.class, Names.blockRubberLeaves.unlocalized);
         GameRegistry.registerBlock(blockRubberSapling, ItemBlock.class, Names.blockRubberSapling.unlocalized);
+
+        GameRegistry.registerBlock(blockFluidTank, ItemBlock.class, Names.blockFluidTank.unlocalized);
     }
 }

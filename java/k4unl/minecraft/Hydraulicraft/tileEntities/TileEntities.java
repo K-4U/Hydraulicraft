@@ -9,6 +9,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.*;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileFluidTank;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -49,6 +50,8 @@ public class TileEntities {
         GameRegistry.registerTileEntity(TileAssembler.class, "tileHydraulicAssembler");
 
         GameRegistry.registerTileEntity(TileHydraulicFiller.class, "tileHydraulicFiller");
+
+        GameRegistry.registerTileEntity(TileFluidTank.class, "tileFluidTank");
 
     }
 }

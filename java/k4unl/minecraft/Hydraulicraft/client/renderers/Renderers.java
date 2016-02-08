@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalTeleport
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererArchimedesScrew;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererJarOfDirt;
+import k4unl.minecraft.Hydraulicraft.client.renderers.storage.RendererBlockFluidTank;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicFluidPump;
@@ -21,6 +22,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileJarOfDirt;
+import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileFluidTank;
 import mcmultipart.client.multipart.MultipartRegistryClient;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.ForgeHooksClient;
@@ -31,10 +33,6 @@ public class Renderers {
 
 
     public static void init() {
-//		rendererIdJarOfDirt = RenderingRegistry.getNextAvailableRenderId();
-
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterFrame.class, new RendererHarvesterFrame());
-        //ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(HCBlocks.hydraulicHarvesterFrame), 0, TileHarvesterFrame.class);
         ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterTrolley.class, new RendererHarvesterTrolley());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicPiston.class, new RendererHydraulicPiston());
@@ -43,40 +41,15 @@ public class Renderers {
 
         MultipartRegistryClient.bindMultipartSpecialRenderer(PartHose.class, new RendererPartHose());
         ClientRegistry.bindTileEntitySpecialRenderer(TileMovingPane.class, new RendererMovingPane());
-
-
-
-        //MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.hydraulicHarvesterFrame), new RendererHarvesterItem());
-        //MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.harvesterTrolley), new RendererHarvesterTrolleyItem());
-        //MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.hydraulicPump),  new RendererHydraulicPumpItem());
-        //MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.hydraulicLavaPump),  new RendererHydraulicLavaPumpItem());
-
-//		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.blockHose),  new RendererHydraulicHoseItem());
-//		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartHose, new RendererHydraulicHoseItem());
-//		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartValve, new RendererPartValveItem());
-//		MinecraftForgeClient.registerItemRenderer(Multipart.itemPartFluidPipe, new RendererPartFluidPipeItem());
-
-        //ClientRegistry.bindTileEntitySpecialRenderer(TilePortalBase.class, new RendererPortalBase());
-        //ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(HCBlocks.portalBase), 0, TilePortalBase.class);
         ClientRegistry.bindTileEntitySpecialRenderer(TilePortalTeleporter.class, new RendererPortalTeleporter());
 
-//		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.portalBase), new ItemRendererPortalBase());
-//		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.portalFrame), new ItemRendererPortalFrame());
-
-//		RenderingRegistry.registerBlockHandler(new RendererInterfaceValve());
         ClientRegistry.bindTileEntitySpecialRenderer(TileInterfaceValve.class, new RendererInterfaceValve());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileJarOfDirt.class, new RendererJarOfDirt());
         ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(HCBlocks.blockJarDirt), 0, TileJarOfDirt.class);
-//		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(HCBlocks.blockJarDirt), new ItemRendererJarOfDirt());
 
-//		RenderingRegistry.registerBlockHandler(new RendererArchimedesScrew());
         ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicFluidPump.class, new RendererArchimedesScrew());
-
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterFrame.class, new RendererHarvesterFrame());
-
-
-//		RenderingRegistry.registerBlockHandler(new RendererGlowBlock());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileFluidTank.class, new RendererBlockFluidTank());
 
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingHelmet, new RendererScubaGearItem());
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingController, new RendererScubaGearItem());

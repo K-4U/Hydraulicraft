@@ -78,6 +78,8 @@ public class Models {
         loadModel(HCBlocks.blockRubberLeaves);
         loadModel(HCBlocks.blockRubberSapling);
         loadModel(HCBlocks.blockRubberWood);
+
+        loadModel(HCBlocks.blockFluidTank);
     }
 
     private static void loadModel(Block block, int metadata, String override) {
