@@ -6,8 +6,10 @@ import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Functions;
 import k4unl.minecraft.k4lib.lib.Location;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -16,136 +18,6 @@ import org.lwjgl.opengl.GL11;
 
 public class RendererInterfaceValve extends TileEntitySpecialRenderer {//implements ISimpleBlockRenderingHandler  {
 
-    /*
-        public static final int   RENDER_ID         = RenderingRegistry.getNextAvailableRenderId();
-        public static final Block FAKE_RENDER_BLOCK = new Block(Material.rock) {
-
-            @Override
-            public IIcon getIcon(int meta, int side) {
-
-                return currentBlockToRender.getIcon(meta, side);
-            }
-        };
-
-        public static Block currentBlockToRender = Blocks.stone;
-
-        @Override
-        public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-
-            currentBlockToRender = block;
-            renderer.renderBlockAsItem(FAKE_RENDER_BLOCK, 1, 1.0F);
-        }
-
-        @Override
-        public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-
-            boolean ret = renderer.renderStandardBlock(block, x, y, z);
-
-            int outerXDifference;
-            int outerYDifference;
-            int outerZDifference;
-            TileInterfaceValve valve = (TileInterfaceValve)world.getTileEntity(x, y, z);
-            //Log.info("Render: isTank = " + isValidTank);
-            if(valve.isValidTank()) {
-                Location corner1_out = new Location(valve.getTankCorner1());
-
-                Location corner2_out = new Location(valve.getTankCorner2());
-                corner2_out.addX(1);
-                corner2_out.addY(1);
-                corner2_out.addZ(1);
-
-                outerXDifference = corner2_out.getX() - corner1_out.getX();
-                outerYDifference = corner2_out.getY() - corner1_out.getY();
-                outerZDifference = corner2_out.getZ() - corner1_out.getZ();
-
-                //Log.info(corner2_out.printCoords());
-
-
-                Tessellator.instance.addTranslation(corner1_out.getX(), corner1_out.getY(), corner1_out.getZ());
-                GL11.glEnable(GL11.GL_BLEND);
-
-                GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.4F);
-                OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
-
-                IIcon icon = IconSupplier.tankGrid;
-                float u = icon.getMinU();
-                float v = icon.getMinV();
-                float U = icon.getMaxU();
-                float V = icon.getMaxV();
-                Tessellator tessellator = Tessellator.instance;
-
-                for(int xR = 0; xR < outerXDifference; xR++){
-                    for(int yR = 0; yR < outerYDifference; yR++) {
-                        //Draw north side
-                        tessellator.setNormal(0, 0, -1);
-                        RenderHelper.tesselatedTexture(-0.002F + xR, -0.002F + yR, -0.002F, u, v);
-                        RenderHelper.tesselatedTexture(-0.002F + xR, 0.002F + yR+1, -0.002F, u, V);
-                        RenderHelper.tesselatedTexture(0.002F + xR + 1, 0.002F + yR+1, -0.002F, U, V);
-                        RenderHelper.tesselatedTexture(0.002F + xR + 1, -0.002F + yR, -0.002F, U, v);
-
-                        //Draw south side
-                        tessellator.setNormal(0, 0, 1);
-                        RenderHelper.tesselatedTexture(-0.002F + xR, -0.002F + yR, outerZDifference+0.002F, u, v);
-                        RenderHelper.tesselatedTexture(0.002F + xR + 1, -0.002F + yR, outerZDifference+0.002F, u, V);
-                        RenderHelper.tesselatedTexture(0.002F + xR + 1, 0.002F + yR + 1, outerZDifference+0.002F, U, V);
-                        RenderHelper.tesselatedTexture(-0.002F + xR, 0.002F + yR + 1, outerZDifference+0.002F, U, v);
-                    }
-                }
-                for(int zR = 0; zR < outerZDifference; zR++){
-                    for(int yR = 0; yR < outerYDifference; yR++) {
-                        //Draw west side:
-                        tessellator.setNormal(-1, 0, 0);
-                        RenderHelper.tesselatedTexture(-0.002F, -0.002F + yR, 0.002F + zR + 1, u, v);
-                        RenderHelper.tesselatedTexture(-0.002F, 0.002F + yR + 1, 0.002F + zR + 1, u, V);
-                        RenderHelper.tesselatedTexture(-0.002F, 0.002F + yR + 1, -0.002F + zR, U, V);
-                        RenderHelper.tesselatedTexture(-0.002F, -0.002F + yR, -0.002F + zR, U, v);
-
-                        //Draw east side:
-                        tessellator.setNormal(1, 0, 0);
-                        RenderHelper.tesselatedTexture(outerXDifference + 0.002F, -0.002F + yR, -0.002F + zR, u, v);
-                        RenderHelper.tesselatedTexture(outerXDifference + 0.002F, 0.002F + yR + 1, -0.002F + zR, u, V);
-                        RenderHelper.tesselatedTexture(outerXDifference + 0.002F, 0.002F + yR + 1, 0.002F + zR + 1, U, V);
-                        RenderHelper.tesselatedTexture(outerXDifference + 0.002F, -0.002F + yR, 0.002F + zR + 1, U, v);
-                    }
-                }
-
-                for(int zR = 0; zR < outerZDifference; zR++){
-                    for(int xR = 0; xR < outerXDifference; xR++) {
-                        //Top side
-                        tessellator.setNormal(0, 1, 0);
-                        RenderHelper.tesselatedTexture(-0.002F + xR, outerYDifference + 0.02F, 0.02F + zR + 1, u, v);
-                        RenderHelper.tesselatedTexture(0.002F + xR + 1, outerYDifference + 0.02F, 0.02F + zR + 1, u, V);
-                        RenderHelper.tesselatedTexture(0.002F + xR + 1, outerYDifference + 0.02F, -0.02F + zR, U, V);
-                        RenderHelper.tesselatedTexture(-0.002F + xR, outerYDifference + 0.02F, -0.02F + zR, U, v);
-
-                        //Bottom side
-                        tessellator.setNormal(0, -1, 0);
-                        RenderHelper.tesselatedTexture(0.002F + xR + 1, -0.002F, 0.002F + zR + 1, u, v);
-                        RenderHelper.tesselatedTexture(-0.002F + xR, -0.002F, 0.002F + zR + 1, u, V);
-                        RenderHelper.tesselatedTexture(-0.002F + xR, -0.002F, -0.002F + zR, U, V);
-                        RenderHelper.tesselatedTexture(0.002F + xR + 1, -0.002F, -0.002F + zR, U, v);
-                    }
-                }
-
-                //RenderHelper.drawTesselatedCubeWithTexture(new Vector3fMax(-0.02F, -0.02F, -0.02F, outerXDifference + 0.02F, outerYDifference + 0.02F, outerZDifference + 0.02F), IconSupplier.tankGrid);
-                GL11.glDisable(GL11.GL_BLEND);
-                Tessellator.instance.addTranslation(-corner1_out.getX(), -corner1_out.getY(), -corner1_out.getZ());
-            }
-            return ret;
-        }
-
-        @Override
-        public boolean shouldRender3DInInventory(int modelId) {
-
-            return true;
-        }
-
-        @Override
-        public int getRenderId() {
-
-            return RENDER_ID;
-        }
-    */
     @Override
     public void renderTileEntityAt(TileEntity tileentity, double x, double y,
       double z, float f, int destroyStage) {
@@ -190,7 +62,7 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
             GL11.glEnable(GL11.GL_BLEND);
 
             GL11.glTranslatef(-(locationDifferenceX), -(locationDifferenceY), -(locationDifferenceZ));
-
+            Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
             GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.4F);
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
 
@@ -199,70 +71,67 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
             float v = icon.getMinV();
             float U = icon.getMaxU();
             float V = icon.getMaxV();
-
-            boolean wasTessellating = RenderHelper.beginTesselatingWithTexture();
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            //GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
+            //GL11.glBegin(GL11.GL_QUADS);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
+            GL11.glEnable(GL11.GL_LIGHTING);
+            GL11.glBegin(GL11.GL_QUADS);
             for (int xR = 0; xR < outerXDifference; xR++) {
                 for (int yR = 0; yR < outerYDifference; yR++) {
                     //Draw north side
 
-                    RenderHelper.tesselatedTexture(-0.002F + xR, -0.002F + yR, -0.002F, u, v);
-                    RenderHelper.tesselatedTexture(-0.002F + xR, 0.002F + yR + 1, -0.002F, u, V);
-                    RenderHelper.tesselatedTexture(0.002F + xR + 1, 0.002F + yR + 1, -0.002F, U, V);
-                    RenderHelper.tesselatedTexture(0.002F + xR + 1, -0.002F + yR, -0.002F, U, v);
+                    RenderHelper.vertexWithTexture(-0.002F + xR, -0.002F + yR, -0.002F, u, v);
+                    RenderHelper.vertexWithTexture(-0.002F + xR, 0.002F + yR + 1, -0.002F, u, V);
+                    RenderHelper.vertexWithTexture(0.002F + xR + 1, 0.002F + yR + 1, -0.002F, U, V);
+                    RenderHelper.vertexWithTexture(0.002F + xR + 1, -0.002F + yR, -0.002F, U, v);
 
                     //Draw south side
-                    RenderHelper.tesselatedTexture(-0.002F + xR, -0.002F + yR, outerZDifference + 0.002F, u, v);
-                    RenderHelper.tesselatedTexture(0.002F + xR + 1, -0.002F + yR, outerZDifference + 0.002F, u, V);
-                    RenderHelper.tesselatedTexture(0.002F + xR + 1, 0.002F + yR + 1, outerZDifference + 0.002F, U, V);
-                    RenderHelper.tesselatedTexture(-0.002F + xR, 0.002F + yR + 1, outerZDifference + 0.002F, U, v);
+                    RenderHelper.vertexWithTexture(-0.002F + xR, -0.002F + yR, outerZDifference + 0.002F, u, v);
+                    RenderHelper.vertexWithTexture(0.002F + xR + 1, -0.002F + yR, outerZDifference + 0.002F, u, V);
+                    RenderHelper.vertexWithTexture(0.002F + xR + 1, 0.002F + yR + 1, outerZDifference + 0.002F, U, V);
+                    RenderHelper.vertexWithTexture(-0.002F + xR, 0.002F + yR + 1, outerZDifference + 0.002F, U, v);
                 }
             }
             for (int zR = 0; zR < outerZDifference; zR++) {
                 for (int yR = 0; yR < outerYDifference; yR++) {
                     //Draw west side:
-                    RenderHelper.tesselatedTexture(-0.002F, -0.002F + yR, 0.002F + zR + 1, u, v);
-                    RenderHelper.tesselatedTexture(-0.002F, 0.002F + yR + 1, 0.002F + zR + 1, u, V);
-                    RenderHelper.tesselatedTexture(-0.002F, 0.002F + yR + 1, -0.002F + zR, U, V);
-                    RenderHelper.tesselatedTexture(-0.002F, -0.002F + yR, -0.002F + zR, U, v);
+                    RenderHelper.vertexWithTexture(-0.002F, -0.002F + yR, 0.002F + zR + 1, u, v);
+                    RenderHelper.vertexWithTexture(-0.002F, 0.002F + yR + 1, 0.002F + zR + 1, u, V);
+                    RenderHelper.vertexWithTexture(-0.002F, 0.002F + yR + 1, -0.002F + zR, U, V);
+                    RenderHelper.vertexWithTexture(-0.002F, -0.002F + yR, -0.002F + zR, U, v);
 
                     //Draw east side:
-                    RenderHelper.tesselatedTexture(outerXDifference + 0.002F, -0.002F + yR, -0.002F + zR, u, v);
-                    RenderHelper.tesselatedTexture(outerXDifference + 0.002F, 0.002F + yR + 1, -0.002F + zR, u, V);
-                    RenderHelper.tesselatedTexture(outerXDifference + 0.002F, 0.002F + yR + 1, 0.002F + zR + 1, U, V);
-                    RenderHelper.tesselatedTexture(outerXDifference + 0.002F, -0.002F + yR, 0.002F + zR + 1, U, v);
+                    RenderHelper.vertexWithTexture(outerXDifference + 0.002F, -0.002F + yR, -0.002F + zR, u, v);
+                    RenderHelper.vertexWithTexture(outerXDifference + 0.002F, 0.002F + yR + 1, -0.002F + zR, u, V);
+                    RenderHelper.vertexWithTexture(outerXDifference + 0.002F, 0.002F + yR + 1, 0.002F + zR + 1, U, V);
+                    RenderHelper.vertexWithTexture(outerXDifference + 0.002F, -0.002F + yR, 0.002F + zR + 1, U, v);
                 }
             }
 
             for (int zR = 0; zR < outerZDifference; zR++) {
                 for (int xR = 0; xR < outerXDifference; xR++) {
                     //Top side
-                    RenderHelper.tesselatedTexture(-0.002F + xR, outerYDifference + 0.02F, 0.02F + zR + 1, u, v);
-                    RenderHelper.tesselatedTexture(0.002F + xR + 1, outerYDifference + 0.02F, 0.02F + zR + 1, u, V);
-                    RenderHelper.tesselatedTexture(0.002F + xR + 1, outerYDifference + 0.02F, -0.02F + zR, U, V);
-                    RenderHelper.tesselatedTexture(-0.002F + xR, outerYDifference + 0.02F, -0.02F + zR, U, v);
+                    RenderHelper.vertexWithTexture(-0.002F + xR, outerYDifference + 0.02F, 0.02F + zR + 1, u, v);
+                    RenderHelper.vertexWithTexture(0.002F + xR + 1, outerYDifference + 0.02F, 0.02F + zR + 1, u, V);
+                    RenderHelper.vertexWithTexture(0.002F + xR + 1, outerYDifference + 0.02F, -0.02F + zR, U, V);
+                    RenderHelper.vertexWithTexture(-0.002F + xR, outerYDifference + 0.02F, -0.02F + zR, U, v);
 
                     //Bottom side
-                    RenderHelper.tesselatedTexture(0.002F + xR + 1, -0.002F, 0.002F + zR + 1, u, v);
-                    RenderHelper.tesselatedTexture(-0.002F + xR, -0.002F, 0.002F + zR + 1, u, V);
-                    RenderHelper.tesselatedTexture(-0.002F + xR, -0.002F, -0.002F + zR, U, V);
-                    RenderHelper.tesselatedTexture(0.002F + xR + 1, -0.002F, -0.002F + zR, U, v);
+                    RenderHelper.vertexWithTexture(0.002F + xR + 1, -0.002F, 0.002F + zR + 1, u, v);
+                    RenderHelper.vertexWithTexture(-0.002F + xR, -0.002F, 0.002F + zR + 1, u, V);
+                    RenderHelper.vertexWithTexture(-0.002F + xR, -0.002F, -0.002F + zR, U, V);
+                    RenderHelper.vertexWithTexture(0.002F + xR + 1, -0.002F, -0.002F + zR, U, v);
                 }
             }
 
-            
-            //RenderHelper.drawTesselatedCubeWithTexture(new Vector3fMax(-0.02F, -0.02F, -0.02F, outerXDifference + 0.02F, outerYDifference + 0.02F, outerZDifference + 0.02F), IconSupplier.tankGrid);
-            GL11.glDisable(GL11.GL_BLEND);
 
 
-            //GL11.glColor3f(1.0F, 1.0F, 1.0F);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            //GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures
-            GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
-            //GL11.glBegin(GL11.GL_QUADS);
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper
-              .lightmapTexUnit, 240f, 240f);
-
+            /*********************
+             *
+             * DRAW FLUID
+             *
+             *********************/
 
             float percentage;
             if (tankInfo != null) {
@@ -277,11 +146,11 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
 
                     TextureAtlasSprite fluidIcon = Functions.getFluidIcon(tankInfo.fluid.getFluid());
 
-                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+//                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                     //Log.info(height + "");
 
-                    for (int xR = 1; xR <= innerXDifference; xR++) {
-                        for (int zR = 1; zR <= innerZDifference; zR++) {
+                    for (int xR = 0; xR <= innerXDifference; xR++) {
+                        for (int zR = 0; zR <= innerZDifference; zR++) {
                             if (!tankInfo.fluid.getFluid().isGaseous()) {
                                 boolean bottomRendered = false;
                                 for (int zY = 1; zY <= height; zY++) {
@@ -292,24 +161,24 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
                                     insides.setYMax(zY + 0.99999F);
 
                                     if (zY == 1) {
-                                        RenderHelper.drawTesselatedSideBottomWithTexture(insides, fluidIcon);
+                                        RenderHelper.drawGL11SideBottomWithTexture(insides, fluidIcon);
                                         bottomRendered = true;
                                     }
 
-                                    if (zR == 1) {
-                                        RenderHelper.drawTesselatedSideNorthWithTexture(insides, fluidIcon);
+                                    if (zR == 0) {
+                                        RenderHelper.drawGL11SideNorthWithTexture(insides, fluidIcon);
                                     }
                                     if (zR == innerZDifference) {
-                                        RenderHelper.drawTesselatedSideSouthWithTexture(insides, fluidIcon);
+                                        RenderHelper.drawGL11SideSouthWithTexture(insides, fluidIcon);
                                     }
                                     if (zY == innerYDifference) {
-                                        RenderHelper.drawTesselatedSideTopWithTexture(insides, fluidIcon);
+                                        RenderHelper.drawGL11SideTopWithTexture(insides, fluidIcon);
                                     }
-                                    if (xR == 1) {
-                                        RenderHelper.drawTesselatedSideWestWithTexture(insides, fluidIcon);
+                                    if (xR == 0) {
+                                        RenderHelper.drawGL11SideWestWithTexture(insides, fluidIcon);
                                     }
                                     if (xR == innerXDifference) {
-                                        RenderHelper.drawTesselatedSideEastWithTexture(insides, fluidIcon);
+                                        RenderHelper.drawGL11SideEastWithTexture(insides, fluidIcon);
                                     }
                                     //RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
                                 }
@@ -325,23 +194,27 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
                                     insides.setYMax(height + ((percentage * (float) innerYDifference) % 1.0F) + 1);
 
                                     if (!bottomRendered) {
-                                        RenderHelper.drawTesselatedSideBottomWithTexture(insides, fluidIcon);
+                                        RenderHelper.drawGL11SideBottomWithTexture(insides, fluidIcon);
                                     }
-                                    if (zR == 1) {
-                                        RenderHelper.drawTesselatedSideNorthWithTexture(insides, fluidIcon);
+                                    if (zR == 0) {
+                                        insides.setZMin(zR + 0.001F);
+                                        RenderHelper.drawGL11SideNorthWithTexture(insides, fluidIcon);
                                     }
                                     if (zR == innerZDifference) {
-                                        RenderHelper.drawTesselatedSideSouthWithTexture(insides, fluidIcon);
+                                        insides.setZMax(zR + 1 - 0.001F);
+                                        RenderHelper.drawGL11SideSouthWithTexture(insides, fluidIcon);
                                     }
 
-                                    if (xR == 1) {
-                                        RenderHelper.drawTesselatedSideWestWithTexture(insides, fluidIcon);
+                                    if (xR == 0) {
+                                        insides.setXMin(0.001F);
+                                        RenderHelper.drawGL11SideWestWithTexture(insides, fluidIcon);
                                     }
                                     if (xR == innerXDifference) {
-                                        RenderHelper.drawTesselatedSideEastWithTexture(insides, fluidIcon);
+                                        insides.setXMax(xR + 1 - 0.001F);
+                                        RenderHelper.drawGL11SideEastWithTexture(insides, fluidIcon);
                                     }
 
-                                    RenderHelper.drawTesselatedSideTopWithTexture(insides, fluidIcon);
+                                    RenderHelper.drawGL11SideTopWithTexture(insides, fluidIcon);
                                 }
                             } else {
                                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.3F + (percentage * 0.7F));
@@ -352,25 +225,26 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
                                       zR - 0.001F + 1);
                                     insides.setYMax(zY - 0.001F + 1);
                                     if (zY == 1) {
-                                        RenderHelper.drawTesselatedSideBottomWithTexture(insides, fluidIcon);
+                                        RenderHelper.drawGL11SideBottomWithTexture(insides, fluidIcon);
                                     }
 
                                     if (zY == innerYDifference) {
-                                        RenderHelper.drawTesselatedSideTopWithTexture(insides, fluidIcon);
+                                        RenderHelper.drawGL11SideTopWithTexture(insides, fluidIcon);
                                     }
 
-                                    if (zR == 1) {
-                                        RenderHelper.drawTesselatedSideNorthWithTexture(insides, fluidIcon);
+                                    if (zR == 0) {
+                                        insides.setZMin(zR - 0.001F);
+                                        RenderHelper.drawGL11SideNorthWithTexture(insides, fluidIcon);
                                     }
                                     if (zR == innerZDifference) {
-                                        RenderHelper.drawTesselatedSideSouthWithTexture(insides, fluidIcon);
+                                        RenderHelper.drawGL11SideSouthWithTexture(insides, fluidIcon);
                                     }
 
-                                    if (xR == 1) {
-                                        RenderHelper.drawTesselatedSideWestWithTexture(insides, fluidIcon);
+                                    if (xR == 0) {
+                                        RenderHelper.drawGL11SideWestWithTexture(insides, fluidIcon);
                                     }
                                     if (xR == innerXDifference) {
-                                        RenderHelper.drawTesselatedSideEastWithTexture(insides, fluidIcon);
+                                        RenderHelper.drawGL11SideEastWithTexture(insides, fluidIcon);
                                     }
                                 }
                             }
@@ -379,9 +253,7 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
                     }
                 }
             }
-            /*GL11.glTranslatef(locationDifferenceX+1, locationDifferenceY+1, locationDifferenceZ+1);
-            GL11.glTranslatef(-x, -y, -z);*/
-            RenderHelper.stopTesselating(wasTessellating);
+            GL11.glEnd();
             GL11.glDisable(GL11.GL_BLEND);
 
             //RenderHelper.drawColoredCube(insides);
