@@ -18,7 +18,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fluids.*;
 
-public class TileHydraulicPressureVat extends TileHydraulicBase implements IInventory, IFluidHandler, IHydraulicStorageWithTank {
+public class TileHydraulicPressureReservoir extends TileHydraulicBase implements IInventory, IFluidHandler, IHydraulicStorageWithTank {
     private ItemStack inputInventory;
     private ItemStack outputInventory;
 
@@ -27,12 +27,12 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
     private PressureTier tier = PressureTier.INVALID;
     private int prevRedstoneLevel = 0;
 
-    public TileHydraulicPressureVat() {
+    public TileHydraulicPressureReservoir() {
         super(48);
         super.init(this);
     }
 
-    public TileHydraulicPressureVat(PressureTier _tier) {
+    public TileHydraulicPressureReservoir(PressureTier _tier) {
         super(16 * (_tier.toInt() + 1));
         super.init(this);
         tier = _tier;
@@ -428,7 +428,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 
     @Override
     public String getName() {
-        return Localization.getLocalizedName(Names.blockHydraulicPressurevat[getTier().toInt()].unlocalized);
+        return Localization.getLocalizedName(Names.blockHydraulicPressureReservoir[getTier().toInt()].unlocalized);
     }
 
     @Override
@@ -438,7 +438,7 @@ public class TileHydraulicPressureVat extends TileHydraulicBase implements IInve
 
     @Override
     public IChatComponent getDisplayName() {
-        return new ChatComponentTranslation(Names.blockHydraulicPressurevat[getTier().toInt()].unlocalized);
+        return new ChatComponentTranslation(Names.blockHydraulicPressureReservoir[getTier().toInt()].unlocalized);
     }
 
     @Override

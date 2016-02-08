@@ -2,6 +2,7 @@ package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.k4lib.lib.Functions;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemMiningHelmet extends ItemArmor {
+
     private final String         textureLocation;
     private       Location       prevPlayerLocation;
     private       List<Location> prevPlacedBlocks;
@@ -30,19 +32,13 @@ public class ItemMiningHelmet extends ItemArmor {
 
         setMaxStackSize(1);
         setUnlocalizedName(Names.itemMiningHelmet.unlocalized);
-        //setTextureName(ModInfo.LID + ":" + Names.itemMiningHelmet.unlocalized);
 
         setCreativeTab(CustomTabs.tabHydraulicraft);
         textureLocation = ModInfo.LID + ":textures/armor/hydraulicArmor";
-        prevPlayerLocation = new Location(0, 0, 0);
-        prevPlacedBlocks = new ArrayList<Location>();
-    }
-/*
-    @Override
-    public void registerIcons(IIconRegister register) {
 
-        itemIcon = register.registerIcon(getIconString());
-    }*/
+        prevPlayerLocation = new Location(0, 0, 0);
+        prevPlacedBlocks = new ArrayList<>();
+    }
 
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
@@ -59,11 +55,11 @@ public class ItemMiningHelmet extends ItemArmor {
         if (itemStack.getTagCompound() == null) {
             itemStack.setTagCompound(new NBTTagCompound());
         }
+
         if (itemStack.getTagCompound().getBoolean("powered")) {
             if (world.getTotalWorldTime() % 10 == 0) {
                 MovingObjectPosition blockLookedAt = Functions.getEntityLookedObject(player, 12);
                 Location blockLocation;
-                Location playerLocation = new Location((int) Math.floor(player.posX), (int) Math.floor(player.posY) + 1, (int) Math.floor(player.posZ));
                 if (blockLookedAt != null) {
                     EnumFacing dir = blockLookedAt.sideHit;
                     blockLocation = new Location(blockLookedAt.getBlockPos(), dir);
@@ -71,24 +67,22 @@ public class ItemMiningHelmet extends ItemArmor {
                     blockLocation = new Location((int) Math.floor(player.posX), (int) Math.floor(player.posY) + 1, (int) Math.floor(player.posZ));
                 }
 
-
                 if (!prevPlayerLocation.equals(blockLocation)) {
+                    Location playerLocation = new Location((int) Math.floor(player.posX), (int) Math.floor(player.posY) + 1, (int) Math.floor(player.posZ));
                     if (world.getBlockState(blockLocation.toBlockPos()).getBlock() == Blocks.air) {
-                        //TODO: MAKE SURE I GO DOWN IN STRENGTH
-                        world.setBlockState(blockLocation.toBlockPos(), HCBlocks.blockLight.getDefaultState(), 3);
+                        world.setBlockState(blockLocation.toBlockPos(), HCBlocks.blockLight.getDefaultState().withProperty(Properties.LIGHTVALUE, 15 - (playerLocation.getDifference(blockLocation) + 4)), 3);
                         world.scheduleBlockUpdate(blockLocation.toBlockPos(), HCBlocks.blockLight, 1, 1);
-                        world.markBlockForUpdate(blockLocation.toBlockPos());
                         prevPlacedBlocks.add(blockLocation);
                     }
                     prevPlayerLocation = blockLocation;
                 }
             }
             if (world.getTotalWorldTime() % 20 == 0) {
-                cleanBlocks(world);
+                cleanBlocks(world, prevPlacedBlocks);
             }
         } else {
             while (prevPlacedBlocks.size() > 0) {
-                if (world.getBlockState(prevPlacedBlocks.get(0).toBlockPos())== HCBlocks.blockLight) {
+                if (world.getBlockState(prevPlacedBlocks.get(0).toBlockPos()).getBlock() == HCBlocks.blockLight) {
                     world.setBlockToAir(prevPlacedBlocks.get(0).toBlockPos());
                 }
                 prevPlacedBlocks.remove(0);
@@ -96,9 +90,10 @@ public class ItemMiningHelmet extends ItemArmor {
         }
     }
 
-    private void cleanBlocks(World world) {
+    private void cleanBlocks(World world, List<Location> prevPlacedBlocks) {
+
         while (prevPlacedBlocks.size() > 1) {
-            if (world.getBlockState(prevPlacedBlocks.get(0).toBlockPos())== HCBlocks.blockLight) {
+            if (world.getBlockState(prevPlacedBlocks.get(0).toBlockPos()).getBlock() == HCBlocks.blockLight) {
                 world.setBlockToAir(prevPlacedBlocks.get(0).toBlockPos());
             }
             prevPlacedBlocks.remove(0);
@@ -106,6 +101,7 @@ public class ItemMiningHelmet extends ItemArmor {
     }
 
     public static boolean isPoweredOn(ItemStack currentArmor) {
+
         if (currentArmor.getTagCompound() == null) {
             currentArmor.setTagCompound(new NBTTagCompound());
         }
@@ -113,6 +109,7 @@ public class ItemMiningHelmet extends ItemArmor {
     }
 
     public static void togglePower(ItemStack currentArmor) {
+
         if (currentArmor.getTagCompound() == null) {
             currentArmor.setTagCompound(new NBTTagCompound());
         }

@@ -55,6 +55,11 @@ public class SubBlockBase extends HydraulicBlockBase {
         }
     }
 
+    public String getUnlocalizedName(int meta) {
+
+        return "tile." + mName[meta].unlocalized;
+    }
+
     @Override
     public int damageDropped(IBlockState state) {
         return getTierFromState(state).toInt();

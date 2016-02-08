@@ -1,0 +1,23 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "hydcraft:harvesterFrame",
+    "textures": {
+      "all": "hydcraft:model/harvesterFrame_tmap"
+    }
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "rotated": {
+      "true": {"y":90},
+      "false": {}
+    },
+    "inventory": [
+      {
+        "model": "hydcraft:harvesterFrame"
+      }
+    ]
+  }
+}

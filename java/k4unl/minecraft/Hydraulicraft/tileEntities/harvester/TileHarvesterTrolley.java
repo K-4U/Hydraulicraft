@@ -1,6 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.harvester;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
+import k4unl.minecraft.Hydraulicraft.api.IHarvesterCustomHarvestAction;
+import k4unl.minecraft.Hydraulicraft.api.IHarvesterCustomPlantAction;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
@@ -29,17 +31,17 @@ import java.util.List;
 public class TileHarvesterTrolley extends TileEntity implements ITickable {
     private float extendedLength;
     private float oldExtendedLength;
-    private final float maxLength = 4F;
-    private final float maxSide = 8F;
-    private float extendTarget = 0F;
-    private float sideTarget = 0F;
+    private final float maxLength    = 4F;
+    private final float maxSide      = 8F;
+    private       float extendTarget = 0F;
+    private       float sideTarget   = 0F;
     private float sideLength;
     private float oldSideLength;
-    private float movingSpeedExtending = 0.05F;
-    private float movingSpeedSideways = 0.05F;
-    private float movingSpeedSidewaysBack = 0.1F;
-    private EnumFacing facing = EnumFacing.NORTH;
-    private boolean harvesterPart = false;
+    private float      movingSpeedExtending    = 0.05F;
+    private float      movingSpeedSideways     = 0.05F;
+    private float      movingSpeedSidewaysBack = 0.1F;
+    private EnumFacing facing                  = EnumFacing.NORTH;
+    private boolean    harvesterPart           = false;
 
     private boolean isRetracting;
     private boolean isMovingUpDown;
@@ -49,14 +51,14 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     private boolean isHarvesting;
 
 
-    private ItemStack plantingItem = null;
-    private List<ItemStack> harvestedItems = new ArrayList<ItemStack>();//starting without being null so the renderer won't NPE.
-    private int locationToPlant = -1;
-    private int locationYHarvest = -1;
-    private int locationToHarvest = -1;
+    private ItemStack       plantingItem      = null;
+    private List<ItemStack> harvestedItems    = new ArrayList<ItemStack>();//starting without being null so the renderer won't NPE.
+    private int             locationToPlant   = -1;
+    private int             locationYHarvest  = -1;
+    private int             locationToHarvest = -1;
     private int harvesterIndex;
-    private IHarvester harvester = null;
-    private Location harvesterLocation = null;
+    private IHarvester harvester         = null;
+    private Location   harvesterLocation = null;
     private IHarvesterTrolley trolley;
 
     public void setTrolley(IHarvesterTrolley trolley) {
@@ -148,7 +150,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
             extendedLength += movingSpeedExtending;
         } else if (compResult < 0 && isRetracting) {
             extendedLength -= movingSpeedExtending;
-        } else if(isMovingUpDown){
+        } else if (isMovingUpDown) {
             extendedLength = extendTarget;
             isMovingUpDown = false;
         }
@@ -158,16 +160,42 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
             sideLength += movingSpeedSideways;
         } else if (compResult < 0 && isMovingSideways) {
             sideLength -= movingSpeedSidewaysBack;
-        } else if(isMoving) {
+        } else if (isMoving) {
             //Arrived at location!
             sideLength = sideTarget;
             isMoving = false;
         }
         if (!worldObj.isRemote && harvester != null && !isMoving && !isMovingUpDown) {
             if (isPlanting) {
-                actuallyPlant();
+                if (getTrolley() instanceof IHarvesterCustomPlantAction) {
+                    ((IHarvesterCustomPlantAction) getTrolley()).doPlant(getWorld(), getLocation(locationToPlant, -2).toBlockPos(), plantingItem);
+                } else {
+                    actuallyPlant();
+                }
+                plantingItem = null;
+                isHarvesting = false;
+                isPlanting = false;
+                if (HCConfig.INSTANCE.getBool("shouldDolleyInHarvesterGoBack")) {
+                    extendTo(0, 0);
+                } else {
+                    extendTo(0, locationToPlant);
+                }
             } else if (isHarvesting) {
-                actuallyHarvest();
+                List<ItemStack> dropped;
+                if (getTrolley() instanceof IHarvesterCustomHarvestAction) {
+                    dropped = ((IHarvesterCustomHarvestAction)getTrolley()).doHarvest(getWorld(), getLocation(locationToHarvest, locationYHarvest).toBlockPos());
+                } else {
+                    dropped = actuallyHarvest();
+                }
+                isHarvesting = false;
+                isPlanting = false;
+                if (HCConfig.INSTANCE.getBool("shouldDolleyInHarvesterGoBack")) {
+                    harvestedItems = dropped;
+                    extendTo(0, 0);
+                } else {
+                    harvester.putInInventory(dropped);
+                    extendTo(0, locationToHarvest);
+                }
             } else if (HCConfig.INSTANCE.getBool("shouldDolleyInHarvesterGoBack") && harvestedItems != null) {
                 if (harvestedItems.size() > 0) {
                     harvester.putInInventory(harvestedItems);
@@ -246,7 +274,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
         tagCompound.setBoolean("harvesterPart", harvesterPart);
         tagCompound.setFloat("movingSpeedSideways", movingSpeedSideways);
         tagCompound.setFloat("movingSpeedSidewaysBack", movingSpeedSidewaysBack);
-        if(harvesterLocation != null) {
+        if (harvesterLocation != null) {
             tagCompound.setIntArray("harvesterLocation", harvesterLocation.getIntArray());
         }
 
@@ -408,15 +436,6 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
         IBlockState plant = getTrolley().getBlockStateForSeed(plantingItem);
 
         worldObj.setBlockState(l.toBlockPos(), plant);
-
-        plantingItem = null;
-        isHarvesting = false;
-        isPlanting = false;
-        if (HCConfig.INSTANCE.getBool("shouldDolleyInHarvesterGoBack")) {
-            extendTo(0, 0);
-        } else {
-            extendTo(0, locationToPlant);
-        }
     }
 
     private List<ItemStack> getDroppedItems(int h) {
@@ -458,14 +477,14 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     }
 
     public void setHarvester(IHarvester nHarvester, int harvesterIndex) {
-        harvesterLocation = ((TileHydraulicHarvester)nHarvester).getBlockLocation();
+        harvesterLocation = ((TileHydraulicHarvester) nHarvester).getBlockLocation();
         harvester = nHarvester;
         this.harvesterIndex = harvesterIndex;
     }
 
-    private IHarvester getHarvester(){
-        if(harvester == null && harvesterLocation != null){
-            harvester = (IHarvester)harvesterLocation.getTE(getWorld());
+    private IHarvester getHarvester() {
+        if (harvester == null && harvesterLocation != null) {
+            harvester = (IHarvester) harvesterLocation.getTE(getWorld());
         }
         return harvester;
     }
@@ -488,21 +507,13 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
         isHarvesting = true;
     }
 
-    private void actuallyHarvest() {
+    private List<ItemStack> actuallyHarvest() {
         List<ItemStack> dropped = getDroppedItems(locationToHarvest);
         Location cropLocation;
         cropLocation = getLocation(locationToHarvest, locationYHarvest);
         worldObj.destroyBlock(cropLocation.toBlockPos(), false);
 
-        isHarvesting = false;
-        isPlanting = false;
-        if (HCConfig.INSTANCE.getBool("shouldDolleyInHarvesterGoBack")) {
-            harvestedItems = dropped;
-            extendTo(0, 0);
-        } else {
-            harvester.putInInventory(dropped);
-            extendTo(0, locationToHarvest);
-        }
+        return dropped;
     }
 
 

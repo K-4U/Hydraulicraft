@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.generator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
@@ -22,8 +23,6 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
     private boolean isBurning = false;
 
     private int tier = -1;
-
-    private EnumFacing facing = EnumFacing.NORTH;
 
     public TileHydraulicPump() {
         super(1);
@@ -262,9 +261,6 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 
         currentBurnTime = tagCompound.getInteger("currentBurnTime");
         maxBurnTime = tagCompound.getInteger("maxBurnTime");
-
-        facing = EnumFacing.byName(tagCompound.getString("facing"));
-
     }
 
     private void setTier(int newTier) {
@@ -285,7 +281,6 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
         tagCompound.setInteger("maxBurnTime", maxBurnTime);
 
         tagCompound.setInteger("tier", getTier());
-        tagCompound.setString("facing", facing.getName());
     }
 
     @Override
@@ -303,12 +298,9 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
     }
 
     public EnumFacing getFacing() {
-        return facing;
+        return (EnumFacing)getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
     }
 
-    public void setFacing(EnumFacing newDir) {
-        facing = newDir;
-    }
 
     @Override
     public String getName() {

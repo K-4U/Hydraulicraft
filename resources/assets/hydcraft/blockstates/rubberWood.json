@@ -1,0 +1,19 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hydcraft:blocks/rubberWood_sides"
+    }
+  },
+  "variants": {
+    "axis=y,hasrubberspot=true":    { "model": "hydcraft:rubberWoodLogSpot" },
+    "axis=z,hasrubberspot=true":    { "model": "hydcraft:rubberWoodLogSideSpot" },
+    "axis=x,hasrubberspot=true":    { "model": "hydcraft:rubberWoodLogSideSpot", "y": 90 },
+    "axis=none,hasrubberspot=true": { "model": "hydcraft:rubberWoodLogSpot" },
+    "axis=y,hasrubberspot=false":    { "model": "hydcraft:rubberWoodLog" },
+    "axis=z,hasrubberspot=false":    { "model": "hydcraft:rubberWoodLogSide" },
+    "axis=x,hasrubberspot=false":    { "model": "hydcraft:rubberWoodLogSide", "y": 90 },
+    "axis=none,hasrubberspot=true": { "model": "hydcraft:rubberWoodLog" },
+    "inventory": [{"model": "hydcraft:rubberWoodLog" }]
+  }
+}

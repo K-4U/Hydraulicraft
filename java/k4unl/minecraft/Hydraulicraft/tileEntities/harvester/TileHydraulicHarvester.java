@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
@@ -11,6 +12,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
@@ -374,7 +376,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 		//Check width:
 		pistonList.clear();
 		trolleyList.clear();
-		while(getBlock(l).equals(piston)){
+		while(getBlockState(l).getBlock().equals(piston)){
 			l = getLocationInHarvester(0, horiz, 3);
 			l2 = getLocationInHarvester(1, horiz, 2);
 			
@@ -430,8 +432,8 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 		getHandler().updateBlock();
 	}
 	
-	private Block getBlock(Location l){
-		return l.getBlock(getWorldObj());
+	private IBlockState getBlockState(Location l){
+		return l.getBlockState(getWorldObj());
 	}
 	
 	private TileEntity getTileEntity(Location l){
@@ -466,7 +468,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 		
 		//Check width:
 		int width = 0;
-		while(getBlock(l).equals(piston) && width < 11){
+		while(getBlockState(l).getBlock().equals(piston) && width < 11){
 			width+=1;
 			horiz+=1;
 			l = getLocationInHarvester(0, horiz, 3, dir);
@@ -496,7 +498,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 			//Log.info("(" + dir + ": " + l.printCoords() + "; " + f + ") = " + getBlockId(l) + " W: " + width + " F");
             //TODO: Rewrite me so that the length will be better checked the second time
             //TODO: Implement a check that will check if the length of the first is the same as the second.
-			while(getBlock(l).equals(horizontalFrame)){
+			while(getBlockState(l).getBlock().equals(horizontalFrame)){
 				if(horiz == 1){
 					//Check if there's a trolley right there!
 					Location trolleyLocation = getLocationInHarvester(horiz, f, 2, dir);
@@ -510,18 +512,17 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 				}
 				
 				//Check if the frame is rotated:
-				TileEntity tile = getTileEntity(l);
-				if(tile instanceof TileHarvesterFrame){
-					TileHarvesterFrame fr = (TileHarvesterFrame) tile;
+				IBlockState frame = getBlockState(l);
+				if(frame.getBlock() == HCBlocks.hydraulicHarvesterFrame){
 					//Log.info("(" + dir + ": " + x + ", " + y + ", " + z + "; " + f + ") = " + fr.getIsRotated());
 					if(dir.equals(EnumFacing.EAST) || dir.equals(EnumFacing.WEST)){
-						if(fr.getIsRotated()){
+						if(!frame.getValue(Properties.HARVESTER_FRAME_ROTATED)){
                             error = HarvesterReasonForNotForming.FRAME_ROTATION_WRONG;
                             extraErrorInfo = l.printCoords();
 							return false;
 						}
 					}else{
-						if(!fr.getIsRotated()){
+						if(frame.getValue(Properties.HARVESTER_FRAME_ROTATED)){
                             error = HarvesterReasonForNotForming.FRAME_ROTATION_WRONG;
                             extraErrorInfo = l.printCoords();
 							return false;
@@ -546,7 +547,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
                 return false;
             }
 
-			if(!getBlock(l).equals(endBlock)){
+			if(!getBlockState(l).getBlock().equals(endBlock)){
                 error = HarvesterReasonForNotForming.END_BLOCK_EXPECTED;
                 extraErrorInfo = l.printCoords();
 				return false;
@@ -573,7 +574,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 			l = getLocationInHarvester(length+1, 0, vert, dir);
 			//Log.info("(" + dir + ": " + l.printCoords() + ") = " + getBlockId(l) + " W: " + width);
             if (!l.compare(getPos().getX(), getPos().getY(), getPos().getZ())) {
-                if(!getBlock(l).equals(verticalFrame)){
+                if(!getBlockState(l).getBlock().equals(verticalFrame)){
                     error = HarvesterReasonForNotForming.VERTICAL_FRAME_EXPECTED;
                     extraErrorInfo = l.printCoords();
                     return false;
@@ -585,7 +586,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 			l = getLocationInHarvester(length+1, width-1, vert, dir);
 			//Log.info("(" + dir + ": " + l.printCoords() + ") = " + getBlockId(l) + " W: " + width);
             if (!l.compare(getPos().getX(), getPos().getY(), getPos().getZ())) {
-                if(!getBlock(l).equals(verticalFrame)){
+                if(!getBlockState(l).getBlock().equals(verticalFrame)){
                     error = HarvesterReasonForNotForming.VERTICAL_FRAME_EXPECTED;
                     extraErrorInfo = l.printCoords();
                     return false;
@@ -596,7 +597,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 			l = getLocationInHarvester(0, width-1, vert, dir);
 			//Log.info("(" + dir + ": " + l.printCoords() + ") = " + getBlockId(l) + " W: " + width);
             if (!l.compare(getPos().getX(), getPos().getY(), getPos().getZ())) {
-                if(!getBlock(l).equals(verticalFrame)){
+                if(!getBlockState(l).getBlock().equals(verticalFrame)){
                     error = HarvesterReasonForNotForming.VERTICAL_FRAME_EXPECTED;
                     extraErrorInfo = l.printCoords();
                     return false;

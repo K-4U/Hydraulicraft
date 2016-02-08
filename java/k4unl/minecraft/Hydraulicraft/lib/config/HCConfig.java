@@ -96,6 +96,11 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("oilChance", 0.005).setCategory("worldgen"));
         configOptions.add(new ConfigOption("oilSpoutSize", 1).setCategory("worldgen").setComment("How big the oil spout is, above ground. Set to negative value for harder to find spouts"));
 
+        configOptions.add(new ConfigOption("shouldGenRubberTrees", true).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("rubberTreeChance", 0.05).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("rubberPatchChance", 0.25).setCategory("worldgen").setComment("How big the chance is a log has a rubber "
+          + "patch"));
+
 
         configOptions.add(new ConfigOption("x", 0).setCategory("pressureUI").setComment("The X coordinate on your screen to render the pressure"));
         configOptions.add(new ConfigOption("y", 40).setCategory("pressureUI").setComment("The Y coordinate on your screen to render the pressure"));

@@ -70,8 +70,6 @@ public class PartFluidPipe extends Multipart implements ISlottedPart, ITickable,
       super.readFromNBT(tagCompound);
       fluidAmountStored = tagCompound.getDouble("fluidAmountStored");
       fluidStored = FluidRegistry.getFluid(tagCompound.getString("fluidName"));
-      //getHandler().updateNetworkOnNextTick(oldPressure);
-      //checkConnectedSides();
       connectionCache = tagCompound.getByte("connectionCache");
    }
 

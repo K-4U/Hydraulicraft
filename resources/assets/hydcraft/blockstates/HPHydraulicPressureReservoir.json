@@ -1,0 +1,40 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "up": "hydcraft:blocks/LPHydraulicPressureReservoir_end",
+      "down": "hydcraft:blocks/LPHydraulicPressureReservoir_end"
+    },
+    "transform": "forge:default-block",
+    "model": "cube_all"
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {
+        "textures": {
+          "all": "hydcraft:blocks/HPHydraulicPressureReservoir_sides"
+        }
+      }
+    ],
+    "tier": {
+      "tier-0": {
+        "textures": {
+          "all": "hydcraft:blocks/LPHydraulicPressureReservoir_sides"
+        }
+      },
+      "tier-1": {
+        "textures": {
+          "all": "hydcraft:blocks/MPHydraulicPressureReservoir_sides"
+        }
+      },
+      "tier-2": {
+        "textures": {
+          "all": "hydcraft:blocks/HPHydraulicPressureReservoir_sides"
+        }
+      }
+    }
+  }
+}

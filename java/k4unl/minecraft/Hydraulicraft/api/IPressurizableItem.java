@@ -3,6 +3,8 @@ package k4unl.minecraft.Hydraulicraft.api;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.List;
+
 public interface IPressurizableItem {
     float getPressure(ItemStack itemStack);
 
@@ -15,4 +17,10 @@ public interface IPressurizableItem {
     void setFluid(ItemStack itemStack, FluidStack fluidStack);
 
     float getMaxFluid();
+
+    List<IPressurizableItemUpgrade> getUpgrades();
+
+    boolean addUpgrade(IPressurizableItemUpgrade upgrade);
+
+    void removeUpgrade(IPressurizableItem upgrade);
 }

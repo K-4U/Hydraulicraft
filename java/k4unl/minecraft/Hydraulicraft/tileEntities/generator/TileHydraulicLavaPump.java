@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.generator;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
@@ -16,8 +17,6 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
     private boolean      isRunning    = false;
     private int          lavaUsage    = 0;
     private int          runningTicks = 0;
-
-    private EnumFacing facing = EnumFacing.NORTH;
 
     public TileHydraulicLavaPump() {
         super(2);
@@ -142,8 +141,6 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
             tank = tank.readFromNBT(tankCompound);
         }
 
-        facing = EnumFacing.byName(tagCompound.getString("facing"));
-
         lavaUsage = tagCompound.getInteger("lavaUsage");
         isRunning = tagCompound.getBoolean("isRunning");
     }
@@ -158,8 +155,6 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
             tank.writeToNBT(inventoryCompound);
             tagCompound.setTag("tank", inventoryCompound);
         }
-
-        tagCompound.setString("facing", facing.toString());
 
         tagCompound.setInteger("lavaUsage", lavaUsage);
         tagCompound.setBoolean("isRunning", isRunning);
@@ -237,12 +232,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
     }
 
     public EnumFacing getFacing() {
-        return facing;
-    }
-
-    public void setFacing(EnumFacing newDir) {
-        facing = newDir;
-        markDirty();
+        return (EnumFacing)getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
     }
 
 }

@@ -18,7 +18,7 @@ public class OreCopper extends OreBase {
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		ret.add(new ItemStack(Ores.oreCopperReplacement));
+		ret.add(new ItemStack(Ores.oreCopper));
 		return ret;
 	}
 

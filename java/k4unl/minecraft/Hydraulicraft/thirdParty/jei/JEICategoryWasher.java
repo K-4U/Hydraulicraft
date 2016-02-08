@@ -9,6 +9,8 @@ public class JEICategoryWasher extends JEICategoryAbstract {
    public static final Point pointInput  = new Point(55 - 6, 15 - 14);
    public static final Point pointOutput = new Point(105 - 6, 55 - 14);
 
+   public static final Rectangle fluidIn = new Rectangle(76 - 6, 16 - 14, 102 - 76, 72 - 16);
+
    public JEICategoryWasher(IGuiHelper helper) {
       super(helper);
    }
@@ -30,7 +32,7 @@ public class JEICategoryWasher extends JEICategoryAbstract {
 
    @Override
    public Rectangle getRectangleForFluidInput(int i) {
-      return null;
+      return fluidIn;
    }
 
    @Override

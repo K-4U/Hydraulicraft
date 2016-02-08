@@ -28,6 +28,7 @@ public class PressureNetwork {
     private int          fluidCapacity  = 0;
     private boolean      isOilStored    = false;
     private PressureTier lowestTier     = PressureTier.INVALID;
+
     public PressureNetwork(IHydraulicMachine machine, float beginPressure, EnumFacing from) {
 
         randomNumber = new Random().nextInt();
@@ -43,7 +44,7 @@ public class PressureNetwork {
     public PressureNetwork(NBTTagCompound compoundTag) {
         randomNumber = compoundTag.getInteger("randomNumber");
         machines = new ArrayList<networkEntry>();
-        for(int i = 0; i <= compoundTag.getTagList("machines", 10).tagCount(); i++){
+        for (int i = 0; i <= compoundTag.getTagList("machines", 10).tagCount(); i++) {
             machines.add(new networkEntry(compoundTag.getTagList("machines", 10).getCompoundTagAt(i)));
         }
         pressure = compoundTag.getFloat("pressure");
@@ -119,7 +120,7 @@ public class PressureNetwork {
     private int contains(IHydraulicMachine machine) {
         int i;
         for (i = 0; i < machines.size(); i++) {
-            if(machines.get(i) != null) {
+            if (machines.get(i) != null) {
                 if (machines.get(i).getLocation().equals(((TileHydraulicBase) machine.getHandler()).getBlockLocation())) {
                     return i;
                 }
@@ -158,20 +159,40 @@ public class PressureNetwork {
         //And tell every machine in the block to recheck it's network! :D
         //Note, this might cost a bit of time..
         //There should be a better way to do this..
+        List<networkEntry> toRemove = new ArrayList<networkEntry>();
         for (networkEntry entry : machines) {
-            Location loc = entry.getLocation();
-            TileEntity ent = world.getTileEntity(loc.toBlockPos());
-            if (ent instanceof IHydraulicMachine) {
-                IHydraulicMachine machine = (IHydraulicMachine) ent;
-                ((TileHydraulicBase) machineToRemove.getHandler()).setNetwork(entry.getFrom(), null);
-                machine.getHandler().updateNetworkOnNextTick(getPressure());
-            } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
-                IHydraulicMachine machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
-                ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), null);
-                machine.getHandler().updateNetworkOnNextTick(getPressure());
+            try {
+                if (entry == null) {
+                    throw new NullPointerException("Entry");
+                }
+                Location loc = entry.getLocation();
+                if (loc == null) {
+                    throw new NullPointerException("Location");
+                }
+                if (world == null) {
+                    throw new NullPointerException("World");
+                }
+                TileEntity ent = world.getTileEntity(loc.toBlockPos());
+                if (ent instanceof IHydraulicMachine) {
+                    IHydraulicMachine machine = (IHydraulicMachine) ent;
+                    ((TileHydraulicBase) machineToRemove.getHandler()).setNetwork(entry.getFrom(), null);
+                    machine.getHandler().updateNetworkOnNextTick(getPressure());
+                } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
+                    IHydraulicMachine machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
+                    ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), null);
+                    machine.getHandler().updateNetworkOnNextTick(getPressure());
+                }
+            } catch (NullPointerException e) {
+                Log.error(e.getMessage() + " in the pressure network is null! Please report this to the mod author!");
+                e.printStackTrace();
+                toRemove.add(entry);
             }
         }
-
+        for(networkEntry entry:toRemove){
+            if(entry != null){
+                machines.remove(entry);
+            }
+        }
     }
 
     public float getPressure() {
@@ -198,21 +219,40 @@ public class PressureNetwork {
         setPressure(newPressure);
 
         List<networkEntry> otherList = toMerge.getMachines();
-
+        List<networkEntry> toRemove = new ArrayList<networkEntry>();
         for (networkEntry entry : otherList) {
-            Location loc = entry.getLocation();
-            TileEntity ent = world.getTileEntity(loc.toBlockPos());
-            if (ent instanceof IHydraulicMachine) {
-                IHydraulicMachine machine = (IHydraulicMachine) ent;
-                ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), this);
-                this.addMachine(machine, newPressure, entry.getFrom());
-            } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
-                IHydraulicMachine machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
-                ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), this);
-                this.addMachine(machine, newPressure, entry.getFrom());
+            try {
+                if (entry == null) {
+                    throw new NullPointerException("Entry");
+                }
+                Location loc = entry.getLocation();
+                if (loc == null) {
+                    throw new NullPointerException("Location");
+                }
+                if (world == null) {
+                    throw new NullPointerException("World");
+                }
+                TileEntity ent = world.getTileEntity(loc.toBlockPos());
+                if (ent instanceof IHydraulicMachine) {
+                    IHydraulicMachine machine = (IHydraulicMachine) ent;
+                    ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), this);
+                    this.addMachine(machine, newPressure, entry.getFrom());
+                } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
+                    IHydraulicMachine machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
+                    ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), this);
+                    this.addMachine(machine, newPressure, entry.getFrom());
+                }
+            } catch (NullPointerException e) {
+                Log.error(e.getMessage() + " in the pressure network is null! Please report this to the mod author!");
+                e.printStackTrace();
+                toRemove.add(entry);
             }
         }
-
+        for(networkEntry entry:toRemove){
+            if(entry != null){
+                machines.remove(entry);
+            }
+        }
         //Log.info("Merged network " + toMerge.getRandomNumber() + " into " + getRandomNumber());
     }
 
@@ -221,7 +261,7 @@ public class PressureNetwork {
         tagCompound.setInteger("randomNumber", randomNumber);
 
         NBTTagList machinesList = new NBTTagList();
-        for(int i = 0; i < machines.size(); i++){
+        for (int i = 0; i < machines.size(); i++) {
             machinesList.appendTag(machines.get(i).saveEntry());
         }
         tagCompound.setFloat("pressure", pressure);
@@ -233,7 +273,7 @@ public class PressureNetwork {
     public void readFromNBT(NBTTagCompound tagCompound) {
         randomNumber = tagCompound.getInteger("randomNumber");
         machines = new ArrayList<networkEntry>();
-        for(int i = 0; i <= tagCompound.getTagList("machines", 10).tagCount(); i++){
+        for (int i = 0; i <= tagCompound.getTagList("machines", 10).tagCount(); i++) {
             machines.add(new networkEntry(tagCompound.getTagList("machines", 10).getCompoundTagAt(i)));
         }
         pressure = tagCompound.getFloat("pressure");
@@ -261,28 +301,48 @@ public class PressureNetwork {
         fluidCapacity = 0;
 
         List<IHydraulicMachine> mainList = new ArrayList<IHydraulicMachine>();
-
+        List<networkEntry> toRemove = new ArrayList<networkEntry>();
         for (networkEntry entry : machines) {
-            Location loc = entry.getLocation();
-            TileEntity ent = world.getTileEntity(loc.toBlockPos());
-            IHydraulicMachine machine = null;
-            if (ent instanceof IHydraulicMachine) {
-                machine = (IHydraulicMachine) ent;
-            } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
-                machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
-            }
-
-            if (machine != null) {
-                if (((getIsOilStored() && machine.getHandler().isOilStored()) || canOilBeStored) || (!getIsOilStored() && !machine.getHandler().isOilStored()) || machine.getHandler().getStored() == 0) { //Otherwise we would be turning water into oil
-
-                    fluidInNetwork = fluidInNetwork + machine.getHandler().getStored();
-                    fluidCapacity = fluidCapacity + machine.getHandler().getMaxStorage();
-                    if (canOilBeStored && !isOilStored && machine.getHandler().isOilStored()) {
-                        isOilStored = true;
-                    }
-                    machine.getHandler().setStored(0, isOilStored, false);
-                    mainList.add(machine);
+            try {
+                if (entry == null) {
+                    throw new NullPointerException("Entry");
                 }
+                Location loc = entry.getLocation();
+                if (loc == null) {
+                    throw new NullPointerException("Location");
+                }
+                if (world == null) {
+                    throw new NullPointerException("World");
+                }
+                TileEntity ent = world.getTileEntity(loc.toBlockPos());
+                IHydraulicMachine machine = null;
+                if (ent instanceof IHydraulicMachine) {
+                    machine = (IHydraulicMachine) ent;
+                } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
+                    machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
+                }
+
+                if (machine != null) {
+                    if (((getIsOilStored() && machine.getHandler().isOilStored()) || canOilBeStored) || (!getIsOilStored() && !machine.getHandler().isOilStored()) || machine.getHandler().getStored() == 0) { //Otherwise we would be turning water into oil
+
+                        fluidInNetwork = fluidInNetwork + machine.getHandler().getStored();
+                        fluidCapacity = fluidCapacity + machine.getHandler().getMaxStorage();
+                        if (canOilBeStored && !isOilStored && machine.getHandler().isOilStored()) {
+                            isOilStored = true;
+                        }
+                        machine.getHandler().setStored(0, isOilStored, false);
+                        mainList.add(machine);
+                    }
+                }
+            } catch (NullPointerException e) {
+                Log.error(e.getMessage() + " in the pressure network is null! Please report this to the mod author!");
+                e.printStackTrace();
+                toRemove.add(entry);
+            }
+        }
+        for(networkEntry entry:toRemove){
+            if(entry != null){
+                machines.remove(entry);
             }
         }
         disperseFluid(mainList);
@@ -327,7 +387,7 @@ public class PressureNetwork {
     }
 
     public static class networkEntry {
-        private Location       blockLocation;
+        private Location   blockLocation;
         private EnumFacing from;
 
         public networkEntry(Location nLocation, EnumFacing nFrom) {
@@ -342,11 +402,11 @@ public class PressureNetwork {
             from = EnumFacing.byName(compoundTag.getString("from"));
         }
 
-        public NBTTagCompound saveEntry(){
+        public NBTTagCompound saveEntry() {
             NBTTagCompound ret = new NBTTagCompound();
 
             ret.setIntArray("blockLocation", blockLocation.getIntArray());
-            if(from != null)
+            if (from != null)
                 ret.setString("from", from.toString());
 
             return ret;

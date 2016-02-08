@@ -1,12 +1,17 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
 import k4unl.minecraft.Hydraulicraft.api.IPressurizableItem;
+import k4unl.minecraft.Hydraulicraft.api.IPressurizableItemUpgrade;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -16,9 +21,12 @@ public class PressurizableItem implements IPressurizableItem {
     private final float MAX_PRESSURE;
     private final int   FLUID_CAPACITY;
 
+    List<IPressurizableItemUpgrade> upgrades;
+
     public PressurizableItem(float pressure, int capacity) {
         MAX_PRESSURE = pressure;
         FLUID_CAPACITY = capacity;
+        upgrades = new ArrayList<>();
     }
 
     @Override
@@ -49,6 +57,26 @@ public class PressurizableItem implements IPressurizableItem {
     @Override
     public float getMaxFluid() {
         return FLUID_CAPACITY;
+    }
+
+    @Override
+    public List<IPressurizableItemUpgrade> getUpgrades() {
+        return upgrades;
+    }
+
+    @Override
+    public boolean addUpgrade(IPressurizableItemUpgrade upgrade) {
+        for(IPressurizableItemUpgrade item : upgrades)
+            if(item.toString().equals(upgrade.toString()))
+               return false;
+
+        upgrades.add(upgrade);
+        return true;
+    }
+
+    @Override
+    public void removeUpgrade(IPressurizableItem upgrade) {
+       upgrades.remove(upgrade);
     }
 
     public float fetchPressure(ItemStack container) {
@@ -98,15 +126,24 @@ public class PressurizableItem implements IPressurizableItem {
         container.getTagCompound().setFloat("pressure", newPressure);
     }
 
+    // TODO get rid of this
     public void onItemUse(EntityPlayer player, float chanceToReleaseWater, float pressurePerUse) {
+       onItemUse(player, null, null, chanceToReleaseWater, pressurePerUse);
+    }
+
+    public void onItemUse(EntityPlayer player, BlockPos pos, EnumFacing facing, float chanceToReleaseWater, float pressurePerUse) {
         ItemStack itemStack = player.getCurrentEquippedItem();
         if (itemStack == null || !(itemStack.getItem() instanceof IPressurizableItem))
             return;
 
-        onItemUse(itemStack, player.worldObj.rand, chanceToReleaseWater, pressurePerUse);
+        onItemUse(itemStack, player.worldObj.rand, player.worldObj, pos, facing, chanceToReleaseWater, pressurePerUse);
     }
 
-    public void onItemUse(ItemStack stack, Random random, float chanceToReleaseWater, float pressurePerUse) {
+    private void onItemUse(ItemStack stack, Random random, World world, BlockPos pos, EnumFacing facing, float chanceToReleaseWater, float pressurePerUse) {
+        for(IPressurizableItemUpgrade upgrade : upgrades) {
+           upgrade.onAfterUse(stack, world, pos, facing);
+        }
+
         IPressurizableItem item = (IPressurizableItem) stack.getItem();
         item.setPressure(stack, item.getPressure(stack) - pressurePerUse);
 
@@ -124,20 +161,45 @@ public class PressurizableItem implements IPressurizableItem {
         }
     }
 
-    public boolean canUse(EntityPlayer player, float pressurePerUse) {
+    /**
+    * world-less check for whether an item can be used
+    *
+    * @param stack
+    * @param pressurePerUse
+    * @return
+    */
+    public boolean canUse(ItemStack stack, float pressurePerUse) { // TODO get rid of this
+       return canUse(stack, null, null, null, pressurePerUse);
+    }
+
+    /**
+    * world-sensitive check for whether an item can be used
+    * @param player
+    * @param world
+    * @param pos
+    * @param facing
+    * @param pressurePerUse
+    * @return
+    */
+    public boolean canUse(EntityPlayer player, World world, BlockPos pos, EnumFacing facing, float pressurePerUse) {
         ItemStack itemStack = player.getCurrentEquippedItem();
         if (itemStack == null || !(itemStack.getItem() instanceof IPressurizableItem))
             return false;
 
-        return canUse(itemStack, pressurePerUse);
+        return canUse(itemStack, world, pos, facing, pressurePerUse);
     }
 
-    public boolean canUse(ItemStack stack, float pressurePerUse) {
-        IPressurizableItem item = (IPressurizableItem) stack.getItem();
-        FluidStack fluidStack = item.getFluid(stack);
-        if (fluidStack == null)
-            return false;
+    private boolean canUse(ItemStack stack, World world, BlockPos pos, EnumFacing facing, float pressurePerUse) {
+        for(IPressurizableItemUpgrade upgrade : upgrades)
+           if(!upgrade.onBeforeUse(stack, world, pos, facing))
+              return false;
 
-        return item.getPressure(stack) >= pressurePerUse && item.getFluid(stack).amount > 0;
+
+       IPressurizableItem item = (IPressurizableItem) stack.getItem();
+       FluidStack fluidStack = item.getFluid(stack);
+       if (fluidStack == null)
+          return false;
+
+       return item.getPressure(stack) >= pressurePerUse && item.getFluid(stack).amount > 0;
     }
 }

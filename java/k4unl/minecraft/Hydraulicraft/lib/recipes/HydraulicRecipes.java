@@ -54,8 +54,8 @@ public class HydraulicRecipes implements IRecipeHandler {
     }
 
     private static void initializeWashingRecipes() {
-        recipesWasher.add(new FluidShapelessOreRecipe(HCBlocks.blockRefinedLonezium, Ores.oreLonezium));
-        recipesWasher.add(new FluidShapelessOreRecipe(HCBlocks.blockRefinedNadsiumBicarbinate, Ores.oreNadsiumBicarbinate));
+        recipesWasher.add(new FluidShapelessOreRecipe(HCBlocks.blockRefinedLonezium, Ores.oreLonezium).setCraftingTime(5*20));
+        recipesWasher.add(new FluidShapelessOreRecipe(HCBlocks.blockRefinedNadsiumBicarbinate, Ores.oreNadsiumBicarbinate).setCraftingTime(20*20));
     }
 
     private static IFluidRecipe getRecipe(List<IFluidRecipe> list, IFluidInventory inventory) {
@@ -289,21 +289,8 @@ public class HydraulicRecipes implements IRecipeHandler {
         OreDictionary.registerOre("oreNetherQuartz", Blocks.quartz_ore);
         OreDictionary.registerOre("gemDiamond", Items.diamond);
         //Get items from ore dictionary:
-        List<String> crushableItems = new ArrayList<String>();
-        crushableItems.add("Gold");
-        crushableItems.add("Iron");
-        //MODDED:
-        crushableItems.add("Ardite");
-        crushableItems.add("Copper");
-        crushableItems.add("Lead");
-        crushableItems.add("FzDarkIron");
-        crushableItems.add("Tin");
-        crushableItems.add("Cobalt");
-        crushableItems.add("Silver");
-        crushableItems.add("Nickel");
 
-
-        for (String item : crushableItems) {
+        for (String item : Hydraulicraft.crushableItems) {
             String oreName = "ore" + item;
             List<ItemStack> oreStack = OreDictionary.getOres(oreName);
 
@@ -313,8 +300,8 @@ public class HydraulicRecipes implements IRecipeHandler {
             //Log.info("Found " + oreStack.size() + " ores and " + ingotStack.size() + " ingots for " + item);
 
             if (oreStack.size() > 0 && ingotStack.size() > 0) {
-                int metaId = HCItems.itemChunk.addChunk(item);
-                HCItems.itemDust.addDust(item, metaId);
+                int metaId = HCItems.itemChunk.showChunk(item);
+                HCItems.itemDust.showDust(item);
 
                 HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(new ItemStack(HCItems.itemChunk, 2, metaId), oreName)
                         .setPressure(1.0F).setCraftingTime(200));
@@ -652,7 +639,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'G', HCItems.gasket
                 }));
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.portalFrame, 6), true,
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MultipartHandler.itemPartPortalFrame, 6), true,
                 new Object[]{
                         "III",
                         "IEI",

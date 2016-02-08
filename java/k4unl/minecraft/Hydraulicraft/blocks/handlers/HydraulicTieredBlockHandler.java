@@ -15,6 +15,7 @@ public class HydraulicTieredBlockHandler extends HandlerHydraulicBlock {
 
 
     public HydraulicTieredBlockHandler(Block block, Name[] names) {
+
         super(block);
 
         tNames = names;
@@ -24,10 +25,16 @@ public class HydraulicTieredBlockHandler extends HandlerHydraulicBlock {
 
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
-        if (itemStack.getItemDamage() > tNames.length - 1) {
+
+        return getUnlocalizedName(itemStack.getItemDamage());
+    }
+
+    public String getUnlocalizedName(int meta) {
+
+        if (meta > tNames.length - 1) {
             return "ERROR";
         }
-        String unlocalizedName = tNames[itemStack.getItemDamage()].unlocalized;
+        String unlocalizedName = tNames[meta].unlocalized;
         if (!unlocalizedName.startsWith("tile.")) {
             unlocalizedName = "tile." + unlocalizedName;
         }
@@ -36,18 +43,19 @@ public class HydraulicTieredBlockHandler extends HandlerHydraulicBlock {
 
     @Override
     public int getMetadata(int damage) {
+
         return damage;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
+
         super.addInformation(itemstack, player, list, par4);
         if (itemstack != null) {
             Item theItem = itemstack.getItem();
             Block btH = ((HandlerHydraulicBlock) theItem).blockToHandle;
             //TODO: Handle me? I think there's something missing here, but no idea what.
-
 
         }
     }

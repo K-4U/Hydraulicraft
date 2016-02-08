@@ -3,7 +3,6 @@ package k4unl.minecraft.Hydraulicraft.client.renderers;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.RendererHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.RendererMovingPane;
-import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.RendererHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.RendererHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.client.renderers.generators.RendererHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.client.renderers.generators.RendererHydraulicPump;
@@ -19,7 +18,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
-import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileJarOfDirt;
@@ -35,7 +33,8 @@ public class Renderers {
     public static void init() {
 //		rendererIdJarOfDirt = RenderingRegistry.getNextAvailableRenderId();
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterFrame.class, new RendererHarvesterFrame());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterFrame.class, new RendererHarvesterFrame());
+        //ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(HCBlocks.hydraulicHarvesterFrame), 0, TileHarvesterFrame.class);
         ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterTrolley.class, new RendererHarvesterTrolley());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicPiston.class, new RendererHydraulicPiston());
@@ -74,7 +73,7 @@ public class Renderers {
 //		RenderingRegistry.registerBlockHandler(new RendererArchimedesScrew());
         ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicFluidPump.class, new RendererArchimedesScrew());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterFrame.class, new RendererHarvesterFrame());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileHarvesterFrame.class, new RendererHarvesterFrame());
 
 
 //		RenderingRegistry.registerBlockHandler(new RendererGlowBlock());

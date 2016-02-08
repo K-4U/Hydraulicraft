@@ -2,8 +2,8 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "up": "hydcraft:blocks/LPHydraulicPressureVat_0_top",
-      "down": "hydcraft:blocks/LPHydraulicPressureVat_0_bottom"
+      "up": "hydcraft:blocks/MPHydraulicPressureReservoir_end",
+      "down": "hydcraft:blocks/MPHydraulicPressureReservoir_end"
     },
     "transform": "forge:default-block",
     "model": "cube_all"
@@ -15,24 +15,24 @@
     "inventory": [
       {
         "textures": {
-          "all": "hydcraft:blocks/LPHydraulicPressureVat_0_sides"
+          "all": "hydcraft:blocks/MPHydraulicPressureReservoir_sides"
         }
       }
     ],
     "tier": {
       "tier-0": {
         "textures": {
-          "all": "hydcraft:blocks/LPHydraulicPressureVat_0_sides"
+          "all": "hydcraft:blocks/LPHydraulicPressureReservoir_sides"
         }
       },
       "tier-1": {
         "textures": {
-          "all": "hydcraft:blocks/LPHydraulicPressureVat_1_sides"
+          "all": "hydcraft:blocks/MPHydraulicPressureReservoir_sides"
         }
       },
       "tier-2": {
         "textures": {
-          "all": "hydcraft:blocks/LPHydraulicPressureVat_2_sides"
+          "all": "hydcraft:blocks/HPHydraulicPressureReservoir_sides"
         }
       }
     }

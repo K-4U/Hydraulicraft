@@ -21,6 +21,9 @@ item.divingLegs.name=Diving Suit Legs
 item.divingBoots.name=Diving Suit Boots
 item.hydraulicWrench.name=Hydraulic Wrench
 item.itemPressureGauge.name=Pressure Gauge
+item.LPHydraulicPipe.name=Low Pressure Pipe
+item.MPHydraulicPipe.name=Medium Pressure Pipe
+item.HPHydraulicPipe.name=High Pressure Pipe
 
 
 #Ores

@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.items;
 
 import k4unl.minecraft.Hydraulicraft.api.IPressurizableItem;
+import k4unl.minecraft.Hydraulicraft.api.IPressurizableItemUpgrade;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.PressurizableItem;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -116,7 +117,7 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
 
 
     public boolean canWrench(EntityPlayer entityPlayer, BlockPos pos) {
-        return pressurizableItem.canUse(entityPlayer, PRESSURE_PER_WRENCH);
+        return pressurizableItem.canUse(entityPlayer.getCurrentEquippedItem(), PRESSURE_PER_WRENCH);
     }
 
 
@@ -135,5 +136,20 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
         pressurizableItem.savePressure(filled, getMaxPressure());
         setFluid(filled, new FluidStack(Fluids.fluidHydraulicOil, (int) getMaxFluid()));
         par3List.add(filled);
+    }
+
+    @Override
+    public List<IPressurizableItemUpgrade> getUpgrades() {
+        return pressurizableItem.getUpgrades();
+    }
+
+    @Override
+    public boolean addUpgrade(IPressurizableItemUpgrade upgrade) {
+        return pressurizableItem.addUpgrade(upgrade);
+    }
+
+    @Override
+    public void removeUpgrade(IPressurizableItem upgrade) {
+        pressurizableItem.removeUpgrade(upgrade);
     }
 }

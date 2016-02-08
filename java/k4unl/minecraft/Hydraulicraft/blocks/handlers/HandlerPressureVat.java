@@ -14,7 +14,7 @@ import java.util.List;
 public class HandlerPressureVat extends HydraulicTieredBlockHandler {
 
 	public HandlerPressureVat(Block block) {
-		super(block, Names.blockHydraulicPressurevat);
+		super(block, Names.blockHydraulicPressureReservoir);
 	}
 	/*
 	@Override

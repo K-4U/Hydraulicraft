@@ -1,0 +1,52 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "hydcraft:pump"
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {
+        "textures": {
+          "all": "hydcraft:model/hydraulicPump_high"
+        }
+      }
+    ],
+    "tier": {
+      "tier-0": {
+        "model": "hydcraft:pump",
+        "textures": {
+          "all": "hydcraft:model/hydraulicPump_low"
+        }
+      },
+      "tier-1": {
+        "model": "hydcraft:pump",
+        "textures": {
+          "all": "hydcraft:model/hydraulicPump_medium"
+        }
+      },
+      "tier-2": {
+        "model": "hydcraft:pump",
+        "textures": {
+          "all": "hydcraft:model/hydraulicPump_high"
+        }
+      }
+    },
+    "rotation": {
+      "north":{
+        "y": 0
+      },
+      "south":{
+        "y": 180
+      },
+      "east":{
+        "y": 90
+      },
+      "west":{
+        "y": 270
+      }
+    }
+  }
+}
