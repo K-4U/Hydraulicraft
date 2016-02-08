@@ -242,9 +242,12 @@ public class Hydraulicraft {
     @Mod.EventHandler
     public void convert(FMLMissingMappingsEvent event) {
 
-        for (FMLMissingMappingsEvent.MissingMapping mapping : event.getAll()) {
+        for (FMLMissingMappingsEvent.MissingMapping mapping : event.get()) {
+
             String name = mapping.name;
-            Log.info(name.substring("hydcraft:LP".length()));
+            if(!name.startsWith("hydcraft:")){
+                return;
+            }
 
             if (name.startsWith("hydcraft:") && name.substring("hydcraft:LP".length()).equalsIgnoreCase("hydraulicpressurevat")) {
                 name = name.replaceAll("Vat", "Reservoir");
