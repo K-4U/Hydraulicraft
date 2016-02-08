@@ -166,18 +166,22 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
                                     }
 
                                     if (zR == 0) {
+                                        insides.setZMin(zR + 0.001F);
                                         RenderHelper.drawGL11SideNorthWithTexture(insides, fluidIcon);
                                     }
                                     if (zR == innerZDifference) {
+                                        insides.setZMax(zR + 1 - 0.001F);
                                         RenderHelper.drawGL11SideSouthWithTexture(insides, fluidIcon);
                                     }
                                     if (zY == innerYDifference) {
                                         RenderHelper.drawGL11SideTopWithTexture(insides, fluidIcon);
                                     }
                                     if (xR == 0) {
+                                        insides.setXMin(0.001F);
                                         RenderHelper.drawGL11SideWestWithTexture(insides, fluidIcon);
                                     }
                                     if (xR == innerXDifference) {
+                                        insides.setXMax(xR + 1 - 0.001F);
                                         RenderHelper.drawGL11SideEastWithTexture(insides, fluidIcon);
                                     }
                                     //RenderHelper.drawTesselatedCubeWithTexture(insides, fluidIcon);
