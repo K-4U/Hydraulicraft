@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.blocks.worldgen;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
@@ -10,13 +9,16 @@ import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -69,13 +71,32 @@ public class BlockRubberWood extends HydraulicBlockBase {
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+
+        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+    }
+
+    private Vector3fMax getCollisionBox(IBlockState state){
         float pixel = 1F / 16F;
-        Vector3fMax vector = new Vector3fMax(pixel, 0.0F, pixel, 1.0F-pixel, 1.0F, 1.0F-pixel);
-        if(worldIn.getBlockState(pos).getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Y){
-
+        Vector3fMax vector = new Vector3fMax(pixel, pixel, pixel, 1.0F-pixel, 1.0F-pixel, 1.0F-pixel);
+        if(state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Y){
+            vector.setYMin(0.0F);
+            vector.setYMax(1.0F);
         }
+        if(state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.X){
+            vector.setXMin(0.0F);
+            vector.setXMax(1.0F);
+        }
+        if(state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Z){
+            vector.setZMin(0.0F);
+            vector.setZMax(1.0F);
+        }
+        return vector;
+    }
 
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+        Vector3fMax vector = getCollisionBox(worldIn.getBlockState(pos));
 
         this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
     }
@@ -99,11 +120,8 @@ public class BlockRubberWood extends HydraulicBlockBase {
      */
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 
-        double rnd = (new Random()).nextDouble();
-
         return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis
-          .fromFacingAxis(facing.getAxis())).withProperty(Properties.HAS_RUBBER_SPOT, rnd >= HCConfig.INSTANCE.getDouble
-          ("rubberPatchChance", "worldgen"));
+          .fromFacingAxis(facing.getAxis())).withProperty(Properties.HAS_RUBBER_SPOT, false); //No rubber spot when the block is already placed
     }
 
     @Override
@@ -141,13 +159,12 @@ public class BlockRubberWood extends HydraulicBlockBase {
     /**
      * Convert the BlockState into the correct metadata value
      */
-    @SuppressWarnings("incomplete-switch")
     @Override
     public int getMetaFromState(IBlockState state) {
 
         int i = 0;
 
-        switch ((BlockLog.EnumAxis) state.getValue(BlockLog.LOG_AXIS)) {
+        switch (state.getValue(BlockLog.LOG_AXIS)) {
             case X:
                 i |= 4;
                 break;
