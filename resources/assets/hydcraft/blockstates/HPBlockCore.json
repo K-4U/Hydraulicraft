@@ -14,7 +14,7 @@
     "inventory": [
       {
         "textures": {
-          "north": "hydcraft:blocks/HPBlockCore"
+          "all": "hydcraft:blocks/HPBlockCore"
         }
       }
     ],

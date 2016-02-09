@@ -14,7 +14,7 @@
     "inventory": [
       {
         "textures": {
-          "north": "hydcraft:blocks/LPBlockCore"
+          "all": "hydcraft:blocks/LPBlockCore"
         }
       }
     ],
