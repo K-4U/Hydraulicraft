@@ -3,12 +3,15 @@ package k4unl.minecraft.Hydraulicraft.blocks.storage;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.BuildcraftCompat;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileFluidTank;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -72,9 +75,38 @@ public class BlockFluidTank extends HydraulicBlockContainerBase {
         return EnumWorldBlockLayer.TRANSLUCENT;
     }
 
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+        if(stack.hasTagCompound() && stack.getTagCompound().hasKey("fluid")) {
+            NBTTagCompound storedFluid = stack.getTagCompound().getCompoundTag("fluid");
+            FluidStack fluid = FluidStack.loadFluidStackFromNBT(storedFluid);
+            TileFluidTank tank = (TileFluidTank) worldIn.getTileEntity(pos);
+            tank.fill(null, fluid, true);
+        }
+    }
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if(playerIn.isSneaking() && BuildcraftCompat.INSTANCE.isWrench(playerIn.getCurrentEquippedItem())) {
+            if(!worldIn.isRemote) {
+                ItemStack stack = new ItemStack(worldIn.getBlockState(pos).getBlock());
+                TileFluidTank tank = (TileFluidTank) worldIn.getTileEntity(pos);
+                NBTTagCompound tag = new NBTTagCompound();
+                tank.writeToNBT(tag);
+                NBTTagCompound superTag = new NBTTagCompound();
+                superTag.setTag("fluid", tag);
+                stack.setTagCompound(superTag);
+                EntityItem entityItem = new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);
+                entityItem.motionY = worldIn.rand.nextDouble() / 2;
+                entityItem.motionX = worldIn.rand.nextDouble() / 4;
+                entityItem.motionZ = worldIn.rand.nextDouble() / 4;
+                worldIn.spawnEntityInWorld(entityItem);
+                worldIn.setBlockToAir(pos);
+            }
+
+            return true;
+        }
 
         if (playerIn.isSneaking())
             return false;
