@@ -367,8 +367,9 @@ public class HydraulicRecipes implements IRecipeHandler {
             "G G",
             "IGI",
             'G', HCBlocks.hydraulicPressureGlass,
-            'I', "iron"
-          }));
+            'I', "ingotIron"
+          })
+        );
 
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockValve, 4, 0), true,
           new Object[] {
