@@ -22,6 +22,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInfiniteSource;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -33,7 +34,7 @@ public class GuiHandler implements IGuiHandler {
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world,
-                                      int x, int y, int z) {
+      int x, int y, int z) {
 
         TileEntity ent = world.getTileEntity(new BlockPos(x, y, z));
         if (ent != null) {
@@ -134,6 +135,10 @@ public class GuiHandler implements IGuiHandler {
                     if (ent instanceof TileHydraulicCharger) {
                         return new ContainerCharger(player.inventory, (TileHydraulicCharger) ent);
                     }
+                case TANK:
+                    if (ent instanceof TileInterfaceValve) {
+                        return new ContainerTank(player.inventory, (TileInterfaceValve) ent);
+                    }
                 default:
                     break;
 
@@ -145,7 +150,7 @@ public class GuiHandler implements IGuiHandler {
 
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world,
-                                      int x, int y, int z) {
+      int x, int y, int z) {
 
         TileEntity ent = world.getTileEntity(new BlockPos(x, y, z));
 
@@ -244,6 +249,10 @@ public class GuiHandler implements IGuiHandler {
                 case CHARGER:
                     if (ent instanceof TileHydraulicCharger) {
                         return new GuiCharger(player.inventory, (TileHydraulicCharger) ent);
+                    }
+                case TANK:
+                    if (ent instanceof TileInterfaceValve) {
+                        return new GuiTank(player.inventory, (TileInterfaceValve) ent);
                     }
                 default:
                     break;

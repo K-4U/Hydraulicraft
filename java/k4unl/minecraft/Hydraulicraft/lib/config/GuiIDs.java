@@ -20,5 +20,6 @@ public enum GuiIDs {
     PORTALBASE,
     ASSEMBLER,
     CHARGER,
-    FILLER
+    FILLER,
+    TANK
 }

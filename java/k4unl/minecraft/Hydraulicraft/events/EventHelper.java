@@ -5,6 +5,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.items.ItemHydraulicDrill;
+import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
@@ -16,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -39,6 +41,18 @@ public class EventHelper {
         if(OreDictionary.getOres("dustStone").size() > 0){
             itemDust = OreDictionary.getOres("dustStone").get(0).copy();
             itemDust.stackSize = 1;
+        }
+    }
+
+
+    @SubscribeEvent
+    public void onRightClick(PlayerInteractEvent event){
+        if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK){
+            Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.pos);
+            if (vLocation != null) {
+                //Open a GUI.
+                event.entityPlayer.openGui(Hydraulicraft.instance, GuiIDs.TANK.ordinal(), event.world, vLocation.getX(), vLocation.getY(), vLocation.getZ());
+            }
         }
     }
 
