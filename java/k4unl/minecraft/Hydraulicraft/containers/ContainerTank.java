@@ -10,8 +10,8 @@ public class ContainerTank extends ContainerBase {
     public ContainerTank(InventoryPlayer invPlayer, TileInterfaceValve valve) {
         super(valve);
 
-        addSlotToContainer(new SlotFluidContainer(valve, 0, 112, 18));
-        addSlotToContainer(new SlotMachineOutput(valve, 1, 150, 18));
+        addSlotToContainer(new SlotFluidContainer(valve, 0, 113, 19));
+        addSlotToContainer(new SlotMachineOutput(valve, 1, 151, 19));
 
         bindPlayerInventory(invPlayer);
 
