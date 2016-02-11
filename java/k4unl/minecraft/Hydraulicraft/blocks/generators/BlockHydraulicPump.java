@@ -24,7 +24,7 @@ public class BlockHydraulicPump extends HydraulicTieredBlockBase implements IMul
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
 
-        return new TileHydraulicPump(((PressureTier)getStateFromMeta(metadata).getValue(TIER)).toInt());
+        return new TileHydraulicPump(((PressureTier) getStateFromMeta(metadata).getValue(TIER)).toInt());
     }
 
     @Override

@@ -4,7 +4,8 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 
 public class ItemLamp extends HydraulicItemBase {
 
-	public ItemLamp(){
-		super(Names.itemLamp, true);
-	}
+    public ItemLamp() {
+
+        super(Names.itemLamp, true);
+    }
 }

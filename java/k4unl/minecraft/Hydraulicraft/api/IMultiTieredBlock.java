@@ -7,6 +7,7 @@ public interface IMultiTieredBlock {
 
     /**
      * Only used from items
+     *
      * @param damage
      * @return
      */
@@ -14,6 +15,7 @@ public interface IMultiTieredBlock {
 
     /**
      * Used to get the tier in world.
+     *
      * @param world
      * @param pos
      * @return

@@ -13,6 +13,7 @@ import net.minecraft.util.EnumFacing;
 
 
 public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
+
     private boolean hasSendPacket         = true;
     private float   transparancy          = 0.2F;
     private float   prevTransparancy      = 0.2F;
@@ -46,12 +47,14 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
     }
 
     public void setRotation(EnumFacing _baseDir, EnumFacing _portalDir) {
+
         baseDir = _baseDir;
         portalDir = _portalDir;
         hasSendPacket = false;
     }
 
     public TilePortalBase getPortalBase() {
+
         if (portalBase == null) {
             return null;
         } else {
@@ -61,6 +64,7 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 
     @Override
     public void update() {
+
         if (!getWorld().isRemote && !hasSendPacket && baseDir != null) {
             hasSendPacket = true;
             NetworkHandler.INSTANCE.sendToAllAround(new PacketPortalEnabled(getPos(), baseDir, portalDir), getWorld());
@@ -78,10 +82,12 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 
 
     public EnumFacing getBaseDir() {
+
         return baseDir;
     }
 
     public EnumFacing getPortalDir() {
+
         return portalDir;
     }
 
@@ -90,26 +96,31 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
     }
 
     public float getTransparancy(float frame) {
+
         return transparancy + ((prevTransparancy - transparancy) * frame);
     }
 
     public void setBase(TilePortalBase tilePortalBase) {
+
         portalBase = new Location(tilePortalBase.getPos());
     }
 
     @Override
     public boolean shouldRenderInPass(int pass) {
+
         return true;
     }
 
     public boolean isEdge(EnumFacing dir) {
+
         Location nLoc = new Location(getPos(), dir);
 
-        return ((nLoc.getTE(getWorld()) instanceof TileMultipart) && MultipartHandler.hasPartPortalFrame(((TileMultipart)nLoc.getTE(getWorld()))
-          .getPartContainer()));
+        return ((nLoc.getTE(getWorld()) instanceof TileMultipart) && MultipartHandler.hasPartPortalFrame(((TileMultipart) nLoc.getTE(getWorld()))
+                .getPartContainer()));
     }
 
     public void usePressure() {
+
         getPortalBase().getHandler().setPressure(getPortalBase().getPressure
                 (EnumFacing.UP) - HCConfig.INSTANCE.getInt("pressurePerTeleport"), EnumFacing.UP);
     }

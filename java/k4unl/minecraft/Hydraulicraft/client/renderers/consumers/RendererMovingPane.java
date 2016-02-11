@@ -12,17 +12,20 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 
 public class RendererMovingPane extends TileEntitySpecialRenderer {
+
     private static final ResourceLocation resLoc =
             new ResourceLocation(ModInfo.LID, "textures/model/movingpane.png");
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f, int breakStage) {
+
         if (((TileMovingPane) tileEntity).getIsPane()) {
             doRender((TileMovingPane) tileEntity, x, y, z, f, breakStage);
         }
     }
 
     public static void doRender(TileMovingPane tileEntity, double x, double y, double z, float f, int breakStage) {
+
         GL11.glPushMatrix();
 
         GL11.glTranslatef((float) x, (float) y, (float) z);
@@ -95,6 +98,7 @@ public class RendererMovingPane extends TileEntitySpecialRenderer {
     }
 
     public static void drawPane(TileMovingPane pane, float f) {
+
         GL11.glBegin(GL11.GL_QUADS);
         RenderHelper.drawTexturedCube(new Vector3fMax(-0.001F, 0.0F, -0.001F, 1.0001F, RenderHelper.pixel, RenderHelper.pixel));
         GL11.glEnd();

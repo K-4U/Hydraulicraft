@@ -11,12 +11,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 public class GuiFilter extends HydraulicGUIBase {
+
     private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/filter.png");
     TileHydraulicFilter filter;
     NEIWidgetTank       widgetInput, widgetOutput;
 
 
     public GuiFilter(InventoryPlayer invPlayer, TileHydraulicFilter _filter) {
+
         super(_filter, new ContainerFilter(invPlayer, _filter), resLoc);
 
         filter = _filter;
@@ -26,11 +28,13 @@ public class GuiFilter extends HydraulicGUIBase {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
+
         super.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.hydraulicFilter.getLocalizedName(), true);
 

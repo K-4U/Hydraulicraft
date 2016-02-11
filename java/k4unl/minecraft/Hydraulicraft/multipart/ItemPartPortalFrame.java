@@ -15,6 +15,7 @@ import net.minecraft.world.World;
  * @author Koen Beckers (K-4U)
  */
 public class ItemPartPortalFrame extends ItemMultiPart {
+
     public ItemPartPortalFrame() {
 
         super();

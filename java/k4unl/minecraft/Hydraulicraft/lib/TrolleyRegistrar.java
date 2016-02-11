@@ -14,6 +14,7 @@ import java.util.Set;
  * @author Koen Beckers (K-4U)
  */
 public class TrolleyRegistrar implements ITrolleyRegistrar {
+
     private Map<String, IHarvesterTrolley> blocks;
 
     public TrolleyRegistrar() {
@@ -35,7 +36,8 @@ public class TrolleyRegistrar implements ITrolleyRegistrar {
     @Override
     public ItemStack getTrolleyItem(String trolleyName) {
 
-        if (!blocks.containsKey(trolleyName)) throw new IllegalArgumentException("Trolley with the name " + trolleyName + " isn't registered!");
+        if (!blocks.containsKey(trolleyName))
+            throw new IllegalArgumentException("Trolley with the name " + trolleyName + " isn't registered!");
 
         ItemStack trolley = new ItemStack(HCBlocks.harvesterTrolley, 1, 0);
 
@@ -46,7 +48,8 @@ public class TrolleyRegistrar implements ITrolleyRegistrar {
         return trolley;
     }
 
-    public Set<String> getRegisteredTrolleys(){
+    public Set<String> getRegisteredTrolleys() {
+
         return blocks.keySet();
     }
 }

@@ -25,94 +25,103 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-public class IndustrialCraft implements IThirdParty{
-	public static Block blockHydraulicGenerator;
-	public static Block blockElectricPump;
+public class IndustrialCraft implements IThirdParty {
+
+    public static Block blockHydraulicGenerator;
+    public static Block blockElectricPump;
 
     @Override
-    public void preInit(){
+    public void preInit() {
+
         initBlocks();
         initRecipes();
     }
 
     @Override
-    public void init(){}
+    public void init() {
+
+    }
 
     @Override
-    public void postInit(){}
+    public void postInit() {
+
+    }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void clientSide(){
+    public void clientSide() {
+
         ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicGenerator.class, new RendererHydraulicGenerator());
         ClientRegistry.bindTileEntitySpecialRenderer(TileElectricPump.class, new RendererElectricPump());
-	}
+    }
 
-	public static void initBlocks(){
-		blockHydraulicGenerator = new BlockHydraulicGenerator();
-		blockElectricPump = new BlockElectricPump();
-		
-		
-		GameRegistry.registerBlock(blockHydraulicGenerator, HandlerHydraulicBlock.class, Names.blockHydraulicGenerator.unlocalized);
-		GameRegistry.registerBlock(blockElectricPump, HandlerElectricPump.class, Names.blockElectricPump[0].unlocalized);
-		
-		GameRegistry.registerTileEntity(TileHydraulicGenerator.class, "tileHydraulicGenerator");
-		GameRegistry.registerTileEntity(TileElectricPump.class, "tileElectricPump");
-	}
-	
-	public static void initRecipes(){
-		ItemStack generator = null;//IC2Items.getItem("generator");
-		ItemStack battery = null;//IC2Items.getItem("reBattery");
+    public static void initBlocks() {
 
-		HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockHydraulicGenerator, 1), true,
-            new Object[] {
-              "PBP",
-              "PGP",
-              "WKW",
-              'P', Blocks.glass_pane,
-              'G', generator,
-              'K', HCItems.gasket,
-              'W', HCBlocks.hydraulicPressureWall,
-              'B', battery
-            }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 200))
+        blockHydraulicGenerator = new BlockHydraulicGenerator();
+        blockElectricPump = new BlockElectricPump();
+
+
+        GameRegistry.registerBlock(blockHydraulicGenerator, HandlerHydraulicBlock.class, Names.blockHydraulicGenerator.unlocalized);
+        GameRegistry.registerBlock(blockElectricPump, HandlerElectricPump.class, Names.blockElectricPump[0].unlocalized);
+
+        GameRegistry.registerTileEntity(TileHydraulicGenerator.class, "tileHydraulicGenerator");
+        GameRegistry.registerTileEntity(TileElectricPump.class, "tileElectricPump");
+    }
+
+    public static void initRecipes() {
+
+        ItemStack generator = null;//IC2Items.getItem("generator");
+        ItemStack battery = null;//IC2Items.getItem("reBattery");
+
+        HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockHydraulicGenerator, 1), true,
+                new Object[]{
+                        "PBP",
+                        "PGP",
+                        "WKW",
+                        'P', Blocks.glass_pane,
+                        'G', generator,
+                        'K', HCItems.gasket,
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'B', battery
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 200))
         );
-		
-		ItemStack coil = null;//IC2Items.getItem("coil");
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectricPump, 1, 0), true,
-				new Object [] {
-					"L-L",
-					"KGC",
-					"WWW",
-					'G', Blocks.glass,
-					'K', HCItems.gasket,
-					'W', HCBlocks.hydraulicPressureWall,
-					'C', coil,
-					'L', "ingotLead"
-				}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectricPump, 1, 1), true,
-				new Object [] {
-					"R-R",
-					"KGC",
-					"WWW",
-					'G', Blocks.glass,
-					'K', HCItems.gasket,
-					'W', HCBlocks.hydraulicPressureWall,
-					'C', coil,
-					'R', "ingotCopper"
-				}));
 
-		HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockElectricPump, 1, 2), true,
-          new Object[] {
-            "R-R",
-            "KGC",
-            "WWW",
-            'G', Blocks.glass,
-            'K', HCItems.gasket,
-            'W', HCBlocks.hydraulicPressureWall,
-            'C', coil,
-            'R', "ingotEnrichedCopper"
-          }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 500))
+        ItemStack coil = null;//IC2Items.getItem("coil");
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectricPump, 1, 0), true,
+                new Object[]{
+                        "L-L",
+                        "KGC",
+                        "WWW",
+                        'G', Blocks.glass,
+                        'K', HCItems.gasket,
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'C', coil,
+                        'L', "ingotLead"
+                }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectricPump, 1, 1), true,
+                new Object[]{
+                        "R-R",
+                        "KGC",
+                        "WWW",
+                        'G', Blocks.glass,
+                        'K', HCItems.gasket,
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'C', coil,
+                        'R', "ingotCopper"
+                }));
+
+        HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockElectricPump, 1, 2), true,
+                new Object[]{
+                        "R-R",
+                        "KGC",
+                        "WWW",
+                        'G', Blocks.glass,
+                        'K', HCItems.gasket,
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'C', coil,
+                        'R', "ingotEnrichedCopper"
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 500))
         );
-	}
+    }
 
 }

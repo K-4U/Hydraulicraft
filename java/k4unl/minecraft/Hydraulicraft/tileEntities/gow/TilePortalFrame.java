@@ -18,6 +18,7 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower {
 
     @Override
     public void update() {
+
         super.update();
     }
 
@@ -31,6 +32,7 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower {
 
     @Override
     public void readFromNBT(NBTTagCompound tCompound) {
+
         super.readFromNBT(tCompound);
         parentLocation = new Location(tCompound.getIntArray("parent"));
         colorIndex = tCompound.getInteger("dye");
@@ -38,6 +40,7 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower {
 
     @Override
     public void writeToNBT(NBTTagCompound tCompound) {
+
         super.writeToNBT(tCompound);
         if (parentLocation != null) {
             tCompound.setIntArray("parent", parentLocation.getIntArray());
@@ -46,39 +49,47 @@ public class TilePortalFrame extends TileHydraulicBaseNoPower {
     }
 
     public void setPortalBase(TilePortalBase tilePortalBase) {
+
         parentLocation = tilePortalBase.getBlockLocation();
         markDirty();
         getWorld().markBlockForUpdate(getPos());
     }
 
     public boolean getIsActive() {
+
         return getWorld().getBlockState(pos).getValue(Properties.ACTIVE);
     }
 
     public void setActive(boolean b) {
+
         getWorld().setBlockState(pos, getBlockType().getDefaultState().withProperty(Properties.ACTIVE, b));
     }
 
     public Location getBlockLocation() {
+
         return new Location(getPos());
     }
 
     public TilePortalBase getBase() {
+
         return (TilePortalBase) parentLocation.getTE(getWorld());
     }
 
     public void dye(int i) {
+
         colorIndex = i;
         markDirty();
         getWorld().markBlockForUpdate(getPos());
     }
 
     public int getDye() {
+
         return colorIndex;
     }
 
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+
         return false;
     }
 }

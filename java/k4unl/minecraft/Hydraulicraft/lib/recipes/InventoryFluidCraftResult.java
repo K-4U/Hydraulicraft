@@ -6,10 +6,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class InventoryFluidCraftResult extends InventoryCraftResult {
+
     IFluidCraftingMachine machine;
     IFluidRecipe          recipe;
 
     public InventoryFluidCraftResult(IFluidCraftingMachine baseEntity) {
+
         super();
         this.machine = baseEntity;
     }
@@ -24,11 +26,13 @@ public class InventoryFluidCraftResult extends InventoryCraftResult {
     }
 
     public void save(NBTTagCompound nbt) {
+
         if (getStackInSlot(0) != null)
             nbt.setTag("output", getStackInSlot(0).writeToNBT(new NBTTagCompound()));
     }
 
     public void load(NBTTagCompound nbt) {
+
         setInventorySlotContents(0, null);
 
         if (nbt.getTag("output") != null && nbt.getTag("output") instanceof NBTTagCompound) {
@@ -37,6 +41,7 @@ public class InventoryFluidCraftResult extends InventoryCraftResult {
     }
 
     public boolean canExtract(int slot, ItemStack itemStack) {
+
         return slot >= 0 && getStackInSlot(0) != null && getStackInSlot(0).isItemEqual(itemStack);
 
     }

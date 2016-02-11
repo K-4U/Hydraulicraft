@@ -9,11 +9,13 @@ import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 
 public class ItemHydraulicSaw extends ItemHydraulicTool {
+
     private static final float SPEED_ON_LEAVES = 6f;
 
     private ItemAxe axe;
 
     public ItemHydraulicSaw() {
+
         super(1.0f, ToolMaterial.EMERALD, null); // to make the super() happy
         axe = new SawAxe();
         setCreativeTab(CustomTabs.tabHydraulicraft);
@@ -25,11 +27,13 @@ public class ItemHydraulicSaw extends ItemHydraulicTool {
 
     @Override
     public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+
         return axe.canHarvestBlock(par1Block, itemStack) && super.canHarvestBlock(par1Block, itemStack);
     }
 
     @Override
     public float getStrVsBlock(ItemStack stack, Block block) {
+
         if (super.getStrVsBlock(stack, block) == 0)
             return 0;
 
@@ -41,7 +45,9 @@ public class ItemHydraulicSaw extends ItemHydraulicTool {
 
     /* Helper classes */
     private static class SawAxe extends ItemAxe {
+
         public SawAxe() {
+
             super(ToolMaterial.EMERALD);
         }
     }

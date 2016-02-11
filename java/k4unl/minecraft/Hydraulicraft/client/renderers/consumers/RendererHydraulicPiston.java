@@ -84,6 +84,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
     }
 
     public static void drawPistonArm(TileHydraulicPiston tileentity, float f) {
+
         float half = 1.0F - RenderHelper.pixel * 2;
         float totalLength = 0F;
         float maxLength = 1F;
@@ -111,6 +112,7 @@ public class RendererHydraulicPiston extends TileEntitySpecialRenderer {
     }
 
     public static void drawPistonArmPiece(float thickness, float begin, float end) {
+
         float armBeginCoord = 0.5F - (thickness / 2);
         float armEndCoord = 0.5F + (thickness / 2);
         float startCoord = begin;

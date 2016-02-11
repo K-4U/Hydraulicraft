@@ -18,11 +18,13 @@ import net.minecraftforge.fluids.FluidStack;
 public class BlockInfiniteSource extends HydraulicBlockContainerBase {
 
     public BlockInfiniteSource() {
+
         super(Names.blockInfiniteSource, false);
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int var2) {
+
         return new TileInfiniteSource();
     }
 
@@ -34,6 +36,7 @@ public class BlockInfiniteSource extends HydraulicBlockContainerBase {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+
         if (playerIn.isSneaking())
             return false;
 

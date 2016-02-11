@@ -77,8 +77,9 @@ public class BlockFluidTank extends HydraulicBlockContainerBase {
 
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-        if(stack.hasTagCompound() && stack.getTagCompound().hasKey("fluid")) {
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("fluid")) {
             NBTTagCompound storedFluid = stack.getTagCompound().getCompoundTag("fluid");
             FluidStack fluid = FluidStack.loadFluidStackFromNBT(storedFluid);
             TileFluidTank tank = (TileFluidTank) worldIn.getTileEntity(pos);
@@ -88,8 +89,9 @@ public class BlockFluidTank extends HydraulicBlockContainerBase {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if(playerIn.isSneaking() && BuildcraftCompat.INSTANCE.isWrench(playerIn.getCurrentEquippedItem())) {
-            if(!worldIn.isRemote) {
+
+        if (playerIn.isSneaking() && BuildcraftCompat.INSTANCE.isWrench(playerIn.getCurrentEquippedItem())) {
+            if (!worldIn.isRemote) {
                 ItemStack stack = new ItemStack(worldIn.getBlockState(pos).getBlock());
                 TileFluidTank tank = (TileFluidTank) worldIn.getTileEntity(pos);
                 NBTTagCompound tag = new NBTTagCompound();
@@ -111,7 +113,7 @@ public class BlockFluidTank extends HydraulicBlockContainerBase {
         if (playerIn.isSneaking())
             return false;
 
-        if(worldIn.isRemote)
+        if (worldIn.isRemote)
             return true;
 
         TileEntity entity = worldIn.getTileEntity(pos);
@@ -141,15 +143,15 @@ public class BlockFluidTank extends HydraulicBlockContainerBase {
                 }
                 return true;
             } else {
-                if(FluidContainerRegistry.isEmptyContainer(inUse)){
+                if (FluidContainerRegistry.isEmptyContainer(inUse)) {
                     FluidTankInfo tankInfo = tank.getTankInfo(EnumFacing.UP)[0];
-                    if(tankInfo.fluid == null) return false;
+                    if (tankInfo.fluid == null) return false;
                     ItemStack filledContainer = FluidContainerRegistry.fillFluidContainer(tankInfo.fluid, inUse);
-                    if(filledContainer == null) return false;
+                    if (filledContainer == null) return false;
                     int toDrain = FluidContainerRegistry.getContainerCapacity(filledContainer);
 
                     FluidStack drained = tank.drain(EnumFacing.UP, toDrain, false);
-                    if(drained != null && drained.amount == toDrain){
+                    if (drained != null && drained.amount == toDrain) {
                         tank.drain(EnumFacing.UP, toDrain, true);
                         tank.markDirty();
                         worldIn.markBlockForUpdate(pos);
@@ -158,12 +160,12 @@ public class BlockFluidTank extends HydraulicBlockContainerBase {
                     }
 
 
-                    if(!playerIn.capabilities.isCreativeMode){
+                    if (!playerIn.capabilities.isCreativeMode) {
                         playerIn.getCurrentEquippedItem().stackSize--;
-                        if(playerIn.getCurrentEquippedItem().stackSize == 0){
+                        if (playerIn.getCurrentEquippedItem().stackSize == 0) {
                             playerIn.setCurrentItemOrArmor(0, null);
                         }
-                        if(!playerIn.inventory.addItemStackToInventory(filledContainer)){
+                        if (!playerIn.inventory.addItemStackToInventory(filledContainer)) {
                             //Spawn it in world:
                             EntityItem entityItem = new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), filledContainer);
                             worldIn.spawnEntityInWorld(entityItem);

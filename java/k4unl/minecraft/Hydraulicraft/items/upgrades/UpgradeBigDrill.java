@@ -12,23 +12,27 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class UpgradeBigDrill extends HydraulicItemBase implements IPressurizableItemUpgrade {
-   public UpgradeBigDrill() {
-      super(Names.itemUpgradeBigDrill, true);
-   }
 
-   @Override
-   public boolean onBeforeUse(ItemStack stack, World world, BlockPos position, EnumFacing facing) {
-      return true; // TODO check for extra pressure
-   }
+    public UpgradeBigDrill() {
 
-   @Override
-   public void onAfterUse(ItemStack stack, World world, BlockPos position, EnumFacing facing) {
-      // TODO use extra pressure
-      UpgradesClass.breakAround(world, position, 1);
-   }
+        super(Names.itemUpgradeBigDrill, true);
+    }
 
-   @Override
-   public boolean canBeAppliedOn(IPressurizableItem item) {
-      return item instanceof ItemHydraulicDrill;
-   }
+    @Override
+    public boolean onBeforeUse(ItemStack stack, World world, BlockPos position, EnumFacing facing) {
+
+        return true; // TODO check for extra pressure
+    }
+
+    @Override
+    public void onAfterUse(ItemStack stack, World world, BlockPos position, EnumFacing facing) {
+        // TODO use extra pressure
+        UpgradesClass.breakAround(world, position, 1);
+    }
+
+    @Override
+    public boolean canBeAppliedOn(IPressurizableItem item) {
+
+        return item instanceof ItemHydraulicDrill;
+    }
 }

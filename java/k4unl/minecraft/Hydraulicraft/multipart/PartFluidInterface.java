@@ -19,6 +19,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class PartFluidInterface extends Multipart implements IFluidHandler, IOccludingPart, ISlottedPart, ITickable {
+
     private static float      pixel        = 1.0F / 16F;
     private static int        expandBounds = -1;
     private        EnumFacing side         = EnumFacing.DOWN;
@@ -32,27 +33,27 @@ public class PartFluidInterface extends Multipart implements IFluidHandler, IOcc
 
         float thickness = 2 * pixel;
         float width = 8 * pixel;
-        float min = 0.5F - (width/2);
-        float max = 0.5F + (width/2);
+        float min = 0.5F - (width / 2);
+        float max = 0.5F + (width / 2);
         float tMax = 1.0F - thickness;
         float tMin = 0.0F + thickness;
         Vector3fMax vector;
         int i = 0;
         for (EnumFacing dir : EnumFacing.VALUES) {
 
-            if(dir.equals(EnumFacing.UP)){
+            if (dir.equals(EnumFacing.UP)) {
                 vector = new Vector3fMax(min, tMax, min, max, 1.0F, max);
-            }else if(dir.equals(EnumFacing.DOWN)){
+            } else if (dir.equals(EnumFacing.DOWN)) {
                 vector = new Vector3fMax(min, 0.0F, min, max, tMin, max);
-            }else if(dir.equals(EnumFacing.NORTH)){
+            } else if (dir.equals(EnumFacing.NORTH)) {
                 vector = new Vector3fMax(min, min, 0.0F, max, max, tMin);
-            }else if(dir.equals(EnumFacing.SOUTH)){
+            } else if (dir.equals(EnumFacing.SOUTH)) {
                 vector = new Vector3fMax(min, min, tMax, max, max, 1.0F);
-            }else if(dir.equals(EnumFacing.WEST)){
+            } else if (dir.equals(EnumFacing.WEST)) {
                 vector = new Vector3fMax(0.0F, min, min, tMin, max, max);
-            }else if(dir.equals(EnumFacing.EAST)){
+            } else if (dir.equals(EnumFacing.EAST)) {
                 vector = new Vector3fMax(tMax, min, min, 1.0F, max, max);
-            }else{
+            } else {
                 vector = new Vector3fMax(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             }
 
@@ -109,31 +110,34 @@ public class PartFluidInterface extends Multipart implements IFluidHandler, IOcc
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
 
-        return new FluidTankInfo[] { new FluidTankInfo(tank) };
+        return new FluidTankInfo[]{new FluidTankInfo(tank)};
     }
 
     @Override
     public void addCollisionBoxes(AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+
         super.addCollisionBoxes(mask, list, collidingEntity);
-        for(int i = 0; i< 6; i++) {
+        for (int i = 0; i < 6; i++) {
             list.add(boundingBoxes[i]);
         }
     }
 
     @Override
     public boolean occlusionTest(IMultipart part) {
+
         return OcclusionHelper.defaultOcclusionTest(this, part);
     }
 
     @Override
     public void addOcclusionBoxes(List<AxisAlignedBB> list) {
+
         addCollisionBoxes(null, list, null);
     }
 
 
-
     @Override
     public void readFromNBT(NBTTagCompound tag) {
+
         super.readFromNBT(tag);
         //connectedSides = new HashMap<EnumFacing, TileEntity>();
         //getHandler().updateNetworkOnNextTick(oldPressure);
@@ -144,7 +148,8 @@ public class PartFluidInterface extends Multipart implements IFluidHandler, IOcc
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound){
+    public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         //writeConnectedSidesToNBT(tagCompound);
         //tagCompound.setDouble("fluidStored", fluidStored);
@@ -154,10 +159,11 @@ public class PartFluidInterface extends Multipart implements IFluidHandler, IOcc
 
     @Override
     public void writeUpdatePacket(PacketBuffer buf) {
+
         super.writeUpdatePacket(buf);
 
         NBTTagCompound mainCompound = new NBTTagCompound();
-        if(getWorld() != null && !getWorld().isRemote){
+        if (getWorld() != null && !getWorld().isRemote) {
             mainCompound.setString("side", side.getName());
             tank.writeToNBT(mainCompound);
         }
@@ -167,6 +173,7 @@ public class PartFluidInterface extends Multipart implements IFluidHandler, IOcc
 
     @Override
     public void readUpdatePacket(PacketBuffer buf) {
+
         super.readUpdatePacket(buf);
         NBTTagCompound mainCompound = null;
         try {
@@ -188,9 +195,9 @@ public class PartFluidInterface extends Multipart implements IFluidHandler, IOcc
 
     
     @Override
-    public void update(){
+    public void update() {
 
-        if(!getWorld().isRemote && tank != null && tank.getFluid() != null) {
+        if (!getWorld().isRemote && tank != null && tank.getFluid() != null) {
             //Find a fluid pipe
 
             if (MultipartHandler.hasPartFluidPipe(getContainer())) {
@@ -208,20 +215,20 @@ public class PartFluidInterface extends Multipart implements IFluidHandler, IOcc
                 }
             }
         }
-        if(!getWorld().isRemote){
-            if (getIsRedstonePowered()){
+        if (!getWorld().isRemote) {
+            if (getIsRedstonePowered()) {
                 //Find a tank on the side we're on.
                 Location tankLocation = new Location(getPos(), side);
                 TileEntity te = tankLocation.getTE(getWorld());
-                if(te instanceof IFluidHandler){
-                    if(tank.getFluid() == null){
-                        drainFluid((IFluidHandler)te);
-                    } else if(tank.getFluid() != null){
-                        if(tank.getFluidAmount() == 0){
+                if (te instanceof IFluidHandler) {
+                    if (tank.getFluid() == null) {
+                        drainFluid((IFluidHandler) te);
+                    } else if (tank.getFluid() != null) {
+                        if (tank.getFluidAmount() == 0) {
                             drainFluid((IFluidHandler) te);
-                        }else{
-                            FluidTankInfo tankInfo = ((IFluidHandler)te).getTankInfo(side.getOpposite())[0];
-                            if(tankInfo != null && tankInfo.fluid != null) {
+                        } else {
+                            FluidTankInfo tankInfo = ((IFluidHandler) te).getTankInfo(side.getOpposite())[0];
+                            if (tankInfo != null && tankInfo.fluid != null) {
                                 if (tank.getFluid().getFluid() == tankInfo.fluid.getFluid()) {
                                     drainFluid((IFluidHandler) te);
                                 }
@@ -233,11 +240,12 @@ public class PartFluidInterface extends Multipart implements IFluidHandler, IOcc
         }
     }
 
-    private void drainFluid(IFluidHandler fluidHandler){
+    private void drainFluid(IFluidHandler fluidHandler) {
+
         FluidStack drained = fluidHandler.drain(side.getOpposite(), Constants.MAX_FLUID_TRANSFER_T, false);
-        if(drained != null && drained.amount > 0) {
+        if (drained != null && drained.amount > 0) {
             int filled = tank.fill(drained, false);
-            if(filled > 0){
+            if (filled > 0) {
                 //Do the actual filling.
                 drained = fluidHandler.drain(side.getOpposite(), filled, true);
                 tank.fill(drained, true);
@@ -255,26 +263,28 @@ public class PartFluidInterface extends Multipart implements IFluidHandler, IOcc
     }
 
     public boolean getIsRedstonePowered() {
+
         return isRedstonePowered;
     }
 
     public void setRedstonePowered(boolean isRedstonePowered) {
+
         this.isRedstonePowered = isRedstonePowered;
     }
 
 
-    public void onNeighborChanged(){
-        if(!getWorld().isRemote){
+    public void onNeighborChanged() {
+
+        if (!getWorld().isRemote) {
             checkRedstonePower();
         }
     }
 
     @Override
     public EnumSet<PartSlot> getSlotMask() {
+
         return EnumSet.of(PartSlot.getFaceSlot(side));
     }
-
-
 
 
 }

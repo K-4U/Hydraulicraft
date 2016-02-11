@@ -348,6 +348,7 @@ public class ModelDivingSuit extends ModelBiped {
     }
 
     public static ModelBiped getModel(EntityLivingBase entity, ItemStack stack) {
+
         if (stack == null || !(stack.getItem() instanceof ItemArmor))
             return null;
         int slot = ((ItemArmor) stack.getItem()).armorType;

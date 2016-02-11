@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 
 public class HandlerHydraulicBlock extends ItemBlock {
+
     protected Block blockToHandle;
 
 
@@ -51,14 +52,14 @@ public class HandlerHydraulicBlock extends ItemBlock {
                         toTranslate = "";
                         break;
                 }
-                if(!toTranslate.equals("")) {
+                if (!toTranslate.equals("")) {
                     list.add(EnumChatFormatting.GREEN + Localization.getString(toTranslate));
                 }
             }
-            if(btH instanceof IMultiTieredBlock){
+            if (btH instanceof IMultiTieredBlock) {
                 String toTranslate = "";
-                PressureTier pt = ((IMultiTieredBlock)btH).getTier(itemstack.getItemDamage());
-                switch(pt){
+                PressureTier pt = ((IMultiTieredBlock) btH).getTier(itemstack.getItemDamage());
+                switch (pt) {
                     case LOWPRESSURE:
                         toTranslate = Localization.MAXPRESSURE_LOW;
                         break;
@@ -72,14 +73,14 @@ public class HandlerHydraulicBlock extends ItemBlock {
                         toTranslate = "";
                         break;
                 }
-                if(!toTranslate.equals("")) {
+                if (!toTranslate.equals("")) {
                     list.add(EnumChatFormatting.GREEN + Localization.getString(toTranslate));
                 }
             }
-            if(btH instanceof ITooltipProvider){
-                list.add(EnumChatFormatting.RESET + ((ITooltipProvider)btH).getToolTip());
-			}
+            if (btH instanceof ITooltipProvider) {
+                list.add(EnumChatFormatting.RESET + ((ITooltipProvider) btH).getToolTip());
+            }
 
-		}
-	}
+        }
+    }
 }

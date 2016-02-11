@@ -33,6 +33,7 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
     public abstract TileEntity createNewTileEntity(World world, int var2);
 
     protected HydraulicTieredBlockBase(Name[] machineName) {
+
         super(machineName[0], true);
 
         mName = machineName;
@@ -58,6 +59,7 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
 
     @Override
     public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+
         for (int i = 0; i < 3; i++) {
             list.add(new ItemStack(this, 1, i));
         }
@@ -65,9 +67,10 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
 
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        if(this instanceof IBlockWithRotation) {
+
+        if (this instanceof IBlockWithRotation) {
             return getDefaultState().withProperty(Properties.ROTATION, placer.getHorizontalFacing().getOpposite()).withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
-        }else{
+        } else {
             return getDefaultState().withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
         }
 
@@ -75,11 +78,13 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
 
     @Override
     public int damageDropped(IBlockState state) {
+
         return getTierFromState(state).toInt();
     }
 
     @Override
     protected BlockState createBlockState() {
+
         if (this instanceof IBlockWithRotation) {
             return new BlockState(this, TIER, Properties.ROTATION);
         } else {
@@ -89,6 +94,7 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
+
         if (this instanceof IBlockWithRotation) {
             return super.getStateFromMeta(meta).withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
         } else {
@@ -98,6 +104,7 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
 
     @Override
     public int getMetaFromState(IBlockState state) {
+
         if (this instanceof IBlockWithRotation) {
             return super.getMetaFromState(state) + ((PressureTier) state.getValue(TIER)).toInt();
         } else {
@@ -106,6 +113,7 @@ public abstract class HydraulicTieredBlockBase extends HydraulicBlockContainerBa
     }
 
     public PressureTier getTierFromState(IBlockState state) {
+
         return (PressureTier) state.getValue(TIER);
     }
 

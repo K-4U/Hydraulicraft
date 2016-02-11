@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
  * Created by K-4U on 16-7-2015.
  */
 public class IGWMod implements IThirdParty {
+
     @Override
     public void preInit() {
 
@@ -24,6 +25,7 @@ public class IGWMod implements IThirdParty {
 
     @Override
     public void clientSide() {
+
         FMLInterModComms.sendMessage("IGWMod", IGWHandler.class.getName(), "init");
     }
 }

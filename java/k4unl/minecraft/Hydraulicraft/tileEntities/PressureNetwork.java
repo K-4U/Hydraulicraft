@@ -20,6 +20,7 @@ import java.util.Random;
 
 
 public class PressureNetwork {
+
     private float pressure = 0;
     private List<networkEntry> machines;
     private int randomNumber = 0;
@@ -42,6 +43,7 @@ public class PressureNetwork {
     }
 
     public PressureNetwork(NBTTagCompound compoundTag) {
+
         randomNumber = compoundTag.getInteger("randomNumber");
         machines = new ArrayList<networkEntry>();
         for (int i = 0; i <= compoundTag.getTagList("machines", 10).tagCount(); i++) {
@@ -53,10 +55,12 @@ public class PressureNetwork {
     }
 
     public void setWorld(IBlockAccess world) {
+
         this.world = world;
     }
 
     public static PressureNetwork getNetworkInDir(IBlockAccess iba, BlockPos pos, EnumFacing dir) {
+
         TileEntity t = iba.getTileEntity(pos);
         if (t instanceof IHydraulicMachine || t instanceof TileMultipart) {
             IHydraulicMachine mEnt;
@@ -110,14 +114,17 @@ public class PressureNetwork {
     }
 
     public int getRandomNumber() {
+
         return randomNumber;
     }
 
     public PressureTier getLowestTier() {
+
         return lowestTier;
     }
 
     private int contains(IHydraulicMachine machine) {
+
         int i;
         for (i = 0; i < machines.size(); i++) {
             if (machines.get(i) != null) {
@@ -130,6 +137,7 @@ public class PressureNetwork {
     }
 
     public void addMachine(IHydraulicMachine machine, float pressureToAdd, EnumFacing from) {
+
         if (contains(machine) == -1) {
             //float oPressure = pressure * machines.size();
             //oPressure += pressureToAdd;
@@ -151,6 +159,7 @@ public class PressureNetwork {
     }
 
     public void removeMachine(IHydraulicMachine machineToRemove) {
+
         int machineIndex = contains(machineToRemove);
         if (machineIndex != -1) {
             ((TileHydraulicBase) machineToRemove.getHandler()).setNetwork(machines.get(machineIndex).getFrom(), null);
@@ -188,26 +197,30 @@ public class PressureNetwork {
                 toRemove.add(entry);
             }
         }
-        for(networkEntry entry:toRemove){
-            if(entry != null){
+        for (networkEntry entry : toRemove) {
+            if (entry != null) {
                 machines.remove(entry);
             }
         }
     }
 
     public float getPressure() {
+
         return pressure;
     }
 
     public void setPressure(float newPressure) {
+
         pressure = newPressure;
     }
 
     public boolean getIsOilStored() {
+
         return isOilStored;
     }
 
     public List<networkEntry> getMachines() {
+
         return machines;
     }
 
@@ -248,8 +261,8 @@ public class PressureNetwork {
                 toRemove.add(entry);
             }
         }
-        for(networkEntry entry:toRemove){
-            if(entry != null){
+        for (networkEntry entry : toRemove) {
+            if (entry != null) {
                 machines.remove(entry);
             }
         }
@@ -271,6 +284,7 @@ public class PressureNetwork {
     }
 
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         randomNumber = tagCompound.getInteger("randomNumber");
         machines = new ArrayList<networkEntry>();
         for (int i = 0; i <= tagCompound.getTagList("machines", 10).tagCount(); i++) {
@@ -282,10 +296,12 @@ public class PressureNetwork {
     }
 
     public int getFluidCapacity() {
+
         return fluidCapacity;
     }
 
     public int getFluidInNetwork() {
+
         return fluidInNetwork;
     }
 
@@ -340,8 +356,8 @@ public class PressureNetwork {
                 toRemove.add(entry);
             }
         }
-        for(networkEntry entry:toRemove){
-            if(entry != null){
+        for (networkEntry entry : toRemove) {
+            if (entry != null) {
                 machines.remove(entry);
             }
         }
@@ -350,6 +366,7 @@ public class PressureNetwork {
 
     @SuppressWarnings("cast")
     private void disperseFluid(List<IHydraulicMachine> mainList) {
+
         List<IHydraulicMachine> remainingBlocks = new ArrayList<IHydraulicMachine>();
         float newFluidInSystem = 0;
         float fluidInSystem = fluidInNetwork;
@@ -387,6 +404,7 @@ public class PressureNetwork {
     }
 
     public static class networkEntry {
+
         private Location   blockLocation;
         private EnumFacing from;
 
@@ -403,6 +421,7 @@ public class PressureNetwork {
         }
 
         public NBTTagCompound saveEntry() {
+
             NBTTagCompound ret = new NBTTagCompound();
 
             ret.setIntArray("blockLocation", blockLocation.getIntArray());

@@ -8,6 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 public class ContainerFilter extends ContainerBase {
 
     public ContainerFilter(InventoryPlayer invPlayer, TileHydraulicFilter filter) {
+
         super(filter);
 
         addSlotToContainer(new SlotMachineInput(filter, filter, 0, 82, 35));

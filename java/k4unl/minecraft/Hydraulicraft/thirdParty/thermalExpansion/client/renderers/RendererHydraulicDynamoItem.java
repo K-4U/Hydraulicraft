@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.rendere
 
 public class RendererHydraulicDynamoItem {//implements IItemRenderer {
 /*
-	private static RendererHydraulicDynamo t = new RendererHydraulicDynamo();
+    private static RendererHydraulicDynamo t = new RendererHydraulicDynamo();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {

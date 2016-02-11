@@ -6,14 +6,15 @@ import net.minecraft.util.ITickable;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.common.ForgeChunkManager;
 
-public class TileChunkLoader extends TileEntity implements ITickable{
+public class TileChunkLoader extends TileEntity implements ITickable {
 
     private ForgeChunkManager.Ticket chunkTicket;
-    private boolean hasLoaded;
+    private boolean                  hasLoaded;
 
 
-    public void update(){
-        if(!hasLoaded){
+    public void update() {
+
+        if (!hasLoaded) {
             loadChunk();
             hasLoaded = true;
         }
@@ -21,10 +22,12 @@ public class TileChunkLoader extends TileEntity implements ITickable{
 
     @Override
     public void invalidate() {
+
         ForgeChunkManager.releaseTicket(chunkTicket);
     }
 
-    public void loadChunk(){
+    public void loadChunk() {
+
         if (chunkTicket == null) {
             chunkTicket = ForgeChunkManager.requestTicket(Hydraulicraft
                     .instance, worldObj, ForgeChunkManager.Type.NORMAL);

@@ -21,15 +21,16 @@ public class RendererPartHose extends MultipartSpecialRenderer<PartHose> {
     };
 
     public void doRender(double x, double y, double z, float f, PartHose partHose) {
+
         GL11.glPushMatrix();
 
         GL11.glTranslatef((float) x, (float) y, (float) z);
 
 
         boolean[] connectedSides = new boolean[7];
-            for(EnumFacing dir : EnumFacing.VALUES){
-            	connectedSides[dir.ordinal()] = partHose.connects(dir);
-            }
+        for (EnumFacing dir : EnumFacing.VALUES) {
+            connectedSides[dir.ordinal()] = partHose.connects(dir);
+        }
         //Bind texture
         FMLClientHandler.instance().getClient().getTextureManager().bindTexture(resLoc[partHose.getTier().toInt()]);
 
@@ -51,11 +52,13 @@ public class RendererPartHose extends MultipartSpecialRenderer<PartHose> {
 
     @Override
     public void renderMultipartAt(PartHose partHose, double x, double y, double z, float f, int destroyStage) {
+
         doRender(x, y, z, f, partHose);
     }
 
 
     private void drawFirstCable(boolean[] connectedSides) {
+
         float center = 0.5F;
         float offset = RenderHelper.pixel * 2;
         drawCable(connectedSides, center - offset);
@@ -63,8 +66,8 @@ public class RendererPartHose extends MultipartSpecialRenderer<PartHose> {
     }
 
 
-
     private void drawCable(boolean[] connectedSides, float center) {
+
         float width = RenderHelper.pixel * 4;
         float min = center - (width / 2);
         float max = center + (width / 2);
@@ -118,6 +121,7 @@ public class RendererPartHose extends MultipartSpecialRenderer<PartHose> {
     }
 
     private void drawCube(Vector3fMax vector, EnumFacing dirToDraw) {
+
         GL11.glBegin(GL11.GL_QUADS);
 
         float th = 1.0F;
@@ -184,6 +188,7 @@ public class RendererPartHose extends MultipartSpecialRenderer<PartHose> {
     }
 
     private void drawCorner(Vector3fMax vector) {
+
         GL11.glBegin(GL11.GL_QUADS);
 
         //Top side:

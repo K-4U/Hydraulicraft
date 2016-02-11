@@ -26,6 +26,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     private int   maxSmeltingTicks = 0;
 
     public TileHydraulicFrictionIncinerator() {
+
         super(5);
         super.init(this);
     }
@@ -37,11 +38,13 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     }
 
     public int getSmeltingTicks() {
+
         return smeltingTicks;
     }
 
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
+
         if (canRun() || isSmelting()) {
             if (!simulate) {
                 doSmelt();
@@ -54,6 +57,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     }
 
     private void doSmelt() {
+
         if (isSmelting()) {
             //The higher the pressure
             //The higher the speed!
@@ -93,14 +97,17 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     }
 
     public ItemStack getSmeltingItem() {
+
         return smeltingItem;
     }
 
     public ItemStack getTargetItem() {
+
         return targetItem;
     }
 
     public boolean isSmelting() {
+
         return (smeltingItem != null && targetItem != null);
     }
 
@@ -109,6 +116,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
      * and if the item is smeltable
      */
     private boolean canRun() {
+
         if (inputInventory == null || (getPressure(EnumFacing.UP) < requiredPressure)) {
             return false;
         } else {
@@ -128,6 +136,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public float getMaxPressure(boolean isOil, EnumFacing from) {
+
         if (isOil) {
             return Constants.MAX_MBAR_OIL_TIER_2;
         } else {
@@ -137,11 +146,13 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public int getSizeInventory() {
+
         return 2;
     }
 
     @Override
     public ItemStack getStackInSlot(int i) {
+
         worldObj.markBlockForUpdate(getPos());
         switch (i) {
             case 0:
@@ -155,6 +166,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public ItemStack decrStackSize(int i, int j) {
+
         ItemStack inventory = getStackInSlot(i);
 
         ItemStack ret;
@@ -178,11 +190,13 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
+
         return decrStackSize(index, getStackInSlot(index).stackSize);
     }
 
     @Override
     public void setInventorySlotContents(int i, ItemStack itemStack) {
+
         if (i == 0) {
             inputInventory = itemStack;
             worldObj.markBlockForUpdate(getPos());
@@ -196,11 +210,13 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public int getInventoryStackLimit() {
+
         return 64;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
+
         return ((worldObj.getTileEntity(getPos()) == this) &&
                 player.getDistanceSq(getPos()) < 64);
     }
@@ -217,6 +233,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+
         if (i == 0) {
             return canSmelt(itemStack);
         } else {
@@ -226,6 +243,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public int getField(int id) {
+
         return 0;
     }
 
@@ -236,6 +254,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public int getFieldCount() {
+
         return 0;
     }
 
@@ -247,27 +266,32 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
+
         return new int[]{1, 0};
     }
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, EnumFacing j) {
+
         return i == 0 && canSmelt(itemStack);
     }
 
     @Override
     public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j) {
+
         return i == 1;
     }
 
     @Override
     public void onBlockBreaks() {
+
         dropItemStackInWorld(inputInventory);
         dropItemStackInWorld(outputInventory);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
         inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
@@ -286,6 +310,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         if (inputInventory != null) {
             NBTTagCompound inventoryCompound = new NBTTagCompound();
@@ -313,20 +338,24 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public void validate() {
+
         super.validate();
     }
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return true;
     }
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         if (getNetwork(dir) == null) {
             return false;
         }
@@ -335,16 +364,19 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
     @Override
     public String getName() {
+
         return Localization.getLocalizedName(Names.blockHydraulicFrictionIncinerator.unlocalized);
     }
 
     @Override
     public boolean hasCustomName() {
+
         return true;
     }
 
     @Override
     public IChatComponent getDisplayName() {
+
         return new ChatComponentTranslation(Names.blockHydraulicFrictionIncinerator.unlocalized);
     }
 }

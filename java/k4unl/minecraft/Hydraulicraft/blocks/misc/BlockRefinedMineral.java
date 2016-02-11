@@ -7,9 +7,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 
 public class BlockRefinedMineral extends BlockFalling {
+
     private Name oName;
 
-    public BlockRefinedMineral(Name name){
+    public BlockRefinedMineral(Name name) {
+
         super();
 
         setUnlocalizedName(name.unlocalized);

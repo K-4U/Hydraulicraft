@@ -58,7 +58,7 @@ public class TileFluidTank extends TileEntity implements IFluidHandler, ITickabl
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
 
-        return new FluidTankInfo[] { fluidTank.getInfo() };
+        return new FluidTankInfo[]{fluidTank.getInfo()};
     }
 
     @Override

@@ -44,6 +44,7 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
+
         if (recipe != null) {
             float usedPressure = recipe.getPressure();
 
@@ -64,36 +65,43 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 
     @Override
     public int getSizeInventory() {
+
         return 1;
     }
 
     @Override
     public ItemStack getStackInSlot(int i) {
+
         return inventoryCrafting.getStackInSlot(i);
     }
 
     @Override
     public ItemStack decrStackSize(int i, int j) {
+
         return inventoryCrafting.decrStackSize(i, j);
     }
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
+
         return inventoryCrafting.removeStackFromSlot(index);
     }
 
     @Override
     public void setInventorySlotContents(int i, ItemStack itemStack) {
+
         inventoryCrafting.setInventorySlotContents(i, itemStack);
     }
 
     @Override
     public int getInventoryStackLimit() {
+
         return inventoryCrafting.getInventoryStackLimit();
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
+
         return ((worldObj.getTileEntity(getPos()) == this) &&
                 player.getDistanceSq(getPos()) < 64);
     }
@@ -110,31 +118,37 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+
         return inventoryCrafting.isItemValidForSlot(i, itemStack);
     }
 
     @Override
     public int getField(int id) {
+
         return inventoryCrafting.getField(id);
     }
 
     @Override
     public void setField(int id, int value) {
+
         inventoryCrafting.setField(id, value);
     }
 
     @Override
     public int getFieldCount() {
+
         return inventoryCrafting.getFieldCount();
     }
 
     @Override
     public void clear() {
+
         inventoryCrafting.clear();
     }
 
     @Override
     public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
+
         return inventoryCrafting.fill(resource, doFill);
     }
 
@@ -147,6 +161,7 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 
     @Override
     public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+
         return inventoryCrafting.drain(maxDrain, doDrain);
     }
 
@@ -163,6 +178,7 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
+
         Orientation orientation = Orientation.calculateOrientation(from.ordinal(), getBlockMetadata());
         if (orientation == Orientation.RIGHT || orientation == Orientation.LEFT) {
             return inventoryCrafting.canDrain(fluid);
@@ -172,6 +188,7 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
     }
 
     public InventoryFluidCrafting getInventoryCrafting() {
+
         return inventoryCrafting;
     }
 
@@ -191,32 +208,38 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         inventoryCrafting.load(tagCompound);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         inventoryCrafting.save(tagCompound);
     }
 
     @Override
     public void validate() {
+
         super.validate();
     }
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return true;
     }
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         if (getNetwork(dir) == null) {
             return false;
         }
@@ -224,6 +247,7 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
     }
 
     public float getScaledFilterTime() {
+
         if (recipe == null)
             return 0;
 
@@ -237,26 +261,31 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 
     @Override
     public String getName() {
+
         return Localization.getLocalizedName(Names.blockHydraulicFilter.unlocalized);
     }
 
     @Override
     public boolean hasCustomName() {
+
         return false;
     }
 
     @Override
     public IChatComponent getDisplayName() {
+
         return new ChatComponentTranslation(Names.blockHydraulicFilter.unlocalized);
     }
 
     @Override
     public void onBlockBreaks() {
+
         dropItemStackInWorld(inventoryCrafting.getStackInSlot(0));
     }
 
     @Override
     public void onCraftingMatrixChanged() {
+
         if (inventoryCrafting.isCraftingInProgress())
             return;
 
@@ -270,14 +299,17 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
 
     @Override
     public void spawnOverflowItemStack(ItemStack stack) {
+
         worldObj.spawnEntityInWorld(new EntityItem(worldObj, getPos().getX(), getPos().getY(), getPos().getZ(), stack));
     }
 
     public int getFilterTicks() {
+
         return (int) inventoryCrafting.getProgress();
     }
 
     public float getMaxFilterTicks() {
+
         if (recipe == null)
             return 500; // MAGIC
 

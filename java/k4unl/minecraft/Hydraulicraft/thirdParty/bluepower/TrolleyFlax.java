@@ -14,47 +14,55 @@ import net.minecraftforge.common.IPlantable;
 import java.util.ArrayList;
 
 public class TrolleyFlax implements IHarvesterTrolley {
-	private static final ResourceLocation resLoc =
-            new ResourceLocation(ModInfo.LID,"textures/model/harvesterFlax.png");
-	
-	@Override
-	public String getName() {
-		return "flax";
-	}
 
-	@Override
-	public boolean canHarvest(World world, BlockPos pos) {
-		return world.getBlockState(pos).getBlock() == BluePower.flaxBlock && world.getBlockState(pos.down()).getBlock() == BluePower.flaxBlock;
-		//return world.getBlockMetadata(x, y, z) == 7;
-	}
+    private static final ResourceLocation resLoc =
+            new ResourceLocation(ModInfo.LID, "textures/model/harvesterFlax.png");
 
-	@Override
-	public boolean canPlant(World world, BlockPos pos, ItemStack seed) {
-		Block soil = world.getBlockState(pos.down()).getBlock();
-		return (soil.canSustainPlant(world, pos.down(), EnumFacing.UP, (IPlantable) BluePower.flaxItem) && world.isAirBlock(pos)
+    @Override
+    public String getName() {
+
+        return "flax";
+    }
+
+    @Override
+    public boolean canHarvest(World world, BlockPos pos) {
+
+        return world.getBlockState(pos).getBlock() == BluePower.flaxBlock && world.getBlockState(pos.down()).getBlock() == BluePower.flaxBlock;
+        //return world.getBlockMetadata(x, y, z) == 7;
+    }
+
+    @Override
+    public boolean canPlant(World world, BlockPos pos, ItemStack seed) {
+
+        Block soil = world.getBlockState(pos.down()).getBlock();
+        return (soil.canSustainPlant(world, pos.down(), EnumFacing.UP, (IPlantable) BluePower.flaxItem) && world.isAirBlock(pos)
                 && (soil.isFertile(world, pos.down())));
-	}
+    }
 
-	@Override
-	public ArrayList<ItemStack> getHandlingSeeds() {
-		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		ret.add(new ItemStack(BluePower.flaxItem));
-		return ret;
-	}
+    @Override
+    public ArrayList<ItemStack> getHandlingSeeds() {
 
-	@Override
-	public IBlockState getBlockStateForSeed(ItemStack seed) {
-		return BluePower.flaxBlock.getDefaultState();
-	}
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        ret.add(new ItemStack(BluePower.flaxItem));
+        return ret;
+    }
 
-	@Override
-	public ResourceLocation getTexture() {
-		return resLoc;
-	}
+    @Override
+    public IBlockState getBlockStateForSeed(ItemStack seed) {
 
-	@Override
-	public int getPlantHeight(World world, BlockPos pos) {
-		return 2;
-	}
+        return BluePower.flaxBlock.getDefaultState();
+    }
+
+    @Override
+    public ResourceLocation getTexture() {
+
+        return resLoc;
+    }
+
+    @Override
+    public int getPlantHeight(World world, BlockPos pos) {
+
+        return 2;
+    }
 
 }

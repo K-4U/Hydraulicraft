@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class BlockHydraulicHarvesterFrame extends HydraulicBlockBase {
+
     public Vector3fMax blockBounds = new Vector3fMax(0.2f, 0.2f, 0.2f, 0.8F, 0.8F, 0.8F);
 
     public BlockHydraulicHarvesterFrame() {
@@ -51,6 +52,7 @@ public class BlockHydraulicHarvesterFrame extends HydraulicBlockBase {
 
     @Override
     public int getMetaFromState(IBlockState state) {
+
         return state.getValue(Properties.HARVESTER_FRAME_ROTATED) ? 1 : 0;
     }
 

@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
 public class ItemRendererPortalBase {//implements IItemRenderer{
-	/*private static RendererPortalBase portalBaseRenderer = new RendererPortalBase();
+    /*private static RendererPortalBase portalBaseRenderer = new RendererPortalBase();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {

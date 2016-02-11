@@ -6,12 +6,15 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class SlotPressure extends Slot {
+
     public SlotPressure(IInventory iinventory, int slotId, int x, int y) {
+
         super(iinventory, slotId, x, y);
     }
 
     @Override
     public boolean isItemValid(ItemStack itemStack) {
+
         if (itemStack == null)
             return true;
 

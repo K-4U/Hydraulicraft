@@ -12,6 +12,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import org.lwjgl.opengl.GL11;
 
 public class GuiAssembler extends HydraulicGUIBase {
+
     private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/assembler.png");
     TileAssembler assembler;
     NEIWidgetTank tankFluid;
@@ -27,6 +28,7 @@ public class GuiAssembler extends HydraulicGUIBase {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+
         super.drawGuiContainerBackgroundLayer(f, i, j);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -39,6 +41,7 @@ public class GuiAssembler extends HydraulicGUIBase {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.blockAssembler.getLocalizedName(), true);
 

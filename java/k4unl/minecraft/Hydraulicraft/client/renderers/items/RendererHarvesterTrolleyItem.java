@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
 public class RendererHarvesterTrolleyItem {//implements IItemRenderer {
 /*
-	private static RendererHarvesterTrolley t = new RendererHarvesterTrolley();
+    private static RendererHarvesterTrolley t = new RendererHarvesterTrolley();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {

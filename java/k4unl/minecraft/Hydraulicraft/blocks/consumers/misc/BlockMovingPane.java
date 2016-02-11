@@ -33,6 +33,7 @@ import java.util.Random;
 public class BlockMovingPane extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock {
 
     public BlockMovingPane() {
+
         super(Names.blockMovingPane, false);
         hasTextures = false;
         setDefaultState(this.blockState.getBaseState().withProperty(Properties.CHILD, false));
@@ -40,6 +41,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
+
         return new TileMovingPane();
     }
 
@@ -51,17 +53,20 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 
     @Override
     public boolean canRenderInLayer(EnumWorldBlockLayer layer) {
+
         return true;
     }
 
 
     @Override
     public int quantityDropped(Random p_149745_1_) {
+
         return 0;
     }
 
     //TODO: FIX ME?
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
         ret.add(new ItemStack(HCItems.itemMovingPane, 1));
 
@@ -92,6 +97,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
     // This method checks if primary block exists.
     @Override
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+
         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
         TileMovingPane tileEntity = (TileMovingPane) worldIn.getTileEntity(pos);
         if (tileEntity != null) {
@@ -101,22 +107,26 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 
     @Override
     public int getRenderType() {
+
         return -1;
     }
 
     @Override
     public boolean isOpaqueCube() {
+
         return false;
     }
 
     @Override
     public boolean canConnectRedstone(IBlockAccess world, BlockPos pos, EnumFacing side) {
+
         return true;
     }
 
 
     @Override
     public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
+
         if (world.isRemote) return false;
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof TileMovingPane) {
@@ -173,6 +183,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+
         TileEntity tileEntity = worldIn.getTileEntity(pos);
 
         if (tileEntity instanceof TileMovingPane) {
@@ -206,6 +217,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
     @Override
 
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+
         TileEntity tileEntity = worldIn.getTileEntity(pos);
 
         if (tileEntity instanceof TileMovingPane) {
@@ -245,22 +257,26 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+
         return getDefaultState().withProperty(Properties.CHILD, false);
     }
 
     @Override
     protected BlockState createBlockState() {
+
         return new BlockState(this, Properties.CHILD);
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
+
         return getDefaultState().withProperty(Properties.CHILD, (meta & 1) == 1);
 
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
+
         return state.getValue(Properties.CHILD) ? 1 : 0;
     }
 }

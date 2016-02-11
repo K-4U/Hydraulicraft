@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class TileHarvesterTrolley extends TileEntity implements ITickable {
+
     private float extendedLength;
     private float oldExtendedLength;
     private final float maxLength    = 4F;
@@ -62,10 +63,12 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     private IHarvesterTrolley trolley;
 
     public void setTrolley(IHarvesterTrolley trolley) {
+
         this.trolley = trolley;
     }
 
     public IHarvesterTrolley getTrolley() {
+
         return trolley;
     }
 
@@ -130,18 +133,21 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+
         NBTTagCompound tagCompound = packet.getNbtCompound();
         readFromNBT(tagCompound);
     }
 
     @Override
     public Packet getDescriptionPacket() {
+
         NBTTagCompound tagCompound = new NBTTagCompound();
         writeToNBT(tagCompound);
         return new S35PacketUpdateTileEntity(getPos(), 4, tagCompound);
     }
 
     public void doMove() {
+
         oldExtendedLength = extendedLength;
         oldSideLength = sideLength;
 
@@ -183,7 +189,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
             } else if (isHarvesting) {
                 List<ItemStack> dropped;
                 if (getTrolley() instanceof IHarvesterCustomHarvestAction) {
-                    dropped = ((IHarvesterCustomHarvestAction)getTrolley()).doHarvest(getWorld(), getLocation(locationToHarvest, locationYHarvest).toBlockPos());
+                    dropped = ((IHarvesterCustomHarvestAction) getTrolley()).doHarvest(getWorld(), getLocation(locationToHarvest, locationYHarvest).toBlockPos());
                 } else {
                     dropped = actuallyHarvest();
                 }
@@ -209,6 +215,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
 
     @Override
     public void update() {
+
         if (getWorld().isRemote) {
             doMove();
         }
@@ -216,6 +223,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     }
 
     private void recheckSpeed() {
+
         if (getHarvester() != null) {
             TileHydraulicHarvester harv = (TileHydraulicHarvester) getHarvester();
 
@@ -229,6 +237,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         extendedLength = tagCompound.getFloat("extendedLength");
         extendTarget = tagCompound.getFloat("extendTarget");
@@ -262,6 +271,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         tagCompound.setFloat("extendedLength", extendedLength);
         tagCompound.setFloat("extendTarget", extendTarget);
@@ -296,37 +306,45 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
 
 
     public float getSideLength() {
+
         return sideLength;
     }
 
     public float getExtendedLength() {
+
         return extendedLength;
     }
 
     public float getOldSideLength() {
+
         return oldSideLength;
     }
 
     public float getOldExtendedLength() {
+
         return oldExtendedLength;
     }
 
 
     public float getMaxLength() {
+
         return maxLength;
     }
 
     public float getExtendTarget() {
+
         return extendTarget;
     }
 
     public float getSideTarget() {
+
         return sideTarget;
     }
 
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
+
         float extendedLength = getExtendedLength();
         float sidewaysMovement = getSideLength();
 
@@ -349,20 +367,24 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     }
 
     public void setFacing(EnumFacing nFacing) {
+
         facing = nFacing;
     }
 
     public EnumFacing getFacing() {
+
         return facing;
     }
 
     public void setIsHarvesterPart(boolean isit) {
+
         harvesterPart = isit;
         worldObj.markBlockForUpdate(getPos());
     }
 
 
     public boolean canHandleSeed(ItemStack seed) {
+
         ArrayList<ItemStack> seedsToHandle = getTrolley().getHandlingSeeds();
         for (ItemStack s : seedsToHandle) {
             if (s.isItemEqual(seed)) {
@@ -379,6 +401,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     }
 
     private Block getBlock(Location l) {
+
         return worldObj.getBlockState(l.toBlockPos()).getBlock();
     }
 
@@ -419,6 +442,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     }
 
     public void doPlant(ItemStack seed) {
+
         plantingItem = seed;
         if (getTrolley() instanceof TrolleySugarCane) {
             extendTo(2F, locationToPlant);
@@ -439,6 +463,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     }
 
     private List<ItemStack> getDroppedItems(int h) {
+
         Location cropLocation = getLocation(h, -3);
         cropLocation.addY(getTrolley().getPlantHeight(getWorld(), cropLocation.toBlockPos()));
         IBlockState toHarvest = worldObj.getBlockState(cropLocation.toBlockPos());
@@ -450,6 +475,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     }
 
     public List<ItemStack> getRenderedItems() {
+
         if (plantingItem != null) {
             return Collections.singletonList(plantingItem);
         } else {
@@ -459,6 +485,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
 
 
     public List<ItemStack> checkHarvest(int maxLen) {
+
         for (int horiz = 0; horiz <= maxLen; horiz++) {
             Location l = getLocation(horiz, -3);
             int plantHeight = getTrolley().getPlantHeight(getWorld(), l.toBlockPos());
@@ -477,12 +504,14 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     }
 
     public void setHarvester(IHarvester nHarvester, int harvesterIndex) {
+
         harvesterLocation = ((TileHydraulicHarvester) nHarvester).getBlockLocation();
         harvester = nHarvester;
         this.harvesterIndex = harvesterIndex;
     }
 
     private IHarvester getHarvester() {
+
         if (harvester == null && harvesterLocation != null) {
             harvester = (IHarvester) harvesterLocation.getTE(getWorld());
         }
@@ -491,16 +520,19 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
 
 
     public boolean isMoving() {
+
         return isMovingSideways;
     }
 
 
     public boolean isWorking() {
+
         return isPlanting || isHarvesting || isMoving || isMovingUpDown;
     }
 
 
     public void doHarvest() {
+
         plantingItem = null;
         extendTo(0 - locationYHarvest, locationToHarvest);
         isPlanting = false; //Just to be safe
@@ -508,6 +540,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     }
 
     private List<ItemStack> actuallyHarvest() {
+
         List<ItemStack> dropped = getDroppedItems(locationToHarvest);
         Location cropLocation;
         cropLocation = getLocation(locationToHarvest, locationYHarvest);
@@ -518,6 +551,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
 
 
     public void onBlockBreaks() {
+
         ItemStack ourEnt = new ItemStack(HCBlocks.harvesterTrolley, 1);
         NBTTagCompound tCompound = new NBTTagCompound();
 

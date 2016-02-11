@@ -17,20 +17,22 @@ import net.minecraft.world.World;
 
 public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements ITooltipProvider, IMultiTieredBlock, IGUIMultiBlock, IBlockWithRotation {
 
-	public BlockHydraulicWasher() {
-		super(Names.blockHydraulicWasher, true);
-	}
+    public BlockHydraulicWasher() {
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicWasher();
-	}
+        super(Names.blockHydraulicWasher, true);
+    }
 
-	@Override
-	public GuiIDs getGUIID() {
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
 
-		return GuiIDs.WASHER;
-	}
+        return new TileHydraulicWasher();
+    }
+
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.WASHER;
+    }
 
     @Override
     public String getToolTip() {
@@ -46,15 +48,17 @@ public class BlockHydraulicWasher extends HydraulicBlockContainerBase implements
 
     @Override
     public PressureTier getTier(IBlockAccess world, BlockPos pos) {
-		TileEntity tileEntity = world.getTileEntity(pos);
-		if(tileEntity instanceof TileHydraulicWasher){
-			return ((TileHydraulicWasher)tileEntity).getPressureTier();
-		}
-		return PressureTier.INVALID;
+
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity instanceof TileHydraulicWasher) {
+            return ((TileHydraulicWasher) tileEntity).getPressureTier();
+        }
+        return PressureTier.INVALID;
     }
 
-	@Override
-	public boolean isValid(IBlockAccess world, BlockPos pos) {
-		return ((TileHydraulicWasher)world.getTileEntity(pos)).getIsValidMultiblock();
-	}
+    @Override
+    public boolean isValid(IBlockAccess world, BlockPos pos) {
+
+        return ((TileHydraulicWasher) world.getTileEntity(pos)).getIsValidMultiblock();
+    }
 }

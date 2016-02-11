@@ -12,18 +12,22 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
  */
 public class PacketSetPressure extends AbstractPacket<PacketSetPressure> {
 
-    private int pressure;
+    private int     pressure;
     private boolean hasPressureGaugeInInventory;
+
     public PacketSetPressure() {
+
     }
 
     public PacketSetPressure(int pressure, boolean hasPressureGaugeInInventory) {
+
         this.pressure = pressure;
         this.hasPressureGaugeInInventory = hasPressureGaugeInInventory;
     }
 
     @Override
-    public void toBytes(ByteBuf buffer){
+    public void toBytes(ByteBuf buffer) {
+
         NBTTagCompound toSend = new NBTTagCompound();
         toSend.setInteger("pressure", pressure);
         toSend.setBoolean("hasPressureGaugeInInventory", hasPressureGaugeInInventory);
@@ -31,7 +35,8 @@ public class PacketSetPressure extends AbstractPacket<PacketSetPressure> {
     }
 
     @Override
-    public void fromBytes(ByteBuf buffer){
+    public void fromBytes(ByteBuf buffer) {
+
         NBTTagCompound received = ByteBufUtils.readTag(buffer);
         pressure = received.getInteger("pressure");
         hasPressureGaugeInInventory = received.getBoolean("hasPressureGaugeInInventory");
@@ -39,12 +44,15 @@ public class PacketSetPressure extends AbstractPacket<PacketSetPressure> {
 
     @Override
     public void handleClientSide(PacketSetPressure message, EntityPlayer player) {
+
         Hydraulicraft.pressure = message.pressure;
         Hydraulicraft.hasPressureGaugeInInventory = message.hasPressureGaugeInInventory;
     }
 
     @Override
-    public void handleServerSide(PacketSetPressure message, EntityPlayer player) { }
+    public void handleServerSide(PacketSetPressure message, EntityPlayer player) {
+
+    }
 
 
 }

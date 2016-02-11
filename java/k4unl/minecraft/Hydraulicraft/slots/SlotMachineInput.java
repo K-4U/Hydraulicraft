@@ -6,10 +6,12 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class SlotMachineInput extends Slot {
+
     private IHydraulicMachine ent;
 
     public SlotMachineInput(IInventory inv, IHydraulicMachine machine, int index, int x,
                             int y) {
+
         super(inv, index, x, y);
         ent = machine;
     }
@@ -19,6 +21,7 @@ public class SlotMachineInput extends Slot {
      */
     @Override
     public boolean isItemValid(ItemStack itemStack) {
+
         if (ent instanceof IInventory) {
             return ((IInventory) ent).isItemValidForSlot(this.getSlotIndex(), itemStack);
         }

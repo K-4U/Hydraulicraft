@@ -10,24 +10,26 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCharger
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicCharger extends HydraulicBlockContainerBase implements ITieredBlock, IBlockWithRotation{
+public class BlockHydraulicCharger extends HydraulicBlockContainerBase implements ITieredBlock, IBlockWithRotation {
 
-	public BlockHydraulicCharger() {
-		super(Names.blockHydraulicCharger, true);
-	}
+    public BlockHydraulicCharger() {
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int var2) {
-		return new TileHydraulicCharger();
-	}
+        super(Names.blockHydraulicCharger, true);
+    }
 
-	@Override
-	public GuiIDs getGUIID() {
+    @Override
+    public TileEntity createNewTileEntity(World world, int var2) {
 
-		return GuiIDs.CHARGER;
-	}
+        return new TileHydraulicCharger();
+    }
 
-	@Override
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.CHARGER;
+    }
+
+    @Override
     public PressureTier getTier() {
 
         return PressureTier.HIGHPRESSURE;

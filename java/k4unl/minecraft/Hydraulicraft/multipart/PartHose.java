@@ -27,7 +27,8 @@ import java.util.*;
 
 
 public class PartHose extends Multipart implements ISlottedPart, ITickable, IOccludingPart, IHydraulicTransporter, ICustomNetwork, ITieredBlock {
-    public static  AxisAlignedBB[] boundingBoxes = new AxisAlignedBB[14];
+
+    public static AxisAlignedBB[] boundingBoxes = new AxisAlignedBB[14];
     
     private IBaseClass baseHandler;
     private byte    connectionCache      = 0;
@@ -77,12 +78,14 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
     private boolean[] connectedSides;
 
     public void preparePlacement(int itemDamage) {
+
         tier = PressureTier.fromOrdinal(itemDamage);
 
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         if (getHandler() != null) {
             getHandler().validateI();
@@ -94,6 +97,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         getHandler().writeToNBTI(tagCompound);
         tagCompound.setInteger("tier", tier.toInt());
@@ -102,6 +106,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     @Override
     public void writeUpdatePacket(PacketBuffer buf) {
+
         super.writeUpdatePacket(buf);
 
         NBTTagCompound mainCompound = new NBTTagCompound();
@@ -117,6 +122,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     @Override
     public void readUpdatePacket(PacketBuffer buf) {
+
         super.readUpdatePacket(buf);
 
         NBTTagCompound mainCompound = null;
@@ -134,35 +140,42 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     @Override
     public EnumSet<PartSlot> getSlotMask() {
+
         return EnumSet.of(PartSlot.CENTER);
     }
 
     @Override
     public boolean occlusionTest(IMultipart part) {
+
         return OcclusionHelper.defaultOcclusionTest(this, part);
     }
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return internalConnects(side);
     }
 
     public PressureTier getTier() {
+
         return tier;
     }
 
     @Override
     public IBaseClass getHandler() {
+
         if (baseHandler == null) baseHandler = HCApi.getInstance().getBaseClass(this, 2 * (getTier().toInt() + 1));
         return baseHandler;
     }
 
     @Override
     public void update() {
+
         if (getHandler() != null) {
             //This should never happen that this is null! :|
             getHandler().updateEntityI();
@@ -185,8 +198,8 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
                 }
             }
         }
-        if(getWorld() != null) {
-            if(!getWorld().isRemote) {
+        if (getWorld() != null) {
+            if (!getWorld().isRemote) {
                 if (neighborBlockChanged) {
                     updateNeighborInfo(true);
                     neighborBlockChanged = false;
@@ -197,6 +210,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     @Override
     public void updateNetwork(float oldPressure) {
+
         PressureNetwork newNetwork = null;
         PressureNetwork foundNetwork;
         PressureNetwork endNetwork = null;
@@ -241,6 +255,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     @Override
     public void onRemoved() {
+
         if (!getWorld().isRemote) {
             for (EnumFacing dir : EnumFacing.VALUES) {
                 if (connects(dir)) {
@@ -251,25 +266,30 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
             }
         }
     }
+
     @Override
     public float getStrength(EntityPlayer player, PartMOP hit) {
+
         return 8F;
     }
 
 
     @Override
     public PressureNetwork getNetwork(EnumFacing dir) {
+
         return ((TileHydraulicBase) getHandler()).getNetwork(dir);
     }
 
     @Override
     public void setNetwork(EnumFacing side, PressureNetwork toSet) {
+
         ((TileHydraulicBase) getHandler()).setNetwork(side, toSet);
     }
 
 
     @Override
     public IBlockState getExtendedState(IBlockState state) {
+
         return state
                 .withProperty(Properties.DOWN, connects(EnumFacing.DOWN))
                 .withProperty(Properties.UP, connects(EnumFacing.UP))
@@ -281,6 +301,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     @Override
     public BlockState createBlockState() {
+
         return new BlockState(MCMultiPartMod.multipart,
                 Properties.DOWN,
                 Properties.UP,
@@ -292,6 +313,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
+
         List<AxisAlignedBB> list = new ArrayList<AxisAlignedBB>();
         addSelectionBoxes(list);
         return list.get(0);
@@ -299,27 +321,30 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     @Override
     public void addOcclusionBoxes(List<AxisAlignedBB> list) {
+
         list.add(AxisAlignedBB.fromBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
     }
 
     @Override
     public void addSelectionBoxes(List<AxisAlignedBB> list) {
+
         list.add(boundingBoxes[6]);
         list.add(boundingBoxes[13]);
         for (EnumFacing f : EnumFacing.VALUES) {
             if (connects(f)) {
                 list.add(boundingBoxes[f.ordinal()]);
-                list.add(boundingBoxes[f.ordinal()+7]);
+                list.add(boundingBoxes[f.ordinal() + 7]);
             }
         }
     }
 
     @Override
     public void addCollisionBoxes(AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+
         if (boundingBoxes[6].intersectsWith(mask)) {
             list.add(boundingBoxes[6]);
         }
-        if(boundingBoxes[13].intersectsWith(mask)){
+        if (boundingBoxes[13].intersectsWith(mask)) {
             list.add(boundingBoxes[13]);
         }
         for (EnumFacing f : EnumFacing.VALUES) {
@@ -327,8 +352,8 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
                 if (boundingBoxes[f.ordinal()].intersectsWith(mask)) {
                     list.add(boundingBoxes[f.ordinal()]);
                 }
-                if (boundingBoxes[f.ordinal()+6].intersectsWith(mask)) {
-                    list.add(boundingBoxes[f.ordinal()+7]);
+                if (boundingBoxes[f.ordinal() + 6].intersectsWith(mask)) {
+                    list.add(boundingBoxes[f.ordinal() + 7]);
                 }
             }
         }
@@ -337,16 +362,19 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     @Override
     public boolean canRenderInLayer(EnumWorldBlockLayer layer) {
+
         return layer == EnumWorldBlockLayer.CUTOUT;
     }
 
     // Tile logic
 
     public TileEntity getNeighbourTile(EnumFacing side) {
+
         return side != null ? getWorld().getTileEntity(getPos().offset(side)) : null;
     }
 
     private boolean internalConnects(EnumFacing side) {
+
         ISlottedPart part = getContainer().getPartInSlot(PartSlot.getFaceSlot(side));
         if (part instanceof IMicroblock.IFaceMicroblock) {
             if (!((IMicroblock.IFaceMicroblock) part).isFaceHollow()) {
@@ -374,13 +402,14 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
     }
 
     private void updateConnections(EnumFacing side) {
+
         if (side != null) {
             connectionCache &= ~(1 << side.ordinal());
 
             if (internalConnects(side)) {
                 TileEntity tileEntity = getWorld().getTileEntity(getPos().offset(side));
                 if (tileEntity instanceof TileMultipart) {
-                    PartHose pipe = MultipartHandler.getHose(((TileMultipart)tileEntity).getPartContainer());
+                    PartHose pipe = MultipartHandler.getHose(((TileMultipart) tileEntity).getPartContainer());
                     if (pipe != null && !pipe.internalConnects(side.getOpposite())) {
                         return;
                     }
@@ -395,10 +424,12 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
     }
 
     public boolean connects(EnumFacing side) {
+
         return (connectionCache & (1 << side.ordinal())) != 0;
     }
 
     private void updateNeighborInfo(boolean sendPacket) {
+
         if (!getWorld().isRemote) {
             byte oc = connectionCache;
 
@@ -415,25 +446,30 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
     @Override
     public void onAdded() {
+
         updateNeighborInfo(false);
     }
 
     @Override
     public void onLoaded() {
+
         neighborBlockChanged = true;
     }
 
     @Override
     public void onNeighborBlockChange(Block block) {
+
         neighborBlockChanged = true;
     }
 
     @Override
     public boolean isConnectedTo(EnumFacing dir) {
+
         return connects(dir);
     }
 
     public byte getConnectedSides() {
+
         return connectionCache;
     }
 

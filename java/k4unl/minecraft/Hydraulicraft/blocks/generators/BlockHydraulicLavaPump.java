@@ -16,12 +16,14 @@ import net.minecraft.world.World;
 public class BlockHydraulicLavaPump extends HydraulicTieredBlockBase implements IMultiTieredBlock, IBlockWithRotation {
 
     public BlockHydraulicLavaPump() {
+
         super(Names.blockHydraulicLavaPump);
         this.hasTextures = false;
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
+
         return new TileHydraulicLavaPump(metadata);
     }
 
@@ -33,6 +35,7 @@ public class BlockHydraulicLavaPump extends HydraulicTieredBlockBase implements 
 
     @Override
     public boolean isOpaqueCube() {
+
         return false;
     }
 

@@ -13,23 +13,25 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-public class HCConfig extends Config{
+public class HCConfig extends Config {
+
     public static final Config INSTANCE = new HCConfig();
 
-    private static final Map<Block, Integer>                     tankScores    = new HashMap<Block, Integer>();
-    private static final Map<Block, Boolean>                     tankBlackList = new HashMap<Block, Boolean>();
+    private static final Map<Block, Integer> tankScores    = new HashMap<Block, Integer>();
+    private static final Map<Block, Boolean> tankBlackList = new HashMap<Block, Boolean>();
 
     @Override
-    public void init(){
+    public void init() {
+
         configOptions.add(new ConfigOption("shouldDolleyInHarvesterGoBack", true));
         configOptions.add(new ConfigOption("explosions", true));
         configOptions.add(new ConfigOption("canSawTwoMicroblocksAtOnce", true));
         configOptions.add(new ConfigOption("checkForUpdates", true));
         configOptions.add(new ConfigOption("enableRF", true));
         configOptions.add(new ConfigOption("waterPressureKills", true).setComment("Basically a method to forcing players to build the diving suit. "
-          + "It'll start damaging you when you're under 15 blocks of fluid, unless you're wearing a diving suit"));
+                + "It'll start damaging you when you're under 15 blocks of fluid, unless you're wearing a diving suit"));
         configOptions.add(new ConfigOption("maxWaterPressureWithoutSuit", 15).setComment("The amount of fluid blocks you need to be under before "
-          + "you start taking damage, when not wearing a diving suit"));
+                + "you start taking damage, when not wearing a diving suit"));
         configOptions.add(new ConfigOption("pressureDamageFactor", 0.5D).setComment("The factor or pressure to damage ratio applied: damage = pressure * pressureDamageFactor"));
         configOptions.add(new ConfigOption("waterPumpPerTick", 100));
         configOptions.add(new ConfigOption("maxMBarGenWaterT1", 25));
@@ -76,13 +78,13 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("loneziumVeinCount", 8).setCategory("worldgen"));
 
         configOptions.add(new ConfigOption("shouldGenNadsiumBicarbinate", true).setCategory("worldgen").setComment("Warning! Disabling this block "
-          + "will disable the top tier blocks! Only do this when there is an ore dictionaried equivalent!"));
+                + "will disable the top tier blocks! Only do this when there is an ore dictionaried equivalent!"));
         configOptions.add(new ConfigOption("nadsiumBicarbinateVeinCount", 2).setCategory("worldgen").setComment("How many blocks will spawn per "
-          + "chunk"));
+                + "chunk"));
         configOptions.add(new ConfigOption("nadsiumBicarbinateChance", 0.2).setCategory("worldgen").setComment("How great the chance is that Nadsium Bicarbinate spawns in an ocean chunk"));
 
         configOptions.add(new ConfigOption("shouldGenBeachium", true).setCategory("worldgen").setComment("Warning! Disabling this block will "
-          + "disable the crafting of Hydraulic Oil! Only do this when there is an ore dictionaried equivalent!"));
+                + "disable the crafting of Hydraulic Oil! Only do this when there is an ore dictionaried equivalent!"));
         configOptions.add(new ConfigOption("beachiumChance", 0.6).setCategory("worldgen").setComment("How great the chance is that Beachium spawns in a beach chunk"));
         configOptions.add(new ConfigOption("beachiumVeinCount", 5).setCategory("worldgen").setComment("How many blocks will spawn per chunk"));
 
@@ -99,41 +101,43 @@ public class HCConfig extends Config{
         configOptions.add(new ConfigOption("shouldGenRubberTrees", true).setCategory("worldgen"));
         configOptions.add(new ConfigOption("rubberTreeChance", 0.05).setCategory("worldgen"));
         configOptions.add(new ConfigOption("rubberPatchChance", 0.25).setCategory("worldgen").setComment("How big the chance is a log has a rubber "
-          + "patch"));
+                + "patch"));
 
 
         configOptions.add(new ConfigOption("x", 0).setCategory("pressureUI").setComment("The X coordinate on your screen to render the pressure"));
         configOptions.add(new ConfigOption("y", 40).setCategory("pressureUI").setComment("The Y coordinate on your screen to render the pressure"));
         configOptions.add(new ConfigOption("scale", 0.8F).setCategory("pressureUI").setComment("The scale at which to render the pressure UI"));
-	}
+    }
 
-	public static boolean canBeWashed(ItemStack itemStack){
-        for(IFluidRecipe recipe : HydraulicRecipes.getWasherRecipes()){
-            for(Object item : recipe.getInputItems()){
-                if(item instanceof ItemStack){
-                    if(((ItemStack)item).isItemEqual(itemStack)){
+    public static boolean canBeWashed(ItemStack itemStack) {
+
+        for (IFluidRecipe recipe : HydraulicRecipes.getWasherRecipes()) {
+            for (Object item : recipe.getInputItems()) {
+                if (item instanceof ItemStack) {
+                    if (((ItemStack) item).isItemEqual(itemStack)) {
                         return true;
                     }
                 }
             }
         }
         return false;
-	}
+    }
 
-    public static void loadTankOptions(Configuration c){
+    public static void loadTankOptions(Configuration c) {
+
         tankBlackList.clear();
         tankScores.clear();
         Iterator<Block> itr = Block.blockRegistry.iterator();
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             Block bl = itr.next();
 
             boolean isBlackListed = false;
-            if(Constants.TANK_BLACKLIST.containsKey(bl)){
+            if (Constants.TANK_BLACKLIST.containsKey(bl)) {
                 isBlackListed = Constants.TANK_BLACKLIST.get(bl);
             }
-            if(!isBlackListed){
+            if (!isBlackListed) {
                 int score = 1;
-                if(Constants.TANK_SCORELIST.containsKey(bl)){
+                if (Constants.TANK_SCORELIST.containsKey(bl)) {
                     score = Constants.TANK_SCORELIST.get(bl);
                 }
                 tankScores.put(bl, c.get("tankBlockScores", bl.getUnlocalizedName(), score).getInt());
@@ -141,17 +145,19 @@ public class HCConfig extends Config{
 
             tankBlackList.put(bl, c.get("tankBlacklist", bl.getUnlocalizedName(), isBlackListed).getBoolean());
         }
-	}
+    }
 
-    public static boolean isTankBlockBlacklisted(Block bl){
-        if(tankBlackList.containsKey(bl)){
+    public static boolean isTankBlockBlacklisted(Block bl) {
+
+        if (tankBlackList.containsKey(bl)) {
             return tankBlackList.get(bl);
         }
         return false;
     }
 
-    public static int getTankBlockScore(Block bl){
-        if(tankScores.containsKey(bl)){
+    public static int getTankBlockScore(Block bl) {
+
+        if (tankScores.containsKey(bl)) {
             return tankScores.get(bl);
         }
         return 1;

@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.client.renderer
 
 public class RendererHydraulicGeneratorItem {//implements IItemRenderer {
 /*
-	private static RendererHydraulicGenerator t = new RendererHydraulicGenerator();
+    private static RendererHydraulicGenerator t = new RendererHydraulicGenerator();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {

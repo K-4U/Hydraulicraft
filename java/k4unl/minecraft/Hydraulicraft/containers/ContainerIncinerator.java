@@ -8,6 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 public class ContainerIncinerator extends ContainerBase {
 
     public ContainerIncinerator(InventoryPlayer invPlayer, TileHydraulicFrictionIncinerator incinerator) {
+
         super(incinerator);
 
         addSlotToContainer(new SlotMachineInput(incinerator, incinerator, 0, 40, 19));

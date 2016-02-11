@@ -6,7 +6,9 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.item.ItemFood;
 
 public class ItemBacon extends ItemFood {
+
     public ItemBacon() {
+
         super(HCConfig.INSTANCE.getInt("baconFoodLevel"), false);
 
         setMaxStackSize(64);

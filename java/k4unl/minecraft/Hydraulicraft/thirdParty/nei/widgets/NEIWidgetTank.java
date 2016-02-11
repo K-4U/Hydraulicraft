@@ -17,24 +17,29 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 
 public class NEIWidgetTank extends WidgetBase {
+
     FluidTank        tank;
     HydraulicGUIBase gui;
 
     public NEIWidgetTank(FluidTankInfo info, int x, int y, int width, int height) {
+
         this(new FluidTank(info.fluid, info.capacity), x, y, width, height);
     }
 
     public NEIWidgetTank(FluidTankInfo info, int x, int y, int width, int height, HydraulicGUIBase gui) {
+
         this(info, x, y, width, height);
         this.gui = gui;
     }
 
     public NEIWidgetTank(FluidTank tank, int x, int y, int width, int height, HydraulicGUIBase gui) {
+
         this(tank, x, y, width, height);
         this.gui = gui;
     }
 
     public NEIWidgetTank(FluidTank tank, int x, int y, int width, int height) {
+
         super(x, y, width, height);
         this.tank = tank;
 
@@ -42,14 +47,17 @@ public class NEIWidgetTank extends WidgetBase {
     }
 
     public NEIWidgetTank(FluidStack fluidStack, int x, int y, int width, int height) {
+
         this(new FluidTank(fluidStack, fluidStack.amount), x, y, width, height);
     }
 
     public void updateAmount(FluidStack newAmount) {
+
         tank.setFluid(newAmount);
     }
 
     public void render(FluidTankInfo info) {
+
         if (info != null && info.fluid != null) {
             updateAmount(info.fluid);
         } else if (info.fluid == null) {
@@ -61,6 +69,7 @@ public class NEIWidgetTank extends WidgetBase {
 
     @Override
     public void render() {
+
         int scaledHeight = (int) (this.height * ((float) tank.getFluidAmount() / tank.getCapacity()));
         if (tank.getFluid() == null)
             return;
@@ -112,6 +121,7 @@ public class NEIWidgetTank extends WidgetBase {
 
     @Override
     protected String[] getTooltip() {
+
         if (tank.getFluid() == null)
             return new String[]{"empty"};
 
@@ -121,6 +131,7 @@ public class NEIWidgetTank extends WidgetBase {
 
     @Override
     public Rectangle getBounds() {
+
         return new Rectangle(x, y - height, width, height);
     }
 

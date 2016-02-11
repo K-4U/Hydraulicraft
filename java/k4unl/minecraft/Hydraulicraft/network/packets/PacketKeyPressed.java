@@ -8,38 +8,47 @@ import k4unl.minecraft.k4lib.network.messages.AbstractPacket;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class PacketKeyPressed extends AbstractPacket<PacketKeyPressed> {
-	private int keyIndex;
 
-    public PacketKeyPressed(){}
+    private int keyIndex;
 
-    public PacketKeyPressed(int keyPressedIndex){
-    	keyIndex = keyPressedIndex;
+    public PacketKeyPressed() {
+
+    }
+
+    public PacketKeyPressed(int keyPressedIndex) {
+
+        keyIndex = keyPressedIndex;
     }
 
     @Override
-    public void toBytes(ByteBuf buffer){
+    public void toBytes(ByteBuf buffer) {
+
         buffer.writeInt(keyIndex);
     }
 
     @Override
-    public void fromBytes(ByteBuf buffer){
+    public void fromBytes(ByteBuf buffer) {
+
         keyIndex = buffer.readInt();
     }
 
     @Override
-    public void handleClientSide(PacketKeyPressed message, EntityPlayer player){}
+    public void handleClientSide(PacketKeyPressed message, EntityPlayer player) {
+
+    }
 
     @Override
-    public void handleServerSide(PacketKeyPressed message, EntityPlayer player){
-		switch(message.keyIndex){
-		case Constants.KEYS_MINING_HELMET:
-			if(player.getCurrentArmor(3) != null){
-				if(player.getCurrentArmor(3).getItem() instanceof ItemMiningHelmet){
-					ItemMiningHelmet.togglePower(player.getCurrentArmor(3));
-					Functions.showMessageInChat(player, "Helmet is now " + (ItemMiningHelmet.isPoweredOn(player.getCurrentArmor(3)) ? "on" : "off"));
-				}
-			}
-			break;
-		}
+    public void handleServerSide(PacketKeyPressed message, EntityPlayer player) {
+
+        switch (message.keyIndex) {
+            case Constants.KEYS_MINING_HELMET:
+                if (player.getCurrentArmor(3) != null) {
+                    if (player.getCurrentArmor(3).getItem() instanceof ItemMiningHelmet) {
+                        ItemMiningHelmet.togglePower(player.getCurrentArmor(3));
+                        Functions.showMessageInChat(player, "Helmet is now " + (ItemMiningHelmet.isPoweredOn(player.getCurrentArmor(3)) ? "on" : "off"));
+                    }
+                }
+                break;
+        }
     }
 }

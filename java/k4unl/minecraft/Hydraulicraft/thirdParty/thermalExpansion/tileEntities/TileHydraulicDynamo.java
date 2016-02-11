@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
 public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulicConsumer, /*IEnergyHandler, IEnergyInfo, */ICustomNetwork {
+
     private EnumFacing facing = EnumFacing.UP;
 
     private boolean isRunning        = true;
@@ -19,19 +20,23 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
     private float   pressureRequired = 0.0F;
 
     public TileHydraulicDynamo() {
+
         super(3);
         super.init(this);
     }
 
     public int getGenerating() {
+
         return energyGen;
     }
 
     public EnumFacing getFacing() {
+
         return facing;
     }
 
     public void setFacing(EnumFacing newDir) {
+
         getHandler().updateNetworkOnNextTick(getPressure(getFacing()));
         facing = newDir;
     }
@@ -39,6 +44,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         isRunning = tagCompound.getBoolean("isRunning");
         facing = EnumFacing.byName(tagCompound.getString("facing"));
@@ -49,6 +55,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         tagCompound.setBoolean("isRunning", isRunning);
         tagCompound.setString("facing", facing.toString());
@@ -58,6 +65,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
     }
 
     public float getPercentageOfRender() {
+
         if (isRunning) {
             percentageRun += direction;
         } else if (percentageRun > 0 && Float.compare(direction, 0.0F) > 0) {
@@ -71,16 +79,19 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
     }
 
     public boolean getIsRunning() {
+
         return isRunning;
     }
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
 
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
+
         pressureRequired = createPower(simulate);
 
 		/*if(simulate && storage.getEnergyStored() > 0 && Float.compare(pressureRequired, 0.0F) == 0){
@@ -91,6 +102,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
     }
 
     private float createPower(boolean simulate) {
+
         if (getPressure(getFacing().getOpposite()) < Constants.MIN_REQUIRED_PRESSURE_DYNAMO || !getRedstonePowered()) {
             isRunning = false;
             energyGen = 0;
@@ -119,19 +131,21 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
     }
 
     public float getPressureRequired() {
+
         return pressureRequired;
     }
 
 
     @Override
     public void update() {
+
         super.update();
 
         //PUSH pressure
         //This had me busy for two days.
 
         if (!worldObj.isRemote) {
-			/*TileEntity receiver = worldObj.getTileEntity(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ);
+            /*TileEntity receiver = worldObj.getTileEntity(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ);
 			if(receiver != null && receiver instanceof IEnergyHandler){
 				IEnergyHandler recv = (IEnergyHandler) receiver;
 				if(recv.canConnectEnergy(getFacing().getOpposite())){
@@ -185,40 +199,44 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
 */
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return side.equals(facing.getOpposite());
     }
-/*
-    @Override
-    public int getInfoEnergyPerTick() {
-        float energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), null)) * Constants.CONVERSION_RATIO_HYDRAULIC_RF) * (getPressure(EnumFacing.UNKNOWN) / 1000);
-        energyToAdd = storage.receiveEnergy((int) energyToAdd, true);
-        return (int) energyToAdd;
-    }
 
-    @Override
-    public int getInfoMaxEnergyPerTick() {
-        return storage.getMaxExtract();
-    }
+    /*
+        @Override
+        public int getInfoEnergyPerTick() {
+            float energyToAdd = ((getPressure(getFacing().getOpposite()) / getMaxPressure(getHandler().isOilStored(), null)) * Constants.CONVERSION_RATIO_HYDRAULIC_RF) * (getPressure(EnumFacing.UNKNOWN) / 1000);
+            energyToAdd = storage.receiveEnergy((int) energyToAdd, true);
+            return (int) energyToAdd;
+        }
 
-    @Override
-    public int getInfoEnergyStored() {
+        @Override
+        public int getInfoMaxEnergyPerTick() {
+            return storage.getMaxExtract();
+        }
 
-        return this.storage.getEnergyStored();
-    }
+        @Override
+        public int getInfoEnergyStored() {
 
-    @Override
-    public int getInfoMaxEnergyStored() {
+            return this.storage.getEnergyStored();
+        }
 
-        return this.storage.getMaxEnergyStored();
-    }
-*/
+        @Override
+        public int getInfoMaxEnergyStored() {
+
+            return this.storage.getMaxEnergyStored();
+        }
+    */
     @Override
     public boolean canWork(EnumFacing dir) {
+
         return dir.equals(facing.getOpposite());
     }
 
     @Override
     public void updateNetwork(float oldPressure) {
+
         PressureNetwork endNetwork = null;
 
         endNetwork = PressureNetwork.getNetworkInDir(worldObj, getPos(), getFacing().getOpposite());

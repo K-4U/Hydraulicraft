@@ -20,6 +20,7 @@ public class RendererBlockFluidTank extends TileEntitySpecialRenderer<TileFluidT
 
     @Override
     public void renderTileEntityAt(TileFluidTank te, double x, double y, double z, float partialTicks, int destroyStage) {
+
         GL11.glPushMatrix();
 
         GL11.glTranslatef((float) x, (float) y, (float) z);
@@ -34,13 +35,13 @@ public class RendererBlockFluidTank extends TileEntitySpecialRenderer<TileFluidT
         GL11.glPushMatrix();
         FluidTankInfo tankInfo = te.getTankInfo(EnumFacing.UP)[0];
 
-        if(tankInfo != null && tankInfo.fluid != null && tankInfo.fluid.getFluid() != null){
+        if (tankInfo != null && tankInfo.fluid != null && tankInfo.fluid.getFluid() != null) {
             TextureAtlasSprite fluidSprite = Functions.getFluidIcon(tankInfo.fluid.getFluid());
 
-            Vector3fMax vector = new Vector3fMax(RenderHelper.pixel * 3, RenderHelper.pixel, RenderHelper.pixel * 3, 1F-(RenderHelper.pixel)*3, 1F-RenderHelper.pixel, 1F-(RenderHelper.pixel*3));
+            Vector3fMax vector = new Vector3fMax(RenderHelper.pixel * 3, RenderHelper.pixel, RenderHelper.pixel * 3, 1F - (RenderHelper.pixel) * 3, 1F - RenderHelper.pixel, 1F - (RenderHelper.pixel * 3));
 
             float h = vector.getYMax() - vector.getYMin();
-            vector.setYMax(vector.getYMin() + (h * ((float)tankInfo.fluid.amount / (float)tankInfo.capacity)));
+            vector.setYMax(vector.getYMin() + (h * ((float) tankInfo.fluid.amount / (float) tankInfo.capacity)));
 
             GL11.glBegin(GL11.GL_QUADS);
             RenderHelper.drawGL11SideBottomWithTexture(vector, fluidSprite);

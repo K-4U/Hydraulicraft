@@ -7,6 +7,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerPump extends ContainerBase {
 
     public ContainerPump(InventoryPlayer invPlayer, TileHydraulicPump pump) {
+
         super(pump);
 
         addSlotToContainer(new Slot(pump, 0, 35, 49));

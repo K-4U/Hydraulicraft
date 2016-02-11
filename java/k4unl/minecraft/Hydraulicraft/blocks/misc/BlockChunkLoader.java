@@ -10,12 +10,14 @@ import net.minecraft.world.World;
 
 public class BlockChunkLoader extends HydraulicBlockContainerBase {
 
-    public BlockChunkLoader(){
+    public BlockChunkLoader() {
+
         super(Names.blockChunkLoader, false);
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int var2) {
+
         return new TileChunkLoader();
     }
 

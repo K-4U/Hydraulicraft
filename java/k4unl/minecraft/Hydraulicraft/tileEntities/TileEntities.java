@@ -14,12 +14,14 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureR
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileEntities {
+
     /*!
      * @author Koen Beckers
      * @date 13-12-2013
      * Initializes all the tile entities.
      */
     public static void init() {
+
         GameRegistry.registerTileEntity(TileHydraulicPump.class, "tileHydraulicPump");
         GameRegistry.registerTileEntity(TileHydraulicLavaPump.class, "tileHydraulicLavaPump");
         GameRegistry.registerTileEntity(TileHydraulicFrictionIncinerator.class, "tileHydraulicFrictionIncinerator");

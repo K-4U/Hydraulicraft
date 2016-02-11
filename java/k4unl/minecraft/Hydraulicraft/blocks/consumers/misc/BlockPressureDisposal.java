@@ -14,34 +14,38 @@ import net.minecraft.world.World;
 
 public class BlockPressureDisposal extends HydraulicBlockContainerBase {
 
-	public BlockPressureDisposal() {
-		super(Names.blockPressureDisposal, false);
-		
-	}
+    public BlockPressureDisposal() {
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TilePressureDisposal();
-	}
+        super(Names.blockPressureDisposal, false);
 
-	@Override
-	public GuiIDs getGUIID() {
+    }
 
-		return GuiIDs.INVALID;
-	}
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
 
-	@Override
-	public boolean canConnectRedstone(IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return true;
-	}
+        return new TilePressureDisposal();
+    }
 
-	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-		super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
-		TileEntity tile = worldIn.getTileEntity(pos);
-		if(tile instanceof TilePressureDisposal){
-			((TilePressureDisposal)tile).checkRedstonePower();
-		}
-	}
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.INVALID;
+    }
+
+    @Override
+    public boolean canConnectRedstone(IBlockAccess world, BlockPos pos, EnumFacing side) {
+
+        return true;
+    }
+
+    @Override
+    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+
+        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+        TileEntity tile = worldIn.getTileEntity(pos);
+        if (tile instanceof TilePressureDisposal) {
+            ((TilePressureDisposal) tile).checkRedstonePower();
+        }
+    }
 
 }

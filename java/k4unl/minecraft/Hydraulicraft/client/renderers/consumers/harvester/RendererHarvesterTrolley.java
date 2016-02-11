@@ -17,10 +17,12 @@ import org.lwjgl.opengl.GL11;
 import java.util.List;
 
 public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
+
     private RenderItem customRenderItem = null;
     private EntityItem renderedItem;
 
     public RendererHarvesterTrolley() {
+
         customRenderItem = Minecraft.getMinecraft().getRenderItem();
 
         renderedItem = new EntityItem(FMLClientHandler.instance().getClient().theWorld);
@@ -28,12 +30,12 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
     }
 
     private final float baseWidth_ = RenderHelper.pixel * 3;
-    private final float beginTop_ = 1.0F - RenderHelper.pixel;
-    private final float endTop = beginTop_ + baseWidth_;
-    private final float xOffset = 0F;
-    private final float zOffset = 0F;
-    private final float beginTopX = beginTop_ + xOffset;
-    private final float beginTopZ = beginTop_ + zOffset;
+    private final float beginTop_  = 1.0F - RenderHelper.pixel;
+    private final float endTop     = beginTop_ + baseWidth_;
+    private final float xOffset    = 0F;
+    private final float zOffset    = 0F;
+    private final float beginTopX  = beginTop_ + xOffset;
+    private final float beginTopZ  = beginTop_ + zOffset;
 
     private static final float DEG2RAD = (float) (3.14159 / 180);
 
@@ -47,6 +49,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 
 
     public void doRender(TileHarvesterTrolley t, float x, float y, float z, float f, EnumFacing rotation, ResourceLocation resLoc) {
+
         GL11.glPushMatrix();
 
         GL11.glTranslatef(x, y, z);
@@ -92,6 +95,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
     }
 
     void drawWheel(float centerX, float centerY, float centerZ) {
+
         float radius = RenderHelper.pixel;
 
         float textureWidth = 74F / 256F / 2;
@@ -114,6 +118,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
 
 
     private void drawBase(TileHarvesterTrolley tileentity) {
+
         float width = RenderHelper.pixel * 6;
         float length = RenderHelper.pixel * 7;
 
@@ -176,6 +181,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
     }
 
     private void drawHead(TileHarvesterTrolley tileentity, ResourceLocation resLoc, float f) {
+
         GL11.glPushMatrix();
         float fromEdge = RenderHelper.pixel;
         float sideTexture = RenderHelper.renderPixel * 3;
@@ -249,6 +255,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
     }
 
     private void drawPistonArm(TileHarvesterTrolley tileentity, float f) {
+
         float half = 0.8F;
         float begin = half;
         float totalLength = 0f;
@@ -276,6 +283,7 @@ public class RendererHarvesterTrolley extends TileEntitySpecialRenderer {
     }
 
     private void drawPistonArmPiece(float thickness, float begin, float end) {
+
         float armBeginCoord = 0.5F - thickness / 2;
         float armEndCoord = 0.5F + thickness / 2;
         float startCoord = begin;

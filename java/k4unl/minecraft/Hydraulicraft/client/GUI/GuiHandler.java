@@ -34,7 +34,7 @@ public class GuiHandler implements IGuiHandler {
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world,
-      int x, int y, int z) {
+                                      int x, int y, int z) {
 
         TileEntity ent = world.getTileEntity(new BlockPos(x, y, z));
         if (ent != null) {
@@ -150,7 +150,7 @@ public class GuiHandler implements IGuiHandler {
 
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world,
-      int x, int y, int z) {
+                                      int x, int y, int z) {
 
         TileEntity ent = world.getTileEntity(new BlockPos(x, y, z));
 

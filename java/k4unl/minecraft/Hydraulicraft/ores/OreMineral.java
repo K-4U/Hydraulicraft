@@ -13,7 +13,8 @@ public class OreMineral extends BlockFalling {
 
     private Name oName;
 
-    public OreMineral(Name name){
+    public OreMineral(Name name) {
+
         super(Material.sand);
 
         //setBlockName(name.unlocalized);

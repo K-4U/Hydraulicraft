@@ -29,6 +29,7 @@ public class ContainerAssembler extends ContainerBase {
 
     @Override
     public void onCraftMatrixChanged(IInventory inventory) {
+
         super.onCraftMatrixChanged(inventory);
         slot.onMatrixChanged();
     }

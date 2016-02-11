@@ -17,6 +17,7 @@ import java.util.List;
 public class ItemIPCard extends HydraulicItemBase {
 
     public ItemIPCard() {
+
         super(Names.itemIPCard, false);
 
         setMaxStackSize(1);
@@ -25,6 +26,7 @@ public class ItemIPCard extends HydraulicItemBase {
 
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+
         if (!worldIn.isRemote) {
             TileEntity ent = worldIn.getTileEntity(pos);
             if (ent instanceof TilePortalBase) {
@@ -46,6 +48,7 @@ public class ItemIPCard extends HydraulicItemBase {
     }
 
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+
         if (player.isSneaking()) {
             if (itemStack.getTagCompound() == null) {
                 itemStack.setTagCompound(new NBTTagCompound());
@@ -60,6 +63,7 @@ public class ItemIPCard extends HydraulicItemBase {
 
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
+
         super.addInformation(itemStack, player, list, par4);
         if (itemStack.getTagCompound() != null) {
             if (itemStack.getTagCompound().getLong("linked") != 0) {

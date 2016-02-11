@@ -51,20 +51,24 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
 
     @SideOnly(Side.CLIENT)
     public int getBlockColor() {
+
         return ColorizerFoliage.getFoliageColor(0.5D, 1.0D);
     }
 
     @SideOnly(Side.CLIENT)
     public int getRenderColor(IBlockState state) {
+
         return ColorizerFoliage.getFoliageColorBasic();
     }
 
     @SideOnly(Side.CLIENT)
     public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+
         return BiomeColorHelper.getFoliageColorAtPos(worldIn, pos);
     }
 
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+
         int i = 1;
         int j = i + 1;
         int k = pos.getX();
@@ -88,6 +92,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
     }
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+
         if (!worldIn.isRemote) {
             if (((Boolean) state.getValue(CHECK_DECAY)).booleanValue() && ((Boolean) state.getValue(DECAYABLE)).booleanValue()) {
                 int i = 4;
@@ -172,6 +177,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
 
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+
         if (worldIn.canLightningStrike(pos.up()) && !World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && rand.nextInt(15) == 1) {
             double d0 = (double) ((float) pos.getX() + rand.nextFloat());
             double d1 = (double) pos.getY() - 0.05D;
@@ -181,6 +187,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
     }
 
     private void destroy(World worldIn, BlockPos pos) {
+
         this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
         worldIn.setBlockToAir(pos);
     }
@@ -189,6 +196,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
      * Returns the quantity of items to drop on block destruction.
      */
     public int quantityDropped(Random random) {
+
         return random.nextInt(20) == 0 ? 1 : 0;
     }
 
@@ -198,6 +206,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
      * @param fortune the level of the Fortune enchantment on the player's tool
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+
         return Item.getItemFromBlock(Blocks.sapling);
     }
 
@@ -208,13 +217,16 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
      * @param fortune The player's fortune level
      */
     public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+
         super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
     }
 
     protected void dropApple(World worldIn, BlockPos pos, IBlockState state, int chance) {
+
     }
 
     protected int getSaplingDropChance(IBlockState state) {
+
         return 20;
     }
 
@@ -222,6 +234,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
      * Used to determine ambient occlusion and culling when rebuilding chunks for render
      */
     public boolean isOpaqueCube() {
+
         return !fancyGraphics;
     }
 
@@ -230,6 +243,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
      */
     @SideOnly(Side.CLIENT)
     public void setGraphicsLevel(boolean fancy) {
+
         this.isTransparent = fancy;
         this.fancyGraphics = fancy;
         this.iconIndex = fancy ? 0 : 1;
@@ -237,26 +251,31 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
 
     @SideOnly(Side.CLIENT)
     public EnumWorldBlockLayer getBlockLayer() {
+
         return this.isTransparent ? EnumWorldBlockLayer.CUTOUT_MIPPED : EnumWorldBlockLayer.SOLID;
     }
 
     public boolean isVisuallyOpaque() {
+
         return false;
     }
 
     @Override
     public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos) {
+
         return true;
     }
 
 
     @Override
     public boolean isLeaves(IBlockAccess world, BlockPos pos) {
+
         return true;
     }
 
     @Override
     public void beginLeavesDecay(World world, BlockPos pos) {
+
         IBlockState state = world.getBlockState(pos);
         if (!(Boolean) state.getValue(CHECK_DECAY)) {
             world.setBlockState(pos, state.withProperty(CHECK_DECAY, true), 4);
@@ -265,12 +284,14 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
 
     @Override
     public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+
         return getDrops(world, pos, world.getBlockState(pos), fortune);
     }
 
 
     @Override
     public java.util.List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+
         java.util.List<ItemStack> ret = new java.util.ArrayList<ItemStack>();
         Random rand = world instanceof World ? ((World) world).rand : new Random();
         int chance = this.getSaplingDropChance(state);
@@ -295,6 +316,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
     }
 
     public IBlockState getStateFromMeta(int meta) {
+
         return this.getDefaultState().withProperty(DECAYABLE, Boolean.valueOf((meta & 4) == 0)).withProperty(CHECK_DECAY, Boolean.valueOf((meta & 8) > 0));
     }
 
@@ -302,6 +324,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
      * Convert the BlockState into the correct metadata value
      */
     public int getMetaFromState(IBlockState state) {
+
         int i = 0;
 
         if (!((Boolean) state.getValue(DECAYABLE)).booleanValue()) {
@@ -316,6 +339,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
     }
 
     protected BlockState createBlockState() {
+
         return new BlockState(this, new IProperty[]{CHECK_DECAY, DECAYABLE});
     }
 }

@@ -16,12 +16,14 @@ import java.util.ArrayList;
 
 
 public class TrolleySugarCane implements IHarvesterTrolley {
+
     private static final ResourceLocation resLoc =
             new ResourceLocation(ModInfo.LID, "textures/model/harvesterSugarCaneTrolley.png");
 
 
     @Override
     public String getName() {
+
         return "sugarCane";
     }
 
@@ -34,11 +36,13 @@ public class TrolleySugarCane implements IHarvesterTrolley {
 
     @Override
     public boolean canPlant(World world, BlockPos pos, ItemStack seed) {
+
         return Blocks.reeds.canPlaceBlockAt(world, pos);
     }
 
     @Override
     public ArrayList<ItemStack> getHandlingSeeds() {
+
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
         ret.add(new ItemStack(Items.reeds));
         return ret;
@@ -46,16 +50,19 @@ public class TrolleySugarCane implements IHarvesterTrolley {
 
     @Override
     public IBlockState getBlockStateForSeed(ItemStack seed) {
+
         return Blocks.reeds.getDefaultState();
     }
 
     @Override
     public ResourceLocation getTexture() {
+
         return resLoc;
     }
 
     @Override
     public int getPlantHeight(World world, BlockPos pos) {
+
         pos = pos.up(3);
         if (world.getBlockState(pos).getBlock().getMaterial() == Material.air || world.getBlockState(pos).getBlock() instanceof BlockHarvesterTrolley) {
             return 2;

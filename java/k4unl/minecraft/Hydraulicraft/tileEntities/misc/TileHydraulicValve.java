@@ -15,19 +15,22 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
 public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicMachine, IConnectTexture {
+
     private BlockPos targetPos;
     private boolean targetHasChanged = true;
     private IHydraulicConsumer target;
     private boolean clientNeedsToResetTarget = false;
-    private boolean clientNeedsToSetTarget = false;
+    private boolean clientNeedsToSetTarget   = false;
 
 
     public TileHydraulicValve() {
+
         super(1);
         super.init(this);
     }
 
     public void resetTarget() {
+
         target = null;
         targetPos = getPos();
         targetHasChanged = true;
@@ -42,6 +45,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
     }
 
     public void setTarget(BlockPos pos) {
+
         targetPos = pos;
         targetHasChanged = true;
         if (pNetwork != null) {
@@ -54,7 +58,8 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
     }
 
     public IHydraulicConsumer getTarget() {
-        if(targetPos != null) {
+
+        if (targetPos != null) {
             if (targetHasChanged && !targetPos.equals(getPos())) {
                 TileEntity t = worldObj.getTileEntity(targetPos);
                 if (t instanceof IHydraulicConsumer) {
@@ -71,6 +76,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 
     @Override
     public int getMaxStorage() {
+
         if (getTarget() == null) {
             return 0;
         } else {
@@ -80,6 +86,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 
     @Override
     public float getMaxPressure(boolean isOil, EnumFacing from) {
+
         if (getTarget() == null) {
             return 0F;
         } else {
@@ -94,6 +101,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         targetPos = BlockPos.fromLong(tagCompound.getLong("targetPos"));
         if (tagCompound.getBoolean("isTargetNull")) {
@@ -112,8 +120,9 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
-        if(targetPos != null) {
+        if (targetPos != null) {
             tagCompound.setLong("targetPos", targetPos.toLong());
         }
         tagCompound.setBoolean("isTargetNull", (target == null));
@@ -128,6 +137,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 
     @Override
     public void onFluidLevelChanged(int old) {
+
         if (getTarget() != null) {
             getTarget().getHandler().setStored(getHandler().getStored(), getHandler().isOilStored(), false);
         }
@@ -135,11 +145,13 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return getTarget() != null;
     }
 
     @Override
     public void updateNetwork(float oldPressure) {
+
         if (getTarget() == null) {
             pNetwork = null;
             getHandler().updateBlock();
@@ -199,11 +211,13 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
 
     @Override
     public boolean connectTexture() {
+
         return getTarget() != null;
     }
 
     @Override
     public boolean connectTextureTo(Block type) {
+
         return connectTexture() && (type instanceof BlockHydraulicPressureWall || type instanceof BlockInterfaceValve);
     }
 }

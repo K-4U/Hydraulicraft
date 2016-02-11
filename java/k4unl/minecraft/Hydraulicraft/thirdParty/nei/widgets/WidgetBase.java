@@ -8,6 +8,7 @@ public abstract class WidgetBase {
     private String[] tooltip;
 
     public WidgetBase(int x, int y, int width, int height) {
+
         this.x = x;
         this.y = y;
         this.width = width;
@@ -15,6 +16,7 @@ public abstract class WidgetBase {
     }
 
     public void render() {
+
     }
 
     // stolen from PneumaticCraft, needed and used for NEI
@@ -35,15 +37,18 @@ public abstract class WidgetBase {
     protected abstract String[] getTooltip();
 
     protected void setTooltip(String[] tooltip) {
+
         this.tooltip = tooltip;
     }
 
     // stolen from PneumaticCraft
     public Rectangle getBounds() {
+
         return new Rectangle(x, y, width, height);
     }
 
     public boolean clicked(int button) {
+
         return false;
     }
 }

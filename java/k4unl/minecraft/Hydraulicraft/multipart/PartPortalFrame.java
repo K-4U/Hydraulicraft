@@ -30,12 +30,13 @@ import java.util.List;
  * @author Koen Beckers (K-4U)
  */
 public class PartPortalFrame extends Multipart implements ISlottedPart, IOccludingPart, ITickable {
+
     public static  AxisAlignedBB[] boundingBoxes   = new AxisAlignedBB[7];
     private static float           pixel           = 1.0F / 16F;
     private        byte            connectionCache = 0;
     private boolean  neighborBlockChanged;
     private boolean  isActive;
-    private     Location parentLocation;
+    private Location parentLocation;
 
     static {
         float center = 0.5F;
@@ -135,12 +136,12 @@ public class PartPortalFrame extends Multipart implements ISlottedPart, IOccludi
     public IBlockState getExtendedState(IBlockState state) {
 
         return state.withProperty(Properties.DOWN, connects(EnumFacing.DOWN))
-          .withProperty(Properties.UP, connects(EnumFacing.UP))
-          .withProperty(Properties.NORTH, connects(EnumFacing.NORTH))
-          .withProperty(Properties.SOUTH, connects(EnumFacing.SOUTH))
-          .withProperty(Properties.EAST, connects(EnumFacing.EAST))
-          .withProperty(Properties.WEST, connects(EnumFacing.WEST))
-          .withProperty(Properties.ACTIVE, isActive);
+                .withProperty(Properties.UP, connects(EnumFacing.UP))
+                .withProperty(Properties.NORTH, connects(EnumFacing.NORTH))
+                .withProperty(Properties.SOUTH, connects(EnumFacing.SOUTH))
+                .withProperty(Properties.EAST, connects(EnumFacing.EAST))
+                .withProperty(Properties.WEST, connects(EnumFacing.WEST))
+                .withProperty(Properties.ACTIVE, isActive);
     }
 
     public boolean connects(EnumFacing side) {
@@ -315,11 +316,14 @@ public class PartPortalFrame extends Multipart implements ISlottedPart, IOccludi
     }
 
     public void setPortalBase(TilePortalBase tilePortalBase) {
+
         parentLocation = tilePortalBase.getBlockLocation();
         markDirty();
         getWorld().markBlockForUpdate(getPos());
     }
+
     public TilePortalBase getBase() {
+
         return (TilePortalBase) parentLocation.getTE(getWorld());
     }
 }

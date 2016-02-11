@@ -14,18 +14,21 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockElectricPump extends HydraulicTieredBlockBase implements IMultiTieredBlock, IRotateableBlock {
-	public BlockElectricPump() {
-		super(Names.blockElectricPump);
-		
-		this.hasTopIcon = true;
-		hasTextures = false;
-	}
+
+    public BlockElectricPump() {
+
+        super(Names.blockElectricPump);
+
+        this.hasTopIcon = true;
+        hasTextures = false;
+    }
 
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileElectricPump(getTier(metadata));
-	}
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
+
+        return new TileElectricPump(getTier(metadata));
+    }
 
     @Override
     public GuiIDs getGUIID() {
@@ -33,24 +36,28 @@ public class BlockElectricPump extends HydraulicTieredBlockBase implements IMult
         return GuiIDs.ELECTRICPUMP;
     }
 
-    public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir){
-		return true;
+    public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir) {
+
+        return true;
     }
 
-	
-	@Override
-    public int getRenderType(){
+
+    @Override
+    public int getRenderType() {
+
         return -1;
     }
 
     @Override
-    public boolean isOpaqueCube(){
+    public boolean isOpaqueCube() {
+
         return false;
     }
 
-	@Override
+    @Override
     public boolean rotateBlock(World world, BlockPos pos, EnumFacing side) {
-        if(!world.isRemote) {
+
+        if (!world.isRemote) {
             TileEntity te = world.getTileEntity(pos);
             if (te instanceof TileElectricPump) {
                 if (side.equals(EnumFacing.UP) || side.equals(EnumFacing.DOWN)) {

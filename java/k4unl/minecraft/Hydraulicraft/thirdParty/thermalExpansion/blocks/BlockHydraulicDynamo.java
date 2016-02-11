@@ -18,12 +18,14 @@ import net.minecraft.world.World;
 public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock {
 
     public BlockHydraulicDynamo() {
+
         super(Names.blockHydraulicDynamo, true);
         hasTextures = false;
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
+
         return new TileHydraulicDynamo();
     }
 
@@ -34,21 +36,25 @@ public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements
     }
 
     public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir) {
+
         return true;
     }
 
     @Override
     public int getRenderType() {
+
         return -1;
     }
 
     @Override
     public boolean isOpaqueCube() {
+
         return false;
     }
 
     @Override
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+
         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
         TileEntity tile = worldIn.getTileEntity(pos);
         if (tile instanceof TileHydraulicDynamo) {
@@ -58,6 +64,7 @@ public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements
 
     @Override
     public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
+
         if (!world.isRemote) {
             TileEntity te = world.getTileEntity(pos);
             if (te instanceof TileHydraulicDynamo) {

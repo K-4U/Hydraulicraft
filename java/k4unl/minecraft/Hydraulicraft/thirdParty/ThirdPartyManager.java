@@ -24,10 +24,12 @@ public class ThirdPartyManager {
     private final  List<IThirdParty> thirdPartyMods = new ArrayList<IThirdParty>();
 
     public static ThirdPartyManager instance() {
+
         return INSTANCE;
     }
 
     public void preInit() {
+
         FMLInterModComms.sendMessage("Waila", "register", "k4unl.minecraft.Hydraulicraft.thirdParty.WailaProvider.callbackRegister");
 
         new BuildcraftCompat();
@@ -63,6 +65,7 @@ public class ThirdPartyManager {
     }
 
     public void init() {
+
         for (IThirdParty thirdParty : thirdPartyMods) {
             try {
                 thirdParty.init();
@@ -74,6 +77,7 @@ public class ThirdPartyManager {
     }
 
     public void postInit() {
+
         for (IThirdParty thirdParty : thirdPartyMods) {
             try {
                 thirdParty.postInit();
@@ -85,6 +89,7 @@ public class ThirdPartyManager {
     }
 
     public void clientSide() {
+
         for (IThirdParty thirdParty : thirdPartyMods) {
             try {
                 thirdParty.clientSide();

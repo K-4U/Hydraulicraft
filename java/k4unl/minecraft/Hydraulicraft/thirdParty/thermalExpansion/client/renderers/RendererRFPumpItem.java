@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.rendere
 
 public class RendererRFPumpItem {//implements IItemRenderer {
 /*
-	private static RendererRFPump t = new RendererRFPump();
+    private static RendererRFPump t = new RendererRFPump();
 
 	@Override	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;

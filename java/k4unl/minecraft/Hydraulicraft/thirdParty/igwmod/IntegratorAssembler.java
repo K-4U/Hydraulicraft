@@ -13,30 +13,33 @@ import net.minecraft.item.ItemStack;
 import java.util.List;
 
 public class IntegratorAssembler implements IRecipeIntegrator {
+
     @Override
     public String getCommandKey() {
+
         return "assembler";
     }
 
     @Override
     public void onCommandInvoke(String[] arguments, List<IReservedSpace> reservedSpaces, List<LocatedString> locatedStrings, List<LocatedStack> locatedStacks, List<IWidget> locatedTextures) throws IllegalArgumentException {
-        if(arguments.length != 3) throw new IllegalArgumentException("Code needs 3 arguments!");
+
+        if (arguments.length != 3) throw new IllegalArgumentException("Code needs 3 arguments!");
         int x;
         try {
             x = Integer.parseInt(arguments[0]);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException("The first parameter (the x coordinate) contains an invalid number. Check for invalid characters!");
         }
         int y;
         try {
             y = Integer.parseInt(arguments[1]);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException("The second parameter (the y coordinate) contains an invalid number. Check for invalid characters!");
         }
         locatedTextures.add((new LocatedTexture(TextureSupplier.getTexture(ModInfo.LID + ":textures/wiki/guiAssembler.png"), x, y, 1 / GuiWiki.TEXT_SCALE)));
 
         IFluidRecipe foundRecipe = findRecipe(HydraulicRecipes.getAssemblerRecipes(), arguments[2]);
-        if(foundRecipe != null) {
+        if (foundRecipe != null) {
             Object[] inputItems = foundRecipe.getInputItems();
             int xItem = 0;
             int yItem = 0;
@@ -59,7 +62,7 @@ public class IntegratorAssembler implements IRecipeIntegrator {
             locatedStrings.add(new LocatedString(foundRecipe.getInputFluids().get(0).getLocalizedName(), x + 160, y + 90, 0xFF000000, false));
             locatedStrings.add(new LocatedString(foundRecipe.getInputFluids().get(0).amount + "mB", x + 160, y + 100, 0xFF000000, false));
             locatedStacks.add(new LocatedStack(foundRecipe.getRecipeOutput(), (int) (GuiWiki.TEXT_SCALE * x) + 97, (int) (GuiWiki.TEXT_SCALE * y) + 19));
-        }else{
+        } else {
             Log.error("Cannot find recipe for " + arguments[2]);
         }
     }
@@ -76,9 +79,10 @@ public class IntegratorAssembler implements IRecipeIntegrator {
         return a.getTagCompound().equals(b.getTagCompound());
     }
 
-    public IFluidRecipe findRecipe(List<IFluidRecipe> recipes, String search){
-        for(IFluidRecipe recipe : recipes) {
-            if(WikiUtils.getNameFromStack(recipe.getRecipeOutput()).equals(search)) {
+    public IFluidRecipe findRecipe(List<IFluidRecipe> recipes, String search) {
+
+        for (IFluidRecipe recipe : recipes) {
+            if (WikiUtils.getNameFromStack(recipe.getRecipeOutput()).equals(search)) {
                 return recipe;
             }
         }
@@ -86,12 +90,13 @@ public class IntegratorAssembler implements IRecipeIntegrator {
     }
 
     public static ItemStack[] extractRecipeItems(Object obj) {
-        if(obj instanceof ItemStack) {
-            return new ItemStack[]{(ItemStack)obj};
-        } else if(obj instanceof ItemStack[]) {
-            return (ItemStack[])((ItemStack[])obj);
-        } else if(obj instanceof List) {
-            return (ItemStack[])((List)obj).toArray(new ItemStack[0]);
+
+        if (obj instanceof ItemStack) {
+            return new ItemStack[]{(ItemStack) obj};
+        } else if (obj instanceof ItemStack[]) {
+            return (ItemStack[]) ((ItemStack[]) obj);
+        } else if (obj instanceof List) {
+            return (ItemStack[]) ((List) obj).toArray(new ItemStack[0]);
         } else {
             throw new ClassCastException(obj + " not an ItemStack, ItemStack[] or List<ItemStack?");
         }

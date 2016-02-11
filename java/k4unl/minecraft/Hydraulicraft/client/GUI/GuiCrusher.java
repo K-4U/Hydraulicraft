@@ -9,17 +9,20 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiCrusher extends HydraulicGUIBase{
+public class GuiCrusher extends HydraulicGUIBase {
+
     private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/crusher.png");
     TileHydraulicCrusher crusher;
 
-    public GuiCrusher(InventoryPlayer invPlayer, TileHydraulicCrusher _crusher){
+    public GuiCrusher(InventoryPlayer invPlayer, TileHydraulicCrusher _crusher) {
+
         super(_crusher, new ContainerCrusher(invPlayer, _crusher), resLoc);
         crusher = _crusher;
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float f, int i, int j){
+    protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+
         super.drawGuiContainerBackgroundLayer(f, i, j);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -31,10 +34,11 @@ public class GuiCrusher extends HydraulicGUIBase{
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         //fontRenderer.drawString(Names.blockHydraulicCrusher.localized, 8, 6, 0xFFFFFF);
-        drawHorizontalAlignedString(7, 3, xSize-14, HCBlocks.hydraulicCrusher.getLocalizedName(), true);
+        drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.hydraulicCrusher.getLocalizedName(), true);
         drawFluidAndPressure();
         checkTooltips(mouseX, mouseY);
     }

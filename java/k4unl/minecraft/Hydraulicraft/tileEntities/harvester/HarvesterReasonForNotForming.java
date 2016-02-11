@@ -9,7 +9,8 @@ public enum HarvesterReasonForNotForming {
 
     private String translationKey;
 
-    HarvesterReasonForNotForming(){
+    HarvesterReasonForNotForming() {
+
         String name = name();
         String text = "";
         boolean caps = false;

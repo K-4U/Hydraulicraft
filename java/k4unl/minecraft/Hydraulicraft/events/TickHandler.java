@@ -26,11 +26,13 @@ public class TickHandler {
     public static int tickCount = 0;
 
     public static void init() {
+
         MinecraftForge.EVENT_BUS.register(new TickHandler());
     }
 
     @SubscribeEvent
     public void tickWorld(TickEvent.WorldTickEvent event) {
+
         if (event.phase == TickEvent.Phase.END) {
             //World world = event.world;
         }
@@ -38,6 +40,7 @@ public class TickHandler {
 
     @SubscribeEvent
     public void tickPlayer(TickEvent.PlayerTickEvent event) {
+
         if (event.phase == TickEvent.Phase.END) {
             if (event.side.isServer()) {
                 //Check if player was wearing our armor before.
@@ -86,6 +89,7 @@ public class TickHandler {
     }
 
     private boolean isWearingADivingSuit(EntityPlayer player, int pressure) {
+
         List<Boolean> armour = new ArrayList<Boolean>();
         if (Loader.isModLoaded("IC2")) {
             boolean ic2helmet = false;

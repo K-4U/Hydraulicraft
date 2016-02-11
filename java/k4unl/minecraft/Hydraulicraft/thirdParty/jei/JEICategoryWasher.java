@@ -6,54 +6,64 @@ import javax.annotation.Nonnull;
 import java.awt.*;
 
 public class JEICategoryWasher extends JEICategoryAbstract {
-   public static final Point pointInput  = new Point(55 - 6, 15 - 14);
-   public static final Point pointOutput = new Point(105 - 6, 55 - 14);
 
-   public static final Rectangle fluidIn = new Rectangle(76 - 6, 16 - 14, 102 - 76, 72 - 16);
+    public static final Point pointInput  = new Point(55 - 6, 15 - 14);
+    public static final Point pointOutput = new Point(105 - 6, 55 - 14);
 
-   public JEICategoryWasher(IGuiHelper helper) {
-      super(helper);
-   }
+    public static final Rectangle fluidIn = new Rectangle(76 - 6, 16 - 14, 102 - 76, 72 - 16);
 
-   @Override
-   public int getBackgroundHeight() {
-      return 60;
-   }
+    public JEICategoryWasher(IGuiHelper helper) {
 
-   @Override
-   public String getBackgroundTextureName() {
-      return "washer";
-   }
+        super(helper);
+    }
 
-   @Override
-   public Rectangle getRectangleForFluidOutput(int i) {
-      return null;
-   }
+    @Override
+    public int getBackgroundHeight() {
 
-   @Override
-   public Rectangle getRectangleForFluidInput(int i) {
-      return fluidIn;
-   }
+        return 60;
+    }
 
-   @Override
-   public Point getPointForInput(int i) {
-      return pointInput;
-   }
+    @Override
+    public String getBackgroundTextureName() {
 
-   @Override
-   public Point getPointForOutput(int i) {
-      return pointOutput;
-   }
+        return "washer";
+    }
 
-   @Nonnull
-   @Override
-   public String getUid() {
-      return JEIPlugin.washerRecipe;
-   }
+    @Override
+    public Rectangle getRectangleForFluidOutput(int i) {
 
-   @Nonnull
-   @Override
-   public String getTitle() {
-      return "Washer"; // TODO localize
-   }
+        return null;
+    }
+
+    @Override
+    public Rectangle getRectangleForFluidInput(int i) {
+
+        return fluidIn;
+    }
+
+    @Override
+    public Point getPointForInput(int i) {
+
+        return pointInput;
+    }
+
+    @Override
+    public Point getPointForOutput(int i) {
+
+        return pointOutput;
+    }
+
+    @Nonnull
+    @Override
+    public String getUid() {
+
+        return JEIPlugin.washerRecipe;
+    }
+
+    @Nonnull
+    @Override
+    public String getTitle() {
+
+        return "Washer"; // TODO localize
+    }
 }

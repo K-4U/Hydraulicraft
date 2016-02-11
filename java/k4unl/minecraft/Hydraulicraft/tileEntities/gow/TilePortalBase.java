@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TilePortalBase extends TileHydraulicBase implements IInventory, IHydraulicConsumer {
+
     private boolean        portalFormed;
     private int            portalWidth;
     private int            portalHeight;
@@ -279,8 +280,9 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         return true;
     }
 
-    private PartPortalFrame getFrame(Location location){
-        return MultipartHandler.getPartPortalFrame(((TileMultipart)location.getTE(getWorld())).getPartContainer());
+    private PartPortalFrame getFrame(Location location) {
+
+        return MultipartHandler.getPartPortalFrame(((TileMultipart) location.getTE(getWorld())).getPartContainer());
     }
 
     private void validatePortal() {
@@ -297,7 +299,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
             Location topLocation = new Location(handleLocation, portalDir, portalHeight);
 
             PartPortalFrame frame = getFrame(handleLocation);
-            if(frame != null) {
+            if (frame != null) {
                 frame.setPortalBase(this);
                 frames.add(handleLocation);
             }
@@ -312,7 +314,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
             Location leftLocation = new Location(bottomLeft, portalDir, y);
             Location rightLocation = new Location(bottomRight, portalDir, y);
             PartPortalFrame frame = getFrame(leftLocation);
-            if(frame != null) {
+            if (frame != null) {
                 frame.setPortalBase(this);
                 frames.add(leftLocation);
             }
@@ -376,7 +378,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
                 }
             }
             for (Location fr : frames) {
-                if(isPortalFrame(fr)) {
+                if (isPortalFrame(fr)) {
                     getFrame(fr).setActive(true);
                 }
             }
@@ -397,7 +399,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
                 }
             }
             for (Location fr : frames) {
-                if(isPortalFrame(fr)){
+                if (isPortalFrame(fr)) {
                     getFrame(fr).setActive(false);
                 }
             }

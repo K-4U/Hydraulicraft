@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty;
 
-public interface IThirdParty{
+public interface IThirdParty {
 
     void preInit();
 

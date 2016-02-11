@@ -16,10 +16,11 @@ import java.util.List;
 
 
 public class Fluids {
-    public static Fluid            fluidHydraulicOil;
-    public static Fluid            fluidOil;
-    public static Fluid            fluidLubricant;
-    public static Fluid            fluidFluoroCarbonFluid;
+
+    public static Fluid fluidHydraulicOil;
+    public static Fluid fluidOil;
+    public static Fluid fluidLubricant;
+    public static Fluid fluidFluoroCarbonFluid;
     public static List<ItemBucket> buckets = new ArrayList<ItemBucket>();
 
 
@@ -38,14 +39,16 @@ public class Fluids {
      * @date 13-12-2013
      * Registers the Fluids to the GameRegistry
      */
-	public static void registerFluids(){
-		registerFluid(fluidHydraulicOil);
+    public static void registerFluids() {
+
+        registerFluid(fluidHydraulicOil);
         registerFluid(fluidOil);
         registerFluid(fluidLubricant);
         registerFluid(fluidFluoroCarbonFluid);
-	}
+    }
 
-    private static void registerFluid(Fluid toRegister){
+    private static void registerFluid(Fluid toRegister) {
+
         Block fluidBlock = toRegister.getBlock();
         GameRegistry.registerBlock(fluidBlock, fluidBlock.getUnlocalizedName().substring(5));
 

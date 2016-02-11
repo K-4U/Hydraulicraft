@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.List;
 
 public class UpdateChecker implements Runnable {
+
     public static  boolean       isUpdateAvailable;
     public static  UpdateInfo    infoAboutUpdate;
     private static UpdateChecker INSTANCE;
@@ -21,10 +22,12 @@ public class UpdateChecker implements Runnable {
     }
 
     public static void runCheck() {
+
         (new Thread(INSTANCE)).start();
     }
 
     private static String readUrl(String urlString) throws Exception {
+
         BufferedReader reader = null;
         try {
             URL url = new URL(urlString);
@@ -44,6 +47,7 @@ public class UpdateChecker implements Runnable {
     }
 
     private static void sendUpdateInfo(UpdateInfo info) {
+
         NBTTagCompound compound = new NBTTagCompound();
         compound.setString("modDisplayName", ModInfo.NAME);
         compound.setString("oldVersion", ModInfo.VERSION + "-" + ModInfo.buildNumber);
@@ -58,6 +62,7 @@ public class UpdateChecker implements Runnable {
     }
 
     public boolean checkUpdateAvailable() {
+
         if (HCConfig.INSTANCE.getBool("checkForUpdates")) {
             String json = "";
             try {
@@ -96,10 +101,12 @@ public class UpdateChecker implements Runnable {
 
     @Override
     public void run() {
+
         checkUpdateAvailable();
     }
 
     public static class UpdateInfo {
+
         public String       latestVersion;
         public String       dateOfRelease;
         public List<String> changelog;

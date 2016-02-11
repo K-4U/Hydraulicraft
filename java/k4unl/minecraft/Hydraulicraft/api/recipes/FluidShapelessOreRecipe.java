@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFluidRecipe {
+
     List<FluidStack> inputFluids;
     List<FluidStack> outputFluids;
     int   craftingTime = 1;
@@ -21,24 +22,29 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
     private ChancedStack resultChancedStack;
 
     public FluidShapelessOreRecipe(Block result, Object... recipe) {
+
         super(result, recipe);
     }
 
     public FluidShapelessOreRecipe(Item result, Object... recipe) {
+
         super(result, recipe);
     }
 
     public FluidShapelessOreRecipe(ItemStack result, Object... recipe) {
+
         super(result, recipe);
     }
 
     public FluidShapelessOreRecipe(ChancedStack result, Object... recipe) {
+
         super(new ItemStack(Blocks.cobblestone_wall), recipe); // just to feed it something
         this.resultChancedStack = result;
     }
 
     @Override
     public FluidShapelessOreRecipe addFluidInput(FluidStack fluidStack) {
+
         if (inputFluids == null)
             inputFluids = new ArrayList<FluidStack>();
 
@@ -49,6 +55,7 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
 
     @Override
     public FluidShapelessOreRecipe addFluidOutput(FluidStack fluidStack) {
+
         if (outputFluids == null)
             outputFluids = new ArrayList<FluidStack>();
 
@@ -58,6 +65,7 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
 
     @Override
     public List<FluidStack> getInputFluids() {
+
         if (inputFluids == null)
             inputFluids = new ArrayList<FluidStack>();
 
@@ -66,6 +74,7 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
 
     @Override
     public List<FluidStack> getOutputFluids() {
+
         if (outputFluids == null)
             outputFluids = new ArrayList<FluidStack>();
 
@@ -74,6 +83,7 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
 
     @Override
     public boolean matches(IFluidInventory inventory) {
+
         if (!super.matches(inventory.getInventory(), null))
             return false;
 
@@ -108,26 +118,31 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
 
     @Override
     public int getCraftingTime() {
+
         return craftingTime;
     }
 
     public FluidShapelessOreRecipe setCraftingTime(int craftingTime) {
+
         this.craftingTime = craftingTime;
         return this;
     }
 
     @Override
     public float getPressure() {
+
         return pressure;
     }
 
     public FluidShapelessOreRecipe setPressure(float pressure) {
+
         this.pressure = pressure;
         return this;
     }
 
     @Override
     public ItemStack getRecipeOutput() {
+
         if (resultChancedStack != null)
             throw new IllegalArgumentException("Tried to access normal recipe output when chanced stack was set up!");
 
@@ -136,11 +151,13 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
 
     @Override
     public Object[] getInputItems() {
+
         return super.getInput().toArray(new Object[super.getInput().size()]);
     }
 
     @Override
     public ItemStack[] getChancedDrops() {
+
         if (resultChancedStack == null)
             throw new IllegalArgumentException("Tried to access chanced stack when they were not set up!");
 

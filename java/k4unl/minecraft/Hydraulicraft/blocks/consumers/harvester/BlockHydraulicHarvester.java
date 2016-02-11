@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 public class BlockHydraulicHarvester extends HydraulicBlockContainerBase implements ITieredBlock, IGUIMultiBlock, IBlockWithRotation {
 
     public BlockHydraulicHarvester() {
+
         super(Names.blockHydraulicHarvester, true);
     }
 

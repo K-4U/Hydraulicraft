@@ -17,7 +17,7 @@ public class BlockJarOfDirt extends HydraulicBlockContainerBase implements ITool
     public BlockJarOfDirt() {
 
         super(Names.blockJarDirt, true);
-        hasTextures=false;
+        hasTextures = false;
     }
 
     @Override
@@ -46,6 +46,7 @@ public class BlockJarOfDirt extends HydraulicBlockContainerBase implements ITool
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+
         return false;
     }
 

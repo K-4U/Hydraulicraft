@@ -41,8 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickable {
+
     protected List<EnumFacing> connectedSides;
-    protected PressureNetwork      pNetwork;
+    protected PressureNetwork  pNetwork;
     private boolean _isOilStored      = false;
     private int     fluidLevelStored  = 0;
     private boolean isRedstonePowered = false;
@@ -59,7 +60,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     private boolean shouldUpdateNetwork = true;
     private boolean shouldUpdateFluid   = false;
     //private PressureTier pressureTier;
-    private int maxStorage = 0;
+    private int     maxStorage          = 0;
     private int fluidInNetwork;
     private int networkCapacity;
     private boolean shouldUpdateWorld = false;
@@ -144,6 +145,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     }
 
     public void setRedstonePowered(boolean isRedstonePowered) {
+
         this.isRedstonePowered = isRedstonePowered;
     }
 
@@ -177,6 +179,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     }
 
     public float getMaxPressure(boolean isOil, EnumFacing from) {
+
         if (isOil) {
             switch (getPressureTier()) {
                 case LOWPRESSURE:
@@ -208,6 +211,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
      * Will be used to calculate the pressure all over the network.
      */
     public int getStored() {
+
         if (hasOwnFluidTank) {
             if (isMultipart) {
                 return ((IHydraulicStorageWithTank) tMp).getStored();
@@ -220,6 +224,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     }
 
     public void setStored(int i, boolean isOil, boolean doNotify) {
+
         if (getWorldObj() == null) return;
         if (getWorldObj().isRemote) return;
         if (i < 0)
@@ -245,30 +250,34 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     }
 
     public boolean isOilStored() {
+
         return _isOilStored;
     }
 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+
         NBTTagCompound tagCompound = packet.getNbtCompound();
         this.readFromNBT(tagCompound);
     }
 
     @Override
     public Packet getDescriptionPacket() {
+
         NBTTagCompound tagCompound = new NBTTagCompound();
         this.writeToNBT(tagCompound);
         return new S35PacketUpdateTileEntity(getBlockLocation().toBlockPos(), 4, tagCompound);
     }
-/*
 
-COULD BE REMOVED?
-    private IHydraulicMachine getMachine(EnumFacing dir) {
-        if (getWorldObj() == null) return null;
+    /*
 
-        /*int x = getBlockLocation().getX() + dir.offsetX;
-        int y = getBlockLocation().getY() + dir.offsetY;
-        int z = getBlockLocation().getZ() + dir.offsetZ;*//*
+    COULD BE REMOVED?
+        private IHydraulicMachine getMachine(EnumFacing dir) {
+            if (getWorldObj() == null) return null;
+
+            /*int x = getBlockLocation().getX() + dir.offsetX;
+            int y = getBlockLocation().getY() + dir.offsetY;
+            int z = getBlockLocation().getZ() + dir.offsetZ;*//*
         Block block = getWorldObj().getBlockState(getBlockLocation().toBlockPos().offset(dir)).getBlock();
         if (block instanceof BlockAir) {
             return null;
@@ -287,6 +296,7 @@ COULD BE REMOVED?
     }
 */
     private List<IHydraulicMachine> getMachineList(List<IHydraulicMachine> list, EnumFacing dir) {
+
         if (getWorldObj() == null) return list;
 
         Block block = getWorldObj().getBlockState(getBlockLocation().toBlockPos().offset(dir)).getBlock();
@@ -298,7 +308,7 @@ COULD BE REMOVED?
         if (t instanceof IHydraulicMachine) {
             if (((IHydraulicMachine) t).canConnectTo(dir.getOpposite()) && !list.contains(t))
                 list.add((IHydraulicMachine) t);
-        }else if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
+        } else if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
             if (MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer()).isConnectedTo(dir.getOpposite()) && !list.contains(t)) {
                 list.add(MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer()));
             }
@@ -307,6 +317,7 @@ COULD BE REMOVED?
     }
 
     public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList) {
+
         if (getNetwork(EnumFacing.UP) == null) {
             return mainList;
         }
@@ -327,6 +338,7 @@ COULD BE REMOVED?
     }
 
     public List<IHydraulicMachine> getConnectedBlocks(List<IHydraulicMachine> mainList, boolean chain) {
+
         List<IHydraulicMachine> machines = new ArrayList<IHydraulicMachine>();
         for (EnumFacing dir : EnumFacing.VALUES) {
             if (isMultipart) {
@@ -385,6 +397,7 @@ COULD BE REMOVED?
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         fluidLevelStored = tagCompound.getInteger("fluidLevelStored");
         _isOilStored = tagCompound.getBoolean("isOilStored");
@@ -417,6 +430,7 @@ COULD BE REMOVED?
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         if (!isMultipart && getClass() != TileHydraulicBase.class) {
             super.writeToNBT(tagCompound);
         }
@@ -448,10 +462,12 @@ COULD BE REMOVED?
     }
 
     protected TileEntity getTileEntity(int x, int y, int z) {
+
         return getWorldObj().getTileEntity(new BlockPos(x, y, z));
     }
 
     public void checkRedstonePower() {
+
         boolean isIndirectlyPowered = (getWorldObj().isBlockIndirectlyGettingPowered(getBlockLocation().toBlockPos()) > 0);
         if (isIndirectlyPowered && !getIsRedstonePowered()) {
             setRedstonePowered(true);
@@ -464,6 +480,7 @@ COULD BE REMOVED?
 
     @Override
     public void update() {
+
         if (firstUpdate && tWorld != null && !tWorld.isRemote) {
             firstUpdate = false;
             shouldUpdateNetwork = true;
@@ -538,11 +555,13 @@ COULD BE REMOVED?
 
     @Override
     public void setPressure(float newPressure, EnumFacing dir) {
+
         getNetwork(dir).setPressure(newPressure);
     }
 
     @Override
     public void setIsOilStored(boolean b) {
+
         _isOilStored = b;
         markDirty();
     }
@@ -553,7 +572,7 @@ COULD BE REMOVED?
         if (t instanceof IHydraulicMachine) {
             if (((IHydraulicMachine) t).canConnectTo(dir.getOpposite()))
                 return (IHydraulicMachine) t;
-        }else if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
+        } else if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
             if (MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer()).isConnectedTo(dir.getOpposite())) {
                 return MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer());
             }
@@ -588,16 +607,19 @@ COULD BE REMOVED?
 
     @Override
     public void validate() {
+
         super.validate();
     }
 
     @Override
     public void validateI() {
+
         validate();
     }
 
     @Override
     public void updateNetworkOnNextTick(float oldPressure) {
+
         if (getWorldObj() != null && !getWorldObj().isRemote) {
             shouldUpdateNetwork = true;
             this.pNetwork = null;
@@ -608,11 +630,13 @@ COULD BE REMOVED?
     }
 
     private void setWorldOnNextTick() {
+
         shouldUpdateWorld = true;
     }
 
     @Override
     public void updateFluidOnNextTick() {
+
         if (!getWorldObj().isRemote) {
             shouldUpdateFluid = true;
         }
@@ -620,6 +644,7 @@ COULD BE REMOVED?
 
     @Override
     public float getPressure(EnumFacing dir) {
+
         if (getWorldObj().isRemote) {
             return pressure;
         }
@@ -632,11 +657,13 @@ COULD BE REMOVED?
 
     @Override
     public int getMaxStorage() {
+
         return HCConfig.INSTANCE.getInt("maxFluidMultiplier") * maxStorage;
     }
 
     @Override
     public void setMaxStorage(int maxFluid) {
+
         maxStorage = maxFluid;
         markDirty();
     }
@@ -646,6 +673,7 @@ COULD BE REMOVED?
     }
 
     public int getFluidInNetwork(EnumFacing from) {
+
         if (getWorldObj().isRemote) {
             return fluidInNetwork;
         } else {
@@ -654,6 +682,7 @@ COULD BE REMOVED?
     }
 
     public int getFluidCapacity(EnumFacing from) {
+
         if (getWorldObj().isRemote) {
             if (networkCapacity > 0) {
                 return networkCapacity;
@@ -666,6 +695,7 @@ COULD BE REMOVED?
     }
 
     public void updateNetwork(float oldPressure) {
+
         PressureNetwork newNetwork = null;
         PressureNetwork foundNetwork;
         PressureNetwork endNetwork = null;
@@ -701,15 +731,18 @@ COULD BE REMOVED?
     }
 
     public PressureNetwork getNetwork(EnumFacing side) {
+
         return pNetwork;
     }
 
     public void setNetwork(EnumFacing side, PressureNetwork toSet) {
+
         pNetwork = toSet;
     }
 
     @Override
     public void invalidate() {
+
         super.invalidate();
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
             for (EnumFacing dir : connectedSides) {
@@ -726,6 +759,7 @@ COULD BE REMOVED?
 
     @Override
     public PressureTier getPressureTier() {
+
         if (isMultipart) {
             if (tMp instanceof ITieredBlock) {
                 return ((ITieredBlock) tMp).getTier();
@@ -742,42 +776,50 @@ COULD BE REMOVED?
 
     @Override
     public void readFromNBTI(NBTTagCompound tagCompound) {
+
         readFromNBT(tagCompound);
     }
 
     @Override
     public void writeToNBTI(NBTTagCompound tagCompound) {
+
         writeToNBT(tagCompound);
     }
 
     @Override
     public void onDataPacketI(NetworkManager net,
                               S35PacketUpdateTileEntity packet) {
+
         onDataPacket(net, packet);
     }
 
     @Override
     public Packet getDescriptionPacketI() {
+
         return getDescriptionPacket();
     }
 
     @Override
     public void updateEntityI() {
+
         update();
     }
 
     @Override
     public void invalidateI() {
+
         invalidate();
     }
 
     @Override
     public void onChunkUnload() {
+
         markDirty();
     }
 
     @Override
     public void addPressureWithRatio(float pressureToAdd, EnumFacing from) {
+
         float gen = pressureToAdd * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
         gen = gen * ((float) getFluidInNetwork(from) / (float) getFluidCapacity(from));
 
@@ -793,6 +835,7 @@ COULD BE REMOVED?
     @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
+
         double xCoord = getBlockLocation().getX();
         double yCoord = getBlockLocation().getY();
         double zCoord = getBlockLocation().getZ();
@@ -800,6 +843,7 @@ COULD BE REMOVED?
     }
 
     public boolean getIsRedstonePowered() {
+
         return isRedstonePowered;
     }
 

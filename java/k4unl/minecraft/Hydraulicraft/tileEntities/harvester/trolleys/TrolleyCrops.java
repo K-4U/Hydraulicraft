@@ -16,11 +16,13 @@ import net.minecraftforge.common.IPlantable;
 import java.util.ArrayList;
 
 public class TrolleyCrops implements IHarvesterTrolley {
+
     private static final ResourceLocation resLoc =
             new ResourceLocation(ModInfo.LID, "textures/model/harvesterTrolley_tmap.png");
 
     @Override
     public ArrayList<ItemStack> getHandlingSeeds() {
+
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
         ret.add(new ItemStack(Items.wheat_seeds));
         ret.add(new ItemStack(Items.carrot));
@@ -30,12 +32,14 @@ public class TrolleyCrops implements IHarvesterTrolley {
 
     @Override
     public String getName() {
+
         return "crops";
     }
 
     @Override
     public boolean canPlant(World world, BlockPos pos,
                             ItemStack seed) {
+
         if (seed.getItem() instanceof IPlantable) {
             Block soil = world.getBlockState(pos.down()).getBlock();
             return (world.getLight(pos) >= 8 ||
@@ -49,12 +53,14 @@ public class TrolleyCrops implements IHarvesterTrolley {
 
     @Override
     public IBlockState getBlockStateForSeed(ItemStack seed) {
+
         IPlantable plantingItem = (IPlantable) seed.getItem();
         return plantingItem.getPlant(null, null);
     }
 
     @Override
     public boolean canHarvest(World world, BlockPos pos) {
+
         for (ItemStack s : getHandlingSeeds()) {
             if (world.getBlockState(pos).getBlock().equals(getBlockStateForSeed(s).getBlock())) {
                 if (world.getBlockState(pos).getValue(BlockCrops.AGE) == 7) {
@@ -69,11 +75,13 @@ public class TrolleyCrops implements IHarvesterTrolley {
 
     @Override
     public ResourceLocation getTexture() {
+
         return resLoc;
     }
 
     @Override
     public int getPlantHeight(World world, BlockPos pos) {
+
         return 1;
     }
 

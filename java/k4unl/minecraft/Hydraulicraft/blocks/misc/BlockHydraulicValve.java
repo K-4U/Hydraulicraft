@@ -9,26 +9,28 @@ import net.minecraft.world.World;
 
 public class BlockHydraulicValve extends BlockConnectedTextureContainer {
 /*
-	@SideOnly(Side.CLIENT)
+    @SideOnly(Side.CLIENT)
 	public IIcon[] icons;
 	@SideOnly(Side.CLIENT)
 	public IIcon[] rotatedIcons;
 */
-	
-	public BlockHydraulicValve() {
-		super(Names.blockValve);
-	}
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicValve();
-	}
+    public BlockHydraulicValve() {
 
-	@Override
-	public GuiIDs getGUIID() {
+        super(Names.blockValve);
+    }
 
-		return GuiIDs.INVALID;
-	}
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
+
+        return new TileHydraulicValve();
+    }
+
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.INVALID;
+    }
 
 	/*
 	@Override

@@ -36,7 +36,7 @@ public class BlockRubberWood extends HydraulicBlockBase {
         this.setHardness(2.0F);
         this.setStepSound(soundTypeWood);
         this.setDefaultState(this.blockState.getBaseState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y).withProperty(Properties
-          .HAS_RUBBER_SPOT, false));
+                .HAS_RUBBER_SPOT, false));
     }
 
     /**
@@ -76,18 +76,19 @@ public class BlockRubberWood extends HydraulicBlockBase {
         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
     }
 
-    private Vector3fMax getCollisionBox(IBlockState state){
+    private Vector3fMax getCollisionBox(IBlockState state) {
+
         float pixel = 1F / 16F;
-        Vector3fMax vector = new Vector3fMax(pixel, pixel, pixel, 1.0F-pixel, 1.0F-pixel, 1.0F-pixel);
-        if(state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Y){
+        Vector3fMax vector = new Vector3fMax(pixel, pixel, pixel, 1.0F - pixel, 1.0F - pixel, 1.0F - pixel);
+        if (state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Y) {
             vector.setYMin(0.0F);
             vector.setYMax(1.0F);
         }
-        if(state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.X){
+        if (state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.X) {
             vector.setXMin(0.0F);
             vector.setXMax(1.0F);
         }
-        if(state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Z){
+        if (state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Z) {
             vector.setZMin(0.0F);
             vector.setZMax(1.0F);
         }
@@ -96,6 +97,7 @@ public class BlockRubberWood extends HydraulicBlockBase {
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+
         Vector3fMax vector = getCollisionBox(worldIn.getBlockState(pos));
 
         this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
@@ -121,7 +123,7 @@ public class BlockRubberWood extends HydraulicBlockBase {
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 
         return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis
-          .fromFacingAxis(facing.getAxis())).withProperty(Properties.HAS_RUBBER_SPOT, false); //No rubber spot when the block is already placed
+                .fromFacingAxis(facing.getAxis())).withProperty(Properties.HAS_RUBBER_SPOT, false); //No rubber spot when the block is already placed
     }
 
     @Override
@@ -195,6 +197,7 @@ public class BlockRubberWood extends HydraulicBlockBase {
 
     @Override
     public boolean isOpaqueCube() {
+
         return false;
     }
 

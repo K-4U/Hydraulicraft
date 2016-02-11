@@ -15,21 +15,25 @@ import java.util.Random;
  * @author Koen Beckers (K-4U)
  */
 public class WorldGenRubberTree extends WorldGenAbstractTree {
+
     /**
      * The minimum height of a generated tree.
      */
     private final int minTreeHeight;
 
     public WorldGenRubberTree(boolean doBlockNotify) {
+
         this(doBlockNotify, 5);
     }
 
     public WorldGenRubberTree(boolean doBlockNotify, int minTreeHeight) {
+
         super(doBlockNotify);
         this.minTreeHeight = minTreeHeight;
     }
 
     public boolean generate(World world, Random random, BlockPos pos) {
+
         int treeHeight = random.nextInt(3) + this.minTreeHeight;
         boolean flag = true;
         //CBA to rewrite this, so just do it like this :D
@@ -112,6 +116,7 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
     }
 
     private void setAndCheckBlock(World world, int x, int y, int z, Block toSet) {
+
         BlockPos pos = new BlockPos(x, y, z);
         Block block1 = world.getBlockState(pos).getBlock();
         if (block1.isAir(world, pos) || block1.isLeaves(world, pos)) {

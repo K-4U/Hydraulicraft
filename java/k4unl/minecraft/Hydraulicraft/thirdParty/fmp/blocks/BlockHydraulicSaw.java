@@ -11,20 +11,22 @@ import net.minecraft.world.World;
 
 public class BlockHydraulicSaw extends HydraulicBlockContainerBase implements ITieredBlock {
 
-	public BlockHydraulicSaw() {
-		super(Names.blockHydraulicSaw, true);
-	}
+    public BlockHydraulicSaw() {
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicSaw();
-	}
+        super(Names.blockHydraulicSaw, true);
+    }
 
-	@Override
-	public GuiIDs getGUIID() {
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
 
-		return GuiIDs.SAW;
-	}
+        return new TileHydraulicSaw();
+    }
+
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.SAW;
+    }
 
     @Override
     public PressureTier getTier() {

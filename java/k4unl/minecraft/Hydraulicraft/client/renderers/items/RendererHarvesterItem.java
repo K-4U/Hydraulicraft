@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
 public class RendererHarvesterItem {//implements IItemRenderer {
 /*
-	private static RendererHarvesterFrame fFrame = new RendererHarvesterFrame();
+    private static RendererHarvesterFrame fFrame = new RendererHarvesterFrame();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {

@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 public class GuiTank extends HydraulicGUIBase {
+
     private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/tank.png");
 
     private TileInterfaceValve valve;
@@ -32,7 +33,7 @@ public class GuiTank extends HydraulicGUIBase {
         drawRightAlignedString(7, 3, xSize - 14, Localization.getString("tank"), true);
 
         FluidTankInfo tankInfo = valve.getTankInfo(EnumFacing.UP)[0];
-        if(tankInfo != null && tankInfo.fluid != null && tankInfo.fluid.getFluid() != null){
+        if (tankInfo != null && tankInfo.fluid != null && tankInfo.fluid.getFluid() != null) {
             //Draw the fluid!
             int x = 11;
             int y = 12;

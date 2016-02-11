@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class BlockPortalFrame extends GOWBlockRendering {
+
     private static Vector3fMax blockBounds = new Vector3fMax(0.3F, 0.3F, 0.3F, 0.7F, 0.7F, 0.7F);
 
     public BlockPortalFrame() {
@@ -52,8 +53,9 @@ public class BlockPortalFrame extends GOWBlockRendering {
         this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
     }
 
-    private boolean isStateConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing dir){
-        switch(dir){
+    private boolean isStateConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing dir) {
+
+        switch (dir) {
 
             case DOWN:
                 return world.getBlockState(pos).getValue(Properties.DOWN);
@@ -103,6 +105,7 @@ public class BlockPortalFrame extends GOWBlockRendering {
 
     @Override
     protected BlockState createBlockState() {
+
         return new BlockState(this, Properties.ACTIVE, Properties.DOWN, Properties.UP, Properties.NORTH, Properties.SOUTH, Properties.WEST, Properties.EAST);
     }
 
@@ -126,21 +129,25 @@ public class BlockPortalFrame extends GOWBlockRendering {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
+
         return getDefaultState().withProperty(Properties.ACTIVE, ((meta & 1) == 1));
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
+
         return state.getValue(Properties.ACTIVE) ? 1 : 0;
     }
 
     @Override
     public boolean isFullBlock() {
+
         return false;
     }
 
     @Override
     public boolean isOpaqueCube() {
+
         return false;
     }
 }

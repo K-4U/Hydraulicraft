@@ -38,12 +38,12 @@ public class Models {
         loadModel(HCBlocks.blockValve);
         loadModel(HCBlocks.blockInterfaceValve);
         loadModel(HCBlocks.movingPane);
-        for(int i = 0; i<3; i++){
-            loadModel(HCBlocks.hydraulicPressurevat, i, ((HydraulicTieredBlockBase)HCBlocks.hydraulicPressurevat).getUnlocalizedName(i).substring(5));
-            loadModel(HCBlocks.hydraulicPump, i, ((HydraulicTieredBlockBase)HCBlocks.hydraulicPump).getUnlocalizedName(i).substring(5));
-            loadModel(HCBlocks.hydraulicLavaPump, i, ((HydraulicTieredBlockBase)HCBlocks.hydraulicLavaPump).getUnlocalizedName(i).substring(5));
+        for (int i = 0; i < 3; i++) {
+            loadModel(HCBlocks.hydraulicPressurevat, i, ((HydraulicTieredBlockBase) HCBlocks.hydraulicPressurevat).getUnlocalizedName(i).substring(5));
+            loadModel(HCBlocks.hydraulicPump, i, ((HydraulicTieredBlockBase) HCBlocks.hydraulicPump).getUnlocalizedName(i).substring(5));
+            loadModel(HCBlocks.hydraulicLavaPump, i, ((HydraulicTieredBlockBase) HCBlocks.hydraulicLavaPump).getUnlocalizedName(i).substring(5));
 
-            loadModel(HCBlocks.blockCore, i, ((SubBlockBase)HCBlocks.blockCore).getUnlocalizedName(i).substring(5));
+            loadModel(HCBlocks.blockCore, i, ((SubBlockBase) HCBlocks.blockCore).getUnlocalizedName(i).substring(5));
         }
 
         loadModel(HCBlocks.hydraulicHarvesterSource);
@@ -87,8 +87,9 @@ public class Models {
     }
 
     private static void loadModel(Block block, int metadata, String override) {
+
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), metadata, new ModelResourceLocation(ModInfo.LID + ":" + override,
-          "inventory"));
+                "inventory"));
     }
 
     private static void loadModel(Block block) {

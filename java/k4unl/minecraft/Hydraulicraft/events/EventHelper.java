@@ -36,16 +36,19 @@ import java.util.List;
 import java.util.Random;
 
 public class EventHelper {
+
     private static boolean   hasShownUpdateInfo = false;
     private static ItemStack itemDust           = null;
 
 
     public static void init() {
+
         MinecraftForge.EVENT_BUS.register(new EventHelper());
     }
 
     public static void postinit() {
-        if(OreDictionary.getOres("dustStone").size() > 0){
+
+        if (OreDictionary.getOres("dustStone").size() > 0) {
             itemDust = OreDictionary.getOres("dustStone").get(0).copy();
             itemDust.stackSize = 1;
         }
@@ -53,8 +56,9 @@ public class EventHelper {
 
 
     @SubscribeEvent
-    public void onRightClick(PlayerInteractEvent event){
-        if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK){
+    public void onRightClick(PlayerInteractEvent event) {
+
+        if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.pos);
             if (vLocation != null) {
                 //Open a GUI.
@@ -65,7 +69,8 @@ public class EventHelper {
 
     @SubscribeEvent
     public void onBlockBreak(BreakEvent event) {
-        if(event.world.isRemote){
+
+        if (event.world.isRemote) {
             return;
         }
         if (event.state.getBlock() == HCBlocks.hydraulicPressureWall || event.state.getBlock() == HCBlocks.blockValve) {
@@ -104,6 +109,7 @@ public class EventHelper {
 
     @SubscribeEvent
     public void onBlockBreakDrill(BlockEvent.HarvestDropsEvent event) {
+
         if (event.harvester == null)
             return;
 
@@ -142,6 +148,7 @@ public class EventHelper {
 
     @SubscribeEvent
     public void onDeathEvent(LivingDeathEvent event) {
+
         if (event.entity instanceof EntityPig) {
             if (!event.entity.worldObj.isRemote) {
                 //Chance for bacon to drop, config ofcourse

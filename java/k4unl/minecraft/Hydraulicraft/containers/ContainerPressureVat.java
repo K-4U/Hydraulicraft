@@ -8,6 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 public class ContainerPressureVat extends ContainerBase {
 
     public ContainerPressureVat(InventoryPlayer invPlayer, TileHydraulicPressureReservoir vat) {
+
         super(vat);
 
         addSlotToContainer(new SlotMachineInput(vat, vat, 0, 31, 16));

@@ -11,15 +11,17 @@ import java.util.List;
 
 public class OreCopper extends OreBase {
 
-	public OreCopper() {
-		super(Names.oreCopper);
-	}
+    public OreCopper() {
 
-	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		ret.add(new ItemStack(Ores.oreCopper));
-		return ret;
-	}
+        super(Names.oreCopper);
+    }
+
+    @Override
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        ret.add(new ItemStack(Ores.oreCopper));
+        return ret;
+    }
 
 }

@@ -17,19 +17,22 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 
 public class TileHydraulicPump extends TileHydraulicBase implements IInventory, IHydraulicGenerator {
+
     private ItemStack inventory;
-    private int currentBurnTime;
-    private int maxBurnTime;
+    private int       currentBurnTime;
+    private int       maxBurnTime;
     private boolean isBurning = false;
 
     private int tier = -1;
 
     public TileHydraulicPump() {
+
         super(1);
         super.init(this);
     }
 
     public TileHydraulicPump(int _tier) {
+
         super(2 * (_tier + 1));
         tier = _tier;
         super.init(this);
@@ -37,6 +40,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 
     @Override
     public void workFunction(EnumFacing from) {
+
         if (from.equals(EnumFacing.UP)) {
             //This function gets called every tick.
             //It should check how much coal is left
@@ -83,6 +87,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 
     @Override
     public int getMaxGenerating(EnumFacing from) {
+
         if (!getHandler().isOilStored()) {
             return HCConfig.INSTANCE.getInt("maxMBarGenWaterT" + (getTier() + 1));
         } else {
@@ -91,6 +96,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
     }
 
     public float getBurningPercentage() {
+
         if (maxBurnTime > 0) {
             return ((float) currentBurnTime / (float) maxBurnTime);
         } else {
@@ -99,11 +105,13 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
     }
 
     public boolean getIsBurning() {
+
         return (currentBurnTime > 0);
     }
 
     @Override
     public float getGenerating(EnumFacing from) {
+
         if (getIsBurning()) {
             //We can only generate at the percentage the system is filled at.
             float perc = (float) getHandler().getStored() / (float) getMaxStorage();
@@ -144,11 +152,13 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 
     @Override
     public int getSizeInventory() {
+
         return 1;
     }
 
     @Override
     public ItemStack getStackInSlot(int i) {
+
         if (i == 0) {
             return inventory;
         } else {
@@ -158,6 +168,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 
     @Override
     public ItemStack decrStackSize(int i, int j) {
+
         if (i < 1) {
             ItemStack ret;
             if (inventory.stackSize < j) {
@@ -180,27 +191,32 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
+
         return decrStackSize(index, getStackInSlot(index).stackSize);
     }
 
     @Override
     public void setInventorySlotContents(int i, ItemStack itemStack) {
+
         if (i < 1) {
             inventory = itemStack;
         }
     }
 
     public int getTier() {
+
         return tier;
     }
 
     @Override
     public int getInventoryStackLimit() {
+
         return 64;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
+
         return ((worldObj.getTileEntity(getPos()) == this) &&
                 player.getDistanceSq(getPos()) < 64);
     }
@@ -217,6 +233,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+
         if (i < 1) {
             return TileEntityFurnace.isItemFuel(itemStack);
         } else {
@@ -226,6 +243,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 
     @Override
     public int getField(int id) {
+
         return 0;
     }
 
@@ -236,6 +254,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 
     @Override
     public int getFieldCount() {
+
         return 0;
     }
 
@@ -246,11 +265,13 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 
     @Override
     public void onBlockBreaks() {
+
         dropItemStackInWorld(inventory);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
 
 
@@ -264,12 +285,14 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
     }
 
     private void setTier(int newTier) {
+
         tier = PressureTier.fromOrdinal(newTier).toInt();
         super.setMaxStorage(2 * (tier + 1));
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
 
         if (inventory != null) {
@@ -285,35 +308,42 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return true;
     }
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         return dir.equals(EnumFacing.UP);
     }
 
     public EnumFacing getFacing() {
-        return (EnumFacing)getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
+
+        return (EnumFacing) getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
     }
 
 
     @Override
     public String getName() {
+
         return Localization.getLocalizedName(Names.blockHydraulicPump[getTier()].unlocalized);
     }
 
     @Override
     public boolean hasCustomName() {
+
         return true;
     }
 
     @Override
     public IChatComponent getDisplayName() {
+
         return new ChatComponentTranslation(Names.blockHydraulicPump[getTier()].unlocalized);
     }
 }

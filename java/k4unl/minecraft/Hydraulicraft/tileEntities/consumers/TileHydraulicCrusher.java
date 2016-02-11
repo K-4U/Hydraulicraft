@@ -59,31 +59,37 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
 
     @Override
     public int getSizeInventory() {
+
         return inventory.getSizeInventory();
     }
 
     @Override
     public ItemStack getStackInSlot(int slot) {
+
         return inventory.getStackInSlot(slot);
     }
 
     @Override
     public ItemStack decrStackSize(int slot, int amount) {
+
         return inventory.decrStackSize(slot, amount);
     }
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
+
         return inventory.removeStackFromSlot(index);
     }
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack itemStack) {
+
         inventory.setInventorySlotContents(slot, itemStack);
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
+
         return worldObj.getTileEntity(getPos()) == this && player.getDistanceSq(getPos()) < 64;
     }
 
@@ -99,50 +105,59 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
 
     @Override
     public int getInventoryStackLimit() {
+
         return inventory.getInventoryStackLimit();
     }
 
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+
         return inventory.isItemValidForSlot(slot, itemStack);
     }
 
     @Override
     public int getField(int id) {
+
         return inventory.getField(id);
     }
 
     @Override
     public void setField(int id, int value) {
+
         inventory.setField(id, value);
     }
 
     @Override
     public int getFieldCount() {
+
         return inventory.getFieldCount();
     }
 
     @Override
     public void clear() {
+
         inventory.clear();
     }
 
 
     @Override
     public void onBlockBreaks() {
+
         dropItemStackInWorld(inventory.getStackInSlot(0));
         dropItemStackInWorld(inventory.getStackInSlot(1));
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         inventory.load(tagCompound);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         inventory.save(tagCompound);
     }
@@ -150,16 +165,19 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
 
     @Override
     public void validate() {
+
         super.validate();
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return true;
     }
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         if (getNetwork(dir) == null) {
             return false;
         }
@@ -168,30 +186,36 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
 
     @Override
     public void invalidate() {
+
         super.invalidate();
     }
 
     @Override
     public String getName() {
+
         return Localization.getLocalizedName(Names.blockHydraulicCrusher.unlocalized);
     }
 
     @Override
     public boolean hasCustomName() {
+
         return true;
     }
 
     @Override
     public IChatComponent getDisplayName() {
+
         return null;
     }
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public void onCraftingMatrixChanged() {
+
         if (inventory.isCraftingInProgress())
             return;
 
@@ -204,6 +228,7 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
     }
 
     public int getScaledCrushTime() {
+
         if (recipe == null)
             return 0;
 
@@ -212,21 +237,25 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
 
     @Override
     public void spawnOverflowItemStack(ItemStack stack) {
+
         worldObj.spawnEntityInWorld(new EntityItem(worldObj, getPos().getX(), getPos().getY(), getPos().getZ(), stack));
     }
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
+
         return new int[]{0, 1};
     }
 
     @Override
     public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+
         return inventory.canInsertItem(index, itemStackIn);
     }
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+
         return inventory.canExtractItem(index, stack);
     }
 }

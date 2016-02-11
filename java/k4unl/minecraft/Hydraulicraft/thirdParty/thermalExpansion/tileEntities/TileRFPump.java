@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
 public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator/*, IEnergyHandler*/, ICustomNetwork {
+
     private int currentBurnTime;
     private int maxBurnTime;
     private boolean    isRunning = false;
@@ -23,18 +24,20 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
     private int tier = -1;
     /*
-	private EnergyStorage getEnergyStorage(){
+    private EnergyStorage getEnergyStorage(){
 		if(this.energyStorage == null) 
 			this.energyStorage = new EnergyStorage((getTier() + 1) * 400000);
 		return this.energyStorage;
 	}*/
 
     public TileRFPump() {
+
         super(1);
         super.init(this);
     }
 
     public TileRFPump(PressureTier _tier) {
+
         super(2 * (_tier.toInt() + 1));
         super.init(this);
     }
@@ -42,6 +45,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
     @Override
     public void workFunction(EnumFacing from) {
+
         if (!getRedstonePowered()) {
             isRunning = false;
             getHandler().updateBlock();
@@ -72,6 +76,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
     @Override
     public int getMaxGenerating(EnumFacing from) {
+
         if (!getHandler().isOilStored()) {
             return HCConfig.INSTANCE.getInt("maxMBarGenWaterT" + (getTier() + 1));
         } else {
@@ -109,8 +114,9 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
 
     public int getTier() {
+
         if (tier == -1)
-            tier = ((PressureTier)worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER)).toInt();
+            tier = ((PressureTier) worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER)).toInt();
         return tier;
     }
 
@@ -122,6 +128,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         facing = EnumFacing.byName(tagCompound.getString("facing"));
 
@@ -140,6 +147,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
 
         tagCompound.setString("facing", facing.toString());
@@ -157,49 +165,54 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
-/*
-    @Override
-    public int receiveEnergy(EnumFacing from, int maxReceive,
-                             boolean simulate) {
-        if (from.equals(facing.getOpposite())) {
-            return getEnergyStorage().receiveEnergy(maxReceive, simulate);
-        } else {
+
+    /*
+        @Override
+        public int receiveEnergy(EnumFacing from, int maxReceive,
+                                 boolean simulate) {
+            if (from.equals(facing.getOpposite())) {
+                return getEnergyStorage().receiveEnergy(maxReceive, simulate);
+            } else {
+                return 0;
+            }
+        }
+
+        @Override
+        public int extractEnergy(EnumFacing from, int maxExtract,
+                                 boolean simulate) {
             return 0;
         }
-    }
 
-    @Override
-    public int extractEnergy(EnumFacing from, int maxExtract,
-                             boolean simulate) {
-        return 0;
-    }
+        @Override
+        public boolean canConnectEnergy(EnumFacing from) {
+            return from.equals(facing.getOpposite());
+        }
 
-    @Override
-    public boolean canConnectEnergy(EnumFacing from) {
-        return from.equals(facing.getOpposite());
-    }
+        @Override
+        public int getEnergyStored(EnumFacing from) {
+            return getEnergyStorage().getEnergyStored();
+        }
 
-    @Override
-    public int getEnergyStored(EnumFacing from) {
-        return getEnergyStorage().getEnergyStored();
-    }
-
-    @Override
-    public int getMaxEnergyStored(EnumFacing from) {
-        return getEnergyStorage().getMaxEnergyStored();
-    }
-*/
+        @Override
+        public int getMaxEnergyStored(EnumFacing from) {
+            return getEnergyStorage().getMaxEnergyStored();
+        }
+    */
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return side.equals(facing);
     }
 
     public EnumFacing getFacing() {
+
         return facing;
     }
 
     public void setFacing(EnumFacing rotation) {
+
         if (!worldObj.isRemote) {
             getHandler().updateNetworkOnNextTick(getNetwork(getFacing()).getPressure());
         }
@@ -207,16 +220,19 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
     }
 
     public boolean getIsRunning() {
+
         return isRunning;
     }
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         return dir.equals(getFacing());
     }
 
     @Override
     public void updateNetwork(float oldPressure) {
+
         PressureNetwork endNetwork;
 
         endNetwork = PressureNetwork.getNetworkInDir(worldObj, getPos(), getFacing());
@@ -233,6 +249,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
 
     public int getRFUsage() {
+
         return RFUsage;
     }
 }

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class ItemHydraulicTool extends ItemTool implements IPressurizableItem {
+
     public static final float MAX_PRESSURE            = 1500 * 1000;
     public static final float PRESSURE_PER_DIG        = 1000;
     public static final int   FLUID_CAPACITY          = 20;
@@ -31,17 +32,20 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
 
 
     protected ItemHydraulicTool(float damage, ToolMaterial material, Set worksOn) {
+
         super(damage, material, worksOn);
         setHasSubtypes(true);
     }
 
     @Override
     public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+
         return pressurizableItem.canUse(itemStack, PRESSURE_PER_DIG);
     }
 
     @Override
     public float getDigSpeed(ItemStack stack, IBlockState state) {
+
         if (!pressurizableItem.canUse(stack, PRESSURE_PER_DIG))
             return 0;
         return super.getDigSpeed(stack, state);
@@ -49,6 +53,7 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
 
     @Override
     public float getStrVsBlock(ItemStack stack, Block block) {
+
         if (!pressurizableItem.canUse(stack, PRESSURE_PER_DIG))
             return 0;
 
@@ -58,38 +63,45 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
     /* IPressurizableItem */
     @Override
     public float getPressure(ItemStack itemStack) {
+
         return pressurizableItem.getPressure(itemStack);
     }
 
     @Override
     public void setPressure(ItemStack itemStack, float newStored) {
+
         pressurizableItem.setPressure(itemStack, newStored);
     }
 
     @Override
     public float getMaxPressure() {
+
         return pressurizableItem.getMaxPressure();
     }
 
     @Override
     public FluidStack getFluid(ItemStack itemStack) {
+
         return pressurizableItem.getFluid(itemStack);
     }
 
     @Override
     public void setFluid(ItemStack itemStack, FluidStack fluidStack) {
+
         pressurizableItem.setFluid(itemStack, fluidStack);
     }
 
     @Override
     public float getMaxFluid() {
+
         return pressurizableItem.getMaxFluid();
     }
 
     @Override
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
+
         if (playerIn instanceof EntityPlayer) {
-           MovingObjectPosition mop = getMovingObjectPositionFromPlayer(worldIn, (EntityPlayer) playerIn, true);
+            MovingObjectPosition mop = getMovingObjectPositionFromPlayer(worldIn, (EntityPlayer) playerIn, true);
             boolean retval = pressurizableItem.canUse((EntityPlayer) playerIn, worldIn, pos, mop.sideHit, PRESSURE_PER_DIG);
             if (retval) {
 
@@ -103,12 +115,14 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
 
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+
         pressurizableItem.onItemUse(playerIn, pos, side, CHANCE_TO_RELEASE_WATER, PRESSURE_PER_DIG);
         return super.onItemUse(stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
     }
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
+
         if (stack == null || !(stack.getItem() instanceof ItemHydraulicTool))
             return 1;
 
@@ -121,34 +135,39 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
 
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean something) {
+
         super.addInformation(stack, player, list, something);
         pressurizableItem.addInformation(stack, list);
     }
 
     @Override
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+
         super.getSubItems(itemIn, tab, subItems);
 
         // add charged one
         ItemStack charged = new ItemStack(itemIn, 1, 0);
         IPressurizableItem item = (IPressurizableItem) charged.getItem();
-        item.setFluid(charged, new FluidStack(Fluids.fluidHydraulicOil, (int)item.getMaxFluid()));
+        item.setFluid(charged, new FluidStack(Fluids.fluidHydraulicOil, (int) item.getMaxFluid()));
         item.setPressure(charged, item.getMaxPressure());
         subItems.add(charged);
     }
 
     @Override
     public List<IPressurizableItemUpgrade> getUpgrades() {
-       return pressurizableItem.getUpgrades();
+
+        return pressurizableItem.getUpgrades();
     }
 
     @Override
     public boolean addUpgrade(IPressurizableItemUpgrade upgrade) {
-       return pressurizableItem.addUpgrade(upgrade);
+
+        return pressurizableItem.addUpgrade(upgrade);
     }
 
     @Override
     public void removeUpgrade(IPressurizableItem upgrade) {
-       pressurizableItem.removeUpgrade(upgrade);
+
+        pressurizableItem.removeUpgrade(upgrade);
     }
 }

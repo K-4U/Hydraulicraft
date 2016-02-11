@@ -27,102 +27,110 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ThermalExpansion implements IThirdParty {
-	public static Block blockHydraulicDynamo;
-	public static Block blockRFPump;
+
+    public static Block blockHydraulicDynamo;
+    public static Block blockRFPump;
 
     @Override
-    public void preInit(){
+    public void preInit() {
+
         initBlocks();
     }
 
     @Override
-    public void init(){}
+    public void init() {
+
+    }
 
     @Override
-    public void postInit(){
+    public void postInit() {
+
         initRecipes();
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void clientSide(){
-    	ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicDynamo.class, new RendererHydraulicDynamo());
+    public void clientSide() {
+
+        ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicDynamo.class, new RendererHydraulicDynamo());
         ClientRegistry.bindTileEntitySpecialRenderer(TileRFPump.class, new RendererRFPump());
-        
+
 //        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(blockHydraulicDynamo), new RendererHydraulicDynamoItem());
 //        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(blockRFPump), new RendererRFPumpItem());
     }
-	
-	public static void initBlocks(){
-		blockHydraulicDynamo = new BlockHydraulicDynamo();
-		blockRFPump = new BlockRFPump();
-		
-		GameRegistry.registerBlock(blockHydraulicDynamo, HandlerHydraulicBlock.class, Names.blockHydraulicDynamo.unlocalized);
-		GameRegistry.registerBlock(blockRFPump, HandlerRFPump.class, Names.blockRFPump[0].unlocalized);
-		
-		GameRegistry.registerTileEntity(TileHydraulicDynamo.class, "tileHydraulicDynamo");
-		GameRegistry.registerTileEntity(TileRFPump.class, "tileRFPump");
-	}
-	
-	public static void initRecipes(){
-		ItemStack powerTransmissionCoil = new ItemStack(GameRegistry.findItem("ThermalExpansion", "powerCoilSilver"), 1);
-		if(powerTransmissionCoil.getItem() == null){
-			powerTransmissionCoil = new ItemStack(Items.redstone);
-		}
 
-		HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockHydraulicDynamo, 1), true,
-            new Object[] {
-              "-C-",
-              "FIK",
-              "IRI",
-              'F', HCItems.itemFrictionPlate,
-              'C', powerTransmissionCoil,
-              'K', HCItems.gasket,
-              'I', "ingotCopper",
-              'R', Items.redstone
-            }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 500))
+    public static void initBlocks() {
+
+        blockHydraulicDynamo = new BlockHydraulicDynamo();
+        blockRFPump = new BlockRFPump();
+
+        GameRegistry.registerBlock(blockHydraulicDynamo, HandlerHydraulicBlock.class, Names.blockHydraulicDynamo.unlocalized);
+        GameRegistry.registerBlock(blockRFPump, HandlerRFPump.class, Names.blockRFPump[0].unlocalized);
+
+        GameRegistry.registerTileEntity(TileHydraulicDynamo.class, "tileHydraulicDynamo");
+        GameRegistry.registerTileEntity(TileRFPump.class, "tileRFPump");
+    }
+
+    public static void initRecipes() {
+
+        ItemStack powerTransmissionCoil = new ItemStack(GameRegistry.findItem("ThermalExpansion", "powerCoilSilver"), 1);
+        if (powerTransmissionCoil.getItem() == null) {
+            powerTransmissionCoil = new ItemStack(Items.redstone);
+        }
+
+        HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockHydraulicDynamo, 1), true,
+                new Object[]{
+                        "-C-",
+                        "FIK",
+                        "IRI",
+                        'F', HCItems.itemFrictionPlate,
+                        'C', powerTransmissionCoil,
+                        'K', HCItems.gasket,
+                        'I', "ingotCopper",
+                        'R', Items.redstone
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 500))
         );
-		
-		ItemStack powerReceptionCoil = new ItemStack(GameRegistry.findItem("ThermalExpansion", "powerCoilGold"), 1);
-		if(powerReceptionCoil.getItem() == null){
-			powerReceptionCoil = new ItemStack(Items.redstone);
-		}
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockRFPump, 1, 0), true,
-				new Object [] {
-					"L-L",
-					"KGC",
-					"WWW",
-					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
-					'W', HCBlocks.hydraulicPressureWall,
-					'C', powerReceptionCoil,
-					'L', "ingotLead"
-				}));
-		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockRFPump, 1, 1), true,
-				new Object [] {
-					"R-R",
-					"KGC",
-					"WWW",
-					'G', Blocks.glass,
-					'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
-					'W', HCBlocks.hydraulicPressureWall,
-					'C', powerReceptionCoil,
-					'R', "ingotCopper"
-				}));
-		
-		HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockRFPump, 1, 2), true,
-            new Object[] {
-              "R-R",
-              "KGC",
-              "WWW",
-              'G', Blocks.glass,
-              'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
-              'W', HCBlocks.hydraulicPressureWall,
-              'C', powerReceptionCoil,
-              'R', "ingotEnrichedCopper"
-            }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 500))
+
+        ItemStack powerReceptionCoil = new ItemStack(GameRegistry.findItem("ThermalExpansion", "powerCoilGold"), 1);
+        if (powerReceptionCoil.getItem() == null) {
+            powerReceptionCoil = new ItemStack(Items.redstone);
+        }
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockRFPump, 1, 0), true,
+                new Object[]{
+                        "L-L",
+                        "KGC",
+                        "WWW",
+                        'G', Blocks.glass,
+                        'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'C', powerReceptionCoil,
+                        'L', "ingotLead"
+                }));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockRFPump, 1, 1), true,
+                new Object[]{
+                        "R-R",
+                        "KGC",
+                        "WWW",
+                        'G', Blocks.glass,
+                        'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'C', powerReceptionCoil,
+                        'R', "ingotCopper"
+                }));
+
+        HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockRFPump, 1, 2), true,
+                new Object[]{
+                        "R-R",
+                        "KGC",
+                        "WWW",
+                        'G', Blocks.glass,
+                        'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'C', powerReceptionCoil,
+                        'R', "ingotEnrichedCopper"
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 500))
         );
-		
-	}
+
+    }
 }

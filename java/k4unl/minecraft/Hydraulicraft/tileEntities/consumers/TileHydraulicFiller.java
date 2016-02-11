@@ -13,6 +13,7 @@ import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fluids.*;
 
 public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHandler, IHydraulicConsumer, ISidedInventory {
+
     private static final int   TRANSFER_PER_TICK = 5;
     private static final float PRESSURE_PER_TICK = 1.0f;
     private static final int   TANK_CAPACITY     = 8000;
@@ -22,6 +23,7 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
     private FluidTank       internalTank;
 
     public TileHydraulicFiller() {
+
         super(6);
         init(this);
         fillerDirection = FillerDirection.NONE;
@@ -32,36 +34,43 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
     /* IFluidHandler */
     @Override
     public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
+
         return internalTank.fill(resource, doFill);
     }
 
     @Override
     public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
+
         return internalTank.drain(resource.amount, doDrain);
     }
 
     @Override
     public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+
         return internalTank.drain(maxDrain, doDrain);
     }
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
+
         return true; // TODO possibly check for identical fluids?
     }
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
+
         return true; // TODO possibly check for identical fluids?
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
+
         return new FluidTankInfo[]{internalTank.getInfo()};
     }
 
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
+
         if (inventory.getStackInSlot(0) == null)
             return 0;
 
@@ -74,6 +83,7 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
     }
 
     private float workFunctionFluidContainer(boolean simulate, EnumFacing from) {
+
         ItemStack itemStack = getStackInSlot(0);
 
         if (fillerDirection == FillerDirection.FILLING && internalTank.getFluid() != null) {
@@ -112,6 +122,7 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
     }
 
     public float workFunctionFluidHandler(boolean simulate, EnumFacing from) {
+
         ItemStack stack = inventory.getStackInSlot(0);
         if (!(stack.getItem() instanceof IFluidContainerItem))
             return 0;
@@ -191,47 +202,56 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return true; // why not?
     }
 
     /* ISidedInventory */
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
+
         return new int[]{0, 1};
     }
 
     @Override
     public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
+
         return slot == 0 && isItemValidForSlot(slot, stack);
     }
 
     @Override
     public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
+
         return slot == 1;
     }
 
     @Override
     public int getSizeInventory() {
+
         return inventory.getSizeInventory();
     }
 
     @Override
     public ItemStack getStackInSlot(int slot) {
+
         return inventory.getStackInSlot(slot);
     }
 
     @Override
     public ItemStack decrStackSize(int slot, int decrBy) {
+
         return inventory.decrStackSize(slot, decrBy);
     }
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
+
         return inventory.removeStackFromSlot(index);
     }
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack stack) {
+
         inventory.setInventorySlotContents(slot, stack);
 
         if (stack != null && slot == 0)
@@ -240,26 +260,31 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
 
     @Override
     public String getName() {
+
         return null;
     }
 
     @Override
     public boolean hasCustomName() {
+
         return false;
     }
 
     @Override
     public IChatComponent getDisplayName() {
+
         return null;
     }
 
     @Override
     public int getInventoryStackLimit() {
+
         return 1;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
+
         return true;
     }
 
@@ -275,6 +300,7 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
+
         if (slot == 1)
             return false;
 
@@ -287,27 +313,32 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
 
     @Override
     public int getField(int id) {
+
         return inventory.getField(id);
     }
 
     @Override
     public void setField(int id, int value) {
+
         inventory.setField(id, value);
     }
 
     @Override
     public int getFieldCount() {
+
         return inventory.getFieldCount();
     }
 
     @Override
     public void clear() {
+
         inventory.clear();
     }
 
     /* /ISidedInventory */
 
     private void updateDirection() {
+
         ItemStack stack = inventory.getStackInSlot(0);
         if (stack == null)
             return;
@@ -335,6 +366,7 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         inventory.save(tagCompound);
         internalTank.writeToNBT(tagCompound);
@@ -343,6 +375,7 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         inventory.load(tagCompound);
         internalTank.readFromNBT(tagCompound);

@@ -12,6 +12,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 public class FluidOil extends Fluid {
 
     public FluidOil() {
+
         super(Names.fluidOil.unlocalized, new ResourceLocation(ModInfo.LID, "blocks/oil_still"), new ResourceLocation(ModInfo.LID, "blocks/oil_flowing"));
         setDensity(20); //How thick the fluid is, affects movement inside the fluid.
         setViscosity(1000); // How fast the fluid flows.

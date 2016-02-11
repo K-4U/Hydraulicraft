@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 public class BlockRFPump extends HydraulicTieredBlockBase implements IMultiTieredBlock, IRotateableBlock {
 
     public BlockRFPump() {
+
         super(Names.blockRFPump);
 
         this.hasTopIcon = true;
@@ -25,6 +26,7 @@ public class BlockRFPump extends HydraulicTieredBlockBase implements IMultiTiere
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
+
         return new TileRFPump(getTier(metadata));
     }
 
@@ -36,20 +38,24 @@ public class BlockRFPump extends HydraulicTieredBlockBase implements IMultiTiere
 
     @Override
     public int getRenderType() {
+
         return -1;
     }
 
     @Override
     public boolean isOpaqueCube() {
+
         return false;
     }
 
     public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir) {
+
         return true;
     }
 
     @Override
     public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
+
         if (!world.isRemote) {
             TileEntity te = world.getTileEntity(pos);
             if (te instanceof TileRFPump) {

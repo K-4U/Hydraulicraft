@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
 public class RendererHydraulicHoseItem {//implements IItemRenderer {
 /*
-	private static RendererPartHose f = new RendererPartHose();
+    private static RendererPartHose f = new RendererPartHose();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {

@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.client.renderers.misc;
 /**
  * @author K-4U
  */
-public class RendererGlowBlock{ //implements ISimpleBlockRenderingHandler {
+public class RendererGlowBlock { //implements ISimpleBlockRenderingHandler {
 /*
     private static final ResourceLocation resLoc =
       new ResourceLocation(ModInfo.LID, "textures/model/");

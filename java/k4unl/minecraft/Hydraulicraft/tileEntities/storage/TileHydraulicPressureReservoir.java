@@ -19,20 +19,23 @@ import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fluids.*;
 
 public class TileHydraulicPressureReservoir extends TileHydraulicBase implements IInventory, IFluidHandler, IHydraulicStorageWithTank {
+
     private ItemStack inputInventory;
     private ItemStack outputInventory;
 
 
-    private FluidTank tank = null;//
-    private PressureTier tier = PressureTier.INVALID;
-    private int prevRedstoneLevel = 0;
+    private FluidTank    tank              = null;//
+    private PressureTier tier              = PressureTier.INVALID;
+    private int          prevRedstoneLevel = 0;
 
     public TileHydraulicPressureReservoir() {
+
         super(48);
         super.init(this);
     }
 
     public TileHydraulicPressureReservoir(PressureTier _tier) {
+
         super(16 * (_tier.toInt() + 1));
         super.init(this);
         tier = _tier;
@@ -42,6 +45,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
     }
 
     public void setTier(PressureTier newTier) {
+
         if (tier == PressureTier.INVALID && newTier != PressureTier.INVALID) {
             tier = newTier;
             super.setMaxStorage(16 * (tier.toInt() + 1));
@@ -50,6 +54,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
     }
 
     public PressureTier getTier() {
+
         if (tier == PressureTier.INVALID && getWorldObj() != null) {
             tier = (PressureTier) worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER);
             tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier.toInt() + 1)));
@@ -59,6 +64,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
     }
 
     public void newFromNBT(NBTTagCompound tagCompound) {
+
         NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
         inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
 
@@ -81,11 +87,13 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public int getSizeInventory() {
+
         return 2;
     }
 
     @Override
     public ItemStack getStackInSlot(int i) {
+
         switch (i) {
             case 0:
                 return inputInventory;
@@ -99,6 +107,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public ItemStack decrStackSize(int i, int j) {
+
         ItemStack inventory = getStackInSlot(i);
 
         ItemStack ret;
@@ -125,11 +134,13 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
+
         return null;
     }
 
     @Override
     public void setInventorySlotContents(int i, ItemStack itemStack) {
+
         if (i == 0) {
             inputInventory = itemStack;
             onInventoryChanged();
@@ -141,17 +152,20 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public int getInventoryStackLimit() {
+
         return 64;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
+
         return ((worldObj.getTileEntity(getPos()) == this) &&
                 player.getDistanceSq(getPos()) < 64);
     }
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+
         if (i == 0) {
             if (FluidContainerRegistry.isFilledContainer(itemStack)) {
                 if (FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(FluidRegistry.WATER, 1))) {
@@ -168,6 +182,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public int getField(int id) {
+
         return 0;
     }
 
@@ -178,6 +193,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public int getFieldCount() {
+
         return 0;
     }
 
@@ -188,6 +204,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
+
         if (worldObj.isRemote) return 0;
         if (resource == null) //What!?
             return 0;
@@ -227,11 +244,13 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
+
         return null;
     }
 
     @Override
     public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+
         FluidStack drained = tank.drain(maxDrain, doDrain);
         if (doDrain && drained != null && drained.amount > 0) {
             //Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
@@ -243,17 +262,20 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
+
         if (fluid == null) return true;
         return fluid == FluidRegistry.WATER || fluid == Fluids.fluidHydraulicOil;
     }
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
+
         return true;
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
+
         if (tank != null) {
             return new FluidTankInfo[]{new FluidTankInfo(tank)};
         } else {
@@ -264,6 +286,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public int getMaxStorage() {
+
         if (tank == null) {
             return 0;
         }
@@ -272,6 +295,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public int getStored() {
+
         if (tank == null) {
             return 0;
         }
@@ -280,6 +304,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public void setStored(int i, boolean isOil) {
+
         if (tank != null) {
             if (isOil) {
                 if (i == 0) {
@@ -304,6 +329,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public void onBlockBreaks() {
+
         ItemStack ourEnt = new ItemStack(HCBlocks.hydraulicPressurevat, 1, getTier().toInt());
         NBTTagCompound tCompound = new NBTTagCompound();
         writeToNBT(tCompound);
@@ -322,6 +348,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         NBTTagCompound inventoryCompound = tagCompound.getCompoundTag("inputInventory");
         inputInventory = ItemStack.loadItemStackFromNBT(inventoryCompound);
@@ -342,6 +369,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         if (inputInventory != null) {
             NBTTagCompound inventoryCompound = new NBTTagCompound();
@@ -366,6 +394,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public void update() {
+
         super.update();
         if (getNetwork(EnumFacing.UP) != null && worldObj != null) {
             float curPressure = getPressure(EnumFacing.UP);
@@ -382,6 +411,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
 
     public void onInventoryChanged() {
+
         if (inputInventory != null) {
             FluidStack input = FluidContainerRegistry.getFluidForFilledItem(inputInventory);
             if (fill(EnumFacing.UP, input, false) == input.amount) {
@@ -415,37 +445,45 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return true;
     }
 
     public int getRedstoneLevel() {
+
         return prevRedstoneLevel;
     }
 
     @Override
     public String getName() {
+
         return Localization.getLocalizedName(Names.blockHydraulicPressureReservoir[getTier().toInt()].unlocalized);
     }
 
     @Override
     public boolean hasCustomName() {
+
         return true;
     }
 
     @Override
     public IChatComponent getDisplayName() {
+
         return new ChatComponentTranslation(Names.blockHydraulicPressureReservoir[getTier().toInt()].unlocalized);
     }
 
     @Override
     public void openInventory(EntityPlayer player) {
+
     }
 
     @Override
     public void closeInventory(EntityPlayer player) {
+
     }
 }

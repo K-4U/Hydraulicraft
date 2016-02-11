@@ -4,8 +4,9 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 
 public class ItemDiamondShard extends HydraulicItemBase {
 
-	public ItemDiamondShard() {
-		super(Names.itemDiamondShard, true);
-	}
+    public ItemDiamondShard() {
+
+        super(Names.itemDiamondShard, true);
+    }
 
 }

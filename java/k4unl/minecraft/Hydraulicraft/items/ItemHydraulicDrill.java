@@ -9,10 +9,12 @@ import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 
 public class ItemHydraulicDrill extends ItemHydraulicTool {
+
     private ItemPickaxe pickaxe;
     private ItemSpade   shovel;
 
     public ItemHydraulicDrill() {
+
         super(1.0f, ToolMaterial.EMERALD, null); // to make the super() happy
         pickaxe = new DrillPickaxe();
         shovel = new DrillShovel();
@@ -26,12 +28,14 @@ public class ItemHydraulicDrill extends ItemHydraulicTool {
 
     @Override
     public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+
         return (pickaxe.canHarvestBlock(par1Block, itemStack) || shovel.canHarvestBlock(par1Block, itemStack)) &&
                 super.canHarvestBlock(par1Block, itemStack);
     }
 
     @Override
     public float getStrVsBlock(ItemStack stack, Block block) {
+
         if (super.getStrVsBlock(stack, block) == 0)
             return 0;
 
@@ -41,13 +45,17 @@ public class ItemHydraulicDrill extends ItemHydraulicTool {
 
     /* Helper classes */
     private static class DrillPickaxe extends ItemPickaxe {
+
         public DrillPickaxe() {
+
             super(ToolMaterial.EMERALD);
         }
     }
 
     private static class DrillShovel extends ItemSpade {
+
         public DrillShovel() {
+
             super(ToolMaterial.EMERALD);
         }
     }

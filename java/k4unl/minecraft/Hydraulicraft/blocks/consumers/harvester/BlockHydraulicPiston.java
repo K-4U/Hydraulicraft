@@ -16,11 +16,13 @@ import net.minecraft.world.World;
 public class BlockHydraulicPiston extends HydraulicBlockContainerBase implements IBlockWithRotation {
 
     public BlockHydraulicPiston() {
+
         super(Names.blockHydraulicPiston, true);
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
+
         return new TileHydraulicPiston();
     }
 
@@ -32,6 +34,7 @@ public class BlockHydraulicPiston extends HydraulicBlockContainerBase implements
 
     @Override
     public boolean isOpaqueCube() {
+
         return false;
     }
 

@@ -90,6 +90,7 @@ public class HCBlocks {
      * Initializes the blocks.
      */
     public static void init() {
+
         hydraulicPump = new BlockHydraulicPump();
         hydraulicLavaPump = new BlockHydraulicLavaPump();
         hydraulicPressurevat = new BlockHydraulicPressureReservoir();
@@ -155,6 +156,7 @@ public class HCBlocks {
      * Registers the blocks to the GameRegistry
      */
     public static void registerBlocks() {
+
         GameRegistry.registerBlock(hydraulicFrictionIncinerator, HandlerHydraulicBlock.class, Names.blockHydraulicFrictionIncinerator.unlocalized);
         GameRegistry.registerBlock(hydraulicCrusher, HandlerHydraulicBlock.class, Names.blockHydraulicCrusher.unlocalized);
         GameRegistry.registerBlock(hydraulicWasher, HandlerHydraulicBlock.class, Names.blockHydraulicWasher.unlocalized);
