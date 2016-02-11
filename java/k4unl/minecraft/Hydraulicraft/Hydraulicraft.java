@@ -42,7 +42,8 @@ import java.util.List;
         modid = ModInfo.ID,
         name = ModInfo.NAME,
         version = ModInfo.VERSION,
-        dependencies = /*"required-after:ForgeMultipart@[1.1.0.297,);*/ "required-after:k4lib"
+        dependencies = /*"required-after:ForgeMultipart@[1.1.0.297,);*/ "required-after:k4lib",
+        guiFactory = ModInfo.GUI_FACTORY
 )
 
 public class Hydraulicraft {

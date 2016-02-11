@@ -9,5 +9,6 @@ public class ModInfo {
 
     public static final String CHANNEL        = ID;
     public static final String PROXY_LOCATION = "k4unl.minecraft.Hydraulicraft.proxy";
+    public static final String GUI_FACTORY    = "k4unl.minecraft.Hydraulicraft.lib.config.HCGuiFactory";
     public static final String LID            = ID.toLowerCase();
 }
