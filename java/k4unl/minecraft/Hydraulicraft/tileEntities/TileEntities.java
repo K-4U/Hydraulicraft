@@ -4,7 +4,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
-import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
@@ -44,7 +43,6 @@ public class TileEntities {
         GameRegistry.registerTileEntity(TileHydraulicFluidPump.class, "tileWaterPump");
 
         GameRegistry.registerTileEntity(TilePortalBase.class, "tilePortalBase");
-        GameRegistry.registerTileEntity(TilePortalFrame.class, "tilePortalFrame");
         GameRegistry.registerTileEntity(TilePortalTeleporter.class, "tilePortalTeleporter");
 
         GameRegistry.registerTileEntity(TileChunkLoader.class, "tileChunkLoader");
