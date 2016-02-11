@@ -74,7 +74,6 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             //GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
             //GL11.glBegin(GL11.GL_QUADS);
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glBegin(GL11.GL_QUADS);
             for (int xR = 0; xR < outerXDifference; xR++) {

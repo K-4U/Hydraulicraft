@@ -194,6 +194,7 @@ public class EventHelper {
             ItemStack filled = FluidContainerRegistry.fillFluidContainer(fs, event.current);
             if (filled != null) {
                 event.result = filled;
+                event.world.setBlockToAir(event.target.getBlockPos());
                 event.setResult(Event.Result.ALLOW);
             }
         }

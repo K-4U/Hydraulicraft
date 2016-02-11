@@ -53,7 +53,7 @@ public class Fluids {
         buckets.add((ItemBucket) itemBucket);
         GameRegistry.registerItem(itemBucket, itemBucket.getUnlocalizedName().substring(5));
 
-        FluidContainerRegistry.registerFluidContainer(new FluidStack(toRegister, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(itemBucket));
+        FluidContainerRegistry.registerFluidContainer(new FluidStack(toRegister, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(itemBucket), new ItemStack(Items.bucket));
 
     }
 

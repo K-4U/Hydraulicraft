@@ -73,7 +73,6 @@ public class Models {
         loadModel(Ores.oreNadsiumBicarbinate);
 
         loadModel(HCBlocks.portalBase);
-        //loadModel(HCBlocks.portalFrame);
 
         loadModel(Fluids.fluidHydraulicOil.getBlock());
         loadModel(Fluids.fluidOil.getBlock());
@@ -147,10 +146,6 @@ public class Models {
             loadItemModel(HCItems.itemEnderLolly);
         }
         loadItemModel(HCItems.itemIPCard);
-
-        for (Item bucket : Fluids.buckets) {
-            loadItemModel(bucket);
-        }
 
         loadItemModel(HCItems.itemDivingHelmet);
         loadItemModel(HCItems.itemDivingController);
