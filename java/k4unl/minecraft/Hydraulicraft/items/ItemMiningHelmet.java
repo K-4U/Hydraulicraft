@@ -70,7 +70,7 @@ public class ItemMiningHelmet extends ItemArmor {
                 if (!prevPlayerLocation.equals(blockLocation)) {
                     Location playerLocation = new Location((int) Math.floor(player.posX), (int) Math.floor(player.posY) + 1, (int) Math.floor(player.posZ));
                     if (world.getBlockState(blockLocation.toBlockPos()).getBlock() == Blocks.air) {
-                        world.setBlockState(blockLocation.toBlockPos(), HCBlocks.blockLight.getDefaultState().withProperty(Properties.LIGHTVALUE, 15 - (playerLocation.getDifference(blockLocation) + 4)), 3);
+                        world.setBlockState(blockLocation.toBlockPos(), HCBlocks.blockLight.getDefaultState().withProperty(Properties.LIGHTVALUE, Math.max(0, 15 - (playerLocation.getDifference(blockLocation) + 4))), 3);
                         world.scheduleBlockUpdate(blockLocation.toBlockPos(), HCBlocks.blockLight, 1, 1);
                         prevPlacedBlocks.add(blockLocation);
                     }
