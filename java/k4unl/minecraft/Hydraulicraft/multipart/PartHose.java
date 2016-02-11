@@ -188,13 +188,12 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
                     //Do the particle thingie!
                     //world.spawnParticle("cloud", x, y, z, d3, d4, d5);
                     Random random = new Random();
-                    if (random.nextDouble() < 0.4) {
+                    if(random.nextDouble() < 0.8) {
                         double x = getPos().getX() + (((random.nextDouble() * .2) - .1) + 0.5);
                         double z = getPos().getZ() + (((random.nextDouble() * .2) - .1) + 0.5);
-                        getWorld().spawnParticle(EnumParticleTypes.DRIP_WATER, x, getPos().getZ(), z + 0.0, 0.0D, 0.0D, 0.0D);
+                        getWorld().spawnParticle(EnumParticleTypes.DRIP_WATER, x, getPos().getY()+.5, z + 0.0, 0.0D, 0.0D, 0.0D);
                     }
-                    //PacketPipeline.instance.sendToAllAround(new PacketSpawnParticle("dripwater", x() + .5, y() + .5, z() + .5, 0.0D, 0.0D, 0.0D),
-                    //  getWorld());
+                    //NetworkHandler.INSTANCE.sendToAllAround(new PacketSpawnParticle(EnumParticleTypes.DRIP_WATER, x, getPos().getY(), getPos().getZ()+.5, 0.0D, 0.0D, 0.0D), getWorld());
                 }
             }
         }
