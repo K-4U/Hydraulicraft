@@ -143,8 +143,7 @@ public class HydraulicGUIBase extends GuiContainer {
                                   boolean useShadow) {
 
         GL11.glPushMatrix();
-        FontHelper.drawString(text, xOffset, yOffset,
-                Hydraulicraft.smallGuiFont, 1f, 1f);
+        FontHelper.drawString(text, xOffset, yOffset, Hydraulicraft.smallGuiFont, 1f, 1f);
         GL11.glPopMatrix();
 
     }
@@ -153,8 +152,7 @@ public class HydraulicGUIBase extends GuiContainer {
                                  boolean useShadow) {
 
         GL11.glPushMatrix();
-        FontHelper.drawString(text, xOffset, yOffset,
-                Hydraulicraft.mediumGuiFont, 1f, 1f);
+        FontHelper.drawString(text, xOffset, yOffset, Hydraulicraft.mediumGuiFont, 1f, 1f);
         GL11.glPopMatrix();
 
     }
@@ -235,6 +233,8 @@ public class HydraulicGUIBase extends GuiContainer {
 
     protected void drawFluidAndPressure() {
 
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         int color;
         String fluidName;
         TextureAtlasSprite icon;
@@ -254,6 +254,7 @@ public class HydraulicGUIBase extends GuiContainer {
                 (mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), null) / 1000),
                 color, Localization.getString(Localization.PRESSURE_ENTRY),
                 "Bar");
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     @Override
