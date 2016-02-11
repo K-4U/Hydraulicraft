@@ -133,7 +133,7 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
     public FluidStack drain(EnumFacing from, FluidStack resource,
                             boolean doDrain) {
 
-        return null;
+        return tank.drain(resource.amount, false);
     }
 
     @Override
