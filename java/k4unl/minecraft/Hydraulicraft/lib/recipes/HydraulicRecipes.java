@@ -132,6 +132,8 @@ public class HydraulicRecipes implements IRecipeHandler {
         recipesFilter.add(new FluidShapelessOreRecipe(Item.getItemFromBlock(HCBlocks.blockDirtyMineral), Item.getItemFromBlock(HCBlocks
                 .blockRefinedLonezium)).addFluidInput(new FluidStack(Fluids.fluidOil, 10000)).addFluidOutput(new FluidStack(Fluids.fluidFluoroCarbonFluid, 2500))
                 .setPressure(50.0F).setCraftingTime(500));
+
+        recipesFilter.add(new FluidShapelessOreRecipe(Item.getItemFromBlock(Blocks.clay), Item.getItemFromBlock(Blocks.sand)).addFluidInput(new FluidStack(FluidRegistry.WATER, 1000)).setCraftingTime(200));
     }
 
     private static void initializeAssemblerRecipes() {
