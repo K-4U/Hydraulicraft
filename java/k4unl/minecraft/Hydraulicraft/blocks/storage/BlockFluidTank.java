@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.blocks.storage;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.BuildcraftCompat;
@@ -27,7 +28,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * @author Koen Beckers (K-4U)
  */
-public class BlockFluidTank extends HydraulicBlockContainerBase {
+public class BlockFluidTank extends HydraulicBlockContainerBase implements ITooltipProvider {
 
 
     public BlockFluidTank() {
@@ -180,4 +181,13 @@ public class BlockFluidTank extends HydraulicBlockContainerBase {
         return true;
     }
 
+    @Override
+    public String getToolTip(ItemStack stack) {
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("fluid")) {
+            NBTTagCompound storedFluid = stack.getTagCompound().getCompoundTag("fluid");
+            FluidStack fluid = FluidStack.loadFluidStackFromNBT(storedFluid);
+            return fluid.getLocalizedName() + ": " + fluid.amount + "/" + FluidContainerRegistry.BUCKET_VOLUME * 16;
+        }
+        return "";
+    }
 }

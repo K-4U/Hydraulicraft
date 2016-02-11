@@ -58,7 +58,7 @@ public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase impleme
     }
 
     @Override
-    public String getToolTip() {
+    public String getToolTip(ItemStack stack) {
 
         return Localization.getString(Localization.DESC_HYDRAULICFLUIDPUMP);
     }

@@ -213,6 +213,6 @@ public class HCBlocks {
         GameRegistry.registerBlock(blockRubberLeaves, ItemBlock.class, Names.blockRubberLeaves.unlocalized);
         GameRegistry.registerBlock(blockRubberSapling, ItemBlock.class, Names.blockRubberSapling.unlocalized);
 
-        GameRegistry.registerBlock(blockFluidTank, ItemBlock.class, Names.blockFluidTank.unlocalized);
+        GameRegistry.registerBlock(blockFluidTank, HandlerHydraulicBlock.class, Names.blockFluidTank.unlocalized);
     }
 }

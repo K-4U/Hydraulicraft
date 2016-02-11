@@ -78,7 +78,7 @@ public class HandlerHydraulicBlock extends ItemBlock {
                 }
             }
             if (btH instanceof ITooltipProvider) {
-                list.add(EnumChatFormatting.RESET + ((ITooltipProvider) btH).getToolTip());
+                list.add(EnumChatFormatting.RESET + ((ITooltipProvider) btH).getToolTip(itemstack));
             }
 
         }
