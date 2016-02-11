@@ -1,6 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.fluids;
 
+import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
@@ -47,7 +49,7 @@ public class Fluids {
         Block fluidBlock = toRegister.getBlock();
         GameRegistry.registerBlock(fluidBlock, fluidBlock.getUnlocalizedName().substring(5));
 
-        Item itemBucket = new ItemBucketBase(toRegister);
+        Item itemBucket = new ItemBucket(fluidBlock).setUnlocalizedName("bucket." + toRegister.getUnlocalizedName().substring(6)).setContainerItem(Items.bucket).setCreativeTab(CustomTabs.tabHydraulicraft);
         buckets.add((ItemBucket) itemBucket);
         GameRegistry.registerItem(itemBucket, itemBucket.getUnlocalizedName().substring(5));
 

@@ -12,6 +12,7 @@ import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
 import net.minecraftforge.client.model.ModelLoader;
 
 public class Models {
@@ -19,6 +20,10 @@ public class Models {
     public static void init() {
 
         itemBlockModels();
+        itemModels();
+        for (ItemBucket bucket : Fluids.buckets) {
+            ModelLoader.setBucketModelDefinition(bucket);
+        }
     }
 
     private static void itemBlockModels() {

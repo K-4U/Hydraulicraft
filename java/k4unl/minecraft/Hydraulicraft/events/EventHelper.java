@@ -11,15 +11,22 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidBlock;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -175,4 +182,20 @@ public class EventHelper {
 			}
 		}
 	}*/
+
+    @SubscribeEvent
+    public void onBucketFill(FillBucketEvent event) {
+
+        IBlockState state = event.world.getBlockState(event.target.getBlockPos());
+        if (state.getBlock() instanceof IFluidBlock) {
+            Fluid fluid = ((IFluidBlock) state.getBlock()).getFluid();
+            FluidStack fs = new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME);
+
+            ItemStack filled = FluidContainerRegistry.fillFluidContainer(fs, event.current);
+            if (filled != null) {
+                event.result = filled;
+                event.setResult(Event.Result.ALLOW);
+            }
+        }
+    }
 }
