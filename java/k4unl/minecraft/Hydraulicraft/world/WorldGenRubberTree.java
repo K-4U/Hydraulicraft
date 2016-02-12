@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.world;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -105,7 +104,6 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
                     setAndCheckBlock(world, x, i1, z + 1, HCBlocks.blockRubberWood);
                     setAndCheckBlock(world, x, i1, z - 1, HCBlocks.blockRubberWood);
 
-                    Log.info("Tree at " + pos.toString());
                     return true;
                 } else {
                     return false;
