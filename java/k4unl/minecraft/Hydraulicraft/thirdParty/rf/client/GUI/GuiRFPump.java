@@ -33,7 +33,7 @@ public class GuiRFPump extends HydraulicGUIBase {
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-        drawHorizontalAlignedString(7, 3, xSize - 14, Localization.getLocalizedName(Names.blockRFPump[pump.getTier()].unlocalized), true);
+        drawHorizontalAlignedString(7, 3, xSize - 14, Localization.getLocalizedName(Names.blockRFPump[pump.getTier().toInt()].unlocalized), true);
 		drawVerticalProgressBar(124, 16, 54, 16, pump.getEnergyStored(pump.getFacing().getOpposite()), pump.getMaxEnergyStored(EnumFacing.UP), Constants.COLOR_RF, "Redstone Flux", "RF");
 
         int startY = 17;

@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.generator;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
@@ -132,7 +131,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
     public PressureTier getTier() {
 
         if (tier == PressureTier.INVALID && worldObj != null) {
-            tier = (PressureTier) worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER);
+            tier = (PressureTier) worldObj.getBlockState(getPos()).getValue(Properties.TIER);
             if (tank == null) {
                 tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier.toInt() + 1)));
             }

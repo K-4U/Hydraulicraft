@@ -4,7 +4,7 @@ import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
@@ -19,18 +19,16 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
     private int maxBurnTime;
     private boolean isRunning = false;
     private EnergyStorage energyStorage;
-    private EnumFacing facing  = EnumFacing.NORTH;
     private int        RFUsage = 0;
 
     private int fluidInNetwork;
     private int networkCapacity;
 
-    private int tier = -1;
 
     private EnergyStorage getEnergyStorage() {
 
         if (this.energyStorage == null)
-            this.energyStorage = new EnergyStorage((getTier() + 1) * 400000);
+            this.energyStorage = new EnergyStorage(40000);
         return this.energyStorage;
     }
 
@@ -82,9 +80,9 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
     public int getMaxGenerating(EnumFacing from) {
 
         if (!getHandler().isOilStored()) {
-            return HCConfig.INSTANCE.getInt("maxMBarGenWaterT" + (getTier() + 1));
+            return HCConfig.INSTANCE.getInt("maxMBarGenWaterT" + (getTier().toInt() + 1));
         } else {
-            return HCConfig.INSTANCE.getInt("maxMBarGenOilT" + (getTier() + 1));
+            return HCConfig.INSTANCE.getInt("maxMBarGenOilT" + (getTier().toInt() + 1));
         }
     }
 
@@ -95,7 +93,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
             RFUsage = 0;
             return 0f;
         }
-        RFUsage = getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], true);
+        RFUsage = getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier().toInt()], true);
 
         if (getEnergyStorage().getEnergyStored() > Constants.MIN_REQUIRED_RF) {
             float gen = RFUsage * Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
@@ -117,11 +115,9 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
     }
 
 
-    public int getTier() {
+    public PressureTier getTier() {
 
-        if (tier == -1)
-            tier = ((PressureTier) worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER)).toInt();
-        return tier;
+        return (PressureTier) worldObj.getBlockState(getPos()).getValue(Properties.TIER);
     }
 
     @Override
@@ -134,18 +130,13 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
     public void readFromNBT(NBTTagCompound tagCompound) {
 
         super.readFromNBT(tagCompound);
-        facing = EnumFacing.byName(tagCompound.getString("facing"));
 
         networkCapacity = tagCompound.getInteger("networkCapacity");
         fluidInNetwork = tagCompound.getInteger("fluidInNetwork");
         RFUsage = tagCompound.getInteger("RFUsage");
-        tier = tagCompound.getInteger("tier");
 
         isRunning = tagCompound.getBoolean("isRunning");
 
-        if (tier != -1) {
-            energyStorage = null;
-        }
         getEnergyStorage().readFromNBT(tagCompound);
     }
 
@@ -154,9 +145,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
         super.writeToNBT(tagCompound);
 
-        tagCompound.setString("facing", facing.toString());
         tagCompound.setBoolean("isRunning", isRunning);
-        tagCompound.setInteger("tier", tier);
 
         if (getNetwork(getFacing()) != null) {
             tagCompound.setInteger("networkCapacity", getNetwork(getFacing()).getFluidCapacity());
@@ -176,7 +165,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
     public int receiveEnergy(EnumFacing from, int maxReceive,
                              boolean simulate) {
 
-        if (from.equals(facing.getOpposite())) {
+        if (from.equals(getFacing().getOpposite())) {
             return getEnergyStorage().receiveEnergy(maxReceive, simulate);
         } else {
             return 0;
@@ -186,7 +175,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
     @Override
     public boolean canConnectEnergy(EnumFacing from) {
 
-        return from.equals(facing.getOpposite());
+        return from.equals(getFacing().getOpposite());
     }
 
     @Override
@@ -204,12 +193,12 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
     @Override
     public boolean canConnectTo(EnumFacing side) {
 
-        return side.equals(facing);
+        return side.equals(getFacing());
     }
 
     public EnumFacing getFacing() {
 
-        return facing;
+        return (EnumFacing) getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
     }
 
     public void setFacing(EnumFacing rotation) {
@@ -217,7 +206,8 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
         if (!worldObj.isRemote) {
             getHandler().updateNetworkOnNextTick(getNetwork(getFacing()).getPressure());
         }
-        facing = rotation;
+
+        getWorldObj().setBlockState(pos, getBlockType().getDefaultState().withProperty(Properties.ROTATION, rotation).withProperty(Properties.TIER, getTier()));
     }
 
     public boolean getIsRunning() {

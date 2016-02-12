@@ -4,6 +4,7 @@ import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.blocks.IBlockWithRotation;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
@@ -24,7 +25,7 @@ public class BlockHydraulicPump extends HydraulicTieredBlockBase implements IMul
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
 
-        return new TileHydraulicPump(((PressureTier) getStateFromMeta(metadata).getValue(TIER)).toInt());
+        return new TileHydraulicPump(((PressureTier) getStateFromMeta(metadata).getValue(Properties.TIER)).toInt());
     }
 
     @Override

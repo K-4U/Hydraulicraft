@@ -3,17 +3,20 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.rf.blocks;
 import k4unl.minecraft.Hydraulicraft.api.IMultiTieredBlock;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.blocks.IBlockWithRotation;
 import k4unl.minecraft.Hydraulicraft.blocks.IRotateableBlock;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.TileRFPump;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockRFPump extends HydraulicTieredBlockBase implements IMultiTieredBlock, IRotateableBlock {
+public class BlockRFPump extends HydraulicTieredBlockBase implements IMultiTieredBlock, IRotateableBlock, IBlockWithRotation {
 
     public BlockRFPump() {
 
@@ -37,13 +40,13 @@ public class BlockRFPump extends HydraulicTieredBlockBase implements IMultiTiere
     }
 
     @Override
-    public int getRenderType() {
+    public boolean isOpaqueCube() {
 
-        return -1;
+        return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isFullBlock() {
 
         return false;
     }
@@ -81,6 +84,12 @@ public class BlockRFPump extends HydraulicTieredBlockBase implements IMultiTiere
     @Override
     public PressureTier getTier(IBlockAccess world, BlockPos pos) {
 
-        return (PressureTier) world.getBlockState(pos).getValue(HydraulicTieredBlockBase.TIER);
+        return (PressureTier) world.getBlockState(pos).getValue(Properties.TIER);
+    }
+
+    @Override
+    public EnumWorldBlockLayer getBlockLayer() {
+
+        return EnumWorldBlockLayer.TRANSLUCENT;
     }
 }

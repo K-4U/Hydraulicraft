@@ -4,7 +4,6 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.blocks.IHydraulicMultiBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
@@ -467,7 +466,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
                             if (!(block instanceof BlockHydraulicCore)) {
                                 return false;
                             } else {
-                                tier = (PressureTier) getWorldObj().getBlockState(nPos).getValue(HydraulicTieredBlockBase.TIER);
+                                tier = (PressureTier) getWorldObj().getBlockState(nPos).getValue(Properties.TIER);
                                 setPressureTier(tier);
                                 continue;
                             }

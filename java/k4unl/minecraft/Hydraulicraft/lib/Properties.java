@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
+import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
@@ -32,6 +33,7 @@ public final class Properties {
     public static final PropertyBool HARVESTER_FRAME_ROTATED = PropertyBool.create("rotated");
 
     public static final PropertyBool HAS_RUBBER_SPOT = PropertyBool.create("hasRubberSpot");
+    public static final PropertyEnum TIER = PropertyEnum.create("tier", PressureTier.class);
 
     private Properties() {
 

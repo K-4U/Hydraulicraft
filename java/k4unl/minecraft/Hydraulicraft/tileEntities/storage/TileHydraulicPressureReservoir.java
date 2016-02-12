@@ -2,9 +2,9 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.storage;
 
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorageWithTank;
@@ -56,7 +56,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
     public PressureTier getTier() {
 
         if (tier == PressureTier.INVALID && getWorldObj() != null) {
-            tier = (PressureTier) worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER);
+            tier = (PressureTier) worldObj.getBlockState(getPos()).getValue(Properties.TIER);
             tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier.toInt() + 1)));
             super.setMaxStorage(2 * (tier.toInt() + 1));
         }

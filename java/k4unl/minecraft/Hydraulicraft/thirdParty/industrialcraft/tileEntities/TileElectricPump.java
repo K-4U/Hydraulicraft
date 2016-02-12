@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
@@ -118,7 +118,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
     public int getTier() {
 
         if (tier == -1)
-            tier = ((PressureTier) worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER)).toInt();
+            tier = ((PressureTier) worldObj.getBlockState(getPos()).getValue(Properties.TIER)).toInt();
 
         tier = Math.min(Constants.INTERNAL_EU_STORAGE.length - 1, tier);
         // cap it, no clue where the extra meta is coming from
