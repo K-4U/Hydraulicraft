@@ -245,7 +245,11 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
     @Override
     public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
 
-        return null;
+        FluidStack drained = tank.drain(resource.amount, doDrain);
+        if (doDrain && drained != null && drained.amount > 0) {
+            getHandler().updateFluidOnNextTick();
+        }
+        return drained;
     }
 
     @Override
@@ -253,7 +257,6 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
         FluidStack drained = tank.drain(maxDrain, doDrain);
         if (doDrain && drained != null && drained.amount > 0) {
-            //Functions.checkAndFillSideBlocks(worldObj, xCoord, yCoord, zCoord);
             getHandler().updateFluidOnNextTick();
         }
 
