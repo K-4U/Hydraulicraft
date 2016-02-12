@@ -80,7 +80,7 @@ public class HCBlocks {
 
     public static Block blockRubberWood;
     public static Block blockRubberLeaves;
-    public static Block blockRubberSapling;
+    public static BlockRubberSapling blockRubberSapling;
 
     public static Block blockFluidTank;
 

@@ -68,14 +68,14 @@ public class HCConfig extends Config {
         configOptions.add(new ConfigOption("shouldGenLeadOre", true).setCategory("worldgen"));
         configOptions.add(new ConfigOption("leadMinY", 35).setCategory("worldgen"));
         configOptions.add(new ConfigOption("leadMaxY", 90).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("leadVeinSize", 4).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("leadVeinCount", 8).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("leadVeinSize", 9).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("leadVeinCount", 10).setCategory("worldgen"));
 
         configOptions.add(new ConfigOption("shouldGenLonezium", true).setCategory("worldgen"));
         configOptions.add(new ConfigOption("loneziumMinY", 35).setCategory("worldgen"));
         configOptions.add(new ConfigOption("loneziumMaxY", 90).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("loneziumVeinSize", 7).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("loneziumVeinCount", 8).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("loneziumVeinSize", 4).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("loneziumVeinCount", 2).setCategory("worldgen"));
 
         configOptions.add(new ConfigOption("shouldGenNadsiumBicarbinate", true).setCategory("worldgen").setComment("Warning! Disabling this block "
                 + "will disable the top tier blocks! Only do this when there is an ore dictionaried equivalent!"));
@@ -99,7 +99,7 @@ public class HCConfig extends Config {
         configOptions.add(new ConfigOption("oilSpoutSize", 1).setCategory("worldgen").setComment("How big the oil spout is, above ground. Set to negative value for harder to find spouts"));
 
         configOptions.add(new ConfigOption("shouldGenRubberTrees", true).setCategory("worldgen"));
-        configOptions.add(new ConfigOption("rubberTreeChance", 0.05).setCategory("worldgen"));
+        configOptions.add(new ConfigOption("rubberTreeChance", 0.1).setCategory("worldgen"));
         configOptions.add(new ConfigOption("rubberPatchChance", 0.25).setCategory("worldgen").setComment("How big the chance is a log has a rubber "
                 + "patch"));
 

@@ -153,7 +153,7 @@ public class HCWorldGenerator implements IWorldGenerator {
             if (random.nextDouble() < HCConfig.INSTANCE.getDouble("rubberTreeChance", "worldgen")) {
                 int x = chunkX + 8;
                 int z = chunkZ + 8;
-                int y = getTopGroundBlock(world, x, z) + 1;
+                int y = getTopGroundBlock(world, x, z);
 
                 (new WorldGenRubberTree(false)).generate(world, random, new BlockPos(x, y, z));
             }

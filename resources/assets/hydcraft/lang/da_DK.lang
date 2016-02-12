@@ -32,13 +32,9 @@ tile.LPHydraulicPipe.name=Lavtryks Rør
 tile.MPHydraulicPipe.name=Mediumtryks Rør
 tile.HPHydraulicPipe.name=Højtryks Rør
 
-tile.LPPartValve.name=Lavtryksventil
-tile.MPPartValve.name=Mediumtryksventil
-tile.HPPartValve.name=Højtryksventil
-
-tile.LPHydraulicPressureVat.name=Lavtrykstank
-tile.MPHydraulicPressureVat.name=Mediumtrykstank
-tile.HPHydraulicPressureVat.name=Højtrykstank
+tile.LPHydraulicPressureReservoir.name=Lavtrykstank
+tile.MPHydraulicPressureReservoir.name=Mediumtrykstank
+tile.HPHydraulicPressureReservoir.name=Højtrykstank
 
 tile.LPHydraulicPump.name=Lavtrykspumpe
 tile.MPHydraulicPump.name=Mediumtrykspumpe

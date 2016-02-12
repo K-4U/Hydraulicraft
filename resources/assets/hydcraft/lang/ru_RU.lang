@@ -32,13 +32,9 @@ tile.LPHydraulicPipe.name=Труба низкого давления
 tile.MPHydraulicPipe.name=Труба среднего давления
 tile.HPHydraulicPipe.name=Труба высокого давления
 
-tile.LPPartValve.name=Клапан низкого давления
-tile.MPPartValve.name=Клапан среднего давления
-tile.HPPartValve.name=Клапан высокого давления
-
-tile.LPHydraulicPressureVat.name=Бак низкого давления
-tile.MPHydraulicPressureVat.name=Бак среднего давления
-tile.HPHydraulicPressureVat.name=Бак высокого давления
+tile.LPHydraulicPressureReservoir.name=Бак низкого давления
+tile.MPHydraulicPressureReservoir.name=Бак среднего давления
+tile.HPHydraulicPressureReservoir.name=Бак высокого давления
 
 tile.LPHydraulicPump.name=Помпа низкого давления
 tile.MPHydraulicPump.name=Помпа среднего давления

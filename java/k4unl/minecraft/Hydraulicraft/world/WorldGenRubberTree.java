@@ -1,9 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.world;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSapling;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -34,7 +33,7 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
 
     public boolean generate(World world, Random random, BlockPos pos) {
 
-        int treeHeight = random.nextInt(3) + this.minTreeHeight;
+        int treeHeight = random.nextInt(5) + this.minTreeHeight;
         boolean flag = true;
         //CBA to rewrite this, so just do it like this :D
         int x = pos.getX();
@@ -72,12 +71,13 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
                 }
             }
 
+
             if (!flag) {
                 return false;
             } else {
                 Block block2 = world.getBlockState(pos.down()).getBlock();
 
-                boolean isSoil = block2.canSustainPlant(world, pos.down(), EnumFacing.UP, (BlockSapling) Blocks.sapling);
+                boolean isSoil = block2.canSustainPlant(world, pos.down(), EnumFacing.UP, HCBlocks.blockRubberSapling);
                 if (isSoil && y < 256 - treeHeight - 1) {
                     block2.onPlantGrow(world, pos.down(), pos);
                     b0 = 3;
@@ -105,6 +105,7 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
                     setAndCheckBlock(world, x, i1, z + 1, HCBlocks.blockRubberWood);
                     setAndCheckBlock(world, x, i1, z - 1, HCBlocks.blockRubberWood);
 
+                    Log.info("Tree at " + pos.toString());
                     return true;
                 } else {
                     return false;
@@ -113,6 +114,7 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
         } else {
             return false;
         }
+
     }
 
     private void setAndCheckBlock(World world, int x, int y, int z, Block toSet) {

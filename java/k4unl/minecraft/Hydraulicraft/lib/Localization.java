@@ -20,6 +20,7 @@ public class Localization {
     public static final String GUI_RELEASEDAT          = "lang.gui.releasedAt";
     public static final String DESC_HYDRAULICFLUIDPUMP = "desc.hydraulicFluidPump";
     public static final String GUI_MULTIBLOCK          = "lang.tooltip.multiblock";
+    public static final String GUI_MULTIBLOCK_TANK     = "lang.gui.multiblocktank";
 
 
     public static String getLocalizedName(String unlocalizedName) {

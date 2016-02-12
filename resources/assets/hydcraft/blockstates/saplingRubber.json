@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "stage=0": { "model": "hydcraft:saplingRubber" },
+    "stage=1": { "model": "hydcraft:saplingRubber" }
+  }
+}

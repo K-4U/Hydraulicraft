@@ -27,13 +27,9 @@ tile.LPHydraulicPipe.name=Niederdruckrohr
 tile.MPHydraulicPipe.name=Mitteldruckrohr
 tile.HPHydraulicPipe.name=Hochdruckrohr
 
-tile.LPPartValve.name=Niederdruckventil
-tile.MPPartValve.name=Mitteldruckventil
-tile.HPPartValve.name=Hochdruckventil
-
-tile.LPHydraulicPressureVat.name=Niederdruckbottich
-tile.MPHydraulicPressureVat.name=Mitteldruckbottich
-tile.HPHydraulicPressureVat.name=Hochdruckbottich
+tile.LPHydraulicPressureReservoir.name=Niederdruckbottich
+tile.MPHydraulicPressureReservoir.name=Mitteldruckbottich
+tile.HPHydraulicPressureReservoir.name=Hochdruckbottich
 
 tile.LPHydraulicPump.name=Niederdruckpumpe
 tile.MPHydraulicPump.name=Mitteldruckpumpe

@@ -132,7 +132,7 @@ public class BlockRubberWood extends HydraulicBlockBase {
         super.onBlockAdded(worldIn, pos, state);
         double rnd = (new Random()).nextDouble();
 
-        state = state.withProperty(Properties.HAS_RUBBER_SPOT, rnd >= HCConfig.INSTANCE.getDouble("rubberPatchChance", "worldgen"));
+        state = state.withProperty(Properties.HAS_RUBBER_SPOT, rnd <= HCConfig.INSTANCE.getDouble("rubberPatchChance", "worldgen"));
         worldIn.setBlockState(pos, state);
     }
 

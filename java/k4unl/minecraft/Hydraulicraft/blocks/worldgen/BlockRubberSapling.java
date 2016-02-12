@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.blocks.worldgen;
 
+import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.world.WorldGenRubberTree;
 import net.minecraft.block.Block;
@@ -30,7 +31,15 @@ public class BlockRubberSapling extends BlockBush implements IGrowable {
         setUnlocalizedName(Names.blockRubberSapling.unlocalized);
         this.setStepSound(soundTypeGrass);
 
+        setCreativeTab(CustomTabs.tabHydraulicraft);
         this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, Integer.valueOf(0)));
+    }
+
+    @Override
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+
+        //For now
+        return super.canPlaceBlockAt(worldIn, pos);
     }
 
     /**

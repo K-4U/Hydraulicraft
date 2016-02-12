@@ -32,13 +32,9 @@ tile.LPHydraulicPipe.name=低压管道
 tile.MPHydraulicPipe.name=中压管道
 tile.HPHydraulicPipe.name=高压管道
 
-tile.LPPartValve.name=低压控制阀门
-tile.MPPartValve.name=中压控制阀门
-tile.HPPartValve.name=高压控制阀门
-
-tile.LPHydraulicPressureVat.name=低压大桶
-tile.MPHydraulicPressureVat.name=中压大桶
-tile.HPHydraulicPressureVat.name=高压大桶
+tile.LPHydraulicPressureReservoir.name=低压大桶
+tile.MPHydraulicPressureReservoir.name=中压大桶
+tile.HPHydraulicPressureReservoir.name=高压大桶
 
 tile.LPHydraulicPump.name=低压泵
 tile.MPHydraulicPump.name=中压泵

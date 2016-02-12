@@ -24,13 +24,9 @@ tile.LPHydraulicPipe.name=Tubería de baja presión
 tile.MPHydraulicPipe.name=Tubería de presión media
 tile.HPHydraulicPipe.name=Tubería de alta presión
 
-tile.LPPartValve.name=Válvula de baja presión
-tile.MPPartValve.name=Válvula de presión media
-tile.HPPartValve.name=Válvula de alta presión
-
-tile.LPHydraulicPressureVat.name=Tanque de baja presión
-tile.MPHydraulicPressureVat.name=Tanque de presión media
-tile.HPHydraulicPressureVat.name=Tanque de alta presión
+tile.LPHydraulicPressureReservoir.name=Tanque de baja presión
+tile.MPHydraulicPressureReservoir.name=Tanque de presión media
+tile.HPHydraulicPressureReservoir.name=Tanque de alta presión
 
 tile.LPHydraulicPump.name=Bomba de baja presión
 tile.MPHydraulicPump.name=Bomba de presión media
