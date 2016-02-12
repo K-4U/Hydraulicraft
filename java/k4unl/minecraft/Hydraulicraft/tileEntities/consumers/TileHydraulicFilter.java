@@ -48,6 +48,10 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
         if (recipe != null) {
             float usedPressure = recipe.getPressure();
 
+            if(outputTank.getCapacity() + recipe.getOutputFluids().get(0).amount > outputTank.getCapacity()){
+                return 0;
+            }
+
             if (!inventoryCrafting.canWork(recipe))
                 return 0;
 
@@ -241,6 +245,9 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
     public boolean canWork(EnumFacing dir) {
 
         if (getNetwork(dir) == null) {
+            return false;
+        }
+        if(outputTank.getCapacity() + recipe.getOutputFluids().get(0).amount > outputTank.getCapacity()){
             return false;
         }
         return dir.equals(EnumFacing.UP);
