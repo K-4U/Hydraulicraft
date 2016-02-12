@@ -1,8 +1,11 @@
-package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities;
+package k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyReceiver;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
@@ -10,25 +13,26 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
-public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator/*, IEnergyHandler*/, ICustomNetwork {
+public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator, IEnergyReceiver, ICustomNetwork {
 
     private int currentBurnTime;
     private int maxBurnTime;
-    private boolean    isRunning = false;
-    //private EnergyStorage energyStorage;
-    private EnumFacing facing    = EnumFacing.NORTH;
-    private int        RFUsage   = 0;
+    private boolean isRunning = false;
+    private EnergyStorage energyStorage;
+    private EnumFacing facing  = EnumFacing.NORTH;
+    private int        RFUsage = 0;
 
     private int fluidInNetwork;
     private int networkCapacity;
 
     private int tier = -1;
-    /*
-    private EnergyStorage getEnergyStorage(){
-		if(this.energyStorage == null) 
-			this.energyStorage = new EnergyStorage((getTier() + 1) * 400000);
-		return this.energyStorage;
-	}*/
+
+    private EnergyStorage getEnergyStorage() {
+
+        if (this.energyStorage == null)
+            this.energyStorage = new EnergyStorage((getTier() + 1) * 400000);
+        return this.energyStorage;
+    }
 
     public TileRFPump() {
 
@@ -57,12 +61,12 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
             needsUpdate = true;
             if (Float.compare(getGenerating(EnumFacing.UP), 0.0F) > 0) {
                 setPressure(getPressure(getFacing()) + getGenerating(EnumFacing.UP), getFacing());
-                //getEnergyStorage().extractEnergy(RFUsage, false);
+                getEnergyStorage().extractEnergy(RFUsage, false);
                 isRunning = true;
             } else {
 
                 if (getRedstonePowered()) {
-                    //getEnergyStorage().extractEnergy(RFUsage, false);
+                    getEnergyStorage().extractEnergy(RFUsage, false);
                 }
 
                 isRunning = false;
@@ -86,30 +90,30 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
     @Override
     public float getGenerating(EnumFacing from) {
-		/*if(!getRedstonePowered() || getFluidInNetwork(from) == 0){
-			RFUsage = 0;
-			return 0f;
-		}
-		RFUsage = getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], true);
-		
-		if(getEnergyStorage().getEnergyStored() > Constants.MIN_REQUIRED_RF){
-			float gen = RFUsage * Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
-			gen = gen * ((float)getFluidInNetwork(from) / (float)getFluidCapacity(from));
-			
-			if(Float.compare(gen + getPressure(from), getMaxPressure(getHandler().isOilStored(), from)) > 0){
-				//This means the pressure we are generating is too much!
-				gen = getMaxPressure(getHandler().isOilStored(), from) - getPressure(from);
-			}
-			if(Float.compare(gen, getMaxGenerating(from)) > 0){
-				gen = getMaxGenerating(from);
-			}
-			
-			//RFUsage = (int)(gen * (getFluidInNetwork(from) / getFluidCapacity(from)) / Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
-			return gen; 
-		}else{
-			return 0;
-		}*/
-        return 0;
+
+        if (!getRedstonePowered() || getFluidInNetwork(from) == 0) {
+            RFUsage = 0;
+            return 0f;
+        }
+        RFUsage = getEnergyStorage().extractEnergy(Constants.RF_USAGE_PER_TICK[getTier()], true);
+
+        if (getEnergyStorage().getEnergyStored() > Constants.MIN_REQUIRED_RF) {
+            float gen = RFUsage * Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO);
+            gen = gen * ((float) getFluidInNetwork(from) / (float) getFluidCapacity(from));
+
+            if (Float.compare(gen + getPressure(from), getMaxPressure(getHandler().isOilStored(), from)) > 0) {
+                //This means the pressure we are generating is too much!
+                gen = getMaxPressure(getHandler().isOilStored(), from) - getPressure(from);
+            }
+            if (Float.compare(gen, getMaxGenerating(from)) > 0) {
+                gen = getMaxGenerating(from);
+            }
+
+            //RFUsage = (int)(gen * (getFluidInNetwork(from) / getFluidCapacity(from)) / Constants.CONVERSION_RATIO_RF_HYDRAULIC * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
+            return gen;
+        } else {
+            return 0;
+        }
     }
 
 
@@ -139,10 +143,10 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
         isRunning = tagCompound.getBoolean("isRunning");
 
-        /*if (tier != -1) {
+        if (tier != -1) {
             energyStorage = null;
         }
-        getEnergyStorage().readFromNBT(tagCompound);*/
+        getEnergyStorage().readFromNBT(tagCompound);
     }
 
     @Override
@@ -160,7 +164,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
         }
         tagCompound.setInteger("RFUsage", RFUsage);
 
-        //getEnergyStorage().writeToNBT(tagCompound);
+        getEnergyStorage().writeToNBT(tagCompound);
     }
 
     @Override
@@ -168,38 +172,35 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
 
     }
 
-    /*
-        @Override
-        public int receiveEnergy(EnumFacing from, int maxReceive,
-                                 boolean simulate) {
-            if (from.equals(facing.getOpposite())) {
-                return getEnergyStorage().receiveEnergy(maxReceive, simulate);
-            } else {
-                return 0;
-            }
-        }
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive,
+                             boolean simulate) {
 
-        @Override
-        public int extractEnergy(EnumFacing from, int maxExtract,
-                                 boolean simulate) {
+        if (from.equals(facing.getOpposite())) {
+            return getEnergyStorage().receiveEnergy(maxReceive, simulate);
+        } else {
             return 0;
         }
+    }
 
-        @Override
-        public boolean canConnectEnergy(EnumFacing from) {
-            return from.equals(facing.getOpposite());
-        }
+    @Override
+    public boolean canConnectEnergy(EnumFacing from) {
 
-        @Override
-        public int getEnergyStored(EnumFacing from) {
-            return getEnergyStorage().getEnergyStored();
-        }
+        return from.equals(facing.getOpposite());
+    }
 
-        @Override
-        public int getMaxEnergyStored(EnumFacing from) {
-            return getEnergyStorage().getMaxEnergyStored();
-        }
-    */
+    @Override
+    public int getEnergyStored(EnumFacing from) {
+
+        return getEnergyStorage().getEnergyStored();
+    }
+
+    @Override
+    public int getMaxEnergyStored(EnumFacing from) {
+
+        return getEnergyStorage().getMaxEnergyStored();
+    }
+
     @Override
     public boolean canConnectTo(EnumFacing side) {
 

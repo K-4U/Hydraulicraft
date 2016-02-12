@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion;
+package k4unl.minecraft.Hydraulicraft.thirdParty.rf;
 
 import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
@@ -8,13 +8,13 @@ import k4unl.minecraft.Hydraulicraft.items.HCItems;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.recipes.HydraulicRecipes;
 import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.BlockRFPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks.HandlerRFPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers.RendererRFPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.blocks.BlockHydraulicDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.blocks.BlockRFPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.blocks.HandlerRFPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.client.renderers.RendererHydraulicDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.client.renderers.RendererRFPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.TileHydraulicDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.TileRFPump;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-public class ThermalExpansion implements IThirdParty {
+public class RF implements IThirdParty {
 
     public static Block blockHydraulicDynamo;
     public static Block blockRFPump;

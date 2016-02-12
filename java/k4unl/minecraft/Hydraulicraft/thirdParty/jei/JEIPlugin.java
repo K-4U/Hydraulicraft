@@ -70,4 +70,9 @@ public class JEIPlugin implements IModPlugin {
     public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {
 
     }
+
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+
+    }
 }

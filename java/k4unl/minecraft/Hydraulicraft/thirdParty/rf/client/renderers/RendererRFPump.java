@@ -1,8 +1,8 @@
-package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.renderers;
+package k4unl.minecraft.Hydraulicraft.thirdParty.rf.client.renderers;
 
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.TileRFPump;
 import k4unl.minecraft.k4lib.client.RenderHelper;
 import k4unl.minecraft.k4lib.lib.Functions;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;

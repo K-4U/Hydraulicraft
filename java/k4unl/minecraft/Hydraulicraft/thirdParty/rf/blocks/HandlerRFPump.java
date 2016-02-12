@@ -1,4 +1,4 @@
-package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.blocks;
+package k4unl.minecraft.Hydraulicraft.thirdParty.rf.blocks;
 
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.HydraulicTieredBlockHandler;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;

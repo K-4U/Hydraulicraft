@@ -1,16 +1,18 @@
-package k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI;
+package k4unl.minecraft.Hydraulicraft.thirdParty.rf.client.GUI;
 
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicMachine;
 import k4unl.minecraft.Hydraulicraft.client.GUI.HydraulicGUIBase;
 import k4unl.minecraft.Hydraulicraft.containers.ContainerEmpty;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
+import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.TileRFPump;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiRFPump extends HydraulicGUIBase {
@@ -32,7 +34,7 @@ public class GuiRFPump extends HydraulicGUIBase {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
         drawHorizontalAlignedString(7, 3, xSize - 14, Localization.getLocalizedName(Names.blockRFPump[pump.getTier()].unlocalized), true);
-//		drawVerticalProgressBar(124, 16, 54, 16, pump.getEnergyStored(pump.getFacing().getOpposite()), pump.getMaxEnergyStored(EnumFacing.UNKNOWN), Constants.COLOR_RF, "Redstone Flux", "RF");
+		drawVerticalProgressBar(124, 16, 54, 16, pump.getEnergyStored(pump.getFacing().getOpposite()), pump.getMaxEnergyStored(EnumFacing.UP), Constants.COLOR_RF, "Redstone Flux", "RF");
 
         int startY = 17;
         int step = (int) (Hydraulicraft.smallGuiFont.getLineHeight() / 3.2F);

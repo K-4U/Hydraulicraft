@@ -247,6 +247,8 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
         if (getNetwork(dir) == null) {
             return false;
         }
+
+        if(recipe == null) return false;
         if(outputTank.getCapacity() + recipe.getOutputFluids().get(0).amount > outputTank.getCapacity()){
             return false;
         }
