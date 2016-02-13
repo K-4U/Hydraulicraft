@@ -714,7 +714,6 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     @Override
     public void invalidate() {
 
-        super.invalidate();
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
             for (EnumFacing dir : connectedSides) {
                 if (getNetwork(dir) != null) {
@@ -722,6 +721,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
                 }
             }
         }
+        super.invalidate();
     }
 
     public void onBlockBreaks() {

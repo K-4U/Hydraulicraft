@@ -22,6 +22,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IConnectTexture;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
+import k4unl.minecraft.k4lib.lib.Log;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -602,8 +603,9 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     @Override
     public void invalidate() {
 
-        super.invalidate();
+        Log.info("Invalidated!");
         this.invalidateMultiblock();
+        super.invalidate();
     }
 
     @Override

@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IConnectTexture;
+import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,7 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
-public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicMachine, IConnectTexture {
+public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicMachine, IConnectTexture, ICustomNetwork {
 
     private BlockPos targetPos;
     private boolean targetHasChanged = true;
@@ -35,6 +36,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
         targetPos = getPos();
         targetHasChanged = true;
         if (pNetwork != null) {
+            pNetwork.setWorld(getWorldObj()); //Hope this fixes stuff..
             pNetwork.removeMachine(this);
         }
         if (!worldObj.isRemote) {
