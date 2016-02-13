@@ -48,8 +48,12 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
         if (recipe != null) {
             float usedPressure = recipe.getPressure();
 
-            if(outputTank.getCapacity() + recipe.getOutputFluids().get(0).amount > outputTank.getCapacity()){
-                return 0;
+            if (recipe.getOutputFluids().size() >= 0 && recipe.getInputFluids().size() >= 0) {
+                int capac = outputTank.getCapacity();
+                int fluidRecipe = (int)(recipe.getOutputFluids().get(0).amount * (1f/recipe.getCraftingTime()));
+                if (outputTank.getFluidAmount() + fluidRecipe > capac) {
+                    return 0;
+                }
             }
 
             if (!inventoryCrafting.canWork(recipe))
@@ -248,9 +252,13 @@ public class TileHydraulicFilter extends TileHydraulicBase implements
             return false;
         }
 
-        if(recipe == null) return false;
-        if(outputTank.getCapacity() + recipe.getOutputFluids().get(0).amount > outputTank.getCapacity()){
-            return false;
+        if (recipe == null) return false;
+        if (recipe.getOutputFluids().size() >= 0 && recipe.getInputFluids().size() >= 0) {
+            int capac = outputTank.getCapacity();
+            int fluidRecipe = (int)(recipe.getOutputFluids().get(0).amount * (1f/recipe.getCraftingTime()));
+            if (outputTank.getFluidAmount() + fluidRecipe > capac) {
+                return false;
+            }
         }
         return dir.equals(EnumFacing.UP);
     }

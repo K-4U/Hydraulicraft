@@ -44,26 +44,25 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
 
     protected List<EnumFacing> connectedSides;
     protected PressureNetwork  pNetwork;
-    private boolean _isOilStored      = false;
-    private int     fluidLevelStored  = 0;
-    private boolean isRedstonePowered = false;
-    private float   pressure          = 0F;
-    private boolean           isMultipart;
-    private World             tWorld;
-    private Location          blockLocation;
-    private Multipart         tMp;
-    private TileEntity        tTarget;
-    private IHydraulicMachine target;
-    private boolean           hasOwnFluidTank;
-    private boolean firstUpdate         = true;
-    private float   oldPressure         = 0f;
-    private boolean shouldUpdateNetwork = true;
-    private boolean shouldUpdateFluid   = false;
-    //private PressureTier pressureTier;
-    private int     maxStorage          = 0;
-    private int fluidInNetwork;
-    private int networkCapacity;
-    private boolean shouldUpdateWorld = false;
+    private boolean           _isOilStored        = false;
+    private int               fluidLevelStored    = 0;
+    private boolean           isRedstonePowered   = false;
+    private float             pressure            = 0F;
+    private boolean           isMultipart         = false;
+    private World             tWorld              = null;
+    private Location          blockLocation       = null;
+    private Multipart         tMp                 = null;
+    private TileEntity        tTarget             = null;
+    private IHydraulicMachine target              = null;
+    private boolean           hasOwnFluidTank     = false;
+    private boolean           firstUpdate         = true;
+    private float             oldPressure         = 0f;
+    private boolean           shouldUpdateNetwork = true;
+    private boolean           shouldUpdateFluid   = false;
+    private int               maxStorage          = 0;
+    private int               fluidInNetwork      = 0;
+    private int               networkCapacity     = 0;
+    private boolean           shouldUpdateWorld   = false;
 
     /**
      * @param _maxStorage The max ammount of Fluid/10 this machine can store.
@@ -71,7 +70,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     public TileHydraulicBase(int _maxStorage) {
 
         maxStorage = _maxStorage;
-        connectedSides = new ArrayList<EnumFacing>();
+        connectedSides = new ArrayList<>();
     }
 
     public void init(TileEntity _target) {
@@ -269,32 +268,6 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         return new S35PacketUpdateTileEntity(getBlockLocation().toBlockPos(), 4, tagCompound);
     }
 
-    /*
-
-    COULD BE REMOVED?
-        private IHydraulicMachine getMachine(EnumFacing dir) {
-            if (getWorldObj() == null) return null;
-
-            /*int x = getBlockLocation().getX() + dir.offsetX;
-            int y = getBlockLocation().getY() + dir.offsetY;
-            int z = getBlockLocation().getZ() + dir.offsetZ;*//*
-        Block block = getWorldObj().getBlockState(getBlockLocation().toBlockPos().offset(dir)).getBlock();
-        if (block instanceof BlockAir) {
-            return null;
-        }
-
-        TileEntity t = getWorldObj().getTileEntity(getBlockLocation().toBlockPos().offset(dir));
-        if (t instanceof IHydraulicMachine) {
-            if (((IHydraulicMachine) t).canConnectTo(dir.getOpposite()))
-                return (IHydraulicMachine) t;
-        } else if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
-            if (MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer()).isConnectedTo(dir.getOpposite())) {
-                return MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer());
-            }
-        }
-        return null;
-    }
-*/
     private List<IHydraulicMachine> getMachineList(List<IHydraulicMachine> list, EnumFacing dir) {
 
         if (getWorldObj() == null) return list;
@@ -356,8 +329,6 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
             if (!mainList.contains(machineEntity)) {
                 if (isMultipart) {
                     mainList.add(machineEntity);
-                    //callList.add(machineEntity);
-                    //chain = true;
                 }
                 if (machineEntity instanceof IHydraulicTransporter) {
                     mainList.add(machineEntity);

@@ -33,7 +33,7 @@ public class PressureNetwork {
     public PressureNetwork(IHydraulicMachine machine, float beginPressure, EnumFacing from) {
 
         randomNumber = new Random().nextInt();
-        machines = new ArrayList<networkEntry>();
+        machines = new ArrayList<>();
         machines.add(new networkEntry(((TileHydraulicBase) machine.getHandler()).getBlockLocation(), from));
         pressure = beginPressure;
         world = ((TileHydraulicBase) machine.getHandler()).getWorldObj();

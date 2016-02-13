@@ -22,10 +22,6 @@ repositories {
         name "JEI"
         url "http://dvs1.progwml6.com/files/maven"
     }
-    //maven { // the repo from which to get NEI and stuff
-    //    name 'CB Repo'
-    //    url "http://chickenbones.net/maven/"
-    //}
     //maven {
     //    name = "ic2"
     //    url = "http://maven.ic2.player.to/"
@@ -56,7 +52,7 @@ dependencies {
     //compile name: "buildcraft", classifier: "dev", version: "7.0.16"
     compile "igwmod:IGW-Mod-1.8.9:1.2.3-3:userdev"
     deobfCompile "mezz.jei:jei_1.8.9:2.25.11.151"
-    deobfCompile "MCMultiPart:MCMultiPart:1.0.4:universal"
+    deobfCompile "MCMultiPart:MCMultiPart:1.0.6:universal"
 }
 
 allprojects {
