@@ -351,7 +351,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
                 if (boundingBoxes[f.ordinal()].intersectsWith(mask)) {
                     list.add(boundingBoxes[f.ordinal()]);
                 }
-                if (boundingBoxes[f.ordinal() + 6].intersectsWith(mask)) {
+                if (boundingBoxes[f.ordinal() + 7].intersectsWith(mask)) {
                     list.add(boundingBoxes[f.ordinal() + 7]);
                 }
             }
