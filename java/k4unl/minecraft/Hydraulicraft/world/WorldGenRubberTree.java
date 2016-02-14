@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.world;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberWood;
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -121,6 +122,9 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
         Block block1 = world.getBlockState(pos).getBlock();
         if (block1.isAir(world, pos) || block1.isLeaves(world, pos)) {
             this.setBlockAndNotifyAdequately(world, pos, toSet.getDefaultState());
+            if(toSet == HCBlocks.blockRubberWood){
+                ((BlockRubberWood)HCBlocks.blockRubberWood).genRubberSpot(world, pos);
+            }
         }
     }
 }

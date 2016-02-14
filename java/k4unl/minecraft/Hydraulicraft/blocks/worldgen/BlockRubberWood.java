@@ -1,18 +1,19 @@
 package k4unl.minecraft.Hydraulicraft.blocks.worldgen;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.worldgen.TileRubberWood;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
-import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -29,15 +30,13 @@ import java.util.Random;
  */
 public class BlockRubberWood extends HydraulicBlockContainerBase {
 
-    //private IIcon rubberPatch;
-
     public BlockRubberWood() {
 
         super(Names.blockRubberWood, Material.wood, true);
 
         this.setHardness(2.0F);
         this.setStepSound(soundTypeWood);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y).withProperty(Properties.HAS_RUBBER_SPOT, false).withProperty(Properties.ROTATION, EnumFacing.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(Properties.HAS_RUBBER_SPOT, false).withProperty(Properties.ROTATION, EnumFacing.NORTH));
         this.setTickRandomly(true);
     }
 
@@ -94,18 +93,8 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
 
         float pixel = 1F / 16F;
         Vector3fMax vector = new Vector3fMax(pixel, pixel, pixel, 1.0F - pixel, 1.0F - pixel, 1.0F - pixel);
-        if (state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Y) {
-            vector.setYMin(0.0F);
-            vector.setYMax(1.0F);
-        }
-        if (state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.X) {
-            vector.setXMin(0.0F);
-            vector.setXMax(1.0F);
-        }
-        if (state.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Z) {
-            vector.setZMin(0.0F);
-            vector.setZMax(1.0F);
-        }
+        vector.setYMin(0.0F);
+        vector.setYMax(1.0F);
         return vector;
     }
 
@@ -136,43 +125,31 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
      */
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 
-        return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis
-                .fromFacingAxis(facing.getAxis())).withProperty(Properties.HAS_RUBBER_SPOT, false).withProperty(Properties.ROTATION, EnumFacing.NORTH); //No rubber spot when the block is already placed
+        return getDefaultState().withProperty(Properties.HAS_RUBBER_SPOT, false).withProperty(Properties.ROTATION, facing);
     }
 
-    @Override
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+    public void genRubberSpot(World worldIn, BlockPos pos){
 
-        super.onBlockAdded(worldIn, pos, state);
+        IBlockState state = worldIn.getBlockState(pos);
         double rnd = (new Random()).nextDouble();
         int rnd2 = (new Random()).nextInt(4);
-        EnumFacing facing = EnumFacing.HORIZONTALS[rnd2];
-
-        state = state.withProperty(Properties.HAS_RUBBER_SPOT, rnd <= HCConfig.INSTANCE.getDouble("rubberPatchChance", "worldgen")).withProperty(Properties.ROTATION, facing);
+        EnumFacing rndFacing = EnumFacing.HORIZONTALS[rnd2];
+        boolean rubberSpot = rnd <= HCConfig.INSTANCE.getDouble("rubberPatchChance", "worldgen");
+        if(worldIn.getBlockState(pos.down()).getBlock() == Blocks.grass || worldIn.getBlockState(pos.down()).getBlock() == Blocks.dirt){
+            rubberSpot = false;
+        }
+        Log.info("Rubber on " + pos.toString() + "=" + rubberSpot);
+        state = state.withProperty(Properties.HAS_RUBBER_SPOT, rubberSpot).withProperty(Properties.ROTATION, rndFacing);
         worldIn.setBlockState(pos, state);
     }
 
     public IBlockState getStateFromMeta(int meta) {
 
         IBlockState iblockstate = this.getDefaultState();
-
-        switch (meta & 3) {
-            case 0:
-                iblockstate = iblockstate.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y);
-                break;
-            case 1:
-                iblockstate = iblockstate.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.X);
-                break;
-            case 2:
-                iblockstate = iblockstate.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Z);
-                break;
-            default:
-                iblockstate = iblockstate.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE);
-        }
-        iblockstate = iblockstate.withProperty(Properties.HAS_RUBBER_SPOT, ((meta & 4) == 4));
+        iblockstate = iblockstate.withProperty(Properties.HAS_RUBBER_SPOT, ((meta & 1) == 1));
 
         //Rotational:
-        int rotation = meta >> 4;
+        int rotation = meta >> 1;
         iblockstate = iblockstate.withProperty(Properties.ROTATION, EnumFacing.HORIZONTALS[rotation]);
 
         return iblockstate;
@@ -185,20 +162,11 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
     public int getMetaFromState(IBlockState state) {
 
         int i = 0;
-
-        switch (state.getValue(BlockLog.LOG_AXIS)) {
-            case X:
-                i |= 1;
-                break;
-            case Z:
-                i |= 2;
-                break;
-        }
         if (state.getValue(Properties.HAS_RUBBER_SPOT)) {
-            i |= 4;
+            i |= 1;
         }
         int horizontal = state.getValue(Properties.ROTATION).getHorizontalIndex();
-        i |= horizontal << 4;
+        i |= horizontal << 1;
 
         return i;
     }
@@ -206,7 +174,7 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
     @Override
     protected BlockState createBlockState() {
 
-        return new BlockState(this, BlockLog.LOG_AXIS, Properties.HAS_RUBBER_SPOT, Properties.ROTATION);
+        return new BlockState(this, Properties.HAS_RUBBER_SPOT, Properties.ROTATION);
     }
 
     @Override

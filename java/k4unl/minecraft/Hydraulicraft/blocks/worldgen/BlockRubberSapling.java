@@ -38,7 +38,6 @@ public class BlockRubberSapling extends BlockBush implements IGrowable {
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 
-        //For now
         return super.canPlaceBlockAt(worldIn, pos);
     }
 

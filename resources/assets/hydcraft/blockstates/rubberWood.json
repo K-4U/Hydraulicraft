@@ -3,14 +3,10 @@
   "defaults": {
     "textures": {
       "all": "hydcraft:blocks/rubberWood_sides"
-    }
+    },
+    "model": "hydcraft:rubberWoodLog"
   },
   "variants": {
-    "axis":{
-      "y": { "model": "hydcraft:rubberWoodLog" },
-      "z": { "model": "hydcraft:rubberWoodLogSide"},
-      "x": { "model": "hydcraft:rubberWoodLogSide", "y": 90}
-    },
     "hasrubberspot": {
       "true": { "submodel": "hydcraft:rubberWoodLogSpot" },
       "false": {}
