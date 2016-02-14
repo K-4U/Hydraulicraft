@@ -125,7 +125,7 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
      */
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 
-        return getDefaultState().withProperty(Properties.HAS_RUBBER_SPOT, false).withProperty(Properties.ROTATION, facing);
+        return getDefaultState().withProperty(Properties.HAS_RUBBER_SPOT, false).withProperty(Properties.ROTATION, EnumFacing.NORTH);
     }
 
     public void genRubberSpot(World worldIn, BlockPos pos){

@@ -102,7 +102,7 @@ public class HCConfig extends Config {
         configOptions.add(new ConfigOption("rubberTreeChance", 0.1).setCategory("worldgen"));
         configOptions.add(new ConfigOption("rubberPatchChance", 0.25).setCategory("worldgen").setComment("How big the chance is a log has a rubber "
                 + "patch"));
-        configOptions.add(new ConfigOption("maxRubberInTree", 200).setCategory("worldgen").setComment("How much rubber a rubber patch contains. (respawns over time)"));
+        configOptions.add(new ConfigOption("maxRubberInTree", 1000).setCategory("worldgen").setComment("How much rubber a rubber patch contains. (respawns over time)"));
 
 
 

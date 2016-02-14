@@ -8,6 +8,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.*;
+import k4unl.minecraft.Hydraulicraft.tileEntities.rubberHarvesting.TileRubberTap;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileFluidTank;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
 import k4unl.minecraft.Hydraulicraft.tileEntities.worldgen.TileRubberWood;
@@ -54,6 +55,7 @@ public class TileEntities {
 
         GameRegistry.registerTileEntity(TileFluidTank.class, "tileFluidTank");
         GameRegistry.registerTileEntity(TileRubberWood.class, "tileRubberWood");
+        GameRegistry.registerTileEntity(TileRubberTap.class, "tileRubberTap");
 
     }
 }
