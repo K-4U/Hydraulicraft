@@ -17,6 +17,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalBase;
 import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.*;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.*;
+import k4unl.minecraft.Hydraulicraft.blocks.rubberHarvesting.BlockRubberTap;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockFluidTank;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureReservoir;
 import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberLeaves;
@@ -83,6 +84,7 @@ public class HCBlocks {
     public static BlockRubberSapling blockRubberSapling;
 
     public static Block blockFluidTank;
+    public static Block blockRubberTap;
 
     /*!
      * @author Koen Beckers
@@ -145,6 +147,7 @@ public class HCBlocks {
         blockRubberSapling = new BlockRubberSapling();
 
         blockFluidTank = new BlockFluidTank();
+        blockRubberTap = new BlockRubberTap();
 
         registerBlocks();
     }
@@ -214,5 +217,6 @@ public class HCBlocks {
         GameRegistry.registerBlock(blockRubberSapling, ItemBlock.class, Names.blockRubberSapling.unlocalized);
 
         GameRegistry.registerBlock(blockFluidTank, HandlerHydraulicBlock.class, Names.blockFluidTank.unlocalized);
+        GameRegistry.registerBlock(blockRubberTap, HandlerHydraulicBlock.class, Names.blockRubberTap.unlocalized);
     }
 }

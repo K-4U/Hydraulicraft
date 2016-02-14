@@ -3,7 +3,6 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.rf;
 import k4unl.minecraft.Hydraulicraft.api.recipes.FluidShapedOreRecipe;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
-import k4unl.minecraft.Hydraulicraft.blocks.handlers.HandlerHydraulicBlock;
 import k4unl.minecraft.Hydraulicraft.client.models.Models;
 import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.items.HCItems;
@@ -70,10 +69,10 @@ public class RF implements IThirdParty {
         blockHydraulicDynamo = new BlockHydraulicDynamo();
         blockRFPump = new BlockRFPump();
 
-        GameRegistry.registerBlock(blockHydraulicDynamo, HandlerHydraulicBlock.class, Names.blockHydraulicDynamo.unlocalized);
+        //GameRegistry.registerBlock(blockHydraulicDynamo, HandlerHydraulicBlock.class, Names.blockHydraulicDynamo.unlocalized);
         GameRegistry.registerBlock(blockRFPump, HandlerRFPump.class, Names.blockRFPump[0].unlocalized);
 
-        GameRegistry.registerTileEntity(TileHydraulicDynamo.class, "tileHydraulicDynamo");
+        //GameRegistry.registerTileEntity(TileHydraulicDynamo.class, "tileHydraulicDynamo");
         GameRegistry.registerTileEntity(TileRFPump.class, "tileRFPump");
     }
 

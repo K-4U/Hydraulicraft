@@ -78,12 +78,14 @@ public class Models {
         loadBlockModel(Fluids.fluidOil.getBlock());
         loadBlockModel(Fluids.fluidFluoroCarbonFluid.getBlock());
         loadBlockModel(Fluids.fluidLubricant.getBlock());
+        loadBlockModel(Fluids.fluidRubber.getBlock());
 
         loadBlockModel(HCBlocks.blockRubberLeaves);
         loadBlockModel(HCBlocks.blockRubberSapling);
         loadBlockModel(HCBlocks.blockRubberWood);
 
         loadBlockModel(HCBlocks.blockFluidTank);
+        loadBlockModel(HCBlocks.blockRubberTap);
     }
 
     public static void loadBlockModel(Block block, int metadata, String override) {

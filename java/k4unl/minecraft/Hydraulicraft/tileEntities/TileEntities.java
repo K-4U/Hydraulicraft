@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvest
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileFluidTank;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
+import k4unl.minecraft.Hydraulicraft.tileEntities.worldgen.TileRubberWood;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileEntities {
@@ -52,6 +53,7 @@ public class TileEntities {
         GameRegistry.registerTileEntity(TileHydraulicFiller.class, "tileHydraulicFiller");
 
         GameRegistry.registerTileEntity(TileFluidTank.class, "tileFluidTank");
+        GameRegistry.registerTileEntity(TileRubberWood.class, "tileRubberWood");
 
     }
 }

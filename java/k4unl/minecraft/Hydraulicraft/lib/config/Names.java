@@ -77,6 +77,7 @@ public class Names {
     public static final Name   fluidOil                          = new Name("Oil", "oil");
     public static final Name   fluidLubricant                    = new Name("Lubricant", "lubricant");
     public static final Name   fluidFluoroCarbon                 = new Name("FluoroCarbon Fluid", "fluoroCarbonFluid");
+    public static final Name   fluidRubber                       = new Name("Rubber", "fluidRubber");
     public static final Name   itemBucketHydraulicOil            = new Name("Hydraulic Oil Bucket", "bucketHydraulicOil");
     public static final Name   itemBucketOil                     = new Name("Oil Bucket", "bucketOil");
     public static final Name   itemBucketLubricant               = new Name("Lubricant Bucket", "bucketLubricant");
@@ -101,6 +102,7 @@ public class Names {
     public static final Name   blockRubberLeaves                 = new Name("Rubber leaves", "rubberLeaves");
     public static final Name   blockRubberSapling                = new Name("Rubber sapling", "saplingRubber");
     public static final Name   blockFluidTank                    = new Name("Fluid tank", "blockFluidTank");
+    public static final Name   blockRubberTap                    = new Name("Rubber Tap", "blockRubberTap");
 
     public static final Name itemUpgradeBigDrill  = new Name("Upgrade Big Drill", "upgradeBigDrill");
     public static final Name itemUpgradeCapitator = new Name("Upgrade Tree Capitator", "upgradeCapitator");

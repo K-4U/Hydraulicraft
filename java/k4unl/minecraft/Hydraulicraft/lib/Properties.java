@@ -22,7 +22,7 @@ public final class Properties {
 
     public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
-    public static final PropertyEnum             ROTATION = PropertyDirection.create("rotation", EnumFacing.Plane.HORIZONTAL);
+    public static final PropertyEnum<EnumFacing> ROTATION = PropertyDirection.create("rotation", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyEnum<EnumFacing> FACING   = PropertyEnum.create("facing", EnumFacing.class);
 
     public static final PropertyBool CHILD = PropertyBool.create("child");

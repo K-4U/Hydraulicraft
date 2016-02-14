@@ -1,23 +1,9 @@
 {
   "textures": {
-    "end": "hydcraft:blocks/rubberWood_end",
-    "side": "hydcraft:blocks/rubberWood_sides",
     "patch": "hydcraft:blocks/rubberSpot",
     "particle": "#side"
   },
   "elements": [
-    {
-      "from": [ 1, 0, 1 ],
-      "to": [ 15, 16, 15 ],
-      "faces": {
-        "down":  { "texture": "#end", "cullface": "down" },
-        "up":    { "texture": "#end", "cullface": "up" },
-        "north": { "texture": "#side", "cullface": "north" },
-        "south": { "texture": "#side", "cullface": "south" },
-        "west":  { "texture": "#side", "cullface": "west" },
-        "east":  { "texture": "#side", "cullface": "east" }
-      }
-    },
     {
       "from": [ 15, 6, 6 ],
       "to": [ 16, 10, 10 ],
