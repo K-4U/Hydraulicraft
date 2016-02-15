@@ -1,8 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.worldgen;
 
 import k4unl.minecraft.Hydraulicraft.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 
 import java.util.Random;
 
@@ -17,14 +20,14 @@ public class TileRubberWood extends TileEntity {
         //Refil the rubber!
 
         if (rubberInside < HCConfig.INSTANCE.getInt("maxRubberInTree")) {
-            Log.info(getPos().toString());
-            Log.info("Rubber was " + rubberInside);
             int newValue = new Random().nextInt(HCConfig.INSTANCE.getInt("maxRubberInTree"));
-            while (newValue < rubberInside && newValue > 0) {
+            Log.info(getPos().toString());
+            Log.info("Rubber: " + rubberInside);
+            while (newValue == 0) {
                 newValue = new Random().nextInt(HCConfig.INSTANCE.getInt("maxRubberInTree"));
             }
-            rubberInside = newValue;
-            Log.info("Rubber is now " + rubberInside);
+            rubberInside += newValue;
+            Log.info("Rubber: " + rubberInside);
         }
     }
 
@@ -38,5 +41,29 @@ public class TileRubberWood extends TileEntity {
             rubberInside = rubberInside - drained;
         }
         return drained;
+    }
+
+    public EnumFacing getFacing() {
+
+        return getWorld().getBlockState(getPos()).getValue(Properties.ROTATION);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound compound) {
+
+        super.readFromNBT(compound);
+        rubberInside = compound.getInteger("rubberInside");
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound compound) {
+
+        super.writeToNBT(compound);
+        compound.setInteger("rubberInside", rubberInside);
+    }
+
+    public int getRubber() {
+
+        return rubberInside;
     }
 }

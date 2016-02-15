@@ -108,6 +108,7 @@ tile.blockFluidTank.name=Fluid Tank
 tile.rubberWood.name=Rubber tree wood
 tile.rubberLeaves.name=Rubber tree leaves
 tile.saplingRubber.name=Rubber tree sapling
+tile.blockRubberTap.name=Rubber tree tap
 
 
 
@@ -149,6 +150,7 @@ fluid.hydraulicOil=Hydraulic Oil
 fluid.oil=Crude Oil
 fluid.lubricant=Lubricant
 fluid.fluoroCarbonFluid=Fluoro Carbon Fluid
+fluid.fluidRubber=Rubber
 lang.gui.generating=Generating
 lang.gui.max=Max
 lang.gui.using=Using

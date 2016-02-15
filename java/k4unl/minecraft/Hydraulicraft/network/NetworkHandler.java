@@ -1,10 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.network;
 
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
-import k4unl.minecraft.Hydraulicraft.network.packets.PacketKeyPressed;
-import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalEnabled;
-import k4unl.minecraft.Hydraulicraft.network.packets.PacketSetPressure;
-import k4unl.minecraft.Hydraulicraft.network.packets.PacketSpawnParticle;
+import k4unl.minecraft.Hydraulicraft.network.packets.*;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
@@ -32,5 +29,6 @@ public class NetworkHandler extends k4unl.minecraft.k4lib.network.NetworkHandler
         getChannel().registerMessage(PacketPortalEnabled.class, PacketPortalEnabled.class, discriminant++, Side.CLIENT);
         getChannel().registerMessage(PacketSetPressure.class, PacketSetPressure.class, discriminant++, Side.CLIENT);
         getChannel().registerMessage(PacketSpawnParticle.class, PacketSpawnParticle.class, discriminant++, Side.CLIENT);
+        getChannel().registerMessage(PacketHarvestingRubber.class, PacketHarvestingRubber.class, discriminant++, Side.CLIENT);
     }
 }
