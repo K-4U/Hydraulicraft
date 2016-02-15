@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISidedInventory, IFluidHandler, IConnectTexture {
+
     private BlockPos targetPos;
     private boolean targetHasChanged = true;
 
@@ -47,7 +48,12 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     private boolean clientNeedsToResetTarget = false;
     private boolean clientNeedsToSetTarget   = false;
 
-    //TODO: Use PlayerInteractEvent for detection of right clicking.
+    private ItemStack[] containerInventory;
+
+    public TileInterfaceValve() {
+
+        containerInventory = new ItemStack[2];
+    }
 
     public void resetTarget() {
 
@@ -73,7 +79,8 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     public IHydraulicConsumer getTarget() {
-        if(targetPos != null) {
+
+        if (targetPos != null) {
             if (targetHasChanged && !getPos().equals(targetPos)) {
                 TileEntity t = worldObj.getTileEntity(targetPos);
                 if (t instanceof IHydraulicConsumer) {
@@ -96,7 +103,8 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     public IFluidHandler getFluidTarget() {
-        if(targetPos != null) {
+
+        if (targetPos != null) {
             if (targetHasChanged && !targetPos.equals(getPos())) {
                 TileEntity t = worldObj.getTileEntity(targetPos);
                 if (t instanceof IHydraulicConsumer) {
@@ -120,7 +128,8 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     public ISidedInventory getInventoryTarget() {
-        if(targetPos != null) {
+
+        if (targetPos != null) {
             if (targetHasChanged && !targetPos.equals(getPos())) {
                 TileEntity t = worldObj.getTileEntity(targetPos);
                 if (t instanceof IHydraulicConsumer) {
@@ -145,6 +154,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         targetPos = BlockPos.fromLong(tagCompound.getLong("targetPos"));
         if (tagCompound.getBoolean("isTargetNull")) {
@@ -182,12 +192,14 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+
         NBTTagCompound tagCompound = packet.getNbtCompound();
         this.readFromNBT(tagCompound);
     }
 
     @Override
     public Packet getDescriptionPacket() {
+
         NBTTagCompound tagCompound = new NBTTagCompound();
         this.writeToNBT(tagCompound);
         return new S35PacketUpdateTileEntity(getPos(), 5, tagCompound);
@@ -196,8 +208,9 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
-        if(targetPos != null) {
+        if (targetPos != null) {
             tagCompound.setLong("targetPos", targetPos.toLong());
         }
         tagCompound.setBoolean("isTargetNull", (target == null));
@@ -229,6 +242,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
+
         if (!isTank) {
             if (getFluidTarget() != null) {
                 return getFluidTarget().fill(from, resource, doFill);
@@ -244,6 +258,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
+
         if (!isTank) {
             if (getFluidTarget() != null) {
                 return getFluidTarget().drain(from, resource, doDrain);
@@ -257,6 +272,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+
         if (!isTank) {
             if (getFluidTarget() != null) {
                 return getFluidTarget().drain(from, maxDrain, doDrain);
@@ -271,16 +287,19 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
+
         return isTank || getFluidTarget() != null && getFluidTarget().canFill(from, fluid);
     }
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
+
         return isTank || getFluidTarget() != null && getFluidTarget().canDrain(from, fluid);
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
+
         if (!isTank) {
             if (getFluidTarget() != null) {
                 return getFluidTarget().getTankInfo(from);
@@ -294,63 +313,152 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public int getSizeInventory() {
+
         if (getInventoryTarget() != null) {
             return getInventoryTarget().getSizeInventory();
         }
-        return 0;
+        return 2;
     }
 
     @Override
     public ItemStack getStackInSlot(int i) {
+
         if (getInventoryTarget() != null) {
             return getInventoryTarget().getStackInSlot(i);
         }
-        return null;
+        return containerInventory[i];
     }
 
     @Override
     public ItemStack decrStackSize(int i, int j) {
+
         if (getInventoryTarget() != null) {
             return getInventoryTarget().decrStackSize(i, j);
         }
-        return null;
+
+        ItemStack inventory = getStackInSlot(i);
+        if (inventory == null) {
+            return null;
+        }
+        ItemStack ret;
+        if (inventory.stackSize < j) {
+            ret = inventory;
+        } else {
+            ret = inventory.splitStack(j);
+            if (inventory.stackSize <= 0) {
+                containerInventory[i] = null;
+            }
+        }
+        worldObj.markBlockForUpdate(getPos());
+
+        return ret;
     }
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
-        if(getInventoryTarget() != null){
+
+        if (getInventoryTarget() != null) {
             return getInventoryTarget().removeStackFromSlot(index);
         }
-        return null;
+        return decrStackSize(index, getStackInSlot(index).stackSize);
     }
 
     @Override
     public void setInventorySlotContents(int i, ItemStack itemstack) {
+
         if (getInventoryTarget() != null) {
             getInventoryTarget().setInventorySlotContents(i, itemstack);
+        }
+        containerInventory[i] = itemstack;
+        worldObj.markBlockForUpdate(getPos());
+        //Check inventory here:
+        if (containerInventory[0] != null) {
+            ItemStack inUse = getStackInSlot(0);
+            FluidStack input = FluidContainerRegistry.getFluidForFilledItem(inUse);
+            if (input != null) {
+                ItemStack empty = FluidContainerRegistry.drainFluidContainer(inUse);
+                boolean canPlace = false;
+                if (empty.isItemEqual(getStackInSlot(1))) {
+                    if (getStackInSlot(1).getMaxStackSize() > getStackInSlot(1).stackSize) {
+                        canPlace = true;
+                        empty = getStackInSlot(1);
+                        empty.stackSize++;
+                    }
+                } else if (getStackInSlot(1) == null) {
+                    canPlace = true;
+                }
+                if (canPlace) {
+                    int filled = fill(EnumFacing.UP, input, false);
+                    if (filled == FluidContainerRegistry.getContainerCapacity(inUse)) {
+                        //Do it!
+                        fill(EnumFacing.UP, input, true);
+                        markDirty();
+                        worldObj.markBlockForUpdate(pos);
+
+                        setInventorySlotContents(0, null);
+                        setInventorySlotContents(1, empty);
+                    }
+                }
+            } else {
+                if (FluidContainerRegistry.isEmptyContainer(inUse)) {
+                    FluidTankInfo tankInfo = getTankInfo(EnumFacing.UP)[0];
+                    if (tankInfo.fluid == null) return;
+                    ItemStack filledContainer = FluidContainerRegistry.fillFluidContainer(tankInfo.fluid, inUse);
+                    if (filledContainer == null) return;
+                    int toDrain = FluidContainerRegistry.getContainerCapacity(filledContainer);
+
+                    FluidStack drained = drain(EnumFacing.UP, toDrain, false);
+                    boolean canPlace = false;
+                    if (getStackInSlot(1) != null && getStackInSlot(1).isItemEqual(filledContainer)) {
+                        if (getStackInSlot(1).getMaxStackSize() > getStackInSlot(1).stackSize) {
+                            canPlace = true;
+                            filledContainer.stackSize += getStackInSlot(i).stackSize;
+                        }
+                    } else if (getStackInSlot(1) == null) {
+                        canPlace = true;
+                    }
+                    if (drained != null && drained.amount == toDrain && canPlace) {
+                        drain(EnumFacing.UP, toDrain, true);
+                        markDirty();
+                        worldObj.markBlockForUpdate(pos);
+                        decrStackSize(0, 1);
+                        setInventorySlotContents(1, filledContainer);
+                    }
+                }
+            }
         }
     }
 
     @Override
     public int getInventoryStackLimit() {
+
         if (getInventoryTarget() != null) {
             return getInventoryTarget().getInventoryStackLimit();
         }
-        return 0;
+        return 64;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        return getInventoryTarget() != null && getInventoryTarget().isUseableByPlayer(entityplayer);
+
+        if (getInventoryTarget() != null) {
+            return getInventoryTarget().isUseableByPlayer(entityplayer);
+        }
+        return worldObj.getTileEntity(getPos()) == this && entityplayer.getDistanceSq(getPos().getX(), getPos().getY(), getPos().getZ()) < 64;
     }
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-        return getInventoryTarget() != null && getInventoryTarget().isItemValidForSlot(i, itemstack);
+
+        if (getInventoryTarget() != null) {
+            return getInventoryTarget().isItemValidForSlot(i, itemstack);
+        }
+        return i != 2 && FluidContainerRegistry.isContainer(itemstack);
     }
 
     @Override
     public int getField(int id) {
+
         return 0;
     }
 
@@ -361,6 +469,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public int getFieldCount() {
+
         return 0;
     }
 
@@ -371,24 +480,34 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public int[] getSlotsForFace(EnumFacing var1) {
+
         if (getInventoryTarget() != null) {
             return getInventoryTarget().getSlotsForFace(var1);
         }
-        return new int[0];
+        return new int[]{0, 2};
     }
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemstack, EnumFacing j) {
-        return getInventoryTarget() != null && getInventoryTarget().canInsertItem(i, itemstack, j);
+
+        if (getInventoryTarget() != null) {
+            return getInventoryTarget().canInsertItem(i, itemstack, j);
+        }
+        return isItemValidForSlot(i, itemstack);
     }
 
     @Override
     public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j) {
-        return getInventoryTarget() != null && getInventoryTarget().canExtractItem(i, itemstack, j);
+
+        if (getInventoryTarget() != null) {
+            return getInventoryTarget().canExtractItem(i, itemstack, j);
+        }
+        return true;
     }
 
     @Override
     public String getName() {
+
         if (getInventoryTarget() != null) {
             return getInventoryTarget().getName();
         }
@@ -397,12 +516,14 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public boolean hasCustomName() {
+
         return getInventoryTarget() != null && getInventoryTarget().hasCustomName();
     }
 
     @Override
     public IChatComponent getDisplayName() {
-        if(getInventoryTarget() != null){
+
+        if (getInventoryTarget() != null) {
             return getInventoryTarget().getDisplayName();
         }
         return null;
@@ -410,6 +531,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public void openInventory(EntityPlayer player) {
+
         if (getInventoryTarget() != null) {
             getInventoryTarget().openInventory(player);
         }
@@ -417,12 +539,14 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public void closeInventory(EntityPlayer player) {
+
         if (getInventoryTarget() != null) {
             getInventoryTarget().closeInventory(player);
         }
     }
 
     public void checkTank(EnumFacing sideClicked) {
+
         if (getFluidTarget() == null) {
             //Log.info("Checking tank. Clicked on side " + sideClicked);
             EnumFacing tankDir = sideClicked.getOpposite();
@@ -680,11 +804,11 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                                     //Check what material this tank is made of, it adds to the tankScore.
                                     //We should make an array here
                                     int c = 0;
-                                    if(blocks.containsKey(bl)){
+                                    if (blocks.containsKey(bl)) {
                                         c = blocks.get(bl);
                                         blocks.remove(bl);
                                     }
-                                    blocks.put(bl, c+1);
+                                    blocks.put(bl, c + 1);
                                     //tankScore += HCConfig.getTankBlockScore(bl);
                                 }
                             }
@@ -693,7 +817,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
                 }
             }
 
-            for(Map.Entry<Block, Integer> block : blocks.entrySet()){
+            for (Map.Entry<Block, Integer> block : blocks.entrySet()) {
                 tankScore += HCConfig.getTankBlockScore(block.getKey()) * block.getValue();
                 //Log.info(block.getKey().getLocalizedName() + "=" + block.getValue() + "=" + HCConfig.getTankBlockScore(block.getKey()));
             }
@@ -727,6 +851,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     public void breakTank() {
+
         isTank = false;
         Hydraulicraft.tankList.deleteTank(tankCorner1, tankCorner2);
         tankCorner1 = null;
@@ -736,19 +861,23 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     public Location getTankCorner1() {
+
         return tankCorner1;
     }
 
     public Location getTankCorner2() {
+
         return tankCorner2;
     }
 
     public boolean isValidTank() {
+
         return isTank;
     }
 
     @Override
     public void invalidate() {
+
         super.invalidate();
         if (isTank) {
             breakTank();
@@ -790,11 +919,13 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     @Override
     public boolean connectTexture() {
+
         return isValidTank() || getFluidTarget() != null || getInventoryTarget() != null || getTarget() != null;
     }
 
     @Override
     public boolean connectTextureTo(Block type) {
+
         return connectTexture() && (type instanceof BlockHydraulicPressureWall);// || type instanceof BlockHydraulicPressureValve);
     }
 }

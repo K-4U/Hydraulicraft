@@ -11,6 +11,7 @@ public class OreNadsiumBicarbinate extends OreMineral implements IGlowBlock {
 
     //private IIcon glowIcon;
     public OreNadsiumBicarbinate() {
+
         super(Names.oreNadsiumBicarbinate);
     }
 

@@ -15,24 +15,29 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import java.util.List;
 
 public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerItem, IPressureDivingSuit {
+
     private static final int TANK_CAPACITY = 8000;
 
     public ItemDivingHelmet() {
+
         super(0);
     }
 
     @Override
     public FluidStack getFluid(ItemStack container) {
+
         return fetchFluidOrCreate(container);
     }
 
     @Override
     public int getCapacity(ItemStack container) {
+
         return TANK_CAPACITY;
     }
 
     @Override
     public int fill(ItemStack container, FluidStack resource, boolean doFill) {
+
         if (resource == null)
             return 0;
 
@@ -55,6 +60,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
 
     @Override
     public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
+
         if (maxDrain < 0)
             return null;
         if (!(container.getItem() instanceof ItemDivingHelmet))
@@ -71,6 +77,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
     }
 
     private FluidStack fetchFluidOrCreate(ItemStack container) {
+
         if (container.getTagCompound() == null || container.getTagCompound().getTag("internalStorage") == null) {
             container.setTagCompound(new NBTTagCompound());
             container.getTagCompound().setTag("internalStorage", new NBTTagCompound());
@@ -86,6 +93,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
     }
 
     private void saveFluidStackToItem(ItemStack container, FluidStack newFluid) {
+
         if (container.getTagCompound() == null)
             container.setTagCompound(new NBTTagCompound());
 
@@ -95,6 +103,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
     @Override
     @SuppressWarnings("unchecked")
     public void addInformation(ItemStack itemStack, EntityPlayer player, List lines, boolean noIdea) {
+
         super.addInformation(itemStack, player, lines, noIdea);
         FluidStack stack = fetchFluidOrCreate(itemStack);
         if (stack.getFluid() != null)
@@ -103,6 +112,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
 
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+
         super.onArmorTick(world, player, itemStack);
         //Log.info("Tick");
         NBTTagCompound entityData = player.getEntityData();
@@ -136,6 +146,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
 
     @Override
     public boolean isPressureSafe(EntityPlayer player, ItemStack stack, int pressure) {
+
         FluidStack fluidStack = fetchFluidOrCreate(stack);
         return (fluidStack.getFluid() != null && fluidStack.amount > 0);
     }

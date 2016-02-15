@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileJarOfDirt;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -17,7 +18,7 @@ public class BlockJarOfDirt extends HydraulicBlockContainerBase implements ITool
     public BlockJarOfDirt() {
 
         super(Names.blockJarDirt, true);
-        hasTextures=false;
+        hasTextures = false;
     }
 
     @Override
@@ -46,11 +47,12 @@ public class BlockJarOfDirt extends HydraulicBlockContainerBase implements ITool
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+
         return false;
     }
 
     @Override
-    public String getToolTip() {
+    public String getToolTip(ItemStack stack) {
 
         return "I've got a jar of dihirt!";
     }

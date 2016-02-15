@@ -12,22 +12,24 @@ import net.minecraft.world.World;
 
 public class BlockHydraulicFrictionIncinerator extends HydraulicBlockContainerBase implements ITieredBlock, IBlockWithRotation {
 
-	public BlockHydraulicFrictionIncinerator() {
-		super(Names.blockHydraulicFrictionIncinerator, true);
-	}
+    public BlockHydraulicFrictionIncinerator() {
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int var2) {
-		return new TileHydraulicFrictionIncinerator();
-	}
+        super(Names.blockHydraulicFrictionIncinerator, true);
+    }
 
-	@Override
-	public GuiIDs getGUIID() {
+    @Override
+    public TileEntity createNewTileEntity(World world, int var2) {
 
-		return GuiIDs.INCINERATOR;
-	}
+        return new TileHydraulicFrictionIncinerator();
+    }
 
-	@Override
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.INCINERATOR;
+    }
+
+    @Override
     public PressureTier getTier() {
 
         return PressureTier.MEDIUMPRESSURE;

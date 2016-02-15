@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tanks {
-    class Tank{
+
+    class Tank {
+
         private Location location1;
         private Location location2;
         private Location valveLocation;
@@ -28,9 +30,9 @@ public class Tanks {
             int x = pos.getX();
             int y = pos.getY();
             int z = pos.getZ();
-            if (x >= location1.getX() && x <= location2.getX()){
-                if(y >= location1.getY() && y <= location2.getY()){
-                    if(z >= location1.getZ() && z <= location2.getZ()){
+            if (x >= location1.getX() && x <= location2.getX()) {
+                if (y >= location1.getY() && y <= location2.getY()) {
+                    if (z >= location1.getZ() && z <= location2.getZ()) {
                         return true;
                     }
                 }
@@ -38,11 +40,13 @@ public class Tanks {
             return false;
         }
 
-        public boolean isEqual(Location loc1, Location loc2){
+        public boolean isEqual(Location loc1, Location loc2) {
+
             return location1.equals(loc1) && location2.equals(loc2);
         }
 
-        public Location getValveLocation(){
+        public Location getValveLocation() {
+
             return valveLocation;
         }
     }
@@ -50,42 +54,47 @@ public class Tanks {
     private boolean isLoaded = false;
     private List<Tank> registeredTanks;
 
-    public Tanks(){
+    public Tanks() {
+
         registeredTanks = new ArrayList<Tank>();
     }
 
 
-    public void addNewTank(Location loc1, Location loc2, Location valveLocation){
+    public void addNewTank(Location loc1, Location loc2, Location valveLocation) {
+
         Tank toAdd = new Tank(loc1, loc2, valveLocation);
         registeredTanks.add(toAdd);
     }
 
-    public void deleteTank(Location loc1, Location loc2){
-        for(Tank tank : registeredTanks){
-            if(tank.isEqual(loc1, loc2)){
+    public void deleteTank(Location loc1, Location loc2) {
+
+        for (Tank tank : registeredTanks) {
+            if (tank.isEqual(loc1, loc2)) {
                 registeredTanks.remove(tank);
                 break;
             }
         }
     }
 
-    public Location isLocationInTank(BlockPos pos){
-        for(Tank tank : registeredTanks){
-            if(tank.isLocationInTank(pos)){
+    public Location isLocationInTank(BlockPos pos) {
+
+        for (Tank tank : registeredTanks) {
+            if (tank.isLocationInTank(pos)) {
                 return tank.getValveLocation();
             }
         }
         return null;
     }
 
-    public void readFromFile(File dir){
+    public void readFromFile(File dir) {
+
         registeredTanks.clear();
-        if(dir != null){
+        if (dir != null) {
             Gson gson = new Gson();
             String p = dir.getAbsolutePath();
             p += "/tanks.json";
             File f = new File(p);
-            if(!f.exists()){
+            if (!f.exists()) {
                 try {
                     f.createNewFile();
                 } catch (IOException e) {
@@ -102,9 +111,10 @@ public class Tanks {
                 ipStream.close();
                 bReader.close();
 
-                Type myTypeMap = new TypeToken<List<Tank>>(){}.getType();
+                Type myTypeMap = new TypeToken<List<Tank>>() {
+                }.getType();
                 registeredTanks = gson.fromJson(json, myTypeMap);
-                if(registeredTanks == null){
+                if (registeredTanks == null) {
 
                     registeredTanks = new ArrayList<Tank>();
                 }
@@ -120,15 +130,16 @@ public class Tanks {
         }
     }
 
-    public void saveToFile(File dir){
-        if(dir != null){
+    public void saveToFile(File dir) {
+
+        if (dir != null) {
             Gson gson = new Gson();
             String json = gson.toJson(registeredTanks);
             //Log.info("Saving: " + json);
             String p = dir.getAbsolutePath();
             p += "/tanks.json";
             File f = new File(p);
-            if(!f.exists()){
+            if (!f.exists()) {
                 try {
                     f.createNewFile();
                 } catch (IOException e) {

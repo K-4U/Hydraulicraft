@@ -14,18 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsumer {
+
     //FIXME: I TURN NULL SOMEHOW
     private Location parent;
     private Location child;
-    private EnumFacing facing = EnumFacing.UP;
+    private EnumFacing facing     = EnumFacing.UP;
     private EnumFacing paneFacing = EnumFacing.NORTH;
 
     private boolean isRotating = false;
 
-    private float movedPercentage = 0.0F;
+    private float movedPercentage     = 0.0F;
     private float prevMovedPercentage = 0.0F;
-    private float movingSpeed = 0.01F;
-    private float target = 1.0F;
+    private float movingSpeed         = 0.01F;
+    private float target              = 1.0F;
     private boolean isPane;
 
     public TileMovingPane() {
@@ -56,6 +57,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
 
         if (parent != null) {
@@ -67,7 +69,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
         tagCompound.setString("facing", facing.getName());
         tagCompound.setString("paneFacing", paneFacing.getName());
 
-        if(getIsPane()) {
+        if (getIsPane()) {
             tagCompound.setBoolean("isRotating", isRotating);
             tagCompound.setFloat("movedPercentage", movedPercentage);
             tagCompound.setFloat("movingSpeed", movingSpeed);
@@ -77,6 +79,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 
     @Override
     public void update() {
+
         super.update();
 
         if (isRotating && getIsPane()) {
@@ -126,19 +129,23 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
     }
 
     private boolean hasEnoughPressure() {
+
         return getPressure(EnumFacing.UP) > Constants.MIN_PRESSURE_PANE;
     }
 
     private float getPressureFactor() {
+
         return getPressure(EnumFacing.UP) / getMaxPressure(isOilStored(), EnumFacing.UP);
     }
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         if (getIsPane()) {
             return false;
         }
@@ -146,15 +153,18 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
     }
 
     public EnumFacing getFacing() {
+
         return facing;
     }
 
     public void setFacing(EnumFacing n) {
+
         facing = n;
     }
 
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
+
         if (!getIsPane()) {
             if (getChild() != null) {
                 if (getChild().getIsRotating()) {
@@ -167,49 +177,58 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         return true;
     }
 
     public void setIsPane(boolean isIt) {
+
         getWorldObj().setBlockState(getPos(), getBlockType().getDefaultState().withProperty(Properties.CHILD, isIt));
         isPane = isIt;
         //getHandler().updateBlock();
     }
 
     public boolean getIsPane() {
-        if(getWorldObj() == null){
+
+        if (getWorldObj() == null) {
             //This can only happen on NBT load, which means it should just load them anyway.
             return isPane;
         }
-        if(getWorldObj().getBlockState(getPos()).getBlock() != Blocks.air) {
+        if (getWorldObj().getBlockState(getPos()).getBlock() != Blocks.air) {
             isPane = getWorldObj().getBlockState(getPos()).getValue(Properties.CHILD);
             return isPane;
-        }else{
+        } else {
             return false;
         }
     }
 
     public void setParentLocation(Location p) {
+
         parent = p;
     }
 
     public Location getParentLocation() {
+
         return parent;
     }
 
     public void setChildLocation(Location c) {
+
         child = c;
     }
 
     public Location getChildLocation() {
+
         return child;
     }
 
     public float getMovedPercentage() {
+
         return movedPercentage;
     }
 
     public float getMovedPercentageForRender(float f) {
+
         if (isRotating) {
             return getMovedPercentage() + (getMovedPercentage() - prevMovedPercentage) * f;
         } else {
@@ -218,43 +237,52 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
     }
 
     public void setPaneFacing(EnumFacing n) {
+
         paneFacing = n;
     }
 
     public EnumFacing getPaneFacing() {
+
         return paneFacing;
     }
 
     public void setTarget(float nTarget) {
+
         target = nTarget;
         isRotating = true;
         getHandler().updateBlock();
     }
 
     public void setSpeed(float nSpeed) {
+
         movingSpeed = nSpeed;
         getHandler().updateBlock();
     }
 
     public TileMovingPane getChild() {
+
         return (TileMovingPane) worldObj.getTileEntity(getChildLocation().toBlockPos());
     }
 
     public TileMovingPane getParent() {
+
         return (TileMovingPane) worldObj.getTileEntity(getParentLocation().toBlockPos());
     }
 
     @Override
     public boolean getRedstonePowered() {
+
         return super.getRedstonePowered();
     }
 
     public boolean getRedstonePowered(Object caller) {
+
         List<Object> called = new ArrayList<Object>();
         return getRedstonePowered(called);
     }
 
     public boolean getRedstonePowered(List<Object> called) {
+
         called.add(this);
 
         boolean allFalse = true;
@@ -281,6 +309,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
 
     @Override
     public boolean shouldRenderInPass(int pass) {
+
         return true;
     }
 }

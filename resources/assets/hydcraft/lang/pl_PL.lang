@@ -41,13 +41,9 @@ tile.LPHydraulicPipe.name=Rura Niskociśnieniowa
 tile.MPHydraulicPipe.name=Rura Średniociśnieniowa
 tile.HPHydraulicPipe.name=Rura Wysokociśnieniowa
 
-tile.LPPartValve.name=Zawór Niskociśnieniowy
-tile.MPPartValve.name=Zawór Średniociśnieniowy
-tile.HPPartValve.name=Zawór Wysokociśnieniowy
-
-tile.LPHydraulicPressureVat.name=Cysterna Niskociśnieniowa
-tile.MPHydraulicPressureVat.name=Cysterna Średniociśnieniowa
-tile.HPHydraulicPressureVat.name=Cysterna Wysokociśnieniowa
+tile.LPHydraulicPressureReservoir.name=Cysterna Niskociśnieniowa
+tile.MPHydraulicPressureReservoir.name=Cysterna Średniociśnieniowa
+tile.HPHydraulicPressureReservoir.name=Cysterna Wysokociśnieniowa
 
 tile.LPHydraulicPump.name=Pompa Niskociśnieniowa
 tile.MPHydraulicPump.name=Pompa Średniociśnieniowa

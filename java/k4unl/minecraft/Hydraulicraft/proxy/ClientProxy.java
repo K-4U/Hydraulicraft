@@ -17,12 +17,13 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void preinit() {
+
         super.preinit();
         Models.init();
-        Models.itemModels();
     }
 
     public void init() {
+
         super.init();
         initRenderers();
         initFonts();
@@ -41,6 +42,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     public void initFonts() {
+
         Hydraulicraft.smallGuiFont = FontLoader.createFont(new ResourceLocation(ModInfo.LID, "fonts/Ubuntu.ttf"), 15, true);
         Hydraulicraft.mediumGuiFont = FontLoader.createFont(new ResourceLocation(ModInfo.LID, "fonts/Ubuntu.ttf"), 20, true);
     }

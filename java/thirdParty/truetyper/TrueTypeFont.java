@@ -1,8 +1,5 @@
 package thirdParty.truetyper;
 
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
@@ -264,25 +261,25 @@ public class TrueTypeFont {
         float SrcHeight = srcY2 - srcY;
         float RenderWidth = (SrcWidth / textureWidth);
         float RenderHeight = (SrcHeight / textureHeight);
-        WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
+        //WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
 
         //worldRenderer.setColorRGBA_F(0f, 0f, 0f, 1f);
 
-        worldRenderer.pos(drawX, drawY, 0).tex(TextureSrcX, TextureSrcY).endVertex();
-        //GL11.glTexCoord2f(TextureSrcX, TextureSrcY);
-        //GL11.glVertex2f(drawX, drawY);
+        //worldRenderer.pos(drawX, drawY, 0).tex(TextureSrcX, TextureSrcY).endVertex();
+        GL11.glTexCoord2f(TextureSrcX, TextureSrcY);
+        GL11.glVertex2f(drawX, drawY);
 
-        worldRenderer.pos(drawX, drawY + DrawHeight, 0).tex(TextureSrcX, TextureSrcY + RenderHeight).endVertex();
-        //GL11.glTexCoord2f(TextureSrcX, TextureSrcY + RenderHeight);
-        //GL11.glVertex2f(drawX, drawY + DrawHeight);
+        //worldRenderer.pos(drawX, drawY + DrawHeight, 0).tex(TextureSrcX, TextureSrcY + RenderHeight).endVertex();
+        GL11.glTexCoord2f(TextureSrcX, TextureSrcY + RenderHeight);
+        GL11.glVertex2f(drawX, drawY + DrawHeight);
 
-        worldRenderer.pos(drawX + DrawWidth, drawY + DrawHeight, 0).tex(TextureSrcX + RenderWidth, TextureSrcY + RenderHeight).endVertex();
-        //GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY + RenderHeight);
-        //GL11.glVertex2f(drawX + DrawWidth, drawY + DrawHeight);
+        //worldRenderer.pos(drawX + DrawWidth, drawY + DrawHeight, 0).tex(TextureSrcX + RenderWidth, TextureSrcY + RenderHeight).endVertex();
+        GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY + RenderHeight);
+        GL11.glVertex2f(drawX + DrawWidth, drawY + DrawHeight);
 
-        worldRenderer.pos(drawX + DrawWidth, drawY, 0).tex(TextureSrcX + RenderWidth, TextureSrcY).endVertex();
-        //GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY);
-        //GL11.glVertex2f(drawX + DrawWidth, drawY);
+        //worldRenderer.pos(drawX + DrawWidth, drawY, 0).tex(TextureSrcX + RenderWidth, TextureSrcY).endVertex();
+        GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY);
+        GL11.glVertex2f(drawX + DrawWidth, drawY);
     }
 
     public float getWidth(String whatchars) {
@@ -365,7 +362,7 @@ public class TrueTypeFont {
                     if (charCurrent < 256) {
                         floatObject = charArray[charCurrent];
                     } else {
-                        floatObject = (FloatObject) customChars.get(new Character((char) charCurrent));
+                        floatObject = (FloatObject) customChars.get((char) charCurrent);
                     }
                     totalwidth += floatObject.width - correctL;
                 }
@@ -380,11 +377,12 @@ public class TrueTypeFont {
 
         }
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureID);
-        WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
-        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-        //	GL11.glBegin(GL11.GL_QUADS);
+        //WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
+        //worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+        	GL11.glBegin(GL11.GL_QUADS);
         if (rgba.length == 4)
-            worldRenderer.color(rgba[0], rgba[1], rgba[2], rgba[3]);
+            //worldRenderer.color(rgba[0], rgba[1], rgba[2], rgba[3]);
+        GL11.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
         while (i >= startIndex && i <= endIndex) {
 
             charCurrent = whatchars.charAt(i);
@@ -428,8 +426,8 @@ public class TrueTypeFont {
 
             }
         }
-        Tessellator.getInstance().draw();
-        //	GL11.glEnd();
+        //Tessellator.getInstance().draw();
+        GL11.glEnd();
 
         GL11.glPopMatrix();
     }

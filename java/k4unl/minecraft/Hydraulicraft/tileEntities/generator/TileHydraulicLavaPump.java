@@ -2,7 +2,6 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.generator;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
@@ -12,6 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.*;
 
 public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraulicGenerator, IFluidHandler {
+
     private FluidTank    tank         = null;
     private PressureTier tier         = PressureTier.INVALID;
     private boolean      isRunning    = false;
@@ -19,22 +19,26 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
     private int          runningTicks = 0;
 
     public TileHydraulicLavaPump() {
+
         super(2);
         super.init(this);
     }
 
     public TileHydraulicLavaPump(int tier) {
+
         super(2 * (tier + 1));
         super.init(this);
     }
 
     @Override
     public void validate() {
+
         super.validate();
     }
 
     @Override
     public void workFunction(EnumFacing from) {
+
         if (!from.equals(EnumFacing.UP)) return;
 
         if (!getRedstonePowered()) {
@@ -66,20 +70,24 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 
     @Override
     public int getMaxGenerating(EnumFacing from) {
+
         float tiered = (getTier().toInt() + 1) / 3.0F;
         return (int) (Constants.MAX_LAVA_USAGE * (HCConfig.INSTANCE.getInt("conversionRatioLavaHydraulic") * tiered) * (getHandler().isOilStored() ? 1.0F : Constants.WATER_CONVERSION_RATIO));
     }
 
     public float getBurningPercentage() {
+
         return 0;
     }
 
     public int getLavaUsage() {
+
         return lavaUsage;
     }
 
     @Override
     public float getGenerating(EnumFacing from) {
+
         if (!getRedstonePowered() || getFluidInNetwork(from) == 0 || tank == null || tank.getFluid() == null) {
             lavaUsage = 0;
             return 0f;
@@ -113,6 +121,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
     }
 
     public void setTier(PressureTier tier) {
+
         if (tank == null) {
             tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier.toInt() + 1)));
         }
@@ -120,8 +129,9 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
     }
 
     public PressureTier getTier() {
+
         if (tier == PressureTier.INVALID && worldObj != null) {
-            tier = (PressureTier) worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER);
+            tier = (PressureTier) worldObj.getBlockState(getPos()).getValue(Properties.TIER);
             if (tank == null) {
                 tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * (16 * (tier.toInt() + 1)));
             }
@@ -133,6 +143,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
 
         setTier(PressureTier.fromOrdinal(tagCompound.getInteger("tier")));
@@ -147,6 +158,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
 
         tagCompound.setInteger("tier", getTier().toInt());
@@ -162,20 +174,24 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return true;
     }
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         return dir.equals(EnumFacing.UP);
     }
 
     @Override
     public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
+
         if (worldObj.isRemote) return 0;
         if (resource == null) //What!?
             return 0;
@@ -199,11 +215,13 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
     @Override
     public FluidStack drain(EnumFacing from, FluidStack resource,
                             boolean doDrain) {
+
         return null;
     }
 
     @Override
     public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+
         FluidStack drained = tank.drain(maxDrain, doDrain);
         if (tank.getFluidAmount() == 0 && doDrain) {
             tank.setFluid(null);
@@ -213,17 +231,20 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
+
         if (fluid == null) return true;
         return fluid == FluidRegistry.LAVA;
     }
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
+
         return fluid == FluidRegistry.LAVA;
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
+
         if (tank != null) {
             return new FluidTankInfo[]{new FluidTankInfo(tank)};
         } else {
@@ -232,7 +253,8 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
     }
 
     public EnumFacing getFacing() {
-        return (EnumFacing)getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
+
+        return (EnumFacing) getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
     }
 
 }

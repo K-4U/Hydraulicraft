@@ -8,25 +8,27 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiHarvester extends HydraulicGUIBase {
-	private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID,"textures/gui/harvester.png");
 
-	private TileHydraulicHarvester harvester;
+    private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/harvester.png");
 
-	
-	
-	public GuiHarvester(InventoryPlayer invPlayer, TileHydraulicHarvester harv) {
-		super(harv, new ContainerHarvester(invPlayer, harv), resLoc);
-		harvester = harv;
-	}
-	
+    private TileHydraulicHarvester harvester;
 
-	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		drawHorizontalAlignedString(7, 3, xSize-14, HCBlocks.hydraulicHarvesterSource.getLocalizedName(), true);
-		
-		drawFluidAndPressure();
-		checkTooltips(mouseX, mouseY);
-	}
+
+    public GuiHarvester(InventoryPlayer invPlayer, TileHydraulicHarvester harv) {
+
+        super(harv, new ContainerHarvester(invPlayer, harv), resLoc);
+        harvester = harv;
+    }
+
+
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+
+        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+        drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.hydraulicHarvesterSource.getLocalizedName(), true);
+
+        drawFluidAndPressure();
+        checkTooltips(mouseX, mouseY);
+    }
 
 }

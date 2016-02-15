@@ -15,34 +15,36 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase implements ITieredBlock, ITooltipProvider{
+public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase implements ITieredBlock, ITooltipProvider {
 
-	public BlockHydraulicFluidPump() {
-		super(Names.blockHydraulicFluidPump, true);
-		//this.hasFrontIcon = true;
-	}
+    public BlockHydraulicFluidPump() {
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicFluidPump();
-	}
+        super(Names.blockHydraulicFluidPump, true);
+        //this.hasFrontIcon = true;
+    }
 
-	@Override
-	public GuiIDs getGUIID() {
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
 
-		return GuiIDs.INVALID;
-	}
+        return new TileHydraulicFluidPump();
+    }
 
-	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    @Override
+    public GuiIDs getGUIID() {
 
-		TileEntity pEnt = worldIn.getTileEntity(pos);
-		if(pEnt instanceof TileHydraulicFluidPump){
-			((TileHydraulicFluidPump)pEnt).setFacing(placer.getHorizontalFacing().getOpposite());
-		}
-	}
+        return GuiIDs.INVALID;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+
+        TileEntity pEnt = worldIn.getTileEntity(pos);
+        if (pEnt instanceof TileHydraulicFluidPump) {
+            ((TileHydraulicFluidPump) pEnt).setFacing(placer.getHorizontalFacing().getOpposite());
+        }
+    }
 /*
-	@Override
+    @Override
 	@SideOnly(Side.CLIENT)
 	public int getRenderType() {
 
@@ -56,7 +58,7 @@ public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase impleme
     }
 
     @Override
-    public String getToolTip() {
+    public String getToolTip(ItemStack stack) {
 
         return Localization.getString(Localization.DESC_HYDRAULICFLUIDPUMP);
     }

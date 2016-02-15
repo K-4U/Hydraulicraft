@@ -6,22 +6,24 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
 public class OreBase extends Block {
-	private Name oName;
-	
-	public OreBase(Name oreName) {
-		super(Material.rock);
-		
-		oName = oreName;
-		
-		setUnlocalizedName(oName.unlocalized);
-		setStepSound(Block.soundTypeStone);
-		setHardness(3.5F);
-		
-		setCreativeTab(CustomTabs.tabHydraulicraft);
 
-		setHarvestLevel("pickaxe", 1);
-	}
-	/*
+    private Name oName;
+
+    public OreBase(Name oreName) {
+
+        super(Material.rock);
+
+        oName = oreName;
+
+        setUnlocalizedName(oName.unlocalized);
+        setStepSound(Block.soundTypeStone);
+        setHardness(3.5F);
+
+        setCreativeTab(CustomTabs.tabHydraulicraft);
+
+        setHarvestLevel("pickaxe", 1);
+    }
+    /*
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegistry){
 		blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + oName.unlocalized);
@@ -32,6 +34,6 @@ public class OreBase extends Block {
 		return blockIcon;
 	}
 	*/
-	
+
 
 }

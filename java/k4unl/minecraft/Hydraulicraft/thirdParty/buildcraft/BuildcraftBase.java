@@ -5,7 +5,9 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.IThirdParty;
 import net.minecraft.item.ItemStack;
 
 public class BuildcraftBase implements IThirdParty {
+
     public boolean isWrench(ItemStack stack) {
+
         return stack != null && stack.getItem() instanceof ItemHydraulicWrench;
     }
 

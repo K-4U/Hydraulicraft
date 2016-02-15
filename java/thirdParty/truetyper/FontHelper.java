@@ -88,7 +88,7 @@ public class FontHelper {
 		mc.entityRenderer.setupOverlayRendering();
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 	    GL11.glPushMatrix(); 
-		//GL11.glLoadMatrix(matrixData);
+		GL11.glLoadMatrix(matrixData);
 
 	    GL11.glLoadIdentity();
 	    GL11.glOrtho(0, mc.displayWidth, 0, mc.displayHeight, -1, 1);

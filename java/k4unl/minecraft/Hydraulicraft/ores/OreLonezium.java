@@ -7,6 +7,7 @@ public class OreLonezium extends OreMineral implements IGlowBlock {
 
     //private IIcon glowIcon;
     public OreLonezium() {
+
         super(Names.oreLonezium);
     }
 /*

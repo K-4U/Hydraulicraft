@@ -9,13 +9,16 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class PacketPortalEnabled extends LocationIntPacket<PacketPortalEnabled> {
+
     private EnumFacing baseDir;
     private EnumFacing portalDir;
 
     public PacketPortalEnabled() {
+
     }
 
     public PacketPortalEnabled(BlockPos pos, EnumFacing _baseDir, EnumFacing _portalDir) {
+
         super(pos);
         baseDir = _baseDir;
         portalDir = _portalDir;
@@ -23,6 +26,7 @@ public class PacketPortalEnabled extends LocationIntPacket<PacketPortalEnabled> 
 
     @Override
     public void toBytes(ByteBuf buffer) {
+
         super.toBytes(buffer);
         ByteBufUtils.writeUTF8String(buffer, baseDir.toString());
         ByteBufUtils.writeUTF8String(buffer, portalDir.toString());
@@ -30,6 +34,7 @@ public class PacketPortalEnabled extends LocationIntPacket<PacketPortalEnabled> 
 
     @Override
     public void fromBytes(ByteBuf buffer) {
+
         super.fromBytes(buffer);
 
         baseDir = EnumFacing.byName(ByteBufUtils.readUTF8String(buffer));
@@ -38,6 +43,7 @@ public class PacketPortalEnabled extends LocationIntPacket<PacketPortalEnabled> 
 
     @Override
     public void handleClientSide(PacketPortalEnabled message, EntityPlayer player) {
+
         if (player.worldObj.getTileEntity(message.pos) instanceof TilePortalTeleporter) {
             ((TilePortalTeleporter) player.worldObj.getTileEntity(message.pos)).setRotation(message.baseDir, message.portalDir);
         }

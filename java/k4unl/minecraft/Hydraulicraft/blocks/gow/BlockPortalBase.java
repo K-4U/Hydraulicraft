@@ -19,52 +19,55 @@ import net.minecraft.world.World;
 
 public class BlockPortalBase extends GOWBlockRendering implements ITieredBlock {
 
-	public BlockPortalBase() {
-		super(Names.portalBase.unlocalized);
-		setCreativeTab(CustomTabs.tabGOW);
-	}
+    public BlockPortalBase() {
 
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(playerIn.isSneaking()){
-			return false;
-		}
-		
-		TileEntity entity = worldIn.getTileEntity(pos);
-		if(entity == null || !(entity instanceof TilePortalBase)){
-			return false;
-		}
-		
-		if(playerIn.getCurrentEquippedItem() != null){
-			if(playerIn.getCurrentEquippedItem().getItem() instanceof ItemIPCard){
-				return false;
-			}
-			if(playerIn.getCurrentEquippedItem().getItem() instanceof ItemDye){
-				//Dye that shit!
-				if(((TilePortalBase)entity).getIsValid()){
-					((TilePortalBase)entity).dye(~playerIn.getCurrentEquippedItem().getItemDamage() & 15);
-				}
-				return false;
-			}
-		}
-		
-		if(((TilePortalBase)entity).getIsValid()){
-			playerIn.openGui(Hydraulicraft.instance, GuiIDs.PORTALBASE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
-		}else{
-			return false;
-		}
-		return true;
-	}
+        super(Names.portalBase.unlocalized);
+        setCreativeTab(CustomTabs.tabGOW);
+    }
 
-	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-		super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
-		
-		TileEntity tile = worldIn.getTileEntity(pos);
-		if(tile instanceof TilePortalBase){
-			((TilePortalBase)tile).checkRedstonePower();			
-		}
-	}
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+        if (playerIn.isSneaking()) {
+            return false;
+        }
+
+        TileEntity entity = worldIn.getTileEntity(pos);
+        if (entity == null || !(entity instanceof TilePortalBase)) {
+            return false;
+        }
+
+        if (playerIn.getCurrentEquippedItem() != null) {
+            if (playerIn.getCurrentEquippedItem().getItem() instanceof ItemIPCard) {
+                return false;
+            }
+            if (playerIn.getCurrentEquippedItem().getItem() instanceof ItemDye) {
+                //Dye that shit!
+                if (((TilePortalBase) entity).getIsValid()) {
+                    ((TilePortalBase) entity).dye(~playerIn.getCurrentEquippedItem().getItemDamage() & 15);
+                }
+                return false;
+            }
+        }
+
+        if (((TilePortalBase) entity).getIsValid()) {
+            playerIn.openGui(Hydraulicraft.instance, GuiIDs.PORTALBASE.ordinal(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+
+        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+
+        TileEntity tile = worldIn.getTileEntity(pos);
+        if (tile instanceof TilePortalBase) {
+            ((TilePortalBase) tile).checkRedstonePower();
+        }
+    }
 
     @Override
     public PressureTier getTier() {

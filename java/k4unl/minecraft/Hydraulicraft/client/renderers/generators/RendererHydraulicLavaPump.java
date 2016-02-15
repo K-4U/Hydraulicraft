@@ -86,12 +86,12 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
         /*Vector3fMax vectorPressure = new Vector3fMax(1.0F - thickness - RenderHelper.pixel * 5, 0.0F, thickness + RenderHelper.pixel*2, 1.0F -
           thickness - RenderHelper.pixel*2, 1.002F - thickness, 1.0F - thickness - RenderHelper.pixel * 2);*/
         Vector3fMax vectorPressure = new Vector3fMax(
-          0F + thickness + RenderHelper.pixel * 2,
-          thickness + RenderHelper.pixel * 2,
-          thickness - 0.001F,
-          0F + thickness + RenderHelper.pixel * 5,
-          1F - thickness - (2 * RenderHelper.pixel),
-          1F);
+                0F + thickness + RenderHelper.pixel * 2,
+                thickness + RenderHelper.pixel * 2,
+                thickness - 0.001F,
+                0F + thickness + RenderHelper.pixel * 5,
+                1F - thickness - (2 * RenderHelper.pixel),
+                1F);
         float h = vectorPressure.getYMax() - vectorPressure.getYMin();
         vectorPressure.setYMin(vectorPressure.getYMax() - (h * (t.getHandler().getPressure(EnumFacing.UP) / t.getMaxPressure(t.getHandler().isOilStored(), t.getFacing()))));
         GL11.glBegin(GL11.GL_QUADS);
@@ -115,12 +115,12 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
               thickness -
                     RenderHelper.pixel * 7, 1.002F - thickness, 1.0F - thickness - RenderHelper.pixel * 2);*/
             Vector3fMax vectorFilled = new Vector3fMax(
-              0F + thickness + RenderHelper.pixel * 7,
-              thickness + RenderHelper.pixel * 2,
-              thickness - 0.001F,
-              0F + thickness + RenderHelper.pixel * 12,
-              1F - thickness - (2 * RenderHelper.pixel),
-              1F);
+                    0F + thickness + RenderHelper.pixel * 7,
+                    thickness + RenderHelper.pixel * 2,
+                    thickness - 0.001F,
+                    0F + thickness + RenderHelper.pixel * 12,
+                    1F - thickness - (2 * RenderHelper.pixel),
+                    1F);
             float h = vectorFilled.getYMax() - vectorFilled.getYMin();
             FluidTankInfo[] tankInfo = t.getTankInfo(EnumFacing.UP);
             if (tankInfo != null) {
@@ -137,13 +137,13 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
                 if (fluidAmount > 0) {
                     GL11.glBegin(GL11.GL_QUADS);
                     RenderHelper.vertexWithTexture(vectorFilled.getXMin(), vectorFilled.getYMax(), vectorFilled.getZMin(), fluidIcon.getMinU(),
-                      fluidIcon.getMaxV()); //BL
+                            fluidIcon.getMaxV()); //BL
                     RenderHelper.vertexWithTexture(vectorFilled.getXMax(), vectorFilled.getYMax(), vectorFilled.getZMin(), fluidIcon.getMaxU(),
-                      fluidIcon.getMaxV()); //BR
+                            fluidIcon.getMaxV()); //BR
                     RenderHelper.vertexWithTexture(vectorFilled.getXMax(), vectorFilled.getYMin(), vectorFilled.getZMin(), fluidIcon.getMaxU(),
-                      fluidIcon.getMinV()); //TR
+                            fluidIcon.getMinV()); //TR
                     RenderHelper.vertexWithTexture(vectorFilled.getXMin(), vectorFilled.getYMin(), vectorFilled.getZMin(), fluidIcon.getMinU(),
-                      fluidIcon.getMinV()); //TL
+                            fluidIcon.getMinV()); //TL
                     GL11.glEnd();
                     //RenderHelper.drawTesselatedCube(vectorFilled);
                     /*GL11.glBegin(GL11.GL_QUADS);

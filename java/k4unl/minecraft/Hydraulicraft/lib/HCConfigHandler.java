@@ -11,9 +11,10 @@ import k4unl.minecraft.k4lib.lib.config.ConfigHandler;
  */
 public class HCConfigHandler extends ConfigHandler {
 
-    public void loadTank(){
+    public void loadTank() {
+
         HCConfig.loadTankOptions(config);
-        if(config.hasChanged()){
+        if (config.hasChanged()) {
             config.save();
         }
     }

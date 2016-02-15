@@ -21,22 +21,25 @@ public class ClientEventHandler {
 
     public static final ResourceLocation pressureGauge = new ResourceLocation(ModInfo.LID, "textures/gui/pressureGauge.png");
 
-    public static void init(){
+    public static void init() {
+
         MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
     }
 
 
     @SubscribeEvent
-    public void fogDensityEvent(EntityViewRenderEvent.FogDensity event){
-        if(ItemDivingSuit.isWearingFullSuit(Minecraft.getMinecraft().thePlayer)){
-            event.density=0.1F;
+    public void fogDensityEvent(EntityViewRenderEvent.FogDensity event) {
+
+        if (ItemDivingSuit.isWearingFullSuit(Minecraft.getMinecraft().thePlayer)) {
+            event.density = 0.1F;
             event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
-    public void fogColors(EntityViewRenderEvent.FogColors event){
-        if(ItemDivingSuit.isWearingFullSuit(Minecraft.getMinecraft().thePlayer)){
+    public void fogColors(EntityViewRenderEvent.FogColors event) {
+
+        if (ItemDivingSuit.isWearingFullSuit(Minecraft.getMinecraft().thePlayer)) {
             //223 31 53
             event.red = 223F / 255F;
             event.green = 31F / 255F;
@@ -53,7 +56,7 @@ public class ClientEventHandler {
         }
 
         Minecraft mc = Minecraft.getMinecraft();
-        if(mc.thePlayer.isInWater() && HCConfig.INSTANCE.getBool("waterPressureKills") && Hydraulicraft.hasPressureGaugeInInventory) {
+        if (mc.thePlayer.isInWater() && HCConfig.INSTANCE.getBool("waterPressureKills") && Hydraulicraft.hasPressureGaugeInInventory) {
             GL11.glPushMatrix();
 
             //GL11.glColor3f(1.0F, 1.0F, 1.0F);
@@ -84,8 +87,8 @@ public class ClientEventHandler {
             Tessellator.getInstance().draw();
 
             zLevel += 2F;
-            mc.fontRendererObj.drawString(EnumChatFormatting.WHITE + "" + Hydraulicraft.pressure + "", x + 5, y+5, (int)zLevel);
-            mc.fontRendererObj.drawString(EnumChatFormatting.WHITE + " Bar", x + mc.fontRendererObj.getStringWidth("999") + 5, y+5, (int)zLevel);
+            mc.fontRendererObj.drawString(EnumChatFormatting.WHITE + "" + Hydraulicraft.pressure + "", x + 5, y + 5, (int) zLevel);
+            mc.fontRendererObj.drawString(EnumChatFormatting.WHITE + " Bar", x + mc.fontRendererObj.getStringWidth("999") + 5, y + 5, (int) zLevel);
 
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glDisable(GL11.GL_BLEND);
@@ -97,7 +100,7 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void modelBakeEvent(ModelBakeEvent event){
+    public void modelBakeEvent(ModelBakeEvent event) {
 
     }
 }

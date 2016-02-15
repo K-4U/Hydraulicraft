@@ -11,6 +11,7 @@ import net.minecraftforge.fluids.Fluid;
 
 
 public class BlockBaseFluid extends BlockFluidClassic {
+
     private Name mName;
 
     public BlockBaseFluid(Fluid fluid, Name name) {
@@ -24,6 +25,7 @@ public class BlockBaseFluid extends BlockFluidClassic {
 
     @Override
     public boolean canDisplace(IBlockAccess world, BlockPos pos) {
+
         if (world.getBlockState(pos).getBlock().getMaterial().isLiquid())
             return false;
         return super.canDisplace(world, pos);
@@ -31,6 +33,7 @@ public class BlockBaseFluid extends BlockFluidClassic {
 
     @Override
     public boolean displaceIfPossible(World world, BlockPos pos) {
+
         if (world.getBlockState(pos).getBlock().getMaterial().isLiquid())
             return false;
         return super.displaceIfPossible(world, pos);

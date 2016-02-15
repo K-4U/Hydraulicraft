@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 public class TileHydraulicCharger extends TileHydraulicBase implements IInventory, IHydraulicConsumer {
+
     public static final float MAX_PRESSURE_PER_TICK = 200f;
     public static final float TOLERANCE             = 1f;
     public static final float MAX_FLUID_PER_TICK    = 2f;
@@ -22,6 +23,7 @@ public class TileHydraulicCharger extends TileHydraulicBase implements IInventor
     SimpleInventory inventory;
 
     public TileHydraulicCharger() {
+
         super(1);
         super.init(this);
         inventory = new SimpleInventory(1);
@@ -30,15 +32,18 @@ public class TileHydraulicCharger extends TileHydraulicBase implements IInventor
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return true;
     }
 
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
+
         if (inventory.getStackInSlot(0) == null)
             return 0;
         if (!(inventory.getStackInSlot(0).getItem() instanceof IPressurizableItem))
@@ -100,44 +105,52 @@ public class TileHydraulicCharger extends TileHydraulicBase implements IInventor
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         return true;
     }
 
 
     @Override
     public int getSizeInventory() {
+
         return 1;
     }
 
 
     @Override
     public ItemStack getStackInSlot(int slot) {
+
         return inventory.getStackInSlot(slot);
     }
 
 
     @Override
     public ItemStack decrStackSize(int slot, int decrBy) {
+
         return inventory.decrStackSize(slot, decrBy);
     }
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
+
         return inventory.removeStackFromSlot(index);
     }
 
     @Override
     public void setInventorySlotContents(int var1, ItemStack var2) {
+
         inventory.setInventorySlotContents(var1, var2);
     }
 
     @Override
     public int getInventoryStackLimit() {
+
         return 1;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer var1) {
+
         return true;
     }
 
@@ -154,53 +167,63 @@ public class TileHydraulicCharger extends TileHydraulicBase implements IInventor
 
     @Override
     public boolean isItemValidForSlot(int var1, ItemStack var2) {
+
         return var2.getItem() instanceof IPressurizableItem;
     }
 
     @Override
     public int getField(int id) {
+
         return inventory.getField(id);
     }
 
     @Override
     public void setField(int id, int value) {
+
         inventory.setField(id, value);
     }
 
     @Override
     public int getFieldCount() {
+
         return inventory.getFieldCount();
     }
 
     @Override
     public void clear() {
+
         inventory.clear();
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         inventory.save(tagCompound);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         inventory.load(tagCompound);
     }
 
     @Override
     public String getName() {
+
         return null;
     }
 
     @Override
     public boolean hasCustomName() {
+
         return false;
     }
 
     @Override
     public IChatComponent getDisplayName() {
+
         return null;
     }
 }

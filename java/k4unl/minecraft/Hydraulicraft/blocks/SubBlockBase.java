@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class SubBlockBase extends HydraulicBlockBase {
+
     //private List<IIcon> icons;
     /*private List<Icon> topIcons;
     private List<Icon> bottomIcons;
@@ -28,6 +29,7 @@ public class SubBlockBase extends HydraulicBlockBase {
     public static final PropertyEnum TIER = PropertyEnum.create("tier", PressureTier.class);
 
     protected SubBlockBase(Name[] machineName) {
+
         super(machineName[0], true);
 
         mName = machineName;
@@ -35,9 +37,9 @@ public class SubBlockBase extends HydraulicBlockBase {
         //icons = new ArrayList<IIcon>();
         //topIcons = new ArrayList<Icon>();
         //bottomIcons = new ArrayList<Icon>();
-        if(this instanceof IBlockWithRotation) {
+        if (this instanceof IBlockWithRotation) {
             setDefaultState(this.blockState.getBaseState().withProperty(Properties.ROTATION, EnumFacing.NORTH).withProperty(TIER, PressureTier.INVALID));
-        }else{
+        } else {
             setDefaultState(this.blockState.getBaseState().withProperty(TIER, PressureTier.INVALID));
         }
 
@@ -50,6 +52,7 @@ public class SubBlockBase extends HydraulicBlockBase {
 
     @Override
     public void getSubBlocks(Item block, CreativeTabs tab, List list) {
+
         for (int i = 0; i < 3; i++) {
             list.add(new ItemStack(this, 1, i));
         }
@@ -62,14 +65,16 @@ public class SubBlockBase extends HydraulicBlockBase {
 
     @Override
     public int damageDropped(IBlockState state) {
+
         return getTierFromState(state).toInt();
     }
 
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        if(this instanceof IBlockWithRotation) {
+
+        if (this instanceof IBlockWithRotation) {
             return getDefaultState().withProperty(Properties.ROTATION, placer.getHorizontalFacing().getOpposite()).withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
-        }else{
+        } else {
             return getDefaultState().withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
         }
 
@@ -77,6 +82,7 @@ public class SubBlockBase extends HydraulicBlockBase {
 
     @Override
     protected BlockState createBlockState() {
+
         if (this instanceof IBlockWithRotation) {
             return new BlockState(this, TIER, Properties.ROTATION);
         } else {
@@ -86,6 +92,7 @@ public class SubBlockBase extends HydraulicBlockBase {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
+
         if (this instanceof IBlockWithRotation) {
             return super.getStateFromMeta(meta).withProperty(TIER, PressureTier.fromOrdinal(meta & 3));
         } else {
@@ -95,6 +102,7 @@ public class SubBlockBase extends HydraulicBlockBase {
 
     @Override
     public int getMetaFromState(IBlockState state) {
+
         if (this instanceof IBlockWithRotation) {
             return super.getMetaFromState(state) + ((PressureTier) state.getValue(TIER)).toInt();
         } else {
@@ -103,6 +111,7 @@ public class SubBlockBase extends HydraulicBlockBase {
     }
 
     public PressureTier getTierFromState(IBlockState state) {
+
         return (PressureTier) state.getValue(TIER);
     }
 

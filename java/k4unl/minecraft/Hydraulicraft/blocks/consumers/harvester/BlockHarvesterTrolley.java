@@ -23,23 +23,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
-	private List<Integer> enabledHarvesters = new ArrayList<Integer>();
-	
-	public BlockHarvesterTrolley() {
-		super(Names.blockHarvesterTrolley, true);
-		
-		mName = Names.blockHarvesterTrolley;
-		hasTextures = false;
-	}
+public class BlockHarvesterTrolley extends HydraulicBlockContainerBase {
+
+    private List<Integer> enabledHarvesters = new ArrayList<Integer>();
+
+    public BlockHarvesterTrolley() {
+
+        super(Names.blockHarvesterTrolley, true);
+
+        mName = Names.blockHarvesterTrolley;
+        hasTextures = false;
+    }
 
     @Override
-    public int getRenderType(){
+    public int getRenderType() {
+
         return -1;
     }
 
     @Override
-    public boolean isOpaqueCube(){
+    public boolean isOpaqueCube() {
+
         return false;
     }
 
@@ -49,10 +53,11 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
         return false;
     }
 	*/
-	@Override
-	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileHarvesterTrolley();
-	}
+    @Override
+    public TileEntity createNewTileEntity(World world, int meta) {
+
+        return new TileHarvesterTrolley();
+    }
 
     @Override
     public GuiIDs getGUIID() {
@@ -61,16 +66,17 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
     }
     
     @Override
-    public int quantityDropped(Random p_149745_1_){
+    public int quantityDropped(Random p_149745_1_) {
+
         return 0;
     }
 
     @Override
-    public void breakBlock(World w, BlockPos pos, IBlockState state){
+    public void breakBlock(World w, BlockPos pos, IBlockState state) {
         //Call TileEntity's onBlockBreaks function
         TileEntity tile = w.getTileEntity(pos);
-        if(tile instanceof TileHarvesterTrolley){
-            ((TileHarvesterTrolley)tile).onBlockBreaks();
+        if (tile instanceof TileHarvesterTrolley) {
+            ((TileHarvesterTrolley) tile).onBlockBreaks();
         }
 
         super.breakBlock(w, pos, state);
@@ -79,27 +85,30 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase{
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-	    NBTTagCompound tag = stack.getTagCompound();
-	    TileHarvesterTrolley teTrolley = (TileHarvesterTrolley)world.getTileEntity(pos);
-	    teTrolley.setTrolley(Hydraulicraft.trolleyRegistrar.getTrolley(tag.getString("name")));
+
+        NBTTagCompound tag = stack.getTagCompound();
+        TileHarvesterTrolley teTrolley = (TileHarvesterTrolley) world.getTileEntity(pos);
+        teTrolley.setTrolley(Hydraulicraft.trolleyRegistrar.getTrolley(tag.getString("name")));
         super.onBlockPlacedBy(world, pos, state, placer, stack);
-	}
+    }
 
 
     @SideOnly(Side.CLIENT)
     public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
-	     TileHarvesterTrolley teTrolley = (TileHarvesterTrolley)world.getTileEntity(pos);
-	     return Hydraulicraft.trolleyRegistrar.getTrolleyItem(teTrolley.getTrolley().getName());
-	 }
+
+        TileHarvesterTrolley teTrolley = (TileHarvesterTrolley) world.getTileEntity(pos);
+        return Hydraulicraft.trolleyRegistrar.getTrolleyItem(teTrolley.getTrolley().getName());
+    }
 
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+
         TileEntity tileEntity = worldIn.getTileEntity(pos);
 
-        if(tileEntity instanceof TileHarvesterTrolley) {
-        	TileHarvesterTrolley ht = ((TileHarvesterTrolley) tileEntity);
-        	float extendedLength = ht.getExtendedLength();
+        if (tileEntity instanceof TileHarvesterTrolley) {
+            TileHarvesterTrolley ht = ((TileHarvesterTrolley) tileEntity);
+            float extendedLength = ht.getExtendedLength();
             float sidewaysMovement = ht.getSideLength();
 
             //Get rotation:

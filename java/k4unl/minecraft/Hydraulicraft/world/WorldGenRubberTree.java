@@ -1,9 +1,8 @@
 package k4unl.minecraft.Hydraulicraft.world;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberWood;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSapling;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -15,22 +14,26 @@ import java.util.Random;
  * @author Koen Beckers (K-4U)
  */
 public class WorldGenRubberTree extends WorldGenAbstractTree {
+
     /**
      * The minimum height of a generated tree.
      */
     private final int minTreeHeight;
 
     public WorldGenRubberTree(boolean doBlockNotify) {
+
         this(doBlockNotify, 5);
     }
 
     public WorldGenRubberTree(boolean doBlockNotify, int minTreeHeight) {
+
         super(doBlockNotify);
         this.minTreeHeight = minTreeHeight;
     }
 
     public boolean generate(World world, Random random, BlockPos pos) {
-        int treeHeight = random.nextInt(3) + this.minTreeHeight;
+
+        int treeHeight = random.nextInt(5) + this.minTreeHeight;
         boolean flag = true;
         //CBA to rewrite this, so just do it like this :D
         int x = pos.getX();
@@ -68,12 +71,13 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
                 }
             }
 
+
             if (!flag) {
                 return false;
             } else {
                 Block block2 = world.getBlockState(pos.down()).getBlock();
 
-                boolean isSoil = block2.canSustainPlant(world, pos.down(), EnumFacing.UP, (BlockSapling) Blocks.sapling);
+                boolean isSoil = block2.canSustainPlant(world, pos.down(), EnumFacing.UP, HCBlocks.blockRubberSapling);
                 if (isSoil && y < 256 - treeHeight - 1) {
                     block2.onPlantGrow(world, pos.down(), pos);
                     b0 = 3;
@@ -109,13 +113,18 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
         } else {
             return false;
         }
+
     }
 
     private void setAndCheckBlock(World world, int x, int y, int z, Block toSet) {
+
         BlockPos pos = new BlockPos(x, y, z);
         Block block1 = world.getBlockState(pos).getBlock();
         if (block1.isAir(world, pos) || block1.isLeaves(world, pos)) {
             this.setBlockAndNotifyAdequately(world, pos, toSet.getDefaultState());
+            if(toSet == HCBlocks.blockRubberWood){
+                ((BlockRubberWood)HCBlocks.blockRubberWood).genRubberSpot(world, pos);
+            }
         }
     }
 }

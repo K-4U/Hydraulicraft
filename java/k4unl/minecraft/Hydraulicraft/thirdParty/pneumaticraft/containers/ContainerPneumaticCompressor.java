@@ -8,37 +8,38 @@ import net.minecraft.inventory.Slot;
 
 public class ContainerPneumaticCompressor extends Container {
 
-	//protected TileHydraulicPneumaticCompressor tileCompressor;
-	
-	
-	public ContainerPneumaticCompressor(InventoryPlayer invPlayer, TileHydraulicPneumaticCompressor _compressor){
-		//tileCompressor = _compressor;
-		
-		//addSlotToContainer(new Slot(vat, 0, 59, 15));
-		
-		bindPlayerInventory(invPlayer);
-		
-		
-	}
-	
-	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer) {
-		return true;
-		//return tileCompressor.isUseableByPlayer(entityplayer);
-	}
+    //protected TileHydraulicPneumaticCompressor tileCompressor;
 
-	
-	protected void bindPlayerInventory(InventoryPlayer invPlayer){
-		//Render inventory
-		for(int i = 0; i < 3; i++){
-			for(int j = 0; j < 9; j++){
-				addSlotToContainer(new Slot(invPlayer, j + (i * 9) + 9, 8 + (j * 18), 84 + (i *18)));
-			}
-		}
-		
-		//Render hotbar
-		for(int j = 0; j < 9; j++){
-			addSlotToContainer(new Slot(invPlayer, j, 8+(j * 18), 142));
-		}
-	}
+
+    public ContainerPneumaticCompressor(InventoryPlayer invPlayer, TileHydraulicPneumaticCompressor _compressor) {
+        //tileCompressor = _compressor;
+
+        //addSlotToContainer(new Slot(vat, 0, 59, 15));
+
+        bindPlayerInventory(invPlayer);
+
+
+    }
+
+    @Override
+    public boolean canInteractWith(EntityPlayer entityplayer) {
+
+        return true;
+        //return tileCompressor.isUseableByPlayer(entityplayer);
+    }
+
+
+    protected void bindPlayerInventory(InventoryPlayer invPlayer) {
+        //Render inventory
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 9; j++) {
+                addSlotToContainer(new Slot(invPlayer, j + (i * 9) + 9, 8 + (j * 18), 84 + (i * 18)));
+            }
+        }
+
+        //Render hotbar
+        for (int j = 0; j < 9; j++) {
+            addSlotToContainer(new Slot(invPlayer, j, 8 + (j * 18), 142));
+        }
+    }
 }

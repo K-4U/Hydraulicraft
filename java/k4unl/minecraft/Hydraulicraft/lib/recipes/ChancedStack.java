@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ChancedStack {
+
     private List<ChancedDropStack> chancedStacks;
 
     /**
@@ -16,6 +17,7 @@ public class ChancedStack {
      *               following float is added to its chance to drop
      */
     public ChancedStack(Object... params) {
+
         chancedStacks = new ArrayList<ChancedDropStack>();
 
         ChancedDropStack stack = null;
@@ -56,6 +58,7 @@ public class ChancedStack {
      * @return itemstacks to drop/give out/dispense
      */
     public ItemStack[] getDrops(Random random) {
+
         List<ItemStack> drops = new ArrayList<ItemStack>();
 
         for (ChancedDropStack chancedStack : chancedStacks) {
@@ -81,10 +84,12 @@ public class ChancedStack {
 
 
     private class ChancedDropStack {
+
         public ItemStack   itemStack;
         public List<Float> chances;
 
         public ChancedDropStack() {
+
             chances = new ArrayList<Float>();
         }
     }

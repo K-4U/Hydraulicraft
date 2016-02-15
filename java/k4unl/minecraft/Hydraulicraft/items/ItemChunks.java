@@ -15,32 +15,39 @@ import java.util.List;
 public class ItemChunks extends Item {
 
     public class chunk {
-        private String _name;
-        private int _meta;
+
+        private String  _name;
+        private int     _meta;
         private boolean visible;
 
         public chunk(String targetName) {
+
             _name = targetName;
         }
 
         public chunk(String metalName, int subId) {
+
             _name = metalName;
             _meta = subId;
         }
 
         public void setName(String n) {
+
             _name = n;
         }
 
         public String getName() {
+
             return _name;
         }
 
         public void setMeta(int _meta) {
+
             this._meta = _meta;
         }
 
         public int getMeta() {
+
             return _meta;
         }
 
@@ -59,6 +66,7 @@ public class ItemChunks extends Item {
     private List<chunk> chunks = new ArrayList<chunk>();
 
     public ItemChunks() {
+
         super();
 
         setMaxStackSize(64);
@@ -85,13 +93,14 @@ public class ItemChunks extends Item {
     }
 
     public int showChunk(String metalName) {
-        for(chunk chunk: chunks){
-            if(chunk.getName().equals(metalName)){
+
+        for (chunk chunk : chunks) {
+            if (chunk.getName().equals(metalName)) {
                 chunk.setVisible(true);
                 String ingotName = "ingot" + metalName;
                 ItemStack ingotTarget = Functions.getIngot(ingotName);
                 FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(this, 1, chunk.getMeta()),
-                  ingotTarget, 0.0F);
+                        ingotTarget, 0.0F);
                 OreDictionary.registerOre("chunk" + metalName,
                         new ItemStack(HCItems.itemChunk, 1, chunk.getMeta()));
                 return chunk.getMeta();
@@ -102,30 +111,34 @@ public class ItemChunks extends Item {
 
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
+
         return "chunk" + chunks.get(itemStack.getItemDamage()).getName();
     }
 
     public String getUnlocalizedName(int metadata) {
+
         return "chunk" + chunks.get(metadata).getName();
     }
 
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list) {
+
         for (int i = 0; i < chunks.size(); i++) {
-            if(getChunk(i).isVisible()) {
+            if (getChunk(i).isVisible()) {
                 list.add(new ItemStack(this, 1, i));
             }
         }
     }
 
-    public chunk getChunk(int id){
+    public chunk getChunk(int id) {
+
         return chunks.get(id);
     }
 
     public List<chunk> getChunks() {
+
         return chunks;
     }
-
 
 
 }

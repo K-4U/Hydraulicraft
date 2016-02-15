@@ -12,6 +12,7 @@ import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
 import net.minecraftforge.client.model.ModelLoader;
 
 public class Models {
@@ -19,97 +20,101 @@ public class Models {
     public static void init() {
 
         itemBlockModels();
+        itemModels();
+        for (ItemBucket bucket : Fluids.buckets) {
+            ModelLoader.setBucketModelDefinition(bucket);
+        }
     }
 
     private static void itemBlockModels() {
 
-        loadModel(HCBlocks.hydraulicCrusher);
-        loadModel(HCBlocks.hydraulicFilter);
-        loadModel(HCBlocks.hydraulicFiller);
-        loadModel(HCBlocks.hydraulicFrictionIncinerator);
-        loadModel(HCBlocks.hydraulicPressureGlass);
-        loadModel(HCBlocks.hydraulicPressureWall);
-        loadModel(HCBlocks.hydraulicWasher);
-        loadModel(HCBlocks.blockValve);
-        loadModel(HCBlocks.blockInterfaceValve);
-        loadModel(HCBlocks.movingPane);
-        for(int i = 0; i<3; i++){
-            loadModel(HCBlocks.hydraulicPressurevat, i, ((HydraulicTieredBlockBase)HCBlocks.hydraulicPressurevat).getUnlocalizedName(i).substring(5));
-            loadModel(HCBlocks.hydraulicPump, i, ((HydraulicTieredBlockBase)HCBlocks.hydraulicPump).getUnlocalizedName(i).substring(5));
-            loadModel(HCBlocks.hydraulicLavaPump, i, ((HydraulicTieredBlockBase)HCBlocks.hydraulicLavaPump).getUnlocalizedName(i).substring(5));
+        loadBlockModel(HCBlocks.hydraulicCrusher);
+        loadBlockModel(HCBlocks.hydraulicFilter);
+        loadBlockModel(HCBlocks.hydraulicFiller);
+        loadBlockModel(HCBlocks.hydraulicFrictionIncinerator);
+        loadBlockModel(HCBlocks.hydraulicPressureGlass);
+        loadBlockModel(HCBlocks.hydraulicPressureWall);
+        loadBlockModel(HCBlocks.hydraulicWasher);
+        loadBlockModel(HCBlocks.blockValve);
+        loadBlockModel(HCBlocks.blockInterfaceValve);
+        loadBlockModel(HCBlocks.movingPane);
+        for (int i = 0; i < 3; i++) {
+            loadBlockModel(HCBlocks.hydraulicPressurevat, i, ((HydraulicTieredBlockBase) HCBlocks.hydraulicPressurevat).getUnlocalizedName(i).substring(5));
+            loadBlockModel(HCBlocks.hydraulicPump, i, ((HydraulicTieredBlockBase) HCBlocks.hydraulicPump).getUnlocalizedName(i).substring(5));
+            loadBlockModel(HCBlocks.hydraulicLavaPump, i, ((HydraulicTieredBlockBase) HCBlocks.hydraulicLavaPump).getUnlocalizedName(i).substring(5));
 
-            loadModel(HCBlocks.blockCore, i, ((SubBlockBase)HCBlocks.blockCore).getUnlocalizedName(i).substring(5));
+            loadBlockModel(HCBlocks.blockCore, i, ((SubBlockBase) HCBlocks.blockCore).getUnlocalizedName(i).substring(5));
         }
 
-        loadModel(HCBlocks.hydraulicHarvesterSource);
-        loadModel(HCBlocks.hydraulicHarvesterFrame);
+        loadBlockModel(HCBlocks.hydraulicHarvesterSource);
+        loadBlockModel(HCBlocks.hydraulicHarvesterFrame);
 
-        loadModel(HCBlocks.hydraulicPiston);
+        loadBlockModel(HCBlocks.hydraulicPiston);
 
-        loadModel(HCBlocks.blockCharger);
-        loadModel(HCBlocks.blockAssembler);
-        loadModel(HCBlocks.blockCopper);
-        loadModel(HCBlocks.blockLead);
+        loadBlockModel(HCBlocks.blockCharger);
+        loadBlockModel(HCBlocks.blockAssembler);
+        loadBlockModel(HCBlocks.blockCopper);
+        loadBlockModel(HCBlocks.blockLead);
 
-        loadModel(HCBlocks.blockDirtyMineral);
-        loadModel(HCBlocks.blockAssembler);
-        loadModel(HCBlocks.blockCharger);
-        loadModel(HCBlocks.blockRefinedLonezium);
-        loadModel(HCBlocks.blockRefinedNadsiumBicarbinate);
-        loadModel(HCBlocks.blockHydraulicFluidPump);
+        loadBlockModel(HCBlocks.blockDirtyMineral);
+        loadBlockModel(HCBlocks.blockAssembler);
+        loadBlockModel(HCBlocks.blockCharger);
+        loadBlockModel(HCBlocks.blockRefinedLonezium);
+        loadBlockModel(HCBlocks.blockRefinedNadsiumBicarbinate);
+        loadBlockModel(HCBlocks.blockHydraulicFluidPump);
 
-        loadModel(HCBlocks.blockJarDirt);
+        loadBlockModel(HCBlocks.blockJarDirt);
 
-        loadModel(Ores.oreCopper);
-        loadModel(Ores.oreLead);
-        loadModel(Ores.oreBeachium);
-        loadModel(Ores.oreFoxium);
-        loadModel(Ores.oreLonezium);
-        loadModel(Ores.oreNadsiumBicarbinate);
+        loadBlockModel(Ores.oreCopper);
+        loadBlockModel(Ores.oreLead);
+        loadBlockModel(Ores.oreBeachium);
+        loadBlockModel(Ores.oreFoxium);
+        loadBlockModel(Ores.oreLonezium);
+        loadBlockModel(Ores.oreNadsiumBicarbinate);
 
-        loadModel(HCBlocks.portalBase);
-        //loadModel(HCBlocks.portalFrame);
+        loadBlockModel(HCBlocks.portalBase);
 
-        loadModel(Fluids.fluidHydraulicOil.getBlock());
-        loadModel(Fluids.fluidOil.getBlock());
-        loadModel(Fluids.fluidFluoroCarbonFluid.getBlock());
-        loadModel(Fluids.fluidLubricant.getBlock());
+        loadBlockModel(Fluids.fluidHydraulicOil.getBlock());
+        loadBlockModel(Fluids.fluidOil.getBlock());
+        loadBlockModel(Fluids.fluidFluoroCarbonFluid.getBlock());
+        loadBlockModel(Fluids.fluidLubricant.getBlock());
+        loadBlockModel(Fluids.fluidRubber.getBlock());
 
-        loadModel(HCBlocks.blockRubberLeaves);
-        loadModel(HCBlocks.blockRubberSapling);
-        loadModel(HCBlocks.blockRubberWood);
+        loadBlockModel(HCBlocks.blockRubberLeaves);
+        loadBlockModel(HCBlocks.blockRubberSapling);
+        loadBlockModel(HCBlocks.blockRubberWood);
 
-        loadModel(HCBlocks.blockFluidTank);
+        loadBlockModel(HCBlocks.blockFluidTank);
+        loadBlockModel(HCBlocks.blockRubberTap);
     }
 
-    private static void loadModel(Block block, int metadata, String override) {
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), metadata, new ModelResourceLocation(ModInfo.LID + ":" + override,
-          "inventory"));
+    public static void loadBlockModel(Block block, int metadata, String override) {
+
+        loadItemModel(Item.getItemFromBlock(block), metadata, override);
     }
 
-    private static void loadModel(Block block) {
+    public static void loadBlockModel(Block block) {
 
-        loadModel(block, 0);
+        loadBlockModel(block, 0);
     }
 
-    private static void loadModel(Block block, int metadata) {
+    public static void loadBlockModel(Block block, int metadata) {
 
-        loadModel(block, metadata, block.getUnlocalizedName().substring(5));
+        loadBlockModel(block, metadata, block.getUnlocalizedName().substring(5));
     }
 
-    private static void loadItemModel(Item item) {
+    public static void loadItemModel(Item item) {
 
         loadItemModel(item, 0);
     }
 
-    private static void loadItemModel(Item item, int metadata) {
+    public static void loadItemModel(Item item, int metadata) {
 
         loadItemModel(item, metadata, item.getUnlocalizedName().substring(5));
     }
 
-    private static void loadItemModel(Item item, int metadata, String override) {
+    public static void loadItemModel(Item item, int metadata, String override) {
 
-        //Log.info("Registering the item model of " + ModInfo.LID + ":" + override);
         ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(ModInfo.LID + ":" + override, "inventory"));
     }
 
@@ -142,10 +147,6 @@ public class Models {
             loadItemModel(HCItems.itemEnderLolly);
         }
         loadItemModel(HCItems.itemIPCard);
-
-        for (Item bucket : Fluids.buckets) {
-            loadItemModel(bucket);
-        }
 
         loadItemModel(HCItems.itemDivingHelmet);
         loadItemModel(HCItems.itemDivingController);

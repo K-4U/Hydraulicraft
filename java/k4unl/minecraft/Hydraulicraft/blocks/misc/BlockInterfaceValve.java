@@ -16,11 +16,13 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 public class BlockInterfaceValve extends BlockConnectedTextureContainer {
 
     public BlockInterfaceValve() {
+
         super(Names.blockInterfaceValve);
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
+
         return new TileInterfaceValve();
     }
 

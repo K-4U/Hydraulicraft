@@ -16,90 +16,98 @@ import java.awt.*;
 import java.util.List;
 
 public abstract class JEICategoryAbstract implements IRecipeCategory {
-   private IDrawable background;
 
-   public JEICategoryAbstract(IGuiHelper helper) {
-      ResourceLocation location = new ResourceLocation("hydcraft", "textures/gui/" + getBackgroundTextureName() + ".png");
-      background = helper.createDrawable(location, getBackgroundU(), getBackgroundV(), getBackgroundWidth(), getBackgroundHeight());
-   }
+    private IDrawable background;
 
-   public int getBackgroundHeight() {
-      return 57;
-   }
+    public JEICategoryAbstract(IGuiHelper helper) {
 
-   public int getBackgroundWidth() {
-      return 169;
-   }
+        ResourceLocation location = new ResourceLocation("hydcraft", "textures/gui/" + getBackgroundTextureName() + ".png");
+        background = helper.createDrawable(location, getBackgroundU(), getBackgroundV(), getBackgroundWidth(), getBackgroundHeight());
+    }
 
-   public int getBackgroundV() {
-      return 14;
-   }
+    public int getBackgroundHeight() {
 
-   public int getBackgroundU() {
-      return 6;
-   }
+        return 57;
+    }
 
-   public abstract String getBackgroundTextureName();
+    public int getBackgroundWidth() {
 
-   @Nonnull
-   @Override
-   public IDrawable getBackground() {
-      return background;
-   }
+        return 169;
+    }
 
-   @Override
-   public void drawExtras(Minecraft minecraft) {
-      // TODO draw fluid graph
-   }
+    public int getBackgroundV() {
 
-   @Override
-   public void drawAnimations(Minecraft minecraft) {
-      // TODO animations
-   }
+        return 14;
+    }
 
-   @Override
-   public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper) {
-      IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-      IGuiFluidStackGroup fluidStacks = recipeLayout.getFluidStacks();
+    public int getBackgroundU() {
 
-      if (recipeWrapper instanceof JEIWrapperIFluidRecipe) {
-         List inputs = recipeWrapper.getInputs();
-         List<FluidStack> inFluids = recipeWrapper.getFluidInputs();
-         List<FluidStack> outFluids = recipeWrapper.getFluidOutputs();
+        return 6;
+    }
 
-         for (int i = 0; i < inputs.size(); i++)
-            itemStacks.init(i, true, getPointForInput(i).x, getPointForInput(i).y);
+    public abstract String getBackgroundTextureName();
 
-         // inputs.size() == n+1 array index
-         // TODO multiple outputs?
-         itemStacks.init(inputs.size(), false, getPointForOutput(0).x, getPointForOutput(0).y);
+    @Nonnull
+    @Override
+    public IDrawable getBackground() {
 
-         for (int i = 0; i < inputs.size(); i++)
-            itemStacks.setFromRecipe(i, inputs.get(i));
+        return background;
+    }
 
-         itemStacks.setFromRecipe(inputs.size(), recipeWrapper.getOutputs().get(0));
+    @Override
+    public void drawExtras(Minecraft minecraft) {
+        // TODO draw fluid graph
+    }
 
-         if (inFluids != null)
-            for (int i = 0; i < inFluids.size(); i++) {
-               fluidStacks.init(i, true, getRectangleForFluidInput(i).x, getRectangleForFluidInput(i).y, getRectangleForFluidInput(i).width, getRectangleForFluidInput(i).height,
-                       inFluids.get(i).amount, true, null); // TODO overlay
-               fluidStacks.set(i, inFluids.get(i));
-            }
+    @Override
+    public void drawAnimations(Minecraft minecraft) {
+        // TODO animations
+    }
 
-         if (outFluids != null)
-            for (int i = 0; i < outFluids.size(); i++) {
-               fluidStacks.init((inFluids != null ? inFluids.size() : 0) + i, false, getRectangleForFluidOutput(i).x, getRectangleForFluidOutput(i).y, getRectangleForFluidOutput(i).width,
-                       getRectangleForFluidOutput(i).height, outFluids.get(i).amount, true, null); // TODO overlay
-               fluidStacks.set((inFluids != null ? inFluids.size() : 0) + i, outFluids.get(i));
-            }
-      }
-   }
+    @Override
+    public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper) {
 
-   public abstract Rectangle getRectangleForFluidOutput(int i);
+        IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
+        IGuiFluidStackGroup fluidStacks = recipeLayout.getFluidStacks();
 
-   public abstract Rectangle getRectangleForFluidInput(int i);
+        if (recipeWrapper instanceof JEIWrapperIFluidRecipe) {
+            List inputs = recipeWrapper.getInputs();
+            List<FluidStack> inFluids = recipeWrapper.getFluidInputs();
+            List<FluidStack> outFluids = recipeWrapper.getFluidOutputs();
 
-   public abstract Point getPointForInput(int i);
+            for (int i = 0; i < inputs.size(); i++)
+                itemStacks.init(i, true, getPointForInput(i).x, getPointForInput(i).y);
 
-   public abstract Point getPointForOutput(int i);
+            // inputs.size() == n+1 array index
+            // TODO multiple outputs?
+            itemStacks.init(inputs.size(), false, getPointForOutput(0).x, getPointForOutput(0).y);
+
+            for (int i = 0; i < inputs.size(); i++)
+                itemStacks.setFromRecipe(i, inputs.get(i));
+
+            itemStacks.setFromRecipe(inputs.size(), recipeWrapper.getOutputs().get(0));
+
+            if (inFluids != null)
+                for (int i = 0; i < inFluids.size(); i++) {
+                    fluidStacks.init(i, true, getRectangleForFluidInput(i).x, getRectangleForFluidInput(i).y, getRectangleForFluidInput(i).width, getRectangleForFluidInput(i).height,
+                            inFluids.get(i).amount, true, null); // TODO overlay
+                    fluidStacks.set(i, inFluids.get(i));
+                }
+
+            if (outFluids != null)
+                for (int i = 0; i < outFluids.size(); i++) {
+                    fluidStacks.init((inFluids != null ? inFluids.size() : 0) + i, false, getRectangleForFluidOutput(i).x, getRectangleForFluidOutput(i).y, getRectangleForFluidOutput(i).width,
+                            getRectangleForFluidOutput(i).height, outFluids.get(i).amount, true, null); // TODO overlay
+                    fluidStacks.set((inFluids != null ? inFluids.size() : 0) + i, outFluids.get(i));
+                }
+        }
+    }
+
+    public abstract Rectangle getRectangleForFluidOutput(int i);
+
+    public abstract Rectangle getRectangleForFluidInput(int i);
+
+    public abstract Point getPointForInput(int i);
+
+    public abstract Point getPointForOutput(int i);
 }

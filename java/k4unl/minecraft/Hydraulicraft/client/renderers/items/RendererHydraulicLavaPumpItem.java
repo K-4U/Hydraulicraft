@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
 public class RendererHydraulicLavaPumpItem {//implements IItemRenderer{
     /*private static RendererHydraulicLavaPump t = new RendererHydraulicLavaPump();
-	
+
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;

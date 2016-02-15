@@ -20,20 +20,22 @@ import net.minecraft.world.World;
 
 public class ItemDebug extends HydraulicItemBase {
 
-	public ItemDebug() {
-		super(Names.itemDebugger, true);
-		
-		this.maxStackSize = 1;
-	}
+    public ItemDebug() {
 
-	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote){
-			TileEntity ent = worldIn.getTileEntity(pos);
-			if(ent != null){
-				if(ent instanceof IHydraulicMachine/* || ent instanceof TileMultipart*/){
-					IHydraulicMachine mEnt = null;
-					/*if(ent instanceof TileMultipart){
+        super(Names.itemDebugger, true);
+
+        this.maxStackSize = 1;
+    }
+
+    @Override
+    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+        if (!worldIn.isRemote) {
+            TileEntity ent = worldIn.getTileEntity(pos);
+            if (ent != null) {
+                if (ent instanceof IHydraulicMachine/* || ent instanceof TileMultipart*/) {
+                    IHydraulicMachine mEnt = null;
+                    /*if(ent instanceof TileMultipart){
 						if(Multipart.hasTransporter((TileMultipart)ent)){
 							mEnt = Multipart.getTransporter((TileMultipart)ent);
 						}
@@ -56,32 +58,32 @@ public class ItemDebug extends HydraulicItemBase {
 							return false;
 						}
 					}else{*/
-						mEnt = (IHydraulicMachine) ent;
+                    mEnt = (IHydraulicMachine) ent;
 //					}
-					NBTTagCompound tagC = stack.getTagCompound();
-					if(tagC == null){
-						tagC = new NBTTagCompound();
-					}
-					
-					int stored = mEnt.getHandler().getStored();
-					int max = mEnt.getHandler().getMaxStorage();
-					
-					float pressure = mEnt.getHandler().getPressure(EnumFacing.UP);
-					float maxPressure = mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), EnumFacing.UP);
-					
-					float prevPressure = tagC.getFloat("prevPressure");
-					int prevFluid = tagC.getInteger("prevFluid");
-					
-					Functions.showMessageInChat(playerIn, "Stored liquid: " + stored + "/" + max + " milliBuckets (+"  + (stored - prevFluid) + ")");
-					Functions.showMessageInChat(playerIn, "Pressure:     " + pressure + "/" + maxPressure + " mBar (+"  + (pressure - prevPressure) + ")");
-					
-					tagC.setFloat("prevPressure", pressure);
-					tagC.setInteger("prevFluid", stored);
-					
-					if(ent instanceof TileHydraulicPressureReservoir){
-						PressureTier tier = ((TileHydraulicPressureReservoir)ent).getTier();
-						Functions.showMessageInChat(playerIn, "Tier:          " + tier);						
-					}
+                    NBTTagCompound tagC = stack.getTagCompound();
+                    if (tagC == null) {
+                        tagC = new NBTTagCompound();
+                    }
+
+                    int stored = mEnt.getHandler().getStored();
+                    int max = mEnt.getHandler().getMaxStorage();
+
+                    float pressure = mEnt.getHandler().getPressure(EnumFacing.UP);
+                    float maxPressure = mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), EnumFacing.UP);
+
+                    float prevPressure = tagC.getFloat("prevPressure");
+                    int prevFluid = tagC.getInteger("prevFluid");
+
+                    Functions.showMessageInChat(playerIn, "Stored liquid: " + stored + "/" + max + " milliBuckets (+" + (stored - prevFluid) + ")");
+                    Functions.showMessageInChat(playerIn, "Pressure:     " + pressure + "/" + maxPressure + " mBar (+" + (pressure - prevPressure) + ")");
+
+                    tagC.setFloat("prevPressure", pressure);
+                    tagC.setInteger("prevFluid", stored);
+
+                    if (ent instanceof TileHydraulicPressureReservoir) {
+                        PressureTier tier = ((TileHydraulicPressureReservoir) ent).getTier();
+                        Functions.showMessageInChat(playerIn, "Tier:          " + tier);
+                    }
 
 					/*if(ent instanceof TileMultipart){
 						if(Multipart.hasPartHose((TileMultipart)ent)){
@@ -90,40 +92,40 @@ public class ItemDebug extends HydraulicItemBase {
 							Functions.showMessageInChat(playerIn, "Tier:          " + tier);							
 						}
 					}*/
-					
-					if(ent instanceof TileHydraulicValve){
-						TileHydraulicValve v = (TileHydraulicValve) ent;
-						if(v.getTarget() != null){
-							Functions.showMessageInChat(playerIn, "Target: " + v.getBlockLocation().printCoords());
-						}
-					}
-					
-					if(ent instanceof TileHydraulicPiston){
-						TileHydraulicPiston p = ((TileHydraulicPiston)ent);
-						Functions.showMessageInChat(playerIn, "Length: " + p.getExtendedLength());
-						Functions.showMessageInChat(playerIn, "Target: " + p.getExtendTarget());
-					}
-					
-					if(ent instanceof IHydraulicGenerator){
-						float gen = ((IHydraulicGenerator) ent).getGenerating(EnumFacing.UP);
-						int maxGen = ((IHydraulicGenerator) ent).getMaxGenerating(EnumFacing.UP);
-						Functions.showMessageInChat(playerIn, "Generating:    " + gen + "/" + maxGen);
-						if(ent instanceof TileHydraulicPump){
-							int tier = ((TileHydraulicPump) ent).getTier();
-							Functions.showMessageInChat(playerIn, "Tier:          " + tier);
-						}
-					}
-					
-					if(((TileHydraulicBase)mEnt.getHandler()).getNetwork(EnumFacing.UP) != null){
-						Functions.showMessageInChat(playerIn, "Network ID:    " + ((TileHydraulicBase)mEnt.getHandler()).getNetwork(EnumFacing.UP).getRandomNumber());
-					}
-					
-					stack.setTagCompound(tagC);
-					
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+
+                    if (ent instanceof TileHydraulicValve) {
+                        TileHydraulicValve v = (TileHydraulicValve) ent;
+                        if (v.getTarget() != null) {
+                            Functions.showMessageInChat(playerIn, "Target: " + v.getBlockLocation().printCoords());
+                        }
+                    }
+
+                    if (ent instanceof TileHydraulicPiston) {
+                        TileHydraulicPiston p = ((TileHydraulicPiston) ent);
+                        Functions.showMessageInChat(playerIn, "Length: " + p.getExtendedLength());
+                        Functions.showMessageInChat(playerIn, "Target: " + p.getExtendTarget());
+                    }
+
+                    if (ent instanceof IHydraulicGenerator) {
+                        float gen = ((IHydraulicGenerator) ent).getGenerating(EnumFacing.UP);
+                        int maxGen = ((IHydraulicGenerator) ent).getMaxGenerating(EnumFacing.UP);
+                        Functions.showMessageInChat(playerIn, "Generating:    " + gen + "/" + maxGen);
+                        if (ent instanceof TileHydraulicPump) {
+                            int tier = ((TileHydraulicPump) ent).getTier();
+                            Functions.showMessageInChat(playerIn, "Tier:          " + tier);
+                        }
+                    }
+
+                    if (((TileHydraulicBase) mEnt.getHandler()).getNetwork(EnumFacing.UP) != null) {
+                        Functions.showMessageInChat(playerIn, "Network ID:    " + ((TileHydraulicBase) mEnt.getHandler()).getNetwork(EnumFacing.UP).getRandomNumber());
+                    }
+
+                    stack.setTagCompound(tagC);
+
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

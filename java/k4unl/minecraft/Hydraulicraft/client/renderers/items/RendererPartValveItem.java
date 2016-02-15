@@ -2,7 +2,7 @@ package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
 public class RendererPartValveItem {//implements IItemRenderer {
 /*
-	private static RendererPartValve f = new RendererPartValve();
+    private static RendererPartValve f = new RendererPartValve();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {

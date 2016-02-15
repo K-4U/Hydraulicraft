@@ -13,11 +13,13 @@ import k4unl.minecraft.Hydraulicraft.multipart.PartPortalFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.k4lib.lib.Location;
 import mcmultipart.block.TileMultipart;
+import mcmultipart.multipart.MultipartContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TilePortalBase extends TileHydraulicBase implements IInventory, IHydraulicConsumer {
+
     private boolean        portalFormed;
     private int            portalWidth;
     private int            portalHeight;
@@ -187,7 +190,11 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
     private boolean isPortalFrame(Location location) {
 
-        return location.getTE(getWorld()) instanceof TileMultipart && MultipartHandler.hasPartPortalFrame(((TileMultipart) location.getTE(getWorld())).getPartContainer());
+        TileEntity tileEntity = location.getTE(getWorld());
+        if(tileEntity == null) return false;
+        if(!(tileEntity instanceof TileMultipart)) return false;
+        MultipartContainer container = ((TileMultipart) tileEntity).getPartContainer();
+        return MultipartHandler.hasPartPortalFrame(container);
     }
 
     private boolean checkPortalComplete() {
@@ -233,7 +240,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         Location firstLocation = new Location(getPos(), baseDir, half);
         Location secondLocation = new Location(getPos(), baseDir.getOpposite(), half);
         portalHeight = 0;
-        while (i != 3) {
+        while (i != 4) {
             //Log.info("Checking for portal with basedir at " + baseDir + " and top at " + portalDir);
             for (int y = 1; y <= HCConfig.INSTANCE.getInt("maxPortalHeight"); y++) {
                 Location nLocation = new Location(firstLocation, portalDir, y);
@@ -279,8 +286,12 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         return true;
     }
 
-    private PartPortalFrame getFrame(Location location){
-        return MultipartHandler.getPartPortalFrame(((TileMultipart)location.getTE(getWorld())).getPartContainer());
+    private PartPortalFrame getFrame(Location location) {
+        if(location.getTE(getWorld()) instanceof TileMultipart) {
+            return MultipartHandler.getPartPortalFrame(((TileMultipart) location.getTE(getWorld())).getPartContainer());
+        }else{
+            return null;
+        }
     }
 
     private void validatePortal() {
@@ -297,7 +308,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
             Location topLocation = new Location(handleLocation, portalDir, portalHeight);
 
             PartPortalFrame frame = getFrame(handleLocation);
-            if(frame != null) {
+            if (frame != null) {
                 frame.setPortalBase(this);
                 frames.add(handleLocation);
             }
@@ -312,7 +323,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
             Location leftLocation = new Location(bottomLeft, portalDir, y);
             Location rightLocation = new Location(bottomRight, portalDir, y);
             PartPortalFrame frame = getFrame(leftLocation);
-            if(frame != null) {
+            if (frame != null) {
                 frame.setPortalBase(this);
                 frames.add(leftLocation);
             }
@@ -376,7 +387,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
                 }
             }
             for (Location fr : frames) {
-                if(isPortalFrame(fr)) {
+                if (isPortalFrame(fr)) {
                     getFrame(fr).setActive(true);
                 }
             }
@@ -397,7 +408,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
                 }
             }
             for (Location fr : frames) {
-                if(isPortalFrame(fr)){
+                if (isPortalFrame(fr)) {
                     getFrame(fr).setActive(false);
                 }
             }
@@ -611,8 +622,11 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 
-        return false;
-        //return super.shouldRefresh(world, pos, oldState, newSate);
+        try {
+            return oldState.getValue(Properties.ACTIVE) == newSate.getValue(Properties.ACTIVE) && super.shouldRefresh(world, pos, oldState, newSate);
+        } catch (IllegalArgumentException e) {
+            return super.shouldRefresh(world, pos, oldState, newSate);
+        }
     }
 }
 

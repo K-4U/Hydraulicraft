@@ -31,7 +31,7 @@ Mod devs: Using my mod is easier than ever thanks to maven:
 	}
 
 
-## Registring recipes ##
+## Registering recipes ##
 
 in [`HCApi`](https://github.com/K-4U/Hydraulicraft/blob/master/java/k4unl/minecraft/Hydraulicraft/api/HCApi.java) there is a `getRecipeHandler()` method. This returns an instance of [`IRecipeHandler`](https://github.com/K-4U/Hydraulicraft/blob/master/java/k4unl/minecraft/Hydraulicraft/api/recipes/IRecipeHandler.java).
 
@@ -59,7 +59,7 @@ You can then use a [`FluidShapedOreRecipe`](https://github.com/K-4U/Hydraulicraf
 The pressure is how much pressure it should use. 1 is the normal amount of pressure. I use 1.2 for diamonds. So, the harder your material is, the higher you make this (Although i do not recommend going above 3!)
 
 
-## Registring trolleys ##
+## Registering trolleys ##
 
 Make a normal class and implement [`IHarvesterTrolley`](https://github.com/K-4U/Hydraulicraft/blob/master/java/k4unl/minecraft/Hydraulicraft/api/IHarvesterTrolley.java) (example: [Flax trolley](https://github.com/K-4U/Hydraulicraft/blob/master/java/k4unl/minecraft/Hydraulicraft/thirdParty/bluepower/TrolleyFlax.java))
 

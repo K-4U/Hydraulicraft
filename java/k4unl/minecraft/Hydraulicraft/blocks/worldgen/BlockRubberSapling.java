@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.blocks.worldgen;
 
+import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.world.WorldGenRubberTree;
 import net.minecraft.block.Block;
@@ -30,13 +31,21 @@ public class BlockRubberSapling extends BlockBush implements IGrowable {
         setUnlocalizedName(Names.blockRubberSapling.unlocalized);
         this.setStepSound(soundTypeGrass);
 
+        setCreativeTab(CustomTabs.tabHydraulicraft);
         this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, Integer.valueOf(0)));
+    }
+
+    @Override
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+
+        return super.canPlaceBlockAt(worldIn, pos);
     }
 
     /**
      * Ticks the block if it's been scheduled
      */
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+
         if (!worldIn.isRemote) {
             super.updateTick(worldIn, pos, state, rand);
 
@@ -47,6 +56,7 @@ public class BlockRubberSapling extends BlockBush implements IGrowable {
     }
 
     public void grow(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+
         if ((Integer) state.getValue(STAGE) == 0) {
             worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
         } else {
@@ -55,6 +65,7 @@ public class BlockRubberSapling extends BlockBush implements IGrowable {
     }
 
     public void growTree(World world, BlockPos pos, IBlockState state, Random random) {
+
         if (!net.minecraftforge.event.terraingen.TerrainGen.saplingGrowTree(world, random, pos)) return;
         Object object = new WorldGenRubberTree(true);
         int i1 = 0;
@@ -83,37 +94,40 @@ public class BlockRubberSapling extends BlockBush implements IGrowable {
      * Whether this IGrowable can grow
      */
     public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+
         return true;
     }
 
     public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+
         return (double) worldIn.rand.nextFloat() < 0.45D;
     }
 
     public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+
         this.grow(worldIn, pos, state, rand);
     }
 
     /**
      * Convert the given metadata into a BlockState for this Block
      */
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
+
         return this.getDefaultState().withProperty(STAGE, Integer.valueOf((meta & 8) >> 3));
     }
 
     /**
      * Convert the BlockState into the correct metadata value
      */
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
+
         int i = 0;
-        i = i | ((Integer)state.getValue(STAGE)).intValue() << 3;
+        i = i | ((Integer) state.getValue(STAGE)).intValue() << 3;
         return i;
     }
 
-    protected BlockState createBlockState()
-    {
-        return new BlockState(this, new IProperty[] {STAGE});
+    protected BlockState createBlockState() {
+
+        return new BlockState(this, new IProperty[]{STAGE});
     }
 }

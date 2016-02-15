@@ -42,10 +42,12 @@ import java.util.List;
         modid = ModInfo.ID,
         name = ModInfo.NAME,
         version = ModInfo.VERSION,
-        dependencies = /*"required-after:ForgeMultipart@[1.1.0.297,);*/ "required-after:k4lib"
+        dependencies = /*"required-after:ForgeMultipart@[1.1.0.297,);*/ "required-after:k4lib",
+        guiFactory = ModInfo.GUI_FACTORY
 )
 
 public class Hydraulicraft {
+
     //This is the instance that Forge uses:
     @Mod.Instance(value = ModInfo.ID)
     public static Hydraulicraft instance;
@@ -66,12 +68,13 @@ public class Hydraulicraft {
 
     public static HCConfigHandler configHandler = new HCConfigHandler();
 
-    public static int pressure = 0;
+    public static int     pressure                    = 0;
     public static boolean hasPressureGaugeInInventory = false;
 
     public NetworkHandler networkHandler;
 
     public static List<String> crushableItems = new ArrayList<String>();
+
     static {
         crushableItems.add("Gold");
         crushableItems.add("Iron");
@@ -245,7 +248,7 @@ public class Hydraulicraft {
         for (FMLMissingMappingsEvent.MissingMapping mapping : event.get()) {
 
             String name = mapping.name;
-            if(!name.startsWith("hydcraft:")){
+            if (!name.startsWith("hydcraft:")) {
                 return;
             }
 

@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.fluids;
 import k4unl.minecraft.Hydraulicraft.blocks.ITooltipProvider;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -13,6 +14,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 public class FluidFluoroCarbon extends Fluid implements ITooltipProvider {
 
     public FluidFluoroCarbon() {
+
         super(Names.fluidFluoroCarbon.unlocalized, new ResourceLocation(ModInfo.LID, "blocks/fluoroCarbonFluid_still"), new ResourceLocation(ModInfo.LID, "blocks/fluoroCarbonFluid_flowing"));
         setDensity(10); //How thick the fluid is, affects movement inside the fluid.
         setViscosity(3000); // How fast the fluid flows.
@@ -24,7 +26,7 @@ public class FluidFluoroCarbon extends Fluid implements ITooltipProvider {
     }
 
     @Override
-    public String getToolTip() {
+    public String getToolTip(ItemStack stack) {
 
         return "Used to breathe underwater";
     }

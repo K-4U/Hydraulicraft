@@ -9,7 +9,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.fmp.FMP;
 import k4unl.minecraft.Hydraulicraft.thirdParty.igwmod.IGWMod;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.IndustrialCraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.Pneumaticraft;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.ThermalExpansion;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.RF;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 
@@ -24,10 +24,12 @@ public class ThirdPartyManager {
     private final  List<IThirdParty> thirdPartyMods = new ArrayList<IThirdParty>();
 
     public static ThirdPartyManager instance() {
+
         return INSTANCE;
     }
 
     public void preInit() {
+
         FMLInterModComms.sendMessage("Waila", "register", "k4unl.minecraft.Hydraulicraft.thirdParty.WailaProvider.callbackRegister");
 
         new BuildcraftCompat();
@@ -37,12 +39,12 @@ public class ThirdPartyManager {
         thirdPartyClasses.put("ForgeMicroblock", FMP.class);
         thirdPartyClasses.put("PneumaticCraft", Pneumaticraft.class);
         thirdPartyClasses.put("IC2", IndustrialCraft.class);
-        thirdPartyClasses.put("ThermalExpansion", ThermalExpansion.class);
+        thirdPartyClasses.put("RF", RF.class);
         thirdPartyClasses.put("bluepower", BluePower.class);
         thirdPartyClasses.put("IGWMod", IGWMod.class);
 
         for (Map.Entry<String, Class<? extends IThirdParty>> entry : thirdPartyClasses.entrySet()) {
-            if (Loader.isModLoaded(entry.getKey()) || (entry.getKey().equals("ThermalExpansion") && HCConfig.INSTANCE.getBool("enableRF"))) {
+            if (Loader.isModLoaded(entry.getKey()) || (entry.getKey().equals("RF") && HCConfig.INSTANCE.getBool("enableRF"))) {
                 try {
                     thirdPartyMods.add(entry.getValue().newInstance());
                 } catch (Exception e) {
@@ -63,6 +65,7 @@ public class ThirdPartyManager {
     }
 
     public void init() {
+
         for (IThirdParty thirdParty : thirdPartyMods) {
             try {
                 thirdParty.init();
@@ -74,6 +77,7 @@ public class ThirdPartyManager {
     }
 
     public void postInit() {
+
         for (IThirdParty thirdParty : thirdPartyMods) {
             try {
                 thirdParty.postInit();
@@ -85,6 +89,7 @@ public class ThirdPartyManager {
     }
 
     public void clientSide() {
+
         for (IThirdParty thirdParty : thirdPartyMods) {
             try {
                 thirdParty.clientSide();

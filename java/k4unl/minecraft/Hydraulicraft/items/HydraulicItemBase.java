@@ -10,12 +10,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import java.util.List;
 
 public class HydraulicItemBase extends Item {
+
     private Name mName;
     private boolean hasEffect   = false;
     private String  defaultInfo = "";
 
 
     public HydraulicItemBase(Name itemName, boolean addToTab) {
+
         super();
 
         mName = itemName;
@@ -23,7 +25,7 @@ public class HydraulicItemBase extends Item {
         setMaxStackSize(64);
         setUnlocalizedName(itemName.unlocalized);
         /*setUnlocalizedName(ModInfo.LID + ":" + itemName.unlocalized);*/
-        if(addToTab) {
+        if (addToTab) {
             setCreativeTab(CustomTabs.tabHydraulicraft);
         }
     }
@@ -34,10 +36,12 @@ public class HydraulicItemBase extends Item {
      * Sets whether the "enchanted" effect is active on this item.
      */
     public void setEffect(boolean _hasEffect) {
+
         hasEffect = _hasEffect;
     }
 
     public void setEffect(ItemStack itemStack, boolean _hasEffect) {
+
         NBTTagCompound stackCompound = itemStack.getTagCompound();
         stackCompound.setBoolean("hasEffect", _hasEffect);
         itemStack.setTagCompound(stackCompound);
@@ -45,6 +49,7 @@ public class HydraulicItemBase extends Item {
 
     @Override
     public boolean hasEffect(ItemStack stack) {
+
         if (stack.getTagCompound() == null) {
             return hasEffect;
         }
@@ -53,10 +58,12 @@ public class HydraulicItemBase extends Item {
     }
 
     public void setDefaultInfo(String info) {
+
         defaultInfo = info;
     }
 
     public void setDefaultInfo(ItemStack itemStack, String info) {
+
         if (itemStack.getTagCompound() == null) {
             itemStack.setTagCompound(new NBTTagCompound());
         }
@@ -67,6 +74,7 @@ public class HydraulicItemBase extends Item {
 
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
+
         if (!defaultInfo.equals("")) {
             list.add(defaultInfo);
         }

@@ -8,19 +8,22 @@ import net.minecraft.util.StatCollector;
 
 /**
  * @author Koen Beckers (K-4U)
- * Code copied from Pneumaticcraft, modified for use in Hydraulicraft
+ *         Code copied from Pneumaticcraft, modified for use in Hydraulicraft
  */
 public class DamageSourceHydraulicraft extends DamageSource {
+
     public static final DamageSourceHydraulicraft pressure = (DamageSourceHydraulicraft) new DamageSourceHydraulicraft("pressure", 3).setDamageBypassesArmor();
-    public static final DamageSourceHydraulicraft noFluid = (DamageSourceHydraulicraft) new DamageSourceHydraulicraft("noFluid").setDamageBypassesArmor();
+    public static final DamageSourceHydraulicraft noFluid  = (DamageSourceHydraulicraft) new DamageSourceHydraulicraft("noFluid").setDamageBypassesArmor();
 
     private int deathMessages = 1;
+
     public DamageSourceHydraulicraft(String damageType) {
 
         super(damageType);
     }
 
     public DamageSourceHydraulicraft(String damageType, int dMessages) {
+
         super(damageType);
         deathMessages = dMessages;
     }
@@ -29,7 +32,8 @@ public class DamageSourceHydraulicraft extends DamageSource {
      * Returns the message to be displayed on player death.
      */
     @Override
-    public IChatComponent getDeathMessage(EntityLivingBase par1EntityLivingBase){
+    public IChatComponent getDeathMessage(EntityLivingBase par1EntityLivingBase) {
+
         String messageMeta = "";
         int messageNumber = par1EntityLivingBase.getRNG().nextInt(deathMessages) + 1;
         messageMeta = messageNumber + "";

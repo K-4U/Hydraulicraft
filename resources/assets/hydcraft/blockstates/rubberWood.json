@@ -3,17 +3,28 @@
   "defaults": {
     "textures": {
       "all": "hydcraft:blocks/rubberWood_sides"
-    }
+    },
+    "model": "hydcraft:rubberWoodLog"
   },
   "variants": {
-    "axis=y,hasrubberspot=true":    { "model": "hydcraft:rubberWoodLogSpot" },
-    "axis=z,hasrubberspot=true":    { "model": "hydcraft:rubberWoodLogSideSpot" },
-    "axis=x,hasrubberspot=true":    { "model": "hydcraft:rubberWoodLogSideSpot", "y": 90 },
-    "axis=none,hasrubberspot=true": { "model": "hydcraft:rubberWoodLogSpot" },
-    "axis=y,hasrubberspot=false":    { "model": "hydcraft:rubberWoodLog" },
-    "axis=z,hasrubberspot=false":    { "model": "hydcraft:rubberWoodLogSide" },
-    "axis=x,hasrubberspot=false":    { "model": "hydcraft:rubberWoodLogSide", "y": 90 },
-    "axis=none,hasrubberspot=true": { "model": "hydcraft:rubberWoodLog" },
+    "hasrubberspot": {
+      "true": { "submodel": "hydcraft:rubberWoodLogSpot" },
+      "false": {}
+    },
+    "rotation": {
+      "north":{
+        "y": 0
+      },
+      "south":{
+        "y": 180
+      },
+      "east":{
+        "y": 90
+      },
+      "west":{
+        "y": 270
+      }
+    },
     "inventory": [{"model": "hydcraft:rubberWoodLog" }]
   }
 }

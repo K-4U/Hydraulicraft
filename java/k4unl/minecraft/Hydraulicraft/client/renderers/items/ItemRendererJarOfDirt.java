@@ -11,52 +11,61 @@ import net.minecraftforge.client.model.ISmartItemModel;
 
 import java.util.List;
 
-public class ItemRendererJarOfDirt implements ISmartItemModel{
+public class ItemRendererJarOfDirt implements ISmartItemModel {
 
     private IBakedModel baseModel;
     private static RendererJarOfDirt rendererJarOfDirt = new RendererJarOfDirt();
 
     public ItemRendererJarOfDirt(IBakedModel baseModel) {
+
         this.baseModel = baseModel;
     }
 
     @Override
     public IBakedModel handleItemState(ItemStack stack) {
+
         return null;
     }
 
     @Override
     public List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_) {
+
         return baseModel.getFaceQuads(p_177551_1_);
     }
 
     @Override
     public List<BakedQuad> getGeneralQuads() {
+
         return baseModel.getGeneralQuads();
     }
 
     @Override
     public boolean isAmbientOcclusion() {
+
         return baseModel.isAmbientOcclusion();
     }
 
     @Override
     public boolean isGui3d() {
+
         return baseModel.isGui3d();
     }
 
     @Override
     public boolean isBuiltInRenderer() {
+
         return false;
     }
 
     @Override
     public TextureAtlasSprite getParticleTexture() {
+
         return baseModel.getParticleTexture();
     }
 
     @Override
     public ItemCameraTransforms getItemCameraTransforms() {
+
         return baseModel.getItemCameraTransforms();
     }
 

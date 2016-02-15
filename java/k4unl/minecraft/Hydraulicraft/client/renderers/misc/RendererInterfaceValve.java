@@ -20,7 +20,7 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
 
     @Override
     public void renderTileEntityAt(TileEntity tileentity, double x, double y,
-      double z, float f, int destroyStage) {
+                                   double z, float f, int destroyStage) {
 
         TileInterfaceValve t = (TileInterfaceValve) tileentity;
         //Get metadata for rotation:
@@ -74,7 +74,6 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             //GL11.glDisable(GL11.GL_LIGHTING); //Disregard lighting
             //GL11.glBegin(GL11.GL_QUADS);
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glBegin(GL11.GL_QUADS);
             for (int xR = 0; xR < outerXDifference; xR++) {
@@ -126,7 +125,6 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
             }
 
 
-
             /*********************
              *
              * DRAW FLUID
@@ -142,7 +140,7 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
 
                     percentage = (float) tankInfo.fluid.amount / (float) tankInfo.capacity;
                     int height = (int) Math.floor((double) percentage *
-                      (double) innerYDifference);
+                            (double) innerYDifference);
 
                     TextureAtlasSprite fluidIcon = Functions.getFluidIcon(tankInfo.fluid.getFluid());
 
@@ -155,9 +153,9 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
                                 boolean bottomRendered = false;
                                 for (int zY = 1; zY <= height; zY++) {
                                     Vector3fMax insides = new Vector3fMax(xR,
-                                      zY, zR,
-                                      xR + 1, zY,
-                                      zR + 1);
+                                            zY, zR,
+                                            xR + 1, zY,
+                                            zR + 1);
                                     insides.setYMax(zY + 0.99999F);
 
                                     if (zY == 1) {
@@ -192,9 +190,9 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
                                 //Log.info(height + "");
                                 if ((percentage * (float) innerYDifference) % 1.0F >= 0.01F) {
                                     Vector3fMax insides = new Vector3fMax(xR,
-                                      height + 1, zR,
-                                      xR + 1, 0,
-                                      zR + 1);
+                                            height + 1, zR,
+                                            xR + 1, 0,
+                                            zR + 1);
                                     insides.setYMax(height + ((percentage * (float) innerYDifference) % 1.0F) + 1);
 
                                     if (!bottomRendered) {
@@ -224,9 +222,9 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
                                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.3F + (percentage * 0.7F));
                                 for (int zY = 1; zY <= innerYDifference; zY++) {
                                     Vector3fMax insides = new Vector3fMax(xR + 0.001F,
-                                      zY + 0.001F, zR + 0.001F,
-                                      xR - 0.001F + 1, -0.001F,
-                                      zR - 0.001F + 1);
+                                            zY + 0.001F, zR + 0.001F,
+                                            xR - 0.001F + 1, -0.001F,
+                                            zR - 0.001F + 1);
                                     insides.setYMax(zY - 0.001F + 1);
                                     if (zY == 1) {
                                         RenderHelper.drawGL11SideBottomWithTexture(insides, fluidIcon);

@@ -29,6 +29,7 @@ import org.lwjgl.opengl.GL11;
  */
 @SideOnly(Side.CLIENT)
 public final class IconRenderer {
+
     //private static ResourceLocation iconTexture =  TextureMap.locationItemsTexture; //new ResourceLocation("textures/atlas/items.png");
     private static ResourceLocation blockTexture = TextureMap.locationBlocksTexture; //  new ResourceLocation("textures/atlas/blocks.png");
 
@@ -162,11 +163,11 @@ public final class IconRenderer {
         Tessellator tessellator = Tessellator.getInstance();
         tessellator.getWorldRenderer().begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
 
-        tessellator.getWorldRenderer().setTranslation(x, y, z+5);
+        tessellator.getWorldRenderer().setTranslation(x, y, z + 5);
         IBakedModel itemModel = renderBlocks.getItemModelMesher().getItemModel(item);
         WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
         IVertexConsumer consumer = new VertexTransformerTransparency(new WorldRendererConsumer(worldRenderer), alpha);
-        for(EnumFacing dir: EnumFacing.VALUES) {
+        for (EnumFacing dir : EnumFacing.VALUES) {
             for (BakedQuad quad : itemModel.getFaceQuads(dir)) {
                 quad.pipe(consumer);
             }

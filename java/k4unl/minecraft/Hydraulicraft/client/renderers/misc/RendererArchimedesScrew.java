@@ -17,11 +17,13 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer {
 
     @Override
     public void renderTileEntityAt(TileEntity ent, double x, double y, double z, float f, int destroyStage) {
+
         doRender((TileHydraulicFluidPump) ent, x, y, z, f, destroyStage);
     }
 
     public static void doRender(TileHydraulicFluidPump tileentity, double x, double y,
                                 double z, float f, int destroyStage) {
+
         GL11.glPushMatrix();
 
         GL11.glTranslatef((float) x, (float) y, (float) z);
@@ -68,6 +70,7 @@ public class RendererArchimedesScrew extends TileEntitySpecialRenderer {
     }
 
     public static void renderHelix(TileHydraulicFluidPump pump, float f) {
+
         int slices = 80;
         double ri = 0.15;
         double ro = 0.3;

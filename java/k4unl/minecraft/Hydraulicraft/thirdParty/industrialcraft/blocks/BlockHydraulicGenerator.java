@@ -20,11 +20,13 @@ import net.minecraft.world.World;
 public class BlockHydraulicGenerator extends HydraulicBlockContainerBase implements ITieredBlock, IRotateableBlock {
 
     public BlockHydraulicGenerator() {
+
         super(Names.blockHydraulicGenerator, true);
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
+
         return new TileHydraulicGenerator();
     }
 
@@ -35,21 +37,25 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase impleme
     }
 
     public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir) {
+
         return true;
     }
 
     @Override
     public int getRenderType() {
+
         return -1;
     }
 
     @Override
     public boolean isOpaqueCube() {
+
         return false;
     }
 
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         TileEntity ent = worldIn.getTileEntity(pos);
         if (ent instanceof TileHydraulicGenerator) {
@@ -61,6 +67,7 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase impleme
 
     @Override
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+
         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
 
         TileEntity tile = worldIn.getTileEntity(pos);
@@ -71,6 +78,7 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase impleme
 
     @Override
     public boolean rotateBlock(World world, BlockPos pos, EnumFacing side) {
+
         if (!world.isRemote) {
             TileEntity te = world.getTileEntity(pos);
             if (te instanceof TileHydraulicGenerator) {

@@ -9,6 +9,7 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.BuildcraftCompat;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -18,7 +19,13 @@ import net.minecraft.world.World;
 
 public abstract class HydraulicBlockContainerBase extends HydraulicBlockBase implements ITileEntityProvider {
 
+    protected HydraulicBlockContainerBase(Name machineName, Material material, boolean addToTab) {
+
+        super(machineName, material, addToTab);
+    }
+
     protected HydraulicBlockContainerBase(Name machineName, boolean addToTab) {
+
         super(machineName, addToTab);
     }
 
@@ -29,11 +36,12 @@ public abstract class HydraulicBlockContainerBase extends HydraulicBlockBase imp
 
     @Override
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+
         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
 
         TileEntity tile = worldIn.getTileEntity(pos);
         if (tile instanceof IHydraulicMachine) {
-            ((TileHydraulicBase)((IHydraulicMachine) tile).getHandler()).checkRedstonePower();
+            ((TileHydraulicBase) ((IHydraulicMachine) tile).getHandler()).checkRedstonePower();
         }
     }
 
@@ -50,6 +58,7 @@ public abstract class HydraulicBlockContainerBase extends HydraulicBlockBase imp
     }
 
     public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
+
         super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
         TileEntity tileentity = worldIn.getTileEntity(pos);
         return tileentity != null && tileentity.receiveClientEvent(eventID, eventParam);
@@ -57,6 +66,7 @@ public abstract class HydraulicBlockContainerBase extends HydraulicBlockBase imp
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+
         TileEntity entity = worldIn.getTileEntity(pos);
         if (entity == null) {
             return false;

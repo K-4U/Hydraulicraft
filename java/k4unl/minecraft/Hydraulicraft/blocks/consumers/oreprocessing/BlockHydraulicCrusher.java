@@ -10,25 +10,27 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicCrusher
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydraulicCrusher extends HydraulicBlockContainerBase implements ITieredBlock, IBlockWithRotation{
+public class BlockHydraulicCrusher extends HydraulicBlockContainerBase implements ITieredBlock, IBlockWithRotation {
 
-	public BlockHydraulicCrusher() {
-		super(Names.blockHydraulicCrusher, true);
-	}
+    public BlockHydraulicCrusher() {
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int var2) {
-		return new TileHydraulicCrusher();
-	}
+        super(Names.blockHydraulicCrusher, true);
+    }
 
-	@Override
-	public GuiIDs getGUIID() {
+    @Override
+    public TileEntity createNewTileEntity(World world, int var2) {
 
-		return GuiIDs.CRUSHER;
-	}
+        return new TileHydraulicCrusher();
+    }
+
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.CRUSHER;
+    }
 
 
-	@Override
+    @Override
     public PressureTier getTier() {
 
         return PressureTier.MEDIUMPRESSURE;

@@ -27,6 +27,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
     }
 
     public void doRender(TileHydraulicPump t, float x, float y, float z, float f, int destroyStage) {
+
         GL11.glPushMatrix();
 
         GL11.glTranslatef(x, y, z);
@@ -146,6 +147,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
     }
 
     private void renderTieredBars(int tier, float thickness) {
+
         Vector3fMax ln = new Vector3fMax(thickness, 0.0F, 0.0F, 1.0F - thickness, thickness, thickness);
         Vector3fMax tn = new Vector3fMax(thickness, 1.0F - thickness, 0.0F, 1.0F - thickness, 1.0F, thickness);
         Vector3fMax ne = new Vector3fMax(1.0F - thickness, 0.0F, 0.0F, 1.0F, 1.0F, thickness);
@@ -161,6 +163,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
     }
 
     private void drawTieredHorizontalCube(Vector3fMax vector, int tier, float thickness) {
+
         GL11.glBegin(GL11.GL_QUADS);
         //RenderHelper.drawColoredCube(vector);
         float texturePixel = RenderHelper.renderPixel;
@@ -207,6 +210,7 @@ public class RendererHydraulicPump extends TileEntitySpecialRenderer {
     }
 
     private void drawTieredVerticalCube(Vector3fMax vector, int tier, float thickness) {
+
         GL11.glBegin(GL11.GL_QUADS);
         //RenderHelper.drawColoredCube(vector);
         float texturePixel = RenderHelper.renderPixel;

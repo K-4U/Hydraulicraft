@@ -5,10 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class ToolTip {
+
     List<String> text;
     int          x, y, w, h;
 
     public ToolTip(int x, int y, int width, int height) {
+
         this.text = new ArrayList<String>();
         this.x = x;
         this.y = y;
@@ -17,16 +19,19 @@ public class ToolTip {
     }
 
     public ToolTip(int x, int y, int width, int height, String text) {
+
         this(x, y, width, height);
         this.text.add(text);
     }
 
     public ToolTip(int x, int y, int width, int height, String[] text) {
+
         this(x, y, width, height);
         Collections.addAll(this.text, text);
     }
 
     public List<String> getText() {
+
         return text;
     }
 }

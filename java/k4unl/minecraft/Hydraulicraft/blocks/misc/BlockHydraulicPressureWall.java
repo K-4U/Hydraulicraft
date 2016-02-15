@@ -6,8 +6,9 @@ import net.minecraft.block.material.Material;
 
 public class BlockHydraulicPressureWall extends BlockConnectedTexture {
 
-	public BlockHydraulicPressureWall() {
-		super(Names.blockHydraulicPressureWall, Material.iron);
-	}
+    public BlockHydraulicPressureWall() {
+
+        super(Names.blockHydraulicPressureWall, Material.iron);
+    }
 
 }

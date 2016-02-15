@@ -8,6 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 public class ContainerCrusher extends ContainerBase {
 
     public ContainerCrusher(InventoryPlayer invPlayer, TileHydraulicCrusher crusher) {
+
         super(crusher);
 
         addSlotToContainer(new SlotMachineInput(crusher, crusher, 0, 47, 35));

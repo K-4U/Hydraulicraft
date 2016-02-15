@@ -8,6 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.List;
 
 public interface IFluidRecipe extends IRecipe {
+
     /**
      * Adds a required fluid input
      *

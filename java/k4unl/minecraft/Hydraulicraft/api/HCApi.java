@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.Loader;
  * @author Koen Beckers (K-4U) & MineMaarten
  */
 public class HCApi {
+
     private static IHCApi instance;
 
     public static IHCApi getInstance() {
@@ -18,6 +19,7 @@ public class HCApi {
     }
 
     public interface IHCApi {
+
         IRecipeHandler getRecipeHandler();
 
         ITrolleyRegistrar getTrolleyRegistrar();

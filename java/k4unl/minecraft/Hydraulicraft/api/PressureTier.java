@@ -11,15 +11,18 @@ public enum PressureTier implements IStringSerializable {
     public static final PressureTier[] VALID_TIERS = {LOWPRESSURE, MEDIUMPRESSURE, HIGHPRESSURE};
 
     PressureTier(int _tier) {
+
         this.tier = _tier;
     }
 
     @Override
     public String toString() {
+
         return "TIER-" + tier;
     }
 
     public static PressureTier fromOrdinal(int tier) {
+
         if (tier <= 2 && tier >= 0) {
             return VALID_TIERS[tier];
         } else {
@@ -29,10 +32,12 @@ public enum PressureTier implements IStringSerializable {
 
     @Override
     public String getName() {
+
         return toString();
     }
 
     public int toInt() {
+
         return this.tier;
     }
 }

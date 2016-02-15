@@ -14,31 +14,32 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockHydraulicPressureGlass extends BlockConnectedTexture {
 
-	public BlockHydraulicPressureGlass() {
-		super(Names.blockHydraulicPressureGlass, Material.glass);
-	}
+    public BlockHydraulicPressureGlass() {
+
+        super(Names.blockHydraulicPressureGlass, Material.glass);
+    }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(){
-    	return false;
+    public boolean isOpaqueCube() {
+
+        return false;
     }
 
 
     @SideOnly(Side.CLIENT)
     @Override
     public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-    	Block block = worldIn.getBlockState(pos).getBlock();
 
-        if (this == HCBlocks.hydraulicPressureGlass)
-        {
+        Block block = worldIn.getBlockState(pos).getBlock();
+
+        if (this == HCBlocks.hydraulicPressureGlass) {
 /*            if (worldIn.getBlockMetadata(x, y, z) != worldIn.getBlockMetadata(x - Facing.offsetsXForSide[side], y - Facing.offsetsYForSide[side], z - Facing.offsetsZForSide[side]))
             {
                 return true;
             }
 */
-            if (block == this)
-            {
+            if (block == this) {
                 return false;
             }
         }
@@ -47,13 +48,13 @@ public class BlockHydraulicPressureGlass extends BlockConnectedTexture {
     }
 
     @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer()
-    {
+    public EnumWorldBlockLayer getBlockLayer() {
+
         return EnumWorldBlockLayer.TRANSLUCENT;
     }
 
-    public boolean isFullCube()
-    {
+    public boolean isFullCube() {
+
         return false;
     }
 

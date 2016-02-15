@@ -7,12 +7,15 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
 public class SlotFluidContainer extends Slot {
+
     public SlotFluidContainer(IInventory iinventory, int slotId, int x, int y) {
+
         super(iinventory, slotId, x, y);
     }
 
     @Override
     public boolean isItemValid(ItemStack itemStack) {
+
         if (itemStack == null)
             return true;
 

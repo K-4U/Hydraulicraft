@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class Ores {
+
     public static Block oreCopper;
     public static Block oreLead;
     public static Block oreLonezium;

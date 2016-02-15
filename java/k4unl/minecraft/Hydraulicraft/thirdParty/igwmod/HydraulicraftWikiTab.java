@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.Loader;
 
 public class HydraulicraftWikiTab extends BaseWikiTab {
 
-    public HydraulicraftWikiTab(){
+    public HydraulicraftWikiTab() {
 
         pageEntries.add("baseConcepts");
         pageEntries.add("pressureNetwork");
@@ -33,13 +33,13 @@ public class HydraulicraftWikiTab extends BaseWikiTab {
         skipLine();
 
         addSectionHeader("thirdparty");
-        if(Loader.isModLoaded("IC2"))
+        if (Loader.isModLoaded("IC2"))
             pageEntries.add("thirdparty:ic2");
-        if(Loader.isModLoaded("ExtraUtilities"))
+        if (Loader.isModLoaded("ExtraUtilities"))
             pageEntries.add("thirdparty:extrautilities");
-        if(Loader.isModLoaded("bluepower"))
+        if (Loader.isModLoaded("bluepower"))
             pageEntries.add("thirdparty:bluepower");
-        if(Loader.isModLoaded("PneumaticCraft"))
+        if (Loader.isModLoaded("PneumaticCraft"))
             pageEntries.add("thirdparty:pneumaticcraft");
         pageEntries.add("thirdparty:rf");
 
@@ -48,24 +48,30 @@ public class HydraulicraftWikiTab extends BaseWikiTab {
     }
 
     @Override
-    protected String getPageName(String pageEntry){
-        if(pageEntry.startsWith("item") || pageEntry.startsWith("block")) return I18n.format(pageEntry.replace("/", ".").replace("block", "tile") + ".name");
-        if(pageEntry.startsWith("#")) return I18n.format(ModInfo.LID + ".wiki.section." + pageEntry.replace("#",""));
+    protected String getPageName(String pageEntry) {
+
+        if (pageEntry.startsWith("item") || pageEntry.startsWith("block"))
+            return I18n.format(pageEntry.replace("/", ".").replace("block", "tile") + ".name");
+        if (pageEntry.startsWith("#")) return I18n.format(ModInfo.LID + ".wiki.section." + pageEntry.replace("#", ""));
         return I18n.format(ModInfo.LID + ".wiki.entry." + pageEntry);
     }
 
     @Override
-    protected String getPageLocation(String pageEntry){
-        if(pageEntry.startsWith("item") || pageEntry.startsWith("block")) return ModInfo.LID + ":" + pageEntry;
+    protected String getPageLocation(String pageEntry) {
+
+        if (pageEntry.startsWith("item") || pageEntry.startsWith("block")) return ModInfo.LID + ":" + pageEntry;
         return ModInfo.LID + ":menu/" + pageEntry;
     }
+
     @Override
     public String getName() {
+
         return ModInfo.NAME;
     }
 
     @Override
     public ItemStack renderTabIcon(GuiWiki guiWiki) {
+
         return CustomTabs.tabHydraulicraft.getIconItemStack();
     }
 }

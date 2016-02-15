@@ -11,19 +11,21 @@ import net.minecraft.world.IBlockAccess;
 public class BlockConnectedTexture extends HydraulicBlockBase {
 
     protected BlockConnectedTexture(Name machineName, Material material) {
+
         super(machineName, material, true);
     }
 
 
-    public boolean connectTo(IBlockAccess world, BlockPos pos,  EnumFacing dir){
+    public boolean connectTo(IBlockAccess world, BlockPos pos, EnumFacing dir) {
+
         pos = pos.offset(dir);
-        if(world.getBlockState(pos).getBlock() == this){
+        if (world.getBlockState(pos).getBlock() == this) {
             return true;
         }
         TileEntity te = world.getTileEntity(pos);
-        if(te != null){
-            if(te instanceof IConnectTexture){
-                return ((IConnectTexture)te).connectTexture();
+        if (te != null) {
+            if (te instanceof IConnectTexture) {
+                return ((IConnectTexture) te).connectTexture();
             }
         }
         return false;

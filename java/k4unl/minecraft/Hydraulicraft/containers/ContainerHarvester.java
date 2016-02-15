@@ -8,6 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 public class ContainerHarvester extends ContainerBase {
 
     public ContainerHarvester(InventoryPlayer invPlayer, TileHydraulicHarvester harvester) {
+
         super(harvester);
 
         //First inputs!

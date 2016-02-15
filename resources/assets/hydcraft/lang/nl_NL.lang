@@ -24,13 +24,9 @@ tile.LPHydraulicPipe.name=Lagedruk Pijp
 tile.MPHydraulicPipe.name=Middeldruk Pijp
 tile.HPHydraulicPipe.name=Hogedruk Pijp
 
-tile.LPPartValve.name=Lagedruk Ventiel
-tile.MPPartValve.name=Middeldruk Ventiel
-tile.HPPartValve.name=Hogedruk Ventiel
-
-tile.LPHydraulicPressureVat.name=Lagedruk vat
-tile.MPHydraulicPressureVat.name=Middeldruk vat
-tile.HPHydraulicPressureVat.name=Hogedruk Vat
+tile.LPHydraulicPressureReservoir.name=Lagedruk Reservoir
+tile.MPHydraulicPressureReservoir.name=Middeldruk Reservoir
+tile.HPHydraulicPressureReservoir.name=Hogedruk Reservoir
 
 tile.LPHydraulicPump.name=Lagedruk Pomp
 tile.MPHydraulicPump.name=Middeldruk Pomp

@@ -12,47 +12,57 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class BluePower implements IThirdParty{
-	public static Block flaxBlock;
-	public static Item flaxItem;
+public class BluePower implements IThirdParty {
+
+    public static Block flaxBlock;
+    public static Item  flaxItem;
 
     @Override
-    public void preInit(){}
+    public void preInit() {
+
+    }
 
     @Override
-    public void init(){}
+    public void init() {
+
+    }
 
     @Override
-    public void postInit(){
+    public void postInit() {
+
         initBlocks();
         initRecipes();
     }
 
     @Override
-    public void clientSide(){}
-	
-	public static void initBlocks(){
-		flaxBlock = GameRegistry.findBlock("bluepower", "flax_crop");
-		flaxItem = GameRegistry.findItem("bluepower", "flax_seeds");
-		Hydraulicraft.trolleyRegistrar.registerTrolley(new TrolleyFlax());
-	}
-	
-	public static void initRecipes(){
-		Item sickle = GameRegistry.findItem("bluepower", "gold_sickle");
-		ItemStack flaxTrolly = Hydraulicraft.trolleyRegistrar.getTrolleyItem("flax");
-		flaxTrolly.stackSize = 2;
-		
-		HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(flaxTrolly, true,
-            new Object[] {
-              "-P-",
-              "WCW",
-              "-H-",
-              'C', new ItemStack(HCBlocks.blockCore, 1, 1),
-              'W', HCBlocks.hydraulicPressureWall,
-              'H', new ItemStack(sickle),
-              'P', HCBlocks.hydraulicPiston
-            }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 20))
+    public void clientSide() {
+
+    }
+
+    public static void initBlocks() {
+
+        flaxBlock = GameRegistry.findBlock("bluepower", "flax_crop");
+        flaxItem = GameRegistry.findItem("bluepower", "flax_seeds");
+        Hydraulicraft.trolleyRegistrar.registerTrolley(new TrolleyFlax());
+    }
+
+    public static void initRecipes() {
+
+        Item sickle = GameRegistry.findItem("bluepower", "gold_sickle");
+        ItemStack flaxTrolly = Hydraulicraft.trolleyRegistrar.getTrolleyItem("flax");
+        flaxTrolly.stackSize = 2;
+
+        HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(flaxTrolly, true,
+                new Object[]{
+                        "-P-",
+                        "WCW",
+                        "-H-",
+                        'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'H', new ItemStack(sickle),
+                        'P', HCBlocks.hydraulicPiston
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 20))
         );
-		
-	}
+
+    }
 }

@@ -25,19 +25,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HydraulicGUIBase extends GuiContainer {
+
     protected List<ToolTip> tooltipList = new ArrayList<ToolTip>();
     IHydraulicMachine mEnt;
     private ResourceLocation resLoc;
 
     public HydraulicGUIBase(Container mainContainer,
-      ResourceLocation _resLoc) {
+                            ResourceLocation _resLoc) {
 
         super(mainContainer);
         resLoc = _resLoc;
     }
 
     public HydraulicGUIBase(IHydraulicMachine Entity, Container mainContainer,
-      ResourceLocation _resLoc) {
+                            ResourceLocation _resLoc) {
 
         super(mainContainer);
         mEnt = Entity;
@@ -45,12 +46,12 @@ public class HydraulicGUIBase extends GuiContainer {
     }
 
     public static void drawVerticalProgressBar(int xOffset, int yOffset, int h,
-      int w, float value, float max, int color) {
+                                               int w, float value, float max, int color) {
 
         float perc = value / max;
         int height = (int) (h * perc);
         drawRect(xOffset, yOffset + (h - height), xOffset + w, yOffset + h,
-          color);
+                color);
     }
 
     public void addTooltip(ToolTip toolTip) {
@@ -103,11 +104,11 @@ public class HydraulicGUIBase extends GuiContainer {
     private boolean shouldRenderToolTip(int mouseX, int mouseY, ToolTip theTip) {
 
         return isPointInRegion(theTip.x, theTip.y, theTip.w, theTip.h, mouseX,
-          mouseY);
+                mouseY);
     }
 
     public void drawHorizontalAlignedString(int xOffset, int yOffset, int w,
-      String text, boolean useShadow) {
+                                            String text, boolean useShadow) {
 
         int stringWidth = fontRendererObj.getStringWidth(text);
         int newX = xOffset;
@@ -116,11 +117,11 @@ public class HydraulicGUIBase extends GuiContainer {
         }
 
         fontRendererObj.drawString(text, newX, yOffset, Constants.COLOR_TEXT,
-          useShadow);
+                useShadow);
     }
 
     public void drawRightAlignedString(int xOffset, int yOffset, int w,
-      String text, boolean useShadow) {
+                                       String text, boolean useShadow) {
 
         int stringWidth = fontRendererObj.getStringWidth(text);
         int newX = xOffset;
@@ -132,63 +133,61 @@ public class HydraulicGUIBase extends GuiContainer {
     }
 
     public void drawString(int xOffset, int yOffset, String text,
-      boolean useShadow) {
+                           boolean useShadow) {
 
         fontRendererObj.drawString(text, xOffset, yOffset,
-          Constants.COLOR_TEXT, useShadow);
+                Constants.COLOR_TEXT, useShadow);
     }
 
     public void drawSmallerString(int xOffset, int yOffset, String text,
-      boolean useShadow) {
+                                  boolean useShadow) {
 
         GL11.glPushMatrix();
-        FontHelper.drawString(text, xOffset, yOffset,
-          Hydraulicraft.smallGuiFont, 1f, 1f);
+        FontHelper.drawString(text, xOffset, yOffset, Hydraulicraft.smallGuiFont, 1f, 1f);
         GL11.glPopMatrix();
 
     }
 
     public void drawMediumString(int xOffset, int yOffset, String text,
-      boolean useShadow) {
+                                 boolean useShadow) {
 
         GL11.glPushMatrix();
-        FontHelper.drawString(text, xOffset, yOffset,
-          Hydraulicraft.mediumGuiFont, 1f, 1f);
+        FontHelper.drawString(text, xOffset, yOffset, Hydraulicraft.mediumGuiFont, 1f, 1f);
         GL11.glPopMatrix();
 
     }
 
     public void drawHorizontalProgressBar(int xOffset, int yOffset, int h, int w,
-      float value, float max, int color, String toolTipTitle,
-      String toolTipUnit) {
+                                          float value, float max, int color, String toolTipTitle,
+                                          String toolTipUnit) {
 
         float perc = value / max;
         int width = (int) (w * perc);
         // drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
         drawRect(xOffset, yOffset, xOffset + width, yOffset + h,
-          color);
+                color);
 
         tooltipList.add(new ToolTipTank(xOffset, yOffset, w, h, toolTipTitle,
-          toolTipUnit, value, max));
+                toolTipUnit, value, max));
     }
 
     public void drawVerticalProgressBar(int xOffset, int yOffset, int h, int w,
-      float value, float max, int color, String toolTipTitle,
-      String toolTipUnit) {
+                                        float value, float max, int color, String toolTipTitle,
+                                        String toolTipUnit) {
 
         float perc = value / max;
         int height = (int) (h * perc);
         // drawTexturedModalRect(xOffset, yOffset, 184, 1, 18, 62);
         drawRect(xOffset, yOffset + (h - height), xOffset + w, yOffset + h,
-          color);
+                color);
 
         tooltipList.add(new ToolTipTank(xOffset, yOffset, w, h, toolTipTitle,
-          toolTipUnit, value, max));
+                toolTipUnit, value, max));
     }
 
     public void drawVerticalProgressBarWithTexture(int xOffset, int yOffset,
-      int h, int w, float value, float max, TextureAtlasSprite icon,
-      String toolTipTitle, String toolTipUnit) {
+                                                   int h, int w, float value, float max, TextureAtlasSprite icon,
+                                                   String toolTipTitle, String toolTipUnit) {
 
         float perc = value / max;
         int height = (int) (h * perc);
@@ -229,11 +228,13 @@ public class HydraulicGUIBase extends GuiContainer {
         GL11.glPopMatrix();
 
         tooltipList.add(new ToolTipTank(xOffset, yOffset, w, h, toolTipTitle,
-          toolTipUnit, value, max));
+                toolTipUnit, value, max));
     }
 
     protected void drawFluidAndPressure() {
 
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         int color;
         String fluidName;
         TextureAtlasSprite icon;
@@ -245,14 +246,15 @@ public class HydraulicGUIBase extends GuiContainer {
             fluidName = Fluids.fluidHydraulicOil.getLocalizedName(new FluidStack(Fluids.fluidHydraulicOil, 1));
         }
         drawVerticalProgressBarWithTexture(8, 16, 54, 16, mEnt.getHandler()
-          .getStored(), mEnt.getHandler().getMaxStorage(), icon, fluidName, "mB");
+                .getStored(), mEnt.getHandler().getMaxStorage(), icon, fluidName, "mB");
 
         color = Constants.COLOR_PRESSURE;
         drawVerticalProgressBar(152, 16, 54, 16,
-          (mEnt.getHandler().getPressure(EnumFacing.UP) / 1000),
-          (mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), null) / 1000),
-          color, Localization.getString(Localization.PRESSURE_ENTRY),
-          "Bar");
+                (mEnt.getHandler().getPressure(EnumFacing.UP) / 1000),
+                (mEnt.getHandler().getMaxPressure(mEnt.getHandler().isOilStored(), null) / 1000),
+                color, Localization.getString(Localization.PRESSURE_ENTRY),
+                "Bar");
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     @Override
@@ -260,8 +262,8 @@ public class HydraulicGUIBase extends GuiContainer {
 
         tooltipList.clear();
         fontRendererObj.drawString(
-          StatCollector.translateToLocal("container.inventory"), 8,
-          ySize - 94 + 2, Constants.COLOR_TEXT);
+                StatCollector.translateToLocal("container.inventory"), 8,
+                ySize - 94 + 2, Constants.COLOR_TEXT);
     }
 
 }

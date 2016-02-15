@@ -3,6 +3,7 @@ package k4unl.minecraft.Hydraulicraft.lib.recipes;
 import net.minecraft.item.ItemStack;
 
 public interface IFluidCraftingMachine {
+
     /**
      * Feedback called from a fluid inventory to notify of a crafting grid change
      */

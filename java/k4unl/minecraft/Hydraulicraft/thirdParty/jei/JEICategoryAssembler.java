@@ -6,55 +6,64 @@ import javax.annotation.Nonnull;
 import java.awt.*;
 
 public class JEICategoryAssembler extends JEICategoryAbstract {
-   private static final int       offsetLeft  = 46;
-   private static final int       offsetTop   = 2;
-   private static final Point     pointOutput = new Point(124, 20);
-   private static final Rectangle fluidIn     = new Rectangle(30 - 6, 15 - 14, 47 - 30, 70 - 15);
-   private static       Point[]   pointInputs = new Point[9];
+
+    private static final int       offsetLeft  = 46;
+    private static final int       offsetTop   = 2;
+    private static final Point     pointOutput = new Point(124, 20);
+    private static final Rectangle fluidIn     = new Rectangle(30 - 6, 15 - 14, 47 - 30, 70 - 15);
+    private static       Point[]   pointInputs = new Point[9];
 
 
-   public JEICategoryAssembler(IGuiHelper helper) {
-      super(helper);
+    public JEICategoryAssembler(IGuiHelper helper) {
 
-      for (int i = 0; i < 9; i++)
-         pointInputs[i] = new Point(i % 3 * 18 + offsetLeft, i / 3 * 18 + offsetTop);
-   }
+        super(helper);
 
-   @Override
-   public String getBackgroundTextureName() {
-      return "assembler";
-   }
+        for (int i = 0; i < 9; i++)
+            pointInputs[i] = new Point(i % 3 * 18 + offsetLeft, i / 3 * 18 + offsetTop);
+    }
 
-   @Override
-   public Rectangle getRectangleForFluidOutput(int i) {
-      return null;
-   }
+    @Override
+    public String getBackgroundTextureName() {
 
-   @Override
-   public Rectangle getRectangleForFluidInput(int i) {
-      return fluidIn;
-   }
+        return "assembler";
+    }
 
-   @Override
-   public Point getPointForInput(int i) {
-      return pointInputs[i];
-   }
+    @Override
+    public Rectangle getRectangleForFluidOutput(int i) {
 
-   @Override
-   public Point getPointForOutput(int i) {
-      return pointOutput;
-   }
+        return null;
+    }
 
-   @Nonnull
-   @Override
-   public String getUid() {
-      return JEIPlugin.assemblerRecipe;
-   }
+    @Override
+    public Rectangle getRectangleForFluidInput(int i) {
 
-   @Nonnull
-   @Override
-   public String getTitle() {
-      return "Assembler"; // TODO localize
-   }
+        return fluidIn;
+    }
+
+    @Override
+    public Point getPointForInput(int i) {
+
+        return pointInputs[i];
+    }
+
+    @Override
+    public Point getPointForOutput(int i) {
+
+        return pointOutput;
+    }
+
+    @Nonnull
+    @Override
+    public String getUid() {
+
+        return JEIPlugin.assemblerRecipe;
+    }
+
+    @Nonnull
+    @Override
+    public String getTitle() {
+
+        return "Assembler"; // TODO localize
+    }
 
 }

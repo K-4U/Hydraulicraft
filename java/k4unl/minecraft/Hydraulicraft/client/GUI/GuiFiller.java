@@ -11,11 +11,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 public class GuiFiller extends HydraulicGUIBase {
+
     private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/filler.png");
     TileHydraulicFiller filler;
     NEIWidgetTank       tankFluid;
 
     public GuiFiller(InventoryPlayer inventoryPlayer, TileHydraulicFiller filler) {
+
         super(filler, new ContainerFiller(inventoryPlayer, filler), resLoc);
 
         this.filler = filler;
@@ -24,6 +26,7 @@ public class GuiFiller extends HydraulicGUIBase {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.hydraulicFiller.getLocalizedName(), true);
 

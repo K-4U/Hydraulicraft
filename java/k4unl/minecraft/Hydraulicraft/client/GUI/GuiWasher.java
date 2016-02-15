@@ -13,17 +13,20 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import org.lwjgl.opengl.GL11;
 
 public class GuiWasher extends HydraulicGUIBase {
+
     private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/washer.png");
     TileHydraulicWasher washer;
 
 
     public GuiWasher(InventoryPlayer invPlayer, TileHydraulicWasher _washer) {
+
         super(_washer, new ContainerWasher(invPlayer, _washer), resLoc);
         washer = _washer;
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         //fontRenderer.drawString(Names.blockHydraulicWasher.localized, 8, 6, 0xFFFFFF);
         drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.hydraulicWasher.getLocalizedName(), true);
@@ -81,7 +84,7 @@ public class GuiWasher extends HydraulicGUIBase {
 
             //drawTexturedModelRectFromIcon(xPos, 19, smeltingIcon, w, h)
             /*GL11.glEnable(GL11.GL_BLEND);
-			if(percentage < 0.5f){
+            if(percentage < 0.5f){
 				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), washingItem, xPos, yPos);
 			}else{
 				itemRenderer.renderItemIntoGUI(fontRenderer, mc.getTextureManager(), targetItem, xPos, yPos);

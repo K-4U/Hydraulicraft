@@ -11,16 +11,17 @@ import java.util.List;
 
 public class OreLead extends OreBase {
 
-	public OreLead() {
-		super(Names.oreLead);
-		setHarvestLevel("pickaxe", 2);
-	}
+    public OreLead() {
 
-	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune){
+        super(Names.oreLead);
+        setHarvestLevel("pickaxe", 2);
+    }
 
-		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		ret.add(new ItemStack(Ores.oreLead));
-		return ret;
-	}
+    @Override
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        ret.add(new ItemStack(Ores.oreLead));
+        return ret;
+    }
 }

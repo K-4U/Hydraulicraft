@@ -12,10 +12,10 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.Til
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.client.GUI.GuiPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.containers.ContainerPneumaticCompressor;
 import k4unl.minecraft.Hydraulicraft.thirdParty.pneumaticraft.tileEntities.TileHydraulicPneumaticCompressor;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.client.GUI.GuiRFPump;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileHydraulicDynamo;
-import k4unl.minecraft.Hydraulicraft.thirdParty.thermalExpansion.tileEntities.TileRFPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.client.GUI.GuiHydraulicDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.client.GUI.GuiRFPump;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.TileHydraulicDynamo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.TileRFPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
@@ -34,7 +34,7 @@ public class GuiHandler implements IGuiHandler {
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world,
-      int x, int y, int z) {
+                                      int x, int y, int z) {
 
         TileEntity ent = world.getTileEntity(new BlockPos(x, y, z));
         if (ent != null) {
@@ -150,7 +150,7 @@ public class GuiHandler implements IGuiHandler {
 
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world,
-      int x, int y, int z) {
+                                      int x, int y, int z) {
 
         TileEntity ent = world.getTileEntity(new BlockPos(x, y, z));
 

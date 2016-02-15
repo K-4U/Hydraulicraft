@@ -4,22 +4,25 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.*;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
-import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvester;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.*;
+import k4unl.minecraft.Hydraulicraft.tileEntities.rubberHarvesting.TileRubberTap;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileFluidTank;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
+import k4unl.minecraft.Hydraulicraft.tileEntities.worldgen.TileRubberWood;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileEntities {
+
     /*!
      * @author Koen Beckers
      * @date 13-12-2013
      * Initializes all the tile entities.
      */
     public static void init() {
+
         GameRegistry.registerTileEntity(TileHydraulicPump.class, "tileHydraulicPump");
         GameRegistry.registerTileEntity(TileHydraulicLavaPump.class, "tileHydraulicLavaPump");
         GameRegistry.registerTileEntity(TileHydraulicFrictionIncinerator.class, "tileHydraulicFrictionIncinerator");
@@ -42,7 +45,6 @@ public class TileEntities {
         GameRegistry.registerTileEntity(TileHydraulicFluidPump.class, "tileWaterPump");
 
         GameRegistry.registerTileEntity(TilePortalBase.class, "tilePortalBase");
-        GameRegistry.registerTileEntity(TilePortalFrame.class, "tilePortalFrame");
         GameRegistry.registerTileEntity(TilePortalTeleporter.class, "tilePortalTeleporter");
 
         GameRegistry.registerTileEntity(TileChunkLoader.class, "tileChunkLoader");
@@ -52,6 +54,8 @@ public class TileEntities {
         GameRegistry.registerTileEntity(TileHydraulicFiller.class, "tileHydraulicFiller");
 
         GameRegistry.registerTileEntity(TileFluidTank.class, "tileFluidTank");
+        GameRegistry.registerTileEntity(TileRubberWood.class, "tileRubberWood");
+        GameRegistry.registerTileEntity(TileRubberTap.class, "tileRubberTap");
 
     }
 }

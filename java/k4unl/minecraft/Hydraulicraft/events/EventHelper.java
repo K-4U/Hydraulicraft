@@ -11,15 +11,22 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidBlock;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -29,16 +36,19 @@ import java.util.List;
 import java.util.Random;
 
 public class EventHelper {
+
     private static boolean   hasShownUpdateInfo = false;
     private static ItemStack itemDust           = null;
 
 
     public static void init() {
+
         MinecraftForge.EVENT_BUS.register(new EventHelper());
     }
 
     public static void postinit() {
-        if(OreDictionary.getOres("dustStone").size() > 0){
+
+        if (OreDictionary.getOres("dustStone").size() > 0) {
             itemDust = OreDictionary.getOres("dustStone").get(0).copy();
             itemDust.stackSize = 1;
         }
@@ -46,8 +56,9 @@ public class EventHelper {
 
 
     @SubscribeEvent
-    public void onRightClick(PlayerInteractEvent event){
-        if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK){
+    public void onRightClick(PlayerInteractEvent event) {
+
+        if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.pos);
             if (vLocation != null) {
                 //Open a GUI.
@@ -58,7 +69,8 @@ public class EventHelper {
 
     @SubscribeEvent
     public void onBlockBreak(BreakEvent event) {
-        if(event.world.isRemote){
+
+        if (event.world.isRemote) {
             return;
         }
         if (event.state.getBlock() == HCBlocks.hydraulicPressureWall || event.state.getBlock() == HCBlocks.blockValve) {
@@ -97,6 +109,7 @@ public class EventHelper {
 
     @SubscribeEvent
     public void onBlockBreakDrill(BlockEvent.HarvestDropsEvent event) {
+
         if (event.harvester == null)
             return;
 
@@ -135,6 +148,7 @@ public class EventHelper {
 
     @SubscribeEvent
     public void onDeathEvent(LivingDeathEvent event) {
+
         if (event.entity instanceof EntityPig) {
             if (!event.entity.worldObj.isRemote) {
                 //Chance for bacon to drop, config ofcourse
@@ -175,4 +189,21 @@ public class EventHelper {
 			}
 		}
 	}*/
+
+    @SubscribeEvent
+    public void onBucketFill(FillBucketEvent event) {
+
+        IBlockState state = event.world.getBlockState(event.target.getBlockPos());
+        if (state.getBlock() instanceof IFluidBlock) {
+            Fluid fluid = ((IFluidBlock) state.getBlock()).getFluid();
+            FluidStack fs = new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME);
+
+            ItemStack filled = FluidContainerRegistry.fillFluidContainer(fs, event.current);
+            if (filled != null) {
+                event.result = filled;
+                event.world.setBlockToAir(event.target.getBlockPos());
+                event.setResult(Event.Result.ALLOW);
+            }
+        }
+    }
 }

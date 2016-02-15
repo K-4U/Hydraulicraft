@@ -15,8 +15,9 @@ import java.util.List;
 public class ItemDusts extends Item {
 
     class dust {
-        private String _name;
-        private int meta;
+
+        private String  _name;
+        private int     meta;
         private boolean visible;
 
         public dust(String targetName, int meta) {
@@ -81,12 +82,12 @@ public class ItemDusts extends Item {
     public void showDust(String oreDictName) {
 
         for (dust dust : dusts) {
-            if(dust.getName().equals(oreDictName)){
+            if (dust.getName().equals(oreDictName)) {
                 dust.setVisible(true);
                 String ingotName = "ingot" + oreDictName;
                 ItemStack ingotTarget = Functions.getIngot(ingotName);
                 FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(this, 1, dust.getMeta()),
-                  ingotTarget, 0F);
+                        ingotTarget, 0F);
 
                 OreDictionary.registerOre("dust" + oreDictName,
                         new ItemStack(HCItems.itemDust, 1, dust.getMeta()));
@@ -110,17 +111,19 @@ public class ItemDusts extends Item {
     public void getSubItems(Item item, CreativeTabs tab, List list) {
 
         for (int i = 0; i < dusts.size(); i++) {
-            if(getDust(i).isVisible()) {
+            if (getDust(i).isVisible()) {
                 list.add(new ItemStack(this, 1, i));
             }
         }
     }
 
-    public dust getDust(int id){
+    public dust getDust(int id) {
+
         return dusts.get(id);
     }
 
     public List<dust> getChunks() {
+
         return dusts;
     }
 

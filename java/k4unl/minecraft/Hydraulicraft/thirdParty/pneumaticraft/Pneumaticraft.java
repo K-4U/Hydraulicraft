@@ -15,44 +15,52 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Pneumaticraft implements IThirdParty {
-	public static Block hydraulicPneumaticCompressor;
-	
+
+    public static Block hydraulicPneumaticCompressor;
+
     @Override
-    public void preInit(){
+    public void preInit() {
+
     }
 
     @Override
-    public void init(){
-    	initBlocks();
+    public void init() {
+
+        initBlocks();
     }
 
     @Override
-    public void postInit(){
-    	initRecipes();
+    public void postInit() {
+
+        initRecipes();
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void clientSide(){}
-	
-	public static void initBlocks(){
-		hydraulicPneumaticCompressor = new BlockHydraulicPneumaticCompressor();
-		GameRegistry.registerBlock(hydraulicPneumaticCompressor, HandlerHydraulicBlock.class, Names.blockHydraulicPneumaticCompressor.unlocalized);
-		//LanguageRegistry.addName(hydraulicPneumaticCompressor, Names.blockHydraulicPneumaticCompressor.localized);
-		
-		GameRegistry.registerTileEntity(TileHydraulicPneumaticCompressor.class, "tileHydraulicPneumaticCompressor");
-	}
-	
-	public static void initRecipes(){
-		GameRegistry.addRecipe(new ItemStack(hydraulicPneumaticCompressor, 1),
-				new Object [] {
-					"WWW",
-					"KCT",
-					"WWW",
-					'K', HCItems.gasket,
-					'T', new ItemStack(Items.redstone/*BlockSupplier.getBlock("pressureTube")*/, 1, 0),
-					'W', HCBlocks.hydraulicPressureWall,
-					'C', Items.redstone //BlockSupplier.getBlock("airCompressor")
-				});
-	}
+    public void clientSide() {
+
+    }
+
+    public static void initBlocks() {
+
+        hydraulicPneumaticCompressor = new BlockHydraulicPneumaticCompressor();
+        GameRegistry.registerBlock(hydraulicPneumaticCompressor, HandlerHydraulicBlock.class, Names.blockHydraulicPneumaticCompressor.unlocalized);
+        //LanguageRegistry.addName(hydraulicPneumaticCompressor, Names.blockHydraulicPneumaticCompressor.localized);
+
+        GameRegistry.registerTileEntity(TileHydraulicPneumaticCompressor.class, "tileHydraulicPneumaticCompressor");
+    }
+
+    public static void initRecipes() {
+
+        GameRegistry.addRecipe(new ItemStack(hydraulicPneumaticCompressor, 1),
+                new Object[]{
+                        "WWW",
+                        "KCT",
+                        "WWW",
+                        'K', HCItems.gasket,
+                        'T', new ItemStack(Items.redstone/*BlockSupplier.getBlock("pressureTube")*/, 1, 0),
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'C', Items.redstone //BlockSupplier.getBlock("airCompressor")
+                });
+    }
 }

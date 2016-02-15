@@ -8,6 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 public class ContainerWasher extends ContainerBase {
 
     public ContainerWasher(InventoryPlayer invPlayer, TileHydraulicWasher tileWasher) {
+
         super(tileWasher);
 
         addSlotToContainer(new SlotMachineInput(tileWasher, tileWasher, 0, 56, 16));

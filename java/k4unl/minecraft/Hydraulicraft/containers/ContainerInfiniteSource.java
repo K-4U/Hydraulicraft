@@ -7,6 +7,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerInfiniteSource extends ContainerBase {
 
     public ContainerInfiniteSource(InventoryPlayer invPlayer, TileInfiniteSource source) {
+
         super(source);
 
         addSlotToContainer(new Slot(source, 0, 35, 49));

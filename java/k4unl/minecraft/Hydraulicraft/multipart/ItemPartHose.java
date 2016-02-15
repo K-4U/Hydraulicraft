@@ -17,7 +17,9 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class ItemPartHose extends ItemMultiPart {
-    public ItemPartHose(){
+
+    public ItemPartHose() {
+
         super();
         setHasSubtypes(true);
         setCreativeTab(CustomTabs.tabHydraulicraft);
@@ -26,16 +28,18 @@ public class ItemPartHose extends ItemMultiPart {
 
     @Override
     public IMultipart createPart(World world, BlockPos blockPos, EnumFacing enumFacing, Vec3 vec3, ItemStack itemStack, EntityPlayer entityPlayer) {
+
         PartHose w = new PartHose();
         w.preparePlacement(itemStack.getItemDamage());
         return w;
     }
 
     @Override
-    public void getSubItems(Item item, CreativeTabs tab, List list){
-    	for(int i = 0; i < 3; i++){
-			list.add(new ItemStack(this, 1, i));
-		}
+    public void getSubItems(Item item, CreativeTabs tab, List list) {
+
+        for (int i = 0; i < 3; i++) {
+            list.add(new ItemStack(this, 1, i));
+        }
     }
 
     @Override

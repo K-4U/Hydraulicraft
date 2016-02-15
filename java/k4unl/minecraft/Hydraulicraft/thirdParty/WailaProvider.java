@@ -38,7 +38,7 @@ public class WailaProvider implements IWailaDataProvider {
 
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor,
-      IWailaConfigHandler config) {
+                                   IWailaConfigHandler config) {
 
         if (accessor.getTileEntity() instanceof TileHarvesterTrolley) {
             TileHarvesterTrolley harvesterTrolley = (TileHarvesterTrolley) accessor.getTileEntity();
@@ -55,8 +55,8 @@ public class WailaProvider implements IWailaDataProvider {
 
     @Override
     public List<String> getWailaHead(ItemStack itemStack,
-      List<String> currenttip, IWailaDataAccessor accessor,
-      IWailaConfigHandler config) {
+                                     List<String> currenttip, IWailaDataAccessor accessor,
+                                     IWailaConfigHandler config) {
 
         return currenttip;
     }
@@ -64,8 +64,8 @@ public class WailaProvider implements IWailaDataProvider {
     @SuppressWarnings("cast")
     @Override
     public List<String> getWailaBody(ItemStack itemStack,
-      List<String> currenttip, IWailaDataAccessor accessor,
-      IWailaConfigHandler config) {
+                                     List<String> currenttip, IWailaDataAccessor accessor,
+                                     IWailaConfigHandler config) {
 
         TileEntity ent = accessor.getTileEntity();
         if (accessor.getTileEntity() instanceof IHydraulicMachine/* || ent instanceof TileMultipart*/) {
@@ -113,13 +113,13 @@ public class WailaProvider implements IWailaDataProvider {
             }
 
         } else if (ent instanceof TileFluidTank) {
-            TileFluidTank fluidTank = (TileFluidTank)ent;
+            TileFluidTank fluidTank = (TileFluidTank) ent;
             Map<String, String> values = new HashMap<String, String>();
             FluidTankInfo tankInfo = fluidTank.getTankInfo(EnumFacing.UP)[0];
-            if(tankInfo != null && tankInfo.fluid != null) {
+            if (tankInfo != null && tankInfo.fluid != null) {
                 currenttip.add("Fluid: " + SpecialChars.WHITE + tankInfo.fluid.getLocalizedName());
                 currenttip.add(tankInfo.fluid.amount + "/" + tankInfo.capacity + " mB");
-            }else{
+            } else {
                 currenttip.add("Fluid: " + SpecialChars.WHITE + "None");
             }
         }
@@ -128,8 +128,8 @@ public class WailaProvider implements IWailaDataProvider {
 
     @Override
     public List<String> getWailaTail(ItemStack itemStack,
-      List<String> currenttip, IWailaDataAccessor accessor,
-      IWailaConfigHandler config) {
+                                     List<String> currenttip, IWailaDataAccessor accessor,
+                                     IWailaConfigHandler config) {
 
         return currenttip;
     }

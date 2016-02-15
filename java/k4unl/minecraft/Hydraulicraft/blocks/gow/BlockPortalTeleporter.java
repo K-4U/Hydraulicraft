@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Random;
 
 public class BlockPortalTeleporter extends GOWBlockRendering {
+
     private static Vector3fMax blockBounds = new Vector3fMax(0.499F, 0.499F, 0.499F, 0.501F, 0.501F, 0.501F);
 
 
@@ -36,16 +37,19 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
     @SideOnly(Side.CLIENT)
     @Override
     public boolean canRenderInLayer(EnumWorldBlockLayer layer) {
+
         return true;
     }
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 
     @Override
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+
         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
     }
 
@@ -63,17 +67,19 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
 
     @Override
     public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+
         return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
-    {
+    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+
         return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 
     @Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+
         if (!worldIn.isRemote) {
             NBTTagCompound entCompound = entityIn.getEntityData();
             Location teLocation = new Location(pos);
@@ -108,10 +114,11 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
             }
         }
     }
+
     @SideOnly(Side.CLIENT)
     @Override
     public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		/*for (int l = 0; l < 1; ++l)
+        /*for (int l = 0; l < 1; ++l)
         {*/
         if (rand.nextInt(100) <= 50) {
             double d0 = pos.getX() + rand.nextFloat();
@@ -131,6 +138,7 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
 
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
+
         return null;
     }
 
@@ -142,16 +150,19 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
 
     @Override
     public int getRenderType() {
+
         return -1;
     }
 
     @Override
     public boolean isOpaqueCube() {
+
         return false;
     }
 
     @Override
     public boolean isFullBlock() {
+
         return false;
     }
 

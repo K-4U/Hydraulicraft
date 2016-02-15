@@ -7,6 +7,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class SlotFluidCrafting extends Slot {
+
     IFluidInventory fluidMatrixInventory;
     IInventory      resultInventory;
     IFluidRecipe    currentRecipe;
@@ -22,14 +23,17 @@ public class SlotFluidCrafting extends Slot {
 
     @Override
     protected void onCrafting(ItemStack itemStack) {
+
         super.onCrafting(itemStack);
     }
 
     public void setRecipe(IFluidRecipe recipe) {
+
         currentRecipe = recipe;
     }
 
     public void onMatrixChanged() {
+
         IFluidRecipe recipe = HydraulicRecipes.getAssemblerRecipe(fluidMatrixInventory);
         currentRecipe = recipe;
         if (recipe != null) {
@@ -39,11 +43,13 @@ public class SlotFluidCrafting extends Slot {
 
     @Override
     public boolean isItemValid(ItemStack stack) {
+
         return false;
     }
 
     @Override
     public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
+
         super.onPickupFromSlot(player, stack);
 
         onCrafting(stack);

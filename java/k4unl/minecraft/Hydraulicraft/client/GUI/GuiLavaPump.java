@@ -18,17 +18,20 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import java.text.DecimalFormat;
 
 public class GuiLavaPump extends HydraulicGUIBase {
+
     private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/lavapump.png");
     TileHydraulicLavaPump pump;
 
 
     public GuiLavaPump(InventoryPlayer invPlayer, TileHydraulicLavaPump _pump) {
+
         super(_pump, new ContainerEmpty(invPlayer), resLoc);
         pump = _pump;
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawHorizontalAlignedString(7, 3, xSize - 14, Localization.getLocalizedName(Names.blockHydraulicLavaPump[pump.getTier().toInt()].unlocalized), true);
 

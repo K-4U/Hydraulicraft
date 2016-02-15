@@ -21,53 +21,61 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 
-public class FMP implements IThirdParty{
-	public static Block hydraulicSaw;
-	
+public class FMP implements IThirdParty {
+
+    public static Block hydraulicSaw;
+
     @Override
-    public void preInit(){
+    public void preInit() {
+
         initBlocks();
     }
 
     @Override
-    public void init(){}
+    public void init() {
+
+    }
 
     @Override
-    public void postInit(){
+    public void postInit() {
+
         initRecipes();
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void clientSide(){}
-	
-	public static void initBlocks(){
-		hydraulicSaw = new BlockHydraulicSaw();
-		
-		GameRegistry.registerBlock(hydraulicSaw, HandlerHydraulicBlock.class, Names.blockHydraulicSaw.unlocalized);
-		GameRegistry.registerTileEntity(TileHydraulicSaw.class, "tileHydraulicSaw");
-		
-		FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(HCBlocks.hydraulicPressureWall, 1));
-		FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(HCBlocks.hydraulicPressureGlass, 1));
-	}
-	
-	public static void initRecipes(){
-		//FMP
-		Item saw = GameRegistry.findItem("ForgeMicroblock","sawIron");
-		HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(hydraulicSaw, true,
-          new Object[] {
-            "GSG",
-            "KCI",
-            "WWW",
-            'G', Blocks.glass,
-            'K', HCItems.gasket,
-            'W', HCBlocks.hydraulicPressureWall,
-            'C', new ItemStack(HCBlocks.blockCore, 1, 1),
-            'I', HCBlocks.blockInterfaceValve,
-            'S', saw
-          }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 200))
+    public void clientSide() {
+
+    }
+
+    public static void initBlocks() {
+
+        hydraulicSaw = new BlockHydraulicSaw();
+
+        GameRegistry.registerBlock(hydraulicSaw, HandlerHydraulicBlock.class, Names.blockHydraulicSaw.unlocalized);
+        GameRegistry.registerTileEntity(TileHydraulicSaw.class, "tileHydraulicSaw");
+
+        FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(HCBlocks.hydraulicPressureWall, 1));
+        FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(HCBlocks.hydraulicPressureGlass, 1));
+    }
+
+    public static void initRecipes() {
+        //FMP
+        Item saw = GameRegistry.findItem("ForgeMicroblock", "sawIron");
+        HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(hydraulicSaw, true,
+                new Object[]{
+                        "GSG",
+                        "KCI",
+                        "WWW",
+                        'G', Blocks.glass,
+                        'K', HCItems.gasket,
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+                        'I', HCBlocks.blockInterfaceValve,
+                        'S', saw
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 200))
         );
-		
-	}
-	
+
+    }
+
 }

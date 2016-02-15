@@ -5,10 +5,10 @@ item.frictionPlate.name=Friction Plate
 item.ingotCopper.name=Copper Ingot
 item.ingotLead.name=Lead Ingot
 item.ingotEnrichedCopper.name=Enriched Copper Ingot
-item.bucketHydraulicOil.name=Hydraulic Oil Bucket
-item.bucketLubricant.name=Lubricant Bucket
-item.bucketOil.name=Oil Bucket
-item.bucketFluoroCarbonFluid.name=Fluoro Carbon Fluid Bucket
+item.bucket.hydraulicOil.name=Hydraulic Oil Bucket
+item.bucket.lubricant.name=Lubricant Bucket
+item.bucket.oil.name=Oil Bucket
+item.bucket.fluoroCarbonFluid.name=Fluoro Carbon Fluid Bucket
 item.bacon.name=Bacon
 item.miningHelmet.name=Miners Helmet
 item.itemLamp.name=Miners Helmet Lamp
@@ -24,6 +24,11 @@ item.itemPressureGauge.name=Pressure Gauge
 item.LPHydraulicPipe.name=Low Pressure Pipe
 item.MPHydraulicPipe.name=Medium Pressure Pipe
 item.HPHydraulicPipe.name=High Pressure Pipe
+item.itemCannister.name=Pressure Cannister
+item.itemDrill.name=Hydraulic Drill
+item.itemSaw.name=Hydraulic Saw
+item.fluidPipe.name=Fluid Pipe
+item.fluidInterface.name=Fluid Interface
 
 
 #Ores
@@ -52,13 +57,9 @@ tile.LPHydraulicPipe.name=Low Pressure Pipe
 tile.MPHydraulicPipe.name=Medium Pressure Pipe
 tile.HPHydraulicPipe.name=High Pressure Pipe
 
-tile.LPPartValve.name=Low Pressure Valve
-tile.MPPartValve.name=Medium Pressure Valve
-tile.HPPartValve.name=High Pressure Valve
-
-tile.LPHydraulicPressureVat.name=Low Pressure Vat
-tile.MPHydraulicPressureVat.name=Medium Pressure Vat
-tile.HPHydraulicPressureVat.name=High Pressure Vat
+tile.LPHydraulicPressureReservoir.name=Low Pressure Reservoir
+tile.MPHydraulicPressureReservoir.name=Medium Pressure Reservoir
+tile.HPHydraulicPressureReservoir.name=High Pressure Reservoir
 
 tile.LPHydraulicPump.name=Low Pressure Pump
 tile.MPHydraulicPump.name=Medium Pressure Pump
@@ -102,6 +103,12 @@ tile.fluidPipe.name=Fluid Pipe
 tile.fluidInterface.name=Fluid Interface
 tile.hydraulicCharger.name=Hydraulic Charger
 tile.hydraulicFiller.name=Hydraulic Filler
+tile.blockFluidTank.name=Fluid Tank
+
+tile.rubberWood.name=Rubber tree wood
+tile.rubberLeaves.name=Rubber tree leaves
+tile.saplingRubber.name=Rubber tree sapling
+
 
 
 #Dust and chunks
@@ -156,6 +163,7 @@ lang.gui.releasedAt=Released on: %s
 lang.gui.upToDate=Hydraulicraft up to date
 lang.tooltip.multiblock=Multiblock. Max pressure depends on the core used.
 lang.tooltip.pressureGauge=Shows how much pressure you're under. Does not apply to daily life.
+lang.gui.multiblocktank=Multiblock tank
 
 #Harvester
 lang.harvester.notFormingError.trolleyExpected=Expected a trolley at %s
@@ -190,7 +198,7 @@ tile.HPRFPump.name=High Pressure Redstone Pump
 tile.hydraulicSaw.name=Hydraulic Saw
 
 tile.portalBase.name=Portal base
-tile.portalFrame.name=Portal frame
+item.portalFrame.name=Portal frame
 tile.portalTeleporter.name=Portal
 item.portalIPCard.name=Portal IP Card
 itemGroup.tabGOW=Glowing Octo Wallhack

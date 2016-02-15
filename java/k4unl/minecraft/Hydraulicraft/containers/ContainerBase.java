@@ -9,11 +9,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class ContainerBase extends Container {
+
     protected TileEntity tileEntity;
     private int internalSlots = 0;
     private int totalSlots    = 0;
 
     public ContainerBase(TileEntity tileEntity) {
+
         this.tileEntity = tileEntity;
     }
 
@@ -24,6 +26,7 @@ public abstract class ContainerBase extends Container {
      * @param inv Player's inventory
      */
     protected void bindPlayerInventory(InventoryPlayer inv) {
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
                 super.addSlotToContainer(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
@@ -38,6 +41,7 @@ public abstract class ContainerBase extends Container {
     }
 
     protected void bindPlayerArmorSlots(InventoryPlayer player, int offX, int offY) {
+
         for (int i = 0; i < 4; i++) {
             super.addSlotToContainer(new SlotArmour(player, 36 + i, offX + i * 18, offY));
         }
@@ -47,11 +51,13 @@ public abstract class ContainerBase extends Container {
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
+
         return player.getDistanceSq(tileEntity.getPos()) < 64;
     }
 
     @Override
     protected Slot addSlotToContainer(Slot slot) {
+
         internalSlots++;
         totalSlots++;
         return super.addSlotToContainer(slot);
@@ -59,6 +65,7 @@ public abstract class ContainerBase extends Container {
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlot) {
+
         ItemStack stack = null;
         Slot slotObject = (Slot) inventorySlots.get(sourceSlot);
 
@@ -103,6 +110,7 @@ public abstract class ContainerBase extends Container {
     // copypasted vanilla code, I know. BUT the vanilla one does not check for Slot.isItemValid >_> * grabs a knife *
     @Override
     protected boolean mergeItemStack(ItemStack stack, int internalSlots, int maxSlot, boolean something) {
+
         boolean flag1 = false;
         int k = internalSlots;
 

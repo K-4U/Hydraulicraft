@@ -16,11 +16,13 @@ import net.minecraft.world.World;
 public class BlockHydraulicPneumaticCompressor extends HydraulicBlockContainerBase implements ITieredBlock {
 
     public BlockHydraulicPneumaticCompressor() {
+
         super(Names.blockHydraulicPneumaticCompressor, true);
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
+
         return new TileHydraulicPneumaticCompressor();
     }
 
@@ -31,12 +33,14 @@ public class BlockHydraulicPneumaticCompressor extends HydraulicBlockContainerBa
     }
 
     public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir) {
+
         return true;
     }
 
 
     @Override
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+
         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
         TileEntity tile = worldIn.getTileEntity(pos);
         if (tile instanceof TileHydraulicPneumaticCompressor) {
@@ -46,6 +50,7 @@ public class BlockHydraulicPneumaticCompressor extends HydraulicBlockContainerBa
 
     @Override
     public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
+
         super.onNeighborChange(world, pos, neighbor);
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileHydraulicPneumaticCompressor) {

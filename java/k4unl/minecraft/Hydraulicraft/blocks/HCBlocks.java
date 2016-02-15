@@ -17,6 +17,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalBase;
 import k4unl.minecraft.Hydraulicraft.blocks.gow.BlockPortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.blocks.handlers.*;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.*;
+import k4unl.minecraft.Hydraulicraft.blocks.rubberHarvesting.BlockRubberTap;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockFluidTank;
 import k4unl.minecraft.Hydraulicraft.blocks.storage.BlockHydraulicPressureReservoir;
 import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberLeaves;
@@ -80,9 +81,10 @@ public class HCBlocks {
 
     public static Block blockRubberWood;
     public static Block blockRubberLeaves;
-    public static Block blockRubberSapling;
+    public static BlockRubberSapling blockRubberSapling;
 
     public static Block blockFluidTank;
+    public static Block blockRubberTap;
 
     /*!
      * @author Koen Beckers
@@ -90,6 +92,7 @@ public class HCBlocks {
      * Initializes the blocks.
      */
     public static void init() {
+
         hydraulicPump = new BlockHydraulicPump();
         hydraulicLavaPump = new BlockHydraulicLavaPump();
         hydraulicPressurevat = new BlockHydraulicPressureReservoir();
@@ -144,6 +147,7 @@ public class HCBlocks {
         blockRubberSapling = new BlockRubberSapling();
 
         blockFluidTank = new BlockFluidTank();
+        blockRubberTap = new BlockRubberTap();
 
         registerBlocks();
     }
@@ -155,6 +159,7 @@ public class HCBlocks {
      * Registers the blocks to the GameRegistry
      */
     public static void registerBlocks() {
+
         GameRegistry.registerBlock(hydraulicFrictionIncinerator, HandlerHydraulicBlock.class, Names.blockHydraulicFrictionIncinerator.unlocalized);
         GameRegistry.registerBlock(hydraulicCrusher, HandlerHydraulicBlock.class, Names.blockHydraulicCrusher.unlocalized);
         GameRegistry.registerBlock(hydraulicWasher, HandlerHydraulicBlock.class, Names.blockHydraulicWasher.unlocalized);
@@ -211,6 +216,7 @@ public class HCBlocks {
         GameRegistry.registerBlock(blockRubberLeaves, ItemBlock.class, Names.blockRubberLeaves.unlocalized);
         GameRegistry.registerBlock(blockRubberSapling, ItemBlock.class, Names.blockRubberSapling.unlocalized);
 
-        GameRegistry.registerBlock(blockFluidTank, ItemBlock.class, Names.blockFluidTank.unlocalized);
+        GameRegistry.registerBlock(blockFluidTank, HandlerHydraulicBlock.class, Names.blockFluidTank.unlocalized);
+        GameRegistry.registerBlock(blockRubberTap, HandlerHydraulicBlock.class, Names.blockRubberTap.unlocalized);
     }
 }

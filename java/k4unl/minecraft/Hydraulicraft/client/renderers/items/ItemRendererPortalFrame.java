@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
 public class ItemRendererPortalFrame {// implements IItemRenderer{
-	/*private static RendererPortalFrame portalFrameRenderer = new RendererPortalFrame();
+    /*private static RendererPortalFrame portalFrameRenderer = new RendererPortalFrame();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -41,5 +41,5 @@ public class ItemRendererPortalFrame {// implements IItemRenderer{
 		portalFrameRenderer.doRender(new TilePortalFrame(), x, y, z, 0);
 	}
 */
-	 
+
 }

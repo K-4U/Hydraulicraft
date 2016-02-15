@@ -8,12 +8,14 @@ public class BuildcraftCompat extends BuildcraftBase {
     public static BuildcraftCompat INSTANCE;
 
     public BuildcraftCompat() {
+
         INSTANCE = this;
     }
 
     @Optional.Method(modid = "BuildCraftAPI|tools")
     @Override
     public boolean isWrench(ItemStack stack) {
+
         return stack != null /*&& stack.getItem() instanceof IToolWrench*/ || super.isWrench(stack);
     }
 }

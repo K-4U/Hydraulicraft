@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecipe {
+
     List<FluidStack> inputFluids;
     List<FluidStack> outputFluids;
     int   craftingTime = 1;
@@ -21,23 +22,28 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
     private ChancedStack resultChancedStack;
 
     public FluidShapedOreRecipe(Block result, Object... recipe) {
+
         super(result, recipe);
     }
 
     public FluidShapedOreRecipe(Item result, Object... recipe) {
+
         super(result, recipe);
     }
 
     public FluidShapedOreRecipe(ItemStack result, Object... recipe) {
+
         super(result, recipe);
     }
 
     public FluidShapedOreRecipe(ChancedStack result, Object... recipe) {
+
         super(new ItemStack(Blocks.cobblestone_wall), recipe); // just to feed it something
         this.resultChancedStack = result;
     }
 
     public FluidShapedOreRecipe addFluidInput(FluidStack fluidStack) {
+
         if (inputFluids == null)
             inputFluids = new ArrayList<FluidStack>();
 
@@ -47,6 +53,7 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
     }
 
     public FluidShapedOreRecipe addFluidOutput(FluidStack fluidStack) {
+
         if (outputFluids == null)
             outputFluids = new ArrayList<FluidStack>();
 
@@ -56,16 +63,19 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
 
     @Override
     public List<FluidStack> getInputFluids() {
+
         return inputFluids;
     }
 
     @Override
     public List<FluidStack> getOutputFluids() {
+
         return outputFluids;
     }
 
     @Override
     public boolean matches(IFluidInventory inventory) {
+
         if (!super.matches(inventory.getInventory(), null))
             return false;
 
@@ -100,26 +110,31 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
 
     @Override
     public int getCraftingTime() {
+
         return craftingTime;
     }
 
     public FluidShapedOreRecipe setCraftingTime(int craftingTime) {
+
         this.craftingTime = craftingTime;
         return this;
     }
 
     @Override
     public float getPressure() {
+
         return pressure;
     }
 
     public FluidShapedOreRecipe setPressure(float pressure) {
+
         this.pressure = pressure;
         return this;
     }
 
     @Override
     public ItemStack getRecipeOutput() {
+
         if (resultChancedStack != null)
             throw new IllegalArgumentException("Tried to access normal recipe output when chanced stack was set up!");
 
@@ -128,11 +143,13 @@ public class FluidShapedOreRecipe extends ShapedOreRecipe implements IFluidRecip
 
     @Override
     public Object[] getInputItems() {
+
         return super.getInput();
     }
 
     @Override
     public ItemStack[] getChancedDrops() {
+
         if (resultChancedStack == null)
             throw new IllegalArgumentException("Tried to access chanced stack when they were not set up!");
 

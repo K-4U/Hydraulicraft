@@ -5,8 +5,9 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 
 public class BlockHydraulicCore extends SubBlockBase {
 
-	public BlockHydraulicCore() {
-		super(Names.blockCore);
-	}
+    public BlockHydraulicCore() {
+
+        super(Names.blockCore);
+    }
 
 }

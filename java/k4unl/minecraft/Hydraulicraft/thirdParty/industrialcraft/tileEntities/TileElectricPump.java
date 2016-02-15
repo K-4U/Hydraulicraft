@@ -2,14 +2,14 @@ package k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities;
 
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
+import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
-public class TileElectricPump extends TileHydraulicBase implements IHydraulicGenerator{//}, IEnergySink {
+public class TileElectricPump extends TileHydraulicBase implements IHydraulicGenerator {//}, IEnergySink {
     private boolean    isRunning = false;
     private EnumFacing facing    = EnumFacing.NORTH;
     private boolean    isFirst   = true;
@@ -25,21 +25,25 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
     private int tier = -1;
 
     public TileElectricPump() {
+
         super(1);
         super.init(this);
     }
 
     public TileElectricPump(PressureTier _tier) {
+
         super(2 * (_tier.toInt() + 1));
         super.init(this);
     }
 
     public float getRenderingPercentage() {
+
         return renderingPercentage;
     }
 
     @Override
     public void workFunction(EnumFacing from) {
+
         if (!getRedstonePowered()) {
             isRunning = false;
             EUUsage = 0;
@@ -71,6 +75,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 
     @Override
     public int getMaxGenerating(EnumFacing from) {
+
         if (!getHandler().isOilStored()) {
             return (int) (Constants.EU_USAGE_PER_TICK[getTier()] * Constants.CONVERSION_RATIO_EU_HYDRAULIC * Constants.WATER_CONVERSION_RATIO);
         } else {
@@ -80,6 +85,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 
     @Override
     public float getGenerating(EnumFacing from) {
+
         if (!getRedstonePowered() || getFluidInNetwork(from) == 0) {
             EUUsage = 0;
             return 0f;
@@ -110,8 +116,9 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 
 
     public int getTier() {
+
         if (tier == -1)
-            tier = ((PressureTier)worldObj.getBlockState(getPos()).getValue(HydraulicTieredBlockBase.TIER)).toInt();
+            tier = ((PressureTier) worldObj.getBlockState(getPos()).getValue(Properties.TIER)).toInt();
 
         tier = Math.min(Constants.INTERNAL_EU_STORAGE.length - 1, tier);
         // cap it, no clue where the extra meta is coming from
@@ -122,6 +129,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         facing = EnumFacing.byName(tagCompound.getString("facing"));
 
@@ -138,6 +146,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
 
         tagCompound.setString("facing", facing.toString());
@@ -152,23 +161,28 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return side.equals(facing);
     }
 
     public EnumFacing getFacing() {
+
         return facing;
     }
 
     public void setFacing(EnumFacing rotation) {
+
         getHandler().updateNetworkOnNextTick(getPressure(getFacing()));
         facing = rotation;
     }
 
     public boolean getIsRunning() {
+
         return isRunning;
     }
 
@@ -192,6 +206,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 */
     @Override
     public void invalidate() {
+
         if (worldObj != null && !worldObj.isRemote) {
             //MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
         }
@@ -200,6 +215,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 
     @Override
     public void onChunkUnload() {
+
         if (worldObj != null && !worldObj.isRemote) {
             //MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
         }
@@ -207,6 +223,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
     }
 
     public int getEUStored() {
+
         return ic2EnergyStored;
     }
 
@@ -218,11 +235,13 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         return dir.equals(getFacing());
     }
 
     @Override
     public void updateNetwork(float oldPressure) {
+
         PressureNetwork endNetwork;
 
         endNetwork = PressureNetwork.getNetworkInDir(worldObj, getPos(), getFacing());
@@ -238,6 +257,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
     }
 
     public int getEUUsage() {
+
         if (EUUsage > Constants.MAX_EU[getTier()]) {
             //EUUsage = Constants.MAX_EU[getTier()];
         }

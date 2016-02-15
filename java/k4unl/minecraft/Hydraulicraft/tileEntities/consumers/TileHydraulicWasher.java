@@ -4,7 +4,6 @@ import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.api.recipes.IFluidRecipe;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
-import k4unl.minecraft.Hydraulicraft.blocks.HydraulicTieredBlockBase;
 import k4unl.minecraft.Hydraulicraft.blocks.IHydraulicMultiBlock;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
@@ -23,6 +22,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IConnectTexture;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
+import k4unl.minecraft.k4lib.lib.Log;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,17 +48,17 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     private boolean isValidMultiblock;
 
     private List<TileHydraulicValve> valves;
-    private TileInterfaceValve fluidValve;
-    private TileInterfaceValve itemValve;
-    private PressureTier tier = PressureTier.INVALID;
-    private float pressurePerTick = 0F;
+    private TileInterfaceValve       fluidValve;
+    private TileInterfaceValve       itemValve;
+    private PressureTier tier            = PressureTier.INVALID;
+    private float        pressurePerTick = 0F;
     private PressureTier pressureTier;
 
     private InventoryFluidCrafting inventory;
-    private IFluidRecipe recipe;
-    private ItemStack inventor;
-    private ItemStack targetItem;
-    private int maximumTicks;
+    private IFluidRecipe           recipe;
+    private ItemStack              inventor;
+    private ItemStack              targetItem;
+    private int                    maximumTicks;
 
     public TileHydraulicWasher() {
 
@@ -75,15 +75,18 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     }
 
     public int getWashingTicks() {
+
         return (int) inventory.getProgress();
     }
 
     public boolean isWashing() {
+
         return inventory.isCraftingInProgress();
     }
 
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
+
         if (recipe != null) {
             float usedPressure = recipe.getPressure();
 
@@ -112,16 +115,19 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
      * and if the item is smeltable
      */
     private boolean canRun() {
+
         return getIsValidMultiblock() && getPressure(EnumFacing.UP) >= requiredPressure;
     }
 
     @Override
     public int getSizeInventory() {
+
         return inventory.getSizeInventory();
     }
 
     @Override
     public ItemStack getStackInSlot(int i) {
+
         if (i < inventory.getSizeInventory())
             return inventory.getStackInSlot(i);
 
@@ -140,6 +146,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public ItemStack decrStackSize(int slot, int decrBy) {
+
         if (slot < inventory.getSizeInventory())
             return inventory.decrStackSize(slot, decrBy);
 
@@ -178,11 +185,13 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
+
         return decrStackSize(index, getStackInSlot(index).stackSize);
     }
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack itemStack) {
+
         if (slot < inventory.getSizeInventory()) {
             inventory.setInventorySlotContents(slot, itemStack);
             return;
@@ -199,11 +208,13 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public int getInventoryStackLimit() {
+
         return 64;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
+
         return ((worldObj.getTileEntity(getPos()) == this) &&
                 player.getDistanceSq(getPos()) < 64);
     }
@@ -220,6 +231,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+
         if (i == 0 && inventory.isItemValidForSlot(i, itemStack)) {
             return true;
         } else if (i == 2) {
@@ -238,6 +250,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public int getField(int id) {
+
         return 0;
     }
 
@@ -248,6 +261,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public int getFieldCount() {
+
         return 0;
     }
 
@@ -258,22 +272,26 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public int[] getSlotsForFace(EnumFacing var1) {
+
         return new int[]{0, 1, 2};
     }
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, EnumFacing j) {
+
         return i == 0 && HCConfig.canBeWashed(itemStack);
     }
 
     @Override
     public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j) {
+
         return i == 1;
     }
 
 
     @Override
     public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
+
         if (resource.getFluid() != FluidRegistry.WATER)
             return 0;
 
@@ -282,38 +300,45 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
+
         return null;
     }
 
     @Override
     public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+
         return null;
     }
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
+
         return fluid.equals(FluidRegistry.WATER);
     }
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
+
         return false;
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
+
         return inventory.getTankInfo();
 
     }
 
     @Override
     public void onBlockBreaks() {
+
         dropItemStackInWorld(inventory.getStackInSlot(0));
         dropItemStackInWorld(inventory.getStackInSlot(1));
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         inventory.load(tagCompound);
 
@@ -325,17 +350,19 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         inventory.save(tagCompound);
 
         tagCompound.setBoolean("isValidMultiblock", isValidMultiblock);
-        if(getPressureTier() != null) {
+        if (getPressureTier() != null) {
             tagCompound.setInteger("tier", getPressureTier().toInt());
         }
     }
 
     @Override
     public void update() {
+
         super.update();
         if (!worldObj.isRemote) {
             if (worldObj.getTotalWorldTime() % 10 == 0 && !getIsValidMultiblock()) {
@@ -351,20 +378,22 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
         }
     }
 
-    public EnumFacing getFacing(){
-        if(getWorldObj().getBlockState(getPos()).getBlock() == HCBlocks.hydraulicWasher) {
+    public EnumFacing getFacing() {
+
+        if (getWorldObj().getBlockState(getPos()).getBlock() == HCBlocks.hydraulicWasher) {
             return (EnumFacing) getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
-        }else{
+        } else {
             return null;
         }
     }
 
     public void invalidateMultiblock() {
-        if(getWorldObj().getBlockState(getPos()).getBlock() != HCBlocks.hydraulicWasher){
+
+        if (getWorldObj().getBlockState(getPos()).getBlock() != HCBlocks.hydraulicWasher) {
             return;
         }
         EnumFacing dir = getFacing();
-        if(getFacing() == null){
+        if (getFacing() == null) {
             isValidMultiblock = false;
             return;
         }
@@ -438,7 +467,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
                             if (!(block instanceof BlockHydraulicCore)) {
                                 return false;
                             } else {
-                                tier = (PressureTier) getWorldObj().getBlockState(nPos).getValue(HydraulicTieredBlockBase.TIER);
+                                tier = (PressureTier) getWorldObj().getBlockState(nPos).getValue(Properties.TIER);
                                 setPressureTier(tier);
                                 continue;
                             }
@@ -465,6 +494,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     }
 
     public void convertMultiblock() {
+
         isValidMultiblock = true;
 
         EnumFacing dir = ((EnumFacing) getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION)).getOpposite();
@@ -530,15 +560,18 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public void onFluidLevelChanged(int old) {
+
     }
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return true;
     }
 
     @Override
     public void firstTick() {
+
         super.firstTick();
         if (isValidMultiblock) {
             convertMultiblock();
@@ -548,6 +581,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         if (getNetwork(dir) == null) {
             return false;
         }
@@ -556,6 +590,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public void updateNetwork(float oldPressure) {
+
         if (!isValidMultiblock) {
             getHandler().updateNetworkOnNextTick(oldPressure);
         } else {
@@ -567,52 +602,63 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public void invalidate() {
-        super.invalidate();
+
+        Log.info("Invalidated!");
         this.invalidateMultiblock();
+        super.invalidate();
     }
 
     @Override
     public List<TileHydraulicValve> getValves() {
+
         return valves;
     }
 
 
     @Override
     public String getName() {
+
         return Localization.getLocalizedName(Names.blockHydraulicWasher.unlocalized);
     }
 
     @Override
     public boolean hasCustomName() {
+
         return true;
     }
 
     @Override
     public IChatComponent getDisplayName() {
+
         return new ChatComponentTranslation(Names.blockHydraulicWasher.unlocalized);
     }
 
     @Override
     public PressureTier getPressureTier() {
+
         return this.pressureTier;
     }
 
     public void setPressureTier(PressureTier pressureTier) {
+
         this.pressureTier = pressureTier;
     }
 
     @Override
     public boolean connectTexture() {
+
         return getIsValidMultiblock();
     }
 
     @Override
     public boolean connectTextureTo(Block type) {
+
         return type instanceof BlockInterfaceValve;
     }
 
     @Override
     public void onCraftingMatrixChanged() {
+
         if (inventory.isCraftingInProgress())
             return;
 
@@ -625,10 +671,12 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
     @Override
     public void spawnOverflowItemStack(ItemStack stack) {
+
         worldObj.spawnEntityInWorld(new EntityItem(worldObj, getPos().getX(), getPos().getY(), getPos().getZ(), stack));
     }
 
     public ItemStack getWashingItem() {
+
         if (recipe == null)
             return null;
 
@@ -636,6 +684,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     }
 
     public ItemStack getTargetItem() {
+
         if (recipe == null)
             return null;
 
@@ -643,6 +692,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     }
 
     public int getMaximumTicks() {
+
         if (recipe == null)
             return -1;
 

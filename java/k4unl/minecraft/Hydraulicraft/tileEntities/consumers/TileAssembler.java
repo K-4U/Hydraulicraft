@@ -21,6 +21,7 @@ import net.minecraftforge.fluids.*;
 
 public class TileAssembler extends TileHydraulicBase implements IHydraulicConsumer, IInventory,
         IFluidCraftingMachine, IFluidHandler, ISidedInventory {
+
     public static final int   MAX_RECIPE_TICKS_AT_MAX_PRESSURE = 4;
     public static final float PRESSURE_USAGE_MULTIPLIER        = 1.2f;
 
@@ -40,6 +41,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
+
         int maxTicks = (int) (((float) getPressure(from) / getMaxPressure(isOilStored(), from)) * MAX_RECIPE_TICKS_AT_MAX_PRESSURE);
 
         if (recipe != null) {
@@ -63,6 +65,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public boolean canWork(EnumFacing dir) {
+
         return dir.equals(EnumFacing.UP);
     }
 
@@ -73,10 +76,12 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public boolean canConnectTo(EnumFacing side) {
+
         return true;
     }
 
     public int getScaledAssembleTime() {
+
         if (recipe == null)
             return 0;
 
@@ -85,52 +90,62 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public int getSizeInventory() {
+
         return inventoryCrafting.getSizeInventory();
     }
 
     @Override
     public ItemStack getStackInSlot(int slot) {
+
         return inventoryCrafting.getStackInSlot(slot);
     }
 
     @Override
     public ItemStack decrStackSize(int slot, int amount) {
+
         return inventoryCrafting.decrStackSize(slot, amount);
     }
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
+
         return inventoryCrafting.removeStackFromSlot(index);
     }
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack itemStack) {
+
         inventoryCrafting.setInventorySlotContents(slot, itemStack);
     }
 
 
     @Override
     public String getName() {
+
         return Names.blockHydraulicAssembler.unlocalized;
     }
 
     @Override
     public boolean hasCustomName() {
+
         return true;
     }
 
     @Override
     public IChatComponent getDisplayName() {
+
         return new ChatComponentTranslation(Names.blockHydraulicAssembler.unlocalized);
     }
 
     @Override
     public int getInventoryStackLimit() {
+
         return inventoryCrafting.getInventoryStackLimit();
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
+
         return true;
     }
 
@@ -147,6 +162,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+
         if (slot < inventoryCrafting.getSizeInventory())
             return inventoryCrafting.isItemValidForSlot(slot, itemStack);
 
@@ -156,30 +172,36 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public int getField(int id) {
+
         return inventoryCrafting.getField(id);
     }
 
     @Override
     public void setField(int id, int value) {
+
         inventoryCrafting.setField(id, value);
     }
 
     @Override
     public int getFieldCount() {
+
         return inventoryCrafting.getFieldCount();
     }
 
     @Override
     public void clear() {
+
         inventoryCrafting.clear();
     }
 
     public InventoryFluidCrafting getFluidInventory() {
+
         return inventoryCrafting;
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         inventoryCrafting.save(tagCompound);
 
@@ -187,12 +209,14 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
+
         super.readFromNBT(tagCompound);
         inventoryCrafting.load(tagCompound);
     }
 
     @Override
     public void onCraftingMatrixChanged() {
+
         if (inventoryCrafting.isCraftingInProgress())
             return;
 
@@ -206,6 +230,7 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public void spawnOverflowItemStack(ItemStack stack) {
+
         worldObj.spawnEntityInWorld(new EntityItem(worldObj, getPos().getX(), getPos().getY(), getPos().getZ(), stack));
     }
 
@@ -213,46 +238,55 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
 
     @Override
     public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
+
         return inventoryCrafting.fill(resource, doFill);
     }
 
     @Override
     public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
+
         return inventoryCrafting.drain(resource, doDrain);
     }
 
     @Override
     public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+
         return inventoryCrafting.drain(maxDrain, doDrain);
     }
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
+
         return inventoryCrafting.canFill(fluid);
     }
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
+
         return inventoryCrafting.canDrain(fluid);
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
+
         return inventoryCrafting.getTankInfo();
     }
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
+
         return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     }
 
     @Override
     public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+
         return inventoryCrafting.canInsertItem(index, itemStackIn);
     }
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+
         return inventoryCrafting.canExtractItem(index, stack);
 
     }

@@ -11,21 +11,23 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 
 public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
+
     private float oldExtendedLength;
     private float extendedLength;
-    private float maxLength = 4F;
-    private float extendTarget = 0F;
-    private float movingSpeed = 0.05F;
-    private float movingSpeedBack = 0.1F;
-    private boolean harvesterPart = false;
+    private float   maxLength       = 4F;
+    private float   extendTarget    = 0F;
+    private float   movingSpeed     = 0.05F;
+    private float   movingSpeedBack = 0.1F;
+    private boolean harvesterPart   = false;
 
 
     private boolean isRetracting;
     private EnumFacing facing = EnumFacing.NORTH;
-    private Location harvesterLocation;
+    private Location               harvesterLocation;
     private TileHydraulicHarvester harvester;
 
     public TileHydraulicPiston() {
+
         super();
     }
 
@@ -53,6 +55,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
 
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
+
         super.writeToNBT(tagCompound);
         tagCompound.setFloat("extendedLength", extendedLength);
         tagCompound.setFloat("maxLength", maxLength);
@@ -69,31 +72,37 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
     }
 
     public float getExtendedLength() {
+
         return extendedLength;
     }
 
 
     public float getMaxLength() {
+
         return maxLength;
     }
 
     public void setIsHarvesterPart(boolean isit, Location _harvesterLocation) {
+
         harvesterLocation = _harvesterLocation;
         harvesterPart = isit;
         worldObj.markBlockForUpdate(getPos());
     }
 
     public void setIsHarvesterPart(boolean isit) {
+
         harvesterPart = isit;
         worldObj.markBlockForUpdate(getPos());
     }
 
     public void setMaxLength(float newMaxLength) {
+
         maxLength = newMaxLength;
         worldObj.markBlockForUpdate(getPos());
     }
 
     public boolean getIsHarvesterPart() {
+
         return harvesterPart;
     }
 
@@ -120,6 +129,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
 
     //Called from harvester
     public float workFunction(boolean simulate, EnumFacing from) {
+
         oldExtendedLength = extendedLength;
 
         int compResult = Float.compare(extendTarget, extendedLength);
@@ -143,6 +153,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
     }
 
     private IHarvester getHarvester() {
+
         if (harvesterPart && harvester == null && harvesterLocation != null) {
             harvester = (TileHydraulicHarvester) harvesterLocation.getTE(getWorld());
         }
@@ -151,6 +162,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
 
 
     private void recheckSpeed() {
+
         if (getHarvester() != null) {
             TileHydraulicHarvester harv = (TileHydraulicHarvester) getHarvester();
 
@@ -163,6 +175,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
+
         float extendedLength = getExtendedLength();
         float minX = 0.0F + getPos().getX();
         float minY = 0.0F + getPos().getY();
@@ -184,18 +197,22 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
     }
 
     public float getOldExtendedLength() {
+
         return oldExtendedLength;
     }
 
     public EnumFacing getFacing() {
+
         return facing;
     }
 
     public void setFacing(EnumFacing nFacing) {
+
         facing = nFacing;
     }
 
     public void setHarvester(TileHydraulicHarvester harvester) {
+
         this.harvester = harvester;
     }
 }

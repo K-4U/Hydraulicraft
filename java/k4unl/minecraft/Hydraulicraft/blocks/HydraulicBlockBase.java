@@ -14,15 +14,18 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class HydraulicBlockBase extends Block {
+
     public Name mName;
     protected boolean hasTextures = true;
 
     protected HydraulicBlockBase(Name machineName, boolean addToTab) {
+
         this(machineName, Material.rock, addToTab);
     }
 
 
     public HydraulicBlockBase(Name machineName, Material material, boolean addToTab) {
+
         super(material);
 
         mName = machineName;
@@ -31,7 +34,7 @@ public class HydraulicBlockBase extends Block {
         setStepSound(Block.soundTypeStone);
         setHardness(3.5F);
         setResistance(10F);
-        if(this instanceof IBlockWithRotation) {
+        if (this instanceof IBlockWithRotation) {
             setDefaultState(this.blockState.getBaseState().withProperty(Properties.ROTATION, EnumFacing.NORTH));
         }
 
@@ -43,27 +46,30 @@ public class HydraulicBlockBase extends Block {
 
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        if(this instanceof IBlockWithRotation) {
+
+        if (this instanceof IBlockWithRotation) {
             return getDefaultState().withProperty(Properties.ROTATION, placer.getHorizontalFacing().getOpposite());
-        }else{
+        } else {
             return getDefaultState();
         }
     }
 
     @Override
     protected BlockState createBlockState() {
-        if(this instanceof IBlockWithRotation) {
+
+        if (this instanceof IBlockWithRotation) {
             return new BlockState(this, Properties.ROTATION);
-        }else{
+        } else {
             return new BlockState(this);
         }
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        if(this instanceof IBlockWithRotation){
+
+        if (this instanceof IBlockWithRotation) {
             return getDefaultState().withProperty(Properties.ROTATION, EnumFacing.getHorizontal(meta >> 2));
-        }else{
+        } else {
             return getDefaultState();
         }
 
@@ -71,9 +77,10 @@ public class HydraulicBlockBase extends Block {
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        if(this instanceof IBlockWithRotation){
+
+        if (this instanceof IBlockWithRotation) {
             return (((EnumFacing) state.getValue(Properties.ROTATION)).getHorizontalIndex() << 2);
-        }else {
+        } else {
             return 0;
         }
     }

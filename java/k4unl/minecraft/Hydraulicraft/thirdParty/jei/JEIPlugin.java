@@ -8,62 +8,71 @@ import java.util.List;
 
 @mezz.jei.api.JEIPlugin
 public class JEIPlugin implements IModPlugin {
-   public static final String assemblerRecipe   = "hydcraft.assembler";
-   public static final String crusherRecipe     = "hydcraft.crusher";
-   public static final String filterRecipe      = "hydcracft.filter";
-   public static final String incineratorRecipe = "hydcraft.incinerator";
-   public static final String washerRecipe      = "hydcraft.washer";
 
-   private IJeiHelpers helpers;
+    public static final String assemblerRecipe   = "hydcraft.assembler";
+    public static final String crusherRecipe     = "hydcraft.crusher";
+    public static final String filterRecipe      = "hydcracft.filter";
+    public static final String incineratorRecipe = "hydcraft.incinerator";
+    public static final String washerRecipe      = "hydcraft.washer";
 
-   public static List makeList(Object[] array) {
-      List out = new ArrayList();
-      Collections.addAll(out, array);
+    private IJeiHelpers helpers;
 
-      return out;
-   }
+    public static List makeList(Object[] array) {
 
-   @Override
-   public void onJeiHelpersAvailable(IJeiHelpers jeiHelpers) {
-      this.helpers = jeiHelpers;
-   }
+        List out = new ArrayList();
+        Collections.addAll(out, array);
 
-   @Override
-   public void onItemRegistryAvailable(IItemRegistry itemRegistry) {
+        return out;
+    }
 
-   }
+    @Override
+    public void onJeiHelpersAvailable(IJeiHelpers jeiHelpers) {
 
-   @Override
-   public void register(IModRegistry registry) {
-      IGuiHelper helper = helpers.getGuiHelper();
+        this.helpers = jeiHelpers;
+    }
 
-      registry.addRecipeCategories(
-              new JEICategoryAssembler(helper),
-              new JEICategoryFilter(helper),
-              new JEICategoryCrusher(helper),
-              new JEICategoryWasher(helper)
-      );
+    @Override
+    public void onItemRegistryAvailable(IItemRegistry itemRegistry) {
 
-      JEIHandlerAbstract.JEIHandlerAssembler assembler = new JEIHandlerAbstract.JEIHandlerAssembler();
-      JEIHandlerAbstract.JEIHandlerFilter filter = new JEIHandlerAbstract.JEIHandlerFilter();
-      JEIHandlerAbstract.JEIHandlerCrusher crusher = new JEIHandlerAbstract.JEIHandlerCrusher();
-      JEIHandlerAbstract.JEIHandlerWasher washer = new JEIHandlerAbstract.JEIHandlerWasher();
+    }
 
-      registry.addRecipeHandlers(
-              assembler,
-              filter,
-              crusher,
-              washer
-      );
+    @Override
+    public void register(IModRegistry registry) {
 
-      registry.addRecipes(assembler.getRecipes());
-      registry.addRecipes(filter.getRecipes());
-      registry.addRecipes(crusher.getRecipes());
-      registry.addRecipes(washer.getRecipes());
-   }
+        IGuiHelper helper = helpers.getGuiHelper();
 
-   @Override
-   public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {
+        registry.addRecipeCategories(
+                new JEICategoryAssembler(helper),
+                new JEICategoryFilter(helper),
+                new JEICategoryCrusher(helper),
+                new JEICategoryWasher(helper)
+        );
 
-   }
+        JEIHandlerAbstract.JEIHandlerAssembler assembler = new JEIHandlerAbstract.JEIHandlerAssembler();
+        JEIHandlerAbstract.JEIHandlerFilter filter = new JEIHandlerAbstract.JEIHandlerFilter();
+        JEIHandlerAbstract.JEIHandlerCrusher crusher = new JEIHandlerAbstract.JEIHandlerCrusher();
+        JEIHandlerAbstract.JEIHandlerWasher washer = new JEIHandlerAbstract.JEIHandlerWasher();
+
+        registry.addRecipeHandlers(
+                assembler,
+                filter,
+                crusher,
+                washer
+        );
+
+        registry.addRecipes(assembler.getRecipes());
+        registry.addRecipes(filter.getRecipes());
+        registry.addRecipes(crusher.getRecipes());
+        registry.addRecipes(washer.getRecipes());
+    }
+
+    @Override
+    public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {
+
+    }
+
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+
+    }
 }

@@ -22,6 +22,7 @@ import java.util.List;
 
 @Optional.Interface(iface = "buildcraft.api.tools.IToolWrench", modid = "BuildCraftAPI|core")
 public class ItemHydraulicWrench extends HydraulicItemBase implements IPressurizableItem/*, IToolWrench*/ {
+
     public static final float MAX_PRESSURE            = 1500 * 1000;
     public static final float PRESSURE_PER_WRENCH     = 1000;
     public static final int   FLUID_CAPACITY          = 20;
@@ -30,6 +31,7 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
     private PressurizableItem pressurizableItem;
 
     public ItemHydraulicWrench() {
+
         super(Names.itemHydraulicWrench, true);
         setNoRepair();
         maxStackSize = 1;
@@ -38,41 +40,49 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
 
     @Override
     public float getPressure(ItemStack itemStack) {
+
         return pressurizableItem.getPressure(itemStack);
     }
 
     @Override
     public void setPressure(ItemStack itemStack, float newStored) {
+
         pressurizableItem.setPressure(itemStack, newStored);
     }
 
     @Override
     public float getMaxPressure() {
+
         return pressurizableItem.getMaxPressure();
     }
 
     @Override
     public FluidStack getFluid(ItemStack itemStack) {
+
         return pressurizableItem.getFluid(itemStack);
     }
 
     @Override
     public void setFluid(ItemStack itemStack, FluidStack fluidStack) {
+
         pressurizableItem.setFluid(itemStack, fluidStack);
     }
 
     @Override
     public float getMaxFluid() {
+
         return pressurizableItem.getMaxFluid();
     }
 
     @Override
     public int getItemStackLimit(ItemStack stack) {
+
         return 1;
     }
 
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+
         Block block = world.getBlockState(pos).getBlock();
         if (block == null)
             return false;
@@ -93,17 +103,20 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
 
     @Override
     public boolean doesSneakBypassUse(World world, BlockPos pos, EntityPlayer player) {
+
         return true;
     }
 
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List lines, boolean noIdea) {
+
         super.addInformation(itemStack, player, lines, noIdea);
         pressurizableItem.addInformation(itemStack, lines);
     }
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
+
         if (stack == null || !(stack.getItem() instanceof ItemHydraulicWrench))
             return 1;
 
@@ -115,13 +128,14 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
     }
 
 
-
     public boolean canWrench(EntityPlayer entityPlayer, BlockPos pos) {
+
         return pressurizableItem.canUse(entityPlayer.getCurrentEquippedItem(), PRESSURE_PER_WRENCH);
     }
 
 
     public void wrenchUsed(EntityPlayer entityPlayer, BlockPos pos) {
+
         pressurizableItem.onItemUse(entityPlayer, CHANCE_TO_RELEASE_WATER, PRESSURE_PER_WRENCH);
     }
 
@@ -131,6 +145,7 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
      */
     public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+
         par3List.add(new ItemStack(par1, 1, 0));
         ItemStack filled = new ItemStack(par1, 1);
         pressurizableItem.savePressure(filled, getMaxPressure());
@@ -140,16 +155,19 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
 
     @Override
     public List<IPressurizableItemUpgrade> getUpgrades() {
+
         return pressurizableItem.getUpgrades();
     }
 
     @Override
     public boolean addUpgrade(IPressurizableItemUpgrade upgrade) {
+
         return pressurizableItem.addUpgrade(upgrade);
     }
 
     @Override
     public void removeUpgrade(IPressurizableItem upgrade) {
+
         pressurizableItem.removeUpgrade(upgrade);
     }
 }

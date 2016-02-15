@@ -20,6 +20,7 @@ public class BlockHydraulicPressureReservoir extends HydraulicTieredBlockBase im
 
 
     public BlockHydraulicPressureReservoir() {
+
         super(Names.blockHydraulicPressureReservoir);
         hasTopIcon = true;
         hasBottomIcon = true;
@@ -27,6 +28,7 @@ public class BlockHydraulicPressureReservoir extends HydraulicTieredBlockBase im
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
+
         return new TileHydraulicPressureReservoir(getTierFromState(getStateFromMeta(metadata)));
     }
 
@@ -38,6 +40,7 @@ public class BlockHydraulicPressureReservoir extends HydraulicTieredBlockBase im
 
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         TileEntity ent = worldIn.getTileEntity(pos);
         if (ent instanceof TileHydraulicPressureReservoir) {
@@ -52,6 +55,7 @@ public class BlockHydraulicPressureReservoir extends HydraulicTieredBlockBase im
 
     @Override
     public int quantityDropped(Random p_149745_1_) {
+
         return 0;
     }
 
@@ -61,6 +65,7 @@ public class BlockHydraulicPressureReservoir extends HydraulicTieredBlockBase im
      */
     //TODO: FIX ME
     public int isProvidingStrongPower(IBlockAccess w, int x, int y, int z, int side) {
+
         return this.isProvidingWeakPower(w, x, y, z, side);
     }
 
@@ -71,6 +76,7 @@ public class BlockHydraulicPressureReservoir extends HydraulicTieredBlockBase im
      */
     //TODO: FIX ME
     public int isProvidingWeakPower(IBlockAccess w, int x, int y, int z, int side) {
+
         TileEntity ent = w.getTileEntity(new BlockPos(x, y, z));
         if (ent instanceof TileHydraulicPressureReservoir) {
             TileHydraulicPressureReservoir p = (TileHydraulicPressureReservoir) ent;
@@ -81,6 +87,7 @@ public class BlockHydraulicPressureReservoir extends HydraulicTieredBlockBase im
 
 
     public boolean canProvidePower() {
+
         return true;
     }
 
@@ -93,9 +100,10 @@ public class BlockHydraulicPressureReservoir extends HydraulicTieredBlockBase im
 
     @Override
     public PressureTier getTier(IBlockAccess world, BlockPos pos) {
-        if(world.getBlockState(pos).getBlock() == this) {
+
+        if (world.getBlockState(pos).getBlock() == this) {
             return getTierFromState(world.getBlockState(pos));
-        }else{
+        } else {
             return PressureTier.INVALID;
         }
     }

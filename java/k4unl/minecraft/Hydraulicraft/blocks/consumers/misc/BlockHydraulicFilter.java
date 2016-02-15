@@ -12,22 +12,24 @@ import net.minecraft.world.World;
 
 public class BlockHydraulicFilter extends HydraulicBlockContainerBase implements ITieredBlock, IBlockWithRotation {
 
-	public BlockHydraulicFilter() {
-		super(Names.blockHydraulicFilter, true);
-	}
+    public BlockHydraulicFilter() {
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileHydraulicFilter();
-	}
+        super(Names.blockHydraulicFilter, true);
+    }
 
-	@Override
-	public GuiIDs getGUIID() {
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
 
-		return GuiIDs.FILTER;
-	}
+        return new TileHydraulicFilter();
+    }
 
-	@Override
+    @Override
+    public GuiIDs getGUIID() {
+
+        return GuiIDs.FILTER;
+    }
+
+    @Override
     public PressureTier getTier() {
 
         return PressureTier.MEDIUMPRESSURE;

@@ -5,8 +5,9 @@ import net.minecraft.block.Block;
 
 public class HandlerHose extends HydraulicTieredBlockHandler {
 
-	public HandlerHose(Block block) {
-		super(block, Names.partHose);
-	}
+    public HandlerHose(Block block) {
+
+        super(block, Names.partHose);
+    }
 
 }

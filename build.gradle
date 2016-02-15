@@ -22,10 +22,6 @@ repositories {
         name "JEI"
         url "http://dvs1.progwml6.com/files/maven"
     }
-    //maven { // the repo from which to get NEI and stuff
-    //    name 'CB Repo'
-    //    url "http://chickenbones.net/maven/"
-    //}
     //maven {
     //    name = "ic2"
     //    url = "http://maven.ic2.player.to/"
@@ -52,11 +48,11 @@ dependencies {
     compile "mcp.mobius.waila:Waila:1.6.0-B3_1.8.8:dev"
     //compile 'net.industrial-craft:industrialcraft-2:2.2.750-experimental:api'
     //compile "pneumaticCraft:PneumaticCraft-1.7.10:1.9.6-93:userdev"
-    compile "k4unl:k4lib:1.8.9-1.0.14:deobf"
+    compile "k4unl:k4lib:1.8.9-1.0.16:deobf"
     //compile name: "buildcraft", classifier: "dev", version: "7.0.16"
     compile "igwmod:IGW-Mod-1.8.9:1.2.3-3:userdev"
-    deobfCompile "mezz.jei:jei_1.8.9:2.22.3.105"
-    deobfCompile "MCMultiPart:MCMultiPart:1.0.4:universal"
+    deobfCompile "mezz.jei:jei_1.8.9:2.25.11.151"
+    deobfCompile "MCMultiPart:MCMultiPart:1.0.6:universal"
 }
 
 allprojects {
@@ -78,7 +74,7 @@ group = "k4unl"
 archivesBaseName = "HydCraft"
 
 minecraft {
-    version = "${project.ext.mcVersion}-11.15.1.1726"
+    version = "${project.ext.mcVersion}-11.15.1.1738"
 
     // replacing stuff in the source
     replace '@VERSION@', project.version

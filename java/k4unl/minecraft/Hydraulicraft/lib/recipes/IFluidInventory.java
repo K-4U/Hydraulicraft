@@ -8,6 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
 public interface IFluidInventory extends IInventory {
+
     /**
      * Drains fluid from OUTPUT (= machine output drain)
      *

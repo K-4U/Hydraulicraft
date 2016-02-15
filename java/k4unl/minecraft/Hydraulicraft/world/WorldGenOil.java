@@ -14,7 +14,7 @@ public class WorldGenOil {
     public void generate(World world, Random rand, int middleX, int middleZ, int minY, int maxY) {
 
         int worldHeight = HCWorldGenerator.getTopGroundBlock(world, middleX, middleZ);
-        if(minY <= 0){
+        if (minY <= 0) {
             minY = 1;
         }
         //int worldHeight = getTopGroundBlock(world, middleX, middleZ);
@@ -42,7 +42,7 @@ public class WorldGenOil {
             }
         }
 
-        for(int i = maxY-1; i <= worldHeight+ HCConfig.INSTANCE.getInt("oilSpoutSize","worldgen"); i++){
+        for (int i = maxY - 1; i <= worldHeight + HCConfig.INSTANCE.getInt("oilSpoutSize", "worldgen"); i++) {
             world.setBlockState(new BlockPos(middleX, i, middleZ), toPlace.getDefaultState());
         }
     }

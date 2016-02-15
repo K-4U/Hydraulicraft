@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class HCItems {
+
     public static Item       gasket;
     public static Item       ingotCopper;
     public static Item       ingotEnrichedCopper;

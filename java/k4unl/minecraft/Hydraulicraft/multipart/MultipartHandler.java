@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import java.util.Collection;
 
 public class MultipartHandler {
+
     public static ItemPartHose           itemPartHose;
     public static ItemPartFluidPipe      itemPartFluidPipe;
     public static ItemPartFluidInterface itemPartFluidInterface;

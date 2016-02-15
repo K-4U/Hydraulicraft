@@ -14,11 +14,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiCharger extends HydraulicGUIBase {
+
     private static final ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/charger.png");
 
     TileHydraulicCharger filler;
 
     public GuiCharger(InventoryPlayer inventoryPlayer, TileHydraulicCharger charger) {
+
         super(charger, new ContainerCharger(inventoryPlayer, charger), resLoc);
 
         this.filler = charger;
@@ -26,6 +28,7 @@ public class GuiCharger extends HydraulicGUIBase {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawHorizontalAlignedString(7, 3, xSize - 14, HCBlocks.blockCharger.getLocalizedName(), true);
 

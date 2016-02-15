@@ -11,14 +11,17 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.List;
 
 public class Functions {
+
     private static boolean isUpdateAvailable;
 
     public static void showMessageInChat(EntityPlayer player, String message) {
+
         player.addChatMessage(new ChatComponentText(message));
 
     }
 
     public static List mergeList(List l1, List l2) {
+
         for (Object object : l1) {
             if (!l2.contains(object)) {
                 l2.add(object);
@@ -28,6 +31,7 @@ public class Functions {
     }
 
     public static ItemStack getIngot(String ingotName) {
+
         List<ItemStack> targetStackL = OreDictionary.getOres(ingotName);
         if (targetStackL.size() > 0) {
             return targetStackL.get(0);
@@ -36,6 +40,7 @@ public class Functions {
     }
 
     public static int getMaxGenPerTier(PressureTier tier, boolean isOil) {
+
         if (!isOil) {
             return HCConfig.INSTANCE.getInt("maxMBarGenWaterT" + (tier.ordinal() + 1));
         } else {
@@ -44,6 +49,7 @@ public class Functions {
     }
 
     public static int getMaxPressurePerTier(PressureTier tier, boolean isOil) {
+
         if (!isOil) {
             switch (tier) {
                 case LOWPRESSURE:
