@@ -484,7 +484,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
         if (getInventoryTarget() != null) {
             return getInventoryTarget().getSlotsForFace(var1);
         }
-        return new int[]{0, 2};
+        return new int[]{0, 1};
     }
 
     @Override
