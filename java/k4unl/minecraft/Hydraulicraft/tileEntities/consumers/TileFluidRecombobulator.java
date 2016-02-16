@@ -23,7 +23,9 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
 
     private InventoryFluidCrafting inventoryCrafting;
     private IFluidRecipe           recipe;
-    private FluidTank inputTank  = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
+    private FluidTank inputTank       = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
+    private ItemStack inventoryInput  = null;
+    private ItemStack inventoryOutput = null;
 
     public TileFluidRecombobulator() {
 
@@ -94,24 +96,108 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
     @Override
     public ItemStack getStackInSlot(int index) {
 
-        return inventoryCrafting.getStackInSlot(index);
+        if (index == 0) {
+            return inventoryInput;
+        }
+        if (index == 1) {
+            return inventoryOutput;
+        }
+        return inventoryCrafting.getStackInSlot(index - 2);
     }
 
     @Override
     public ItemStack decrStackSize(int index, int count) {
 
-        return inventoryCrafting.decrStackSize(index, count);
+        if (index == 0) {
+            ItemStack old = inventoryInput.copy();
+            inventoryInput.stackSize--;
+            if (inventoryInput.stackSize == 0) {
+                inventoryInput = null;
+            }
+            return old;
+        }
+        if (index == 1) {
+            ItemStack old = inventoryOutput.copy();
+            inventoryOutput.stackSize--;
+            if (inventoryOutput.stackSize == 0) {
+                inventoryOutput = null;
+            }
+            return old;
+        }
+        return inventoryCrafting.decrStackSize(index - 2, count);
     }
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
 
-        return inventoryCrafting.removeStackFromSlot(index);
+        return decrStackSize(index, getStackInSlot(index).stackSize);
     }
 
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
-        inventoryCrafting.setInventorySlotContents(index, stack);
+
+        if (index == 0) {
+            inventoryInput = stack;
+        } else if (index == 1) {
+            inventoryOutput = stack;
+        } else {
+            inventoryCrafting.setInventorySlotContents(index - 2, stack);
+        }
+        if(inventoryInput != null) {
+            ItemStack inUse = getStackInSlot(0);
+            FluidStack input = FluidContainerRegistry.getFluidForFilledItem(inUse);
+            if (input != null) {
+                ItemStack empty = FluidContainerRegistry.drainFluidContainer(inUse);
+                boolean canPlace = false;
+                if (empty.isItemEqual(getStackInSlot(1))) {
+                    if (getStackInSlot(1).getMaxStackSize() > getStackInSlot(1).stackSize) {
+                        canPlace = true;
+                        empty = getStackInSlot(1);
+                        empty.stackSize++;
+                    }
+                } else if (getStackInSlot(1) == null) {
+                    canPlace = true;
+                }
+                if (canPlace) {
+                    int filled = fill(EnumFacing.UP, input, false);
+                    if (filled == FluidContainerRegistry.getContainerCapacity(inUse)) {
+                        //Do it!
+                        fill(EnumFacing.UP, input, true);
+                        markDirty();
+                        worldObj.markBlockForUpdate(pos);
+
+                        setInventorySlotContents(0, null);
+                        setInventorySlotContents(1, empty);
+                    }
+                }
+            } else {
+                if (FluidContainerRegistry.isEmptyContainer(inUse)) {
+                    FluidTankInfo tankInfo = getTankInfo(EnumFacing.UP)[0];
+                    if (tankInfo.fluid == null) return;
+                    ItemStack filledContainer = FluidContainerRegistry.fillFluidContainer(tankInfo.fluid, inUse);
+                    if (filledContainer == null) return;
+                    int toDrain = FluidContainerRegistry.getContainerCapacity(filledContainer);
+
+                    FluidStack drained = drain(EnumFacing.UP, toDrain, false);
+                    boolean canPlace = false;
+                    if (getStackInSlot(1) != null && getStackInSlot(1).isItemEqual(filledContainer)) {
+                        if (getStackInSlot(1).getMaxStackSize() > getStackInSlot(1).stackSize) {
+                            canPlace = true;
+                            filledContainer.stackSize += getStackInSlot(index).stackSize;
+                        }
+                    } else if (getStackInSlot(1) == null) {
+                        canPlace = true;
+                    }
+                    if (drained != null && drained.amount == toDrain && canPlace) {
+                        drain(EnumFacing.UP, toDrain, true);
+                        markDirty();
+                        worldObj.markBlockForUpdate(pos);
+                        decrStackSize(0, 1);
+                        setInventorySlotContents(1, filledContainer);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -128,18 +214,26 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
 
     @Override
     public void openInventory(EntityPlayer player) {
+
         inventoryCrafting.openInventory(player);
     }
 
     @Override
     public void closeInventory(EntityPlayer player) {
+
         inventoryCrafting.closeInventory(player);
     }
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
 
-        return inventoryCrafting.isItemValidForSlot(index, stack);
+        if(index == 0){
+            return FluidContainerRegistry.isContainer(stack);
+        }
+        if(index == 1){
+            return false;
+        }
+        return inventoryCrafting.isItemValidForSlot(index-2, stack);
     }
 
     @Override
@@ -162,6 +256,7 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
 
     @Override
     public void clear() {
+
         inventoryCrafting.clear();
     }
 
@@ -185,6 +280,7 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
 
     @Override
     public void onCraftingMatrixChanged() {
+
         if (inventoryCrafting.isCraftingInProgress())
             return;
 
@@ -200,7 +296,7 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
 
     }
 
-    public InventoryFluidCrafting getInventoryCrafting(){
+    public InventoryFluidCrafting getInventoryCrafting() {
 
         return inventoryCrafting;
     }
@@ -208,6 +304,7 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
 
     @Override
     public float workFunction(boolean simulate, EnumFacing from) {
+
         if (recipe != null) {
             float usedPressure = recipe.getPressure();
 
