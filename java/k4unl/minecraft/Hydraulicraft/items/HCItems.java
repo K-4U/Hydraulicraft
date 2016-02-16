@@ -8,7 +8,6 @@ import k4unl.minecraft.Hydraulicraft.items.upgrades.UpgradeCapitator;
 import k4unl.minecraft.Hydraulicraft.items.upgrades.UpgradeCreative;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import k4unl.minecraft.k4lib.lib.OreDictionaryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -122,9 +121,12 @@ public class HCItems {
 
         GameRegistry.registerItem(gasket, Names.itemGasket.unlocalized);
 
-        ingotCopper = OreDictionaryHelper.registerItem(ingotCopper, Names.ingotCopper.unlocalized);
-        ingotEnrichedCopper = OreDictionaryHelper.registerItem(ingotEnrichedCopper, Names.ingotEnrichedCopper.unlocalized);
-        ingotLead = OreDictionaryHelper.registerItem(ingotLead, Names.ingotLead.unlocalized);
+        GameRegistry.registerItem(ingotCopper, Names.ingotCopper.unlocalized);
+        GameRegistry.registerItem(ingotEnrichedCopper, Names.ingotEnrichedCopper.unlocalized);
+        GameRegistry.registerItem(ingotLead, Names.ingotLead.unlocalized);
+        OreDictionary.registerOre(Names.ingotCopper.unlocalized, ingotCopper);
+        OreDictionary.registerOre(Names.ingotEnrichedCopper.unlocalized, ingotEnrichedCopper);
+        OreDictionary.registerOre(Names.ingotLead.unlocalized, ingotLead);
 
         GameRegistry.registerItem(itemFrictionPlate, Names.itemFrictionPlate.unlocalized);
         GameRegistry.registerItem(itemDebugger, Names.itemDebugger.unlocalized);
@@ -169,6 +171,7 @@ public class HCItems {
         GameRegistry.registerItem(itemUpgradeCreative, Names.itemUpgradeCreative.unlocalized);
 
         GameRegistry.registerItem(itemRubberBar, Names.itemRubberBar.unlocalized);
+        OreDictionary.registerOre("itemRubber", itemRubberBar);
     }
 }
 
