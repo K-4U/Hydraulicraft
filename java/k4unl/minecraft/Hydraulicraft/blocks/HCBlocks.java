@@ -85,6 +85,7 @@ public class HCBlocks {
 
     public static Block blockFluidTank;
     public static Block blockRubberTap;
+    public static Block blockFluidRecombobulator;
 
     /*!
      * @author Koen Beckers
@@ -148,6 +149,7 @@ public class HCBlocks {
 
         blockFluidTank = new BlockFluidTank();
         blockRubberTap = new BlockRubberTap();
+        blockFluidRecombobulator = new BlockFluidRecombobulator();
 
         registerBlocks();
     }
@@ -218,5 +220,6 @@ public class HCBlocks {
 
         GameRegistry.registerBlock(blockFluidTank, HandlerHydraulicBlock.class, Names.blockFluidTank.unlocalized);
         GameRegistry.registerBlock(blockRubberTap, HandlerHydraulicBlock.class, Names.blockRubberTap.unlocalized);
+        GameRegistry.registerBlock(blockFluidRecombobulator, HandlerHydraulicBlock.class, Names.blockFluidRecombobulator.unlocalized);
     }
 }

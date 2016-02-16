@@ -29,6 +29,10 @@ public class InventoryFluidCrafting implements IFluidInventory {
         this(cnt, gridSize, null, null);
     }
 
+    public InventoryFluidCrafting(IFluidCraftingMachine cnt, int gridSize, FluidTank[] inputTank) {
+        this(cnt, gridSize, inputTank, null);
+    }
+
     public InventoryFluidCrafting(IFluidCraftingMachine cnt, int gridSize, FluidTank[] inputTank, FluidTank[] outputTank) {
 
         this.crafting = new InventoryCrafting(new DummyContainer(), gridSize, gridSize);
@@ -38,19 +42,33 @@ public class InventoryFluidCrafting implements IFluidInventory {
         inventoryResult = new InventoryFluidCraftResult(cnt);
     }
 
+
+
     @Override
     public FluidStack drain(FluidStack fluidStack, boolean doDrain) {
 
-        if (outputTanks == null)
-            return null;
+        if (outputTanks != null) {
 
-        for (FluidTank tank : outputTanks) {
-            if (tank.getFluid() != null && tank.getFluid().equals(fluidStack)) {
-                FluidStack retval = tank.drain(fluidStack.amount, doDrain);
-                if (doDrain)
-                    markDirty();
+            for (FluidTank tank : outputTanks) {
+                if (tank.getFluid() != null && tank.getFluid().equals(fluidStack)) {
+                    FluidStack retval = tank.drain(fluidStack.amount, doDrain);
+                    if (doDrain)
+                        markDirty();
 
-                return retval;
+                    return retval;
+                }
+            }
+        }
+
+        if(inputTanks != null){
+            for (FluidTank tank : inputTanks) {
+                if (tank.getFluid() != null && tank.getFluid().equals(fluidStack)) {
+                    FluidStack retval = tank.drain(fluidStack.amount, doDrain);
+                    if (doDrain)
+                        markDirty();
+
+                    return retval;
+                }
             }
         }
 
@@ -126,7 +144,7 @@ public class InventoryFluidCrafting implements IFluidInventory {
     public void finishRecipe(IFluidRecipe recipe) {
 
         inventoryResult.setInventorySlotContents(0,
-                ItemStackUtils.mergeStacks(outputItem.copy(), inventoryResult.getStackInSlot(0)));
+          ItemStackUtils.mergeStacks(outputItem.copy(), inventoryResult.getStackInSlot(0)));
 
         outputItem = null;
         craftingInProgress = false;
@@ -141,7 +159,7 @@ public class InventoryFluidCrafting implements IFluidInventory {
             return false;
 
         if (inventoryResult.getStackInSlot(0) != null &&
-                !ItemStackUtils.canMergeStacks(inventoryResult.getStackInSlot(0), recipe.getRecipeOutput()))
+          !ItemStackUtils.canMergeStacks(inventoryResult.getStackInSlot(0), recipe.getRecipeOutput()))
             return false;
 
         return true;
@@ -223,12 +241,20 @@ public class InventoryFluidCrafting implements IFluidInventory {
     @Override
     public boolean canDrain(Fluid fluid) {
 
-        if (outputTanks == null)
-            return false;
+        if (outputTanks != null) {
 
-        for (FluidTank tank : outputTanks) {
-            if (tank.getFluid() == null || tank.getFluid().getFluid() == fluid) {
-                return true;
+            for (FluidTank tank : outputTanks) {
+                if (tank.getFluid() == null || tank.getFluid().getFluid() == fluid) {
+                    return true;
+                }
+            }
+        }
+
+        if(inputTanks != null){
+            for (FluidTank tank : inputTanks) {
+                if (tank.getFluid() == null || tank.getFluid().getFluid() == fluid) {
+                    return true;
+                }
             }
         }
 

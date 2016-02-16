@@ -53,6 +53,7 @@ public class HCItems {
     public static Item itemUpgradeBigDrill;
     public static Item itemUpgradeCapitator;
     public static Item itemUpgradeCreative;
+    public static Item itemRubberBar;
 
     /*!
      * @author Koen Beckers
@@ -106,6 +107,8 @@ public class HCItems {
         itemUpgradeBigDrill = new UpgradeBigDrill();
         itemUpgradeCapitator = new UpgradeCapitator();
         itemUpgradeCreative = new UpgradeCreative();
+
+        itemRubberBar = new ItemRubberBar();
 
         registerItems();
     }
@@ -164,6 +167,8 @@ public class HCItems {
         GameRegistry.registerItem(itemUpgradeBigDrill, Names.itemUpgradeBigDrill.unlocalized);
         GameRegistry.registerItem(itemUpgradeCapitator, Names.itemUpgradeCapitator.unlocalized);
         GameRegistry.registerItem(itemUpgradeCreative, Names.itemUpgradeCreative.unlocalized);
+
+        GameRegistry.registerItem(itemRubberBar, Names.itemRubberBar.unlocalized);
     }
 }
 

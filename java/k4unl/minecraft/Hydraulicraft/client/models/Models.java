@@ -86,6 +86,7 @@ public class Models {
 
         loadBlockModel(HCBlocks.blockFluidTank);
         loadBlockModel(HCBlocks.blockRubberTap);
+        loadBlockModel(HCBlocks.blockFluidRecombobulator);
     }
 
     public static void loadBlockModel(Block block, int metadata, String override) {
@@ -162,5 +163,6 @@ public class Models {
         loadItemModel(HCItems.itemPressureGauge);
 
         loadItemModel(MultipartHandler.itemPartPortalFrame);
+        loadItemModel(HCItems.itemRubberBar);
     }
 }
