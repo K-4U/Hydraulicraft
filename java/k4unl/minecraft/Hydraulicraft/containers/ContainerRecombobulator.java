@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.containers;
 
+import k4unl.minecraft.Hydraulicraft.slots.SlotFluidContainer;
 import k4unl.minecraft.Hydraulicraft.slots.SlotMachineOutput;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileFluidRecombobulator;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -13,8 +14,9 @@ public class ContainerRecombobulator extends ContainerBase {
 
         super(recombobulator);
 
-        //TODO: Add fluid slots.
-        addSlotToContainer(new SlotMachineOutput(recombobulator, 0, 123, 36));
+        addSlotToContainer(new SlotFluidContainer(recombobulator, 0, 30, 16));
+        addSlotToContainer(new SlotMachineOutput(recombobulator, 1, 30, 53));
+        addSlotToContainer(new SlotMachineOutput(recombobulator, 2, 123, 36));
 
         bindPlayerInventory(invPlayer);
     }
