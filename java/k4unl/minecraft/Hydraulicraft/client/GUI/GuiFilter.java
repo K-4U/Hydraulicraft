@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 
 public class GuiFilter extends HydraulicGUIBase {
 
-    private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/recombobulator.png");
+    private static ResourceLocation resLoc = new ResourceLocation(ModInfo.LID, "textures/gui/filter.png");
     TileHydraulicFilter filter;
     NEIWidgetTank       widgetInput, widgetOutput;
 
