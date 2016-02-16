@@ -107,7 +107,7 @@ public class HCWorldGenerator implements IWorldGenerator {
                 int randZ = z + random.nextInt(16);
                 BlockPos topBlockPos = world.getTopSolidOrLiquidBlock(new BlockPos(randX, 0, randZ)).down();
                 Block topBlock = world.getBlockState(topBlockPos).getBlock();
-                if (world.getBlockState(topBlockPos.up()) == Blocks.water) {
+                if (world.getBlockState(topBlockPos.up()).getBlock() == Blocks.water) {
                     if (topBlock == Blocks.gravel) {
                         world.setBlockState(topBlockPos, Ores.oreNadsiumBicarbinate.getDefaultState());
                     } else if (topBlock == Blocks.sand) {

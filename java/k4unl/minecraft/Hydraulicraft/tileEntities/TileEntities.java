@@ -56,6 +56,7 @@ public class TileEntities {
         GameRegistry.registerTileEntity(TileFluidTank.class, "tileFluidTank");
         GameRegistry.registerTileEntity(TileRubberWood.class, "tileRubberWood");
         GameRegistry.registerTileEntity(TileRubberTap.class, "tileRubberTap");
+        GameRegistry.registerTileEntity(TileFluidRecombobulator.class, "tileFluidRecombobulator");
 
     }
 }

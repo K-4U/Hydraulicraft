@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.client.renderers.gow.RendererPortalTeleport
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererArchimedesScrew;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererJarOfDirt;
+import k4unl.minecraft.Hydraulicraft.client.renderers.rubberHarvesting.RendererRubberTap;
 import k4unl.minecraft.Hydraulicraft.client.renderers.storage.RendererBlockFluidTank;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartHose;
 import k4unl.minecraft.Hydraulicraft.multipart.PartHose;
@@ -22,6 +23,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalTeleporter;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileJarOfDirt;
+import k4unl.minecraft.Hydraulicraft.tileEntities.rubberHarvesting.TileRubberTap;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileFluidTank;
 import mcmultipart.client.multipart.MultipartRegistryClient;
 import net.minecraft.item.Item;
@@ -53,6 +55,7 @@ public class Renderers {
         ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicFluidPump.class, new RendererArchimedesScrew());
         ClientRegistry.bindTileEntitySpecialRenderer(TileFluidTank.class, new RendererBlockFluidTank());
 
+        ClientRegistry.bindTileEntitySpecialRenderer(TileRubberTap.class, new RendererRubberTap());
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingHelmet, new RendererScubaGearItem());
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingController, new RendererScubaGearItem());
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingLegs, new RendererScubaGearItem());

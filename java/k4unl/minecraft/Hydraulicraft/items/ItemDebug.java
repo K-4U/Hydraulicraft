@@ -10,6 +10,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
+import k4unl.minecraft.Hydraulicraft.tileEntities.worldgen.TileRubberWood;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -123,6 +124,11 @@ public class ItemDebug extends HydraulicItemBase {
                     stack.setTagCompound(tagC);
 
                     return true;
+                } else if(ent instanceof TileRubberWood){
+                    if(playerIn.isSneaking()){
+                        ((TileRubberWood)ent).randomTick();
+                    }
+                    Functions.showMessageInChat(playerIn, "Rubber: " + ((TileRubberWood)ent).getRubber());
                 }
             }
         }

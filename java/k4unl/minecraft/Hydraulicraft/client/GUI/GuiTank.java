@@ -44,6 +44,7 @@ public class GuiTank extends HydraulicGUIBase {
 
             drawVerticalProgressBarWithTexture(x, y, h, w, tankInfo.fluid.amount, tankInfo.capacity, fluidIcon, fluidName, "mB");
         }
+        drawTexturedModalRect(11, 14, 181, 18, 69, 56);
 
         checkTooltips(mouseX, mouseY);
     }

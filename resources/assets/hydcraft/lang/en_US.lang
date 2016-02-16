@@ -9,6 +9,7 @@ item.bucket.hydraulicOil.name=Hydraulic Oil Bucket
 item.bucket.lubricant.name=Lubricant Bucket
 item.bucket.oil.name=Oil Bucket
 item.bucket.fluoroCarbonFluid.name=Fluoro Carbon Fluid Bucket
+item.bucket.fluidRubber.name=Bucket of liquid Rubber
 item.bacon.name=Bacon
 item.miningHelmet.name=Miners Helmet
 item.itemLamp.name=Miners Helmet Lamp
@@ -29,6 +30,7 @@ item.itemDrill.name=Hydraulic Drill
 item.itemSaw.name=Hydraulic Saw
 item.fluidPipe.name=Fluid Pipe
 item.fluidInterface.name=Fluid Interface
+item.itemRubberBar.name=Rubber bar
 
 
 #Ores
@@ -108,7 +110,8 @@ tile.blockFluidTank.name=Fluid Tank
 tile.rubberWood.name=Rubber tree wood
 tile.rubberLeaves.name=Rubber tree leaves
 tile.saplingRubber.name=Rubber tree sapling
-
+tile.blockRubberTap.name=Rubber tree tap
+tile.blockFluidRecombobulator.name=Fluid Recombobulator
 
 
 #Dust and chunks
@@ -149,6 +152,7 @@ fluid.hydraulicOil=Hydraulic Oil
 fluid.oil=Crude Oil
 fluid.lubricant=Lubricant
 fluid.fluoroCarbonFluid=Fluoro Carbon Fluid
+fluid.fluidRubber=Rubber
 lang.gui.generating=Generating
 lang.gui.max=Max
 lang.gui.using=Using

@@ -21,5 +21,5 @@ public enum GuiIDs {
     ASSEMBLER,
     CHARGER,
     FILLER,
-    TANK
+    FLUID_RECOMBOBULATOR, TANK
 }

@@ -18,6 +18,7 @@ import java.awt.*;
 
 public class NEIWidgetTank extends WidgetBase {
 
+    //TODO: MOVE ME TO THE GUI PACKAGE
     FluidTank        tank;
     HydraulicGUIBase gui;
 
