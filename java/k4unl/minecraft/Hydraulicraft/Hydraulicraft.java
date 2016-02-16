@@ -39,11 +39,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mod(
-        modid = ModInfo.ID,
-        name = ModInfo.NAME,
-        version = ModInfo.VERSION,
-        dependencies = /*"required-after:ForgeMultipart@[1.1.0.297,);*/ "required-after:k4lib",
-        guiFactory = ModInfo.GUI_FACTORY
+  modid = ModInfo.ID,
+  name = ModInfo.NAME,
+  version = ModInfo.VERSION,
+  guiFactory = ModInfo.GUI_FACTORY,
+  dependencies = "required-after:Forge@[11.15.1.1738,);" +
+    "required-after:k4lib@[1.0.16,];" +
+    "required-after:mcmultipart"
 )
 
 public class Hydraulicraft {
@@ -53,8 +55,8 @@ public class Hydraulicraft {
     public static Hydraulicraft instance;
 
     @SidedProxy(
-            clientSide = ModInfo.PROXY_LOCATION + ".ClientProxy",
-            serverSide = ModInfo.PROXY_LOCATION + ".CommonProxy"
+      clientSide = ModInfo.PROXY_LOCATION + ".ClientProxy",
+      serverSide = ModInfo.PROXY_LOCATION + ".CommonProxy"
     )
     public static CommonProxy      proxy;
     public static MultipartHandler mp;
@@ -176,9 +178,9 @@ public class Hydraulicraft {
                     NBTTagCompound toRegister = message.getNBTValue();
 
                     ItemStack from = ItemStack.loadItemStackFromNBT
-                            (toRegister.getCompoundTag("itemFrom"));
+                      (toRegister.getCompoundTag("itemFrom"));
                     ItemStack to = ItemStack.loadItemStackFromNBT
-                            (toRegister.getCompoundTag("itemTo"));
+                      (toRegister.getCompoundTag("itemTo"));
                     float pressureRatio = toRegister.getFloat("pressureRatio");
                     if (from != null && to != null) {
                         HydraulicRecipes.INSTANCE.addCrushingRecipe(new FluidShapelessOreRecipe(to, from).setPressure(pressureRatio));
@@ -189,9 +191,9 @@ public class Hydraulicraft {
                     NBTTagCompound toRegister = message.getNBTValue();
 
                     ItemStack from = ItemStack.loadItemStackFromNBT
-                            (toRegister.getCompoundTag("itemFrom"));
+                      (toRegister.getCompoundTag("itemFrom"));
                     ItemStack to = ItemStack.loadItemStackFromNBT
-                            (toRegister.getCompoundTag("itemTo"));
+                      (toRegister.getCompoundTag("itemTo"));
                     float pressureRatio = toRegister.getFloat("pressureRatio");
                     if (from != null && to != null) {
                         HydraulicRecipes.INSTANCE.addWasherRecipe(new FluidShapelessOreRecipe(to, from).setPressure(pressureRatio));
