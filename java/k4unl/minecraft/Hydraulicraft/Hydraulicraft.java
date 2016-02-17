@@ -20,6 +20,7 @@ import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
 import k4unl.minecraft.Hydraulicraft.thirdParty.igwmod.IGWSupportNotifier;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileEntities;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileJarOfDirt;
 import k4unl.minecraft.Hydraulicraft.world.HCWorldGenerator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -44,7 +45,7 @@ import java.util.List;
   version = ModInfo.VERSION,
   guiFactory = ModInfo.GUI_FACTORY,
   dependencies = "required-after:Forge@[11.15.1.1738,);" +
-    "required-after:k4lib@[1.0.16,];" +
+    //"required-after:k4lib@[1.0.16,];" +
     "required-after:mcmultipart"
 )
 
@@ -75,7 +76,8 @@ public class Hydraulicraft {
 
     public NetworkHandler networkHandler;
 
-    public static List<String> crushableItems = new ArrayList<String>();
+    public static List<String> crushableItems = new ArrayList<>();
+    public static List<TileJarOfDirt> jarOfDirtList = new ArrayList<>();
 
     static {
         crushableItems.add("Gold");

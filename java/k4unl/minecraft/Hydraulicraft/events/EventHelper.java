@@ -9,14 +9,17 @@ import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileHydraulicWasher;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
+import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileJarOfDirt;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -151,6 +154,8 @@ public class EventHelper {
 
         if (event.entity instanceof EntityPig) {
             if (!event.entity.worldObj.isRemote) {
+                if(!HCConfig.INSTANCE.getBool("enableBacon"))
+                    return;
                 //Chance for bacon to drop, config ofcourse
                 if ((new Random()).nextDouble() < HCConfig.INSTANCE.getDouble("baconDropChance")) {
                     EntityItem ei = new EntityItem(event.entityLiving.worldObj);
@@ -203,6 +208,27 @@ public class EventHelper {
                 event.result = filled;
                 event.world.setBlockToAir(event.target.getBlockPos());
                 event.setResult(Event.Result.ALLOW);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void endermanTeleportEvent(EnderTeleportEvent event){
+        if(!event.entity.getEntityWorld().isRemote){
+            return;
+        }
+        if(!(event.entityLiving instanceof EntityEnderman)){
+            return;
+        }
+        for(TileJarOfDirt jod: Hydraulicraft.jarOfDirtList){
+            Location l = jod.getLocation();
+            if(l.getDifference(event.entity.getPosition()) < 64){
+                event.targetX = l.getX() + 1;
+                event.targetY = l.getY();
+                event.targetZ = l.getZ();
+                event.entityLiving.motionX = 0;
+                event.entityLiving.motionY = 0;
+                event.entityLiving.motionZ = 0;
             }
         }
     }
