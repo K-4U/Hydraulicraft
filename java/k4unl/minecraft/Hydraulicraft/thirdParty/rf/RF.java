@@ -56,7 +56,7 @@ public class RF implements IThirdParty {
         ClientRegistry.bindTileEntitySpecialRenderer(TileHydraulicDynamo.class, new RendererHydraulicDynamo());
         ClientRegistry.bindTileEntitySpecialRenderer(TileRFPump.class, new RendererRFPump());
 
-        Models.loadBlockModel(blockHydraulicDynamo);
+        //Models.loadBlockModel(blockHydraulicDynamo);
         for (int i = 0; i < 3; i++) {
             Models.loadBlockModel(blockRFPump, i, ((HydraulicTieredBlockBase)blockRFPump).getUnlocalizedName(i));
         }
