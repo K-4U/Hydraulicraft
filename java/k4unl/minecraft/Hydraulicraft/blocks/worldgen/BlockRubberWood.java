@@ -38,6 +38,22 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
         this.setStepSound(soundTypeWood);
         this.setDefaultState(this.blockState.getBaseState().withProperty(Properties.HAS_RUBBER_SPOT, false).withProperty(Properties.ROTATION, EnumFacing.NORTH));
         this.setTickRandomly(true);
+        Vector3fMax vector = getCollisionBox();
+        this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
+    }
+
+    @Override
+    public boolean isFullCube() {
+
+        return false;
+    }
+
+
+
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+
+        return getCollisionBox().toAABB();
     }
 
     /**
@@ -84,25 +100,29 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
     }
 
     @Override
+    public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+
+        return getCollisionBox().toAABB();
+    }
+
+    @Override
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
 
+        Vector3fMax vector = getCollisionBox();
+        list.add(vector.toAABB());
         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
     }
 
-    private Vector3fMax getCollisionBox(IBlockState state) {
+    private Vector3fMax getCollisionBox() {
 
         float pixel = 1F / 16F;
-        Vector3fMax vector = new Vector3fMax(pixel, pixel, pixel, 1.0F - pixel, 1.0F - pixel, 1.0F - pixel);
-        vector.setYMin(0.0F);
-        vector.setYMax(1.0F);
-        return vector;
+        return new Vector3fMax(pixel, 0.0F, pixel, 1.0F - pixel, 1.0F, 1.0F - pixel);
     }
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
 
-        Vector3fMax vector = getCollisionBox(worldIn.getBlockState(pos));
-
+        Vector3fMax vector = getCollisionBox();
         this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
     }
 
