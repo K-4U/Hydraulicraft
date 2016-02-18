@@ -186,8 +186,9 @@ public class BlockFluidTank extends HydraulicBlockContainerBase implements ITool
         if (stack.hasTagCompound() && stack.getTagCompound().hasKey("fluid")) {
             NBTTagCompound storedFluid = stack.getTagCompound().getCompoundTag("fluid");
             FluidStack fluid = FluidStack.loadFluidStackFromNBT(storedFluid);
+            if(fluid == null) return null;
             return fluid.getLocalizedName() + ": " + fluid.amount + "/" + FluidContainerRegistry.BUCKET_VOLUME * 16;
         }
-        return "";
+        return null;
     }
 }

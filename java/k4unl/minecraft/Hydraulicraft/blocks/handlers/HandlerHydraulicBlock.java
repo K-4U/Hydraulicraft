@@ -29,7 +29,7 @@ public class HandlerHydraulicBlock extends ItemBlock {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
+    public void addInformation(ItemStack itemstack, EntityPlayer player, List<String> list, boolean par4) {
 
         if (itemstack != null) {
             Item theItem = itemstack.getItem();
@@ -78,7 +78,9 @@ public class HandlerHydraulicBlock extends ItemBlock {
                 }
             }
             if (btH instanceof ITooltipProvider) {
-                list.add(EnumChatFormatting.RESET + ((ITooltipProvider) btH).getToolTip(itemstack));
+                if(((ITooltipProvider)btH).getToolTip(itemstack) != null) {
+                    list.add(EnumChatFormatting.RESET + ((ITooltipProvider) btH).getToolTip(itemstack));
+                }
             }
 
         }

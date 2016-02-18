@@ -43,13 +43,6 @@ public class BlockHydraulicFluidPump extends HydraulicBlockContainerBase impleme
             ((TileHydraulicFluidPump) pEnt).setFacing(placer.getHorizontalFacing().getOpposite());
         }
     }
-/*
-    @Override
-	@SideOnly(Side.CLIENT)
-	public int getRenderType() {
-
-		return RendererArchimedesScrew.RENDER_ID;
-	}*/
 
     @Override
     public PressureTier getTier() {
