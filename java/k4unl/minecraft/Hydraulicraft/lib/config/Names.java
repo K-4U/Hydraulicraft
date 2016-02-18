@@ -78,10 +78,7 @@ public class Names {
     public static final Name   fluidLubricant                    = new Name("Lubricant", "lubricant");
     public static final Name   fluidFluoroCarbon                 = new Name("FluoroCarbon Fluid", "fluoroCarbonFluid");
     public static final Name   fluidRubber                       = new Name("Rubber", "fluidRubber");
-    public static final Name   itemBucketHydraulicOil            = new Name("Hydraulic Oil Bucket", "bucketHydraulicOil");
-    public static final Name   itemBucketOil                     = new Name("Oil Bucket", "bucketOil");
-    public static final Name   itemBucketLubricant               = new Name("Lubricant Bucket", "bucketLubricant");
-    public static final Name   itemBucketFluoroCarbon            = new Name("FluoroCarbon Fluid Bucket", "bucketFluoroCarbonFluid");
+    public static final Name   fluidClayWater                    = new Name("Clay Water", "fluidClayWater");
     public static final Name   oreLonezium                       = new Name("Lonezium ore", "oreLonezium");
     public static final Name   blockRefinedLonezium              = new Name("Refined Lonezium", "refinedLonezium");
     public static final Name   oreNadsiumBicarbinate             = new Name("Nadsium Bicarbinate", "oreNadsiumBicarbinate");

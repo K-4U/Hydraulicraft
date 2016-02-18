@@ -22,6 +22,7 @@ public class Fluids {
     public static Fluid fluidLubricant;
     public static Fluid fluidFluoroCarbonFluid;
     public static Fluid fluidRubber;
+    public static Fluid fluidClayWater;
     public static List<ItemBucket> buckets = new ArrayList<ItemBucket>();
 
 
@@ -32,6 +33,7 @@ public class Fluids {
         fluidLubricant = new FluidLubricant();
         fluidFluoroCarbonFluid = new FluidFluoroCarbon();
         fluidRubber = new FluidRubber();
+        fluidClayWater = new FluidClayWater();
 
         registerFluids();
     }
@@ -48,6 +50,7 @@ public class Fluids {
         registerFluid(fluidLubricant);
         registerFluid(fluidFluoroCarbonFluid);
         registerFluid(fluidRubber);
+        registerFluid(fluidClayWater);
     }
 
     private static void registerFluid(Fluid toRegister) {

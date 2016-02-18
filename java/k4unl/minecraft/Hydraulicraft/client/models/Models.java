@@ -79,6 +79,7 @@ public class Models {
         loadBlockModel(Fluids.fluidFluoroCarbonFluid.getBlock());
         loadBlockModel(Fluids.fluidLubricant.getBlock());
         loadBlockModel(Fluids.fluidRubber.getBlock());
+        loadBlockModel(Fluids.fluidClayWater.getBlock());
 
         loadBlockModel(HCBlocks.blockRubberLeaves);
         loadBlockModel(HCBlocks.blockRubberSapling);
