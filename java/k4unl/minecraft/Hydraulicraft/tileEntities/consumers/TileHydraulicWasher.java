@@ -9,7 +9,6 @@ import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicCore;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicPressureWall;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.blocks.misc.BlockInterfaceValve;
-import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.Functions;
 import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
@@ -22,7 +21,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IConnectTexture;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileInterfaceValve;
-import k4unl.minecraft.k4lib.lib.Log;
+import k4unl.minecraft.Hydraulicraft.lib.Log;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -51,20 +50,16 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     private TileInterfaceValve       fluidValve;
     private TileInterfaceValve       itemValve;
     private PressureTier tier            = PressureTier.INVALID;
-    private float        pressurePerTick = 0F;
     private PressureTier pressureTier;
 
     private InventoryFluidCrafting inventory;
     private IFluidRecipe           recipe;
-    private ItemStack              inventor;
-    private ItemStack              targetItem;
-    private int                    maximumTicks;
 
     public TileHydraulicWasher() {
 
         super(10);
         super.init(this);
-        valves = new ArrayList<TileHydraulicValve>();
+        valves = new ArrayList<>();
         FluidTank[] inputTanks = new FluidTank[]{new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 50)};
         inventory = new InventoryFluidCrafting(this, 1, inputTanks, null);
     }
@@ -96,7 +91,6 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
             float maxPressure = Functions.getMaxPressurePerTier(pNetwork.getLowestTier(), true);
             float ratio = getPressure(EnumFacing.UP) / maxPressure;
             //int ticks = (int) ((float) pNetwork.getLowestTier().ordinal() * 16 * ratio);
-            // TODO WASHER used pressure based on the amount of it inside (same for speed)
             int ticks = 1;
 
             if (!simulate)
@@ -237,8 +231,6 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
         } else if (i == 2) {
             if (FluidContainerRegistry.isFilledContainer(itemStack)) {
                 if (FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(FluidRegistry.WATER, 1))) {
-                    return true;
-                } else if (FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(new FluidStack(Fluids.fluidHydraulicOil, 1))) {
                     return true;
                 }
             }
@@ -381,7 +373,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     public EnumFacing getFacing() {
 
         if (getWorldObj().getBlockState(getPos()).getBlock() == HCBlocks.hydraulicWasher) {
-            return (EnumFacing) getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
+            return getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION);
         } else {
             return null;
         }
@@ -435,10 +427,10 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
         //W W W  W F W  W W W
         //W W W  W C W  W W W
 
-        EnumFacing dir = ((EnumFacing) getWorldObj().getBlockState(getPos()).getValue(Properties.ROTATION)).getOpposite();
+        EnumFacing dir = getFacing();
 
-        int depthMultiplier = ((dir == EnumFacing.EAST || dir == EnumFacing.WEST) ? 1 : -1);
-        boolean forwardZ = ((dir == EnumFacing.NORTH) || (dir == EnumFacing.NORTH));
+        int depthMultiplier = ((dir == EnumFacing.NORTH || dir == EnumFacing.WEST) ? 1 : -1);
+        boolean forwardZ = ((dir == EnumFacing.NORTH) || (dir == EnumFacing.SOUTH));
 
         int xCoord = getPos().getX();
         int yCoord = getPos().getY();
