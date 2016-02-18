@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.jei;
 
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import mezz.jei.api.IGuiHelper;
 
 import javax.annotation.Nonnull;
@@ -56,6 +58,6 @@ public class JEICategoryCrusher extends JEICategoryAbstract {
     @Override
     public String getTitle() {
 
-        return "Crusher"; // TODO localize
+        return Localization.getLocalizedName(Names.blockHydraulicCrusher.unlocalized);
     }
 }

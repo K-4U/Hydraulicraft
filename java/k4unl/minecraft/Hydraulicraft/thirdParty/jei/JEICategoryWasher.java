@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.jei;
 
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import mezz.jei.api.IGuiHelper;
 
 import javax.annotation.Nonnull;
@@ -64,6 +66,6 @@ public class JEICategoryWasher extends JEICategoryAbstract {
     @Override
     public String getTitle() {
 
-        return "Washer"; // TODO localize
+        return Localization.getLocalizedName(Names.blockHydraulicWasher.unlocalized);
     }
 }

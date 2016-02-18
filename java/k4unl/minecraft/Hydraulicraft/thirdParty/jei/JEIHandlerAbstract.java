@@ -90,7 +90,7 @@ public abstract class JEIHandlerAbstract<T extends JEIWrapperIFluidRecipe> imple
         }
     }
 
-    public static class JEIHandlerCrusher extends JEIHandlerAbstract<JEIWrapperIFluidRecipe.JEIWrappedRecipeCrusher> {
+    public static class JEIHandlerCrusher extends JEIHandlerAbstract<JEIWrapperIFluidRecipe.JEIWrapperRecipeCrusher> {
 
         @Override
         List<IFluidRecipe> getRecipeSource() {
@@ -100,9 +100,9 @@ public abstract class JEIHandlerAbstract<T extends JEIWrapperIFluidRecipe> imple
 
         @Nonnull
         @Override
-        public Class<JEIWrapperIFluidRecipe.JEIWrappedRecipeCrusher> getRecipeClass() {
+        public Class<JEIWrapperIFluidRecipe.JEIWrapperRecipeCrusher> getRecipeClass() {
 
-            return JEIWrapperIFluidRecipe.JEIWrappedRecipeCrusher.class;
+            return JEIWrapperIFluidRecipe.JEIWrapperRecipeCrusher.class;
         }
 
         @Nonnull
@@ -113,7 +113,7 @@ public abstract class JEIHandlerAbstract<T extends JEIWrapperIFluidRecipe> imple
         }
     }
 
-    public static class JEIHandlerWasher extends JEIHandlerAbstract<JEIWrapperIFluidRecipe.JEIWrappedRecipeWasher> {
+    public static class JEIHandlerWasher extends JEIHandlerAbstract<JEIWrapperIFluidRecipe.JEIWrapperRecipeWasher> {
 
         @Override
         List<IFluidRecipe> getRecipeSource() {
@@ -123,9 +123,9 @@ public abstract class JEIHandlerAbstract<T extends JEIWrapperIFluidRecipe> imple
 
         @Nonnull
         @Override
-        public Class<JEIWrapperIFluidRecipe.JEIWrappedRecipeWasher> getRecipeClass() {
+        public Class<JEIWrapperIFluidRecipe.JEIWrapperRecipeWasher> getRecipeClass() {
 
-            return JEIWrapperIFluidRecipe.JEIWrappedRecipeWasher.class;
+            return JEIWrapperIFluidRecipe.JEIWrapperRecipeWasher.class;
         }
 
         @Nonnull
@@ -133,6 +133,29 @@ public abstract class JEIHandlerAbstract<T extends JEIWrapperIFluidRecipe> imple
         public String getRecipeCategoryUid() {
 
             return JEIPlugin.washerRecipe;
+        }
+    }
+
+    public static class JEIHandlerRecombobulator extends JEIHandlerAbstract<JEIWrapperIFluidRecipe.JEIWrapperRecipeRecombobulator> {
+
+        @Override
+        List<IFluidRecipe> getRecipeSource() {
+
+            return HydraulicRecipes.getRecombobulatorRecipes();
+        }
+
+        @Nonnull
+        @Override
+        public Class<JEIWrapperIFluidRecipe.JEIWrapperRecipeRecombobulator> getRecipeClass() {
+
+            return JEIWrapperIFluidRecipe.JEIWrapperRecipeRecombobulator.class;
+        }
+
+        @Nonnull
+        @Override
+        public String getRecipeCategoryUid() {
+
+            return JEIPlugin.recombobulatorRecipe;
         }
     }
 }

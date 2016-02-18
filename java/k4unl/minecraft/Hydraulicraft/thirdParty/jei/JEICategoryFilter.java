@@ -1,5 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.jei;
 
+import k4unl.minecraft.Hydraulicraft.lib.Localization;
+import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import mezz.jei.api.IGuiHelper;
 
 import javax.annotation.Nonnull;
@@ -10,8 +12,8 @@ public class JEICategoryFilter extends JEICategoryAbstract {
     private static final Point pointInput  = new Point(81 - 6, 34 - 14);
     private static final Point pointOutput = new Point(81 - 6, 53 - 14);
 
-    private static final Rectangle fluidOut = new Rectangle(38 - 6, 15 - 14, 55 - 38, 70 - 15);
-    private static final Rectangle fluidIn  = new Rectangle(126 - 6, 15 - 14, 143 - 126, 70 - 15);
+    private static final Rectangle fluidIn  = new Rectangle(38 - 6, 16 - 14, 55 - 39, 70 - 16);
+    private static final Rectangle fluidOut = new Rectangle(126 - 6, 16 - 14, 143 - 127, 70 - 16);
 
     public JEICategoryFilter(IGuiHelper helper) {
 
@@ -27,13 +29,13 @@ public class JEICategoryFilter extends JEICategoryAbstract {
     @Override
     public Rectangle getRectangleForFluidOutput(int i) {
 
-        return fluidIn;
+        return fluidOut;
     }
 
     @Override
     public Rectangle getRectangleForFluidInput(int i) {
 
-        return fluidOut;
+        return fluidIn;
     }
 
     @Override
@@ -59,6 +61,6 @@ public class JEICategoryFilter extends JEICategoryAbstract {
     @Override
     public String getTitle() {
 
-        return "Filter"; // TODO localize
+        return Localization.getLocalizedName(Names.blockHydraulicFilter.unlocalized);
     }
 }
