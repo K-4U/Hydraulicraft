@@ -45,7 +45,7 @@ import java.util.List;
   version = ModInfo.VERSION,
   guiFactory = ModInfo.GUI_FACTORY,
   dependencies = "required-after:Forge@[11.15.1.1738,);" +
-    //"required-after:k4lib@[1.0.16,];" +
+    "required-after:k4lib@[1.0.17,];" +
     "required-after:mcmultipart"
 )
 
