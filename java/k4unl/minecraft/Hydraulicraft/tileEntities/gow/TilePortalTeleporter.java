@@ -116,7 +116,7 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
         Location nLoc = new Location(getPos(), dir);
 
         return ((nLoc.getTE(getWorld()) instanceof TileMultipart) && MultipartHandler.hasPartPortalFrame(((TileMultipart) nLoc.getTE(getWorld()))
-                .getPartContainer()));
+                .getPartContainer())) || (nLoc.getTE(getWorld()) instanceof TilePortalBase);
     }
 
     public void usePressure() {
