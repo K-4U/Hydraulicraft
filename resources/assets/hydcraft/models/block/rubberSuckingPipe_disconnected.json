@@ -1,0 +1,11 @@
+{
+  "elements": [
+    { "from": [ 6, 10, 6 ],
+      "to": [ 10, 10, 10 ],
+      "faces": {
+        "down": { "texture": "#frame" },
+        "up": { "texture": "#frame" }
+      }
+    }
+  ]
+}

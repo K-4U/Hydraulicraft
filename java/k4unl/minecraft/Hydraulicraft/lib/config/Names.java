@@ -102,6 +102,7 @@ public class Names {
     public static final Name   blockRubberTap                    = new Name("Rubber Tap", "blockRubberTap");
     public static final Name   blockFluidRecombobulator          = new Name("Fluid Recombobulator", "blockFluidRecombobulator");
     public static final Name   itemRubberBar                     = new Name("Rubber Bar", "itemRubberBar");
+    public static final Name   partRubberSuckingPipe             = new Name("Rubber sucking pipe", "partRubberSuckingPipe");
 
     public static final Name itemUpgradeBigDrill  = new Name("Upgrade Big Drill", "upgradeBigDrill");
     public static final Name itemUpgradeCapitator = new Name("Upgrade Tree Capitator", "upgradeCapitator");

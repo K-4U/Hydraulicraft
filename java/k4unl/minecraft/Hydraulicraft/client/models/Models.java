@@ -164,6 +164,7 @@ public class Models {
         loadItemModel(HCItems.itemPressureGauge);
 
         loadItemModel(MultipartHandler.itemPartPortalFrame);
+        loadItemModel(MultipartHandler.itemPartRubberSuckingPipe);
         loadItemModel(HCItems.itemRubberBar);
     }
 }

@@ -1,6 +1,5 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.worldgen;
 
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,13 +20,13 @@ public class TileRubberWood extends TileEntity {
 
         if (rubberInside < HCConfig.INSTANCE.getInt("maxRubberInTree")) {
             int newValue = new Random().nextInt(HCConfig.INSTANCE.getInt("maxRubberInTree"));
-            Log.info(getPos().toString());
-            Log.info("Rubber: " + rubberInside);
+            //Log.info(getPos().toString());
+            //Log.info("Rubber: " + rubberInside);
             while (newValue == 0) {
                 newValue = new Random().nextInt(HCConfig.INSTANCE.getInt("maxRubberInTree"));
             }
             rubberInside += newValue;
-            Log.info("Rubber: " + rubberInside);
+            //Log.info("Rubber: " + rubberInside);
         }
     }
 
@@ -65,5 +64,10 @@ public class TileRubberWood extends TileEntity {
     public int getRubber() {
 
         return rubberInside;
+    }
+
+    public boolean hasSpot() {
+
+        return getWorld().getBlockState(getPos()).getValue(Properties.HAS_RUBBER_SPOT);
     }
 }

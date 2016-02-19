@@ -1,0 +1,129 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "frame": "hydcraft:blocks/rubberSuckingPipe",
+      "particle": "hydcraft:blocks/rubberSuckingPipe"
+    },
+    "uvlock": false
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {
+        "submodel": {
+          "up": {
+            "model":"hydcraft:rubberSuckingPipe_connected"
+          },
+          "down": {
+            "model":"hydcraft:rubberSuckingPipe_connected",
+            "x":180
+          },
+          "north": {
+            "model":"hydcraft:rubberSuckingPipe_connected",
+            "x":90
+          },
+          "south": {
+            "model":"hydcraft:rubberSuckingPipe_connected",
+            "x":90,
+            "y":180
+          },
+          "east": {
+            "model":"hydcraft:rubberSuckingPipe_connected",
+            "x":90,
+            "y":90
+          },
+          "west": {
+            "model":"hydcraft:rubberSuckingPipe_connected",
+            "x":90,
+            "y":270
+          }
+        }
+      }
+    ],
+    "down": {
+      "false": {
+        "submodel": {
+          "down": {
+            "model": "hydcraft:rubberSuckingPipe_disconnected",
+            "x": 180
+          }
+        }
+      },
+      "true": {
+        "submodel": {
+          "down": {
+            "model": "hydcraft:rubberSuckingPipe_connected",
+            "x": 180
+          }
+        }
+      }
+    },
+    "up": {
+      "false": {
+        "submodel": {
+          "up": {
+            "model": "hydcraft:rubberSuckingPipe_disconnected"
+          }
+        }
+      },
+      "true": {
+        "submodel": {
+          "up": {
+            "model": "hydcraft:rubberSuckingPipe_connected"
+          }
+        }
+      }
+    },
+    "north": {
+      "false": {
+        "submodel": {
+          "north": { "model": "hydcraft:rubberSuckingPipe_disconnected", "x": 90 }
+        }
+      },
+      "true": {
+        "submodel": {
+          "north": { "model": "hydcraft:rubberSuckingPipe_connected", "x": 90 }
+        }
+      }
+    },
+    "south": {
+      "false": {
+        "submodel": {
+          "south": { "model": "hydcraft:rubberSuckingPipe_disconnected", "x": 90, "y": 180 }
+        }
+      },
+      "true": {
+        "submodel": {
+          "south": { "model": "hydcraft:rubberSuckingPipe_connected", "x": 90, "y": 180 }
+        }
+      }
+    },
+    "west": {
+      "false": {
+        "submodel": {
+          "west": { "model": "hydcraft:rubberSuckingPipe_disconnected", "x": 90, "y": 270 }
+        }
+      },
+      "true": {
+        "submodel": {
+          "west": { "model": "hydcraft:rubberSuckingPipe_connected", "x": 90, "y": 270 }
+        }
+      }
+    },
+    "east": {
+      "false": {
+        "submodel": {
+          "east": { "model": "hydcraft:rubberSuckingPipe_disconnected", "x": 90, "y": 90 }
+        }
+      },
+      "true": {
+        "submodel": {
+          "east": { "model": "hydcraft:rubberSuckingPipe_connected", "x": 90, "y": 90 }
+        }
+      }
+    }
+  }
+}

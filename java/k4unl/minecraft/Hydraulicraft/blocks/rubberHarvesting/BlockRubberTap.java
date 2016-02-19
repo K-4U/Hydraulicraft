@@ -18,7 +18,8 @@ import net.minecraft.world.World;
  * @author Koen Beckers (K-4U)
  */
 public class BlockRubberTap extends HydraulicBlockContainerBase implements IBlockWithRotation {
-    
+
+    //TODO: Collision boxes
     public BlockRubberTap() {
 
         super(Names.blockRubberTap, Material.iron, true);
