@@ -88,6 +88,8 @@ public class Models {
         loadBlockModel(HCBlocks.blockFluidTank);
         loadBlockModel(HCBlocks.blockRubberTap);
         loadBlockModel(HCBlocks.blockFluidRecombobulator);
+
+        loadBlockModel(HCBlocks.blockTreeHarvester);
     }
 
     public static void loadBlockModel(Block block, int metadata, String override) {

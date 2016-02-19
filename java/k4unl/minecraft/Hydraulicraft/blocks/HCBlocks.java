@@ -3,10 +3,7 @@ package k4unl.minecraft.Hydraulicraft.blocks;
 import k4unl.minecraft.Hydraulicraft.Hydraulicraft;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockAssembler;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.BlockHydraulicFiller;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHarvesterTrolley;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicHarvester;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicHarvesterFrame;
-import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.BlockHydraulicPiston;
+import k4unl.minecraft.Hydraulicraft.blocks.consumers.harvester.*;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.misc.*;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicCrusher;
 import k4unl.minecraft.Hydraulicraft.blocks.consumers.oreprocessing.BlockHydraulicFrictionIncinerator;
@@ -87,6 +84,9 @@ public class HCBlocks {
     public static Block blockRubberTap;
     public static Block blockFluidRecombobulator;
 
+    public static Block blockTreeHarvester;
+    public static Block blockTreeHarvesterTrolley;
+
     /*!
      * @author Koen Beckers
      * @date 13-12-2013
@@ -150,6 +150,9 @@ public class HCBlocks {
         blockFluidTank = new BlockFluidTank();
         blockRubberTap = new BlockRubberTap();
         blockFluidRecombobulator = new BlockFluidRecombobulator();
+
+        blockTreeHarvester = new BlockTreeHarvester();
+        blockTreeHarvesterTrolley = new BlockTreeHarvesterTrolley();
 
         registerBlocks();
     }
@@ -221,5 +224,8 @@ public class HCBlocks {
         GameRegistry.registerBlock(blockFluidTank, HandlerHydraulicBlock.class, Names.blockFluidTank.unlocalized);
         GameRegistry.registerBlock(blockRubberTap, HandlerHydraulicBlock.class, Names.blockRubberTap.unlocalized);
         GameRegistry.registerBlock(blockFluidRecombobulator, HandlerHydraulicBlock.class, Names.blockFluidRecombobulator.unlocalized);
+
+        GameRegistry.registerBlock(blockTreeHarvester, HandlerHydraulicBlock.class, Names.blockTreeHarvester.unlocalized);
+        GameRegistry.registerBlock(blockTreeHarvesterTrolley, HandlerHydraulicBlock.class, Names.blockTreeHarvesterTrolley.unlocalized);
     }
 }
