@@ -19,6 +19,12 @@ public final class Properties {
     public static final PropertyBool SOUTH = PropertyBool.create("south");
     public static final PropertyBool WEST  = PropertyBool.create("west");
 
+    public static final PropertyInteger UP_ICON    = PropertyInteger.create("upIcon", 0, 45);
+    public static final PropertyInteger DOWN_ICON  = PropertyInteger.create("downIcon", 0, 45);
+    public static final PropertyInteger NORTH_ICON = PropertyInteger.create("northIcon", 0, 45);
+    public static final PropertyInteger EAST_ICON  = PropertyInteger.create("eastIcon", 0, 45);
+    public static final PropertyInteger SOUTH_ICON = PropertyInteger.create("southIcon", 0, 45);
+    public static final PropertyInteger WEST_ICON  = PropertyInteger.create("westIcon", 0, 45);
 
     public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
@@ -29,11 +35,10 @@ public final class Properties {
 
     public static final PropertyInteger LIGHTVALUE = PropertyInteger.create("lightValue", 0, 15);
 
-
     public static final PropertyBool HARVESTER_FRAME_ROTATED = PropertyBool.create("rotated");
 
     public static final PropertyBool HAS_RUBBER_SPOT = PropertyBool.create("hasRubberSpot");
-    public static final PropertyEnum TIER = PropertyEnum.create("tier", PressureTier.class);
+    public static final PropertyEnum TIER            = PropertyEnum.create("tier", PressureTier.class);
 
     private Properties() {
 
