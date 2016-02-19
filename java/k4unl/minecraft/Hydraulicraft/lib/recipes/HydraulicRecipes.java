@@ -62,7 +62,7 @@ public class HydraulicRecipes implements IRecipeHandler {
     private static void initializeRecombobulatorRecipes() {
 
         recipesRecombobulator.add(new FluidShapelessOreRecipe(HCItems.itemRubberBar).addFluidInput(new FluidStack(Fluids.fluidRubber,
-                FluidContainerRegistry.BUCKET_VOLUME)).setCraftingTime(100).setPressure(1000));
+                FluidContainerRegistry.BUCKET_VOLUME / 4)).setCraftingTime(100).setPressure(1000));
 
         recipesRecombobulator.add(new FluidShapelessOreRecipe(Items.clay_ball).addFluidInput(new FluidStack(Fluids.fluidClayWater, FluidContainerRegistry.BUCKET_VOLUME / 2)).setCraftingTime(100).setPressure(1000));
     }
@@ -160,6 +160,20 @@ public class HydraulicRecipes implements IRecipeHandler {
 
     private static void initializeAssemblerRecipes() {
 
+        recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.blockFluidRecombobulator), true,
+                new Object[] {
+                        "WGW",
+                        "TCI",
+                        "WFW",
+                        'W', HCBlocks.hydraulicPressureWall,
+                        'T', HCBlocks.blockFluidTank,
+                        'C', new ItemStack(HCBlocks.blockCore, 1, 1),
+                        'I', HCBlocks.blockInterfaceValve,
+                        'F', Blocks.furnace,
+                        'G', HCItems.gasket
+                }).addFluidInput(new FluidStack(FluidRegistry.LAVA, 500)).setCraftingTime(1000).setPressure(1000)
+        );
+
         recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.hydraulicHarvesterSource, 1, 0), true,
                 new Object[]{
                         "WWW",
@@ -169,7 +183,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'W', HCBlocks.hydraulicPressureWall,
                         'K', HCItems.gasket,
                         'I', HCBlocks.blockInterfaceValve
-                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 100)).setCraftingTime(1000)
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 100)).setCraftingTime(1000).setPressure(50000)
         );
 
         recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.blockCore, 1, 2), true,
@@ -180,7 +194,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'W', HCBlocks.hydraulicPressureWall,
                         'E', "ingotEnrichedCopper",
                         'B', new ItemStack(HCBlocks.blockCore, 1, 1)
-                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 750)).setCraftingTime(400)
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 750)).setCraftingTime(400).setPressure(100000)
         );
 
         recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPump, 1, 2), true,
@@ -204,7 +218,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'K', HCItems.gasket,
                         'C', "ingotEnrichedCopper",
                         'H', new ItemStack(MultipartHandler.itemPartHose, 1, 1)
-                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 10)).setCraftingTime(100)
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 10)).setCraftingTime(100).setPressure(500)
         );
 
         recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPressurevat, 1, 2), true,
@@ -217,7 +231,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'C', "ingotEnrichedCopper",
                         'V', new ItemStack(HCBlocks.hydraulicPressurevat, 1, 1),
                         'B', new ItemStack(HCBlocks.blockCore, 1, 2)
-                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 1000))
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 1000)).setCraftingTime(2000).setPressure(500000)
         );
 
         recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCItems.itemMovingPane, 2), true,
@@ -229,7 +243,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'C', new ItemStack(HCBlocks.blockCore, 1, 2),
                         'K', HCItems.gasket,
                         'G', Blocks.glass_pane
-                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 10))
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 10)).setCraftingTime(100).setPressure(50)
         );
 
         ItemStack cropsTrolly = Hydraulicraft.trolleyRegistrar.getTrolleyItem("crops");
@@ -244,7 +258,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'W', HCBlocks.hydraulicPressureWall,
                         'H', Items.golden_hoe,
                         'P', HCBlocks.hydraulicPiston
-                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 40))
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 40)).setCraftingTime(100).setPressure(50)
         );
 
         ItemStack sugarTrolly = Hydraulicraft.trolleyRegistrar.getTrolleyItem("sugarCane");
@@ -259,7 +273,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'W', HCBlocks.hydraulicPressureWall,
                         'S', Items.shears,
                         'P', HCBlocks.hydraulicPiston
-                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 40))
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 40)).setCraftingTime(100).setPressure(50)
         );
 
         ItemStack cactusTrolly = Hydraulicraft.trolleyRegistrar.getTrolleyItem("cactus");
@@ -274,7 +288,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'W', HCBlocks.hydraulicPressureWall,
                         'S', Items.golden_sword,
                         'P', HCBlocks.hydraulicPiston
-                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 40))
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 40)).setCraftingTime(100).setPressure(50)
         );
 
         ItemStack netherWartTrolly = Hydraulicraft.trolleyRegistrar.getTrolleyItem("netherWart");
@@ -289,7 +303,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'W', HCBlocks.hydraulicPressureWall,
                         'S', Items.ghast_tear,
                         'P', HCBlocks.hydraulicPiston
-                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 40))
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 40)).setCraftingTime(100).setPressure(50)
         );
 
         recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.hydraulicLavaPump, 1, 2), true,
@@ -303,7 +317,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'I', HCBlocks.blockInterfaceValve,
                         'U', new ItemStack(HCBlocks.hydraulicLavaPump, 1, 1),
                         'C', new ItemStack(HCBlocks.blockCore, 1, 2)
-                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 100))
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 100)).setCraftingTime(100).setPressure(500)
         );
 
         recipesAssembler.add(new FluidShapedOreRecipe(new ItemStack(HCBlocks.hydraulicPiston, 1, 0), true,
@@ -316,7 +330,7 @@ public class HydraulicRecipes implements IRecipeHandler {
                         'K', HCItems.gasket,
                         'R', Items.redstone,
                         'I', "ingotIron"
-                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 300))
+                }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 300)).setCraftingTime(100).setPressure(500)
         );
     }
 
@@ -382,9 +396,21 @@ public class HydraulicRecipes implements IRecipeHandler {
 
         GameRegistry.addSmelting(Ores.oreCopper, new ItemStack(HCItems.ingotCopper), 0);
         GameRegistry.addSmelting(Ores.oreLead, new ItemStack(HCItems.ingotLead), 0);
+
+        ItemStack bucket = FluidContainerRegistry.fillFluidContainer(new FluidStack(Fluids.fluidRubber, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(Items.bucket));
+        GameRegistry.addSmelting(bucket, new ItemStack(HCItems.itemRubberBar), 0);
     }
 
     private static void initializeBlockRecipes() {
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockRubberTap, 1), true,
+                new Object[] {
+                        "LLL",
+                        "  L",
+                        "L L",
+                        'L', "ingotLead"
+                })
+        );
 
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(HCBlocks.blockFluidTank, 1), true,
                 new Object[]{
