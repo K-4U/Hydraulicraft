@@ -51,7 +51,7 @@ dependencies {
     compile "k4unl:k4lib:1.8.9-1.0.17:deobf"
     //compile name: "buildcraft", classifier: "dev", version: "7.0.16"
     compile "igwmod:IGW-Mod-1.8.9:1.2.3-3:userdev"
-    deobfCompile "mezz.jei:jei_1.8.9:2.25.11.151"
+    deobfCompile "mezz.jei:jei_1.8.9:2.28.1.162"
     deobfCompile "MCMultiPart:MCMultiPart:1.0.6:universal"
 }
 
