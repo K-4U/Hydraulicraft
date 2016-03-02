@@ -9,6 +9,7 @@ item.bucketHydraulicOil.name=液压油桶
 item.bucketLubricant.name=润滑油桶
 item.bucketOil.name=石油桶
 item.bucketFluoroCarbonFluid.name=氟化碳桶
+item.bucket.fluidRubber.name=液态橡胶桶
 item.bacon.name=培根
 item.miningHelmet.name=矿工头盔
 item.itemLamp.name=矿工头盔灯
@@ -20,6 +21,16 @@ item.divingChest.name=潜水上衣
 item.divingLegs.name=潜水裤
 item.divingBoots.name=潜水靴
 item.hydraulicWrench.name=液压扳手
+item.itemPressureGauge.name=压力表
+item.LPHydraulicPipe.name=低压管道
+item.MPHydraulicPipe.name=中压管道
+item.HPHydraulicPipe.name=高压管道
+item.itemCannister.name=压力罐
+item.itemDrill.name=液压钻头
+item.itemSaw.name=液压锯
+item.fluidPipe.name=流体管道
+item.fluidInterface.name=流体界面
+item.itemRubberBar.name=橡胶棒
 
 
 #Ores
@@ -27,7 +38,7 @@ tile.oreCopper.name=铜矿
 tile.oreLead.name=铅矿
 tile.oreLonezium.name=镙
 tile.oreBeachium.name=鏎
-tile.oreNadsiumBicarbinate.name=碦化錼
+tile.oreNadsiumBicarbinate.name=碳酸氢錼
 tile.oreFoxium.name=鍢
 
 #Blocks
@@ -48,13 +59,9 @@ tile.LPHydraulicPipe.name=低压管道
 tile.MPHydraulicPipe.name=中压管道
 tile.HPHydraulicPipe.name=高压管道
 
-tile.LPPartValve.name=低压控制阀门
-tile.MPPartValve.name=中压控制阀门
-tile.HPPartValve.name=高压控制阀门
-
-tile.LPHydraulicPressureVat.name=低压大桶
-tile.MPHydraulicPressureVat.name=中压大桶
-tile.HPHydraulicPressureVat.name=高压大桶
+tile.LPHydraulicPressureReservoir.name=低压储液器
+tile.MPHydraulicPressureReservoir.name=中压储液器
+tile.HPHydraulicPressureReservoir.name=高压储液器
 
 tile.LPHydraulicPump.name=低压泵
 tile.MPHydraulicPump.name=中压泵
@@ -91,13 +98,20 @@ tile.blockLead.name=铅块
 
 tile.blockJarDirt.name=一罐泥土
 tile.refinedLonezium.name=精炼镙
-tile.refinedNadsiumBicarbinate.name=精炼碦化錼
+tile.refinedNadsiumBicarbinate.name=精炼碳酸氢錼
 tile.blockDirtyMineral.name=脏的矿物质
 tile.hydraulicAssembler.name=装配机
 tile.fluidPipe.name=流体管道
 tile.fluidInterface.name=流体界面
 tile.hydraulicCharger.name=液压充能器
 tile.hydraulicFiller.name=液压装罐机
+tile.blockFluidTank.name=流体储罐
+
+tile.rubberWood.name=橡胶木
+tile.rubberLeaves.name=橡胶树叶
+tile.saplingRubber.name=橡胶树苗
+tile.blockRubberTap.name=橡胶树龙头
+tile.blockFluidRecombobulator.name=液体变性仪
 
 
 #Dust and chunks
@@ -151,6 +165,8 @@ lang.gui.updateAvailable=液压工艺版本%s可用
 lang.gui.releasedAt=发布于: %s
 lang.gui.upToDate=液压工艺版本最新
 lang.tooltip.multiblock=多方块. 最大压力取决于核心.
+lang.tooltip.pressureGauge=显示你所处位置的压力. 切莫用于日常生活.
+lang.gui.multiblocktank=多方块储罐
 
 #Harvester
 lang.harvester.notFormingError.trolleyExpected=预计有收割车在 %s
@@ -188,7 +204,7 @@ tile.portalBase.name=传送门基座
 tile.portalFrame.name=传送门框架
 tile.portalTeleporter.name=传送门
 item.portalIPCard.name=传送门IP卡
-itemGroup.tabGOW=Glowing Octo Wallhack
+itemGroup.tabGOW=发光的八位破墙器
 
 ### WIKI
 hydcraft.wiki.entry.baseConcepts=基本概念
@@ -216,3 +232,4 @@ hydcraft.wiki.entry.thirdparty:rf=- RF
 hydcraft:death.attack.pressure1=%s 忘了穿潜水服
 hydcraft:death.attack.pressure2=%s 为水压所杀
 hydcraft:death.attack.pressure3=流体力学在%s身上得到了淋漓尽致的体现
+hydcraft:death.attack.noFluid1=%s 忘了填充潜水服
