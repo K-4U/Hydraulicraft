@@ -3,10 +3,10 @@ package k4unl.minecraft.Hydraulicraft.tileEntities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -53,7 +53,7 @@ public class TileHydraulicBaseNoPower extends TileEntity implements ITickable {
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 
         NBTTagCompound tagCompound = packet.getNbtCompound();
         this.readFromNBT(tagCompound);
@@ -64,7 +64,7 @@ public class TileHydraulicBaseNoPower extends TileEntity implements ITickable {
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         this.writeToNBT(tagCompound);
-        return new S35PacketUpdateTileEntity(getPos(), 4, tagCompound);
+        return new SPacketUpdateTileEntity(getPos(), 4, tagCompound);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class TileHydraulicBaseNoPower extends TileEntity implements ITickable {
         double xCoord = getPos().getX();
         double yCoord = getPos().getY();
         double zCoord = getPos().getZ();
-        return AxisAlignedBB.fromBounds(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
+        return new AxisAlignedBB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
     }
 
 }

@@ -25,10 +25,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
@@ -51,7 +51,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     private boolean           isMultipart         = false;
     private World             tWorld              = null;
     private Location          blockLocation       = null;
-    private Multipart         tMp                 = null;
+    //private Multipart         tMp                 = null; // TODO MULTIPART
     private TileEntity        tTarget             = null;
     private IHydraulicMachine target              = null;
     private boolean           hasOwnFluidTank     = false;
@@ -82,7 +82,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         }
         tWorld = _target.getWorld();
     }
-
+/*
     public void init(Multipart _target) {
 
         tMp = _target;
@@ -92,7 +92,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         tWorld = _target.getWorld();
         tWorld = _target.getWorld();
     }
-
+*/ // TODO MULTIPART
     public IBaseClass getHandler() {
 
         return this;
@@ -102,7 +102,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
 
         if (blockLocation == null) {
             if (isMultipart) {
-                blockLocation = new Location(tMp.getPos());
+                //blockLocation = new Location(tMp.getPos()); // TODO MULTIPART
             } else {
                 blockLocation = new Location(tTarget.getPos());
             }
@@ -114,7 +114,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
 
         if (tWorld == null) {
             if (isMultipart) {
-                tWorld = tMp.getWorld();
+                // tWorld = tMp.getWorld(); // TODO MULTIPART
             } else {
                 if (tTarget != null) {
                     tWorld = tTarget.getWorld();
@@ -151,11 +151,11 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     public void updateBlock() {
 
         if (getWorldObj() != null && !getWorldObj().isRemote) {
-            if (isMultipart && tMp.getContainer() != null) {
+            /*if (isMultipart && tMp.getContainer() != null) {
                 getWorldObj().markBlockForUpdate(getBlockLocation().toBlockPos());
-            } else {
+            } else {*/
                 getWorldObj().markBlockForUpdate(getBlockLocation().toBlockPos());
-            }
+            //} // TODO MULTIPART
         }
     }
 
@@ -254,7 +254,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 
         NBTTagCompound tagCompound = packet.getNbtCompound();
         this.readFromNBT(tagCompound);
@@ -265,7 +265,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         this.writeToNBT(tagCompound);
-        return new S35PacketUpdateTileEntity(getBlockLocation().toBlockPos(), 4, tagCompound);
+        return new SPacketUpdateTileEntity(getBlockLocation().toBlockPos(), 4, tagCompound);
     }
 
     private List<IHydraulicMachine> getMachineList(List<IHydraulicMachine> list, EnumFacing dir) {
@@ -759,7 +759,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
 
     @Override
     public void onDataPacketI(NetworkManager net,
-                              S35PacketUpdateTileEntity packet) {
+                              SPacketUpdateTileEntity packet) {
 
         onDataPacket(net, packet);
     }
@@ -810,7 +810,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         double xCoord = getBlockLocation().getX();
         double yCoord = getBlockLocation().getY();
         double zCoord = getBlockLocation().getZ();
-        return AxisAlignedBB.fromBounds(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
+        return new AxisAlignedBB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
     }
 
     public boolean getIsRedstonePowered() {

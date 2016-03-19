@@ -12,9 +12,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -31,29 +33,19 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
     PressurizableItem pressurizableItem;
 
 
-    protected ItemHydraulicTool(float damage, ToolMaterial material, Set worksOn) {
+    protected ItemHydraulicTool(float damage, ToolMaterial material, Set<Block> worksOn) {
 
-        super(damage, material, worksOn);
+        super(damage, 1.0f, material, worksOn);
         setHasSubtypes(true);
     }
 
     @Override
-    public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-
-        return pressurizableItem.canUse(itemStack, PRESSURE_PER_DIG);
+    public boolean canHarvestBlock(IBlockState state, ItemStack stack) {
+        return pressurizableItem.canUse(stack, PRESSURE_PER_DIG);
     }
 
     @Override
-    public float getDigSpeed(ItemStack stack, IBlockState state) {
-
-        if (!pressurizableItem.canUse(stack, PRESSURE_PER_DIG))
-            return 0;
-        return super.getDigSpeed(stack, state);
-    }
-
-    @Override
-    public float getStrVsBlock(ItemStack stack, Block block) {
-
+    public float getStrVsBlock(ItemStack stack, IBlockState state) {
         if (!pressurizableItem.canUse(stack, PRESSURE_PER_DIG))
             return 0;
 
@@ -98,10 +90,10 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
     }
 
     @Override
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
+    public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState blockIn, BlockPos pos, EntityLivingBase playerIn) {
 
         if (playerIn instanceof EntityPlayer) {
-            MovingObjectPosition mop = getMovingObjectPositionFromPlayer(worldIn, (EntityPlayer) playerIn, true);
+            RayTraceResult mop = getMovingObjectPositionFromPlayer(worldIn, (EntityPlayer) playerIn, true);
             boolean retval = pressurizableItem.canUse((EntityPlayer) playerIn, worldIn, pos, mop.sideHit, PRESSURE_PER_DIG);
             if (retval) {
 
@@ -114,10 +106,9 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-
-        pressurizableItem.onItemUse(playerIn, pos, side, CHANCE_TO_RELEASE_WATER, PRESSURE_PER_DIG);
-        return super.onItemUse(stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        pressurizableItem.onItemUse(playerIn, pos, facing, CHANCE_TO_RELEASE_WATER, PRESSURE_PER_DIG);
+        return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
     }
 
     @Override

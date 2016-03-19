@@ -10,7 +10,8 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.TileHydraulicDyn
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -41,14 +42,12 @@ public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements
     }
 
     @Override
-    public int getRenderType() {
-
-        return -1;
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL; // TODO 1.9 check
     }
 
     @Override
-    public boolean isOpaqueCube() {
-
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 

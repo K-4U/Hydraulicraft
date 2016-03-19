@@ -16,7 +16,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
 
 public class TileHydraulicCrusher extends TileHydraulicBase implements IInventory, IHydraulicConsumer,
         ISidedInventory, IFluidCraftingMachine {
@@ -203,7 +203,7 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
     }
 
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
 
         return null;
     }

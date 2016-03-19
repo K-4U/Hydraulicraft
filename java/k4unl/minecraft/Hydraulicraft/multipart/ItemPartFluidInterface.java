@@ -6,9 +6,9 @@ import mcmultipart.item.ItemMultiPart;
 import mcmultipart.multipart.IMultipart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ItemPartFluidInterface extends ItemMultiPart {
@@ -32,7 +32,7 @@ public class ItemPartFluidInterface extends ItemMultiPart {
     }*/
 
     @Override
-    public IMultipart createPart(World world, BlockPos blockPos, EnumFacing enumFacing, Vec3 vec3, ItemStack itemStack, EntityPlayer entityPlayer) {
+    public IMultipart createPart(World world, BlockPos blockPos, EnumFacing enumFacing, Vec3d vec3, ItemStack itemStack, EntityPlayer entityPlayer) {
 
         PartFluidInterface w = new PartFluidInterface();
         w.preparePlacement(enumFacing);

@@ -17,12 +17,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fluids.*;
 
 import java.util.ArrayList;
@@ -191,7 +191,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 
         NBTTagCompound tagCompound = packet.getNbtCompound();
         this.readFromNBT(tagCompound);
@@ -202,7 +202,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         this.writeToNBT(tagCompound);
-        return new S35PacketUpdateTileEntity(getPos(), 5, tagCompound);
+        return new SPacketUpdateTileEntity(getPos(), 5, tagCompound);
     }
 
 
@@ -521,7 +521,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
     }
 
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
 
         if (getInventoryTarget() != null) {
             return getInventoryTarget().getDisplayName();
@@ -914,7 +914,7 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
             maxZ = outerZDifference + tankCorner1.getZ();
             //Log.info("minX: "+ minX + " minY: " + minY + " minZ: " + minZ + " maxX: " + maxX + " maxY: " + maxY + " maxZ: " + maxZ);
         }
-        return AxisAlignedBB.fromBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
     @Override

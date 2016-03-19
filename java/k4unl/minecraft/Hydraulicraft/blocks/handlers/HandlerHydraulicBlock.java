@@ -10,7 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -53,7 +53,7 @@ public class HandlerHydraulicBlock extends ItemBlock {
                         break;
                 }
                 if (!toTranslate.equals("")) {
-                    list.add(EnumChatFormatting.GREEN + Localization.getString(toTranslate));
+                    list.add(TextFormatting.GREEN + Localization.getString(toTranslate));
                 }
             }
             if (btH instanceof IMultiTieredBlock) {
@@ -74,12 +74,12 @@ public class HandlerHydraulicBlock extends ItemBlock {
                         break;
                 }
                 if (!toTranslate.equals("")) {
-                    list.add(EnumChatFormatting.GREEN + Localization.getString(toTranslate));
+                    list.add(TextFormatting.GREEN + Localization.getString(toTranslate));
                 }
             }
             if (btH instanceof ITooltipProvider) {
                 if(((ITooltipProvider)btH).getToolTip(itemstack) != null) {
-                    list.add(EnumChatFormatting.RESET + ((ITooltipProvider) btH).getToolTip(itemstack));
+                    list.add(TextFormatting.RESET + ((ITooltipProvider) btH).getToolTip(itemstack));
                 }
             }
 

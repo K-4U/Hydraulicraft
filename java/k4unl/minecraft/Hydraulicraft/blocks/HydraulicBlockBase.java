@@ -5,12 +5,13 @@ import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class HydraulicBlockBase extends Block {
@@ -31,7 +32,7 @@ public class HydraulicBlockBase extends Block {
         mName = machineName;
 
         setUnlocalizedName(mName.unlocalized);
-        setStepSound(Block.soundTypeStone);
+        setSoundType(SoundType.STONE);
         setHardness(3.5F);
         setResistance(10F);
         if (this instanceof IBlockWithRotation) {
@@ -55,12 +56,12 @@ public class HydraulicBlockBase extends Block {
     }
 
     @Override
-    protected BlockState createBlockState() {
+    protected BlockStateContainer createBlockState() {
 
         if (this instanceof IBlockWithRotation) {
-            return new BlockState(this, Properties.ROTATION);
+            return new BlockStateContainer(this, Properties.ROTATION);
         } else {
-            return new BlockState(this);
+            return new BlockStateContainer(this);
         }
     }
 

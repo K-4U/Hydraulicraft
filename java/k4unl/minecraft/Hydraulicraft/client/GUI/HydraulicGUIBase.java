@@ -8,14 +8,14 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.k4lib.lib.Functions;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
@@ -205,7 +205,7 @@ public class HydraulicGUIBase extends GuiContainer {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.7F);
         mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-        WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
+        VertexBuffer worldRenderer = Tessellator.getInstance().getBuffer();
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         int o;
         for (o = 0; o < Math.floor(icons); o++) {
@@ -262,7 +262,7 @@ public class HydraulicGUIBase extends GuiContainer {
 
         tooltipList.clear();
         fontRendererObj.drawString(
-                StatCollector.translateToLocal("container.inventory"), 8,
+                I18n.translateToLocal("container.inventory"), 8,
                 ySize - 94 + 2, Constants.COLOR_TEXT);
     }
 

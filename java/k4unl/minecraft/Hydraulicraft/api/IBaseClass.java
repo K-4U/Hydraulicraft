@@ -1,10 +1,9 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import mcmultipart.multipart.Multipart;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 
@@ -43,7 +42,7 @@ public interface IBaseClass {
      * @param net
      * @param packet
      */
-    void onDataPacketI(NetworkManager net, S35PacketUpdateTileEntity packet);
+    void onDataPacketI(NetworkManager net, SPacketUpdateTileEntity packet);
 
     /**
      * Forward this function to the Base class
@@ -147,7 +146,7 @@ public interface IBaseClass {
      */
     void init(TileEntity target);
 
-    void init(Multipart target);
+    // void init(Multipart target); // TODO MULTIPART REVERT
 
     /**
      * Takes the pressure to add and checks if there is oil in the system.

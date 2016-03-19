@@ -11,8 +11,8 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.IndustrialCraft;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
 public class GuiHydraulicGenerator extends HydraulicGUIBase {
 
@@ -39,12 +39,12 @@ public class GuiHydraulicGenerator extends HydraulicGUIBase {
 
         int startY = 17;
         int step = (int) (Hydraulicraft.smallGuiFont.getLineHeight() / 3.2F);
-        drawSmallerString(61, startY + (step * 0), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_GENERATING_ENTRY) + ":", false);
-        drawSmallerString(65, startY + (step * 1), EnumChatFormatting.GREEN + "" + generator.getEnergyToAdd() + "EU/t", false);
-        drawSmallerString(61, startY + (step * 2), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_OUTPUT_ENTRY) + ":", false);
+        drawSmallerString(61, startY + (step * 0), TextFormatting.GREEN + Localization.getString(Localization.GUI_GENERATING_ENTRY) + ":", false);
+        drawSmallerString(65, startY + (step * 1), TextFormatting.GREEN + "" + generator.getEnergyToAdd() + "EU/t", false);
+        drawSmallerString(61, startY + (step * 2), TextFormatting.GREEN + Localization.getString(Localization.GUI_OUTPUT_ENTRY) + ":", false);
         //drawSmallerString(65, startY + (step * 3), EnumChatFormatting.GREEN + "" + generator.getOfferedEnergy() + "EU/t", false);
-        drawSmallerString(61, startY + (step * 4), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_USING_ENTRY) + ":", false);
-        drawSmallerString(65, startY + (step * 5), EnumChatFormatting.GREEN + "" + generator.getPressureRequired() + "mBar/t", false);
+        drawSmallerString(61, startY + (step * 4), TextFormatting.GREEN + Localization.getString(Localization.GUI_USING_ENTRY) + ":", false);
+        drawSmallerString(65, startY + (step * 5), TextFormatting.GREEN + "" + generator.getPressureRequired() + "mBar/t", false);
 
 
         drawFluidAndPressure();

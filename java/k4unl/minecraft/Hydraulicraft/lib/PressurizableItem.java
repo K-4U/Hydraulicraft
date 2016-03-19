@@ -5,7 +5,7 @@ import k4unl.minecraft.Hydraulicraft.api.IPressurizableItemUpgrade;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -149,7 +149,7 @@ public class PressurizableItem implements IPressurizableItem {
 
     public void onItemUse(EntityPlayer player, BlockPos pos, EnumFacing facing, float chanceToReleaseWater, float pressurePerUse) {
 
-        ItemStack itemStack = player.getCurrentEquippedItem();
+        ItemStack itemStack = player.getActiveItemStack();
         if (itemStack == null || !(itemStack.getItem() instanceof IPressurizableItem))
             return;
 
@@ -202,7 +202,7 @@ public class PressurizableItem implements IPressurizableItem {
      */
     public boolean canUse(EntityPlayer player, World world, BlockPos pos, EnumFacing facing, float pressurePerUse) {
 
-        ItemStack itemStack = player.getCurrentEquippedItem();
+        ItemStack itemStack = player.getActiveItemStack();
         if (itemStack == null || !(itemStack.getItem() instanceof IPressurizableItem))
             return false;
 
