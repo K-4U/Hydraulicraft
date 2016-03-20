@@ -7,8 +7,10 @@ import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemMovingPane extends HydraulicItemBase {
@@ -19,8 +21,9 @@ public class ItemMovingPane extends HydraulicItemBase {
     }
 
     // Called when a player right-clicks with this item in his hand
+
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         // Prevents itemstack from decreasing when in creative mod
         if (!playerIn.capabilities.isCreativeMode) {
             --stack.stackSize;
@@ -30,7 +33,7 @@ public class ItemMovingPane extends HydraulicItemBase {
         if (!worldIn.isRemote) {
             // Increases y coordinate, so our block will be placed on top of the
             // block you clicked, just as it should be
-            pos = pos.offset(side);
+            pos = pos.offset(facing);
             EnumFacing s = playerIn.getHorizontalFacing();
 
             EnumFacing dir = EnumFacing.UP;
@@ -39,7 +42,7 @@ public class ItemMovingPane extends HydraulicItemBase {
                 dir = dir.rotateAround(s.getAxis());
                 i++;
                 if (i == 4) {
-                    return false;
+                    return EnumActionResult.FAIL;
                 }
             }
 
@@ -60,9 +63,9 @@ public class ItemMovingPane extends HydraulicItemBase {
                 tilePane.setPaneFacing(s);
                 tilePane.setFacing(dir);
             }
-            return true;
+            return EnumActionResult.SUCCESS;
         }
-        return false;
+        return EnumActionResult.FAIL;
     }
 
 }

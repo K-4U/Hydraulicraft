@@ -13,9 +13,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fluids.*;
 
 public class TileHydraulicPressureReservoir extends TileHydraulicBase implements IInventory, IFluidHandler, IHydraulicStorageWithTank {
@@ -326,7 +326,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
 
                 //}
             }
-            worldObj.markBlockForUpdate(getPos());
+            markBlockForUpdate();
         }
     }
 
@@ -475,9 +475,9 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
     }
 
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
 
-        return new ChatComponentTranslation(Names.blockHydraulicPressureReservoir[getTier().toInt()].unlocalized);
+        return new TextComponentTranslation(Names.blockHydraulicPressureReservoir[getTier().toInt()].unlocalized);
     }
 
     @Override

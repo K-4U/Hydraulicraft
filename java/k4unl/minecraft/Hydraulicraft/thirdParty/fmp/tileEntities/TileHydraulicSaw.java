@@ -12,9 +12,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicConsumer, ISidedInventory {
@@ -173,7 +173,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
                 }
             }
         }
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
 
         return ret;
     }
@@ -502,9 +502,9 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
     }
 
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
 
-        return new ChatComponentTranslation(Names.blockHydraulicSaw.unlocalized);
+        return new TextComponentTranslation(Names.blockHydraulicSaw.unlocalized);
     }
 
     @Override

@@ -12,9 +12,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 
 public class TileHydraulicPump extends TileHydraulicBase implements IInventory, IHydraulicGenerator {
 
@@ -80,7 +80,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
             }
 
             if (needsUpdate) {
-                worldObj.markBlockForUpdate(getPos());
+                markBlockForUpdate();
             }
         }
     }
@@ -342,8 +342,8 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
     }
 
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
 
-        return new ChatComponentTranslation(Names.blockHydraulicPump[getTier()].unlocalized);
+        return new TextComponentTranslation(Names.blockHydraulicPump[getTier()].unlocalized);
     }
 }

@@ -5,7 +5,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class Functions {
 
     public static void showMessageInChat(EntityPlayer player, String message) {
 
-        player.addChatMessage(new ChatComponentText(message));
+        player.addChatMessage(new TextComponentString(message));
 
     }
 

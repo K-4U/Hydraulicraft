@@ -6,9 +6,9 @@ import k4unl.minecraft.Hydraulicraft.lib.Localization;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicPump;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
 import java.text.DecimalFormat;
 
@@ -53,12 +53,12 @@ public class GuiPump extends HydraulicGUIBase {
         //int step = 6;
 
         String generating = (new DecimalFormat("#.##")).format(pump.getGenerating(EnumFacing.UP));
-        drawSmallerString(61, startY + (step * 0), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_GENERATING_ENTRY) + ":", false);
-        drawSmallerString(65, startY + (step * 1), EnumChatFormatting.GREEN + "" + generating + " mBar/t", false);
-        drawSmallerString(61, startY + (step * 2), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_MAX_ENTRY) + ":", false);
-        drawSmallerString(65, startY + (step * 3), EnumChatFormatting.GREEN + "" + pump.getMaxGenerating(EnumFacing.UP) + " mBar/t", false);
-        drawSmallerString(61, startY + (step * 4), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_BURNLEFT_ENTRY) + ":", false);
-        drawSmallerString(65, startY + (step * 5), EnumChatFormatting.GREEN + "" + (int) (pump.getBurningPercentage() * 100) + " %", false);
+        drawSmallerString(61, startY + (step * 0), TextFormatting.GREEN + Localization.getString(Localization.GUI_GENERATING_ENTRY) + ":", false);
+        drawSmallerString(65, startY + (step * 1), TextFormatting.GREEN + "" + generating + " mBar/t", false);
+        drawSmallerString(61, startY + (step * 2), TextFormatting.GREEN + Localization.getString(Localization.GUI_MAX_ENTRY) + ":", false);
+        drawSmallerString(65, startY + (step * 3), TextFormatting.GREEN + "" + pump.getMaxGenerating(EnumFacing.UP) + " mBar/t", false);
+        drawSmallerString(61, startY + (step * 4), TextFormatting.GREEN + Localization.getString(Localization.GUI_BURNLEFT_ENTRY) + ":", false);
+        drawSmallerString(65, startY + (step * 5), TextFormatting.GREEN + "" + (int) (pump.getBurningPercentage() * 100) + " %", false);
 
 
         drawFluidAndPressure();

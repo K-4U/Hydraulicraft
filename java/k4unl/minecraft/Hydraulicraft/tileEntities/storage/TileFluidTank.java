@@ -1,10 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.tileEntities.storage;
 
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.*;
@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.*;
 /**
  * @author Koen Beckers (K-4U)
  */
-public class TileFluidTank extends TileEntity implements IFluidHandler, ITickable {
+public class TileFluidTank extends TileHydraulicBaseNoPower implements IFluidHandler, ITickable {
 
     private boolean hasUpdated = false;
     private FluidTank fluidTank;
@@ -62,7 +62,7 @@ public class TileFluidTank extends TileEntity implements IFluidHandler, ITickabl
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 
         NBTTagCompound tagCompound = packet.getNbtCompound();
         readFromNBT(tagCompound);
@@ -73,7 +73,7 @@ public class TileFluidTank extends TileEntity implements IFluidHandler, ITickabl
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         writeToNBT(tagCompound);
-        return new S35PacketUpdateTileEntity(getPos(), 4, tagCompound);
+        return new SPacketUpdateTileEntity(getPos(), 4, tagCompound);
     }
 
 
@@ -98,7 +98,7 @@ public class TileFluidTank extends TileEntity implements IFluidHandler, ITickabl
         if (hasUpdated && worldObj.getTotalWorldTime() % 20 == 0) {
             hasUpdated = false;
             markDirty();
-            worldObj.markBlockForUpdate(getPos());
+            markBlockForUpdate();
         }
     }
 }

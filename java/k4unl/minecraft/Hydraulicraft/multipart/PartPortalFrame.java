@@ -10,7 +10,7 @@ import mcmultipart.microblock.IMicroblock;
 import mcmultipart.multipart.*;
 import mcmultipart.raytrace.PartMOP;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,9 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.ITickable;
 
 import java.io.IOException;
@@ -127,9 +126,9 @@ public class PartPortalFrame extends Multipart implements ISlottedPart, IOccludi
 
 
     @Override
-    public BlockState createBlockState() {
+    public BlockStateContainer createBlockState() {
 
-        return new BlockState(MCMultiPartMod.multipart, Properties.ACTIVE, Properties.DOWN, Properties.UP, Properties.NORTH, Properties.SOUTH, Properties.WEST, Properties.EAST);
+        return new BlockStateContainer(MCMultiPartMod.multipart, Properties.ACTIVE, Properties.DOWN, Properties.UP, Properties.NORTH, Properties.SOUTH, Properties.WEST, Properties.EAST);
     }
 
 

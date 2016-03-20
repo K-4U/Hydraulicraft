@@ -72,7 +72,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
         }
 
         if (needsUpdate) {
-            worldObj.markBlockForUpdate(getPos());
+            markBlockForUpdate();
         }
     }
 

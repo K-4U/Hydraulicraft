@@ -68,9 +68,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
             isRunning = false;
         }
 
-        if (needsUpdate) {
-            worldObj.markBlockForUpdate(getPos());
-        }
+        markBlockForUpdate();
     }
 
     @Override

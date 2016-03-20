@@ -5,8 +5,10 @@ import k4unl.minecraft.Hydraulicraft.fluids.Fluids;
 import k4unl.minecraft.Hydraulicraft.lib.DamageSourceHydraulicraft;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
@@ -20,7 +22,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
 
     public ItemDivingHelmet() {
 
-        super(0);
+        super(EntityEquipmentSlot.HEAD);
     }
 
     @Override
@@ -137,7 +139,7 @@ public class ItemDivingHelmet extends ItemDivingSuit implements IFluidContainerI
                     player.attackEntityFrom(DamageSourceHydraulicraft.noFluid, 1.0F);
                 } else {
                     player.setAir((int) (300F * percentage));
-                    player.addPotionEffect(new PotionEffect(16, 800));
+                    player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("water_breathing"), 800));
                 }
 
             }

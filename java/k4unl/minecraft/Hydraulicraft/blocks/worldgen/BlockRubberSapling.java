@@ -6,13 +6,13 @@ import k4unl.minecraft.Hydraulicraft.world.WorldGenRubberTree;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -29,10 +29,10 @@ public class BlockRubberSapling extends BlockBush implements IGrowable {
 
         super(Material.plants);
         setUnlocalizedName(Names.blockRubberSapling.unlocalized);
-        this.setStepSound(soundTypeGrass);
+        this.setSoundType(SoundType.GROUND);
 
         setCreativeTab(CustomTabs.tabHydraulicraft);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
     }
 
     @Override
@@ -113,7 +113,7 @@ public class BlockRubberSapling extends BlockBush implements IGrowable {
      */
     public IBlockState getStateFromMeta(int meta) {
 
-        return this.getDefaultState().withProperty(STAGE, Integer.valueOf((meta & 8) >> 3));
+        return this.getDefaultState().withProperty(STAGE, (meta & 8) >> 3);
     }
 
     /**
@@ -126,8 +126,8 @@ public class BlockRubberSapling extends BlockBush implements IGrowable {
         return i;
     }
 
-    protected BlockState createBlockState() {
+    protected BlockStateContainer createBlockState() {
 
-        return new BlockState(this, new IProperty[]{STAGE});
+        return new BlockStateContainer(this, STAGE);
     }
 }

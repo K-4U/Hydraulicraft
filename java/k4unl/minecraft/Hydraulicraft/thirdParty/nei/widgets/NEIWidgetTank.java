@@ -5,7 +5,7 @@ import k4unl.minecraft.Hydraulicraft.client.GUI.ToolTip;
 import k4unl.minecraft.k4lib.lib.Functions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -89,7 +89,7 @@ public class NEIWidgetTank extends WidgetBase {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.7F);
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-        WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
+        VertexBuffer worldRenderer = Tessellator.getInstance().getBuffer();
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         int o;
         float zLevel = 0f;

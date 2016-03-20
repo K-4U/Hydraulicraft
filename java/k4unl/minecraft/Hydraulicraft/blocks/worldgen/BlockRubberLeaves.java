@@ -4,20 +4,22 @@ import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockBase;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraft.world.chunk.IBlockStatePalette;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -46,7 +48,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
         this.setTickRandomly(true);
         this.setHardness(0.2F);
         this.setLightOpacity(1);
-        this.setStepSound(soundTypeGrass);
+        this.setSoundType(SoundType.GROUND);
     }
 
     @SideOnly(Side.CLIENT)
@@ -82,8 +84,8 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
                         BlockPos blockpos = pos.add(j1, k1, l1);
                         IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-                        if (iblockstate.getBlock().isLeaves(worldIn, blockpos)) {
-                            iblockstate.getBlock().beginLeavesDecay(worldIn, blockpos);
+                        if (iblockstate.getBlock().isLeaves(iblockstate, worldIn, blockpos)) {
+                            iblockstate.getBlock().beginLeavesDecay(iblockstate, worldIn, blockpos);
                         }
                     }
                 }
@@ -115,9 +117,10 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
                         for (int j2 = -i; j2 <= i; ++j2) {
                             for (int k2 = -i; k2 <= i; ++k2) {
                                 Block block = worldIn.getBlockState(mutableBlockPos.set(k + i2, l + j2, i1 + k2)).getBlock();
+                                IBlockState state1 = worldIn.getBlockState(mutableBlockPos.set(k + i2, l + j2, i1 + k2));
 
-                                if (!block.canSustainLeaves(worldIn, mutableBlockPos.set(k + i2, l + j2, i1 + k2))) {
-                                    if (block.isLeaves(worldIn, mutableBlockPos.set(k + i2, l + j2, i1 + k2))) {
+                                if (!block.canSustainLeaves(state1, worldIn, mutableBlockPos.set(k + i2, l + j2, i1 + k2))) {
+                                    if (block.isLeaves(state1, worldIn, mutableBlockPos.set(k + i2, l + j2, i1 + k2))) {
                                         this.surroundings[(i2 + l1) * k1 + (j2 + l1) * j1 + k2 + l1] = -2;
                                     } else {
                                         this.surroundings[(i2 + l1) * k1 + (j2 + l1) * j1 + k2 + l1] = -1;
@@ -250,9 +253,9 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
     }
 
     @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer() {
+    public BlockRenderLayer getBlockLayer() {
 
-        return this.isTransparent ? EnumWorldBlockLayer.CUTOUT_MIPPED : EnumWorldBlockLayer.SOLID;
+        return this.isTransparent ? BlockRenderLayer.CUTOUT_MIPPED : BlockRenderLayer.SOLID;
     }
 
     public boolean isVisuallyOpaque() {
@@ -266,17 +269,13 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
         return true;
     }
 
-
     @Override
-    public boolean isLeaves(IBlockAccess world, BlockPos pos) {
-
+    public boolean isLeaves(IBlockState state, IBlockAccess world, BlockPos pos) {
         return true;
     }
 
     @Override
-    public void beginLeavesDecay(World world, BlockPos pos) {
-
-        IBlockState state = world.getBlockState(pos);
+    public void beginLeavesDecay(IBlockState state, World world, BlockPos pos) {
         if (!(Boolean) state.getValue(CHECK_DECAY)) {
             world.setBlockState(pos, state.withProperty(CHECK_DECAY, true), 4);
         }
@@ -338,8 +337,8 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
         return i;
     }
 
-    protected BlockState createBlockState() {
+    protected BlockStateContainer createBlockState() {
 
-        return new BlockState(this, new IProperty[]{CHECK_DECAY, DECAYABLE});
+        return new BlockStateContainer(this, new IProperty[]{CHECK_DECAY, DECAYABLE});
     }
 }

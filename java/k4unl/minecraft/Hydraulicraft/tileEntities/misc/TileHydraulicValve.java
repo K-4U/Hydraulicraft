@@ -12,7 +12,7 @@ import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 
 public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicMachine, IConnectTexture, ICustomNetwork {

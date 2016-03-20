@@ -77,4 +77,9 @@ public class TileHydraulicBaseNoPower extends TileEntity implements ITickable {
         return new AxisAlignedBB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
     }
 
+    public void markBlockForUpdate() {
+        worldObj.notifyBlockUpdate(getPos(), worldObj.getBlockState(getPos()), worldObj.getBlockState(getPos()), 3);
+        // TODO what does the flags: 3 mean? :P
+    }
+
 }

@@ -28,10 +28,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fluids.*;
 
 import java.util.ArrayList;
@@ -149,14 +149,14 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
             if (fluidInputInventory.stackSize < decrBy) {
                 ret = fluidInputInventory;
                 fluidInputInventory = null;
-                worldObj.markBlockForUpdate(getPos());
+                markBlockForUpdate();
                 return ret;
             } else {
                 ret = fluidInputInventory.splitStack(decrBy);
                 if (fluidInputInventory.stackSize <= 0) {
                     fluidInputInventory = null;
                 }
-                worldObj.markBlockForUpdate(getPos());
+                markBlockForUpdate();
                 return ret;
             }
         } else {
@@ -164,14 +164,14 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
             if (fluidOutputInventory.stackSize < decrBy) {
                 ret = fluidOutputInventory;
                 fluidOutputInventory = null;
-                worldObj.markBlockForUpdate(getPos());
+                markBlockForUpdate();
                 return ret;
             } else {
                 ret = fluidOutputInventory.splitStack(decrBy);
                 if (fluidOutputInventory.stackSize <= 0) {
                     fluidOutputInventory = null;
                 }
-                worldObj.markBlockForUpdate(getPos());
+                markBlockForUpdate();
                 return ret;
             }
         }
@@ -193,10 +193,10 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
 
         if (slot == 2) {
             fluidInputInventory = itemStack;
-            worldObj.markBlockForUpdate(getPos());
+            markBlockForUpdate();
         } else if (slot == 3) {
             fluidOutputInventory = itemStack;
-            worldObj.markBlockForUpdate(getPos());
+            markBlockForUpdate();
         }
     }
 
@@ -620,9 +620,9 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     }
 
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
 
-        return new ChatComponentTranslation(Names.blockHydraulicWasher.unlocalized);
+        return new TextComponentTranslation(Names.blockHydraulicWasher.unlocalized);
     }
 
     @Override

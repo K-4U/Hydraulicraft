@@ -1,10 +1,10 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.translation.I18n;
 
 /**
  * @author Koen Beckers (K-4U)
@@ -32,15 +32,15 @@ public class DamageSourceHydraulicraft extends DamageSource {
      * Returns the message to be displayed on player death.
      */
     @Override
-    public IChatComponent getDeathMessage(EntityLivingBase par1EntityLivingBase) {
+    public ITextComponent getDeathMessage(EntityLivingBase par1EntityLivingBase) {
 
         String messageMeta = "";
         int messageNumber = par1EntityLivingBase.getRNG().nextInt(deathMessages) + 1;
         messageMeta = messageNumber + "";
 
-        EntityLivingBase entitylivingbase1 = par1EntityLivingBase.func_94060_bK();
+        EntityLivingBase entitylivingbase1 = par1EntityLivingBase.getAttackingEntity();
         String s = "hydcraft:death.attack." + damageType + messageMeta;
         String s1 = s + ".player";
-        return entitylivingbase1 != null && StatCollector.canTranslate(s1) ? new ChatComponentTranslation(s1, new Object[]{par1EntityLivingBase.getDisplayName(), entitylivingbase1.getDisplayName()}) : new ChatComponentTranslation(s, new Object[]{par1EntityLivingBase.getDisplayName()});
+        return entitylivingbase1 != null && I18n.canTranslate(s1) ? new TextComponentTranslation(s1, par1EntityLivingBase.getDisplayName(), entitylivingbase1.getDisplayName()) : new TextComponentTranslation(s, par1EntityLivingBase.getDisplayName());
     }
 }

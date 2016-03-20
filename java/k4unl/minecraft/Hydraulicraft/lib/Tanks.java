@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.lib;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import k4unl.minecraft.k4lib.lib.Location;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import java.io.*;
 import java.lang.reflect.Type;

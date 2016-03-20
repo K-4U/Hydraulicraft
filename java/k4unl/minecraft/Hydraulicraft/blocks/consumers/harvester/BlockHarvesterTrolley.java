@@ -12,8 +12,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,14 +37,12 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase {
     }
 
     @Override
-    public int getRenderType() {
-
+    public EnumBlockRenderType getRenderType(IBlockState state) {
         return -1;
     }
 
     @Override
-    public boolean isOpaqueCube() {
-
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
@@ -94,7 +93,7 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase {
 
 
     @SideOnly(Side.CLIENT)
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
+    public ItemStack getPickBlock(RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 
         TileHarvesterTrolley teTrolley = (TileHarvesterTrolley) world.getTileEntity(pos);
         return Hydraulicraft.trolleyRegistrar.getTrolleyItem(teTrolley.getTrolley().getName());

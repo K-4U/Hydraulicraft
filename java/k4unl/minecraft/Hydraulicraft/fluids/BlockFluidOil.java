@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.fluids;
 
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 

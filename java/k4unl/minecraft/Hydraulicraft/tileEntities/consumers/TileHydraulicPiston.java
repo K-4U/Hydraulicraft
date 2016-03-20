@@ -7,7 +7,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.TileHydraulicHarvest
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
 import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 
 public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
@@ -86,19 +86,19 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
 
         harvesterLocation = _harvesterLocation;
         harvesterPart = isit;
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
     }
 
     public void setIsHarvesterPart(boolean isit) {
 
         harvesterPart = isit;
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
     }
 
     public void setMaxLength(float newMaxLength) {
 
         maxLength = newMaxLength;
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
     }
 
     public boolean getIsHarvesterPart() {
@@ -124,7 +124,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
             isRetracting = true;
         }
 
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
     }
 
     //Called from harvester
@@ -143,7 +143,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
                 extendedLength = extendTarget;
                 oldExtendedLength = extendedLength;
             }
-            worldObj.markBlockForUpdate(getPos());
+            markBlockForUpdate();
         }
 
         if (compResult >= 0) {
@@ -193,7 +193,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
         maxY += extendedLength * (dir.getFrontOffsetY() > 0 ? dir.getFrontOffsetY() : 0);
         maxZ += extendedLength * (dir.getFrontOffsetZ() > 0 ? dir.getFrontOffsetZ() : 0);
 
-        return AxisAlignedBB.fromBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
     public float getOldExtendedLength() {

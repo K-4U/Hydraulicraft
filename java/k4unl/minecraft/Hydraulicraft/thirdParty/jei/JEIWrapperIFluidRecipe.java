@@ -6,7 +6,7 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
@@ -92,9 +92,9 @@ public abstract class JEIWrapperIFluidRecipe implements IRecipeWrapper {
             List<String> tooltips = new ArrayList<>();
             tooltips.add("Pressure");
             if(((int)pressure / 1000) == 0){
-                tooltips.add(EnumChatFormatting.GRAY + "" + (int)pressure + " mBar");
+                tooltips.add(TextFormatting.GRAY + "" + (int)pressure + " mBar");
             }else {
-                tooltips.add(EnumChatFormatting.GRAY + "" +((int) pressure) / 1000 + " Bar");
+                tooltips.add(TextFormatting.GRAY + "" +((int) pressure) / 1000 + " Bar");
             }
             return tooltips;
         }

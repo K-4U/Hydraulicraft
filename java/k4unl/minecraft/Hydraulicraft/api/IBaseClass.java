@@ -146,7 +146,7 @@ public interface IBaseClass {
      */
     void init(TileEntity target);
 
-    // void init(Multipart target); // TODO MULTIPART REVERT
+    void init(Multipart target);
 
     /**
      * Takes the pressure to add and checks if there is oil in the system.

@@ -15,16 +15,16 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemReed;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -267,7 +267,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
     private boolean isPlaceForItems(ItemStack itemStack) {
         //First of all:
 
-        if (itemStack.getItem() instanceof ItemSeeds || itemStack.getItem() instanceof ItemReed) {
+        if (itemStack.getItem() instanceof ItemSeeds || itemStack.getItem() == Items.reeds) {
             //Check all the locations!
             for (ItemStack st : seedsStorage) {
                 if (itemStack.stackSize > 0) {
@@ -422,7 +422,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
             }
         }
 
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
     }
 
 
@@ -639,7 +639,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
     @Override
     public ItemStack getStackInSlot(int i) {
 
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
         if (i < 9) {
             return seedsStorage[i];
         } else if (i >= 9) {
@@ -671,7 +671,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
                 }
             }
         }
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
 
         return ret;
     }
@@ -690,7 +690,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
         } else {
             outputStorage[i - 9] = itemStack;
         }
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
     }
 
     @Override
@@ -853,9 +853,9 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
     }
 
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
 
-        return new ChatComponentTranslation(Names.blockHydraulicHarvester.unlocalized);
+        return new TextComponentTranslation(Names.blockHydraulicHarvester.unlocalized);
     }
 
     @Override

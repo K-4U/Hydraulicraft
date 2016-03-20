@@ -64,7 +64,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
         }
 
         if (needsUpdate) {
-            worldObj.markBlockForUpdate(getPos());
+            markBlockForUpdate();
         }
     }
 

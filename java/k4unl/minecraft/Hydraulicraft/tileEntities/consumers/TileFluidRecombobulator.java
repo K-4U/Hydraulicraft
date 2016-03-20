@@ -164,7 +164,7 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
                         //Do it!
                         fill(EnumFacing.UP, input, true);
                         markDirty();
-                        worldObj.markBlockForUpdate(pos);
+                        worldObj.notifyBlockUpdate(pos);
 
                         setInventorySlotContents(0, null);
                         setInventorySlotContents(1, empty);
@@ -191,7 +191,7 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
                     if (drained != null && drained.amount == toDrain && canPlace) {
                         drain(EnumFacing.UP, toDrain, true);
                         markDirty();
-                        worldObj.markBlockForUpdate(pos);
+                        markBlockForUpdate();
                         decrStackSize(0, 1);
                         setInventorySlotContents(1, filledContainer);
                     }

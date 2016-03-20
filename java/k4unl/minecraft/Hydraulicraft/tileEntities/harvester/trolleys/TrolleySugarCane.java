@@ -8,7 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -64,7 +64,7 @@ public class TrolleySugarCane implements IHarvesterTrolley {
     public int getPlantHeight(World world, BlockPos pos) {
 
         pos = pos.up(3);
-        if (world.getBlockState(pos).getBlock().getMaterial() == Material.air || world.getBlockState(pos).getBlock() instanceof BlockHarvesterTrolley) {
+        if (world.getBlockState(pos).getBlock().getMaterial(world.getBlockState(pos)) == Material.air || world.getBlockState(pos).getBlock() instanceof BlockHarvesterTrolley) {
             return 2;
         } else {
             return 3;

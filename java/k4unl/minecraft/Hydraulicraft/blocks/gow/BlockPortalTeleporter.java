@@ -14,7 +14,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,14 +41,12 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public boolean canRenderInLayer(EnumWorldBlockLayer layer) {
-
+    public boolean canRenderInLayer(BlockRenderLayer layer) {
         return true;
     }
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 
@@ -117,7 +120,7 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void randomDisplayTick(IBlockState state, World worldIn, BlockPos pos, Random rand) {
         /*for (int l = 0; l < 1; ++l)
         {*/
         if (rand.nextInt(100) <= 50) {
@@ -137,8 +140,7 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
     }
 
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
-
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return null;
     }
 
@@ -149,22 +151,17 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
     }
 
     @Override
-    public int getRenderType() {
-
-        return -1;
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL;
     }
 
     @Override
-    public boolean isOpaqueCube() {
-
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullBlock() {
-
+    public boolean isFullBlock(IBlockState state) {
         return false;
     }
-
-
 }

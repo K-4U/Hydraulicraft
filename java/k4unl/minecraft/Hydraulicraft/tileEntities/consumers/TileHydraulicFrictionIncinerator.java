@@ -11,9 +11,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 
 public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implements ISidedInventory, IHydraulicConsumer {
 
@@ -153,7 +153,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     @Override
     public ItemStack getStackInSlot(int i) {
 
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
         switch (i) {
             case 0:
                 return inputInventory;
@@ -183,7 +183,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
                 }
             }
         }
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
 
         return ret;
     }
@@ -199,10 +199,10 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
 
         if (i == 0) {
             inputInventory = itemStack;
-            worldObj.markBlockForUpdate(getPos());
+            markBlockForUpdate();
         } else if (i == 1) {
             outputInventory = itemStack;
-            worldObj.markBlockForUpdate(getPos());
+            markBlockForUpdate();
         } else {
             //Err...
         }
@@ -375,8 +375,8 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     }
 
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
 
-        return new ChatComponentTranslation(Names.blockHydraulicFrictionIncinerator.unlocalized);
+        return new TextComponentTranslation(Names.blockHydraulicFrictionIncinerator.unlocalized);
     }
 }

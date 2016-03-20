@@ -6,11 +6,12 @@ import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.rubberHarvesting.TileRubberTap;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
@@ -23,18 +24,16 @@ public class BlockRubberTap extends HydraulicBlockContainerBase implements IBloc
     public BlockRubberTap() {
 
         super(Names.blockRubberTap, Material.iron, true);
-        setStepSound(soundTypeAnvil);
+        setSoundType(SoundType.ANVIL);
     }
 
     @Override
-    public boolean isFullBlock() {
-
+    public boolean isFullBlock(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
-
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 

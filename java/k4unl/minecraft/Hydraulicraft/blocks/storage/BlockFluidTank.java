@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.buildcraft.BuildcraftCompat;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileFluidTank;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -14,9 +15,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -34,7 +36,7 @@ public class BlockFluidTank extends HydraulicBlockContainerBase implements ITool
     public BlockFluidTank() {
 
         super(Names.blockFluidTank, true);
-        setStepSound(soundTypeGlass);
+        setSoundType(SoundType.GLASS);
     }
 
     @Override
@@ -71,9 +73,9 @@ public class BlockFluidTank extends HydraulicBlockContainerBase implements ITool
     }
 
     @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer() {
+    public BlockRenderLayer getBlockLayer() {
 
-        return EnumWorldBlockLayer.TRANSLUCENT;
+        return BlockRenderLayer.TRANSLUCENT;
     }
 
     @Override
@@ -89,9 +91,8 @@ public class BlockFluidTank extends HydraulicBlockContainerBase implements ITool
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-
-        if (playerIn.isSneaking() && BuildcraftCompat.INSTANCE.isWrench(playerIn.getCurrentEquippedItem())) {
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (playerIn.isSneaking() && BuildcraftCompat.INSTANCE.isWrench(playerIn.getActiveItemStack())) {
             if (!worldIn.isRemote) {
                 ItemStack stack = new ItemStack(worldIn.getBlockState(pos).getBlock());
                 TileFluidTank tank = (TileFluidTank) worldIn.getTileEntity(pos);
@@ -123,8 +124,8 @@ public class BlockFluidTank extends HydraulicBlockContainerBase implements ITool
 
         }
 
-        if (playerIn.getCurrentEquippedItem() != null) {
-            ItemStack inUse = playerIn.getCurrentEquippedItem();
+        if (playerIn.getActiveItemStack() != null) {
+            ItemStack inUse = playerIn.getActiveItemStack();
             FluidStack input = FluidContainerRegistry.getFluidForFilledItem(inUse);
             TileFluidTank tank = (TileFluidTank) entity;
             if (input != null) {
@@ -136,7 +137,7 @@ public class BlockFluidTank extends HydraulicBlockContainerBase implements ITool
                         //Do it!
                         tank.fill(EnumFacing.UP, input, true);
                         tank.markDirty();
-                        worldIn.markBlockForUpdate(pos);
+                        tank.markBlockForUpdate();
                         if (!playerIn.capabilities.isCreativeMode) {
                             playerIn.setCurrentItemOrArmor(0, FluidContainerRegistry.drainFluidContainer(inUse));
                         }
@@ -155,15 +156,15 @@ public class BlockFluidTank extends HydraulicBlockContainerBase implements ITool
                     if (drained != null && drained.amount == toDrain) {
                         tank.drain(EnumFacing.UP, toDrain, true);
                         tank.markDirty();
-                        worldIn.markBlockForUpdate(pos);
+                        tank.markBlockForUpdate();
                     } else {
                         return false;
                     }
 
 
                     if (!playerIn.capabilities.isCreativeMode) {
-                        playerIn.getCurrentEquippedItem().stackSize--;
-                        if (playerIn.getCurrentEquippedItem().stackSize == 0) {
+                        playerIn.getActiveItemStack().stackSize--;
+                        if (playerIn.getActiveItemStack().stackSize == 0) {
                             playerIn.setCurrentItemOrArmor(0, null);
                         }
                         if (!playerIn.inventory.addItemStackToInventory(filledContainer)) {

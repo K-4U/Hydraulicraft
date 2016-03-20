@@ -9,27 +9,26 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemDivingSuit extends ItemArmor implements IPressureDivingSuit {
 
-    public ItemDivingSuit(int type) {
+    public ItemDivingSuit(EntityEquipmentSlot type) {
 
         super(ArmorMaterial.LEATHER, 0, type);
         setMaxStackSize(1);
 
-        if (type == 0) {
+        if (type == EntityEquipmentSlot.HEAD) {
             setUnlocalizedName(Names.itemDivingHelmet.unlocalized);
-        } else if (type == 1) {
+        } else if (type == EntityEquipmentSlot.CHEST) {
             setUnlocalizedName(Names.itemDivingChest.unlocalized);
-        } else if (type == 2) {
+        } else if (type == EntityEquipmentSlot.LEGS) {
             setUnlocalizedName(Names.itemDivingLegs.unlocalized);
-        } else if (type == 3) {
+        } else if (type == EntityEquipmentSlot.FEET) {
             setUnlocalizedName(Names.itemDivingBoots.unlocalized);
         }
 
@@ -53,10 +52,10 @@ public class ItemDivingSuit extends ItemArmor implements IPressureDivingSuit {
                 entityData.setInteger("damageDone", 0);
                 //Person was NOT wearing one before
             } else {
-                if (player.getCurrentArmor(3) != null) {
-                    if (player.getCurrentArmor(3).getItem() instanceof ItemDivingHelmet) {
-                        ItemDivingHelmet helmet = (ItemDivingHelmet) player.getCurrentArmor(3).getItem();
-                        if (helmet.getFluid(player.getCurrentArmor(3)).amount > 0) {
+                if (player.getItemStackFromSlot(EntityEquipmentSlot.HEAD) != null) {
+                    if (player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() instanceof ItemDivingHelmet) {
+                        ItemDivingHelmet helmet = (ItemDivingHelmet) player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem();
+                        if (helmet.getFluid(player.getItemStackFromSlot(EntityEquipmentSlot.HEAD)).amount > 0) {
                             doDamage(player);
                         }
                     }
@@ -81,23 +80,23 @@ public class ItemDivingSuit extends ItemArmor implements IPressureDivingSuit {
         boolean chest = false;
         boolean legs = false;
         boolean boots = false;
-        if (player.getCurrentArmor(0) != null) {
-            if (player.getCurrentArmor(0).getItem() instanceof ItemDivingSuit) {
+        if (player.getItemStackFromSlot(EntityEquipmentSlot.FEET) != null) {
+            if (player.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() instanceof ItemDivingSuit) {
                 boots = true;
             }
         }
-        if (player.getCurrentArmor(1) != null) {
-            if (player.getCurrentArmor(1).getItem() instanceof ItemDivingSuit) {
+        if (player.getItemStackFromSlot(EntityEquipmentSlot.LEGS) != null) {
+            if (player.getItemStackFromSlot(EntityEquipmentSlot.LEGS).getItem() instanceof ItemDivingSuit) {
                 legs = true;
             }
         }
-        if (player.getCurrentArmor(2) != null) {
-            if (player.getCurrentArmor(2).getItem() instanceof ItemDivingSuit) {
+        if (player.getItemStackFromSlot(EntityEquipmentSlot.CHEST) != null) {
+            if (player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() instanceof ItemDivingSuit) {
                 chest = true;
             }
         }
-        if (player.getCurrentArmor(3) != null) {
-            if (player.getCurrentArmor(3).getItem() instanceof ItemDivingSuit) {
+        if (player.getItemStackFromSlot(EntityEquipmentSlot.HEAD) != null) {
+            if (player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() instanceof ItemDivingSuit) {
                 helmet = true;
             }
         }
@@ -105,22 +104,17 @@ public class ItemDivingSuit extends ItemArmor implements IPressureDivingSuit {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
-
+    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
         return ModelDivingSuit.getModel(entityLiving, itemStack);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-
+    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
         return ModInfo.LID + ":textures/model/divingSuit.png";
     }
 
     @Override
     public boolean isPressureSafe(EntityPlayer player, ItemStack stack, int pressure) {
-
         return isWearingFullSuit(player);
     }
 }

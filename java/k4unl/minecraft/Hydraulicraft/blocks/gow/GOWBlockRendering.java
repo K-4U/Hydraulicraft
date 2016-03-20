@@ -2,8 +2,9 @@ package k4unl.minecraft.Hydraulicraft.blocks.gow;
 
 
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumBlockRenderType;
 
 public abstract class GOWBlockRendering extends GOWBlockBase {
 
@@ -14,15 +15,14 @@ public abstract class GOWBlockRendering extends GOWBlockBase {
     }
 
     @Override
-    public int getRenderType() {
-
-        return 3;
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL;
     }
 
     @Override
-    protected BlockState createBlockState() {
+    protected BlockStateContainer createBlockState() {
 
-        return new BlockState(this, Properties.ACTIVE);
+        return new BlockStateContainer(this, Properties.ACTIVE);
     }
 
     @Override

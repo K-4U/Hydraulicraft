@@ -51,7 +51,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     private boolean           isMultipart         = false;
     private World             tWorld              = null;
     private Location          blockLocation       = null;
-    //private Multipart         tMp                 = null; // TODO MULTIPART
+    private Multipart         tMp                 = null;
     private TileEntity        tTarget             = null;
     private IHydraulicMachine target              = null;
     private boolean           hasOwnFluidTank     = false;
@@ -82,7 +82,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         }
         tWorld = _target.getWorld();
     }
-/*
+
     public void init(Multipart _target) {
 
         tMp = _target;
@@ -92,7 +92,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         tWorld = _target.getWorld();
         tWorld = _target.getWorld();
     }
-*/ // TODO MULTIPART
+
     public IBaseClass getHandler() {
 
         return this;
@@ -102,7 +102,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
 
         if (blockLocation == null) {
             if (isMultipart) {
-                //blockLocation = new Location(tMp.getPos()); // TODO MULTIPART
+                blockLocation = new Location(tMp.getPos());
             } else {
                 blockLocation = new Location(tTarget.getPos());
             }
@@ -114,7 +114,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
 
         if (tWorld == null) {
             if (isMultipart) {
-                // tWorld = tMp.getWorld(); // TODO MULTIPART
+                tWorld = tMp.getWorld();
             } else {
                 if (tTarget != null) {
                     tWorld = tTarget.getWorld();
@@ -151,11 +151,11 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     public void updateBlock() {
 
         if (getWorldObj() != null && !getWorldObj().isRemote) {
-            /*if (isMultipart && tMp.getContainer() != null) {
-                getWorldObj().markBlockForUpdate(getBlockLocation().toBlockPos());
-            } else {*/
-                getWorldObj().markBlockForUpdate(getBlockLocation().toBlockPos());
-            //} // TODO MULTIPART
+            if (isMultipart && tMp.getContainer() != null) {
+                markBlockForUpdate();
+            } else {
+                markBlockForUpdate();
+            }
         }
     }
 
@@ -816,6 +816,11 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     public boolean getIsRedstonePowered() {
 
         return isRedstonePowered;
+    }
+
+    public void markBlockForUpdate() {
+        worldObj.notifyBlockUpdate(getPos(), worldObj.getBlockState(getPos()), worldObj.getBlockState(getPos()), 3);
+        // TODO what does the flags: 3 mean? :P
     }
 
 

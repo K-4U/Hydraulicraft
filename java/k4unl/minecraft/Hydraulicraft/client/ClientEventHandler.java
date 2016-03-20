@@ -6,10 +6,10 @@ import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.ModInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -72,7 +72,7 @@ public class ClientEventHandler {
 
             float zLevel = 0F;
 
-            WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
+            VertexBuffer worldRenderer = Tessellator.getInstance().getBuffer();
 
 
             //Log.info("Pressure:" + mc.thePlayer.getEntityData().getInteger("pressure"));
@@ -87,8 +87,8 @@ public class ClientEventHandler {
             Tessellator.getInstance().draw();
 
             zLevel += 2F;
-            mc.fontRendererObj.drawString(EnumChatFormatting.WHITE + "" + Hydraulicraft.pressure + "", x + 5, y + 5, (int) zLevel);
-            mc.fontRendererObj.drawString(EnumChatFormatting.WHITE + " Bar", x + mc.fontRendererObj.getStringWidth("999") + 5, y + 5, (int) zLevel);
+            mc.fontRendererObj.drawString(TextFormatting.WHITE + "" + Hydraulicraft.pressure + "", x + 5, y + 5, (int) zLevel);
+            mc.fontRendererObj.drawString(TextFormatting.WHITE + " Bar", x + mc.fontRendererObj.getStringWidth("999") + 5, y + 5, (int) zLevel);
 
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glDisable(GL11.GL_BLEND);

@@ -14,9 +14,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fluids.*;
 
 public class TileAssembler extends TileHydraulicBase implements IHydraulicConsumer, IInventory,
@@ -132,9 +132,9 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
     }
 
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
 
-        return new ChatComponentTranslation(Names.blockHydraulicAssembler.unlocalized);
+        return new TextComponentTranslation(Names.blockHydraulicAssembler.unlocalized);
     }
 
     @Override

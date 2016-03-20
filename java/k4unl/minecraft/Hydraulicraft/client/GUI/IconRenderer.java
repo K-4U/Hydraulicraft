@@ -5,18 +5,18 @@ import k4unl.minecraft.k4lib.client.VertexTransformerTransparency;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.pipeline.IVertexConsumer;
-import net.minecraftforge.client.model.pipeline.WorldRendererConsumer;
+import net.minecraftforge.client.model.pipeline.VertexBufferConsumer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -161,18 +161,18 @@ public final class IconRenderer {
         }*/
 
         Tessellator tessellator = Tessellator.getInstance();
-        tessellator.getWorldRenderer().begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+        tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
 
-        tessellator.getWorldRenderer().setTranslation(x, y, z + 5);
+        tessellator.getBuffer().setTranslation(x, y, z + 5);
         IBakedModel itemModel = renderBlocks.getItemModelMesher().getItemModel(item);
-        WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
-        IVertexConsumer consumer = new VertexTransformerTransparency(new WorldRendererConsumer(worldRenderer), alpha);
+        VertexBuffer worldRenderer = Tessellator.getInstance().getBuffer();
+        IVertexConsumer consumer = new VertexTransformerTransparency(new VertexBufferConsumer(worldRenderer), alpha);
         for (EnumFacing dir : EnumFacing.VALUES) {
             for (BakedQuad quad : itemModel.getFaceQuads(dir)) {
                 quad.pipe(consumer);
             }
         }
-        tessellator.getWorldRenderer().setTranslation(0, 0, 0);
+        tessellator.getBuffer().setTranslation(0, 0, 0);
 
         tessellator.draw();
 

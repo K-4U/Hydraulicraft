@@ -8,16 +8,18 @@ import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.worldgen.TileRubberWood;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -35,7 +37,7 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
         super(Names.blockRubberWood, Material.wood, true);
 
         this.setHardness(2.0F);
-        this.setStepSound(soundTypeWood);
+        this.setSoundType(SoundType.WOOD);
         this.setDefaultState(this.blockState.getBaseState().withProperty(Properties.HAS_RUBBER_SPOT, false).withProperty(Properties.ROTATION, EnumFacing.NORTH));
         this.setTickRandomly(true);
         Vector3fMax vector = getCollisionBox();
@@ -43,12 +45,9 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
     }
 
     @Override
-    public boolean isFullCube() {
-
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
-
-
 
     @Override
     public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
@@ -126,10 +125,8 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
         this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
     }
 
-
     @Override
-    public boolean canSustainLeaves(IBlockAccess world, BlockPos pos) {
-
+    public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos) {
         return true;
     }
 
@@ -192,20 +189,18 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
     }
 
     @Override
-    protected BlockState createBlockState() {
+    protected BlockStateContainer createBlockState() {
 
-        return new BlockState(this, Properties.HAS_RUBBER_SPOT, Properties.ROTATION);
+        return new BlockStateContainer(this, Properties.HAS_RUBBER_SPOT, Properties.ROTATION);
     }
 
     @Override
-    public boolean isFullBlock() {
-
+    public boolean isFullBlock(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
-
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 

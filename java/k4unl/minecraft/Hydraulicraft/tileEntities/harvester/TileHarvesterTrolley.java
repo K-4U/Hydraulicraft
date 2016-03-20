@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.api.IHarvesterCustomPlantAction;
 import k4unl.minecraft.Hydraulicraft.api.IHarvesterTrolley;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
+import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import k4unl.minecraft.Hydraulicraft.tileEntities.harvester.trolleys.TrolleySugarCane;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHarvester;
 import k4unl.minecraft.k4lib.lib.Location;
@@ -18,17 +19,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.AxisAlignedBB;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TileHarvesterTrolley extends TileEntity implements ITickable {
+public class TileHarvesterTrolley extends TileHydraulicBaseNoPower implements ITickable {
 
     private float extendedLength;
     private float oldExtendedLength;
@@ -128,11 +128,11 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
         isMoving = true;
         isMovingUpDown = true;
 
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 
         NBTTagCompound tagCompound = packet.getNbtCompound();
         readFromNBT(tagCompound);
@@ -143,7 +143,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         writeToNBT(tagCompound);
-        return new S35PacketUpdateTileEntity(getPos(), 4, tagCompound);
+        return new SPacketUpdateTileEntity(getPos(), 4, tagCompound);
     }
 
     public void doMove() {
@@ -208,7 +208,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
                 }
                 harvestedItems = new ArrayList<ItemStack>();
             }
-            worldObj.markBlockForUpdate(getPos());
+            markBlockForUpdate();
         }
         //worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
@@ -363,7 +363,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
         //maxY += extendedLength;
         maxZ += sidewaysMovement * getFacing().getFrontOffsetX();
 
-        return AxisAlignedBB.fromBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
     public void setFacing(EnumFacing nFacing) {
@@ -379,7 +379,7 @@ public class TileHarvesterTrolley extends TileEntity implements ITickable {
     public void setIsHarvesterPart(boolean isit) {
 
         harvesterPart = isit;
-        worldObj.markBlockForUpdate(getPos());
+        markBlockForUpdate();
     }
 
 

@@ -8,6 +8,7 @@ import k4unl.minecraft.Hydraulicraft.items.upgrades.UpgradeCapitator;
 import k4unl.minecraft.Hydraulicraft.items.upgrades.UpgradeCreative;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -91,9 +92,9 @@ public class HCItems {
         itemIPCard = new ItemIPCard();
 
         itemDivingHelmet = new ItemDivingHelmet();
-        itemDivingController = new ItemDivingSuit(1);
-        itemDivingLegs = new ItemDivingSuit(2);
-        itemDivingBoots = new ItemDivingSuit(3);
+        itemDivingController = new ItemDivingSuit(EntityEquipmentSlot.CHEST);
+        itemDivingLegs = new ItemDivingSuit(EntityEquipmentSlot.LEGS);
+        itemDivingBoots = new ItemDivingSuit(EntityEquipmentSlot.FEET);
 
         itemhydraulicWrench = new ItemHydraulicWrench();
         itemCannister = new ItemCannister();

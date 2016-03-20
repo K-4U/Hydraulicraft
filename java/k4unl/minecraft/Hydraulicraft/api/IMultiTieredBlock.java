@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 public interface IMultiTieredBlock {
