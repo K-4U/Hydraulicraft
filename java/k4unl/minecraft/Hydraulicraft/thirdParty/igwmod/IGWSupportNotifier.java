@@ -6,10 +6,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -77,7 +79,7 @@ public class IGWSupportNotifier {
     public void onPlayerJoin(TickEvent.PlayerTickEvent event) {
 
         if (event.player.worldObj.isRemote && event.player == FMLClientHandler.instance().getClientPlayerEntity()) {
-            event.player.addChatComponentMessage(IChatComponent.Serializer.jsonToComponent("[\"" + EnumChatFormatting.GOLD + "The mod " + supportingMod + " is supporting In-Game Wiki mod. " + EnumChatFormatting.GOLD + "However, In-Game Wiki isn't installed! " + "[\"," + "{\"text\":\"Download Latest\",\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/igwmod_download\"}}," + "\"]\"]"));
+            event.player.addChatComponentMessage(ITextComponent.Serializer.jsonToComponent("[\"" + TextFormatting.GOLD + "The mod " + supportingMod + " is supporting In-Game Wiki mod. " + TextFormatting.GOLD + "However, In-Game Wiki isn't installed! " + "[\"," + "{\"text\":\"Download Latest\",\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/igwmod_download\"}}," + "\"]\"]"));
             MinecraftForge.EVENT_BUS.unregister(this);
         }
     }
@@ -103,8 +105,7 @@ public class IGWSupportNotifier {
         }
 
         @Override
-        public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_) {
-
+        public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
             new ThreadDownloadIGW();
         }
 
@@ -123,7 +124,7 @@ public class IGWSupportNotifier {
 
             try {
                 if (Minecraft.getMinecraft().thePlayer != null)
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Downloading IGW-Mod..."));
+                    Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString("Downloading IGW-Mod..."));
 
                 URL url = new URL(Loader.MC_VERSION.equals("1.7.10") ? DL_URL_1_7_10 : LATEST_DL_URL);
                 URLConnection connection = url.openConnection();
@@ -150,18 +151,18 @@ public class IGWSupportNotifier {
                 File renamedFile = new File(String.format("." + File.separator + "mods" + File.separator + "IGW-Mod-%s-%s-universal.jar", mcVersion, version));
                 FileUtils.copyFile(tempFile, renamedFile);
                 if (Minecraft.getMinecraft().thePlayer != null)
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Successfully downloaded. Restart Minecraft to apply."));
+                    Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString(TextFormatting.GREEN + "Successfully downloaded. Restart Minecraft to apply."));
                 Desktop.getDesktop().open(dir);
                 if (!Loader.MC_VERSION.equals(mcVersion)) {
                     if (Minecraft.getMinecraft().thePlayer != null)
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "The version of Minecraft you are running doesn't seem to match the version of IGW-Mod that has been downloaded. The mod may not work."));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString(TextFormatting.RED + "The version of Minecraft you are running doesn't seem to match the version of IGW-Mod that has been downloaded. The mod may not work."));
                 }
 
                 finalize();
             } catch (Throwable e) {
                 e.printStackTrace();
                 if (Minecraft.getMinecraft().thePlayer != null)
-                    Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Failed to download"));
+                    Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(TextFormatting.RED + "Failed to download"));
                 try {
                     finalize();
                 } catch (Throwable e1) {

@@ -412,12 +412,12 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
                         temp.resetTarget();
                     }
 
-                    getWorldObj().markBlockForUpdate(nPos);
+                    markBlockForUpdate();
                 }
             }
         }
         isValidMultiblock = false;
-        getWorldObj().markBlockForUpdate(getPos());
+        markBlockForUpdate();
     }
 
     public boolean checkMultiblock() {
@@ -538,7 +538,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
                     //dummyTE.setCore(getPos());
 
                     //dummyTE.setLocationInMultiBlock(dir, horiz, vert, depth);
-                    getWorldObj().markBlockForUpdate(getPos());
+                    markBlockForUpdate();
 
                 }
             }

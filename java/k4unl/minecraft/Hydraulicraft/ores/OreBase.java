@@ -5,6 +5,8 @@ import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
+import static net.minecraft.block.SoundType.STONE;
+
 public class OreBase extends Block {
 
     private Name oName;
@@ -16,7 +18,7 @@ public class OreBase extends Block {
         oName = oreName;
 
         setUnlocalizedName(oName.unlocalized);
-        setStepSound(Block.soundTypeStone);
+        setSoundType(STONE);
         setHardness(3.5F);
 
         setCreativeTab(CustomTabs.tabHydraulicraft);

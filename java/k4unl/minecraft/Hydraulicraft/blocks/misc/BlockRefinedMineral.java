@@ -3,8 +3,8 @@ package k4unl.minecraft.Hydraulicraft.blocks.misc;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
+import net.minecraft.block.SoundType;
 
 public class BlockRefinedMineral extends BlockFalling {
 
@@ -19,7 +19,7 @@ public class BlockRefinedMineral extends BlockFalling {
 
         //TODO: FIX ME
         //setBlockTextureName(name.unlocalized);
-        setStepSound(Block.soundTypeSand);
+        setSoundType(SoundType.SAND);
         setCreativeTab(CustomTabs.tabHydraulicraft);
         setHardness(0.5F);
     }

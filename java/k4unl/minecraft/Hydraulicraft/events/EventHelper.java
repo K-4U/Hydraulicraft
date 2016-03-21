@@ -17,6 +17,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
@@ -116,7 +117,7 @@ public class EventHelper {
         if (event.harvester == null)
             return;
 
-        ItemStack heldItem = event.harvester.getHeldItem();
+        ItemStack heldItem = event.harvester.getHeldItem(EnumHand.MAIN_HAND);
         if (heldItem == null || !(heldItem.getItem() instanceof ItemHydraulicDrill))
             return;
 

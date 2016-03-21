@@ -10,7 +10,6 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.worldgen.TileRubberWood;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -50,8 +49,7 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
         return getCollisionBox().toAABB();
     }
 
@@ -91,8 +89,8 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
             for (BlockPos blockpos : BlockPos.getAllInBox(pos.add(-i, -i, -i), pos.add(i, i, i))) {
                 IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-                if (iblockstate.getBlock().isLeaves(worldIn, blockpos)) {
-                    iblockstate.getBlock().beginLeavesDecay(worldIn, blockpos);
+                if (iblockstate.getBlock().isLeaves(worldIn.getBlockState(pos), worldIn, blockpos)) {
+                    iblockstate.getBlock().beginLeavesDecay(worldIn.getBlockState(pos), worldIn, blockpos);
                 }
             }
         }
@@ -105,11 +103,10 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
     }
 
     @Override
-    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
-
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
         Vector3fMax vector = getCollisionBox();
-        list.add(vector.toAABB());
-        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+        collidingBoxes.add(vector.toAABB());
+        super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
     }
 
     private Vector3fMax getCollisionBox() {

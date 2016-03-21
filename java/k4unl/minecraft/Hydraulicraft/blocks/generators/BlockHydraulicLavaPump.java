@@ -7,6 +7,7 @@ import k4unl.minecraft.Hydraulicraft.blocks.IBlockWithRotation;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.generator.TileHydraulicLavaPump;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -34,8 +35,7 @@ public class BlockHydraulicLavaPump extends HydraulicTieredBlockBase implements 
     }
 
     @Override
-    public boolean isOpaqueCube() {
-
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
@@ -52,8 +52,7 @@ public class BlockHydraulicLavaPump extends HydraulicTieredBlockBase implements 
     }
 
     @Override
-    public boolean canConnectRedstone(IBlockAccess world, BlockPos pos, EnumFacing side) {
-
+    public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
         return true;
     }
 }

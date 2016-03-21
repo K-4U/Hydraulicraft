@@ -1,7 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.blocks.gow;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -16,7 +16,7 @@ public abstract class GOWBlockBase extends BlockContainer {
         tName = name;
 
         setUnlocalizedName(tName);
-        setStepSound(Block.soundTypeStone);
+        setSoundType(SoundType.STONE);
         setHardness(3.5F);
         setResistance(10F);
     }

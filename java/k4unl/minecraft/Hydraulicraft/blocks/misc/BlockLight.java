@@ -12,6 +12,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -20,6 +21,8 @@ import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Random;
+
+import static net.minecraft.inventory.EntityEquipmentSlot.HEAD;
 
 public class BlockLight extends HydraulicBlockBase {
 
@@ -53,12 +56,6 @@ public class BlockLight extends HydraulicBlockBase {
     }
 
     @Override
-    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
-
-        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-    }
-
-    @Override
     public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
 
         return true;
@@ -70,23 +67,19 @@ public class BlockLight extends HydraulicBlockBase {
         return false;
     }
 
-
     @Override
-    public boolean isFullBlock() {
-
+    public boolean isFullBlock(IBlockState state) {
         return false;
     }
 
     @Override
-    public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
-
-        return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState worldIn, World pos, BlockPos state) {
+        return new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-
-        return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+        return new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
     }
 
     /**
@@ -117,9 +110,9 @@ public class BlockLight extends HydraulicBlockBase {
         if (closestPlayer == null) {
             worldIn.setBlockToAir(pos);
         } else {
-            if (closestPlayer.getCurrentArmor(3) != null) {
-                if (closestPlayer.getCurrentArmor(3).getItem() == HCItems.itemMiningHelmet) {
-                    if (!ItemMiningHelmet.isPoweredOn(closestPlayer.getCurrentArmor(3))) {
+            if (closestPlayer.getItemStackFromSlot(HEAD) != null) {
+                if (closestPlayer.getItemStackFromSlot(HEAD).getItem() == HCItems.itemMiningHelmet) {
+                    if (!ItemMiningHelmet.isPoweredOn(closestPlayer.getItemStackFromSlot(HEAD))) {
                         worldIn.setBlockToAir(pos);
                     }
                 } else {

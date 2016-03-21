@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.BiomeDictionary;
@@ -19,11 +20,10 @@ import java.util.Random;
 
 public class HCWorldGenerator implements IWorldGenerator {
 
-    @Override
-    public void generate(Random random, int chunkX, int chunkZ, World world,
-                         IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
 
-        switch (world.provider.getDimensionId()) {
+    @Override
+    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+        switch (world.provider.getDimension()) {
             case -1:
                 generateNether(world, random, chunkX * 16, chunkZ * 16);
                 break;
@@ -170,13 +170,13 @@ public class HCWorldGenerator implements IWorldGenerator {
         int cx = x & 15;
 
         for (int cz = z & 15; y > 0; --y) {
-            Block block = chunk.getBlock(cx, y, cz);
+            Block block = chunk.getBlockState(cx, y, cz).getBlock();
 
-            if (block.getMaterial().blocksMovement() &&
-                    block.getMaterial() != Material.leaves &&
-                    block.getMaterial() != Material.wood &&
-                    block.getMaterial() != Material.gourd &&
-                    block.getMaterial() != Material.ice &&
+            if (block.getMaterial(chunk.getBlockState(cx, y, cz)).blocksMovement() &&
+                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.leaves &&
+                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.wood &&
+                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.gourd &&
+                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.ice &&
                     !block.isFoliage(world, new BlockPos(x, y, z))) {
                 return y + 1;
             }

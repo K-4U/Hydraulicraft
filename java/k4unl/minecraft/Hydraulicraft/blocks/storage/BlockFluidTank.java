@@ -61,14 +61,12 @@ public class BlockFluidTank extends HydraulicBlockContainerBase implements ITool
     }
 
     @Override
-    public boolean isFullBlock() {
-
+    public boolean isFullBlock(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
-
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
@@ -139,7 +137,7 @@ public class BlockFluidTank extends HydraulicBlockContainerBase implements ITool
                         tank.markDirty();
                         tank.markBlockForUpdate();
                         if (!playerIn.capabilities.isCreativeMode) {
-                            playerIn.setCurrentItemOrArmor(0, FluidContainerRegistry.drainFluidContainer(inUse));
+                            playerIn.setHeldItem(EnumHand.MAIN_HAND, FluidContainerRegistry.drainFluidContainer(inUse));
                         }
                     }
                 }
@@ -165,7 +163,7 @@ public class BlockFluidTank extends HydraulicBlockContainerBase implements ITool
                     if (!playerIn.capabilities.isCreativeMode) {
                         playerIn.getActiveItemStack().stackSize--;
                         if (playerIn.getActiveItemStack().stackSize == 0) {
-                            playerIn.setCurrentItemOrArmor(0, null);
+                            playerIn.setHeldItem(EnumHand.MAIN_HAND, null);
                         }
                         if (!playerIn.inventory.addItemStackToInventory(filledContainer)) {
                             //Spawn it in world:

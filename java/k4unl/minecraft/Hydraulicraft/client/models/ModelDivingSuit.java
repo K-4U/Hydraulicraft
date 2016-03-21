@@ -7,9 +7,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -351,16 +353,16 @@ public class ModelDivingSuit extends ModelBiped {
 
         if (stack == null || !(stack.getItem() instanceof ItemArmor))
             return null;
-        int slot = ((ItemArmor) stack.getItem()).armorType;
+        EntityEquipmentSlot slot = ((ItemArmor) stack.getItem()).armorType;
 
         ModelDivingSuit armor;
-        if (slot == 0 && modelHelm != null) {
+        if (slot == EntityEquipmentSlot.HEAD && modelHelm != null) {
             return modelHelm;
-        } else if (slot == 1 && modelChest != null) {
+        } else if (slot == EntityEquipmentSlot.CHEST && modelChest != null) {
             return modelChest;
-        } else if (slot == 2 && modelLegs != null) {
+        } else if (slot == EntityEquipmentSlot.LEGS && modelLegs != null) {
             return modelLegs;
-        } else if (slot == 3 && modelBoots != null) {
+        } else if (slot == EntityEquipmentSlot.FEET && modelBoots != null) {
             return modelBoots;
         }
 
@@ -418,7 +420,7 @@ public class ModelDivingSuit extends ModelBiped {
         this.isRiding = entity.isRiding();
         if (entity instanceof EntityLivingBase) {
             this.isChild = ((EntityLivingBase) entity).isChild();
-            this.heldItemRight = (((EntityLivingBase) entity).getHeldItem() != null ? 1 : 0);
+            this.heldItemRight = (((EntityLivingBase) entity).getHeldItem(EnumHand.MAIN_HAND) != null ? 1 : 0);
             if (entity instanceof EntityPlayer && ((EntityPlayer) entity).getItemInUse() != null)
                 this.aimedBow = ((EntityPlayer) entity).getItemInUse().getItemUseAction() == EnumAction.BOW && ((EntityPlayer) entity).getItemInUseDuration() > 0;
         }

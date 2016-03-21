@@ -5,6 +5,7 @@ import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -20,7 +21,7 @@ public class OreFoxium extends Block implements IGlowBlock {
         setUnlocalizedName(oName.unlocalized);
 
         //setBlockTextureName(oName.unlocalized);
-        setStepSound(Block.soundTypeStone);
+        setSoundType(SoundType.STONE);
         setCreativeTab(CustomTabs.tabHydraulicraft);
         setHarvestLevel("pickaxe", 3);
         setHardness(0.4F); //Same as netherrack

@@ -51,12 +51,6 @@ public class BlockPortalTeleporter extends GOWBlockRendering {
     }
 
     @Override
-    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
-
-        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-    }
-
-    @Override
     public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
 
         return true;

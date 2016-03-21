@@ -11,6 +11,7 @@ import k4unl.minecraft.Hydraulicraft.network.packets.PacketSetPressure;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
@@ -46,9 +47,10 @@ public class TickHandler {
                 //Check if player was wearing our armor before.
                 ItemDivingSuit.checkArmour(event.player);
 
-                if (event.player.getCurrentArmor(3) != null) {
-                    if (event.player.getCurrentArmor(3).getItem() instanceof ItemMiningHelmet) {
-                        (event.player.getCurrentArmor(3).getItem()).onArmorTick(event.player.worldObj, event.player, event.player.getCurrentArmor(3));
+                if (event.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD) != null) {
+                    if (event.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() instanceof ItemMiningHelmet) {
+                        (event.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem()).
+                                onArmorTick(event.player.worldObj, event.player, event.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD));
                     }
                 }
 
@@ -92,43 +94,44 @@ public class TickHandler {
 
         List<Boolean> armour = new ArrayList<Boolean>();
         if (Loader.isModLoaded("IC2")) {
-            boolean ic2helmet = false;
-            boolean ic2chest = false;
-            boolean ic2legs = false;
-            boolean ic2boots = false;
-            for (int i = 0; i <= 3; i++) {
-                if (player.getCurrentArmor(i) != null) {
-                    if (player.getCurrentArmor(i).getItem() instanceof IPressureDivingSuit) {
-                        armour.add(((IPressureDivingSuit) player.getCurrentArmor(i).getItem()).isPressureSafe(player, player.getCurrentArmor(i), pressure));
+           boolean ic2helmet = false;
+           boolean ic2chest = false;
+           boolean ic2legs = false;
+           boolean ic2boots = false;
+           for (EntityEquipmentSlot equipment : new EntityEquipmentSlot[]{
+                   EntityEquipmentSlot.CHEST, EntityEquipmentSlot.FEET, EntityEquipmentSlot.HEAD, EntityEquipmentSlot.LEGS})
+              if (player.getItemStackFromSlot(equipment) != null) {
+                 if (player.getItemStackFromSlot(equipment).getItem() instanceof IPressureDivingSuit) {
+                    armour.add(((IPressureDivingSuit) player.getItemStackFromSlot(equipment).getItem()).isPressureSafe(player, player.getItemStackFromSlot(equipment), pressure));
+                 }
+                 if (equipment == EntityEquipmentSlot.FEET) {
+                    if (player.getItemStackFromSlot(equipment).getUnlocalizedName().equals("ic2.itemArmorRubBoots")) {
+                       ic2boots = true;
                     }
-                    if (i == 0) {
-                        if (player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorRubBoots")) {
-                            ic2boots = true;
-                        }
+                 }
+                 if (equipment == EntityEquipmentSlot.LEGS) {
+                    if (player.getItemStackFromSlot(equipment).getUnlocalizedName().equals("ic2.itemArmorHazmatLeggings")) {
+                       ic2legs = true;
                     }
-                    if (i == 1) {
-                        if (player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorHazmatLeggings")) {
-                            ic2legs = true;
-                        }
 
+                 }
+                 if (equipment == EntityEquipmentSlot.CHEST) {
+                    if (player.getItemStackFromSlot(equipment).getUnlocalizedName().equals("ic2.itemArmorHazmatChestplate")) {
+                       ic2chest = true;
                     }
-                    if (i == 2) {
-                        if (player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorHazmatChestplate")) {
-                            ic2chest = true;
-                        }
+                 }
+                 if (equipment == EntityEquipmentSlot.HEAD) {
+                    if (player.getItemStackFromSlot(equipment).getUnlocalizedName().equals("ic2.itemArmorHazmatHelmet")) {
+                       ic2helmet = true;
                     }
-                    if (i == 3) {
-                        if (player.getCurrentArmor(i).getUnlocalizedName().equals("ic2.itemArmorHazmatHelmet")) {
-                            ic2helmet = true;
-                        }
-                    }
-                }
-            }
-            if (ic2boots && ic2helmet && ic2chest && ic2legs) {
-                //Check inventory for filled air canisters.
+                 }
+              }
 
-                return true;
-            }
+           if (ic2boots && ic2helmet && ic2chest && ic2legs) {
+              //Check inventory for filled air canisters.
+
+              return true;
+           }
         }
 
         for (boolean armourEntry : armour) {

@@ -3,8 +3,8 @@ package k4unl.minecraft.Hydraulicraft.items;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.PressurizableItem;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 
@@ -16,7 +16,7 @@ public class ItemHydraulicSaw extends ItemHydraulicTool {
 
     public ItemHydraulicSaw() {
 
-        super(1.0f, ToolMaterial.EMERALD, null); // to make the super() happy
+        super(1.0f, ToolMaterial.DIAMOND, null); // to make the super() happy
         axe = new SawAxe();
         setCreativeTab(CustomTabs.tabHydraulicraft);
         setUnlocalizedName(Names.itemSaw.unlocalized);
@@ -26,21 +26,19 @@ public class ItemHydraulicSaw extends ItemHydraulicTool {
     }
 
     @Override
-    public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-
-        return axe.canHarvestBlock(par1Block, itemStack) && super.canHarvestBlock(par1Block, itemStack);
+    public boolean canHarvestBlock(IBlockState state, ItemStack stack) {
+        return axe.canHarvestBlock(state, stack) && super.canHarvestBlock(state, stack);
     }
 
     @Override
-    public float getStrVsBlock(ItemStack stack, Block block) {
-
-        if (super.getStrVsBlock(stack, block) == 0)
+    public float getStrVsBlock(ItemStack stack, IBlockState state) {
+        if (super.getStrVsBlock(stack, state) == 0)
             return 0;
 
-        if (block.getMaterial() == Material.leaves)
+        if (state.getMaterial() == Material.leaves)
             return SPEED_ON_LEAVES;
 
-        return axe.getStrVsBlock(stack, block);
+        return axe.getStrVsBlock(stack, state);
     }
 
     /* Helper classes */
@@ -48,7 +46,7 @@ public class ItemHydraulicSaw extends ItemHydraulicTool {
 
         public SawAxe() {
 
-            super(ToolMaterial.EMERALD);
+            super(ToolMaterial.DIAMOND);
         }
     }
 

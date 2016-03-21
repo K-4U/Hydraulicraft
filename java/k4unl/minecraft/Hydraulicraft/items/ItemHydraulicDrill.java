@@ -3,7 +3,7 @@ package k4unl.minecraft.Hydraulicraft.items;
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.PressurizableItem;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
@@ -15,7 +15,7 @@ public class ItemHydraulicDrill extends ItemHydraulicTool {
 
     public ItemHydraulicDrill() {
 
-        super(1.0f, ToolMaterial.EMERALD, null); // to make the super() happy
+        super(1.0f, ToolMaterial.DIAMOND, null); // to make the super() happy
         pickaxe = new DrillPickaxe();
         shovel = new DrillShovel();
         setCreativeTab(CustomTabs.tabHydraulicraft);
@@ -27,28 +27,25 @@ public class ItemHydraulicDrill extends ItemHydraulicTool {
     }
 
     @Override
-    public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-
-        return (pickaxe.canHarvestBlock(par1Block, itemStack) || shovel.canHarvestBlock(par1Block, itemStack)) &&
-                super.canHarvestBlock(par1Block, itemStack);
+    public boolean canHarvestBlock(IBlockState state, ItemStack stack) {
+        return (pickaxe.canHarvestBlock(state, stack) || shovel.canHarvestBlock(state, stack)) &&
+                super.canHarvestBlock(state, stack);
     }
 
     @Override
-    public float getStrVsBlock(ItemStack stack, Block block) {
-
-        if (super.getStrVsBlock(stack, block) == 0)
+    public float getStrVsBlock(ItemStack stack, IBlockState state) {
+        if (super.getStrVsBlock(stack, state) == 0)
             return 0;
 
-        return Math.max(pickaxe.getStrVsBlock(stack, block), shovel.getStrVsBlock(stack, block));
+        return Math.max(pickaxe.getStrVsBlock(stack, state), shovel.getStrVsBlock(stack, state));
     }
-
 
     /* Helper classes */
     private static class DrillPickaxe extends ItemPickaxe {
 
         public DrillPickaxe() {
 
-            super(ToolMaterial.EMERALD);
+            super(ToolMaterial.DIAMOND);
         }
     }
 
@@ -56,7 +53,7 @@ public class ItemHydraulicDrill extends ItemHydraulicTool {
 
         public DrillShovel() {
 
-            super(ToolMaterial.EMERALD);
+            super(ToolMaterial.DIAMOND);
         }
     }
 }

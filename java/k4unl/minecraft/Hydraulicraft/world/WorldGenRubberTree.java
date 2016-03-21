@@ -77,9 +77,9 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
             } else {
                 Block block2 = world.getBlockState(pos.down()).getBlock();
 
-                boolean isSoil = block2.canSustainPlant(world, pos.down(), EnumFacing.UP, HCBlocks.blockRubberSapling);
+                boolean isSoil = block2.canSustainPlant(world.getBlockState(pos), world, pos.down(), EnumFacing.UP, HCBlocks.blockRubberSapling);
                 if (isSoil && y < 256 - treeHeight - 1) {
-                    block2.onPlantGrow(world, pos.down(), pos);
+                    block2.onPlantGrow(world.getBlockState(pos), world, pos.down(), pos);
                     b0 = 3;
 
                     //First on top.
@@ -120,7 +120,7 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
 
         BlockPos pos = new BlockPos(x, y, z);
         Block block1 = world.getBlockState(pos).getBlock();
-        if (block1.isAir(world, pos) || block1.isLeaves(world, pos)) {
+        if (block1.isAir(world.getBlockState(pos), world, pos) || block1.isLeaves(world.getBlockState(pos), world, pos)) {
             this.setBlockAndNotifyAdequately(world, pos, toSet.getDefaultState());
             if(toSet == HCBlocks.blockRubberWood){
                 ((BlockRubberWood)HCBlocks.blockRubberWood).genRubberSpot(world, pos);

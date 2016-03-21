@@ -10,8 +10,11 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Optional;
@@ -81,29 +84,27 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-
+    public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         Block block = world.getBlockState(pos).getBlock();
         if (block == null)
-            return false;
+            return EnumActionResult.PASS;
 
         if (player.isSneaking())
-            return false;
+            return EnumActionResult.PASS;
 
         if (!canWrench(player, pos))
-            return false;
+            return EnumActionResult.PASS;
 
         if (block.rotateBlock(world, pos, side)) {
-            player.swingItem();
+            player.swingArm(EnumHand.MAIN_HAND);
             wrenchUsed(player, pos);
-            return !world.isRemote;
+            return !world.isRemote ? EnumActionResult.PASS : EnumActionResult.SUCCESS;
         }
-        return super.onItemUseFirst(stack, player, world, pos, side, hitX, hitY, hitZ);
+        return super.onItemUseFirst(stack, player, world, pos, side, hitX, hitY, hitZ, hand);
     }
 
     @Override
-    public boolean doesSneakBypassUse(World world, BlockPos pos, EntityPlayer player) {
-
+    public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
         return true;
     }
 
@@ -130,7 +131,7 @@ public class ItemHydraulicWrench extends HydraulicItemBase implements IPressuriz
 
     public boolean canWrench(EntityPlayer entityPlayer, BlockPos pos) {
 
-        return pressurizableItem.canUse(entityPlayer.getCurrentEquippedItem(), PRESSURE_PER_WRENCH);
+        return pressurizableItem.canUse(entityPlayer.getActiveItemStack(), PRESSURE_PER_WRENCH);
     }
 
 

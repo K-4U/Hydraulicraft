@@ -11,9 +11,9 @@ import k4unl.minecraft.Hydraulicraft.thirdParty.rf.RF;
 import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.TileHydraulicDynamo;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
 public class GuiHydraulicDynamo extends HydraulicGUIBase {
 
@@ -39,14 +39,14 @@ public class GuiHydraulicDynamo extends HydraulicGUIBase {
 
         int startY = 17;
         int step = (int) (Hydraulicraft.smallGuiFont.getLineHeight() / 3.2F);
-        drawSmallerString(61, startY + (step * 0), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_GENERATING_ENTRY) + ":", false);
-        drawSmallerString(65, startY + (step * 1), EnumChatFormatting.GREEN + "" + dynamo.getGenerating() + "RF/t", false);
-        drawSmallerString(61, startY + (step * 2), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_OUTPUT_ENTRY) + ":", false);
-		drawSmallerString(65, startY + (step * 3), EnumChatFormatting.GREEN + "" + dynamo.getInfoEnergyPerTick() + "RF/t", false);
-        drawSmallerString(61, startY + (step * 4), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_MAX_ENTRY) + ":", false);
-		drawSmallerString(65, startY + (step * 5), EnumChatFormatting.GREEN + "" + dynamo.getInfoMaxEnergyPerTick() + "RF/t", false);
-        drawSmallerString(61, startY + (step * 6), EnumChatFormatting.GREEN + Localization.getString(Localization.GUI_USING_ENTRY) + ":", false);
-        drawSmallerString(65, startY + (step * 7), EnumChatFormatting.GREEN + "" + dynamo.getPressureRequired() + "mBar/t", false);
+        drawSmallerString(61, startY + (step * 0), TextFormatting.GREEN + Localization.getString(Localization.GUI_GENERATING_ENTRY) + ":", false);
+        drawSmallerString(65, startY + (step * 1), TextFormatting.GREEN + "" + dynamo.getGenerating() + "RF/t", false);
+        drawSmallerString(61, startY + (step * 2), TextFormatting.GREEN + Localization.getString(Localization.GUI_OUTPUT_ENTRY) + ":", false);
+		drawSmallerString(65, startY + (step * 3), TextFormatting.GREEN + "" + dynamo.getInfoEnergyPerTick() + "RF/t", false);
+        drawSmallerString(61, startY + (step * 4), TextFormatting.GREEN + Localization.getString(Localization.GUI_MAX_ENTRY) + ":", false);
+		drawSmallerString(65, startY + (step * 5), TextFormatting.GREEN + "" + dynamo.getInfoMaxEnergyPerTick() + "RF/t", false);
+        drawSmallerString(61, startY + (step * 6), TextFormatting.GREEN + Localization.getString(Localization.GUI_USING_ENTRY) + ":", false);
+        drawSmallerString(65, startY + (step * 7), TextFormatting.GREEN + "" + dynamo.getPressureRequired() + "mBar/t", false);
 
         drawFluidAndPressure();
         checkTooltips(mouseX, mouseY);

@@ -38,7 +38,7 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase {
 
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
-        return -1;
+        return EnumBlockRenderType.MODEL;
     }
 
     @Override

@@ -47,7 +47,7 @@ public class BlockHydraulicPressureReservoir extends HydraulicTieredBlockBase im
             if (stack != null) {
                 if (stack.getTagCompound() != null) {
                     ((TileHydraulicPressureReservoir) ent).newFromNBT(stack.getTagCompound());
-                    worldIn.markBlockForUpdate(pos);
+                    ((TileHydraulicPressureReservoir) ent).markBlockForUpdate();
                 }
             }
         }

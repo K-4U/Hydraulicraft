@@ -15,8 +15,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemDebug extends HydraulicItemBase {
@@ -29,8 +31,7 @@ public class ItemDebug extends HydraulicItemBase {
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             TileEntity ent = worldIn.getTileEntity(pos);
             if (ent != null) {
@@ -90,7 +91,7 @@ public class ItemDebug extends HydraulicItemBase {
 						if(Multipart.hasPartHose((TileMultipart)ent)){
 							PartHose hose = Multipart.getHose((TileMultipart)ent);
 							int tier = hose.getTier().toInt();
-							Functions.showMessageInChat(playerIn, "Tier:          " + tier);							
+							Functions.showMessageInChat(playerIn, "Tier:          " + tier);
 						}
 					}*/
 
@@ -123,7 +124,7 @@ public class ItemDebug extends HydraulicItemBase {
 
                     stack.setTagCompound(tagC);
 
-                    return true;
+                    return EnumActionResult.SUCCESS;
                 } else if(ent instanceof TileRubberWood){
                     if(playerIn.isSneaking()){
                         ((TileRubberWood)ent).randomTick();
@@ -132,6 +133,6 @@ public class ItemDebug extends HydraulicItemBase {
                 }
             }
         }
-        return false;
+        return EnumActionResult.FAIL;
     }
 }

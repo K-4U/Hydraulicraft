@@ -44,7 +44,7 @@ public class TrolleyCrops implements IHarvesterTrolley {
             Block soil = world.getBlockState(pos.down()).getBlock();
             return (world.getLight(pos) >= 8 ||
                     world.canBlockSeeSky(pos)) &&
-                    soil != null && soil.canSustainPlant(world, pos.down(),
+                    soil != null && soil.canSustainPlant(world.getBlockState(pos), world, pos.down(),
                     EnumFacing.UP, (IPlantable) seed.getItem());
         } else {
             return false;

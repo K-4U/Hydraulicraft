@@ -7,6 +7,8 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.k4lib.network.messages.AbstractPacket;
 import net.minecraft.entity.player.EntityPlayer;
 
+import static net.minecraft.inventory.EntityEquipmentSlot.HEAD;
+
 public class PacketKeyPressed extends AbstractPacket<PacketKeyPressed> {
 
     private int keyIndex;
@@ -42,10 +44,10 @@ public class PacketKeyPressed extends AbstractPacket<PacketKeyPressed> {
 
         switch (message.keyIndex) {
             case Constants.KEYS_MINING_HELMET:
-                if (player.getCurrentArmor(3) != null) {
-                    if (player.getCurrentArmor(3).getItem() instanceof ItemMiningHelmet) {
-                        ItemMiningHelmet.togglePower(player.getCurrentArmor(3));
-                        Functions.showMessageInChat(player, "Helmet is now " + (ItemMiningHelmet.isPoweredOn(player.getCurrentArmor(3)) ? "on" : "off"));
+                if (player.getItemStackFromSlot(HEAD) != null) {
+                    if (player.getItemStackFromSlot(HEAD).getItem() instanceof ItemMiningHelmet) {
+                        ItemMiningHelmet.togglePower(player.getItemStackFromSlot(HEAD));
+                        Functions.showMessageInChat(player, "Helmet is now " + (ItemMiningHelmet.isPoweredOn(player.getItemStackFromSlot(HEAD)) ? "on" : "off"));
                     }
                 }
                 break;

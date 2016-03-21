@@ -35,7 +35,7 @@ public class TrolleyFlax implements IHarvesterTrolley {
     public boolean canPlant(World world, BlockPos pos, ItemStack seed) {
 
         Block soil = world.getBlockState(pos.down()).getBlock();
-        return (soil.canSustainPlant(world, pos.down(), EnumFacing.UP, (IPlantable) BluePower.flaxItem) && world.isAirBlock(pos)
+        return (soil.canSustainPlant(world.getBlockState(pos), world, pos.down(), EnumFacing.UP, (IPlantable) BluePower.flaxItem) && world.isAirBlock(pos)
                 && (soil.isFertile(world, pos.down())));
     }
 
