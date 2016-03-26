@@ -7,12 +7,10 @@ import k4unl.minecraft.Hydraulicraft.items.ItemMiningHelmet;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -106,7 +104,7 @@ public class BlockLight extends HydraulicBlockBase {
         //if(world.getBlock(x, y, z) instanceof BlockLight){
         //Seach within 3 blocks for a player.
         //If no player found. Remove the block
-        EntityPlayer closestPlayer = worldIn.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 15);
+        EntityPlayer closestPlayer = worldIn.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 15, true);
         if (closestPlayer == null) {
             worldIn.setBlockToAir(pos);
         } else {
@@ -132,11 +130,9 @@ public class BlockLight extends HydraulicBlockBase {
         worldIn.scheduleBlockUpdate(pos, HCBlocks.blockLight, 10, 10);
     }
 
-
     @Override
-    public int getLightValue(IBlockAccess world, BlockPos pos) {
-
-        return getMetaFromState(world.getBlockState(pos));
+    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return getMetaFromState(state);
     }
 
     @Override
@@ -146,9 +142,9 @@ public class BlockLight extends HydraulicBlockBase {
     }
 
     @Override
-    protected BlockState createBlockState() {
+    protected BlockStateContainer createBlockState() {
 
-        return new BlockState(this, Properties.LIGHTVALUE);
+        return new BlockStateContainer(this, Properties.LIGHTVALUE);
     }
 
     @Override

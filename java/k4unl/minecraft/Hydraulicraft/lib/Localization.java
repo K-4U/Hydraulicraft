@@ -1,6 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.lib;
 
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 public class Localization {
 
@@ -34,12 +34,12 @@ public class Localization {
 
     public static String getString(String unlocalized) {
 
-        return StatCollector.translateToLocal(unlocalized);
+        return I18n.translateToLocal(unlocalized);
     }
 
     public static String getString(String unlocalized, Object... args) {
 
-        return StatCollector.translateToLocalFormatted(unlocalized, args);
+        return I18n.translateToLocalFormatted(unlocalized, args);
     }
 }
 

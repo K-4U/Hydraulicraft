@@ -64,7 +64,7 @@ public class TrolleyCactus implements IHarvesterTrolley {
     public int getPlantHeight(World world, BlockPos pos) {
 
         pos = pos.up(3);
-        if (world.getBlockState(pos).getBlock().getMaterial() == Material.air || world.getBlockState(pos).getBlock() instanceof BlockHarvesterTrolley) {
+        if (world.getBlockState(pos).getBlock().getMaterial(world.getBlockState(pos)) == Material.air || world.getBlockState(pos).getBlock() instanceof BlockHarvesterTrolley) {
             return 2;
         } else {
             return 3;

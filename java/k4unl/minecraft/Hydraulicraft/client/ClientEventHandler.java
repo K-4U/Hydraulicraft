@@ -31,7 +31,7 @@ public class ClientEventHandler {
     public void fogDensityEvent(EntityViewRenderEvent.FogDensity event) {
 
         if (ItemDivingSuit.isWearingFullSuit(Minecraft.getMinecraft().thePlayer)) {
-            event.density = 0.1F;
+            event.setDensity(0.1F);
             event.setCanceled(true);
         }
     }
@@ -41,16 +41,16 @@ public class ClientEventHandler {
 
         if (ItemDivingSuit.isWearingFullSuit(Minecraft.getMinecraft().thePlayer)) {
             //223 31 53
-            event.red = 223F / 255F;
-            event.green = 31F / 255F;
-            event.blue = 53F / 255F;
+            event.setRed(223F / 255F);
+            event.setGreen(31F / 255F);
+            event.setBlue(53F / 255F);
         }
     }
 
     @SubscribeEvent
     public void onRenderGameOverlay(RenderGameOverlayEvent event) {
 
-        if ((event.type != RenderGameOverlayEvent.ElementType.EXPERIENCE && event.type != RenderGameOverlayEvent.ElementType.JUMPBAR) ||
+        if ((event.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE && event.getType() != RenderGameOverlayEvent.ElementType.JUMPBAR) ||
                 event.isCancelable()) {
             return;
         }

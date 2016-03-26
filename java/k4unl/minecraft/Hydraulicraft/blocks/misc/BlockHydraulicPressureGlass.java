@@ -5,9 +5,10 @@ import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -20,18 +21,13 @@ public class BlockHydraulicPressureGlass extends BlockConnectedTexture {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube() {
-
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
-
-    @SideOnly(Side.CLIENT)
     @Override
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-
-        Block block = worldIn.getBlockState(pos).getBlock();
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+        Block block = blockAccess.getBlockState(pos).getBlock();
 
         if (this == HCBlocks.hydraulicPressureGlass) {
 /*            if (worldIn.getBlockMetadata(x, y, z) != worldIn.getBlockMetadata(x - Facing.offsetsXForSide[side], y - Facing.offsetsYForSide[side], z - Facing.offsetsZForSide[side]))
@@ -44,13 +40,13 @@ public class BlockHydraulicPressureGlass extends BlockConnectedTexture {
             }
         }
 
-        return block != this && super.shouldSideBeRendered(worldIn, pos, side);
+        return block != this && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
     }
 
     @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer() {
+    public BlockRenderLayer getBlockLayer() {
 
-        return EnumWorldBlockLayer.TRANSLUCENT;
+        return BlockRenderLayer.TRANSLUCENT;
     }
 
     public boolean isFullCube() {

@@ -62,11 +62,11 @@ public class EventHelper {
     @SubscribeEvent
     public void onRightClick(PlayerInteractEvent event) {
 
-        if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
-            Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.pos);
+        if (event.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+            Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.getPos());
             if (vLocation != null) {
                 //Open a GUI.
-                event.entityPlayer.openGui(Hydraulicraft.instance, GuiIDs.TANK.ordinal(), event.world, vLocation.getX(), vLocation.getY(), vLocation.getZ());
+                event.getEntityPlayer().openGui(Hydraulicraft.instance, GuiIDs.TANK.ordinal(), event.getWorld(), vLocation.getX(), vLocation.getY(), vLocation.getZ());
             }
         }
     }
@@ -74,21 +74,21 @@ public class EventHelper {
     @SubscribeEvent
     public void onBlockBreak(BreakEvent event) {
 
-        if (event.world.isRemote) {
+        if (event.getWorld().isRemote) {
             return;
         }
-        if (event.state.getBlock() == HCBlocks.hydraulicPressureWall || event.state.getBlock() == HCBlocks.blockValve) {
+        if (event.getState().getBlock() == HCBlocks.hydraulicPressureWall || event.getState().getBlock() == HCBlocks.blockValve) {
             //check all directions for a hydraulic washer
             boolean breakAll = false;
             for (int horiz = -2; horiz <= 2; horiz++) {
                 for (int vert = -2; vert <= 2; vert++) {
                     for (int depth = -2; depth <= 2; depth++) {
-                        int x = event.pos.getX() + horiz;
-                        int y = event.pos.getY() + vert;
-                        int z = event.pos.getZ() + depth;
-                        Block block = event.world.getBlockState(new BlockPos(x, y, z)).getBlock();
+                        int x = event.getPos().getX() + horiz;
+                        int y = event.getPos().getY() + vert;
+                        int z = event.getPos().getZ() + depth;
+                        Block block = event.getWorld().getBlockState(new BlockPos(x, y, z)).getBlock();
                         if (block instanceof BlockHydraulicWasher) {
-                            TileHydraulicWasher washer = (TileHydraulicWasher) event.world.getTileEntity(new BlockPos(x, y, z));
+                            TileHydraulicWasher washer = (TileHydraulicWasher) event.getWorld().getTileEntity(new BlockPos(x, y, z));
                             washer.invalidateMultiblock();
                             breakAll = true;
                             break;
@@ -104,9 +104,9 @@ public class EventHelper {
                 }
             }
         } else {
-            Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.pos);
+            Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.getPos());
             if (vLocation != null) {
-                ((TileInterfaceValve) vLocation.getTE(event.world)).breakTank();
+                ((TileInterfaceValve) vLocation.getTE(event.getWorld())).breakTank();
             }
         }
     }
@@ -114,14 +114,14 @@ public class EventHelper {
     @SubscribeEvent
     public void onBlockBreakDrill(BlockEvent.HarvestDropsEvent event) {
 
-        if (event.harvester == null)
+        if (event.getHarvester() == null)
             return;
 
-        ItemStack heldItem = event.harvester.getHeldItem(EnumHand.MAIN_HAND);
+        ItemStack heldItem = event.getHarvester().getHeldItem(EnumHand.MAIN_HAND);
         if (heldItem == null || !(heldItem.getItem() instanceof ItemHydraulicDrill))
             return;
 
-        List<ItemStack> drops = event.drops;
+        List<ItemStack> drops = event.getDrops();
         List<ItemStack> newDrops = new ArrayList<ItemStack>();
         Iterator<ItemStack> iterator = drops.iterator();
         while (iterator.hasNext()) {
@@ -153,16 +153,16 @@ public class EventHelper {
     @SubscribeEvent
     public void onDeathEvent(LivingDeathEvent event) {
 
-        if (event.entity instanceof EntityPig) {
-            if (!event.entity.worldObj.isRemote) {
+        if (event.getEntity() instanceof EntityPig) {
+            if (!event.getEntity().worldObj.isRemote) {
                 if(!HCConfig.INSTANCE.getBool("enableBacon"))
                     return;
                 //Chance for bacon to drop, config ofcourse
                 if ((new Random()).nextDouble() < HCConfig.INSTANCE.getDouble("baconDropChance")) {
-                    EntityItem ei = new EntityItem(event.entityLiving.worldObj);
+                    EntityItem ei = new EntityItem(event.getEntityLiving().worldObj);
                     ei.setEntityItemStack(new ItemStack(HCItems.itemBacon, 1));
-                    ei.setPosition(event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ);
-                    event.entityLiving.worldObj.spawnEntityInWorld(ei);
+                    ei.setPosition(event.getEntityLiving().posX, event.getEntityLiving().posY, event.getEntityLiving().posZ);
+                    event.getEntityLiving().worldObj.spawnEntityInWorld(ei);
                 }
             }
         }
@@ -199,15 +199,15 @@ public class EventHelper {
     @SubscribeEvent
     public void onBucketFill(FillBucketEvent event) {
 
-        IBlockState state = event.world.getBlockState(event.target.getBlockPos());
+        IBlockState state = event.getWorld().getBlockState(event.getTarget().getBlockPos());
         if (state.getBlock() instanceof IFluidBlock) {
             Fluid fluid = ((IFluidBlock) state.getBlock()).getFluid();
             FluidStack fs = new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME);
 
-            ItemStack filled = FluidContainerRegistry.fillFluidContainer(fs, event.current);
+            ItemStack filled = FluidContainerRegistry.fillFluidContainer(fs, event.getEmptyBucket());
             if (filled != null) {
-                event.result = filled;
-                event.world.setBlockToAir(event.target.getBlockPos());
+                event.setFilledBucket(filled);
+                event.getWorld().setBlockToAir(event.getTarget().getBlockPos());
                 event.setResult(Event.Result.ALLOW);
             }
         }
@@ -215,21 +215,21 @@ public class EventHelper {
 
     @SubscribeEvent
     public void endermanTeleportEvent(EnderTeleportEvent event){
-        if(!event.entity.getEntityWorld().isRemote){
+        if(!event.getEntity().getEntityWorld().isRemote){
             return;
         }
-        if(!(event.entityLiving instanceof EntityEnderman)){
+        if(!(event.getEntityLiving() instanceof EntityEnderman)){
             return;
         }
         for(TileJarOfDirt jod: Hydraulicraft.jarOfDirtList){
             Location l = jod.getLocation();
-            if(l.getDifference(event.entity.getPosition()) < 64){
-                event.targetX = l.getX() + 1;
-                event.targetY = l.getY();
-                event.targetZ = l.getZ();
-                event.entityLiving.motionX = 0;
-                event.entityLiving.motionY = 0;
-                event.entityLiving.motionZ = 0;
+            if(l.getDifference(event.getEntity().getPosition()) < 64){
+                event.setTargetX(l.getX() + 1);
+                event.setTargetY(l.getY());
+                event.setTargetZ(l.getZ());
+                event.getEntityLiving().motionX = 0;
+                event.getEntityLiving().motionY = 0;
+                event.getEntityLiving().motionZ = 0;
             }
         }
     }

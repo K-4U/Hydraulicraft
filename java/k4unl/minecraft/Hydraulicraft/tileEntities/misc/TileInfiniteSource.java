@@ -8,9 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fluids.*;
 
 public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandler, IInventory, IHydraulicMachine {
@@ -68,9 +68,9 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
     }
 
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
 
-        return new ChatComponentTranslation(Names.blockInfiniteSource.unlocalized);
+        return new TextComponentTranslation(Names.blockInfiniteSource.unlocalized);
     }
 
     @Override

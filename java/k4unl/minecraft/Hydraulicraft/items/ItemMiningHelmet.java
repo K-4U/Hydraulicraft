@@ -10,15 +10,18 @@ import k4unl.minecraft.k4lib.lib.Location;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.minecraft.inventory.EntityEquipmentSlot.HEAD;
 
 public class ItemMiningHelmet extends ItemArmor {
 
@@ -28,7 +31,7 @@ public class ItemMiningHelmet extends ItemArmor {
 
     public ItemMiningHelmet() {
 
-        super(ArmorMaterial.IRON, 0, 0);
+        super(ArmorMaterial.IRON, 0, HEAD);
 
         setMaxStackSize(1);
         setUnlocalizedName(Names.itemMiningHelmet.unlocalized);
@@ -41,8 +44,7 @@ public class ItemMiningHelmet extends ItemArmor {
     }
 
     @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-
+    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
         return textureLocation + "_1.png";
     }
 
@@ -58,7 +60,7 @@ public class ItemMiningHelmet extends ItemArmor {
 
         if (itemStack.getTagCompound().getBoolean("powered")) {
             if (world.getTotalWorldTime() % 10 == 0) {
-                MovingObjectPosition blockLookedAt = Functions.getEntityLookedObject(player, 12);
+                RayTraceResult blockLookedAt = Functions.getEntityLookedObject(player, 12);
                 Location blockLocation;
                 if (blockLookedAt != null) {
                     EnumFacing dir = blockLookedAt.sideHit;

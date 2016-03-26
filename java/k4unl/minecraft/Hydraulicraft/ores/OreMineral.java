@@ -2,8 +2,8 @@ package k4unl.minecraft.Hydraulicraft.ores;
 
 import k4unl.minecraft.Hydraulicraft.lib.CustomTabs;
 import k4unl.minecraft.Hydraulicraft.lib.helperClasses.Name;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 
 /**
@@ -22,7 +22,7 @@ public class OreMineral extends BlockFalling {
 
 
         setUnlocalizedName(name.unlocalized);
-        setStepSound(Block.soundTypeGravel);
+        setSoundType(SoundType.SAND);
         setCreativeTab(CustomTabs.tabHydraulicraft);
         setHardness(0.5F);
         setHarvestLevel("shovel", 0);

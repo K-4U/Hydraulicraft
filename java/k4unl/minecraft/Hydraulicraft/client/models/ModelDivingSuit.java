@@ -380,25 +380,25 @@ public class ModelDivingSuit extends ModelBiped {
         armor.flipperLeft.isHidden = true;
 
         switch (slot) {
-            case 0:
+            case HEAD:
                 armor.bipedHead.isHidden = false;
                 modelHelm = armor;
                 break;
 
-            case 1:
+            case CHEST:
                 armor.bipedBody.isHidden = false;
                 armor.bipedLeftArm.isHidden = false;
                 armor.bipedRightArm.isHidden = false;
                 modelChest = armor;
                 break;
 
-            case 2:
+            case LEGS:
                 armor.bipedLeftLeg.isHidden = false;
                 armor.bipedRightLeg.isHidden = false;
                 modelLegs = armor;
                 break;
 
-            case 3:
+            case FEET:
                 armor.flipperLeft.isHidden = false;
                 armor.flipperRight.isHidden = false;
                 modelBoots = armor;
@@ -421,8 +421,8 @@ public class ModelDivingSuit extends ModelBiped {
         if (entity instanceof EntityLivingBase) {
             this.isChild = ((EntityLivingBase) entity).isChild();
             this.heldItemRight = (((EntityLivingBase) entity).getHeldItem(EnumHand.MAIN_HAND) != null ? 1 : 0);
-            if (entity instanceof EntityPlayer && ((EntityPlayer) entity).getItemInUse() != null)
-                this.aimedBow = ((EntityPlayer) entity).getItemInUse().getItemUseAction() == EnumAction.BOW && ((EntityPlayer) entity).getItemInUseDuration() > 0;
+            if (entity instanceof EntityPlayer && ((EntityPlayer) entity).getActiveItemStack() != null)
+                this.aimedBow = ((EntityPlayer) entity).getActiveItemStack().getItemUseAction() == EnumAction.BOW && ((EntityPlayer) entity).getItemInUseDuration() > 0;
         }
 
         this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
