@@ -22,7 +22,7 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
 
     public WorldGenRubberTree(boolean doBlockNotify) {
 
-        this(doBlockNotify, 5);
+        this(doBlockNotify, 8);
     }
 
     public WorldGenRubberTree(boolean doBlockNotify, int minTreeHeight) {
@@ -84,26 +84,29 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
 
                     //First on top.
                     setAndCheckBlock(world, x, treeHeight + y, z, HCBlocks.blockRubberLeaves);
-                    for (int i = 0; i <= 3; i++) {
-                        setAndCheckBlock(world, x + i, treeHeight + y - 1, z, HCBlocks.blockRubberLeaves);
-                        setAndCheckBlock(world, x - i, treeHeight + y - 1, z, HCBlocks.blockRubberLeaves);
-                        setAndCheckBlock(world, x, treeHeight + y - 1, z + i, HCBlocks.blockRubberLeaves);
-                        setAndCheckBlock(world, x, treeHeight + y - 1, z - i, HCBlocks.blockRubberLeaves);
+
+                    for (int i = 1; i <= 6; i++) {
+                        setAndCheckBlock(world, x + 1, treeHeight + y - i, z, HCBlocks.blockRubberLeaves);
+                        setAndCheckBlock(world, x - 1, treeHeight + y - i, z, HCBlocks.blockRubberLeaves);
+                        setAndCheckBlock(world, x, treeHeight + y - i, z + 1, HCBlocks.blockRubberLeaves);
+                        setAndCheckBlock(world, x, treeHeight + y - i, z - 1, HCBlocks.blockRubberLeaves);
+                        if (i > 1 && i < 6) {
+                            setAndCheckBlock(world, x + 1, treeHeight + y - i, z + 1, HCBlocks.blockRubberLeaves);
+                            setAndCheckBlock(world, x + 1, treeHeight + y - i, z - 1, HCBlocks.blockRubberLeaves);
+                            setAndCheckBlock(world, x - 1, treeHeight + y - i, z + 1, HCBlocks.blockRubberLeaves);
+                            setAndCheckBlock(world, x - 1, treeHeight + y - i, z - 1, HCBlocks.blockRubberLeaves);
+                        }
+                        if(i == 3 || i == 4){
+                            setAndCheckBlock(world, x + 2, treeHeight + y - i, z, HCBlocks.blockRubberLeaves);
+                            setAndCheckBlock(world, x - 2, treeHeight + y - i, z, HCBlocks.blockRubberLeaves);
+                            setAndCheckBlock(world, x, treeHeight + y - i, z + 2, HCBlocks.blockRubberLeaves);
+                            setAndCheckBlock(world, x, treeHeight + y - i, z - 2, HCBlocks.blockRubberLeaves);
+                        }
                     }
-                    setAndCheckBlock(world, x + 3, treeHeight + y, z, HCBlocks.blockRubberLeaves);
-                    setAndCheckBlock(world, x - 3, treeHeight + y, z, HCBlocks.blockRubberLeaves);
-                    setAndCheckBlock(world, x, treeHeight + y, z + 3, HCBlocks.blockRubberLeaves);
-                    setAndCheckBlock(world, x, treeHeight + y, z - 3, HCBlocks.blockRubberLeaves);
 
                     for (k1 = 0; k1 < treeHeight; ++k1) {
                         setAndCheckBlock(world, x, y + k1, z, HCBlocks.blockRubberWood);
                     }
-                    //4 blocks to the side of the top of the tree.
-                    int i1 = y + treeHeight - 2;
-                    setAndCheckBlock(world, x + 1, i1, z, HCBlocks.blockRubberWood);
-                    setAndCheckBlock(world, x - 1, i1, z, HCBlocks.blockRubberWood);
-                    setAndCheckBlock(world, x, i1, z + 1, HCBlocks.blockRubberWood);
-                    setAndCheckBlock(world, x, i1, z - 1, HCBlocks.blockRubberWood);
 
                     return true;
                 } else {
@@ -122,8 +125,8 @@ public class WorldGenRubberTree extends WorldGenAbstractTree {
         Block block1 = world.getBlockState(pos).getBlock();
         if (block1.isAir(world, pos) || block1.isLeaves(world, pos)) {
             this.setBlockAndNotifyAdequately(world, pos, toSet.getDefaultState());
-            if(toSet == HCBlocks.blockRubberWood){
-                ((BlockRubberWood)HCBlocks.blockRubberWood).genRubberSpot(world, pos);
+            if (toSet == HCBlocks.blockRubberWood) {
+                ((BlockRubberWood) HCBlocks.blockRubberWood).genRubberSpot(world, pos);
             }
         }
     }

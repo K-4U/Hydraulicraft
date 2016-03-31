@@ -150,6 +150,10 @@ public class HCWorldGenerator implements IWorldGenerator {
             }
         }
         if (HCConfig.INSTANCE.getBool("shouldGenRubberTrees", "worldgen")) {
+            BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(chunkX, 0, chunkZ));
+            if (!BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.SWAMP) && !BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.JUNGLE)) {
+                return;
+            }
             if (random.nextDouble() < HCConfig.INSTANCE.getDouble("rubberTreeChance", "worldgen")) {
                 int x = chunkX + 8;
                 int z = chunkZ + 8;
