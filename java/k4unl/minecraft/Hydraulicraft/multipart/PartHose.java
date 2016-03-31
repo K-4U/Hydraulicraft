@@ -439,7 +439,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, INor
                 updateConnections(dir);
             }
 
-            if (sendPacket && connectionCache != oc) {
+            if (sendPacket && connectionCache != oc && getContainer() != null) {
                 sendUpdatePacket();
             }
         }
