@@ -63,6 +63,9 @@ public class MultipartHandler {
         }
 
         ISlottedPart part = container.getPartInSlot(PartSlot.CENTER);
+        if(part == null){
+            return null;
+        }
         if (tClass.isAssignableFrom(part.getClass())) {
             return (T) part;
         } else {
