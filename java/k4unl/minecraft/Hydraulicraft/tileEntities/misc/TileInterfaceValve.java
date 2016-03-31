@@ -69,6 +69,10 @@ public class TileInterfaceValve extends TileHydraulicBaseNoPower implements ISid
 
     public void setTarget(BlockPos pos) {
 
+        if(worldObj == null){
+            return;
+        }
+
         targetPos = pos;
         targetHasChanged = true;
 
