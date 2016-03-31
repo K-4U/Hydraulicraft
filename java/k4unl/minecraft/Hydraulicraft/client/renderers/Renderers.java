@@ -1,6 +1,7 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
+import k4unl.minecraft.Hydraulicraft.blocks.worldgen.BlockRubberLeaves;
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.RendererHydraulicPiston;
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.RendererMovingPane;
 import k4unl.minecraft.Hydraulicraft.client.renderers.consumers.harvester.RendererHarvesterTrolley;
@@ -26,6 +27,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileJarOfDirt;
 import k4unl.minecraft.Hydraulicraft.tileEntities.rubberHarvesting.TileRubberTap;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileFluidTank;
 import mcmultipart.client.multipart.MultipartRegistryClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -60,5 +62,7 @@ public class Renderers {
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingController, new RendererScubaGearItem());
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingLegs, new RendererScubaGearItem());
 //		MinecraftForgeClient.registerItemRenderer(HCItems.itemDivingBoots, new RendererScubaGearItem());
+
+        ((BlockRubberLeaves)HCBlocks.blockRubberLeaves).setGraphicsLevel(Minecraft.getMinecraft().gameSettings.fancyGraphics);
     }
 }
