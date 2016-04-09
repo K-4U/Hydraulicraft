@@ -18,7 +18,6 @@ import k4unl.minecraft.Hydraulicraft.network.NetworkHandler;
 import k4unl.minecraft.Hydraulicraft.ores.Ores;
 import k4unl.minecraft.Hydraulicraft.proxy.CommonProxy;
 import k4unl.minecraft.Hydraulicraft.thirdParty.ThirdPartyManager;
-import k4unl.minecraft.Hydraulicraft.thirdParty.igwmod.IGWSupportNotifier;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileEntities;
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileJarOfDirt;
 import k4unl.minecraft.Hydraulicraft.world.HCWorldGenerator;
@@ -164,7 +163,6 @@ public class Hydraulicraft {
 
         ThirdPartyManager.instance().postInit();
         configHandler.loadTank();
-        new IGWSupportNotifier();
 
         Log.info("Hydraulicraft ready for use!");
     }
