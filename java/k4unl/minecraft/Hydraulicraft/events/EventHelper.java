@@ -60,15 +60,13 @@ public class EventHelper {
 
 
     @SubscribeEvent
-    public void onRightClick(PlayerInteractEvent event) {
-
-        if (event.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
-            Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.getPos());
-            if (vLocation != null) {
-                //Open a GUI.
-                event.getEntityPlayer().openGui(Hydraulicraft.instance, GuiIDs.TANK.ordinal(), event.getWorld(), vLocation.getX(), vLocation.getY(), vLocation.getZ());
-            }
+    public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
+        Location vLocation = Hydraulicraft.tankList.isLocationInTank(event.getPos());
+        if (vLocation != null) {
+            //Open a GUI.
+            event.getEntityPlayer().openGui(Hydraulicraft.instance, GuiIDs.TANK.ordinal(), event.getWorld(), vLocation.getX(), vLocation.getY(), vLocation.getZ());
         }
+
     }
 
     @SubscribeEvent

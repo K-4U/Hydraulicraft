@@ -6,9 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -420,9 +418,8 @@ public class ModelDivingSuit extends ModelBiped {
         this.isRiding = entity.isRiding();
         if (entity instanceof EntityLivingBase) {
             this.isChild = ((EntityLivingBase) entity).isChild();
-            this.heldItemRight = (((EntityLivingBase) entity).getHeldItem(EnumHand.MAIN_HAND) != null ? 1 : 0);
-            if (entity instanceof EntityPlayer && ((EntityPlayer) entity).getActiveItemStack() != null)
-                this.aimedBow = ((EntityPlayer) entity).getActiveItemStack().getItemUseAction() == EnumAction.BOW && ((EntityPlayer) entity).getItemInUseDuration() > 0;
+            this.rightArmPose = (((EntityLivingBase) entity).getHeldItem(EnumHand.MAIN_HAND) != null ? ArmPose.BOW_AND_ARROW : ArmPose.EMPTY);
+            // TODO possibly check if it can be completely removed? 1.9 thing
         }
 
         this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);

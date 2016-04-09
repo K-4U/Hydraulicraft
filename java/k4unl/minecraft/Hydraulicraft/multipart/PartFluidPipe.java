@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
+import k4unl.minecraft.Hydraulicraft.LocalOcclusionHelper;
 import k4unl.minecraft.Hydraulicraft.client.renderers.transportation.RendererPartFluidPipe;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import mcmultipart.MCMultiPartMod;
@@ -315,7 +316,7 @@ public class PartFluidPipe extends Multipart implements ISlottedPart, ITickable,
         }
 
         //Is there a part blocking us?
-        if (!OcclusionHelper.occlusionTest(getContainer().getParts(), this, boundingBoxes[side.ordinal()])) {
+        if (!LocalOcclusionHelper.occlusionTest(getContainer().getParts(), this, boundingBoxes[side.ordinal()])) {
             return false;
         }
 

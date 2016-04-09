@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
@@ -99,11 +100,9 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase {
         return Hydraulicraft.trolleyRegistrar.getTrolleyItem(teTrolley.getTrolley().getName());
     }
 
-
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        TileEntity tileEntity = source.getTileEntity(pos);
 
         if (tileEntity instanceof TileHarvesterTrolley) {
             TileHarvesterTrolley ht = ((TileHarvesterTrolley) tileEntity);
@@ -111,7 +110,7 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase {
             float sidewaysMovement = ht.getSideLength();
 
             //Get rotation:
-            
+
             int dir = ht.getFacing().ordinal();
             float minX = 0.0F;
             float minY = 0.8F;
@@ -123,19 +122,21 @@ public class BlockHarvesterTrolley extends HydraulicBlockContainerBase {
             int dirZMin = (dir == 2 ? -1 : 0);
             int dirXMax = (dir == 0 ? 1 : 0);
             int dirZMax = (dir == 3 ? 1 : 0);
-            
-            
+
+
             minX += sidewaysMovement * dirXMin;
             minY -= extendedLength;
             minZ += sidewaysMovement * dirZMin;
-            
+
             maxX += sidewaysMovement * dirXMax;
             //maxY += extendedLength;
             maxZ += sidewaysMovement * dirZMax;
-            
-            
-            setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+
+
+            return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
         }
+
+        return super.getBoundingBox(state, source, pos);
     }
 
 

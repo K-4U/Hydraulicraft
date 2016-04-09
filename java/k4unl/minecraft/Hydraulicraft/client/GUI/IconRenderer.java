@@ -168,7 +168,7 @@ public final class IconRenderer {
         VertexBuffer worldRenderer = Tessellator.getInstance().getBuffer();
         IVertexConsumer consumer = new VertexTransformerTransparency(new VertexBufferConsumer(worldRenderer), alpha);
         for (EnumFacing dir : EnumFacing.VALUES) {
-            for (BakedQuad quad : itemModel.getFaceQuads(dir)) {
+            for (BakedQuad quad : itemModel.getQuads(null, dir, 0)) { // TODO check params?
                 quad.pipe(consumer);
             }
         }

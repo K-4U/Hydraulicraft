@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
+import k4unl.minecraft.Hydraulicraft.LocalOcclusionHelper;
 import k4unl.minecraft.Hydraulicraft.api.*;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
@@ -384,7 +385,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, INor
         }
 
         //Is there a part blocking us?
-        if (!OcclusionHelper.occlusionTest(getContainer().getParts(), this, boundingBoxes[side.ordinal()])) {
+        if (!LocalOcclusionHelper.occlusionTest(getContainer().getParts(), this, boundingBoxes[side.ordinal()])) {
             return false;
         }
 

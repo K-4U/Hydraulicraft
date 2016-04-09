@@ -6,7 +6,6 @@ import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.k4lib.lib.Vector3fMax;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -15,8 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class BlockHydraulicHarvesterFrame extends HydraulicBlockBase {
 
@@ -60,9 +57,7 @@ public class BlockHydraulicHarvesterFrame extends HydraulicBlockBase {
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
-
-        IBlockState state = world.getBlockState(pos);
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         float minX = blockBounds.getXMin();
         float minY = blockBounds.getYMin();
         float minZ = blockBounds.getZMin();
@@ -78,29 +73,7 @@ public class BlockHydraulicHarvesterFrame extends HydraulicBlockBase {
             maxZ = 1.0F;
         }
 
-        setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
-    }
-
-    @Override
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-
-        float minX = blockBounds.getXMin();
-        float minY = blockBounds.getYMin();
-        float minZ = blockBounds.getZMin();
-        float maxX = blockBounds.getXMax();
-        float maxY = blockBounds.getYMax();
-        float maxZ = blockBounds.getZMax();
-
-        if (!state.getValue(Properties.HARVESTER_FRAME_ROTATED)) {
-            minX = 0.0F;
-            maxX = 1.0F;
-        } else {
-            minZ = 0.0F;
-            maxZ = 1.0F;
-        }
-
-        super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
-        setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
     public boolean checkRotation(EntityLivingBase player) {

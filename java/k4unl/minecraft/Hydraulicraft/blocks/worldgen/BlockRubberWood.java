@@ -31,6 +31,8 @@ import java.util.Random;
  */
 public class BlockRubberWood extends HydraulicBlockContainerBase {
 
+    AxisAlignedBB blockBounds;
+
     public BlockRubberWood() {
 
         super(Names.blockRubberWood, Material.wood, true);
@@ -40,7 +42,7 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
         this.setDefaultState(this.blockState.getBaseState().withProperty(Properties.HAS_RUBBER_SPOT, false).withProperty(Properties.ROTATION, EnumFacing.NORTH));
         this.setTickRandomly(true);
         Vector3fMax vector = getCollisionBox();
-        this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
+        blockBounds = new AxisAlignedBB(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
     }
 
     @Override
@@ -97,10 +99,10 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
     }
 
     @Override
-    public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
-
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
         return getCollisionBox().toAABB();
     }
+
 
     @Override
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
@@ -113,13 +115,6 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
 
         float pixel = 1F / 16F;
         return new Vector3fMax(pixel, 0.0F, pixel, 1.0F - pixel, 1.0F, 1.0F - pixel);
-    }
-
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-
-        Vector3fMax vector = getCollisionBox();
-        this.setBlockBounds(vector.getXMin(), vector.getYMin(), vector.getZMin(), vector.getXMax(), vector.getYMax(), vector.getZMax());
     }
 
     @Override

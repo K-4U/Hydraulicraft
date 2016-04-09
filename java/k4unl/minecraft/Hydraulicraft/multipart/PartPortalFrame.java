@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.multipart;
 
+import k4unl.minecraft.Hydraulicraft.LocalOcclusionHelper;
 import k4unl.minecraft.Hydraulicraft.blocks.HCBlocks;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
@@ -195,7 +196,7 @@ public class PartPortalFrame extends Multipart implements ISlottedPart, INormall
         }
 
         //Is there a part blocking us?
-        if (!OcclusionHelper.occlusionTest(getContainer().getParts(), this, boundingBoxes[side.ordinal()])) {
+        if (!LocalOcclusionHelper.occlusionTest(getContainer().getParts(), this, boundingBoxes[side.ordinal()])) {
             return false;
         }
 

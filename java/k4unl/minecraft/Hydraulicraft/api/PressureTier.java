@@ -18,7 +18,7 @@ public enum PressureTier implements IStringSerializable {
     @Override
     public String toString() {
 
-        return "TIER-" + tier;
+        return "tier" + tier;
     }
 
     public static PressureTier fromOrdinal(int tier) {

@@ -53,11 +53,9 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
     }
 
     @Override
-    public boolean canRenderInLayer(BlockRenderLayer layer) {
-
+    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
         return true;
     }
-
 
     @Override
     public int quantityDropped(Random p_149745_1_) {
@@ -177,40 +175,6 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
         return true;
     }
 
-
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-
-        if (tileEntity instanceof TileMovingPane) {
-            TileMovingPane pane = ((TileMovingPane) tileEntity);
-            if (!pane.getIsPane()) {
-                setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-                return;
-            }
-            float movedPercentage = pane.getMovedPercentage();
-            float angle = 90.0F;
-            float eSin = 1.0F - (float) Math.cos(Math.toRadians(angle * movedPercentage));
-            EnumFacing facing = pane.getFacing();
-            int xPlus = (facing.getFrontOffsetX() > 0 ? 1 : 0);
-            int xMin = (facing.getFrontOffsetX() < 0 ? 1 : 0);
-            int yPlus = (facing.getFrontOffsetY() > 0 ? 1 : 0);
-            int yMin = (facing.getFrontOffsetY() < 0 ? 1 : 0);
-            int zPlus = (facing.getFrontOffsetZ() > 0 ? 1 : 0);
-            int zMin = (facing.getFrontOffsetZ() < 0 ? 1 : 0);
-
-            float minX = 0.0F + (xMin * eSin);
-            float minY = 0.0F + (yMin * eSin);
-            float minZ = 0.0F + (zMin * eSin);
-            float maxX = 1.0F - (xPlus * eSin);
-            float maxY = 1.0F - (yPlus * eSin);
-            float maxZ = 1.0F - (zPlus * eSin);
-
-            this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
-        }
-    }
-
     @Override
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
 
@@ -219,7 +183,6 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
         if (tileEntity instanceof TileMovingPane) {
             TileMovingPane pane = ((TileMovingPane) tileEntity);
             if (!pane.getIsPane()) {
-                setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
                 super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
                 return;
             }
@@ -239,11 +202,42 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
             float maxY = 1.0F - (yPlus * movedPercentage);
             float maxZ = 1.0F - (zPlus * movedPercentage);
 
-            this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
             super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
         }
     }
 
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+        if (tileEntity instanceof TileMovingPane) {
+            TileMovingPane pane = ((TileMovingPane) tileEntity);
+            if (!pane.getIsPane()) {
+                return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+            }
+            float movedPercentage = pane.getMovedPercentage();
+            float angle = 90.0F;
+            float eSin = 1.0F - (float) Math.cos(Math.toRadians(angle * movedPercentage));
+            EnumFacing facing = pane.getFacing();
+            int xPlus = (facing.getFrontOffsetX() > 0 ? 1 : 0);
+            int xMin = (facing.getFrontOffsetX() < 0 ? 1 : 0);
+            int yPlus = (facing.getFrontOffsetY() > 0 ? 1 : 0);
+            int yMin = (facing.getFrontOffsetY() < 0 ? 1 : 0);
+            int zPlus = (facing.getFrontOffsetZ() > 0 ? 1 : 0);
+            int zMin = (facing.getFrontOffsetZ() < 0 ? 1 : 0);
+
+            float minX = 0.0F + (xMin * eSin);
+            float minY = 0.0F + (yMin * eSin);
+            float minZ = 0.0F + (zMin * eSin);
+            float maxX = 1.0F - (xPlus * eSin);
+            float maxY = 1.0F - (yPlus * eSin);
+            float maxZ = 1.0F - (zPlus * eSin);
+
+            return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
+        }
+
+        return super.getCollisionBoundingBox(blockState, worldIn, pos);
+    }
 
     @Override
     public PressureTier getTier() {

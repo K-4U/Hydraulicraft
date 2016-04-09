@@ -819,6 +819,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     }
 
     public void markBlockForUpdate() {
+        if(worldObj == null || worldObj.isRemote)
+            return;
+
         worldObj.notifyBlockUpdate(getPos(), worldObj.getBlockState(getPos()), worldObj.getBlockState(getPos()), 3);
         // TODO what does the flags: 3 mean? :P
     }
