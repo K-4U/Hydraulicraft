@@ -82,7 +82,7 @@ public class BlockHydraulicHarvesterFrame extends HydraulicBlockBase {
     }
 
     @Override
-    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
 
         float minX = blockBounds.getXMin();
         float minY = blockBounds.getYMin();
@@ -99,7 +99,7 @@ public class BlockHydraulicHarvesterFrame extends HydraulicBlockBase {
             maxZ = 1.0F;
         }
 
-        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+        super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
         setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
     }
 

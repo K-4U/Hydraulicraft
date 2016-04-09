@@ -7,11 +7,12 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
 import mcmultipart.MCMultiPartMod;
-import mcmultipart.block.TileMultipart;
+import mcmultipart.block.TileMultipartContainer;
 import mcmultipart.microblock.IMicroblock;
 import mcmultipart.multipart.*;
 import mcmultipart.raytrace.PartMOP;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
@@ -28,7 +30,7 @@ import java.io.IOException;
 import java.util.*;
 
 
-public class PartHose extends Multipart implements ISlottedPart, ITickable, IOccludingPart, IHydraulicTransporter, ICustomNetwork, ITieredBlock {
+public class PartHose extends Multipart implements ISlottedPart, ITickable, INormallyOccludingPart, IHydraulicTransporter, ICustomNetwork, ITieredBlock {
 
     public static AxisAlignedBB[] boundingBoxes = new AxisAlignedBB[14];
     
@@ -301,9 +303,9 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
     }
 
     @Override
-    public BlockState createBlockState() {
+    public BlockStateContainer createBlockState() {
 
-        return new BlockState(MCMultiPartMod.multipart,
+        return new BlockStateContainer(MCMultiPartMod.multipart,
                 Properties.DOWN,
                 Properties.UP,
                 Properties.NORTH,
@@ -323,7 +325,7 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
     @Override
     public void addOcclusionBoxes(List<AxisAlignedBB> list) {
 
-        list.add(AxisAlignedBB.fromBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
+        list.add(new AxisAlignedBB(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
     }
 
     @Override
@@ -360,11 +362,9 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
         }
     }
 
-
     @Override
-    public boolean canRenderInLayer(EnumWorldBlockLayer layer) {
-
-        return layer == EnumWorldBlockLayer.CUTOUT;
+    public boolean canRenderInLayer(BlockRenderLayer layer) {
+        return layer == BlockRenderLayer.CUTOUT;
     }
 
     // Tile logic
@@ -409,8 +409,8 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, IOcc
 
             if (internalConnects(side)) {
                 TileEntity tileEntity = getWorld().getTileEntity(getPos().offset(side));
-                if (tileEntity instanceof TileMultipart) {
-                    PartHose pipe = MultipartHandler.getHose(((TileMultipart) tileEntity).getPartContainer());
+                if (tileEntity instanceof TileMultipartContainer) {
+                    PartHose pipe = MultipartHandler.getHose(((TileMultipartContainer) tileEntity).getPartContainer());
                     if (pipe != null && !pipe.internalConnects(side.getOpposite())) {
                         return;
                     }

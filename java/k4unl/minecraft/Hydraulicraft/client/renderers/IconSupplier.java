@@ -13,6 +13,6 @@ public class IconSupplier {
     @SubscribeEvent
     public void onTextureStitch(TextureStitchEvent.Pre event) {
 
-        tankGrid = event.map.registerSprite(new ResourceLocation(ModInfo.ID + ":blocks/tankGrid"));
+        tankGrid = event.getMap().registerSprite(new ResourceLocation(ModInfo.ID + ":blocks/tankGrid"));
     }
 }

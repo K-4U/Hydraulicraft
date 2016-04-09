@@ -212,8 +212,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
     }
 
     @Override
-
-    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
 
         TileEntity tileEntity = worldIn.getTileEntity(pos);
 
@@ -221,7 +220,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
             TileMovingPane pane = ((TileMovingPane) tileEntity);
             if (!pane.getIsPane()) {
                 setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-                super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+                super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
                 return;
             }
             float movedPercentage = pane.getMovedPercentage();
@@ -241,7 +240,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
             float maxZ = 1.0F - (zPlus * movedPercentage);
 
             this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
-            super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+            super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
         }
     }
 

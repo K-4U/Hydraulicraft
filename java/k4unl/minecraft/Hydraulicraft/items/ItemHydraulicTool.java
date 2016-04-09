@@ -93,7 +93,7 @@ public abstract class ItemHydraulicTool extends ItemTool implements IPressurizab
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState blockIn, BlockPos pos, EntityLivingBase playerIn) {
 
         if (playerIn instanceof EntityPlayer) {
-            RayTraceResult mop = getMovingObjectPositionFromPlayer(worldIn, (EntityPlayer) playerIn, true);
+            RayTraceResult mop = rayTrace(worldIn, (EntityPlayer) playerIn, true);
             boolean retval = pressurizableItem.canUse((EntityPlayer) playerIn, worldIn, pos, mop.sideHit, PRESSURE_PER_DIG);
             if (retval) {
 

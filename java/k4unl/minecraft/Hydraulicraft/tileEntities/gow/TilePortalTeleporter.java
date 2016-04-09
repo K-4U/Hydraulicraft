@@ -6,7 +6,7 @@ import k4unl.minecraft.Hydraulicraft.network.NetworkHandler;
 import k4unl.minecraft.Hydraulicraft.network.packets.PacketPortalEnabled;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import k4unl.minecraft.k4lib.lib.Location;
-import mcmultipart.block.TileMultipart;
+import mcmultipart.block.TileMultipartContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -115,7 +115,7 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
 
         Location nLoc = new Location(getPos(), dir);
 
-        return ((nLoc.getTE(getWorld()) instanceof TileMultipart) && MultipartHandler.hasPartPortalFrame(((TileMultipart) nLoc.getTE(getWorld()))
+        return ((nLoc.getTE(getWorld()) instanceof TileMultipartContainer) && MultipartHandler.hasPartPortalFrame(((TileMultipartContainer) nLoc.getTE(getWorld()))
                 .getPartContainer())) || (nLoc.getTE(getWorld()) instanceof TilePortalBase);
     }
 

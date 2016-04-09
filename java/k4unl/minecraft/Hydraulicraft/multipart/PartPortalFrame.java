@@ -5,7 +5,7 @@ import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.tileEntities.gow.TilePortalBase;
 import k4unl.minecraft.k4lib.lib.Location;
 import mcmultipart.MCMultiPartMod;
-import mcmultipart.block.TileMultipart;
+import mcmultipart.block.TileMultipartContainer;
 import mcmultipart.microblock.IMicroblock;
 import mcmultipart.multipart.*;
 import mcmultipart.raytrace.PartMOP;
@@ -18,6 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -29,7 +31,7 @@ import java.util.List;
 /**
  * @author Koen Beckers (K-4U)
  */
-public class PartPortalFrame extends Multipart implements ISlottedPart, IOccludingPart, ITickable {
+public class PartPortalFrame extends Multipart implements ISlottedPart, INormallyOccludingPart, ITickable {
 
     public static  AxisAlignedBB[] boundingBoxes   = new AxisAlignedBB[7];
     private static float           pixel           = 1.0F / 16F;
@@ -214,8 +216,8 @@ public class PartPortalFrame extends Multipart implements ISlottedPart, IOccludi
 
             if (internalConnects(side)) {
                 TileEntity tileEntity = getWorld().getTileEntity(getPos().offset(side));
-                if (tileEntity instanceof TileMultipart) {
-                    PartPortalFrame pipe = MultipartHandler.getPartPortalFrame(((TileMultipart) tileEntity).getPartContainer());
+                if (tileEntity instanceof TileMultipartContainer) {
+                    PartPortalFrame pipe = MultipartHandler.getPartPortalFrame(((TileMultipartContainer) tileEntity).getPartContainer());
                     if (pipe != null && !pipe.internalConnects(side.getOpposite())) {
                         return;
                     }
@@ -262,7 +264,7 @@ public class PartPortalFrame extends Multipart implements ISlottedPart, IOccludi
     @Override
     public void addOcclusionBoxes(List<AxisAlignedBB> list) {
 
-        list.add(AxisAlignedBB.fromBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
+        list.add(new AxisAlignedBB(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
     }
 
     @Override
@@ -292,15 +294,13 @@ public class PartPortalFrame extends Multipart implements ISlottedPart, IOccludi
     }
 
     @Override
-    public boolean canRenderInLayer(EnumWorldBlockLayer layer) {
-
-        return layer == EnumWorldBlockLayer.CUTOUT;
+    public boolean canRenderInLayer(BlockRenderLayer layer) {
+        return layer == BlockRenderLayer.CUTOUT;
     }
 
     @Override
-    public String getModelPath() {
-
-        return "hydcraft:PortalFrame";
+    public ResourceLocation getModelPath() {
+        return new ResourceLocation("hydcraft", "PortalFrame");
     }
 
     public boolean getIsActive() {
@@ -312,14 +312,14 @@ public class PartPortalFrame extends Multipart implements ISlottedPart, IOccludi
 
         isActive = b;
         markDirty();
-        getWorld().markBlockForUpdate(getPos());
+        getWorld().notifyBlockUpdate(getPos(), getWorld().getBlockState(getPos()), getWorld().getBlockState(getPos()), 3);
     }
 
     public void setPortalBase(TilePortalBase tilePortalBase) {
 
         parentLocation = tilePortalBase.getBlockLocation();
         markDirty();
-        getWorld().markBlockForUpdate(getPos());
+        getWorld().notifyBlockUpdate(getPos(), getWorld().getBlockState(getPos()), getWorld().getBlockState(getPos()), 3);
     }
 
     public TilePortalBase getBase() {

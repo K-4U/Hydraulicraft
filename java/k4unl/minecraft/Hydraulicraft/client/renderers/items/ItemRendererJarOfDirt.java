@@ -1,16 +1,17 @@
 package k4unl.minecraft.Hydraulicraft.client.renderers.items;
 
 import k4unl.minecraft.Hydraulicraft.client.renderers.misc.RendererJarOfDirt;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 import java.util.List;
 
-public class ItemRendererJarOfDirt implements ISmartItemModel {
+public class ItemRendererJarOfDirt implements IBakedModel {
 
     private IBakedModel baseModel;
     private static RendererJarOfDirt rendererJarOfDirt = new RendererJarOfDirt();
@@ -20,39 +21,24 @@ public class ItemRendererJarOfDirt implements ISmartItemModel {
         this.baseModel = baseModel;
     }
 
-    @Override
-    public IBakedModel handleItemState(ItemStack stack) {
-
-        return null;
-    }
 
     @Override
-    public List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_) {
-
-        return baseModel.getFaceQuads(p_177551_1_);
-    }
-
-    @Override
-    public List<BakedQuad> getGeneralQuads() {
-
-        return baseModel.getGeneralQuads();
+    public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
+        return baseModel.getQuads(state, side, rand);
     }
 
     @Override
     public boolean isAmbientOcclusion() {
-
         return baseModel.isAmbientOcclusion();
     }
 
     @Override
     public boolean isGui3d() {
-
         return baseModel.isGui3d();
     }
 
     @Override
     public boolean isBuiltInRenderer() {
-
         return false;
     }
 
@@ -64,8 +50,12 @@ public class ItemRendererJarOfDirt implements ISmartItemModel {
 
     @Override
     public ItemCameraTransforms getItemCameraTransforms() {
-
         return baseModel.getItemCameraTransforms();
+    }
+
+    @Override
+    public ItemOverrideList getOverrides() {
+        return null;
     }
 
     //implements IItemRenderer {

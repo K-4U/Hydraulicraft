@@ -1,5 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.api;
 
+import mcmultipart.multipart.Multipart;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;

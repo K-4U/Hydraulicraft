@@ -27,20 +27,10 @@ public class JEIPlugin implements IModPlugin {
     }
 
     @Override
-    public void onJeiHelpersAvailable(IJeiHelpers jeiHelpers) {
-
-        this.helpers = jeiHelpers;
-    }
-
-    @Override
-    public void onItemRegistryAvailable(IItemRegistry itemRegistry) {
-
-    }
-
-    @Override
     public void register(IModRegistry registry) {
 
-        IGuiHelper helper = helpers.getGuiHelper();
+        helpers = registry.getJeiHelpers();
+        IGuiHelper helper = registry.getJeiHelpers().getGuiHelper();
 
         registry.addRecipeCategories(
                 new JEICategoryAssembler(helper),
@@ -69,11 +59,6 @@ public class JEIPlugin implements IModPlugin {
         registry.addRecipes(crusher.getRecipes());
         registry.addRecipes(washer.getRecipes());
         registry.addRecipes(recombobulator.getRecipes());
-    }
-
-    @Override
-    public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {
-
     }
 
     @Override

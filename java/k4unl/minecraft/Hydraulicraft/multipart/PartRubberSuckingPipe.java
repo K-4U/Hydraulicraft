@@ -3,11 +3,12 @@ package k4unl.minecraft.Hydraulicraft.multipart;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.tileEntities.worldgen.TileRubberWood;
 import mcmultipart.MCMultiPartMod;
-import mcmultipart.block.TileMultipart;
+import mcmultipart.block.TileMultipartContainer;
 import mcmultipart.microblock.IMicroblock;
 import mcmultipart.multipart.*;
 import mcmultipart.raytrace.PartMOP;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -28,7 +30,7 @@ import java.util.List;
 /**
  * @author Koen Beckers (K-4U)
  */
-public class PartRubberSuckingPipe extends Multipart implements ISlottedPart, ITickable, IOccludingPart {
+public class PartRubberSuckingPipe extends Multipart implements ISlottedPart, ITickable, INormallyOccludingPart {
 
     public static  AxisAlignedBB[] boundingBoxes = new AxisAlignedBB[7];
     private static float           pixel         = 1.0F / 16F;
@@ -149,9 +151,9 @@ public class PartRubberSuckingPipe extends Multipart implements ISlottedPart, IT
     }
 
     @Override
-    public BlockState createBlockState() {
+    public BlockStateContainer createBlockState() {
 
-        return new BlockState(MCMultiPartMod.multipart,
+        return new BlockStateContainer(MCMultiPartMod.multipart,
                 Properties.DOWN,
                 Properties.UP,
                 Properties.NORTH,
@@ -172,7 +174,7 @@ public class PartRubberSuckingPipe extends Multipart implements ISlottedPart, IT
     public void addOcclusionBoxes(List<AxisAlignedBB> list) {
 
         //TODO: CHANGE ME
-        list.add(AxisAlignedBB.fromBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
+        list.add(new AxisAlignedBB(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
     }
 
     @Override
@@ -249,8 +251,8 @@ public class PartRubberSuckingPipe extends Multipart implements ISlottedPart, IT
 
             if (internalConnects(side)) {
                 TileEntity tileEntity = getWorld().getTileEntity(getPos().offset(side));
-                if (tileEntity instanceof TileMultipart) {
-                    PartRubberSuckingPipe pipe = MultipartHandler.getRubberSuckingPipe(((TileMultipart) tileEntity).getPartContainer());
+                if (tileEntity instanceof TileMultipartContainer) {
+                    PartRubberSuckingPipe pipe = MultipartHandler.getRubberSuckingPipe(((TileMultipartContainer) tileEntity).getPartContainer());
                     if (pipe != null && !pipe.internalConnects(side.getOpposite())) {
                         return;
                     }
@@ -304,9 +306,8 @@ public class PartRubberSuckingPipe extends Multipart implements ISlottedPart, IT
     }
 
     @Override
-    public String getModelPath() {
-
-        return "hydcraft:PartRubberSuckingPipe";
+    public ResourceLocation getModelPath() {
+        return new ResourceLocation("hydcraft", "RubberSuckingPipe");
     }
 
     @Override

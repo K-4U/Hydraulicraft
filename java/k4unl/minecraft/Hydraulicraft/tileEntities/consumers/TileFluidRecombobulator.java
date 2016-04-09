@@ -12,8 +12,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fluids.*;
 
 /**
@@ -164,7 +164,7 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
                         //Do it!
                         fill(EnumFacing.UP, input, true);
                         markDirty();
-                        worldObj.notifyBlockUpdate(pos);
+                        markBlockForUpdate();
 
                         setInventorySlotContents(0, null);
                         setInventorySlotContents(1, empty);
@@ -273,8 +273,7 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
     }
 
     @Override
-    public IChatComponent getDisplayName() {
-
+    public ITextComponent getDisplayName() {
         return null;
     }
 

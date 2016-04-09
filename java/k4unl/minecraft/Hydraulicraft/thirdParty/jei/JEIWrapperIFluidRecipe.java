@@ -57,11 +57,6 @@ public abstract class JEIWrapperIFluidRecipe implements IRecipeWrapper {
     }
 
     @Override
-    public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
-        // time?
-    }
-
-    @Override
     public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         int color = Constants.COLOR_PRESSURE;
         if((mouseX >= 152-6 && mouseX <= 152+16-6) && (mouseY >= 16-14 && mouseY <= 16+54-14)){

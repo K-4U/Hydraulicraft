@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.List;
 
-public class PartFluidInterface extends Multipart implements IFluidHandler, IOccludingPart, ISlottedPart, ITickable {
+public class PartFluidInterface extends Multipart implements IFluidHandler, INormallyOccludingPart, ISlottedPart, ITickable {
 
     private static float      pixel        = 1.0F / 16F;
     private static int        expandBounds = -1;

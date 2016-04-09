@@ -16,7 +16,7 @@ import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.IHydraulicStorageWi
 import k4unl.minecraft.Hydraulicraft.tileEntities.misc.TileHydraulicValve;
 import k4unl.minecraft.Hydraulicraft.tileEntities.storage.TileHydraulicPressureReservoir;
 import k4unl.minecraft.k4lib.lib.Location;
-import mcmultipart.block.TileMultipart;
+import mcmultipart.block.TileMultipartContainer;
 import mcmultipart.multipart.Multipart;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -281,9 +281,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         if (t instanceof IHydraulicMachine) {
             if (((IHydraulicMachine) t).canConnectTo(dir.getOpposite()) && !list.contains(t))
                 list.add((IHydraulicMachine) t);
-        } else if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
-            if (MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer()).isConnectedTo(dir.getOpposite()) && !list.contains(t)) {
-                list.add(MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer()));
+        } else if (t instanceof TileMultipartContainer && MultipartHandler.hasTransporter(((TileMultipartContainer) t).getPartContainer())) {
+            if (MultipartHandler.getTransporter(((TileMultipartContainer) t).getPartContainer()).isConnectedTo(dir.getOpposite()) && !list.contains(t)) {
+                list.add(MultipartHandler.getTransporter(((TileMultipartContainer) t).getPartContainer()));
             }
         }
         return list;
@@ -543,9 +543,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         if (t instanceof IHydraulicMachine) {
             if (((IHydraulicMachine) t).canConnectTo(dir.getOpposite()))
                 return (IHydraulicMachine) t;
-        } else if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
-            if (MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer()).isConnectedTo(dir.getOpposite())) {
-                return MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer());
+        } else if (t instanceof TileMultipartContainer && MultipartHandler.hasTransporter(((TileMultipartContainer) t).getPartContainer())) {
+            if (MultipartHandler.getTransporter(((TileMultipartContainer) t).getPartContainer()).isConnectedTo(dir.getOpposite())) {
+                return MultipartHandler.getTransporter(((TileMultipartContainer) t).getPartContainer());
             }
         }
         return null;

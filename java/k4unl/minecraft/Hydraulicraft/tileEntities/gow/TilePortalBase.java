@@ -12,7 +12,7 @@ import k4unl.minecraft.Hydraulicraft.multipart.MultipartHandler;
 import k4unl.minecraft.Hydraulicraft.multipart.PartPortalFrame;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.k4lib.lib.Location;
-import mcmultipart.block.TileMultipart;
+import mcmultipart.block.TileMultipartContainer;
 import mcmultipart.multipart.MultipartContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -70,11 +70,11 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
             Hydraulicraft.ipList.removeIP(ip);
         }
         if (getWorldObj() != null) {
-            String IP = Hydraulicraft.ipList.generateNewRandomIP(getWorldObj().provider.getDimensionId());
-            Hydraulicraft.ipList.registerIP(IPs.ipToLong(IP), new Location(getPos(), getWorldObj().provider.getDimensionId()));
+            String IP = Hydraulicraft.ipList.generateNewRandomIP(getWorldObj().provider.getDimension());
+            Hydraulicraft.ipList.registerIP(IPs.ipToLong(IP), new Location(getPos(), getWorldObj().provider.getDimension()));
             ipRegistered = false;
             ip = IPs.ipToLong(IP);
-            getWorldObj().markBlockForUpdate(getPos());
+            markBlockForUpdate();
         }
     }
 
@@ -184,7 +184,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         }
         if (!ipRegistered) {
             ipRegistered = true;
-            Hydraulicraft.ipList.registerIP(ip, new Location(getPos(), worldObj.provider.getDimensionId()));
+            Hydraulicraft.ipList.registerIP(ip, new Location(getPos(), worldObj.provider.getDimension()));
         }
     }
 
@@ -192,8 +192,8 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
         TileEntity tileEntity = location.getTE(getWorld());
         if(tileEntity == null) return false;
-        if(!(tileEntity instanceof TileMultipart)) return false;
-        MultipartContainer container = ((TileMultipart) tileEntity).getPartContainer();
+        if(!(tileEntity instanceof TileMultipartContainer)) return false;
+        MultipartContainer container = ((TileMultipartContainer) tileEntity).getPartContainer();
         return MultipartHandler.hasPartPortalFrame(container);
     }
 
@@ -287,8 +287,8 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     }
 
     private PartPortalFrame getFrame(Location location) {
-        if(location.getTE(getWorld()) instanceof TileMultipart) {
-            return MultipartHandler.getPartPortalFrame(((TileMultipart) location.getTE(getWorld())).getPartContainer());
+        if(location.getTE(getWorld()) instanceof TileMultipartContainer) {
+            return MultipartHandler.getPartPortalFrame(((TileMultipartContainer) location.getTE(getWorld())).getPartContainer());
         }else{
             return null;
         }
@@ -562,7 +562,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
 
         colorIndex = i;
         markDirty();
-        getWorldObj().markBlockForUpdate(getPos());
+        markBlockForUpdate();
         //Update frames
         if (portalFormed) {
             for (Location fr : frames) {

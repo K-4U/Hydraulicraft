@@ -45,14 +45,14 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 //noinspection GroovyAssignabilityCheck,GroovyAssignabilityCheck,GroovyAssignabilityCheck,GroovyAssignabilityCheck
 dependencies {
-    //compile "mcp.mobius.waila:Waila:1.6.0-B3_1.8.8:dev"
+    compile "mcp.mobius.waila:Waila:1.7.0-B2_1.9:dev"
     //compile 'net.industrial-craft:industrialcraft-2:2.2.750-experimental:api'
     //compile "pneumaticCraft:PneumaticCraft-1.7.10:1.9.6-93:userdev"
-    compile "k4unl:k4lib:1.9-1.0.2:deobf"
+    compile "k4unl:k4lib:1.9-1.0.4:deobf"
     //compile name: "buildcraft", classifier: "dev", version: "7.0.16"
     //compile "igwmod:IGW-Mod-1.8.9:1.2.3-3:userdev"
-    //deobfCompile "mezz.jei:jei_1.8.9:2.28.1.162"
-    //deobfCompile "MCMultiPart:MCMultiPart:1.0.6:universal"
+    deobfCompile "mezz.jei:jei_1.9:3.2.9.184"
+    deobfCompile "MCMultiPart:MCMultiPart:1.1.1:universal"
 }
 
 allprojects {
@@ -74,7 +74,7 @@ group = "k4unl"
 archivesBaseName = "HydCraft"
 
 minecraft {
-    version = "${project.ext.mcVersion}-12.16.0.1811-1.9"
+    version = "${project.ext.mcVersion}-12.16.0.1859-1.9"
 
     // replacing stuff in the source
     replace '@VERSION@', project.version
@@ -85,7 +85,7 @@ minecraft {
 
     runDir = "../Minecraft/"
 
-    mappings = "snapshot_20160326"
+    mappings = "snapshot_20160408"
 }
 
 // configure the source folders

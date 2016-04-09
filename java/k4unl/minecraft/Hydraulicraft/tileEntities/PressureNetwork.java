@@ -6,6 +6,7 @@ import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.multipart.MultipartHandler;
 import k4unl.minecraft.k4lib.lib.Location;
+import mcmultipart.block.TileMultipartContainer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -61,11 +62,11 @@ public class PressureNetwork {
     public static PressureNetwork getNetworkInDir(IBlockAccess iba, BlockPos pos, EnumFacing dir) {
 
         TileEntity t = iba.getTileEntity(pos);
-        if (t instanceof IHydraulicMachine || t instanceof TileMultipart) {
+        if (t instanceof IHydraulicMachine || t instanceof TileMultipartContainer) {
             IHydraulicMachine mEnt;
             boolean isMultipart = false;
-            if (t instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) t).getPartContainer())) {
-                mEnt = MultipartHandler.getTransporter(((TileMultipart) t).getPartContainer());
+            if (t instanceof TileMultipartContainer && MultipartHandler.hasTransporter(((TileMultipartContainer) t).getPartContainer())) {
+                mEnt = MultipartHandler.getTransporter(((TileMultipartContainer) t).getPartContainer());
                 isMultipart = true;
             } else {
                 mEnt = (IHydraulicMachine) t;
@@ -82,9 +83,9 @@ public class PressureNetwork {
                             if (((IHydraulicMachine) tn).canConnectTo(dir.getOpposite())) {
                                 foundNetwork = ((TileHydraulicBase) ((IHydraulicMachine) tn).getHandler()).getNetwork(dir.getOpposite());
                             }
-                        } else if (tn instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) tn).getPartContainer())) {
-                            if (MultipartHandler.getTransporter(((TileMultipart) tn).getPartContainer()).isConnectedTo(dir.getOpposite())) {
-                                foundNetwork = ((TileHydraulicBase) (MultipartHandler.getTransporter(((TileMultipart) tn).getPartContainer())).getHandler()).getNetwork(dir.getOpposite());
+                        } else if (tn instanceof TileMultipartContainer && MultipartHandler.hasTransporter(((TileMultipartContainer) tn).getPartContainer())) {
+                            if (MultipartHandler.getTransporter(((TileMultipartContainer) tn).getPartContainer()).isConnectedTo(dir.getOpposite())) {
+                                foundNetwork = ((TileHydraulicBase) (MultipartHandler.getTransporter(((TileMultipartContainer) tn).getPartContainer())).getHandler()).getNetwork(dir.getOpposite());
                             }
                         }
                     }
@@ -100,9 +101,9 @@ public class PressureNetwork {
             } else {
                 BlockPos offset = pos.offset(dir);
                 TileEntity tn = iba.getTileEntity(offset);
-                if (tn instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) tn).getPartContainer())) {
-                    if (MultipartHandler.getTransporter(((TileMultipart) tn).getPartContainer()).isConnectedTo(dir.getOpposite())) {
-                        foundNetwork = ((TileHydraulicBase) (MultipartHandler.getTransporter(((TileMultipart) tn).getPartContainer())).getHandler()).getNetwork(dir.getOpposite());
+                if (tn instanceof TileMultipartContainer && MultipartHandler.hasTransporter(((TileMultipartContainer) tn).getPartContainer())) {
+                    if (MultipartHandler.getTransporter(((TileMultipartContainer) tn).getPartContainer()).isConnectedTo(dir.getOpposite())) {
+                        foundNetwork = ((TileHydraulicBase) (MultipartHandler.getTransporter(((TileMultipartContainer) tn).getPartContainer())).getHandler()).getNetwork(dir.getOpposite());
                     }
                 }
             }
@@ -185,8 +186,8 @@ public class PressureNetwork {
                     IHydraulicMachine machine = (IHydraulicMachine) ent;
                     ((TileHydraulicBase) machineToRemove.getHandler()).setNetwork(entry.getFrom(), null);
                     machine.getHandler().updateNetworkOnNextTick(getPressure());
-                } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
-                    IHydraulicMachine machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
+                } else if (ent instanceof TileMultipartContainer && MultipartHandler.hasTransporter(((TileMultipartContainer) ent).getPartContainer())) {
+                    IHydraulicMachine machine = MultipartHandler.getTransporter(((TileMultipartContainer) ent).getPartContainer());
                     ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), null);
                     machine.getHandler().updateNetworkOnNextTick(getPressure());
                 }
@@ -249,8 +250,8 @@ public class PressureNetwork {
                     IHydraulicMachine machine = (IHydraulicMachine) ent;
                     ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), this);
                     this.addMachine(machine, newPressure, entry.getFrom());
-                } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
-                    IHydraulicMachine machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
+                } else if (ent instanceof TileMultipartContainer && MultipartHandler.hasTransporter(((TileMultipartContainer) ent).getPartContainer())) {
+                    IHydraulicMachine machine = MultipartHandler.getTransporter(((TileMultipartContainer) ent).getPartContainer());
                     ((TileHydraulicBase) machine.getHandler()).setNetwork(entry.getFrom(), this);
                     this.addMachine(machine, newPressure, entry.getFrom());
                 }
@@ -333,8 +334,8 @@ public class PressureNetwork {
                 IHydraulicMachine machine = null;
                 if (ent instanceof IHydraulicMachine) {
                     machine = (IHydraulicMachine) ent;
-                } else if (ent instanceof TileMultipart && MultipartHandler.hasTransporter(((TileMultipart) ent).getPartContainer())) {
-                    machine = MultipartHandler.getTransporter(((TileMultipart) ent).getPartContainer());
+                } else if (ent instanceof TileMultipartContainer && MultipartHandler.hasTransporter(((TileMultipartContainer) ent).getPartContainer())) {
+                    machine = MultipartHandler.getTransporter(((TileMultipartContainer) ent).getPartContainer());
                 }
 
                 if (machine != null) {
