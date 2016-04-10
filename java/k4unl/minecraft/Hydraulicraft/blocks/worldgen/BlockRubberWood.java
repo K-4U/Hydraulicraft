@@ -1,7 +1,6 @@
 package k4unl.minecraft.Hydraulicraft.blocks.worldgen;
 
 import k4unl.minecraft.Hydraulicraft.blocks.HydraulicBlockContainerBase;
-import k4unl.minecraft.Hydraulicraft.lib.Log;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
@@ -147,7 +146,7 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
         if(worldIn.getBlockState(pos.down()).getBlock() == Blocks.grass || worldIn.getBlockState(pos.down()).getBlock() == Blocks.dirt){
             rubberSpot = false;
         }
-        Log.info("Rubber on " + pos.toString() + "=" + rubberSpot);
+        //Log.info("Rubber on " + pos.toString() + "=" + rubberSpot);
         state = state.withProperty(Properties.HAS_RUBBER_SPOT, rubberSpot).withProperty(Properties.ROTATION, rndFacing);
         worldIn.setBlockState(pos, state);
     }
