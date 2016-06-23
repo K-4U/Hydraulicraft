@@ -58,9 +58,9 @@ public class Pneumaticraft implements IThirdParty {
                         "KCT",
                         "WWW",
                         'K', HCItems.gasket,
-                        'T', new ItemStack(Items.redstone/*BlockSupplier.getBlock("pressureTube")*/, 1, 0),
+                        'T', new ItemStack(Items.REDSTONE/*BlockSupplier.getBlock("pressureTube")*/, 1, 0),
                         'W', HCBlocks.hydraulicPressureWall,
-                        'C', Items.redstone //BlockSupplier.getBlock("airCompressor")
+                        'C', Items.REDSTONE //BlockSupplier.getBlock("airCompressor")
                 });
     }
 }

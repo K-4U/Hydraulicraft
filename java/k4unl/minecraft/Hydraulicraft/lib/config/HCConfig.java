@@ -130,7 +130,7 @@ public class HCConfig extends Config {
 
         tankBlackList.clear();
         tankScores.clear();
-        Iterator<Block> itr = Block.blockRegistry.iterator();
+        Iterator<Block> itr = Block.REGISTRY.iterator();
         while (itr.hasNext()) {
             Block bl = itr.next();
 

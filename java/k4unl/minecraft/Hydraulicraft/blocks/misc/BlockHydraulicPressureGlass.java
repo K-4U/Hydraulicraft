@@ -17,7 +17,7 @@ public class BlockHydraulicPressureGlass extends BlockConnectedTexture {
 
     public BlockHydraulicPressureGlass() {
 
-        super(Names.blockHydraulicPressureGlass, Material.glass);
+        super(Names.blockHydraulicPressureGlass, Material.GLASS);
     }
 
     @Override

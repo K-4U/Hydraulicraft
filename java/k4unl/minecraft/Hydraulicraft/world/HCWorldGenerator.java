@@ -8,7 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -47,7 +47,7 @@ public class HCWorldGenerator implements IWorldGenerator {
 
         if (HCConfig.INSTANCE.getBool("shouldGenFoxium", "worldgen")) {
             generateOre(Ores.oreFoxium, world, HCConfig.INSTANCE.getInt("foxiumVeinSize", "worldgen"), HCConfig.INSTANCE.getInt
-                    ("foxiumVeinCount", "worldgen"), HCConfig.INSTANCE.getInt("foxiumMinY", "worldgen"), HCConfig.INSTANCE.getInt("foxiumMaxY", "worldgen"), random, chunkX, chunkZ, Blocks.netherrack);
+                    ("foxiumVeinCount", "worldgen"), HCConfig.INSTANCE.getInt("foxiumMinY", "worldgen"), HCConfig.INSTANCE.getInt("foxiumMaxY", "worldgen"), random, chunkX, chunkZ, Blocks.NETHERRACK);
         }
     }
 
@@ -77,7 +77,7 @@ public class HCWorldGenerator implements IWorldGenerator {
 
     public static void generateBeachium(World world, Random random, int x, int z) {
         //Check biome
-        BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(x, 0, z));
+        Biome biome = world.getBiome(new BlockPos(x, 0, z));
         if (!BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH)) {
             return;
         }
@@ -86,7 +86,7 @@ public class HCWorldGenerator implements IWorldGenerator {
                 int randX = x + random.nextInt(16);
                 int randZ = z + random.nextInt(16);
                 BlockPos upperBlock = world.getTopSolidOrLiquidBlock(new BlockPos(randX, 0, randZ)).down();
-                if (world.getBlockState(upperBlock).getBlock() == Blocks.sand) {
+                if (world.getBlockState(upperBlock).getBlock() == Blocks.SAND) {
                     world.setBlockState(upperBlock, Ores.oreBeachium.getDefaultState());
                 }
             }
@@ -95,7 +95,7 @@ public class HCWorldGenerator implements IWorldGenerator {
 
     public static void generateNadsiumBicarbinate(World world, Random random, int x, int z) {
         //Check biome
-        BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(x, 0, z));
+        Biome biome = world.getBiome(new BlockPos(x, 0, z));
         if (!BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.OCEAN) && !BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.RIVER)
                 && !BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH)) {
             return;
@@ -107,10 +107,10 @@ public class HCWorldGenerator implements IWorldGenerator {
                 int randZ = z + random.nextInt(16);
                 BlockPos topBlockPos = world.getTopSolidOrLiquidBlock(new BlockPos(randX, 0, randZ)).down();
                 Block topBlock = world.getBlockState(topBlockPos).getBlock();
-                if (world.getBlockState(topBlockPos.up()).getBlock() == Blocks.water) {
-                    if (topBlock == Blocks.gravel) {
+                if (world.getBlockState(topBlockPos.up()).getBlock() == Blocks.WATER) {
+                    if (topBlock == Blocks.GRAVEL) {
                         world.setBlockState(topBlockPos, Ores.oreNadsiumBicarbinate.getDefaultState());
-                    } else if (topBlock == Blocks.sand) {
+                    } else if (topBlock == Blocks.SAND) {
                         if (random.nextDouble() < 0.2)
                             world.setBlockState(topBlockPos, HCBlocks.blockRefinedNadsiumBicarbinate.getDefaultState());
                     }
@@ -150,7 +150,7 @@ public class HCWorldGenerator implements IWorldGenerator {
             }
         }
         if (HCConfig.INSTANCE.getBool("shouldGenRubberTrees", "worldgen")) {
-            BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(chunkX, 0, chunkZ));
+            Biome biome = world.getBiome(new BlockPos(chunkX, 0, chunkZ));
             if (!BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.SWAMP) && !BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.JUNGLE)) {
                 return;
             }
@@ -177,10 +177,10 @@ public class HCWorldGenerator implements IWorldGenerator {
             Block block = chunk.getBlockState(cx, y, cz).getBlock();
 
             if (block.getMaterial(chunk.getBlockState(cx, y, cz)).blocksMovement() &&
-                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.leaves &&
-                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.wood &&
-                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.gourd &&
-                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.ice &&
+                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.LEAVES &&
+                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.WOOD &&
+                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.GOURD &&
+                    block.getMaterial(chunk.getBlockState(cx, y, cz)) != Material.ICE &&
                     !block.isFoliage(world, new BlockPos(x, y, z))) {
                 return y + 1;
             }

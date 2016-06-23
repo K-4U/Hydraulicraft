@@ -35,7 +35,7 @@ public class TrolleyEnderlily implements IHarvesterTrolley {
 
         IBlockState soil = world.getBlockState(pos.down());
         //TODO: PICK THE PROPER META FOR ENDER CORE
-        return soil.getBlock().equals(Blocks.dirt) || soil.getBlock().equals(Blocks.grass) || soil.getBlock().equals(Blocks.end_stone) || (soil.getBlock().equals(ExtraUtilities.enderCore));// && soil. == 11);
+        return soil.getBlock().equals(Blocks.DIRT) || soil.getBlock().equals(Blocks.GRASS) || soil.getBlock().equals(Blocks.END_STONE) || (soil.getBlock().equals(ExtraUtilities.enderCore));// && soil. == 11);
     }
 
     @Override

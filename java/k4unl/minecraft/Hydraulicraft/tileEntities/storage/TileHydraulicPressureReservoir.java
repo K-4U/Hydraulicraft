@@ -371,7 +371,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         if (inputInventory != null) {
@@ -393,6 +393,7 @@ public class TileHydraulicPressureReservoir extends TileHydraulicBase implements
             tank.writeToNBT(tankCompound);
             tagCompound.setTag("tank", tankCompound);
         }
+        return tankCompound;
     }
 
     @Override

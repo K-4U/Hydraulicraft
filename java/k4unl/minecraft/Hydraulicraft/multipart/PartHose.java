@@ -101,12 +101,13 @@ public class PartHose extends Multipart implements ISlottedPart, ITickable, INor
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
-        super.writeToNBT(tagCompound);
+        tagCompound = super.writeToNBT(tagCompound);
         getHandler().writeToNBTI(tagCompound);
         tagCompound.setInteger("tier", tier.toInt());
         tagCompound.setByte("connectionCache", connectionCache);
+        return tagCompound;
     }
 
     @Override

@@ -68,8 +68,6 @@ public class HCBlocks {
     public static Block portalFrame;
     public static Block portalTeleporter;
 
-    public static Block blockChunkLoader;
-
     public static Block blockJarDirt;
     public static Block blockAssembler;
     public static Block blockRefinedLonezium;
@@ -130,7 +128,6 @@ public class HCBlocks {
         blockJarDirt = new BlockJarOfDirt();
 
         blockCharger = new BlockHydraulicCharger();
-        blockChunkLoader = new BlockChunkLoader();
 
         blockAssembler = new BlockAssembler();
         blockRefinedLonezium = new BlockRefinedMineral(Names.blockRefinedLonezium);
@@ -211,7 +208,6 @@ public class HCBlocks {
         GameRegistry.registerBlock(blockLight, HandlerHydraulicBlock.class, Names.blockLight.unlocalized);
         GameRegistry.registerBlock(pressureDisposal, HandlerHydraulicBlock.class, Names.blockPressureDisposal.unlocalized);
         GameRegistry.registerBlock(blockInfiniteSource, HandlerHydraulicBlock.class, Names.blockInfiniteSource.unlocalized);
-        GameRegistry.registerBlock(blockChunkLoader, HandlerHydraulicBlock.class, Names.blockChunkLoader.unlocalized);
         GameRegistry.registerBlock(portalTeleporter, HandlerHydraulicBlock.class, Names.portalTeleporter.unlocalized);
         GameRegistry.registerBlock(blockRefinedLonezium, ItemBlock.class, Names.blockRefinedLonezium.unlocalized);
         GameRegistry.registerBlock(blockRefinedNadsiumBicarbinate, ItemBlock.class, Names.blockRefinedNadsiumBicarbinate.unlocalized);

@@ -80,7 +80,7 @@ public class RendererRFPump extends TileEntitySpecialRenderer {
         }
 
 
-        FMLClientHandler.instance().getClient().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+        FMLClientHandler.instance().getClient().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         GL11.glPushMatrix();
         //GL11.glDisable(GL11.GL_TEXTURE_2D); //Do not use textures

@@ -56,7 +56,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
 
@@ -75,6 +75,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
             tagCompound.setFloat("movingSpeed", movingSpeed);
             tagCompound.setFloat("target", target);
         }
+        return tagCompound;
     }
 
     @Override
@@ -194,7 +195,7 @@ public class TileMovingPane extends TileHydraulicBase implements IHydraulicConsu
             //This can only happen on NBT load, which means it should just load them anyway.
             return isPane;
         }
-        if (getWorldObj().getBlockState(getPos()).getBlock() != Blocks.air) {
+        if (getWorldObj().getBlockState(getPos()).getBlock() != Blocks.AIR) {
             isPane = getWorldObj().getBlockState(getPos()).getValue(Properties.CHILD);
             return isPane;
         } else {

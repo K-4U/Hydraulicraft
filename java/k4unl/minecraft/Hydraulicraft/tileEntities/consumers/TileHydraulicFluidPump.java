@@ -136,13 +136,13 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
                 hasPumped = false;
                 Block block = getWorldObj().getBlockState(new BlockPos(getPos().getX() + (facing.getFrontOffsetX() * 2), getPos().getY() - 1, getPos().getZ() + (facing.getFrontOffsetZ() * 2))).getBlock();
                 Fluid blockFluid = FluidRegistry.lookupFluidForBlock(block);
-                if ((block == Blocks.flowing_lava || block == Blocks.lava) && blockFluid == null) {
+                if ((block == Blocks.FLOWING_LAVA || block == Blocks.LAVA) && blockFluid == null) {
                     fluidPumping = FluidRegistry.LAVA;
-                    blockPumping = Blocks.flowing_lava;
+                    blockPumping = Blocks.FLOWING_LAVA;
                 }
-                if ((block == Blocks.flowing_water || block == Blocks.water) && blockFluid == null) {
+                if ((block == Blocks.FLOWING_WATER || block == Blocks.WATER) && blockFluid == null) {
                     fluidPumping = FluidRegistry.WATER;
-                    blockPumping = Blocks.flowing_water;
+                    blockPumping = Blocks.FLOWING_WATER;
                 }
 
                 if (block instanceof IFluidBlock) {
@@ -207,8 +207,8 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
                 fluidBlocks.remove(fluidBlocks.size() - 1);
                 hasPumped = true;
             } else if (toDrain.getBlock(getWorldObj()) instanceof BlockLiquid) {
-                if (!(toDrain.getBlock(getWorldObj()) == Blocks.water)) {
-                    getWorldObj().setBlockState(toDrain.toBlockPos(), Blocks.air.getDefaultState(), 2);
+                if (!(toDrain.getBlock(getWorldObj()) == Blocks.WATER)) {
+                    getWorldObj().setBlockState(toDrain.toBlockPos(), Blocks.AIR.getDefaultState(), 2);
                     fluidBlocks.remove(fluidBlocks.size() - 1);
                 }
                 hasPumped = true;
@@ -239,12 +239,13 @@ public class TileHydraulicFluidPump extends TileHydraulicBase implements IHydrau
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         tank.writeToNBT(tagCompound);
         tagCompound.setString("facing", getFacing().getName());
         tagCompound.setBoolean("hasPumped", hasPumped);
+        return tagCompound;
     }
 
     @Override

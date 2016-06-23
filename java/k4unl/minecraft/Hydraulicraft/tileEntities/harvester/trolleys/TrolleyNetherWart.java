@@ -44,7 +44,7 @@ public class TrolleyNetherWart implements IHarvesterTrolley {
     public ArrayList<ItemStack> getHandlingSeeds() {
 
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        ret.add(new ItemStack(Items.nether_wart));
+        ret.add(new ItemStack(Items.NETHER_WART));
         return ret;
     }
 

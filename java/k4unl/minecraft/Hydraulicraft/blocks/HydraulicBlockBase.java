@@ -21,7 +21,7 @@ public class HydraulicBlockBase extends Block {
 
     protected HydraulicBlockBase(Name machineName, boolean addToTab) {
 
-        this(machineName, Material.rock, addToTab);
+        this(machineName, Material.IRON, addToTab);
     }
 
 

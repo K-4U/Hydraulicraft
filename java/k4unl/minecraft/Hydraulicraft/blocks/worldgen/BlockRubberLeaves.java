@@ -44,7 +44,7 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
 
     public BlockRubberLeaves() {
 
-        super(Names.blockRubberLeaves, Material.leaves, true);
+        super(Names.blockRubberLeaves, Material.LEAVES, true);
         this.setTickRandomly(true);
         this.setHardness(0.2F);
         this.setLightOpacity(1);
@@ -116,11 +116,11 @@ public class BlockRubberLeaves extends HydraulicBlockBase implements IShearable 
                     for (int i2 = -i; i2 <= i; ++i2) {
                         for (int j2 = -i; j2 <= i; ++j2) {
                             for (int k2 = -i; k2 <= i; ++k2) {
-                                Block block = worldIn.getBlockState(mutableBlockPos.set(k + i2, l + j2, i1 + k2)).getBlock();
-                                IBlockState state1 = worldIn.getBlockState(mutableBlockPos.set(k + i2, l + j2, i1 + k2));
+                                Block block = worldIn.getBlockState(mutableBlockPos.setPos(k + i2, l + j2, i1 + k2)).getBlock();
+                                IBlockState state1 = worldIn.getBlockState(mutableBlockPos.setPos(k + i2, l + j2, i1 + k2));
 
-                                if (!block.canSustainLeaves(state1, worldIn, mutableBlockPos.set(k + i2, l + j2, i1 + k2))) {
-                                    if (block.isLeaves(state1, worldIn, mutableBlockPos.set(k + i2, l + j2, i1 + k2))) {
+                                if (!block.canSustainLeaves(state1, worldIn, mutableBlockPos.setPos(k + i2, l + j2, i1 + k2))) {
+                                    if (block.isLeaves(state1, worldIn, mutableBlockPos.setPos(k + i2, l + j2, i1 + k2))) {
                                         this.surroundings[(i2 + l1) * k1 + (j2 + l1) * j1 + k2 + l1] = -2;
                                     } else {
                                         this.surroundings[(i2 + l1) * k1 + (j2 + l1) * j1 + k2 + l1] = -1;

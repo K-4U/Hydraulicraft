@@ -25,7 +25,7 @@ public class RendererRubberTap extends TileEntitySpecialRenderer<TileRubberTap> 
 
             GL11.glTranslatef((float) x, (float) y, (float) z);
 
-            Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+            Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

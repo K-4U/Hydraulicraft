@@ -48,7 +48,6 @@ public class TileEntities {
         GameRegistry.registerTileEntity(TilePortalBase.class, "tilePortalBase");
         GameRegistry.registerTileEntity(TilePortalTeleporter.class, "tilePortalTeleporter");
 
-        GameRegistry.registerTileEntity(TileChunkLoader.class, "tileChunkLoader");
         GameRegistry.registerTileEntity(TileJarOfDirt.class, "tileJarOfDirt");
         GameRegistry.registerTileEntity(TileAssembler.class, "tileHydraulicAssembler");
 

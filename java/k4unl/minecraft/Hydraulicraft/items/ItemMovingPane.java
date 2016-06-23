@@ -38,7 +38,7 @@ public class ItemMovingPane extends HydraulicItemBase {
 
             EnumFacing dir = EnumFacing.UP;
             int i = 0;
-            while (!(worldIn.getBlockState(pos.offset(dir)).getBlock() == Blocks.air)) {
+            while (!(worldIn.getBlockState(pos.offset(dir)).getBlock() == Blocks.AIR)) {
                 dir = dir.rotateAround(s.getAxis());
                 i++;
                 if (i == 4) {

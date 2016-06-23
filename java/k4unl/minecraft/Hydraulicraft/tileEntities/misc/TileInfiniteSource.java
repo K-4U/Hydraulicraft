@@ -175,7 +175,7 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
 
@@ -190,6 +190,7 @@ public class TileInfiniteSource extends TileHydraulicBase implements IFluidHandl
             itemInventory.writeToNBT(inventoryCompound);
             tagCompound.setTag("inventory", inventoryCompound);
         }
+        return tagCompound;
     }
 
     @Override

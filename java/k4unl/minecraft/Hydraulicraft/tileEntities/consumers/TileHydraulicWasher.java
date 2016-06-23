@@ -341,7 +341,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         inventory.save(tagCompound);
@@ -350,6 +350,7 @@ public class TileHydraulicWasher extends TileHydraulicBase implements
         if (getPressureTier() != null) {
             tagCompound.setInteger("tier", getPressureTier().toInt());
         }
+        return tagCompound;
     }
 
     @Override

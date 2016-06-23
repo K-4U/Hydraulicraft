@@ -8,7 +8,7 @@ public class BlockHydraulicPressureWall extends BlockConnectedTexture {
 
     public BlockHydraulicPressureWall() {
 
-        super(Names.blockHydraulicPressureWall, Material.iron);
+        super(Names.blockHydraulicPressureWall, Material.IRON);
     }
 
 }

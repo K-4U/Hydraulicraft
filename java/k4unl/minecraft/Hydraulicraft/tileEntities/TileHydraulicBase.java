@@ -24,7 +24,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -37,6 +36,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -260,8 +260,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
         this.readFromNBT(tagCompound);
     }
 
+    @Nullable
     @Override
-    public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket() {
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         this.writeToNBT(tagCompound);
@@ -400,7 +401,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         if (!isMultipart && getClass() != TileHydraulicBase.class) {
             super.writeToNBT(tagCompound);
@@ -430,6 +431,7 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
                 tagCompound.setInteger("fluidInNetwork", getNetwork(EnumFacing.UP).getFluidInNetwork());
             }
         }
+        return tagCompound;
     }
 
     protected TileEntity getTileEntity(int x, int y, int z) {
@@ -765,9 +767,9 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     }
 
     @Override
-    public Packet getDescriptionPacketI() {
+    public SPacketUpdateTileEntity getUpdatePacketI() {
 
-        return getDescriptionPacket();
+        return getUpdatePacket();
     }
 
     @Override
@@ -819,7 +821,8 @@ public class TileHydraulicBase extends TileEntity implements IBaseClass, ITickab
     }
 
     public void markBlockForUpdate() {
-        if(worldObj == null || worldObj.isRemote)
+
+        if (worldObj == null || worldObj.isRemote)
             return;
 
         worldObj.notifyBlockUpdate(getPos(), worldObj.getBlockState(getPos()), worldObj.getBlockState(getPos()), 3);

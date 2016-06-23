@@ -67,7 +67,7 @@ public class FMP implements IThirdParty {
                         "GSG",
                         "KCI",
                         "WWW",
-                        'G', Blocks.glass,
+                        'G', Blocks.GLASS,
                         'K', HCItems.gasket,
                         'W', HCBlocks.hydraulicPressureWall,
                         'C', new ItemStack(HCBlocks.blockCore, 1, 1),

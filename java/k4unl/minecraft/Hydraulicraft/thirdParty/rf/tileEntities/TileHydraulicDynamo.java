@@ -1,11 +1,11 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities;
 
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyReceiver;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicConsumer;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.thirdParty.rf.IEnergyInfo;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.cofh.EnergyStorage;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.cofh.IEnergyProvider;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.cofh.IEnergyReceiver;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
@@ -59,7 +59,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         tagCompound.setBoolean("isRunning", isRunning);
@@ -67,6 +67,7 @@ public class TileHydraulicDynamo extends TileHydraulicBase implements IHydraulic
         tagCompound.setInteger("energyGen", energyGen);
         tagCompound.setFloat("pressureRequired", pressureRequired);
         storage.writeToNBT(tagCompound);
+        return tagCompound;
     }
 
     public float getPercentageOfRender() {

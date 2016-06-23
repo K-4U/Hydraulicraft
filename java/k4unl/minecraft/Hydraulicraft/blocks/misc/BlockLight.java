@@ -28,7 +28,7 @@ public class BlockLight extends HydraulicBlockBase {
 
     public BlockLight() {
 
-        super(Names.blockLight, Material.air, false);
+        super(Names.blockLight, Material.AIR, false);
         setLightOpacity(15);
         setTickRandomly(false);
         setDefaultState(this.blockState.getBaseState().withProperty(Properties.LIGHTVALUE, 15));

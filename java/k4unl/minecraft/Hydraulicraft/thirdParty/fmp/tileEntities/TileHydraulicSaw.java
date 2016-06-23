@@ -90,7 +90,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         writeItemStack(tagCompound, "inputUpDownInventory", inputUpDownInventory);
@@ -110,6 +110,7 @@ public class TileHydraulicSaw extends TileHydraulicBase implements IHydraulicCon
         tagCompound.setInteger("maxSawingTicksUpDown", maxSawingTicksUpDown);
         tagCompound.setInteger("sawingTicksLeftRight", sawingTicksLeftRight);
         tagCompound.setInteger("maxSawingTicksLeftRight", maxSawingTicksLeftRight);
+        return tagCompound;
     }
 
     @Override

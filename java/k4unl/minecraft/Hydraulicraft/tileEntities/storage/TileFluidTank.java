@@ -3,11 +3,12 @@ package k4unl.minecraft.Hydraulicraft.tileEntities.storage;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBaseNoPower;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.*;
+
+import javax.annotation.Nullable;
 
 /**
  * @author Koen Beckers (K-4U)
@@ -68,8 +69,9 @@ public class TileFluidTank extends TileHydraulicBaseNoPower implements IFluidHan
         readFromNBT(tagCompound);
     }
 
+    @Nullable
     @Override
-    public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket() {
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         writeToNBT(tagCompound);
@@ -78,10 +80,11 @@ public class TileFluidTank extends TileHydraulicBaseNoPower implements IFluidHan
 
 
     @Override
-    public void writeToNBT(NBTTagCompound compound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 
-        super.writeToNBT(compound);
+        compound = super.writeToNBT(compound);
         fluidTank.writeToNBT(compound);
+        return compound;
     }
 
     @Override

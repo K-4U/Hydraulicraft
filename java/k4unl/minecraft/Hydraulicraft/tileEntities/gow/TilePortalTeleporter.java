@@ -35,15 +35,16 @@ public class TilePortalTeleporter extends TileHydraulicBaseNoPower {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tCompound) {
 
-        super.writeToNBT(tCompound);
+        tCompound = super.writeToNBT(tCompound);
         tCompound.setString("baseDir", baseDir.toString());
         tCompound.setString("portalDir", portalDir.toString());
 
         if (portalBase != null) {
             tCompound.setIntArray("portalBase", portalBase.getIntArray());
         }
+        return tCompound;
     }
 
     public void setRotation(EnumFacing _baseDir, EnumFacing _portalDir) {

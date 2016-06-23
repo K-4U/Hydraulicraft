@@ -16,7 +16,7 @@ public class OreFoxium extends Block implements IGlowBlock {
 
     public OreFoxium() {
 
-        super(Material.rock);
+        super(Material.ROCK);
 
         setUnlocalizedName(oName.unlocalized);
 
@@ -52,7 +52,7 @@ public class OreFoxium extends Block implements IGlowBlock {
     @Override
     public MapColor getMapColor(IBlockState state) {
 
-        return MapColor.netherrackColor;
+        return MapColor.NETHERRACK;
     }
 
 }

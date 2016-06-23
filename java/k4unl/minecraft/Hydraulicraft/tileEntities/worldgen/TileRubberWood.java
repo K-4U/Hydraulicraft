@@ -55,10 +55,11 @@ public class TileRubberWood extends TileEntity {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 
-        super.writeToNBT(compound);
+        compound = super.writeToNBT(compound);
         compound.setInteger("rubberInside", rubberInside);
+        return compound;
     }
 
     public int getRubber() {

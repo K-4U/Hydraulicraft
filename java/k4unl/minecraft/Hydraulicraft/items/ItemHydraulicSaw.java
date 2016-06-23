@@ -35,7 +35,7 @@ public class ItemHydraulicSaw extends ItemHydraulicTool {
         if (super.getStrVsBlock(stack, state) == 0)
             return 0;
 
-        if (state.getMaterial() == Material.leaves)
+        if (state.getMaterial() == Material.LEAVES)
             return SPEED_ON_LEAVES;
 
         return axe.getStrVsBlock(stack, state);

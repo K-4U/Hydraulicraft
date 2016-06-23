@@ -24,9 +24,9 @@ public class TrolleyCrops implements IHarvesterTrolley {
     public ArrayList<ItemStack> getHandlingSeeds() {
 
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        ret.add(new ItemStack(Items.wheat_seeds));
-        ret.add(new ItemStack(Items.carrot));
-        ret.add(new ItemStack(Items.potato));
+        ret.add(new ItemStack(Items.WHEAT_SEEDS));
+        ret.add(new ItemStack(Items.CARROT));
+        ret.add(new ItemStack(Items.POTATO));
         return ret;
     }
 

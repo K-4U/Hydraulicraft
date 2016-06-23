@@ -7,14 +7,13 @@ import k4unl.minecraft.Hydraulicraft.blocks.IRotateableBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.industrialcraft.tileEntities.TileHydraulicGenerator;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -44,11 +43,13 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase impleme
 
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
+
         return EnumBlockRenderType.MODEL;
     }
 
     @Override
     public boolean isOpaqueCube(IBlockState state) {
+
         return false;
     }
 
@@ -65,11 +66,10 @@ public class BlockHydraulicGenerator extends HydraulicBlockContainerBase impleme
     }
 
     @Override
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
 
-        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
-
-        TileEntity tile = worldIn.getTileEntity(pos);
+        super.onNeighborChange(world, pos, neighbor);
+        TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileHydraulicGenerator) {
             ((TileHydraulicGenerator) tile).checkRedstonePower();
         }

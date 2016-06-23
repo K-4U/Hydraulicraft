@@ -76,14 +76,15 @@ public class PartFluidPipe extends Multipart implements ISlottedPart, ITickable,
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
-        super.writeToNBT(tagCompound);
+        tagCompound = super.writeToNBT(tagCompound);
         tagCompound.setDouble("fluidAmountStored", fluidAmountStored);
         if (fluidStored != null) {
             tagCompound.setString("fluidName", fluidStored.getName());
         }
         tagCompound.setByte("connectionCache", connectionCache);
+        return tagCompound;
     }
 
     @Override

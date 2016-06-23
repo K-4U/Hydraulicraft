@@ -27,7 +27,7 @@ public class BlockRubberSapling extends BlockBush implements IGrowable {
 
     public BlockRubberSapling() {
 
-        super(Material.plants);
+        super(Material.PLANTS);
         setUnlocalizedName(Names.blockRubberSapling.unlocalized);
         this.setSoundType(SoundType.GROUND);
 
@@ -72,7 +72,7 @@ public class BlockRubberSapling extends BlockBush implements IGrowable {
         int j1 = 0;
         boolean flag = false;
 
-        Block block = Blocks.air;
+        Block block = Blocks.AIR;
         world.setBlockState(pos, block.getDefaultState(), 4);
 
         if (!((WorldGenerator) object).generate(world, random, new BlockPos(pos.getX() + i1, pos.getY(), pos.getZ() + j1))) {

@@ -65,6 +65,13 @@ public abstract class JEIHandlerAbstract<T extends JEIWrapperIFluidRecipe> imple
 
             return JEIPlugin.assemblerRecipe;
         }
+
+        @Nonnull
+        @Override
+        public String getRecipeCategoryUid(@Nonnull JEIWrapperIFluidRecipe.JEIWrapperRecipeAssembler recipe) {
+
+            return null;
+        }
     }
 
     public static class JEIHandlerFilter extends JEIHandlerAbstract<JEIWrapperIFluidRecipe.JEIWrapperRecipeFilter> {
@@ -87,6 +94,13 @@ public abstract class JEIHandlerAbstract<T extends JEIWrapperIFluidRecipe> imple
         public String getRecipeCategoryUid() {
 
             return JEIPlugin.filterRecipe;
+        }
+
+        @Nonnull
+        @Override
+        public String getRecipeCategoryUid(@Nonnull JEIWrapperIFluidRecipe.JEIWrapperRecipeFilter recipe) {
+
+            return null;
         }
     }
 
@@ -111,6 +125,13 @@ public abstract class JEIHandlerAbstract<T extends JEIWrapperIFluidRecipe> imple
 
             return JEIPlugin.crusherRecipe;
         }
+
+        @Nonnull
+        @Override
+        public String getRecipeCategoryUid(@Nonnull JEIWrapperIFluidRecipe.JEIWrapperRecipeCrusher recipe) {
+
+            return null;
+        }
     }
 
     public static class JEIHandlerWasher extends JEIHandlerAbstract<JEIWrapperIFluidRecipe.JEIWrapperRecipeWasher> {
@@ -134,6 +155,13 @@ public abstract class JEIHandlerAbstract<T extends JEIWrapperIFluidRecipe> imple
 
             return JEIPlugin.washerRecipe;
         }
+
+        @Nonnull
+        @Override
+        public String getRecipeCategoryUid(@Nonnull JEIWrapperIFluidRecipe.JEIWrapperRecipeWasher recipe) {
+
+            return null;
+        }
     }
 
     public static class JEIHandlerRecombobulator extends JEIHandlerAbstract<JEIWrapperIFluidRecipe.JEIWrapperRecipeRecombobulator> {
@@ -156,6 +184,13 @@ public abstract class JEIHandlerAbstract<T extends JEIWrapperIFluidRecipe> imple
         public String getRecipeCategoryUid() {
 
             return JEIPlugin.recombobulatorRecipe;
+        }
+
+        @Nonnull
+        @Override
+        public String getRecipeCategoryUid(@Nonnull JEIWrapperIFluidRecipe.JEIWrapperRecipeRecombobulator recipe) {
+
+            return null;
         }
     }
 }

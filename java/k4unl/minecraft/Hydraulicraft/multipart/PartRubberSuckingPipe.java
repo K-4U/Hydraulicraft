@@ -69,10 +69,11 @@ public class PartRubberSuckingPipe extends Multipart implements ISlottedPart, IT
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         tagCompound.setByte("connectionCache", connectionCache);
+        return tagCompound;
     }
 
     @Override

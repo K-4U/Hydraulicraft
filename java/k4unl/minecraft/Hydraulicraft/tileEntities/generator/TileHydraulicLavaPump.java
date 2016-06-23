@@ -157,7 +157,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
 
@@ -170,6 +170,7 @@ public class TileHydraulicLavaPump extends TileHydraulicBase implements IHydraul
 
         tagCompound.setInteger("lavaUsage", lavaUsage);
         tagCompound.setBoolean("isRunning", isRunning);
+        return tagCompound;
     }
 
     @Override

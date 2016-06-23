@@ -336,9 +336,10 @@ public class TileFluidRecombobulator extends TileHydraulicBase implements IHydra
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         inventoryCrafting.save(tagCompound);
+        return tagCompound;
     }
 }

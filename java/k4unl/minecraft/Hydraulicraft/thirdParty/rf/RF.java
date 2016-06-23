@@ -80,7 +80,7 @@ public class RF implements IThirdParty {
 
         ItemStack powerTransmissionCoil = new ItemStack(GameRegistry.findItem("ThermalExpansion", "powerCoilSilver"), 1);
         if (powerTransmissionCoil.getItem() == null) {
-            powerTransmissionCoil = new ItemStack(Items.redstone);
+            powerTransmissionCoil = new ItemStack(Items.REDSTONE);
         }
 
         HydraulicRecipes.INSTANCE.addAssemblerRecipe(new FluidShapedOreRecipe(new ItemStack(blockHydraulicDynamo, 1), true,
@@ -92,20 +92,20 @@ public class RF implements IThirdParty {
                         'C', powerTransmissionCoil,
                         'K', HCItems.gasket,
                         'I', "ingotCopper",
-                        'R', Items.redstone
+                        'R', Items.REDSTONE
                 }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 500))
         );
 
         ItemStack powerReceptionCoil = new ItemStack(GameRegistry.findItem("ThermalExpansion", "powerCoilGold"), 1);
         if (powerReceptionCoil.getItem() == null) {
-            powerReceptionCoil = new ItemStack(Items.redstone);
+            powerReceptionCoil = new ItemStack(Items.REDSTONE);
         }
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockRFPump, 1, 0), true,
                 new Object[]{
                         "L-L",
                         "KGC",
                         "WWW",
-                        'G', Blocks.glass,
+                        'G', Blocks.GLASS,
                         'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
                         'W', HCBlocks.hydraulicPressureWall,
                         'C', powerReceptionCoil,
@@ -117,7 +117,7 @@ public class RF implements IThirdParty {
                         "R-R",
                         "KGC",
                         "WWW",
-                        'G', Blocks.glass,
+                        'G', Blocks.GLASS,
                         'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
                         'W', HCBlocks.hydraulicPressureWall,
                         'C', powerReceptionCoil,
@@ -129,7 +129,7 @@ public class RF implements IThirdParty {
                         "R-R",
                         "KGC",
                         "WWW",
-                        'G', Blocks.glass,
+                        'G', Blocks.GLASS,
                         'K', k4unl.minecraft.Hydraulicraft.items.HCItems.gasket,
                         'W', HCBlocks.hydraulicPressureWall,
                         'C', powerReceptionCoil,

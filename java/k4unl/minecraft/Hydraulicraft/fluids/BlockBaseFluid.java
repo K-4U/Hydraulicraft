@@ -16,7 +16,7 @@ public class BlockBaseFluid extends BlockFluidClassic {
 
     public BlockBaseFluid(Fluid fluid, Name name) {
 
-        super(fluid, Material.water);
+        super(fluid, Material.WATER);
 
         setUnlocalizedName(name.unlocalized);
         mName = name;

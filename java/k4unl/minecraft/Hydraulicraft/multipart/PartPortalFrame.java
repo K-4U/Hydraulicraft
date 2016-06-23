@@ -73,14 +73,15 @@ public class PartPortalFrame extends Multipart implements ISlottedPart, INormall
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
-        super.writeToNBT(tagCompound);
+        tagCompound = super.writeToNBT(tagCompound);
         tagCompound.setByte("connectionCache", connectionCache);
         tagCompound.setBoolean("isActive", isActive);
         if (parentLocation != null) {
             tagCompound.setIntArray("parent", parentLocation.getIntArray());
         }
+        return tagCompound;
     }
 
     @Override

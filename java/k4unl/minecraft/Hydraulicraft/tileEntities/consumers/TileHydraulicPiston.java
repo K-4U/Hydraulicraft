@@ -54,9 +54,9 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
-        super.writeToNBT(tagCompound);
+        tagCompound = super.writeToNBT(tagCompound);
         tagCompound.setFloat("extendedLength", extendedLength);
         tagCompound.setFloat("maxLength", maxLength);
         tagCompound.setFloat("extendTarget", extendTarget);
@@ -69,6 +69,7 @@ public class TileHydraulicPiston extends TileHydraulicBaseNoPower {
         tagCompound.setFloat("movingSpeed", movingSpeed);
         tagCompound.setFloat("movingSpeedBack", movingSpeedBack);
         tagCompound.setString("facing", facing.getName());
+        return tagCompound;
     }
 
     public float getExtendedLength() {

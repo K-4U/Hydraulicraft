@@ -291,7 +291,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
 
@@ -304,6 +304,7 @@ public class TileHydraulicPump extends TileHydraulicBase implements IInventory, 
         tagCompound.setInteger("maxBurnTime", maxBurnTime);
 
         tagCompound.setInteger("tier", getTier());
+        return tagCompound;
     }
 
     @Override

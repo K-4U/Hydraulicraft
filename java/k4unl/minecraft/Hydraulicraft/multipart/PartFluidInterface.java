@@ -148,13 +148,14 @@ public class PartFluidInterface extends Multipart implements IFluidHandler, INor
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
-        super.writeToNBT(tagCompound);
+        tagCompound = super.writeToNBT(tagCompound);
         //writeConnectedSidesToNBT(tagCompound);
         //tagCompound.setDouble("fluidStored", fluidStored);
         tagCompound.setString("side", side.name());
         tank.writeToNBT(tagCompound);
+        return tagCompound;
     }
 
     @Override

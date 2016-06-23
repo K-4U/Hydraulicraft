@@ -1,12 +1,12 @@
 package k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities;
 
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyReceiver;
 import k4unl.minecraft.Hydraulicraft.api.IHydraulicGenerator;
 import k4unl.minecraft.Hydraulicraft.api.PressureTier;
 import k4unl.minecraft.Hydraulicraft.lib.Properties;
 import k4unl.minecraft.Hydraulicraft.lib.config.Constants;
 import k4unl.minecraft.Hydraulicraft.lib.config.HCConfig;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.cofh.EnergyStorage;
+import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.cofh.IEnergyReceiver;
 import k4unl.minecraft.Hydraulicraft.tileEntities.PressureNetwork;
 import k4unl.minecraft.Hydraulicraft.tileEntities.TileHydraulicBase;
 import k4unl.minecraft.Hydraulicraft.tileEntities.interfaces.ICustomNetwork;
@@ -141,7 +141,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
 
@@ -154,6 +154,7 @@ public class TileRFPump extends TileHydraulicBase implements IHydraulicGenerator
         tagCompound.setInteger("RFUsage", RFUsage);
 
         getEnergyStorage().writeToNBT(tagCompound);
+        return tagCompound;
     }
 
     @Override

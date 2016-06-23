@@ -38,7 +38,7 @@ public class FluidShapelessOreRecipe extends ShapelessOreRecipe implements IFlui
 
     public FluidShapelessOreRecipe(ChancedStack result, Object... recipe) {
 
-        super(new ItemStack(Blocks.cobblestone_wall), recipe); // just to feed it something
+        super(new ItemStack(Blocks.COBBLESTONE_WALL), recipe); // just to feed it something
         this.resultChancedStack = result;
     }
 

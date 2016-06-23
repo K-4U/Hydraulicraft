@@ -62,7 +62,7 @@ public class RendererInterfaceValve extends TileEntitySpecialRenderer {//impleme
             GL11.glEnable(GL11.GL_BLEND);
 
             GL11.glTranslatef(-(locationDifferenceX), -(locationDifferenceY), -(locationDifferenceZ));
-            Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+            Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.4F);
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
 

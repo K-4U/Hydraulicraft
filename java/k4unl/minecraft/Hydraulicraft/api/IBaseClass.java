@@ -3,7 +3,6 @@ package k4unl.minecraft.Hydraulicraft.api;
 import mcmultipart.multipart.Multipart;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -50,7 +49,7 @@ public interface IBaseClass {
      *
      * @return
      */
-    Packet getDescriptionPacketI();
+    SPacketUpdateTileEntity getUpdatePacketI();
 
     /**
      * Gets the ammount of fluid stored

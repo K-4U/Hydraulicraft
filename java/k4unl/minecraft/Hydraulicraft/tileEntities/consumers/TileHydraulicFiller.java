@@ -364,12 +364,13 @@ public class TileHydraulicFiller extends TileHydraulicBase implements IFluidHand
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         inventory.save(tagCompound);
         internalTank.writeToNBT(tagCompound);
         tagCompound.setInteger("fillerDirection", fillerDirection.ordinal());
+        return tagCompound;
     }
 
     @Override

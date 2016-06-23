@@ -156,10 +156,11 @@ public class TileHydraulicCrusher extends TileHydraulicBase implements IInventor
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         inventory.save(tagCompound);
+        return tagCompound;
     }
 
 

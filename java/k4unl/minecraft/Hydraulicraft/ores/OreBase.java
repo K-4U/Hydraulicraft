@@ -13,7 +13,7 @@ public class OreBase extends Block {
 
     public OreBase(Name oreName) {
 
-        super(Material.rock);
+        super(Material.ROCK);
 
         oName = oreName;
 

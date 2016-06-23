@@ -15,7 +15,7 @@ public class OreMineral extends BlockFalling {
 
     public OreMineral(Name name) {
 
-        super(Material.sand);
+        super(Material.SAND);
 
         //setBlockName(name.unlocalized);
         oName = name;
@@ -27,14 +27,4 @@ public class OreMineral extends BlockFalling {
         setHardness(0.5F);
         setHarvestLevel("shovel", 0);
     }
-/*
-    @Override
-    public void registerBlockIcons(IIconRegister iconRegistry){
-        blockIcon = iconRegistry.registerIcon(ModInfo.LID + ":" + oName.unlocalized);
-    }
-
-    @Override
-    public IIcon getIcon(int side, int metadata){
-        return blockIcon;
-    }*/
 }

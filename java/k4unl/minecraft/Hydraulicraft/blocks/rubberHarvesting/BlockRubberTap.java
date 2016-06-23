@@ -23,7 +23,7 @@ public class BlockRubberTap extends HydraulicBlockContainerBase implements IBloc
     //TODO: Collision boxes
     public BlockRubberTap() {
 
-        super(Names.blockRubberTap, Material.iron, true);
+        super(Names.blockRubberTap, Material.IRON, true);
         setSoundType(SoundType.ANVIL);
     }
 

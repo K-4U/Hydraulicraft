@@ -11,7 +11,6 @@ import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.tileEntities.consumers.TileMovingPane;
 import k4unl.minecraft.k4lib.lib.Location;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -21,9 +20,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -95,14 +94,16 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
 
     // This method checks if primary block exists.
     @Override
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
 
-        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
-        TileMovingPane tileEntity = (TileMovingPane) worldIn.getTileEntity(pos);
+        super.onNeighborChange(world, pos, neighbor);
+        TileMovingPane tileEntity = (TileMovingPane) world.getTileEntity(pos);
         if (tileEntity != null) {
             tileEntity.checkRedstonePower();
         }
     }
+
+
 
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
@@ -133,7 +134,7 @@ public class BlockMovingPane extends HydraulicBlockContainerBase implements ITie
                     int i = 0;
                     //Check if it is empty:
                     BlockPos offset = pos.offset(facing);
-                    while (!world.getBlockState(offset).getBlock().equals(Blocks.air)) {
+                    while (!world.getBlockState(offset).getBlock().equals(Blocks.AIR)) {
                         facing = facing.rotateAround(axis.getAxis());
                         i++;
                         if (i == 4) {

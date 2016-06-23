@@ -7,12 +7,11 @@ import k4unl.minecraft.Hydraulicraft.blocks.IRotateableBlock;
 import k4unl.minecraft.Hydraulicraft.lib.config.GuiIDs;
 import k4unl.minecraft.Hydraulicraft.lib.config.Names;
 import k4unl.minecraft.Hydraulicraft.thirdParty.rf.tileEntities.TileHydraulicDynamo;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -43,19 +42,22 @@ public class BlockHydraulicDynamo extends HydraulicBlockContainerBase implements
 
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
+
         return EnumBlockRenderType.MODEL; // TODO 1.9 check
     }
 
     @Override
     public boolean isOpaqueCube(IBlockState state) {
+
         return false;
     }
 
-    @Override
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 
-        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
-        TileEntity tile = worldIn.getTileEntity(pos);
+    @Override
+    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
+
+        super.onNeighborChange(world, pos, neighbor);
+        TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileHydraulicDynamo) {
             ((TileHydraulicDynamo) tile).checkRedstonePower();
         }

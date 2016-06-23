@@ -102,10 +102,11 @@ public class TileHydraulicPneumaticCompressor extends TileHydraulicBase implemen
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         //getAirHandler().writeToNBTI(tagCompound);
+        return tagCompound;
     }
 
     @Override

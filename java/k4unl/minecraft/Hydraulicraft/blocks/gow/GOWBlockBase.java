@@ -12,7 +12,7 @@ public abstract class GOWBlockBase extends BlockContainer {
 
     protected GOWBlockBase(String name) {
 
-        super(Material.iron);
+        super(Material.IRON);
         tName = name;
 
         setUnlocalizedName(tName);

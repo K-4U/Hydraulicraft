@@ -31,27 +31,27 @@ public class TrolleyCactus implements IHarvesterTrolley {
     public boolean canHarvest(World world, BlockPos pos) {
         //Check the block underneath too
         //If the block underneath is sugarcane, then harvest, otherwise, don't.
-        return world.getBlockState(pos).getBlock() == Blocks.cactus && world.getBlockState(pos.down(1)).getBlock() == Blocks.cactus;
+        return world.getBlockState(pos).getBlock() == Blocks.CACTUS && world.getBlockState(pos.down(1)).getBlock() == Blocks.CACTUS;
     }
 
     @Override
     public boolean canPlant(World world, BlockPos pos, ItemStack seed) {
 
-        return Blocks.cactus.canPlaceBlockAt(world, pos);
+        return Blocks.CACTUS.canPlaceBlockAt(world, pos);
     }
 
     @Override
     public ArrayList<ItemStack> getHandlingSeeds() {
 
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        ret.add(new ItemStack(Item.getItemFromBlock(Blocks.cactus)));
+        ret.add(new ItemStack(Item.getItemFromBlock(Blocks.CACTUS)));
         return ret;
     }
 
     @Override
     public IBlockState getBlockStateForSeed(ItemStack seed) {
 
-        return Blocks.cactus.getDefaultState();
+        return Blocks.CACTUS.getDefaultState();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class TrolleyCactus implements IHarvesterTrolley {
     public int getPlantHeight(World world, BlockPos pos) {
 
         pos = pos.up(3);
-        if (world.getBlockState(pos).getBlock().getMaterial(world.getBlockState(pos)) == Material.air || world.getBlockState(pos).getBlock() instanceof BlockHarvesterTrolley) {
+        if (world.getBlockState(pos).getBlock().getMaterial(world.getBlockState(pos)) == Material.AIR || world.getBlockState(pos).getBlock() instanceof BlockHarvesterTrolley) {
             return 2;
         } else {
             return 3;

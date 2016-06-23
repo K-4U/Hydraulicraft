@@ -50,7 +50,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
 
 
     private static final Block horizontalFrame = HCBlocks.hydraulicHarvesterFrame;
-    private static final Block verticalFrame   = Blocks.oak_fence; //TODO: REWRITE TO MAKE SURE ALL FENCES WORK!
+    private static final Block verticalFrame   = Blocks.OAK_FENCE; //TODO: REWRITE TO MAKE SURE ALL FENCES WORK!
     private static final Block piston          = HCBlocks.hydraulicPiston;
     private static final Block endBlock        = HCBlocks.hydraulicPressureWall;
 
@@ -88,7 +88,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         tagCompound.setBoolean("isMultiblock", isMultiblock);
@@ -113,6 +113,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
         tagCompound.setBoolean("isHarvesting", isHarvesting);
         tagCompound.setBoolean("isPlanting", isPlanting);
 
+        return tagCompound;
     }
 
     public void writePistonListToNBT(NBTTagCompound tagCompound) {
@@ -267,7 +268,7 @@ public class TileHydraulicHarvester extends TileHydraulicBase implements IHydrau
     private boolean isPlaceForItems(ItemStack itemStack) {
         //First of all:
 
-        if (itemStack.getItem() instanceof ItemSeeds || itemStack.getItem() == Items.reeds) {
+        if (itemStack.getItem() instanceof ItemSeeds || itemStack.getItem() == Items.REEDS) {
             //Check all the locations!
             for (ItemStack st : seedsStorage) {
                 if (itemStack.stackSize > 0) {

@@ -34,7 +34,7 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
 
     public BlockRubberWood() {
 
-        super(Names.blockRubberWood, Material.wood, true);
+        super(Names.blockRubberWood, Material.WOOD, true);
 
         this.setHardness(2.0F);
         this.setSoundType(SoundType.WOOD);
@@ -143,7 +143,7 @@ public class BlockRubberWood extends HydraulicBlockContainerBase {
         int rnd2 = (new Random()).nextInt(4);
         EnumFacing rndFacing = EnumFacing.HORIZONTALS[rnd2];
         boolean rubberSpot = rnd <= HCConfig.INSTANCE.getDouble("rubberPatchChance", "worldgen");
-        if(worldIn.getBlockState(pos.down()).getBlock() == Blocks.grass || worldIn.getBlockState(pos.down()).getBlock() == Blocks.dirt){
+        if(worldIn.getBlockState(pos.down()).getBlock() == Blocks.GRASS || worldIn.getBlockState(pos.down()).getBlock() == Blocks.DIRT){
             rubberSpot = false;
         }
         //Log.info("Rubber on " + pos.toString() + "=" + rubberSpot);

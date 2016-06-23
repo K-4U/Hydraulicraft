@@ -32,7 +32,7 @@ public class RendererHydraulicLavaPump extends TileEntitySpecialRenderer {
         GL11.glPushMatrix();
 
         GL11.glTranslated(x, y, z);
-        Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+        Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 
         switch (t.getFacing()) {

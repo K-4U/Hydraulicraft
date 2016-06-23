@@ -31,7 +31,7 @@ import org.lwjgl.opengl.GL11;
 public final class IconRenderer {
 
     //private static ResourceLocation iconTexture =  TextureMap.locationItemsTexture; //new ResourceLocation("textures/atlas/items.png");
-    private static ResourceLocation blockTexture = TextureMap.locationBlocksTexture; //  new ResourceLocation("textures/atlas/blocks.png");
+    private static ResourceLocation blockTexture = TextureMap.LOCATION_BLOCKS_TEXTURE; //  new ResourceLocation("textures/atlas/blocks.png");
 
     //TODO: FIX ME
     private static RenderItem renderBlocks = Minecraft.getMinecraft().getRenderItem();
@@ -80,8 +80,8 @@ public final class IconRenderer {
         }
 
 
-        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-        Minecraft.getMinecraft().getTextureManager().getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        Minecraft.getMinecraft().getTextureManager().getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
         
         drawIcon(x, y, z, 16, 16, alpha2 + 0.2F, alpha2, wobble, resultBlock, resultItem.getItemDamage(), resultItem, false);
 

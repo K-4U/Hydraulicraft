@@ -135,7 +135,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tCompound) {
 
         super.writeToNBT(tCompound);
 
@@ -160,6 +160,7 @@ public class TilePortalBase extends TileHydraulicBase implements IInventory, IHy
         tCompound.setBoolean("hasInterfaceValve", hasInterfaceValve);
 
         writeFramesToNBT(tCompound);
+        return tCompound;
     }
 
     @Override

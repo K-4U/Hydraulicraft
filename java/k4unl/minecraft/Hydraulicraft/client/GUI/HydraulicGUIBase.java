@@ -204,7 +204,7 @@ public class HydraulicGUIBase extends GuiContainer {
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.7F);
-        mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+        mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         VertexBuffer worldRenderer = Tessellator.getInstance().getBuffer();
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         int o;

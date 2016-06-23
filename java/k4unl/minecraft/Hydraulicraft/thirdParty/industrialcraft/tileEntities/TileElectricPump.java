@@ -143,7 +143,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
 
@@ -155,6 +155,7 @@ public class TileElectricPump extends TileHydraulicBase implements IHydraulicGen
         tagCompound.setInteger("tier", tier);
 
         tagCompound.setInteger("EUUsage", EUUsage);
+        return tagCompound;
     }
 
     @Override

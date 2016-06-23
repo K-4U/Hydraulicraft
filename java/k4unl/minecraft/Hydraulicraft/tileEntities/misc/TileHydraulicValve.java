@@ -121,7 +121,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         if (targetPos != null) {
@@ -135,6 +135,7 @@ public class TileHydraulicValve extends TileHydraulicBase implements IHydraulicM
             clientNeedsToSetTarget = false;
         }
         tagCompound.setBoolean("targetHasChanged", targetHasChanged);
+        return tagCompound;
     }
 
     @Override

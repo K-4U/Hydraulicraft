@@ -309,7 +309,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         if (inputInventory != null) {
@@ -334,6 +334,7 @@ public class TileHydraulicFrictionIncinerator extends TileHydraulicBase implemen
         }
 
         tagCompound.setInteger("smeltingTicks", smeltingTicks);
+        return tagCompound;
     }
 
     @Override

@@ -18,12 +18,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -138,8 +138,9 @@ public class TileHarvesterTrolley extends TileHydraulicBaseNoPower implements IT
         readFromNBT(tagCompound);
     }
 
+    @Nullable
     @Override
-    public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket() {
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         writeToNBT(tagCompound);
@@ -270,9 +271,9 @@ public class TileHarvesterTrolley extends TileHydraulicBaseNoPower implements IT
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
-        super.writeToNBT(tagCompound);
+        tagCompound = super.writeToNBT(tagCompound);
         tagCompound.setFloat("extendedLength", extendedLength);
         tagCompound.setFloat("extendTarget", extendTarget);
         tagCompound.setBoolean("isRetracting", isRetracting);
@@ -302,6 +303,7 @@ public class TileHarvesterTrolley extends TileHydraulicBaseNoPower implements IT
             tagCompound.setTag("PlantingItem", tag);
         }
         tagCompound.setString("trolley", getTrolley().getName());
+        return tagCompound;
     }
 
 
@@ -432,7 +434,7 @@ public class TileHarvesterTrolley extends TileHydraulicBaseNoPower implements IT
                 canIPlantHere = true;
             }
 
-            if (block.equals(Blocks.air) && canIPlantHere) {
+            if (block.equals(Blocks.AIR) && canIPlantHere) {
                 locationToPlant = horiz;
                 return seedLocation;
             }

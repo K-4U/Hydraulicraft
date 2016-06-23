@@ -2,13 +2,14 @@ package k4unl.minecraft.Hydraulicraft.tileEntities;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
 
 public class TileHydraulicBaseNoPower extends TileEntity implements ITickable {
 
@@ -25,13 +26,6 @@ public class TileHydraulicBaseNoPower extends TileEntity implements ITickable {
     public void readFromNBT(NBTTagCompound tCompound) {
 
         super.readFromNBT(tCompound);
-
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound tCompound) {
-
-        super.writeToNBT(tCompound);
 
     }
 
@@ -59,8 +53,9 @@ public class TileHydraulicBaseNoPower extends TileEntity implements ITickable {
         this.readFromNBT(tagCompound);
     }
 
+    @Nullable
     @Override
-    public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket() {
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         this.writeToNBT(tagCompound);
@@ -78,6 +73,7 @@ public class TileHydraulicBaseNoPower extends TileEntity implements ITickable {
     }
 
     public void markBlockForUpdate() {
+
         worldObj.notifyBlockUpdate(getPos(), worldObj.getBlockState(getPos()), worldObj.getBlockState(getPos()), 3);
         // TODO what does the flags: 3 mean? :P
     }

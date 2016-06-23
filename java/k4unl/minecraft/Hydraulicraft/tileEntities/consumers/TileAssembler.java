@@ -200,11 +200,12 @@ public class TileAssembler extends TileHydraulicBase implements IHydraulicConsum
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         inventoryCrafting.save(tagCompound);
 
+        return tagCompound;
     }
 
     @Override

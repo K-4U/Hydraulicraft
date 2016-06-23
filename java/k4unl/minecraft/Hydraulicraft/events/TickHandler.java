@@ -63,7 +63,7 @@ public class TickHandler {
                     int z = (int) Math.floor(event.player.posZ);
 
                     int pressure = 0;
-                    while (event.player.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.water) {
+                    while (event.player.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.WATER) {
                         y++;
                         pressure++;
                     }

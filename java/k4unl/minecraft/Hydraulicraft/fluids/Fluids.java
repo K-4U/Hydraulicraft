@@ -58,11 +58,11 @@ public class Fluids {
         Block fluidBlock = toRegister.getBlock();
         GameRegistry.registerBlock(fluidBlock, fluidBlock.getUnlocalizedName().substring(5));
 
-        Item itemBucket = new ItemBucket(fluidBlock).setUnlocalizedName("bucket." + toRegister.getUnlocalizedName().substring(6)).setContainerItem(Items.bucket).setCreativeTab(CustomTabs.tabHydraulicraft);
+        Item itemBucket = new ItemBucket(fluidBlock).setUnlocalizedName("bucket." + toRegister.getUnlocalizedName().substring(6)).setContainerItem(Items.BUCKET).setCreativeTab(CustomTabs.tabHydraulicraft);
         buckets.add((ItemBucket) itemBucket);
         GameRegistry.registerItem(itemBucket, itemBucket.getUnlocalizedName().substring(5));
 
-        FluidContainerRegistry.registerFluidContainer(new FluidStack(toRegister, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(itemBucket), new ItemStack(Items.bucket));
+        FluidContainerRegistry.registerFluidContainer(new FluidStack(toRegister, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(itemBucket), new ItemStack(Items.BUCKET));
 
     }
 

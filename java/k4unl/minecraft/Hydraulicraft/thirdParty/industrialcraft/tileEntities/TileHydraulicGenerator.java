@@ -41,13 +41,14 @@ public class TileHydraulicGenerator extends TileHydraulicBase implements IHydrau
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 
         super.writeToNBT(tagCompound);
         tagCompound.setInteger("ic2EnergyStored", ic2EnergyStored);
         tagCompound.setString("facing", facing.toString());
         tagCompound.setInteger("energyToAdd", energyToAdd);
         tagCompound.setFloat("pressureRequired", pressureRequired);
+        return tagCompound;
     }
 
     @Override

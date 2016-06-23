@@ -59,7 +59,7 @@ public class ExtraUtilities implements IThirdParty {
                         "-H-",
                         'C', new ItemStack(HCBlocks.blockCore, 1, 1),
                         'W', HCBlocks.hydraulicPressureWall,
-                        'H', Items.ender_eye,
+                        'H', Items.ENDER_EYE,
                         'P', HCBlocks.hydraulicPiston
                 }).addFluidInput(new FluidStack(Fluids.fluidLubricant, 20))
         );
